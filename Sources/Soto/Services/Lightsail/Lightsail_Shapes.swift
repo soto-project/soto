@@ -679,14 +679,17 @@ extension Lightsail {
         public let accessKeyId: String?
         /// The timestamp when the access key was created.
         public let createdAt: Date?
+        /// An object that describes the last time the access key was used.  This object does not include data in the response of a CreateBucketAccessKey action. If the access key has not been used, the region and serviceName values are N/A, and the lastUsedDate value is null.
+        public let lastUsed: AccessKeyLastUsed?
         /// The secret access key used to sign requests. You should store the secret access key in a safe location. We recommend that you delete the access key if the secret access key is compromised.
         public let secretAccessKey: String?
         /// The status of the access key. A status of Active means that the key is valid, while Inactive means it is not.
         public let status: StatusType?
 
-        public init(accessKeyId: String? = nil, createdAt: Date? = nil, secretAccessKey: String? = nil, status: StatusType? = nil) {
+        public init(accessKeyId: String? = nil, createdAt: Date? = nil, lastUsed: AccessKeyLastUsed? = nil, secretAccessKey: String? = nil, status: StatusType? = nil) {
             self.accessKeyId = accessKeyId
             self.createdAt = createdAt
+            self.lastUsed = lastUsed
             self.secretAccessKey = secretAccessKey
             self.status = status
         }
@@ -694,8 +697,30 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case accessKeyId
             case createdAt
+            case lastUsed
             case secretAccessKey
             case status
+        }
+    }
+
+    public struct AccessKeyLastUsed: AWSDecodableShape {
+        /// The date and time when the access key was most recently used. This value is null if the access key has not been used.
+        public let lastUsedDate: Date?
+        /// The AWS Region where this access key was most recently used. This value is N/A if the access key has not been used.
+        public let region: String?
+        /// The name of the AWS service with which this access key was most recently used. This value is N/A if the access key has not been used.
+        public let serviceName: String?
+
+        public init(lastUsedDate: Date? = nil, region: String? = nil, serviceName: String? = nil) {
+            self.lastUsedDate = lastUsedDate
+            self.region = region
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUsedDate
+            case region
+            case serviceName
         }
     }
 
@@ -2155,7 +2180,7 @@ extension Lightsail {
         public let bucketName: String
         /// The ID of the bundle to use for the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action to change the bundle after the bucket is created.
         public let bundleId: String
-        /// A Boolean value that indicates whether to enable versioning of objects in the bucket. For more information about versioning, see Enabling and suspending bucket object versioning in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        /// A Boolean value that indicates whether to enable versioning of objects in the bucket. For more information about versioning, see Enabling and suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide.
         public let enableObjectVersioning: Bool?
         /// The tag keys and optional values to add to the bucket during creation. Use the TagResource action to tag the bucket after it's created.
         public let tags: [Tag]?

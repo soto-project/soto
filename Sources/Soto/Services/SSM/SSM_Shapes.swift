@@ -732,7 +732,7 @@ extension SSM {
     // MARK: Shapes
 
     public struct AccountSharingInfo: AWSDecodableShape {
-        /// The account ID where the current document is shared.
+        /// The Amazon Web Services account ID where the current document is shared.
         public let accountId: String?
         /// The version of the current document shared with the account.
         public let sharedDocumentVersion: String?
@@ -880,7 +880,7 @@ extension SSM {
         public let associationVersion: String?
         /// The version of the document used in the association.
         public let documentVersion: String?
-        /// The ID of the instance.
+        /// The instance ID.
         public let instanceId: String?
         /// The date on which the association was last run.
         public let lastExecutionDate: Date?
@@ -939,7 +939,7 @@ extension SSM {
         public let date: Date?
         /// The document version.
         public let documentVersion: String?
-        /// The ID of the instance.
+        /// The instance ID.
         public let instanceId: String?
         /// The date on which the association was last run.
         public let lastExecutionDate: Date?
@@ -965,7 +965,7 @@ extension SSM {
         public let status: AssociationStatus?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// The combination of Regions and accounts where you want to run the association.
+        /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association.
         public let targetLocations: [TargetLocation]?
         /// The instances targeted by the request.
         public let targets: [Target]?
@@ -1261,7 +1261,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// The combination of Regions and accounts where you wanted to run the association when this association version was created.
+        /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you wanted to run the association when this association version was created.
         public let targetLocations: [TargetLocation]?
         /// The targets specified for the association when the association version was created.
         public let targets: [Target]?
@@ -1435,7 +1435,7 @@ extension SSM {
         public let stepExecutionsTruncated: Bool?
         /// The target of the execution.
         public let target: String?
-        /// The combination of Regions and/or accounts where you want to run the Automation.
+        /// The combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the Automation.
         public let targetLocations: [TargetLocation]?
         /// The specified key-value mapping of document parameters to target resources.
         public let targetMaps: [[String: [String]]]?
@@ -1548,7 +1548,7 @@ extension SSM {
         public let automationExecutionStatus: AutomationExecutionStatus?
         /// The subtype of the Automation operation. Currently, the only supported value is ChangeRequest.
         public let automationSubtype: AutomationSubtype?
-        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple Regions and accounts. For more information, see Running Automation workflows in multiple Regions and accounts in the Amazon Web Services Systems Manager User Guide.
+        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple Amazon Web Services Regions and Amazon Web Services accounts. For more information, see Running Automation workflows in multiple Amazon Web Services Regions and accounts in the Amazon Web Services Systems Manager User Guide.
         public let automationType: AutomationType?
         /// The name of the Change Manager change request.
         public let changeRequestName: String?
@@ -1841,7 +1841,7 @@ extension SSM {
         public let outputS3BucketName: String?
         /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Region of the S3 bucket.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon Web Services Region of the S3 bucket.
         public let outputS3Region: String?
         /// The parameter values to be inserted in the document when running the command.
         public let parameters: [String: [String]]?
@@ -2250,7 +2250,7 @@ extension SSM {
         public let description: String?
         /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
         public let expirationDate: Date?
-        /// The Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAMrole must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.
         public let iamRole: String
         /// Specify the maximum number of managed instances you want to register. The default value is 1.
         public let registrationLimit: Int?
@@ -2341,13 +2341,13 @@ extension SSM {
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version.
         public let documentVersion: String?
-        /// The ID of the instance.
+        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public let instanceId: String?
         /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation runbooks. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+        /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation runbooks. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
         /// An S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -2465,7 +2465,7 @@ extension SSM {
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the instance. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager documents (SSM documents) that are shared with you from other accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the instance. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
         /// An Amazon Simple Storage Service (Amazon S3) bucket where you want to store the output details of the request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -2475,9 +2475,9 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// A location is a combination of Regions and accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
+        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
-        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
+        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an Amazon Web Services account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
         public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
@@ -2854,7 +2854,7 @@ extension SSM {
         public let metadata: [String: MetadataValue]?
         /// A resource ID for a new Application Manager application.
         public let resourceId: String
-        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an OpsMetadata object. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an OpsMetadata object to identify an environment or target Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an OpsMetadata object. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an OpsMetadata object to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
         public init(metadata: [String: MetadataValue]? = nil, resourceId: String, tags: [Tag]? = nil) {
@@ -3013,7 +3013,7 @@ extension SSM {
         public let syncName: String
         /// Specify information about the data sources to synchronize. This parameter is required if the SyncType value is SyncFromSource.
         public let syncSource: ResourceDataSyncSource?
-        /// Specify SyncToDestination to create a resource data sync that synchronizes data to an S3 bucket for Inventory. If you specify SyncToDestination, you must provide a value for S3Destination. Specify SyncFromSource to synchronize data from a single account and multiple Regions, or multiple accounts and Regions, as listed in Organizations for Explorer. If you specify SyncFromSource, you must provide a value for SyncSource. The default value is SyncToDestination.
+        /// Specify SyncToDestination to create a resource data sync that synchronizes data to an S3 bucket for Inventory. If you specify SyncToDestination, you must provide a value for S3Destination. Specify SyncFromSource to synchronize data from a single account and multiple Regions, or multiple Amazon Web Services accounts and Amazon Web Services Regions, as listed in Organizations for Explorer. If you specify SyncFromSource, you must provide a value for SyncSource. The default value is SyncToDestination.
         public let syncType: String?
 
         public init(s3Destination: ResourceDataSyncS3Destination? = nil, syncName: String, syncSource: ResourceDataSyncSource? = nil, syncType: String? = nil) {
@@ -3068,7 +3068,7 @@ extension SSM {
     public struct DeleteAssociationRequest: AWSEncodableShape {
         /// The association ID that you want to delete.
         public let associationId: String?
-        /// The ID of the instance.
+        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public let instanceId: String?
         /// The name of the SSM document.
         public let name: String?
@@ -3262,7 +3262,7 @@ extension SSM {
     }
 
     public struct DeleteParametersRequest: AWSEncodableShape {
-        /// The names of the parameters to delete.
+        /// The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
         public let names: [String]
 
         public init(names: [String]) {
@@ -3558,7 +3558,7 @@ extension SSM {
     }
 
     public struct DescribeActivationsResult: AWSDecodableShape {
-        /// A list of activations for your account.
+        /// A list of activations for your Amazon Web Services account.
         public let activationList: [Activation]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -3914,9 +3914,9 @@ extension SSM {
     }
 
     public struct DescribeDocumentPermissionResponse: AWSDecodableShape {
-        /// The account IDs that have permission to use this document. The ID can be either an account or All.
+        /// The account IDs that have permission to use this document. The ID can be either an Amazon Web Services account or All.
         public let accountIds: [String]?
-        /// A list of accounts where the current document is shared and the version shared with each account.
+        /// A list of Amazon Web Services accounts where the current document is shared and the version shared with each account.
         public let accountSharingInfoList: [AccountSharingInfo]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -5885,7 +5885,7 @@ extension SSM {
     }
 
     public struct GetConnectionStatusRequest: AWSEncodableShape {
-        /// The ID of the instance.
+        /// The instance ID.
         public let target: String
 
         public init(target: String) {
@@ -5979,7 +5979,7 @@ extension SSM {
     }
 
     public struct GetDeployablePatchSnapshotForInstanceResult: AWSDecodableShape {
-        /// The ID of the instance.
+        /// The instance ID.
         public let instanceId: String?
         /// Returns the specific operating system (for example Windows Server 2012 or Amazon Linux 2015.09) on the instance for the specified patch snapshot.
         public let product: String?
@@ -6757,7 +6757,7 @@ extension SSM {
     }
 
     public struct GetOpsSummaryResult: AWSDecodableShape {
-        /// The list of aggregated and filtered OpsData.
+        /// The list of aggregated details and filtered OpsData.
         public let entities: [OpsEntity]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -6823,7 +6823,7 @@ extension SSM {
     }
 
     public struct GetParameterRequest: AWSEncodableShape {
-        /// The name of the parameter you want to query.
+        /// The name of the parameter you want to query. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".
         public let name: String
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
@@ -6918,7 +6918,7 @@ extension SSM {
     }
 
     public struct GetParametersRequest: AWSEncodableShape {
-        /// Names of the parameters for which you want to query information.
+        /// Names of the parameters for which you want to query information. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".
         public let names: [String]
         /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
@@ -7005,7 +7005,7 @@ extension SSM {
     }
 
     public struct GetPatchBaselineRequest: AWSEncodableShape {
-        /// The ID of the patch baseline to retrieve.
+        /// The ID of the patch baseline to retrieve.  To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDefaultPatchBaseline, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7.
         public let baselineId: String
 
         public init(baselineId: String) {
@@ -8194,13 +8194,13 @@ extension SSM {
     }
 
     public struct ListDocumentMetadataHistoryRequest: AWSEncodableShape {
-        /// The version of the document.
+        /// The version of the change template.
         public let documentVersion: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// The type of data for which details are being requested. Currently, the only supported value is DocumentReviews.
         public let metadata: DocumentMetadataEnum
-        /// The name of the document.
+        /// The name of the change template.
         public let name: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -8230,13 +8230,13 @@ extension SSM {
     }
 
     public struct ListDocumentMetadataHistoryResponse: AWSDecodableShape {
-        /// The user ID of the person in the organization who requested the document review.
+        /// The user ID of the person in the organization who requested the review of the change template.
         public let author: String?
-        /// The version of the document.
+        /// The version of the change template.
         public let documentVersion: String?
-        /// Information about the response to the document approval request.
+        /// Information about the response to the change template approval request.
         public let metadata: DocumentMetadataResponseInfo?
-        /// The name of the document.
+        /// The name of the change template.
         public let name: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let nextToken: String?
@@ -8627,7 +8627,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
-        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket. Specify SyncFromSource to view resource data syncs from Organizations or from multiple Regions.
+        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket. Specify SyncFromSource to view resource data syncs from Organizations or from multiple Amazon Web Services Regions.
         public let syncType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, syncType: String? = nil) {
@@ -8702,7 +8702,7 @@ extension SSM {
         public let s3BucketName: String
         /// (Optional) The S3 bucket subfolder.
         public let s3KeyPrefix: String?
-        /// The Region where the S3 bucket is located.
+        /// The Amazon Web Services Region where the S3 bucket is located.
         public let s3Region: String
 
         public init(s3BucketName: String, s3KeyPrefix: String? = nil, s3Region: String) {
@@ -9486,13 +9486,13 @@ extension SSM {
         public let actualStartTime: Date?
         /// An OpsItem category. Category options include: Availability, Cost, Performance, Recovery, Security.
         public let category: String?
-        /// The ARN of the account that created the OpsItem.
+        /// The ARN of the Amazon Web Services account that created the OpsItem.
         public let createdBy: String?
         /// The date and time the OpsItem was created.
         public let createdTime: Date?
         /// The OpsItem description.
         public let description: String?
-        /// The ARN of the account that last updated the OpsItem.
+        /// The ARN of the Amazon Web Services account that last updated the OpsItem.
         public let lastModifiedBy: String?
         /// The date and time the OpsItem was last updated.
         public let lastModifiedTime: Date?
@@ -10552,15 +10552,15 @@ extension SSM {
     }
 
     public struct ProgressCounters: AWSDecodableShape {
-        /// The total number of steps that the system cancelled in all specified Regions and accounts for the current Automation execution.
+        /// The total number of steps that the system cancelled in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
         public let cancelledSteps: Int?
-        /// The total number of steps that failed to run in all specified Regions and accounts for the current Automation execution.
+        /// The total number of steps that failed to run in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
         public let failedSteps: Int?
-        /// The total number of steps that successfully completed in all specified Regions and accounts for the current Automation execution.
+        /// The total number of steps that successfully completed in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
         public let successSteps: Int?
-        /// The total number of steps that timed out in all specified Regions and accounts for the current Automation execution.
+        /// The total number of steps that timed out in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
         public let timedOutSteps: Int?
-        /// The total number of steps run in all specified Regions and accounts for the current Automation execution.
+        /// The total number of steps run in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
         public let totalSteps: Int?
 
         public init(cancelledSteps: Int? = nil, failedSteps: Int? = nil, successSteps: Int? = nil, timedOutSteps: Int? = nil, totalSteps: Int? = nil) {
@@ -10680,13 +10680,13 @@ extension SSM {
     public struct PutParameterRequest: AWSEncodableShape {
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
         public let allowedPattern: String?
-        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your account. For more information, see Native parameter support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
+        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. For more information, see Native parameter support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
         public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Don't enter personally identifiable information in this field.
         public let description: String?
-        /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Either the default KMS key automatically assigned to your account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your account.   To use your default KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
+        /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Either the default KMS key automatically assigned to your Amazon Web Services account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account.   To use your default KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that aren't part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that aren't part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
         public let name: String
         /// Overwrite an existing parameter. The default value is false.
         public let overwrite: Bool?
@@ -10694,7 +10694,7 @@ extension SSM {
         public let policies: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key-value pairs:    Key=Resource,Value=S3bucket     Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an existing Systems Manager parameter, use the AddTagsToResource operation.
         public let tags: [Tag]?
-        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you don't specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the Amazon Web Services Systems Manager User Guide.
+        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an Amazon Web Services account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an Amazon Web Services account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you don't specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your Amazon Web Services account in the current Amazon Web Services Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the Amazon Web Services Systems Manager User Guide.
         public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system.   SecureString isn't currently supported for CloudFormation templates.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
         public let type: ParameterType?
@@ -11223,7 +11223,7 @@ extension SSM {
         public let syncName: String?
         /// Information about the source where the data was synchronized.
         public let syncSource: ResourceDataSyncSourceWithState?
-        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from Organizations or from multiple Regions.
+        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from Organizations or from multiple Amazon Web Services Regions.
         public let syncType: String?
 
         public init(lastStatus: LastResourceDataSyncStatus? = nil, lastSuccessfulSyncTime: Date? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: Date? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, syncCreatedTime: Date? = nil, syncLastModifiedTime: Date? = nil, syncName: String? = nil, syncSource: ResourceDataSyncSourceWithState? = nil, syncType: String? = nil) {
@@ -11281,7 +11281,7 @@ extension SSM {
         public let destinationDataSharing: ResourceDataSyncDestinationDataSharing?
         /// An Amazon S3 prefix for the bucket.
         public let prefix: String?
-        /// The Region with the S3 bucket targeted by the resource data sync.
+        /// The Amazon Web Services Region with the S3 bucket targeted by the resource data sync.
         public let region: String
         /// A supported sync format. The following format is currently supported: JsonSerDe
         public let syncFormat: ResourceDataSyncS3Format
@@ -11321,11 +11321,11 @@ extension SSM {
     public struct ResourceDataSyncSource: AWSEncodableShape {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
-        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Regions for all accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the Amazon Web Services Systems Manager User Guide.
+        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the Amazon Web Services Systems Manager User Guide.
         public let enableAllOpsDataSources: Bool?
-        /// Whether to automatically synchronize and aggregate data from new Regions when those Regions come online.
+        /// Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online.
         public let includeFutureRegions: Bool?
-        /// The SyncSource Regions included in the resource data sync.
+        /// The SyncSource Amazon Web Services Regions included in the resource data sync.
         public let sourceRegions: [String]
         /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Organizations) or SingleAccountMultiRegions.
         public let sourceType: String
@@ -11360,11 +11360,11 @@ extension SSM {
     public struct ResourceDataSyncSourceWithState: AWSDecodableShape {
         /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
-        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Regions for all accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the Amazon Web Services Systems Manager User Guide.
+        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the Amazon Web Services Systems Manager User Guide.
         public let enableAllOpsDataSources: Bool?
-        /// Whether to automatically synchronize and aggregate data from new Regions when those Regions come online.
+        /// Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online.
         public let includeFutureRegions: Bool?
-        /// The SyncSource Regions included in the resource data sync.
+        /// The SyncSource Amazon Web Services Regions included in the resource data sync.
         public let sourceRegions: [String]?
         /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Organizations) or singleAccountMultiRegions.
         public let sourceType: String?
@@ -11430,7 +11430,7 @@ extension SSM {
     public struct ResumeSessionResponse: AWSDecodableShape {
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -11480,7 +11480,7 @@ extension SSM {
         public let maxErrors: String?
         /// The key-value map of execution parameters, which were supplied when calling StartChangeRequestExecution.
         public let parameters: [String: [String]]?
-        /// Information about the Regions and accounts targeted by the current Runbook operation.
+        /// Information about the Amazon Web Services Regions and Amazon Web Services accounts targeted by the current Runbook operation.
         public let targetLocations: [TargetLocation]?
         /// The name of the parameter used as the target resource for the rate-controlled runbook workflow. Required if you specify Targets.
         public let targetParameterName: String?
@@ -11663,7 +11663,7 @@ extension SSM {
         public let outputS3BucketName: String?
         /// The directory structure within the S3 bucket where the responses should be stored.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Region of the S3 bucket.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon Web Services Region of the S3 bucket.
         public let outputS3Region: String?
         /// The required and optional parameters specified in the document being run.
         public let parameters: [String: [String]]?
@@ -11951,7 +11951,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an automation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an automation to identify an environment or operating system. In this case, you could specify the following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource operation.
         public let tags: [Tag]?
-        /// A location is a combination of Regions and/or accounts where you want to run the automation. Use this operation to start an automation in multiple Regions and multiple accounts. For more information, see Running Automation workflows in multiple Regions and accounts in the Amazon Web Services Systems Manager User Guide.
+        /// A location is a combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the automation. Use this operation to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web Services accounts. For more information, see Running Automation workflows in multiple Amazon Web Services Regions and Amazon Web Services accounts in the Amazon Web Services Systems Manager User Guide.
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -12061,7 +12061,7 @@ extension SSM {
         public let scheduledEndTime: Date?
         /// The date and time specified in the change request to run the Automation runbooks.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
         public let scheduledTime: Date?
-        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
         public init(changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
@@ -12165,7 +12165,7 @@ extension SSM {
     public struct StartSessionResponse: AWSDecodableShape {
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -12220,7 +12220,7 @@ extension SSM {
         public let stepName: String?
         /// The execution status for this step.
         public let stepStatus: AutomationExecutionStatus?
-        /// The combination of Regions and accounts targeted by the current Automation execution.
+        /// The combination of Amazon Web Services Regions and Amazon Web Services accounts targeted by the current Automation execution.
         public let targetLocation: TargetLocation?
         /// The targets for the step execution.
         public let targets: [Target]?
@@ -12384,13 +12384,13 @@ extension SSM {
     }
 
     public struct TargetLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The accounts targeted by the current Automation execution.
+        /// The Amazon Web Services accounts targeted by the current Automation execution.
         public let accounts: [String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public let executionRoleName: String?
-        /// The Regions targeted by the current Automation execution.
+        /// The Amazon Web Services Regions targeted by the current Automation execution.
         public let regions: [String]?
-        /// The maximum number of Regions and accounts allowed to run the Automation concurrently.
+        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently.
         public let targetLocationMaxConcurrency: String?
         /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
         public let targetLocationMaxErrors: String?
@@ -12529,7 +12529,7 @@ extension SSM {
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the instance. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager document (SSM document) that are shared with you from other accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the instance. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager document (SSM document) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String?
         /// An S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -12539,7 +12539,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// A location is a combination of Regions and accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
+        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
         /// The targets of the association.
         public let targets: [Target]?
@@ -12630,7 +12630,7 @@ extension SSM {
     public struct UpdateAssociationStatusRequest: AWSEncodableShape {
         /// The association status.
         public let associationStatus: AssociationStatus
-        /// The ID of the instance.
+        /// The instance ID.
         public let instanceId: String
         /// The name of the SSM document.
         public let name: String
@@ -12703,11 +12703,11 @@ extension SSM {
     }
 
     public struct UpdateDocumentMetadataRequest: AWSEncodableShape {
-        /// The document review details to update.
+        /// The change template review details to update.
         public let documentReviews: DocumentReviews
-        /// The version of a document to update.
+        /// The version of a change template in which to update approval metadata.
         public let documentVersion: String?
-        /// The name of the document for which a version is to be updated.
+        /// The name of the change template for which a version's metadata is to be updated.
         public let name: String
 
         public init(documentReviews: DocumentReviews, documentVersion: String? = nil, name: String) {

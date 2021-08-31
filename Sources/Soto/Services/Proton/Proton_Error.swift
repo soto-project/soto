@@ -54,7 +54,7 @@ public struct ProtonErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The requested resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// A quota was exceeded. For more information, see AWS Proton Quotas in the AWS Proton Administration Guide.
+    /// A quota was exceeded. For more information, see AWS Proton Quotas in the AWS Proton Administrator Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

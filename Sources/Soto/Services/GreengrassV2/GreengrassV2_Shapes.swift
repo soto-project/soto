@@ -143,7 +143,7 @@ extension GreengrassV2 {
     // MARK: Shapes
 
     public struct AssociateClientDeviceWithCoreDeviceEntry: AWSEncodableShape {
-        /// The name of the AWS IoT thing that represents the client device to associate.
+        /// The name of the IoT thing that represents the client device to associate.
         public let thingName: String
 
         public init(thingName: String) {
@@ -165,7 +165,7 @@ extension GreengrassV2 {
         public let code: String?
         /// A message that provides additional information about the error.
         public let message: String?
-        /// The name of the AWS IoT thing whose associate request failed.
+        /// The name of the IoT thing whose associate request failed.
         public let thingName: String?
 
         public init(code: String? = nil, message: String? = nil, thingName: String? = nil) {
@@ -184,7 +184,7 @@ extension GreengrassV2 {
     public struct AssociatedClientDevice: AWSDecodableShape {
         /// The time that the client device was associated, expressed in ISO 8601 format.
         public let associationTimestamp: Date?
-        /// The name of the AWS IoT thing that represents the associated client device.
+        /// The name of the IoT thing that represents the associated client device.
         public let thingName: String?
 
         public init(associationTimestamp: Date? = nil, thingName: String? = nil) {
@@ -203,7 +203,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The list of client devices to associate.
         public let entries: [AssociateClientDeviceWithCoreDeviceEntry]?
@@ -229,7 +229,7 @@ extension GreengrassV2 {
     }
 
     public struct BatchAssociateClientDeviceWithCoreDeviceResponse: AWSDecodableShape {
-        /// The list of any errors for the entries in the request. Each error entry contains the name of the AWS IoT thing that failed to associate.
+        /// The list of any errors for the entries in the request. Each error entry contains the name of the IoT thing that failed to associate.
         public let errorEntries: [AssociateClientDeviceWithCoreDeviceErrorEntry]?
 
         public init(errorEntries: [AssociateClientDeviceWithCoreDeviceErrorEntry]? = nil) {
@@ -246,7 +246,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The list of client devices to disassociate.
         public let entries: [DisassociateClientDeviceFromCoreDeviceEntry]?
@@ -272,7 +272,7 @@ extension GreengrassV2 {
     }
 
     public struct BatchDisassociateClientDeviceFromCoreDeviceResponse: AWSDecodableShape {
-        /// The list of errors (if any) for the entries in the request. Each error entry contains the name of the AWS IoT thing that failed to disassociate.
+        /// The list of errors (if any) for the entries in the request. Each error entry contains the name of the IoT thing that failed to disassociate.
         public let errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]?
 
         public init(errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]? = nil) {
@@ -319,7 +319,7 @@ extension GreengrassV2 {
     public struct CloudComponentStatus: AWSDecodableShape {
         /// The state of the component.
         public let componentState: CloudComponentState?
-        /// A dictionary of errors that communicate why the component is in an error state. For example, if AWS IoT Greengrass can't access an artifact for the component, then errors contains the artifact's URI as a key, and the error message as the value for that key.
+        /// A dictionary of errors that communicate why the component is in an error state. For example, if IoT Greengrass can't access an artifact for the component, then errors contains the artifact's URI as a key, and the error message as the value for that key.
         public let errors: [String: String]?
         /// A message that communicates details, such as errors, about the status of the component.
         public let message: String?
@@ -363,7 +363,7 @@ extension GreengrassV2 {
         public let componentName: String?
         /// The version of the component.
         public let componentVersion: String?
-        /// The version requirements for the component's dependencies. AWS IoT Greengrass core devices get the version requirements from component recipes. AWS IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning.
+        /// The version requirements for the component's dependencies. Greengrass core devices get the version requirements from component recipes. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning.
         public let versionRequirements: [String: String]?
 
         public init(componentName: String? = nil, componentVersion: String? = nil, versionRequirements: [String: String]? = nil) {
@@ -393,9 +393,9 @@ extension GreengrassV2 {
     }
 
     public struct ComponentConfigurationUpdate: AWSEncodableShape & AWSDecodableShape {
-        /// A serialized JSON string that contains the configuration object to merge to target devices. The core device merges this configuration with the component's existing configuration. If this is the first time a component deploys on a device, the core device merges this configuration with the component's default configuration. This means that the core device keeps it's existing configuration for keys and values that you don't specify in this object. For more information, see Merge configuration updates in the AWS IoT Greengrass V2 Developer Guide.
+        /// A serialized JSON string that contains the configuration object to merge to target devices. The core device merges this configuration with the component's existing configuration. If this is the first time a component deploys on a device, the core device merges this configuration with the component's default configuration. This means that the core device keeps it's existing configuration for keys and values that you don't specify in this object. For more information, see Merge configuration updates in the IoT Greengrass V2 Developer Guide.
         public let merge: String?
-        /// The list of configuration nodes to reset to default values on target devices. Use JSON pointers to specify each node to reset. JSON pointers start with a forward slash (/) and use forward slashes to separate the key for each level in the object. For more information, see the JSON pointer specification and Reset configuration updates in the AWS IoT Greengrass V2 Developer Guide.
+        /// The list of configuration nodes to reset to default values on target devices. Use JSON pointers to specify each node to reset. JSON pointers start with a forward slash (/) and use forward slashes to separate the key for each level in the object. For more information, see the JSON pointer specification and Reset configuration updates in the IoT Greengrass V2 Developer Guide.
         public let reset: [String]?
 
         public init(merge: String? = nil, reset: [String]? = nil) {
@@ -421,7 +421,7 @@ extension GreengrassV2 {
     public struct ComponentDependencyRequirement: AWSEncodableShape {
         /// The type of this dependency. Choose from the following options:    SOFT – The component doesn't restart if the dependency changes state.    HARD – The component restarts if the dependency changes state.   Default: HARD
         public let dependencyType: ComponentDependencyType?
-        /// The component version requirement for the component dependency. AWS IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning.
+        /// The component version requirement for the component dependency. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning.
         public let versionRequirement: String?
 
         public init(dependencyType: ComponentDependencyType? = nil, versionRequirement: String? = nil) {
@@ -442,9 +442,9 @@ extension GreengrassV2 {
     public struct ComponentDeploymentSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The version of the component.
         public let componentVersion: String?
-        /// The configuration updates to deploy for the component. You can define reset updates and merge updates. A reset updates the keys that you specify to the default configuration for the component. A merge updates the core device's component configuration with the keys and values that you specify. The AWS IoT Greengrass Core software applies reset updates before it applies merge updates. For more information, see Update component configurations in the AWS IoT Greengrass V2 Developer Guide.
+        /// The configuration updates to deploy for the component. You can define reset updates and merge updates. A reset updates the keys that you specify to the default configuration for the component. A merge updates the core device's component configuration with the keys and values that you specify. The IoT Greengrass Core software applies reset updates before it applies merge updates. For more information, see Update component configurations in the IoT Greengrass V2 Developer Guide.
         public let configurationUpdate: ComponentConfigurationUpdate?
-        /// The system user and group that the AWS IoT Greengrass Core software uses to run component processes on the core device. If you omit this parameter, the AWS IoT Greengrass Core software uses the system user and group that you configure for the core device. For more information, see Configure the user and group that run components in the AWS IoT Greengrass V2 Developer Guide.
+        /// The system user and group that the IoT Greengrass Core software uses to run component processes on the core device. If you omit this parameter, the IoT Greengrass Core software uses the system user and group that you configure for the core device. For more information, see Configure the user and group that run components in the IoT Greengrass V2 Developer Guide.
         public let runWith: ComponentRunWith?
 
         public init(componentVersion: String? = nil, configurationUpdate: ComponentConfigurationUpdate? = nil, runWith: ComponentRunWith? = nil) {
@@ -502,9 +502,9 @@ extension GreengrassV2 {
     }
 
     public struct ComponentPlatform: AWSEncodableShape & AWSDecodableShape {
-        /// A dictionary of attributes for the platform. The AWS IoT Greengrass Core software defines the os and platform by default. You can specify additional platform attributes for a core device when you deploy the AWS IoT Greengrass nucleus component. For more information, see the AWS IoT Greengrass nucleus component in the AWS IoT Greengrass V2 Developer Guide.
+        /// A dictionary of attributes for the platform. The IoT Greengrass Core software defines the os and platform by default. You can specify additional platform attributes for a core device when you deploy the Greengrass nucleus component. For more information, see the Greengrass nucleus component in the IoT Greengrass V2 Developer Guide.
         public let attributes: [String: String]?
-        /// The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, AWS IoT Greengrass creates a friendly name from the os and architecture of the platform.
+        /// The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, IoT Greengrass creates a friendly name from the os and architecture of the platform.
         public let name: String?
 
         public init(attributes: [String: String]? = nil, name: String? = nil) {
@@ -527,19 +527,24 @@ extension GreengrassV2 {
     }
 
     public struct ComponentRunWith: AWSEncodableShape & AWSDecodableShape {
-        /// The POSIX system user and (optional) group to use to run this component. Specify the user and group separated by a colon (:) in the following format: user:group. The group is optional. If you don't specify a group, the AWS IoT Greengrass Core software uses the primary user for the group.
+        /// The POSIX system user and (optional) group to use to run this component. Specify the user and group separated by a colon (:) in the following format: user:group. The group is optional. If you don't specify a group, the IoT Greengrass Core software uses the primary user for the group. If you omit this parameter, the IoT Greengrass Core software uses the default system user and group that you configure on the Greengrass nucleus component. For more information, see Configure the user and group that run components.
         public let posixUser: String?
+        /// The system resource limits to apply to this component's process on the core device. If you omit this parameter, the IoT Greengrass Core software uses the default system resource limits that you configure on the Greengrass nucleus component. For more information, see Configure system resource limits for components.
+        public let systemResourceLimits: SystemResourceLimits?
 
-        public init(posixUser: String? = nil) {
+        public init(posixUser: String? = nil, systemResourceLimits: SystemResourceLimits? = nil) {
             self.posixUser = posixUser
+            self.systemResourceLimits = systemResourceLimits
         }
 
         public func validate(name: String) throws {
             try self.validate(self.posixUser, name: "posixUser", parent: name, min: 1)
+            try self.systemResourceLimits?.validate(name: "\(name).systemResourceLimits")
         }
 
         private enum CodingKeys: String, CodingKey {
             case posixUser
+            case systemResourceLimits
         }
     }
 
@@ -565,11 +570,11 @@ extension GreengrassV2 {
     }
 
     public struct CoreDevice: AWSDecodableShape {
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String?
         /// The time at which the core device's status last updated, expressed in ISO 8601 format.
         public let lastStatusUpdateTimestamp: Date?
-        /// The status of the core device. Core devices can have the following statuses:    HEALTHY – The AWS IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The AWS IoT Greengrass Core software or a component is in a failed state on the core device.
+        /// The status of the core device. Core devices can have the following statuses:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
 
         public init(coreDeviceThingName: String? = nil, lastStatusUpdateTimestamp: Date? = nil, status: CoreDeviceStatus? = nil) {
@@ -586,20 +591,26 @@ extension GreengrassV2 {
     }
 
     public struct CreateComponentVersionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you can provide to ensure that the request is idempotent. Idempotency means that the request is successfully processed only once, even if you send the request multiple times. When a request succeeds, and you specify the same client token for subsequent successful requests, the IoT Greengrass V2 service returns the successful response that it caches from the previous request. IoT Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
+        public let clientToken: String?
         /// The recipe to use to create the component. The recipe defines the component's metadata, parameters, dependencies, lifecycle, artifacts, and platform compatibility. You must specify either inlineRecipe or lambdaFunction.
         public let inlineRecipe: Data?
         /// The parameters to create a component from a Lambda function. You must specify either inlineRecipe or lambdaFunction.
         public let lambdaFunction: LambdaFunctionRecipeSource?
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
-        public init(inlineRecipe: Data? = nil, lambdaFunction: LambdaFunctionRecipeSource? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateComponentVersionRequest.idempotencyToken(), inlineRecipe: Data? = nil, lambdaFunction: LambdaFunctionRecipeSource? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
             self.inlineRecipe = inlineRecipe
             self.lambdaFunction = lambdaFunction
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.lambdaFunction?.validate(name: "\(name).lambdaFunction")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -610,6 +621,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken
             case inlineRecipe
             case lambdaFunction
             case tags
@@ -625,7 +637,7 @@ extension GreengrassV2 {
         public let componentVersion: String
         /// The time at which the component was created, expressed in ISO 8601 format.
         public let creationTimestamp: Date
-        /// The status of the component version in AWS IoT Greengrass V2. This status is different from the status of the component on a core device.
+        /// The status of the component version in IoT Greengrass V2. This status is different from the status of the component on a core device.
         public let status: CloudComponentStatus
 
         public init(arn: String? = nil, componentName: String, componentVersion: String, creationTimestamp: Date, status: CloudComponentStatus) {
@@ -646,20 +658,23 @@ extension GreengrassV2 {
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you can provide to ensure that the request is idempotent. Idempotency means that the request is successfully processed only once, even if you send the request multiple times. When a request succeeds, and you specify the same client token for subsequent successful requests, the IoT Greengrass V2 service returns the successful response that it caches from the previous request. IoT Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
+        public let clientToken: String?
         /// The components to deploy. This is a dictionary, where each key is the name of a component, and each key's value is the version and configuration to deploy for that component.
         public let components: [String: ComponentDeploymentSpecification]?
-        /// The name of the deployment. You can create deployments without names. If you create a deployment without a name, the AWS IoT Greengrass V2 console shows the deployment name as &lt;targetType&gt;:&lt;targetName&gt;, where targetType and targetName are the type and name of the deployment target.
+        /// The name of the deployment.
         public let deploymentName: String?
         /// The deployment policies for the deployment. These policies define how the deployment updates components and handles failure.
         public let deploymentPolicies: DeploymentPolicies?
         /// The job configuration for the deployment configuration. The job configuration specifies the rollout, timeout, and stop configurations for the deployment configuration.
         public let iotJobConfiguration: DeploymentIoTJobConfiguration?
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
-        /// The ARN of the target AWS IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group.
         public let targetArn: String
 
-        public init(components: [String: ComponentDeploymentSpecification]? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, tags: [String: String]? = nil, targetArn: String) {
+        public init(clientToken: String? = CreateDeploymentRequest.idempotencyToken(), components: [String: ComponentDeploymentSpecification]? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, tags: [String: String]? = nil, targetArn: String) {
+            self.clientToken = clientToken
             self.components = components
             self.deploymentName = deploymentName
             self.deploymentPolicies = deploymentPolicies
@@ -669,6 +684,9 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.components?.forEach {
                 try validate($0.key, name: "components.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).components[\"\($0.key)\"]")
@@ -685,6 +703,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken
             case components
             case deploymentName
             case deploymentPolicies
@@ -697,9 +716,9 @@ extension GreengrassV2 {
     public struct CreateDeploymentResponse: AWSDecodableShape {
         /// The ID of the deployment.
         public let deploymentId: String?
-        /// The ARN of the AWS IoT job that applies the deployment to target devices.
+        /// The ARN of the IoT job that applies the deployment to target devices.
         public let iotJobArn: String?
-        /// The ID of the AWS IoT job that applies the deployment to target devices.
+        /// The ID of the IoT job that applies the deployment to target devices.
         public let iotJobId: String?
 
         public init(deploymentId: String? = nil, iotJobArn: String? = nil, iotJobId: String? = nil) {
@@ -739,7 +758,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
 
         public init(coreDeviceThingName: String) {
@@ -759,7 +778,7 @@ extension GreengrassV2 {
         public let creationTimestamp: Date?
         /// The ID of the deployment.
         public let deploymentId: String?
-        /// The name of the deployment. You can create deployments without names. If you create a deployment without a name, the AWS IoT Greengrass V2 console shows the deployment name as &lt;targetType&gt;:&lt;targetName&gt;, where targetType and targetName are the type and name of the deployment target.
+        /// The name of the deployment.
         public let deploymentName: String?
         /// The status of the deployment.
         public let deploymentStatus: DeploymentStatus?
@@ -767,7 +786,7 @@ extension GreengrassV2 {
         public let isLatestForTarget: Bool?
         /// The revision number of the deployment.
         public let revisionId: String?
-        /// The ARN of the target AWS IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
         public init(creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentStatus: DeploymentStatus? = nil, isLatestForTarget: Bool? = nil, revisionId: String? = nil, targetArn: String? = nil) {
@@ -792,7 +811,7 @@ extension GreengrassV2 {
     }
 
     public struct DeploymentComponentUpdatePolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Whether or not to notify components and wait for components to become safe to update. Choose from the following options:    NOTIFY_COMPONENTS – The deployment notifies each component before it stops and updates that component. Components can use the SubscribeToComponentUpdates IPC operation to receive these notifications. Then, components can respond with the DeferComponentUpdate IPC operation. For more information, see Create deployments in the AWS IoT Greengrass V2 Developer Guide.    SKIP_NOTIFY_COMPONENTS – The deployment doesn't notify components or wait for them to be safe to update.   Default: NOTIFY_COMPONENTS
+        /// Whether or not to notify components and wait for components to become safe to update. Choose from the following options:    NOTIFY_COMPONENTS – The deployment notifies each component before it stops and updates that component. Components can use the SubscribeToComponentUpdates IPC operation to receive these notifications. Then, components can respond with the DeferComponentUpdate IPC operation. For more information, see Create deployments in the IoT Greengrass V2 Developer Guide.    SKIP_NOTIFY_COMPONENTS – The deployment doesn't notify components or wait for them to be safe to update.   Default: NOTIFY_COMPONENTS
         public let action: DeploymentComponentUpdatePolicyAction?
         /// The amount of time in seconds that each component on a device has to report that it's safe to update. If the component waits for longer than this timeout, then the deployment proceeds on the device. Default: 60
         public let timeoutInSeconds: Int?
@@ -902,9 +921,9 @@ extension GreengrassV2 {
         public let platforms: [ComponentPlatform]?
         /// The publisher of the component version.
         public let publisher: String?
-        /// The status of the component version in AWS IoT Greengrass V2. This status is different from the status of the component on a core device.
+        /// The status of the component version in IoT Greengrass V2. This status is different from the status of the component on a core device.
         public let status: CloudComponentStatus?
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, componentName: String? = nil, componentVersion: String? = nil, creationTimestamp: Date? = nil, description: String? = nil, platforms: [ComponentPlatform]? = nil, publisher: String? = nil, status: CloudComponentStatus? = nil, tags: [String: String]? = nil) {
@@ -933,7 +952,7 @@ extension GreengrassV2 {
     }
 
     public struct DisassociateClientDeviceFromCoreDeviceEntry: AWSEncodableShape {
-        /// The name of the AWS IoT thing that represents the client device to disassociate.
+        /// The name of the IoT thing that represents the client device to disassociate.
         public let thingName: String
 
         public init(thingName: String) {
@@ -955,7 +974,7 @@ extension GreengrassV2 {
         public let code: String?
         /// A message that provides additional information about the error.
         public let message: String?
-        /// The name of the AWS IoT thing whose disassociate request failed.
+        /// The name of the IoT thing whose disassociate request failed.
         public let thingName: String?
 
         public init(code: String? = nil, message: String? = nil, thingName: String? = nil) {
@@ -972,25 +991,25 @@ extension GreengrassV2 {
     }
 
     public struct EffectiveDeployment: AWSDecodableShape {
-        /// The status of the deployment job on the AWS IoT Greengrass core device.
+        /// The status of the deployment job on the Greengrass core device.
         public let coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus
         /// The time at which the deployment was created, expressed in ISO 8601 format.
         public let creationTimestamp: Date
         /// The ID of the deployment.
         public let deploymentId: String
-        /// The name of the deployment. You can create deployments without names. If you create a deployment without a name, the AWS IoT Greengrass V2 console shows the deployment name as &lt;targetType&gt;:&lt;targetName&gt;, where targetType and targetName are the type and name of the deployment target.
+        /// The name of the deployment.
         public let deploymentName: String
         /// The description of the deployment job.
         public let description: String?
-        /// The ARN of the AWS IoT job that applies the deployment to target devices.
+        /// The ARN of the IoT job that applies the deployment to target devices.
         public let iotJobArn: String?
-        /// The ID of the AWS IoT job that applies the deployment to target devices.
+        /// The ID of the IoT job that applies the deployment to target devices.
         public let iotJobId: String?
         /// The time at which the deployment job was last modified, expressed in ISO 8601 format.
         public let modifiedTimestamp: Date
         /// The reason code for the update, if the job was updated.
         public let reason: String?
-        /// The ARN of the target AWS IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group.
         public let targetArn: String
 
         public init(coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus, creationTimestamp: Date, deploymentId: String, deploymentName: String, description: String? = nil, iotJobArn: String? = nil, iotJobId: String? = nil, modifiedTimestamp: Date, reason: String? = nil, targetArn: String) {
@@ -1048,7 +1067,7 @@ extension GreengrassV2 {
         public let recipe: Data
         /// The format of the recipe.
         public let recipeOutputFormat: RecipeOutputFormat
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
         public init(recipe: Data, recipeOutputFormat: RecipeOutputFormat, tags: [String: String]? = nil) {
@@ -1106,7 +1125,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
 
         public init(coreDeviceThingName: String) {
@@ -1124,17 +1143,17 @@ extension GreengrassV2 {
     public struct GetCoreDeviceResponse: AWSDecodableShape {
         /// The computer architecture of the core device.
         public let architecture: String?
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String?
-        /// The version of the AWS IoT Greengrass Core software that the core device runs. This version is equivalent to the version of the AWS IoT Greengrass nucleus component that runs on the core device. For more information, see the AWS IoT Greengrass nucleus component in the AWS IoT Greengrass V2 Developer Guide.
+        /// The version of the IoT Greengrass Core software that the core device runs. This version is equivalent to the version of the Greengrass nucleus component that runs on the core device. For more information, see the Greengrass nucleus component in the IoT Greengrass V2 Developer Guide.
         public let coreVersion: String?
         /// The time at which the core device's status last updated, expressed in ISO 8601 format.
         public let lastStatusUpdateTimestamp: Date?
         /// The operating system platform that the core device runs.
         public let platform: String?
-        /// The status of the core device. The core device status can be:    HEALTHY – The AWS IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The AWS IoT Greengrass Core software or a component is in a failed state on the core device.
+        /// The status of the core device. The core device status can be:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
         public init(architecture: String? = nil, coreDeviceThingName: String? = nil, coreVersion: String? = nil, lastStatusUpdateTimestamp: Date? = nil, platform: String? = nil, status: CoreDeviceStatus? = nil, tags: [String: String]? = nil) {
@@ -1184,25 +1203,25 @@ extension GreengrassV2 {
         public let creationTimestamp: Date?
         /// The ID of the deployment.
         public let deploymentId: String?
-        /// The name of the deployment. You can create deployments without names. If you create a deployment without a name, the AWS IoT Greengrass V2 console shows the deployment name as &lt;targetType&gt;:&lt;targetName&gt;, where targetType and targetName are the type and name of the deployment target.
+        /// The name of the deployment.
         public let deploymentName: String?
         /// The deployment policies for the deployment. These policies define how the deployment updates components and handles failure.
         public let deploymentPolicies: DeploymentPolicies?
         /// The status of the deployment.
         public let deploymentStatus: DeploymentStatus?
-        /// The ARN of the AWS IoT job that applies the deployment to target devices.
+        /// The ARN of the IoT job that applies the deployment to target devices.
         public let iotJobArn: String?
         /// The job configuration for the deployment configuration. The job configuration specifies the rollout, timeout, and stop configurations for the deployment configuration.
         public let iotJobConfiguration: DeploymentIoTJobConfiguration?
-        /// The ID of the AWS IoT job that applies the deployment to target devices.
+        /// The ID of the IoT job that applies the deployment to target devices.
         public let iotJobId: String?
         /// Whether or not the deployment is the latest revision for its target.
         public let isLatestForTarget: Bool?
         /// The revision number of the deployment.
         public let revisionId: String?
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
-        /// The ARN of the target AWS IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
         public init(components: [String: ComponentDeploymentSpecification]? = nil, creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, deploymentStatus: DeploymentStatus? = nil, iotJobArn: String? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, iotJobId: String? = nil, isLatestForTarget: Bool? = nil, revisionId: String? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
@@ -1453,7 +1472,7 @@ extension GreengrassV2 {
     public struct LambdaEventSource: AWSEncodableShape {
         /// The topic to which to subscribe to receive event messages.
         public let topic: String
-        /// The type of event source. Choose from the following options:    PUB_SUB – Subscribe to local publish/subscribe messages. This event source type doesn't support MQTT wildcards (+ and #) in the event source topic.    IOT_CORE – Subscribe to AWS IoT Core MQTT messages. This event source type supports MQTT wildcards (+ and #) in the event source topic.
+        /// The type of event source. Choose from the following options:    PUB_SUB – Subscribe to local publish/subscribe messages. This event source type doesn't support MQTT wildcards (+ and #) in the event source topic.    IOT_CORE – Subscribe to Amazon Web Services IoT Core MQTT messages. This event source type supports MQTT wildcards (+ and #) in the event source topic.
         public let type: LambdaEventSourceType
 
         public init(topic: String, type: LambdaEventSourceType) {
@@ -1470,7 +1489,7 @@ extension GreengrassV2 {
     public struct LambdaExecutionParameters: AWSEncodableShape {
         /// The map of environment variables that are available to the Lambda function when it runs.
         public let environmentVariables: [String: String]?
-        /// The list of event sources to which to subscribe to receive work messages. The Lambda function runs when it receives a message from an event source. You can subscribe this function to local publish/subscribe messages and AWS IoT Core MQTT messages.
+        /// The list of event sources to which to subscribe to receive work messages. The Lambda function runs when it receives a message from an event source. You can subscribe this function to local publish/subscribe messages and Amazon Web Services IoT Core MQTT messages.
         public let eventSources: [LambdaEventSource]?
         /// The list of arguments to pass to the Lambda function when it runs.
         public let execArgs: [String]?
@@ -1478,13 +1497,13 @@ extension GreengrassV2 {
         public let inputPayloadEncodingType: LambdaInputPayloadEncodingType?
         /// The parameters for the Linux process that contains the Lambda function.
         public let linuxProcessParams: LambdaLinuxProcessParams?
-        /// The maximum amount of time in seconds that a non-pinned Lambda function can idle before the AWS IoT Greengrass Core software stops its process.
+        /// The maximum amount of time in seconds that a non-pinned Lambda function can idle before the IoT Greengrass Core software stops its process.
         public let maxIdleTimeInSeconds: Int?
         /// The maximum number of instances that a non-pinned Lambda function can run at the same time.
         public let maxInstancesCount: Int?
-        /// The maximum size of the message queue for the Lambda function component. The AWS IoT Greengrass core stores messages in a FIFO (first-in-first-out) queue until it can run the Lambda function to consume each message.
+        /// The maximum size of the message queue for the Lambda function component. The IoT Greengrass core stores messages in a FIFO (first-in-first-out) queue until it can run the Lambda function to consume each message.
         public let maxQueueSize: Int?
-        /// Whether or not the Lambda function is pinned, or long-lived.   A pinned Lambda function starts when AWS IoT Greengrass starts and keeps running in its own container.   A non-pinned Lambda function starts only when it receives a work item and exists after it idles for maxIdleTimeInSeconds. If the function has multiple work items, the AWS IoT Greengrass Core software creates multiple instances of the function.   Default: true
+        /// Whether or not the Lambda function is pinned, or long-lived.   A pinned Lambda function starts when IoT Greengrass starts and keeps running in its own container.   A non-pinned Lambda function starts only when it receives a work item and exists after it idles for maxIdleTimeInSeconds. If the function has multiple work items, the IoT Greengrass Core software creates multiple instances of the function.   Default: true
         public let pinned: Bool?
         /// The interval in seconds at which a pinned (also known as long-lived) Lambda function component sends status updates to the Lambda manager component.
         public let statusTimeoutInSeconds: Int?
@@ -1529,7 +1548,7 @@ extension GreengrassV2 {
     public struct LambdaFunctionRecipeSource: AWSEncodableShape {
         /// The component versions on which this Lambda function component depends.
         public let componentDependencies: [String: ComponentDependencyRequirement]?
-        /// The system and runtime parameters for the Lambda function as it runs on the AWS IoT Greengrass core device.
+        /// The system and runtime parameters for the Lambda function as it runs on the Greengrass core device.
         public let componentLambdaParameters: LambdaExecutionParameters?
         /// The name of the component. Defaults to the name of the Lambda function.
         public let componentName: String?
@@ -1580,7 +1599,7 @@ extension GreengrassV2 {
     public struct LambdaLinuxProcessParams: AWSEncodableShape {
         /// The parameters for the container in which the Lambda function runs.
         public let containerParams: LambdaContainerParams?
-        /// The isolation mode for the process that contains the Lambda function. The process can run in an isolated runtime environment inside the AWS IoT Greengrass container, or as a regular process outside any container. Default: GreengrassContainer
+        /// The isolation mode for the process that contains the Lambda function. The process can run in an isolated runtime environment inside the IoT Greengrass container, or as a regular process outside any container. Default: GreengrassContainer
         public let isolationMode: LambdaIsolationMode?
 
         public init(containerParams: LambdaContainerParams? = nil, isolationMode: LambdaIsolationMode? = nil) {
@@ -1595,7 +1614,7 @@ extension GreengrassV2 {
     }
 
     public struct LambdaVolumeMount: AWSEncodableShape {
-        /// Whether or not to add the AWS IoT Greengrass user group as an owner of the volume. Default: false
+        /// Whether or not to add the IoT Greengrass user group as an owner of the volume. Default: false
         public let addGroupOwner: Bool?
         /// The path to the logical volume in the file system.
         public let destinationPath: String
@@ -1626,7 +1645,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
@@ -1769,9 +1788,9 @@ extension GreengrassV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The AWS IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The AWS IoT Greengrass Core software or a component is in a failed state on the core device.
+        /// The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
-        /// The ARN of the AWS IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that are members of this thing group.
+        /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that are members of this thing group.
         public let thingGroupArn: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: CoreDeviceStatus? = nil, thingGroupArn: String? = nil) {
@@ -1821,7 +1840,7 @@ extension GreengrassV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The ARN of the target AWS IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
         public init(historyFilter: DeploymentHistoryFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, targetArn: String? = nil) {
@@ -1864,7 +1883,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
@@ -1911,7 +1930,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The name of the core device. This is also the name of the AWS IoT thing.
+        /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
@@ -1971,7 +1990,7 @@ extension GreengrassV2 {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2045,6 +2064,29 @@ extension GreengrassV2 {
         }
     }
 
+    public struct SystemResourceLimits: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of CPU time that a component's processes can use on the core device. A core device's total CPU time is equivalent to the device's number of CPU cores. For example, on a core device with 4 CPU cores, you can set this value to 2 to limit the component's processes to 50 percent usage of each CPU core. On a device with 1 CPU core, you can set this value to 0.25 to limit the component's processes to 25 percent usage of the CPU. If you set this value to a number greater than the number of CPU cores, the IoT Greengrass Core software doesn't limit the component's CPU usage.
+        public let cpus: Double?
+        /// The maximum amount of RAM, expressed in kilobytes, that a component's processes can use on the core device.
+        public let memory: Int64?
+
+        public init(cpus: Double? = nil, memory: Int64? = nil) {
+            self.cpus = cpus
+            self.memory = memory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cpus, name: "cpus", parent: name, min: 0)
+            try self.validate(self.memory, name: "memory", parent: name, max: 9_223_372_036_854_771_712)
+            try self.validate(self.memory, name: "memory", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpus
+            case memory
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -2052,7 +2094,7 @@ extension GreengrassV2 {
 
         /// The ARN of the resource to tag.
         public let resourceArn: String
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {

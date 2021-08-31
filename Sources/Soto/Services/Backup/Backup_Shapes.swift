@@ -91,9 +91,9 @@ extension Backup {
     // MARK: Shapes
 
     public struct AdvancedBackupSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a VSS Windows backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
+        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
         public let backupOptions: [String: String]?
-        /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows VSS. For an CloudFormation example, see the sample CloudFormation template to enable Windows VSS in the AWS Backup User Guide. Valid values: EC2.
+        /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the sample CloudFormation template to enable Windows VSS in the Backup User Guide. Valid values: EC2.
         public let resourceType: String?
 
         public init(backupOptions: [String: String]? = nil, resourceType: String? = nil) {
@@ -118,9 +118,9 @@ extension Backup {
     public struct BackupJob: AWSDecodableShape {
         /// The account ID that owns the backup job.
         public let accountId: String?
-        /// Uniquely identifies a request to AWS Backup to back up a resource.
+        /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String?
-        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
+        /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
         public let backupOptions: [String: String]?
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
@@ -128,7 +128,7 @@ extension Backup {
         public let backupType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public let bytesTransferred: Int64?
@@ -148,7 +148,7 @@ extension Backup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
+        /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let startBy: Date?
@@ -226,7 +226,7 @@ extension Backup {
     }
 
     public struct BackupPlanInput: AWSEncodableShape {
-        /// Specifies a list of BackupOptions for each resource type. These settings are only available for Windows VSS backup jobs.
+        /// Specifies a list of BackupOptions for each resource type. These settings are only available for Windows Volume Shadow Copy Service (VSS) backup jobs.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// The optional display name of a backup plan.
         public let backupPlanName: String
@@ -318,13 +318,13 @@ extension Backup {
     }
 
     public struct BackupRule: AWSDecodableShape {
-        /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
+        /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by Backup. This value is optional.
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
-        /// Specifies whether AWS Backup creates continuous backups. True causes AWS Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes AWS Backup to create snapshot backups.
+        /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public let enableContinuousBackup: Bool?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An array of key-value pair strings that are assigned to resources that are associated with this rule when restored from backup.
         public let recoveryPointTags: [String: String]?
@@ -332,11 +332,11 @@ extension Backup {
         public let ruleId: String?
         /// An optional display name for a backup rule.
         public let ruleName: String
-        /// A CRON expression specifying when AWS Backup initiates a backup job. For more information about cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Prior to specifying a value for this parameter, we recommend testing your cron expression using one of the many available cron generator and testing tools.
+        /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Prior to specifying a value for this parameter, we recommend testing your cron expression using one of the many available cron generator and testing tools.
         public let scheduleExpression: String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
         public let startWindowMinutes: Int64?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
         public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
@@ -367,23 +367,23 @@ extension Backup {
     }
 
     public struct BackupRuleInput: AWSEncodableShape {
-        /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
+        /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by Backup. This value is optional.
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
-        /// Specifies whether AWS Backup creates continuous backups. True causes AWS Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes AWS Backup to create snapshot backups.
+        /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public let enableContinuousBackup: Bool?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
         /// An optional display name for a backup rule.
         public let ruleName: String
-        /// A CRON expression specifying when AWS Backup initiates a backup job.
+        /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public let scheduleExpression: String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
         public let startWindowMinutes: Int64?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
         public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
@@ -417,7 +417,7 @@ extension Backup {
     }
 
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the IAM role that AWS Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
+        /// The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting". Assigns the backup plan to every resource with at least one matching tag.
         public let listOfTags: [Condition]?
@@ -481,7 +481,7 @@ extension Backup {
     public struct BackupVaultListMember: AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The date and time a resource backup is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
@@ -549,6 +549,49 @@ extension Backup {
         }
     }
 
+    public struct ControlInputParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a parameter, for example, BackupPlanFrequency.
+        public let parameterName: String?
+        /// The value of parameter, for example, hourly.
+        public let parameterValue: String?
+
+        public init(parameterName: String? = nil, parameterValue: String? = nil) {
+            self.parameterName = parameterName
+            self.parameterValue = parameterValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "ParameterName"
+            case parameterValue = "ParameterValue"
+        }
+    }
+
+    public struct ControlScope: AWSEncodableShape & AWSDecodableShape {
+        /// Describes whether the control scope includes a specific resource identified by its unique Amazon Resource Name (ARN).
+        public let complianceResourceIds: [String]?
+        /// Describes whether the control scope includes one or more types of resources, such as EFS or RDS.
+        public let complianceResourceTypes: [String]?
+        /// Describes whether the control scope includes resources with one or more tags. Each tag is a key-value pair.
+        public let tags: [String: String]?
+
+        public init(complianceResourceIds: [String]? = nil, complianceResourceTypes: [String]? = nil, tags: [String: String]? = nil) {
+            self.complianceResourceIds = complianceResourceIds
+            self.complianceResourceTypes = complianceResourceTypes
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.complianceResourceIds, name: "complianceResourceIds", parent: name, max: 100)
+            try self.validate(self.complianceResourceIds, name: "complianceResourceIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceResourceIds = "ComplianceResourceIds"
+            case complianceResourceTypes = "ComplianceResourceTypes"
+            case tags = "Tags"
+        }
+    }
+
     public struct CopyAction: AWSEncodableShape & AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup. For example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String
@@ -583,9 +626,9 @@ extension Backup {
         public let destinationRecoveryPointArn: String?
         /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
-        /// The AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceArn: String?
-        /// The type of AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let sourceBackupVaultArn: String?
@@ -659,7 +702,7 @@ extension Backup {
     }
 
     public struct CreateBackupPlanOutput: AWSDecodableShape {
-        /// A list of BackupOptions settings for a resource type. This option is only available for Windows VSS backup jobs.
+        /// A list of BackupOptions settings for a resource type. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
@@ -741,7 +784,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
         public let backupVaultName: String
         /// Metadata that you can assign to help organize the resources that you create. Each tag is a key-value pair.
         public let backupVaultTags: [String: String]?
@@ -786,6 +829,123 @@ extension Backup {
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
             case creationDate = "CreationDate"
+        }
+    }
+
+    public struct CreateFrameworkInput: AWSEncodableShape {
+        /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
+        public let frameworkControls: [FrameworkControl]
+        /// An optional description of the framework with a maximum of 1,024 characters.
+        public let frameworkDescription: String?
+        /// The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let frameworkName: String
+        /// Metadata that you can assign to help organize the frameworks that you create. Each tag is a key-value pair.
+        public let frameworkTags: [String: String]?
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateFrameworkInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+
+        public init(frameworkControls: [FrameworkControl], frameworkDescription: String? = nil, frameworkName: String, frameworkTags: [String: String]? = nil, idempotencyToken: String? = CreateFrameworkInput.idempotencyToken()) {
+            self.frameworkControls = frameworkControls
+            self.frameworkDescription = frameworkDescription
+            self.frameworkName = frameworkName
+            self.frameworkTags = frameworkTags
+            self.idempotencyToken = idempotencyToken
+        }
+
+        public func validate(name: String) throws {
+            try self.frameworkControls.forEach {
+                try $0.validate(name: "\(name).frameworkControls[]")
+            }
+            try self.validate(self.frameworkDescription, name: "frameworkDescription", parent: name, max: 1024)
+            try self.validate(self.frameworkDescription, name: "frameworkDescription", parent: name, min: 0)
+            try self.validate(self.frameworkDescription, name: "frameworkDescription", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, max: 256)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, min: 1)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameworkControls = "FrameworkControls"
+            case frameworkDescription = "FrameworkDescription"
+            case frameworkName = "FrameworkName"
+            case frameworkTags = "FrameworkTags"
+            case idempotencyToken = "IdempotencyToken"
+        }
+    }
+
+    public struct CreateFrameworkOutput: AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let frameworkArn: String?
+        /// The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let frameworkName: String?
+
+        public init(frameworkArn: String? = nil, frameworkName: String? = nil) {
+            self.frameworkArn = frameworkArn
+            self.frameworkName = frameworkName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameworkArn = "FrameworkArn"
+            case frameworkName = "FrameworkName"
+        }
+    }
+
+    public struct CreateReportPlanInput: AWSEncodableShape {
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+        /// A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
+        public let reportDeliveryChannel: ReportDeliveryChannel
+        /// An optional description of the report plan with a maximum of 1,024 characters.
+        public let reportPlanDescription: String?
+        /// The unique name of the report plan. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let reportPlanName: String
+        /// Metadata that you can assign to help organize the frameworks that you create. Each tag is a key-value pair.
+        public let reportPlanTags: [String: String]?
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        public let reportSetting: ReportSetting
+
+        public init(idempotencyToken: String? = CreateReportPlanInput.idempotencyToken(), reportDeliveryChannel: ReportDeliveryChannel, reportPlanDescription: String? = nil, reportPlanName: String, reportPlanTags: [String: String]? = nil, reportSetting: ReportSetting) {
+            self.idempotencyToken = idempotencyToken
+            self.reportDeliveryChannel = reportDeliveryChannel
+            self.reportPlanDescription = reportPlanDescription
+            self.reportPlanName = reportPlanName
+            self.reportPlanTags = reportPlanTags
+            self.reportSetting = reportSetting
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportPlanDescription, name: "reportPlanDescription", parent: name, max: 1024)
+            try self.validate(self.reportPlanDescription, name: "reportPlanDescription", parent: name, min: 0)
+            try self.validate(self.reportPlanDescription, name: "reportPlanDescription", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, max: 256)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, min: 1)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idempotencyToken = "IdempotencyToken"
+            case reportDeliveryChannel = "ReportDeliveryChannel"
+            case reportPlanDescription = "ReportPlanDescription"
+            case reportPlanName = "ReportPlanName"
+            case reportPlanTags = "ReportPlanTags"
+            case reportSetting = "ReportSetting"
+        }
+    }
+
+    public struct CreateReportPlanOutput: AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let reportPlanArn: String?
+        /// The unique name of the report plan.
+        public let reportPlanName: String?
+
+        public init(reportPlanArn: String? = nil, reportPlanName: String? = nil) {
+            self.reportPlanArn = reportPlanArn
+            self.reportPlanName = reportPlanName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportPlanArn = "ReportPlanArn"
+            case reportPlanName = "ReportPlanName"
         }
     }
 
@@ -853,7 +1013,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
@@ -872,7 +1032,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
@@ -901,13 +1061,34 @@ extension Backup {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteFrameworkInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "frameworkName", location: .uri(locationName: "frameworkName"))
+        ]
+
+        /// The unique name of a framework.
+        public let frameworkName: String
+
+        public init(frameworkName: String) {
+            self.frameworkName = frameworkName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, max: 256)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, min: 1)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
@@ -924,12 +1105,33 @@ extension Backup {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteReportPlanInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "reportPlanName"))
+        ]
+
+        /// The unique name of a report plan.
+        public let reportPlanName: String
+
+        public init(reportPlanName: String) {
+            self.reportPlanName = reportPlanName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, max: 256)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, min: 1)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DescribeBackupJobInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "backupJobId", location: .uri(locationName: "backupJobId"))
         ]
 
-        /// Uniquely identifies a request to AWS Backup to back up a resource.
+        /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
 
         public init(backupJobId: String) {
@@ -942,17 +1144,17 @@ extension Backup {
     public struct DescribeBackupJobOutput: AWSDecodableShape {
         /// Returns the account ID that owns the backup job.
         public let accountId: String?
-        /// Uniquely identifies a request to AWS Backup to back up a resource.
+        /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String?
         /// Represents the options specified as part of backup plan or on-demand backup job.
         public let backupOptions: [String: String]?
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
-        /// Represents the actual backup type selected for a backup job. For example, if a successful WindowsVSS backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type that was is a regular backup.
+        /// Represents the actual backup type selected for a backup job. For example, if a successful Windows Volume Shadow Copy Service (VSS) backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type was a regular backup.
         public let backupType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public let bytesTransferred: Int64?
@@ -972,7 +1174,7 @@ extension Backup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let startBy: Date?
@@ -1033,7 +1235,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
@@ -1104,14 +1306,76 @@ extension Backup {
         }
     }
 
+    public struct DescribeFrameworkInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "frameworkName", location: .uri(locationName: "frameworkName"))
+        ]
+
+        /// The unique name of a framework.
+        public let frameworkName: String
+
+        public init(frameworkName: String) {
+            self.frameworkName = frameworkName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, max: 256)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, min: 1)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFrameworkOutput: AWSDecodableShape {
+        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
+        /// The deployment status of a framework. The statuses are:  CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
+        public let deploymentStatus: String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let frameworkArn: String?
+        /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
+        public let frameworkControls: [FrameworkControl]?
+        /// An optional description of the framework.
+        public let frameworkDescription: String?
+        /// The unique name of a framework.
+        public let frameworkName: String?
+        /// A framework consists of one or more controls. Each control governs a resource, such as backup plans, backup selections, backup vaults, or recovery points. You can also turn Config recording on or off for each resource. The statuses are:    ACTIVE when recording is turned on for all resources governed by the framework.    PARTIALLY_ACTIVE when recording is turned off for at least one resource governed by the framework.    INACTIVE when recording is turned off for all resources governed by the framework.    UNAVAILABLE when Backup is unable to validate recording status at this time.
+        public let frameworkStatus: String?
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to DescribeFrameworkOutput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+
+        public init(creationTime: Date? = nil, deploymentStatus: String? = nil, frameworkArn: String? = nil, frameworkControls: [FrameworkControl]? = nil, frameworkDescription: String? = nil, frameworkName: String? = nil, frameworkStatus: String? = nil, idempotencyToken: String? = nil) {
+            self.creationTime = creationTime
+            self.deploymentStatus = deploymentStatus
+            self.frameworkArn = frameworkArn
+            self.frameworkControls = frameworkControls
+            self.frameworkDescription = frameworkDescription
+            self.frameworkName = frameworkName
+            self.frameworkStatus = frameworkStatus
+            self.idempotencyToken = idempotencyToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deploymentStatus = "DeploymentStatus"
+            case frameworkArn = "FrameworkArn"
+            case frameworkControls = "FrameworkControls"
+            case frameworkDescription = "FrameworkDescription"
+            case frameworkName = "FrameworkName"
+            case frameworkStatus = "FrameworkStatus"
+            case idempotencyToken = "IdempotencyToken"
+        }
+    }
+
     public struct DescribeGlobalSettingsInput: AWSEncodableShape {
         public init() {}
     }
 
     public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
-        /// A list of resources along with the opt-in preferences for the account.
+        /// The status of the flag isCrossAccountBackupEnabled.
         public let globalSettings: [String: String]?
-        /// The date and time that the global settings were last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastUpdateTime: Date?
 
         public init(globalSettings: [String: String]? = nil, lastUpdateTime: Date? = nil) {
@@ -1145,7 +1409,7 @@ extension Backup {
         public let lastBackupTime: Date?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource saved as a recovery point; for example, an EBS volume or an Amazon RDS database.
+        /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon EBS volume or an Amazon RDS database.
         public let resourceType: String?
 
         public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -1167,7 +1431,7 @@ extension Backup {
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
@@ -1207,22 +1471,24 @@ extension Backup {
         public let isEncrypted: Bool?
         /// The date and time that a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastRestoreTime: Date?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of Amazon Web Services resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
-        /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same AWS account or Region, this value will be null.
+        /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
         public let sourceBackupVaultArn: String?
-        /// A status code specifying the state of the recovery point.  A partial status indicates that the recovery point was not successfully re-created and must be retried.
+        /// A status code specifying the state of the recovery point.  PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see UpdateBackupPlan. You can also increase your backup plan window using the Console by choosing and editing your backup plan.  EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.
         public let status: RecoveryPointStatus?
+        /// A status message explaining the reason for the recovery point deletion failure.
+        public let statusMessage: String?
         /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
         public let storageClass: StorageClass?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, storageClass: StorageClass? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1240,6 +1506,7 @@ extension Backup {
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
+            self.statusMessage = statusMessage
             self.storageClass = storageClass
         }
 
@@ -1261,6 +1528,7 @@ extension Backup {
             case resourceType = "ResourceType"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
+            case statusMessage = "StatusMessage"
             case storageClass = "StorageClass"
         }
     }
@@ -1279,6 +1547,68 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case resourceTypeOptInPreference = "ResourceTypeOptInPreference"
+        }
+    }
+
+    public struct DescribeReportJobInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "reportJobId", location: .uri(locationName: "reportJobId"))
+        ]
+
+        /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
+        public let reportJobId: String
+
+        public init(reportJobId: String) {
+            self.reportJobId = reportJobId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeReportJobOutput: AWSDecodableShape {
+        /// A list of information about a report job, including its completion and creation times, report destination, unique report job ID, Amazon Resource Name (ARN), report template, status, and status message.
+        public let reportJob: ReportJob?
+
+        public init(reportJob: ReportJob? = nil) {
+            self.reportJob = reportJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportJob = "ReportJob"
+        }
+    }
+
+    public struct DescribeReportPlanInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "reportPlanName"))
+        ]
+
+        /// The unique name of a report plan.
+        public let reportPlanName: String
+
+        public init(reportPlanName: String) {
+            self.reportPlanName = reportPlanName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, max: 256)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, min: 1)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeReportPlanOutput: AWSDecodableShape {
+        /// Returns details about the report plan that is specified by its name. These details include the report plan's Amazon Resource Name (ARN), description, settings, delivery channel, deployment status, creation time, and last attempted and successful run times.
+        public let reportPlan: ReportPlan?
+
+        public init(reportPlan: ReportPlan? = nil) {
+            self.reportPlan = reportPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportPlan = "ReportPlan"
         }
     }
 
@@ -1320,7 +1650,7 @@ extension Backup {
         public let resourceType: String?
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
-        /// Status code specifying the state of the job that is initiated by AWS Backup to restore a recovery point.
+        /// Status code specifying the state of the job that is initiated by Backup to restore a recovery point.
         public let status: RestoreJobStatus?
         /// A message showing the status of a job to restore a recovery point.
         public let statusMessage: String?
@@ -1364,9 +1694,9 @@ extension Backup {
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
-        /// The unique name of an AWS Backup vault. Required.
+        /// The unique name of an Backup vault.
         public let backupVaultName: String
-        /// An Amazon Resource Name (ARN) that uniquely identifies an AWS Backup recovery point. Required.
+        /// An Amazon Resource Name (ARN) that uniquely identifies an Backup recovery point.
         public let recoveryPointArn: String
 
         public init(backupVaultName: String, recoveryPointArn: String) {
@@ -1406,6 +1736,64 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case backupPlanTemplateJson = "BackupPlanTemplateJson"
+        }
+    }
+
+    public struct Framework: AWSDecodableShape {
+        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
+        /// The deployment status of a framework. The statuses are:  CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
+        public let deploymentStatus: String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let frameworkArn: String?
+        /// An optional description of the framework with a maximum 1,024 characters.
+        public let frameworkDescription: String?
+        /// The unique name of a framework. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let frameworkName: String?
+        /// The number of controls contained by the framework.
+        public let numberOfControls: Int?
+
+        public init(creationTime: Date? = nil, deploymentStatus: String? = nil, frameworkArn: String? = nil, frameworkDescription: String? = nil, frameworkName: String? = nil, numberOfControls: Int? = nil) {
+            self.creationTime = creationTime
+            self.deploymentStatus = deploymentStatus
+            self.frameworkArn = frameworkArn
+            self.frameworkDescription = frameworkDescription
+            self.frameworkName = frameworkName
+            self.numberOfControls = numberOfControls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deploymentStatus = "DeploymentStatus"
+            case frameworkArn = "FrameworkArn"
+            case frameworkDescription = "FrameworkDescription"
+            case frameworkName = "FrameworkName"
+            case numberOfControls = "NumberOfControls"
+        }
+    }
+
+    public struct FrameworkControl: AWSEncodableShape & AWSDecodableShape {
+        /// A list of ParameterName and ParameterValue pairs.
+        public let controlInputParameters: [ControlInputParameter]?
+        /// The name of a control. This name is between 1 and 256 characters.
+        public let controlName: String
+        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see ControlScope.
+        public let controlScope: ControlScope?
+
+        public init(controlInputParameters: [ControlInputParameter]? = nil, controlName: String, controlScope: ControlScope? = nil) {
+            self.controlInputParameters = controlInputParameters
+            self.controlName = controlName
+            self.controlScope = controlScope
+        }
+
+        public func validate(name: String) throws {
+            try self.controlScope?.validate(name: "\(name).controlScope")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlInputParameters = "ControlInputParameters"
+            case controlName = "ControlName"
+            case controlScope = "ControlScope"
         }
     }
 
@@ -1580,7 +1968,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
@@ -1620,7 +2008,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
         public init(backupVaultName: String) {
@@ -1665,7 +2053,7 @@ extension Backup {
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
@@ -1704,7 +2092,7 @@ extension Backup {
     }
 
     public struct GetSupportedResourceTypesOutput: AWSDecodableShape {
-        /// Contains a string with the supported AWS resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
+        /// Contains a string with the supported Amazon Web Services resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
         public let resourceTypes: [String]?
 
         public init(resourceTypes: [String]? = nil) {
@@ -1746,9 +2134,9 @@ extension Backup {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an AWS Organizations management account, passing * returns all jobs across the organization.
+        /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization.
         public let byAccountId: String?
-        /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let byBackupVaultName: String?
         /// Returns only backup jobs that were created after the specified date.
         public let byCreatedAfter: Date?
@@ -1756,7 +2144,7 @@ extension Backup {
         public let byCreatedBefore: Date?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
         public let byResourceType: String?
         /// Returns only backup jobs that are in the specified state.
         public let byState: BackupJobState?
@@ -2045,7 +2433,7 @@ extension Backup {
         public let byDestinationVaultArn: String?
         /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
         public let byResourceType: String?
         /// Returns only copy jobs that are in the specified state.
         public let byState: CopyJobState?
@@ -2093,6 +2481,47 @@ extension Backup {
         }
     }
 
+    public struct ListFrameworksInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+        ]
+
+        /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
+        public let maxResults: Int?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFrameworksOutput: AWSDecodableShape {
+        /// A list of frameworks with details for each framework, including the framework name, Amazon Resource Name (ARN), description, number of controls, creation time, and deployment status.
+        public let frameworks: [Framework]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(frameworks: [Framework]? = nil, nextToken: String? = nil) {
+            self.frameworks = frameworks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameworks = "Frameworks"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListProtectedResourcesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
@@ -2120,7 +2549,7 @@ extension Backup {
     public struct ListProtectedResourcesOutput: AWSDecodableShape {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        /// An array of resources successfully backed up by AWS Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+        /// An array of resources successfully backed up by Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
         public let results: [ProtectedResource]?
 
         public init(nextToken: String? = nil, results: [ProtectedResource]? = nil) {
@@ -2146,7 +2575,7 @@ extension Backup {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.  Backup vault name might not be available when a supported service creates the backup.
         public let backupVaultName: String
         /// Returns only recovery points that match the specified backup plan ID.
         public let byBackupPlanId: String?
@@ -2208,7 +2637,7 @@ extension Backup {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The maximum number of items to be returned.
+        /// The maximum number of items to be returned.  Amazon RDS requires a value of at least 20.
         public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
@@ -2232,7 +2661,7 @@ extension Backup {
     public struct ListRecoveryPointsByResourceOutput: AWSDecodableShape {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        /// An array of objects that contain detailed information about recovery points of the specified resource type.
+        /// An array of objects that contain detailed information about recovery points of the specified resource type.  Only Amazon EFS and Amazon EC2 recovery points return BackupVaultName.
         public let recoveryPoints: [RecoveryPointByResource]?
 
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByResource]? = nil) {
@@ -2243,6 +2672,107 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case recoveryPoints = "RecoveryPoints"
+        }
+    }
+
+    public struct ListReportJobsInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "byCreationAfter", location: .querystring(locationName: "CreationAfter")),
+            AWSMemberEncoding(label: "byCreationBefore", location: .querystring(locationName: "CreationBefore")),
+            AWSMemberEncoding(label: "byReportPlanName", location: .querystring(locationName: "ReportPlanName")),
+            AWSMemberEncoding(label: "byStatus", location: .querystring(locationName: "Status")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+        ]
+
+        /// Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
+        public let byCreationAfter: Date?
+        /// Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
+        public let byCreationBefore: Date?
+        /// Returns only report jobs with the specified report plan name.
+        public let byReportPlanName: String?
+        /// Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED
+        public let byStatus: String?
+        /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
+        public let maxResults: Int?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(byCreationAfter: Date? = nil, byCreationBefore: Date? = nil, byReportPlanName: String? = nil, byStatus: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byCreationAfter = byCreationAfter
+            self.byCreationBefore = byCreationBefore
+            self.byReportPlanName = byReportPlanName
+            self.byStatus = byStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.byReportPlanName, name: "byReportPlanName", parent: name, max: 256)
+            try self.validate(self.byReportPlanName, name: "byReportPlanName", parent: name, min: 1)
+            try self.validate(self.byReportPlanName, name: "byReportPlanName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReportJobsOutput: AWSDecodableShape {
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// Details about your report jobs in JSON format.
+        public let reportJobs: [ReportJob]?
+
+        public init(nextToken: String? = nil, reportJobs: [ReportJob]? = nil) {
+            self.nextToken = nextToken
+            self.reportJobs = reportJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reportJobs = "ReportJobs"
+        }
+    }
+
+    public struct ListReportPlansInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+        ]
+
+        /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
+        public let maxResults: Int?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReportPlansOutput: AWSDecodableShape {
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// A list of your report plans with detailed information for each plan. This information includes the Amazon Resource Name (ARN), report plan name, description, settings, delivery channel, deployment status, creation time, and last times the report plan attempted to and successfully ran.
+        public let reportPlans: [ReportPlan]?
+
+        public init(nextToken: String? = nil, reportPlans: [ReportPlan]? = nil) {
+            self.nextToken = nextToken
+            self.reportPlans = reportPlans
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reportPlans = "ReportPlans"
         }
     }
 
@@ -2354,7 +2884,7 @@ extension Backup {
         public let lastBackupTime: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
+        /// The type of Amazon Web Services resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
 
         public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -2375,7 +2905,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// The backup vault access policy document in JSON format.
         public let policy: String?
@@ -2399,9 +2929,9 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// An array of events that indicate the status of jobs to back up resources to the backup vault.
+        /// An array of events that indicate the status of jobs to back up resources to the backup vault.  The following events are supported:  BACKUP_JOB_STARTED, BACKUP_JOB_COMPLETED,  COPY_JOB_STARTED, COPY_JOB_SUCCESSFUL, COPY_JOB_FAILED,  RESTORE_JOB_STARTED, RESTORE_JOB_COMPLETED, and RECOVERY_POINT_MODIFIED. To find failed backup jobs, use BACKUP_JOB_COMPLETED and filter using event metadata. Other events in the following list are deprecated.
         public let backupVaultEvents: [BackupVaultEvent]
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
         public let sNSTopicArn: String
@@ -2427,7 +2957,7 @@ extension Backup {
         public let backupSizeInBytes: Int64?
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
         public let calculatedLifecycle: CalculatedLifecycle?
@@ -2445,20 +2975,22 @@ extension Backup {
         public let isEncrypted: Bool?
         /// The date and time a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastRestoreTime: Date?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
+        /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// The backup vault where the recovery point was originally copied from. If the recovery point is restored to the same account this value will be null.
         public let sourceBackupVaultArn: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
+        /// A message explaining the reason of the recovery point deletion failure.
+        public let statusMessage: String?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2476,6 +3008,7 @@ extension Backup {
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2496,13 +3029,14 @@ extension Backup {
             case resourceType = "ResourceType"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
     public struct RecoveryPointByResource: AWSDecodableShape {
         /// The size, in bytes, of a backup.
         public let backupSizeBytes: Int64?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
@@ -2512,14 +3046,17 @@ extension Backup {
         public let recoveryPointArn: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
+        /// A message explaining the reason of the recovery point deletion failure.
+        public let statusMessage: String?
 
-        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil) {
+        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.recoveryPointArn = recoveryPointArn
             self.status = status
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2529,6 +3066,7 @@ extension Backup {
             case encryptionKeyArn = "EncryptionKeyArn"
             case recoveryPointArn = "RecoveryPointArn"
             case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -2557,6 +3095,143 @@ extension Backup {
         }
     }
 
+    public struct ReportDeliveryChannel: AWSEncodableShape & AWSDecodableShape {
+        /// A list of the format of your reports: CSV, JSON, or both. If not specified, the default format is CSV.
+        public let formats: [String]?
+        /// The unique name of the S3 bucket that receives your reports.
+        public let s3BucketName: String
+        /// The prefix for where Backup Audit Manager delivers your reports to Amazon S3. The prefix is this part of the following path: s3://your-bucket-name/prefix/Backup/us-west-2/year/month/day/report-name. If not specified, there is no prefix.
+        public let s3KeyPrefix: String?
+
+        public init(formats: [String]? = nil, s3BucketName: String, s3KeyPrefix: String? = nil) {
+            self.formats = formats
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formats = "Formats"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
+    public struct ReportDestination: AWSDecodableShape {
+        /// The unique name of the Amazon S3 bucket that receives your reports.
+        public let s3BucketName: String?
+        /// The object key that uniquely identifies your reports in your S3 bucket.
+        public let s3Keys: [String]?
+
+        public init(s3BucketName: String? = nil, s3Keys: [String]? = nil) {
+            self.s3BucketName = s3BucketName
+            self.s3Keys = s3Keys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case s3Keys = "S3Keys"
+        }
+    }
+
+    public struct ReportJob: AWSDecodableShape {
+        /// The date and time that a report job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let completionTime: Date?
+        /// The date and time that a report job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
+        /// The S3 bucket name and S3 keys for the destination where the report job publishes the report.
+        public let reportDestination: ReportDestination?
+        /// The identifier for a report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. Report job IDs cannot be edited.
+        public let reportJobId: String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let reportPlanArn: String?
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:   BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        public let reportTemplate: String?
+        /// The status of a report job. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED   COMPLETED means that the report is available for your review at your designated destination. If the status is FAILED, review the StatusMessage for the reason.
+        public let status: String?
+        /// A message explaining the status of the report job.
+        public let statusMessage: String?
+
+        public init(completionTime: Date? = nil, creationTime: Date? = nil, reportDestination: ReportDestination? = nil, reportJobId: String? = nil, reportPlanArn: String? = nil, reportTemplate: String? = nil, status: String? = nil, statusMessage: String? = nil) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.reportDestination = reportDestination
+            self.reportJobId = reportJobId
+            self.reportPlanArn = reportPlanArn
+            self.reportTemplate = reportTemplate
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "CompletionTime"
+            case creationTime = "CreationTime"
+            case reportDestination = "ReportDestination"
+            case reportJobId = "ReportJobId"
+            case reportPlanArn = "ReportPlanArn"
+            case reportTemplate = "ReportTemplate"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ReportPlan: AWSDecodableShape {
+        /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
+        /// The deployment status of a report plan. The statuses are:  CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED
+        public let deploymentStatus: String?
+        /// The date and time that a report job associated with this report plan last attempted to run, in Unix format and Coordinated Universal Time (UTC). The value of LastAttemptedExecutionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let lastAttemptedExecutionTime: Date?
+        /// The date and time that a report job associated with this report plan last successfully ran, in Unix format and Coordinated Universal Time (UTC). The value of LastSuccessfulExecutionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let lastSuccessfulExecutionTime: Date?
+        /// Contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
+        public let reportDeliveryChannel: ReportDeliveryChannel?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let reportPlanArn: String?
+        /// An optional description of the report plan with a maximum 1,024 characters.
+        public let reportPlanDescription: String?
+        /// The unique name of the report plan. This name is between 1 and 256 characters starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let reportPlanName: String?
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        public let reportSetting: ReportSetting?
+
+        public init(creationTime: Date? = nil, deploymentStatus: String? = nil, lastAttemptedExecutionTime: Date? = nil, lastSuccessfulExecutionTime: Date? = nil, reportDeliveryChannel: ReportDeliveryChannel? = nil, reportPlanArn: String? = nil, reportPlanDescription: String? = nil, reportPlanName: String? = nil, reportSetting: ReportSetting? = nil) {
+            self.creationTime = creationTime
+            self.deploymentStatus = deploymentStatus
+            self.lastAttemptedExecutionTime = lastAttemptedExecutionTime
+            self.lastSuccessfulExecutionTime = lastSuccessfulExecutionTime
+            self.reportDeliveryChannel = reportDeliveryChannel
+            self.reportPlanArn = reportPlanArn
+            self.reportPlanDescription = reportPlanDescription
+            self.reportPlanName = reportPlanName
+            self.reportSetting = reportSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deploymentStatus = "DeploymentStatus"
+            case lastAttemptedExecutionTime = "LastAttemptedExecutionTime"
+            case lastSuccessfulExecutionTime = "LastSuccessfulExecutionTime"
+            case reportDeliveryChannel = "ReportDeliveryChannel"
+            case reportPlanArn = "ReportPlanArn"
+            case reportPlanDescription = "ReportPlanDescription"
+            case reportPlanName = "ReportPlanName"
+            case reportSetting = "ReportSetting"
+        }
+    }
+
+    public struct ReportSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        public let reportTemplate: String
+
+        public init(reportTemplate: String) {
+            self.reportTemplate = reportTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportTemplate = "ReportTemplate"
+        }
+    }
+
     public struct RestoreJobsListMember: AWSDecodableShape {
         /// The account ID that owns the restore job.
         public let accountId: String?
@@ -2576,11 +3251,11 @@ extension Backup {
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
-        /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
+        /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
-        /// A status code specifying the state of the job initiated by AWS Backup to restore a recovery point.
+        /// A status code specifying the state of the job initiated by Backup to restore a recovery point.
         public let status: RestoreJobStatus?
         /// A detailed message explaining the status of the job to restore a recovery point.
         public let statusMessage: String?
@@ -2619,17 +3294,17 @@ extension Backup {
     }
 
     public struct StartBackupJobInput: AWSEncodableShape {
-        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option is not enabled by default.
+        /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS""disabled" to create a regular backup. The WindowsVSS option is not enabled by default.
         public let backupOptions: [String: String]?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// A value in minutes during which a successfully started backup must complete, or else AWS Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled.
         public let completeWindowMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// A customer chosen string that can be used to distinguish between calls to StartBackupJob.
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
@@ -2672,7 +3347,7 @@ extension Backup {
     }
 
     public struct StartBackupJobOutput: AWSDecodableShape {
-        /// Uniquely identifies a request to AWS Backup to back up a resource.
+        /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String?
         /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
@@ -2697,12 +3372,12 @@ extension Backup {
         public let destinationBackupVaultArn: String
         /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// A customer chosen string that can be used to distinguish between calls to StartCopyJob.
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartCopyJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
         public let lifecycle: Lifecycle?
         /// An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let sourceBackupVaultName: String
 
         public init(destinationBackupVaultArn: String, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String, sourceBackupVaultName: String) {
@@ -2745,16 +3420,55 @@ extension Backup {
         }
     }
 
-    public struct StartRestoreJobInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
-        public let iamRoleArn: String
-        /// A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
+    public struct StartReportJobInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "reportPlanName"))
+        ]
+
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartReportJobInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
-        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system. You can specify a key from another AWS account provided that key it is properly shared with your account via AWS KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore : An array of one to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional. For example, "itemsToRestore":"[\"/my.test\"]".
+        /// The unique name of a report plan.
+        public let reportPlanName: String
+
+        public init(idempotencyToken: String? = StartReportJobInput.idempotencyToken(), reportPlanName: String) {
+            self.idempotencyToken = idempotencyToken
+            self.reportPlanName = reportPlanName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, max: 256)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, min: 1)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idempotencyToken = "IdempotencyToken"
+        }
+    }
+
+    public struct StartReportJobOutput: AWSDecodableShape {
+        /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
+        public let reportJobId: String?
+
+        public init(reportJobId: String? = nil) {
+            self.reportJobId = reportJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportJobId = "ReportJobId"
+        }
+    }
+
+    public struct StartRestoreJobInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+        public let iamRoleArn: String
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the Amazon Web Services KMS key that is used to encrypt the restored file system. You can specify a key from another Amazon Web Services account provided that key it is properly shared with your account via Amazon Web Services KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore: An array of one to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional. For example, "itemsToRestore":"[\"/my.test\"]".
         public let metadata: [String: String]
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        /// Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
+        /// Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
         public let resourceType: String?
 
         public init(iamRoleArn: String, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {
@@ -2796,7 +3510,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupJobId", location: .uri(locationName: "backupJobId"))
         ]
 
-        /// Uniquely identifies a request to AWS Backup to back up a resource.
+        /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
 
         public init(backupJobId: String) {
@@ -2877,7 +3591,7 @@ extension Backup {
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
-        /// The date and time a backup plan is updated, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
@@ -2899,8 +3613,69 @@ extension Backup {
         }
     }
 
+    public struct UpdateFrameworkInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "frameworkName", location: .uri(locationName: "frameworkName"))
+        ]
+
+        /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
+        public let frameworkControls: [FrameworkControl]?
+        /// An optional description of the framework with a maximum 1,024 characters.
+        public let frameworkDescription: String?
+        /// The unique name of a framework. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let frameworkName: String
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateFrameworkInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+
+        public init(frameworkControls: [FrameworkControl]? = nil, frameworkDescription: String? = nil, frameworkName: String, idempotencyToken: String? = UpdateFrameworkInput.idempotencyToken()) {
+            self.frameworkControls = frameworkControls
+            self.frameworkDescription = frameworkDescription
+            self.frameworkName = frameworkName
+            self.idempotencyToken = idempotencyToken
+        }
+
+        public func validate(name: String) throws {
+            try self.frameworkControls?.forEach {
+                try $0.validate(name: "\(name).frameworkControls[]")
+            }
+            try self.validate(self.frameworkDescription, name: "frameworkDescription", parent: name, max: 1024)
+            try self.validate(self.frameworkDescription, name: "frameworkDescription", parent: name, min: 0)
+            try self.validate(self.frameworkDescription, name: "frameworkDescription", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, max: 256)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, min: 1)
+            try self.validate(self.frameworkName, name: "frameworkName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameworkControls = "FrameworkControls"
+            case frameworkDescription = "FrameworkDescription"
+            case idempotencyToken = "IdempotencyToken"
+        }
+    }
+
+    public struct UpdateFrameworkOutput: AWSDecodableShape {
+        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let frameworkArn: String?
+        /// The unique name of a framework. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let frameworkName: String?
+
+        public init(creationTime: Date? = nil, frameworkArn: String? = nil, frameworkName: String? = nil) {
+            self.creationTime = creationTime
+            self.frameworkArn = frameworkArn
+            self.frameworkName = frameworkName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case frameworkArn = "FrameworkArn"
+            case frameworkName = "FrameworkName"
+        }
+    }
+
     public struct UpdateGlobalSettingsInput: AWSEncodableShape {
-        /// A list of resources along with the opt-in preferences for the account.
+        /// A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2.
         public let globalSettings: [String: String]?
 
         public init(globalSettings: [String: String]? = nil) {
@@ -2918,9 +3693,9 @@ extension Backup {
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
@@ -2945,7 +3720,7 @@ extension Backup {
         public let backupVaultArn: String?
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
         public let calculatedLifecycle: CalculatedLifecycle?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
@@ -2981,6 +3756,68 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case resourceTypeOptInPreference = "ResourceTypeOptInPreference"
+        }
+    }
+
+    public struct UpdateReportPlanInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "reportPlanName"))
+        ]
+
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+        /// A structure that contains information about where to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
+        public let reportDeliveryChannel: ReportDeliveryChannel?
+        /// An optional description of the report plan with a maximum 1,024 characters.
+        public let reportPlanDescription: String?
+        /// The unique name of the report plan. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
+        public let reportPlanName: String
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        public let reportSetting: ReportSetting?
+
+        public init(idempotencyToken: String? = UpdateReportPlanInput.idempotencyToken(), reportDeliveryChannel: ReportDeliveryChannel? = nil, reportPlanDescription: String? = nil, reportPlanName: String, reportSetting: ReportSetting? = nil) {
+            self.idempotencyToken = idempotencyToken
+            self.reportDeliveryChannel = reportDeliveryChannel
+            self.reportPlanDescription = reportPlanDescription
+            self.reportPlanName = reportPlanName
+            self.reportSetting = reportSetting
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportPlanDescription, name: "reportPlanDescription", parent: name, max: 1024)
+            try self.validate(self.reportPlanDescription, name: "reportPlanDescription", parent: name, min: 0)
+            try self.validate(self.reportPlanDescription, name: "reportPlanDescription", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, max: 256)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, min: 1)
+            try self.validate(self.reportPlanName, name: "reportPlanName", parent: name, pattern: "[a-zA-Z][_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idempotencyToken = "IdempotencyToken"
+            case reportDeliveryChannel = "ReportDeliveryChannel"
+            case reportPlanDescription = "ReportPlanDescription"
+            case reportSetting = "ReportSetting"
+        }
+    }
+
+    public struct UpdateReportPlanOutput: AWSDecodableShape {
+        /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let reportPlanArn: String?
+        /// The unique name of the report plan.
+        public let reportPlanName: String?
+
+        public init(creationTime: Date? = nil, reportPlanArn: String? = nil, reportPlanName: String? = nil) {
+            self.creationTime = creationTime
+            self.reportPlanArn = reportPlanArn
+            self.reportPlanName = reportPlanName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case reportPlanArn = "ReportPlanArn"
+            case reportPlanName = "ReportPlanName"
         }
     }
 }

@@ -623,7 +623,7 @@ extension WAFV2 {
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
-        /// Specify IPV4 or IPV6.
+        /// The version of the IP addresses, either IPV4 or IPV6.
         public let iPAddressVersion: IPAddressVersion
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public let name: String
@@ -1276,11 +1276,14 @@ extension WAFV2 {
         public let scope: Scope
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
         public let vendorName: String
+        /// The version of the rule group. You can only use a version that is not scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
+        public let versionName: String?
 
-        public init(name: String, scope: Scope, vendorName: String) {
+        public init(name: String, scope: Scope, vendorName: String, versionName: String? = nil) {
             self.name = name
             self.scope = scope
             self.vendorName = vendorName
+            self.versionName = versionName
         }
 
         public func validate(name: String) throws {
@@ -1290,12 +1293,16 @@ extension WAFV2 {
             try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
             try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
             try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case scope = "Scope"
             case vendorName = "VendorName"
+            case versionName = "VersionName"
         }
     }
 
@@ -1309,13 +1316,19 @@ extension WAFV2 {
         /// The label namespace prefix for this rule group. All labels added by rules in this rule group have this prefix.    The syntax for the label namespace prefix for a managed rule group is the following:   awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;:   When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   &lt;label namespace&gt;:&lt;label from rule&gt;
         public let labelNamespace: String?
         public let rules: [RuleSummary]?
+        /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to record changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the Amazon Simple Notification Service Developer Guide.
+        public let snsTopicArn: String?
+        /// The managed rule group's version.
+        public let versionName: String?
 
-        public init(availableLabels: [LabelSummary]? = nil, capacity: Int64? = nil, consumedLabels: [LabelSummary]? = nil, labelNamespace: String? = nil, rules: [RuleSummary]? = nil) {
+        public init(availableLabels: [LabelSummary]? = nil, capacity: Int64? = nil, consumedLabels: [LabelSummary]? = nil, labelNamespace: String? = nil, rules: [RuleSummary]? = nil, snsTopicArn: String? = nil, versionName: String? = nil) {
             self.availableLabels = availableLabels
             self.capacity = capacity
             self.consumedLabels = consumedLabels
             self.labelNamespace = labelNamespace
             self.rules = rules
+            self.snsTopicArn = snsTopicArn
+            self.versionName = versionName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1324,6 +1337,8 @@ extension WAFV2 {
             case consumedLabels = "ConsumedLabels"
             case labelNamespace = "LabelNamespace"
             case rules = "Rules"
+            case snsTopicArn = "SnsTopicArn"
+            case versionName = "VersionName"
         }
     }
 
@@ -1610,6 +1625,53 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case loggingConfiguration = "LoggingConfiguration"
+        }
+    }
+
+    public struct GetManagedRuleSetRequest: AWSEncodableShape {
+        /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
+        public let id: String
+        /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
+        public let name: String
+        /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+        public let scope: Scope
+
+        public init(id: String, name: String, scope: Scope) {
+            self.id = id
+            self.name = name
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case scope = "Scope"
+        }
+    }
+
+    public struct GetManagedRuleSetResponse: AWSDecodableShape {
+        /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+        public let lockToken: String?
+        /// The managed rule set that you requested.
+        public let managedRuleSet: ManagedRuleSet?
+
+        public init(lockToken: String? = nil, managedRuleSet: ManagedRuleSet? = nil) {
+            self.lockToken = lockToken
+            self.managedRuleSet = managedRuleSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockToken = "LockToken"
+            case managedRuleSet = "ManagedRuleSet"
         }
     }
 
@@ -1997,7 +2059,7 @@ extension WAFV2 {
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
-        /// Specify IPV4 or IPV6.
+        /// The version of the IP addresses, either IPV4 or IPV6.
         public let iPAddressVersion: IPAddressVersion
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public let name: String
@@ -2102,7 +2164,7 @@ extension WAFV2 {
     }
 
     public struct JsonBody: AWSEncodableShape & AWSDecodableShape {
-        /// What WAF should do if it fails to completely parse the JSON body. The options are the following:    EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters.  WAF does its best to parse the entire JSON body, but might be forced to stop for reasons such as characters that aren't valid, duplicate keys, truncation, and any content whose root node isn't an object or an array.  WAF parses the JSON in the following examples as two valid key, value pairs:    Missing comma: {"key1":"value1""key2":"value2"}    Missing colon: {"key1":"value1","key2""value2"}    Extra colons: {"key1"::"value1","key2""value2"}
+        /// What WAF should do if it fails to completely parse the JSON body. The options are the following:    EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters.  WAF does its best to parse the entire JSON body, but might be forced to stop for reasons such as invalid characters, duplicate keys, truncation, and any content whose root node isn't an object or an array.  WAF parses the JSON in the following examples as two valid key, value pairs:    Missing comma: {"key1":"value1""key2":"value2"}    Missing colon: {"key1":"value1","key2""value2"}    Extra colons: {"key1"::"value1","key2""value2"}
         public let invalidFallbackBehavior: BodyParsingFallbackBehavior?
         /// The patterns to look for in the JSON body. WAF inspects the results of these pattern matches against the rule inspection criteria.
         public let matchPattern: JsonMatchPattern
@@ -2223,6 +2285,66 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct ListAvailableManagedRuleGroupVersionsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
+        public let limit: Int?
+        /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
+        public let name: String
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+        public let scope: Scope
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+        public let vendorName: String
+
+        public init(limit: Int? = nil, name: String, nextMarker: String? = nil, scope: Scope, vendorName: String) {
+            self.limit = limit
+            self.name = name
+            self.nextMarker = nextMarker
+            self.scope = scope
+            self.vendorName = vendorName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
+            try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
+            try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case name = "Name"
+            case nextMarker = "NextMarker"
+            case scope = "Scope"
+            case vendorName = "VendorName"
+        }
+    }
+
+    public struct ListAvailableManagedRuleGroupVersionsResponse: AWSDecodableShape {
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// The versions that are currently available for the specified managed rule group.
+        public let versions: [ManagedRuleGroupVersion]?
+
+        public init(nextMarker: String? = nil, versions: [ManagedRuleGroupVersion]? = nil) {
+            self.nextMarker = nextMarker
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case versions = "Versions"
         }
     }
 
@@ -2358,6 +2480,52 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case loggingConfigurations = "LoggingConfigurations"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListManagedRuleSetsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
+        public let limit: Int?
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+        public let scope: Scope
+
+        public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case scope = "Scope"
+        }
+    }
+
+    public struct ListManagedRuleSetsResponse: AWSDecodableShape {
+        /// Your managed rule sets.
+        public let managedRuleSets: [ManagedRuleSetSummary]?
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+
+        public init(managedRuleSets: [ManagedRuleSetSummary]? = nil, nextMarker: String? = nil) {
+            self.managedRuleSets = managedRuleSets
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedRuleSets = "ManagedRuleSets"
             case nextMarker = "NextMarker"
         }
     }
@@ -2662,12 +2830,15 @@ extension WAFV2 {
         public let scopeDownStatement: Statement?
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
         public let vendorName: String
+        /// The version of the managed rule group to use. If you specify this, the version setting is fixed until you change it. If you don't specify this, WAF uses the vendor's default version, and then keeps the version at the vendor's default when the vendor updates the managed rule group settings.
+        public let version: String?
 
-        public init(excludedRules: [ExcludedRule]? = nil, name: String, scopeDownStatement: Statement? = nil, vendorName: String) {
+        public init(excludedRules: [ExcludedRule]? = nil, name: String, scopeDownStatement: Statement? = nil, vendorName: String, version: String? = nil) {
             self.excludedRules = excludedRules
             self.name = name
             self.scopeDownStatement = scopeDownStatement
             self.vendorName = vendorName
+            self.version = version
         }
 
         public func validate(name: String) throws {
@@ -2681,6 +2852,9 @@ extension WAFV2 {
             try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
             try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
             try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.version, name: "version", parent: name, max: 64)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2688,6 +2862,7 @@ extension WAFV2 {
             case name = "Name"
             case scopeDownStatement = "ScopeDownStatement"
             case vendorName = "VendorName"
+            case version = "Version"
         }
     }
 
@@ -2709,6 +2884,126 @@ extension WAFV2 {
             case description = "Description"
             case name = "Name"
             case vendorName = "VendorName"
+        }
+    }
+
+    public struct ManagedRuleGroupVersion: AWSDecodableShape {
+        /// The date and time that the managed rule group owner updated the rule group version information.
+        public let lastUpdateTimestamp: Date?
+        /// The version name.
+        public let name: String?
+
+        public init(lastUpdateTimestamp: Date? = nil, name: String? = nil) {
+            self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case name = "Name"
+        }
+    }
+
+    public struct ManagedRuleSet: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the entity.
+        public let arn: String
+        /// A description of the set that helps with identification.
+        public let description: String?
+        /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
+        public let id: String
+        /// The label namespace prefix for the managed rule groups that are offered to customers from this managed rule set. All labels that are added by rules in the managed rule group have this prefix.    The syntax for the label namespace prefix for a managed rule group is the following:   awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;:   When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   &lt;label namespace&gt;:&lt;label from rule&gt;
+        public let labelNamespace: String?
+        /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
+        public let name: String
+        /// The versions of this managed rule set that are available for use by customers.
+        public let publishedVersions: [String: ManagedRuleSetVersion]?
+        /// The version that you would like your customers to use.
+        public let recommendedVersion: String?
+
+        public init(arn: String, description: String? = nil, id: String, labelNamespace: String? = nil, name: String, publishedVersions: [String: ManagedRuleSetVersion]? = nil, recommendedVersion: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.labelNamespace = labelNamespace
+            self.name = name
+            self.publishedVersions = publishedVersions
+            self.recommendedVersion = recommendedVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case description = "Description"
+            case id = "Id"
+            case labelNamespace = "LabelNamespace"
+            case name = "Name"
+            case publishedVersions = "PublishedVersions"
+            case recommendedVersion = "RecommendedVersion"
+        }
+    }
+
+    public struct ManagedRuleSetSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the entity.
+        public let arn: String?
+        /// A description of the set that helps with identification.
+        public let description: String?
+        /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
+        public let id: String?
+        /// The label namespace prefix for the managed rule groups that are offered to customers from this managed rule set. All labels that are added by rules in the managed rule group have this prefix.    The syntax for the label namespace prefix for a managed rule group is the following:   awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;:   When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   &lt;label namespace&gt;:&lt;label from rule&gt;
+        public let labelNamespace: String?
+        /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+        public let lockToken: String?
+        /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
+        public let name: String?
+
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, labelNamespace: String? = nil, lockToken: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.labelNamespace = labelNamespace
+            self.lockToken = lockToken
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case description = "Description"
+            case id = "Id"
+            case labelNamespace = "LabelNamespace"
+            case lockToken = "LockToken"
+            case name = "Name"
+        }
+    }
+
+    public struct ManagedRuleSetVersion: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the vendor rule group that's used to define the published version of your managed rule group.
+        public let associatedRuleGroupArn: String?
+        /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
+        public let capacity: Int64?
+        /// The time that this version is set to expire. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
+        public let expiryTimestamp: Date?
+        /// The amount of time you expect this version of your managed rule group to last, in days.
+        public let forecastedLifetime: Int?
+        /// The last time that you updated this version.  Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
+        public let lastUpdateTimestamp: Date?
+        /// The time that you first published this version.  Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
+        public let publishTimestamp: Date?
+
+        public init(associatedRuleGroupArn: String? = nil, capacity: Int64? = nil, expiryTimestamp: Date? = nil, forecastedLifetime: Int? = nil, lastUpdateTimestamp: Date? = nil, publishTimestamp: Date? = nil) {
+            self.associatedRuleGroupArn = associatedRuleGroupArn
+            self.capacity = capacity
+            self.expiryTimestamp = expiryTimestamp
+            self.forecastedLifetime = forecastedLifetime
+            self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.publishTimestamp = publishTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedRuleGroupArn = "AssociatedRuleGroupArn"
+            case capacity = "Capacity"
+            case expiryTimestamp = "ExpiryTimestamp"
+            case forecastedLifetime = "ForecastedLifetime"
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case publishTimestamp = "PublishTimestamp"
         }
     }
 
@@ -2805,6 +3100,73 @@ extension WAFV2 {
         }
     }
 
+    public struct PutManagedRuleSetVersionsRequest: AWSEncodableShape {
+        /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
+        public let id: String
+        /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+        public let lockToken: String
+        /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
+        public let name: String
+        /// The version of the named managed rule group that you'd like your customers to choose, from among your version offerings.
+        public let recommendedVersion: String?
+        /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+        public let scope: Scope
+        /// The versions of the named managed rule group that you want to offer to your customers.
+        public let versionsToPublish: [String: VersionToPublish]?
+
+        public init(id: String, lockToken: String, name: String, recommendedVersion: String? = nil, scope: Scope, versionsToPublish: [String: VersionToPublish]? = nil) {
+            self.id = id
+            self.lockToken = lockToken
+            self.name = name
+            self.recommendedVersion = recommendedVersion
+            self.scope = scope
+            self.versionsToPublish = versionsToPublish
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
+            try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
+            try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.recommendedVersion, name: "recommendedVersion", parent: name, max: 64)
+            try self.validate(self.recommendedVersion, name: "recommendedVersion", parent: name, min: 1)
+            try self.validate(self.recommendedVersion, name: "recommendedVersion", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
+            try self.versionsToPublish?.forEach {
+                try validate($0.key, name: "versionsToPublish.key", parent: name, max: 64)
+                try validate($0.key, name: "versionsToPublish.key", parent: name, min: 1)
+                try validate($0.key, name: "versionsToPublish.key", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
+                try $0.value.validate(name: "\(name).versionsToPublish[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case lockToken = "LockToken"
+            case name = "Name"
+            case recommendedVersion = "RecommendedVersion"
+            case scope = "Scope"
+            case versionsToPublish = "VersionsToPublish"
+        }
+    }
+
+    public struct PutManagedRuleSetVersionsResponse: AWSDecodableShape {
+        /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+        public let nextLockToken: String?
+
+        public init(nextLockToken: String? = nil) {
+            self.nextLockToken = nextLockToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextLockToken = "NextLockToken"
+        }
+    }
+
     public struct PutPermissionPolicyRequest: AWSEncodableShape {
         /// The policy to attach to the specified rule group.  The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups. WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
         public let policy: String
@@ -2874,6 +3236,7 @@ extension WAFV2 {
     public struct RateBasedStatementManagedKeysIPSet: AWSDecodableShape {
         /// The IP addresses that are currently blocked.
         public let addresses: [String]?
+        /// The version of the IP addresses, either IPV4 or IPV6.
         public let iPAddressVersion: IPAddressVersion?
 
         public init(addresses: [String]? = nil, iPAddressVersion: IPAddressVersion? = nil) {
@@ -3497,7 +3860,7 @@ extension WAFV2 {
     public struct TextTransformation: AWSEncodableShape & AWSDecodableShape {
         /// Sets the relative processing order for multiple transformations that are defined for a rule statement. WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different.
         public let priority: Int
-        /// You can specify the following transformation types:  BASE64_DECODE - Decode a Base64-encoded string.  BASE64_DECODE_EXT - Decode a Base64-encoded string, but use a forgiving implementation that ignores characters that aren't valid.  CMD_LINE - Command-line transformations. These are helpful in reducing effectiveness of attackers who inject an operating system command-line command and use unusual formatting to disguise some or all of the command.    Delete the following characters: \ " ' ^    Delete spaces before the following characters: / (    Replace the following characters with a space: , ;    Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE - Replace these characters with a space character (decimal 32):     \f, formfeed, decimal 12    \t, tab, decimal 9    \n, newline, decimal 10    \r, carriage return, decimal 13    \v, vertical tab, decimal 11   Non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  CSS_DECODE - Decode characters that were encoded using CSS 2.x escape rules syndata.html#characters. This function uses up to two bytes in the decoding process, so it can help to uncover ASCII characters that were encoded using CSS encoding that wouldn’t typically be encoded. It's also useful in countering evasion, which is a combination of a backslash and non-hexadecimal characters. For example, ja\vascript for javascript.   ESCAPE_SEQ_DECODE - Decode the following ANSI C escape sequences: \a, \b, \f, \n, \r, \t, \v, \\, \?, \', \", \xHH (hexadecimal), \0OOO (octal). Encodings that aren't valid remain in the output.   HEX_DECODE - Decode a string of hexadecimal characters into a binary.  HTML_ENTITY_DECODE - Replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs these operations:    Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    JS_DECODE - Decode JavaScript escape sequences. If a \ u HHHH code is in the full-width ASCII code range of FF01-FF5E, then the higher byte is used to detect and adjust the lower byte. If not, only the lower byte is used and the higher byte is zeroed, causing a possible loss of information.   LOWERCASE - Convert uppercase letters (A-Z) to lowercase (a-z).   MD5 - Calculate an MD5 hash from the data in the input. The computed hash is in a raw binary form.   NONE - Specify NONE if you don't want any text transformations.   NORMALIZE_PATH - Remove multiple slashes, directory self-references, and directory back-references that are not at the beginning of the input from an input string.   NORMALIZE_PATH_WIN - This is the same as NORMALIZE_PATH, but first converts backslash characters to forward slashes.   REMOVE_NULLS - Remove all NULL bytes from the input.   REPLACE_COMMENTS - Replace each occurrence of a C-style comment (/* ... */) with a single space. Multiple consecutive occurrences are not compressed. Unterminated comments are also replaced with a space (ASCII 0x20). However, a standalone termination of a comment (*/) is not acted upon.   REPLACE_NULLS - Replace NULL bytes in the input with space characters (ASCII 0x20).   SQL_HEX_DECODE - Decode the following ANSI C escape sequences: \a, \b, \f, \n, \r, \t, \v, \\, \?, \', \", \xHH (hexadecimal), \0OOO (octal). Encodings that aren't valid remain in the output.  URL_DECODE - Decode a URL-encoded value.   URL_DECODE_UNI - Like URL_DECODE, but with support for Microsoft-specific %u encoding. If the code is in the full-width ASCII code range of FF01-FF5E, the higher byte is used to detect and adjust the lower byte. Otherwise, only the lower byte is used and the higher byte is zeroed.   UTF8_TO_UNICODE - Convert all UTF-8 character sequences to Unicode. This helps input normalization, and minimizing false-positives and false-negatives for non-English languages.
+        /// You can specify the following transformation types:  BASE64_DECODE - Decode a Base64-encoded string.  BASE64_DECODE_EXT - Decode a Base64-encoded string, but use a forgiving implementation that ignores characters that aren't valid.  CMD_LINE - Command-line transformations. These are helpful in reducing effectiveness of attackers who inject an operating system command-line command and use unusual formatting to disguise some or all of the command.    Delete the following characters: \ " ' ^    Delete spaces before the following characters: / (    Replace the following characters with a space: , ;    Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE - Replace these characters with a space character (decimal 32):     \f, formfeed, decimal 12    \t, tab, decimal 9    \n, newline, decimal 10    \r, carriage return, decimal 13    \v, vertical tab, decimal 11   Non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  CSS_DECODE - Decode characters that were encoded using CSS 2.x escape rules syndata.html#characters. This function uses up to two bytes in the decoding process, so it can help to uncover ASCII characters that were encoded using CSS encoding that wouldn’t typically be encoded. It's also useful in countering evasion, which is a combination of a backslash and non-hexadecimal characters. For example, ja\vascript for javascript.   ESCAPE_SEQ_DECODE - Decode the following ANSI C escape sequences: \a, \b, \f, \n, \r, \t, \v, \\, \?, \', \", \xHH (hexadecimal), \0OOO (octal). Encodings that aren't valid remain in the output.   HEX_DECODE - Decode a string of hexadecimal characters into a binary.  HTML_ENTITY_DECODE - Replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs these operations:    Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    JS_DECODE - Decode JavaScript escape sequences. If a \ u HHHH code is in the full-width ASCII code range of FF01-FF5E, then the higher byte is used to detect and adjust the lower byte. If not, only the lower byte is used and the higher byte is zeroed, causing a possible loss of information.   LOWERCASE - Convert uppercase letters (A-Z) to lowercase (a-z).   MD5 - Calculate an MD5 hash from the data in the input. The computed hash is in a raw binary form.   NONE - Specify NONE if you don't want any text transformations.   NORMALIZE_PATH - Remove multiple slashes, directory self-references, and directory back-references that are not at the beginning of the input from an input string.   NORMALIZE_PATH_WIN - This is the same as NORMALIZE_PATH, but first converts backslash characters to forward slashes.   REMOVE_NULLS - Remove all NULL bytes from the input.   REPLACE_COMMENTS - Replace each occurrence of a C-style comment (/* ... */) with a single space. Multiple consecutive occurrences are not compressed. Unterminated comments are also replaced with a space (ASCII 0x20). However, a standalone termination of a comment (*/) is not acted upon.   REPLACE_NULLS - Replace NULL bytes in the input with space characters (ASCII 0x20).   SQL_HEX_DECODE - Decode SQL hex data. Example (0x414243) will be decoded to (ABC).  URL_DECODE - Decode a URL-encoded value.   URL_DECODE_UNI - Like URL_DECODE, but with support for Microsoft-specific %u encoding. If the code is in the full-width ASCII code range of FF01-FF5E, the higher byte is used to detect and adjust the lower byte. Otherwise, only the lower byte is used and the higher byte is zeroed.   UTF8_TO_UNICODE - Convert all UTF-8 character sequences to Unicode. This helps input normalization, and minimizing false-positives and false-negatives for non-English languages.
         public let type: TextTransformationType
 
         public init(priority: Int, type: TextTransformationType) {
@@ -3627,6 +3990,75 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextLockToken = "NextLockToken"
+        }
+    }
+
+    public struct UpdateManagedRuleSetVersionExpiryDateRequest: AWSEncodableShape {
+        /// The time that you want the version to expire. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
+        public let expiryTimestamp: Date
+        /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
+        public let id: String
+        /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+        public let lockToken: String
+        /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
+        public let name: String
+        /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+        public let scope: Scope
+        /// The version that you want to remove from your list of offerings for the named managed rule group.
+        public let versionToExpire: String
+
+        public init(expiryTimestamp: Date, id: String, lockToken: String, name: String, scope: Scope, versionToExpire: String) {
+            self.expiryTimestamp = expiryTimestamp
+            self.id = id
+            self.lockToken = lockToken
+            self.name = name
+            self.scope = scope
+            self.versionToExpire = versionToExpire
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
+            try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
+            try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.versionToExpire, name: "versionToExpire", parent: name, max: 64)
+            try self.validate(self.versionToExpire, name: "versionToExpire", parent: name, min: 1)
+            try self.validate(self.versionToExpire, name: "versionToExpire", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryTimestamp = "ExpiryTimestamp"
+            case id = "Id"
+            case lockToken = "LockToken"
+            case name = "Name"
+            case scope = "Scope"
+            case versionToExpire = "VersionToExpire"
+        }
+    }
+
+    public struct UpdateManagedRuleSetVersionExpiryDateResponse: AWSDecodableShape {
+        /// The version that is set to expire.
+        public let expiringVersion: String?
+        /// The time that the version will expire.  Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
+        public let expiryTimestamp: Date?
+        /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+        public let nextLockToken: String?
+
+        public init(expiringVersion: String? = nil, expiryTimestamp: Date? = nil, nextLockToken: String? = nil) {
+            self.expiringVersion = expiringVersion
+            self.expiryTimestamp = expiryTimestamp
+            self.nextLockToken = nextLockToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiringVersion = "ExpiringVersion"
+            case expiryTimestamp = "ExpiryTimestamp"
             case nextLockToken = "NextLockToken"
         }
     }
@@ -3859,6 +4291,30 @@ extension WAFV2 {
 
     public struct UriPath: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct VersionToPublish: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the vendor's rule group that's used in the published managed rule group version.
+        public let associatedRuleGroupArn: String?
+        /// The amount of time the vendor expects this version of the managed rule group to last, in days.
+        public let forecastedLifetime: Int?
+
+        public init(associatedRuleGroupArn: String? = nil, forecastedLifetime: Int? = nil) {
+            self.associatedRuleGroupArn = associatedRuleGroupArn
+            self.forecastedLifetime = forecastedLifetime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associatedRuleGroupArn, name: "associatedRuleGroupArn", parent: name, max: 2048)
+            try self.validate(self.associatedRuleGroupArn, name: "associatedRuleGroupArn", parent: name, min: 20)
+            try self.validate(self.associatedRuleGroupArn, name: "associatedRuleGroupArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.forecastedLifetime, name: "forecastedLifetime", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedRuleGroupArn = "AssociatedRuleGroupArn"
+            case forecastedLifetime = "ForecastedLifetime"
+        }
     }
 
     public struct VisibilityConfig: AWSEncodableShape & AWSDecodableShape {

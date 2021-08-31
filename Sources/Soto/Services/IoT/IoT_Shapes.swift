@@ -3615,7 +3615,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, max: 3600)
+            try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, max: 43200)
             try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, min: 900)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, max: 128)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, min: 1)
@@ -14725,7 +14725,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, max: 3600)
+            try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, max: 43200)
             try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, min: 900)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, max: 128)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, min: 1)

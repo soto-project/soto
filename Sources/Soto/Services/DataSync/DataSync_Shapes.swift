@@ -255,7 +255,7 @@ extension DataSync {
     }
 
     public struct CreateAgentRequest: AWSEncodableShape {
-        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the AWS DataSync User Guide.
+        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the DataSync User Guide.
         public let activationKey: String
         /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
         public let agentName: String?
@@ -314,7 +314,7 @@ extension DataSync {
     }
 
     public struct CreateAgentResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and AWS Region.
+        /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
         public let agentArn: String?
 
         public init(agentArn: String? = nil) {
@@ -331,7 +331,7 @@ extension DataSync {
         public let ec2Config: Ec2Config
         /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
         public let efsFilesystemArn: String
-        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.
+        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
@@ -454,11 +454,11 @@ extension DataSync {
     public struct CreateLocationNfsRequest: AWSEncodableShape {
         /// The NFS mount options that DataSync can use to mount your NFS share.
         public let mountOptions: NfsMountOptions?
-        /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.
+        /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.
         public let onPremConfig: OnPremConfig
-        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
+        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
         public let serverHostname: String
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
@@ -594,12 +594,12 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Request: AWSEncodableShape {
-        /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see Deploy your DataSync agent on AWS Outposts.
+        /// If you are using DataSync on an Amazon Web Services Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy your DataSync agent on Outposts.
         public let agentArns: [String]?
-        /// The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
+        /// The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web Services Outpost, this must be an access point ARN.
         public let s3BucketArn: String
         public let s3Config: S3Config
-        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with S3 storage classes in DataSync.
+        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in Amazon Web Services Regions, the storage class defaults to Standard. For buckets on Outposts, the storage class defaults to Amazon Web Services S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with S3 storage classes in DataSync.
         public let s3StorageClass: S3StorageClass?
         /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
         public let subdirectory: String?
@@ -738,10 +738,12 @@ extension DataSync {
     public struct CreateTaskRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.
         public let cloudWatchLogGroupArn: String?
-        /// The Amazon Resource Name (ARN) of an AWS storage resource's location.
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services storage resource's location.
         public let destinationLocationArn: String
         /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
+        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        public let includes: [FilterRule]?
         /// The name of a task. This value is a text reference that is used to identify the task in the console.
         public let name: String?
         /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting the task execution. For more information, see the StartTaskExecution operation.
@@ -753,10 +755,11 @@ extension DataSync {
         /// The key-value pair that represents the tag that you want to add to the resource. The value can be an empty string.
         public let tags: [TagListEntry]?
 
-        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.destinationLocationArn = destinationLocationArn
             self.excludes = excludes
+            self.includes = includes
             self.name = name
             self.options = options
             self.schedule = schedule
@@ -774,6 +777,11 @@ extension DataSync {
             }
             try self.validate(self.excludes, name: "excludes", parent: name, max: 1)
             try self.validate(self.excludes, name: "excludes", parent: name, min: 0)
+            try self.includes?.forEach {
+                try $0.validate(name: "\(name).includes[]")
+            }
+            try self.validate(self.includes, name: "includes", parent: name, max: 1)
+            try self.validate(self.includes, name: "includes", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
@@ -792,6 +800,7 @@ extension DataSync {
             case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
             case destinationLocationArn = "DestinationLocationArn"
             case excludes = "Excludes"
+            case includes = "Includes"
             case name = "Name"
             case options = "Options"
             case schedule = "Schedule"
@@ -814,7 +823,7 @@ extension DataSync {
     }
 
     public struct DeleteAgentRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
+        /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
         public let agentArn: String
 
         public init(agentArn: String) {
@@ -1147,7 +1156,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationS3Response: AWSDecodableShape {
-        /// If you are using DataSync on an AWS Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see Deploy your DataSync agent on AWS Outposts.
+        /// If you are using DataSync on an Amazon Web Services Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your Outpost. For more information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy your DataSync agent on Outposts.
         public let agentArns: [String]?
         /// The time that the Amazon S3 bucket location was created.
         public let creationTime: Date?
@@ -1254,7 +1263,7 @@ extension DataSync {
     public struct DescribeTaskExecutionResponse: AWSDecodableShape {
         /// The physical number of bytes transferred over the network.
         public let bytesTransferred: Int64?
-        /// The number of logical bytes written to the destination AWS storage resource.
+        /// The number of logical bytes written to the destination Amazon Web Services storage resource.
         public let bytesWritten: Int64?
         /// The estimated physical number of bytes that is to be transferred over the network.
         public let estimatedBytesToTransfer: Int64?
@@ -1271,7 +1280,7 @@ extension DataSync {
         public let result: TaskExecutionResultDetail?
         /// The time that the task execution was started.
         public let startTime: Date?
-        /// The status of the task execution.  For detailed information about task execution statuses, see Understanding Task Statuses in the AWS DataSync User Guide.
+        /// The status of the task execution.  For detailed information about task execution statuses, see Understanding Task Statuses in the DataSync User Guide.
         public let status: TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
         public let taskExecutionArn: String?
@@ -1332,16 +1341,18 @@ extension DataSync {
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the task execution that is syncing files.
         public let currentTaskExecutionArn: String?
-        /// The Amazon Resource Name (ARN) of the AWS storage resource's location.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services storage resource's location.
         public let destinationLocationArn: String?
         /// The Amazon Resource Name (ARN) of the destination ENIs (Elastic Network Interface) that was created for your subnet.
         public let destinationNetworkInterfaceArns: [String]?
-        /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
+        /// Errors that DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public let errorCode: String?
         /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues.
         public let errorDetail: String?
         /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"
         public let excludes: [FilterRule]?
+        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        public let includes: [FilterRule]?
         /// The name of the task that was described.
         public let name: String?
         /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the overriding OverrideOptions value to StartTaskExecution operation.
@@ -1352,12 +1363,12 @@ extension DataSync {
         public let sourceLocationArn: String?
         /// The Amazon Resource Name (ARN) of the source ENIs (Elastic Network Interface) that was created for your subnet.
         public let sourceNetworkInterfaceArns: [String]?
-        /// The status of the task that was described. For detailed information about task execution statuses, see Understanding Task Statuses in the AWS DataSync User Guide.
+        /// The status of the task that was described. For detailed information about task execution statuses, see Understanding Task Statuses in the DataSync User Guide.
         public let status: TaskStatus?
         /// The Amazon Resource Name (ARN) of the task that was described.
         public let taskArn: String?
 
-        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
             self.currentTaskExecutionArn = currentTaskExecutionArn
@@ -1366,6 +1377,7 @@ extension DataSync {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
             self.excludes = excludes
+            self.includes = includes
             self.name = name
             self.options = options
             self.schedule = schedule
@@ -1384,6 +1396,7 @@ extension DataSync {
             case errorCode = "ErrorCode"
             case errorDetail = "ErrorDetail"
             case excludes = "Excludes"
+            case includes = "Includes"
             case name = "Name"
             case options = "Options"
             case schedule = "Schedule"
@@ -1423,7 +1436,7 @@ extension DataSync {
     }
 
     public struct FilterRule: AWSEncodableShape & AWSDecodableShape {
-        /// The type of filter rule to apply. AWS DataSync only supports the SIMPLE_PATTERN rule type.
+        /// The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN rule type.
         public let filterType: FilterType?
         /// A single filter string that consists of the patterns to include or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2
         public let value: String?
@@ -1757,9 +1770,9 @@ extension DataSync {
     }
 
     public struct Options: AWSEncodableShape & AWSDecodableShape {
-        /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so AWS DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
+        /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
         public let atime: Atime?
-        /// A value that limits the bandwidth used by AWS DataSync. For example, if you want AWS DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
+        /// A value that limits the bandwidth used by DataSync. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
         public let bytesPerSecond: Int64?
         /// The POSIX group ID (GID) of the file's owners. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID.
         public let gid: Gid?
@@ -1767,13 +1780,13 @@ extension DataSync {
         public let logLevel: LogLevel?
         /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase. This option is required for cases when you need to run the same task more than one time.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
         public let mtime: Mtime?
-        /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the AWS DataSync User Guide.
+        /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the DataSync User Guide.
         public let overwriteMode: OverwriteMode?
-        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   AWS DataSync can preserve extant permissions of a source location.
+        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   DataSync can preserve extant permissions of a source location.
         public let posixPermissions: PosixPermissions?
-        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the AWS DataSync User Guide. Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
+        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the DataSync User Guide. Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
         public let preserveDeletedFiles: PreserveDeletedFiles?
-        /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and re-create the files with that device name and metadata on the destination. DataSync does not copy the contents of such devices, only the name and metadata.   AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS.
+        /// A value that determines whether DataSync should preserve the metadata of block and character devices in the source file system, and re-create the files with that device name and metadata on the destination. DataSync does not copy the contents of such devices, only the name and metadata.   DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS.
         public let preserveDevices: PreserveDevices?
         /// A value that determines which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers between SMB and Amazon FSx for Windows File Server locations, or between two Amazon FSx for Windows File Server locations. For more information about how DataSync handles metadata, see How DataSync Handles Metadata and Special Files.  Default value: OWNER_DACL.  OWNER_DACL: For each copied object, DataSync copies the following metadata:   Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   When choosing this option, DataSync does NOT copy the NTFS system access control lists (SACLs), which are used by administrators to log attempts to access a secured object.  OWNER_DACL_SACL: For each copied object, DataSync copies the following metadata:   Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   NTFS system access control lists (SACLs), which are used by administrators to log attempts to access a secured object.   Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user that ensures sufficient permissions to files, folders, and metadata, see user.  NONE: None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
         public let securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags?
@@ -1882,19 +1895,27 @@ extension DataSync {
     }
 
     public struct StartTaskExecutionRequest: AWSEncodableShape {
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
+        public let excludes: [FilterRule]?
         /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
         public let includes: [FilterRule]?
         public let overrideOptions: Options?
         /// The Amazon Resource Name (ARN) of the task to start.
         public let taskArn: String
 
-        public init(includes: [FilterRule]? = nil, overrideOptions: Options? = nil, taskArn: String) {
+        public init(excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, overrideOptions: Options? = nil, taskArn: String) {
+            self.excludes = excludes
             self.includes = includes
             self.overrideOptions = overrideOptions
             self.taskArn = taskArn
         }
 
         public func validate(name: String) throws {
+            try self.excludes?.forEach {
+                try $0.validate(name: "\(name).excludes[]")
+            }
+            try self.validate(self.excludes, name: "excludes", parent: name, max: 1)
+            try self.validate(self.excludes, name: "excludes", parent: name, min: 0)
             try self.includes?.forEach {
                 try $0.validate(name: "\(name).includes[]")
             }
@@ -1906,6 +1927,7 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case excludes = "Excludes"
             case includes = "Includes"
             case overrideOptions = "OverrideOptions"
             case taskArn = "TaskArn"
@@ -1926,9 +1948,9 @@ extension DataSync {
     }
 
     public struct TagListEntry: AWSEncodableShape & AWSDecodableShape {
-        /// The key for an AWS resource tag.
+        /// The key for an Amazon Web Services resource tag.
         public let key: String
-        /// The value for an AWS resource tag.
+        /// The value for an Amazon Web Services resource tag.
         public let value: String?
 
         public init(key: String, value: String? = nil) {
@@ -2000,21 +2022,21 @@ extension DataSync {
     }
 
     public struct TaskExecutionResultDetail: AWSDecodableShape {
-        /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
+        /// Errors that DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public let errorCode: String?
         /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues.
         public let errorDetail: String?
-        /// The total time in milliseconds that AWS DataSync spent in the PREPARING phase.
+        /// The total time in milliseconds that DataSync spent in the PREPARING phase.
         public let prepareDuration: Int64?
         /// The status of the PREPARING phase.
         public let prepareStatus: PhaseStatus?
-        /// The total time in milliseconds that AWS DataSync took to transfer the file from the source to the destination location.
+        /// The total time in milliseconds that DataSync took to transfer the file from the source to the destination location.
         public let totalDuration: Int64?
-        /// The total time in milliseconds that AWS DataSync spent in the TRANSFERRING phase.
+        /// The total time in milliseconds that DataSync spent in the TRANSFERRING phase.
         public let transferDuration: Int64?
         /// The status of the TRANSFERRING phase.
         public let transferStatus: PhaseStatus?
-        /// The total time in milliseconds that AWS DataSync spent in the VERIFYING phase.
+        /// The total time in milliseconds that DataSync spent in the VERIFYING phase.
         public let verifyDuration: Int64?
         /// The status of the VERIFYING phase.
         public let verifyStatus: PhaseStatus?
@@ -2095,7 +2117,7 @@ extension DataSync {
     }
 
     public struct TaskSchedule: AWSEncodableShape & AWSDecodableShape {
-        /// A cron expression that specifies when AWS DataSync initiates a scheduled transfer from a source to a destination location.
+        /// A cron expression that specifies when DataSync initiates a scheduled transfer from a source to a destination location.
         public let scheduleExpression: String
 
         public init(scheduleExpression: String) {
@@ -2179,7 +2201,7 @@ extension DataSync {
         public let locationArn: String
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
         public let subdirectory: String?
 
         public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, subdirectory: String? = nil) {
@@ -2361,6 +2383,8 @@ extension DataSync {
         public let cloudWatchLogGroupArn: String?
         /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"
         public let excludes: [FilterRule]?
+        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        public let includes: [FilterRule]?
         /// The name of the task to update.
         public let name: String?
         public let options: Options?
@@ -2369,9 +2393,10 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the resource name of the task to update.
         public let taskArn: String
 
-        public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, taskArn: String) {
+        public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, taskArn: String) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.excludes = excludes
+            self.includes = includes
             self.name = name
             self.options = options
             self.schedule = schedule
@@ -2386,6 +2411,11 @@ extension DataSync {
             }
             try self.validate(self.excludes, name: "excludes", parent: name, max: 1)
             try self.validate(self.excludes, name: "excludes", parent: name, min: 0)
+            try self.includes?.forEach {
+                try $0.validate(name: "\(name).includes[]")
+            }
+            try self.validate(self.includes, name: "includes", parent: name, max: 1)
+            try self.validate(self.includes, name: "includes", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
@@ -2398,6 +2428,7 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
             case excludes = "Excludes"
+            case includes = "Includes"
             case name = "Name"
             case options = "Options"
             case schedule = "Schedule"

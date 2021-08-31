@@ -177,7 +177,7 @@ extension DLM {
         public let interval: Int?
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues?
-        /// Specifies the destination for snapshots created by the policy. To create snapshots in the same Region as the source resource, specify CLOUD. To create snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL. If you omit this parameter, CLOUD is used by default. If the policy targets resources in an AWS Region, then you must create snapshots in the same Region as the source resource.  If the policy targets resources on an Outpost, then you can create snapshots on the same Outpost as the source resource, or in the Region of that Outpost.
+        /// Specifies the destination for snapshots created by the policy. To create snapshots in the same Region as the source resource, specify CLOUD. To create snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL. If you omit this parameter, CLOUD is used by default. If the policy targets resources in an Amazon Web Services Region, then you must create snapshots in the same Region as the source resource. If the policy targets resources on an Outpost, then you can create snapshots on the same Outpost as the source resource, or in the Region of that Outpost.
         public let location: LocationValues?
         /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time. If you do not specify a time, Amazon DLM selects a time within the next 24 hours.
         public let times: [String]?
@@ -240,6 +240,27 @@ extension DLM {
         }
     }
 
+    public struct CrossRegionCopyDeprecateRule: AWSEncodableShape & AWSDecodableShape {
+        /// The period after which to deprecate the cross-Region AMI copies. The period must be less than or equal to the cross-Region AMI copy retention period, and it can't be greater than 10 years. This is equivalent to 120 months, 520 weeks, or 3650 days.
+        public let interval: Int?
+        /// The unit of time in which to measure the Interval.
+        public let intervalUnit: RetentionIntervalUnitValues?
+
+        public init(interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.interval = interval
+            self.intervalUnit = intervalUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.interval, name: "interval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
+        }
+    }
+
     public struct CrossRegionCopyRetainRule: AWSEncodableShape & AWSDecodableShape {
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
         public let interval: Int?
@@ -262,22 +283,25 @@ extension DLM {
     }
 
     public struct CrossRegionCopyRule: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
+        /// The Amazon Resource Name (ARN) of the KMS key to use for EBS encryption. If this parameter is not specified, the default KMS key for the account is used.
         public let cmkArn: String?
-        /// Copy all user-defined tags from the source snapshot to the copied snapshot.
+        /// Indicates whether to copy all user-defined tags from the source snapshot to the cross-Region snapshot copy.
         public let copyTags: Bool?
+        /// The AMI deprecation rule for cross-Region AMI copies created by the rule.
+        public let deprecateRule: CrossRegionCopyDeprecateRule?
         /// To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter. Copies of encrypted snapshots are encrypted, even if this parameter is false or if encryption by default is not enabled.
         public let encrypted: Bool
-        /// The retention rule.
+        /// The retention rule that indicates how long snapshot copies are to be retained in the destination Region.
         public let retainRule: CrossRegionCopyRetainRule?
-        /// The Amazon Resource Name (ARN) of the target AWS Outpost for the snapshot copies. If you specify an ARN, you must omit TargetRegion. You cannot specify a target Region and a target Outpost in the same rule.
+        /// The target Region or the Amazon Resource Name (ARN) of the target Outpost for the snapshot copies. Use this parameter instead of TargetRegion. Do not specify both.
         public let target: String?
-        /// The target Region for the snapshot copies. If you specify a target Region, you must omit Target. You cannot specify a target Region and a target Outpost in the same rule.
+        /// Avoid using this parameter when creating new policies. Instead, use Target to specify a target Region or a target Outpost for snapshot copies. For policies created before the Target parameter was introduced, this parameter indicates the target Region for snapshot copies.
         public let targetRegion: String?
 
-        public init(cmkArn: String? = nil, copyTags: Bool? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
+        public init(cmkArn: String? = nil, copyTags: Bool? = nil, deprecateRule: CrossRegionCopyDeprecateRule? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
             self.cmkArn = cmkArn
             self.copyTags = copyTags
+            self.deprecateRule = deprecateRule
             self.encrypted = encrypted
             self.retainRule = retainRule
             self.target = target
@@ -288,6 +312,7 @@ extension DLM {
             try self.validate(self.cmkArn, name: "cmkArn", parent: name, max: 2048)
             try self.validate(self.cmkArn, name: "cmkArn", parent: name, min: 0)
             try self.validate(self.cmkArn, name: "cmkArn", parent: name, pattern: "arn:aws(-[a-z]{1,3}){0,2}:kms:([a-z]+-){2,3}\\d:\\d+:key/.*")
+            try self.deprecateRule?.validate(name: "\(name).deprecateRule")
             try self.retainRule?.validate(name: "\(name).retainRule")
             try self.validate(self.target, name: "target", parent: name, max: 2048)
             try self.validate(self.target, name: "target", parent: name, min: 0)
@@ -300,6 +325,7 @@ extension DLM {
         private enum CodingKeys: String, CodingKey {
             case cmkArn = "CmkArn"
             case copyTags = "CopyTags"
+            case deprecateRule = "DeprecateRule"
             case encrypted = "Encrypted"
             case retainRule = "RetainRule"
             case target = "Target"
@@ -332,8 +358,35 @@ extension DLM {
         public init() {}
     }
 
+    public struct DeprecateRule: AWSEncodableShape & AWSDecodableShape {
+        /// If the schedule has a count-based retention rule, this parameter specifies the number of oldest AMIs to deprecate. The count must be less than or equal to the schedule's retention count, and it can't be greater than 1000.
+        public let count: Int?
+        /// If the schedule has an age-based retention rule, this parameter specifies the period after which to deprecate AMIs created by the schedule. The period must be less than or equal to the schedule's retention period, and it can't be greater than 10 years. This is equivalent to 120 months, 520 weeks, or 3650 days.
+        public let interval: Int?
+        /// The unit of time in which to measure the Interval.
+        public let intervalUnit: RetentionIntervalUnitValues?
+
+        public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.count = count
+            self.interval = interval
+            self.intervalUnit = intervalUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.count, name: "count", parent: name, max: 1000)
+            try self.validate(self.count, name: "count", parent: name, min: 1)
+            try self.validate(self.interval, name: "interval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
+        }
+    }
+
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
+        /// The Amazon Resource Name (ARN) of the KMS key to use for EBS encryption. If this parameter is not specified, the default KMS key for the account is used.
         public let cmkArn: String?
         /// To encrypt a copy of an unencrypted snapshot when encryption by default is not enabled, enable encryption using this parameter. Copies of encrypted snapshots are encrypted, even if this parameter is false or when encryption by default is not enabled.
         public let encrypted: Bool
@@ -360,7 +413,7 @@ extension DLM {
         public let descriptionRegex: String
         /// The type of event. Currently, only snapshot sharing events are supported.
         public let eventType: EventTypeValues
-        /// The IDs of the AWS accounts that can trigger policy by sharing snapshots with your account. The policy only runs if one of the specified AWS accounts shares a snapshot with your account.
+        /// The IDs of the Amazon Web Services accounts that can trigger policy by sharing snapshots with your account. The policy only runs if one of the specified Amazon Web Services accounts shares a snapshot with your account.
         public let snapshotOwner: [String]
 
         public init(descriptionRegex: String, eventType: EventTypeValues, snapshotOwner: [String]) {
@@ -392,7 +445,7 @@ extension DLM {
     public struct EventSource: AWSEncodableShape & AWSDecodableShape {
         /// Information about the event.
         public let parameters: EventParameters?
-        /// The source of the event. Currently only managed AWS CloudWatch Events rules are supported.
+        /// The source of the event. Currently only managed CloudWatch Events rules are supported.
         public let type: EventSourceValues
 
         public init(parameters: EventParameters? = nil, type: EventSourceValues) {
@@ -463,7 +516,7 @@ extension DLM {
         public let resourceTypes: [ResourceTypeValues]?
         /// The activation state.
         public let state: GettablePolicyStateValues?
-        /// The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the AWS-added lifecycle tags.
+        /// The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the Amazon Web Services-added lifecycle tags.
         public let tagsToAdd: [String]?
         /// The target tag for a policy. Tags are strings in the format key=value.
         public let targetTags: [String]?
@@ -688,9 +741,9 @@ extension DLM {
         public let eventSource: EventSource?
         /// A set of optional parameters for snapshot and AMI lifecycle policies.  This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let parameters: Parameters?
-        /// The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY  to create an event-based policy that performs specific actions when a defined event occurs in your AWS account. The default is EBS_SNAPSHOT_MANAGEMENT.
+        /// The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY  to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
-        /// The location of the resources to backup. If the source resources are located in an AWS Region, specify CLOUD. If the source resources are located on an AWS Outpost in your account, specify OUTPOST.  If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources of the specified type with matching target tags across all of the Outposts in your account.
+        /// The location of the resources to backup. If the source resources are located in an Amazon Web Services Region, specify CLOUD. If the source resources are located on an Outpost in your account, specify OUTPOST.  If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources of the specified type with matching target tags across all of the Outposts in your account.
         public let resourceLocations: [ResourceLocationValues]?
         /// The target resource type for snapshot and AMI lifecycle policies. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let resourceTypes: [ResourceTypeValues]?
@@ -779,23 +832,26 @@ extension DLM {
         public let createRule: CreateRule?
         /// The rule for cross-Region snapshot copies. You can only specify cross-Region copy rules for policies that create snapshots in a Region. If the policy creates snapshots on an Outpost, then you cannot copy the snapshots to a Region or to an Outpost. If the policy creates snapshots in a Region, then snapshots can be copied to up to three Regions or Outposts.
         public let crossRegionCopyRules: [CrossRegionCopyRule]?
+        /// The AMI deprecation rule for the schedule.
+        public let deprecateRule: DeprecateRule?
         /// The rule for enabling fast snapshot restore.
         public let fastRestoreRule: FastRestoreRule?
         /// The name of the schedule.
         public let name: String?
         /// The retention rule.
         public let retainRule: RetainRule?
-        /// The rule for sharing snapshots with other AWS accounts.
+        /// The rule for sharing snapshots with other Amazon Web Services accounts.
         public let shareRules: [ShareRule]?
-        /// The tags to apply to policy-created resources. These user-defined tags are in addition to the AWS-added lifecycle tags.
+        /// The tags to apply to policy-created resources. These user-defined tags are in addition to the Amazon Web Services-added lifecycle tags.
         public let tagsToAdd: [Tag]?
         /// A collection of key/value pairs with values determined dynamically when the policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be in one of the two following formats: $(instance-id) or $(timestamp). Variable tags are only valid for EBS Snapshot Management – Instance policies.
         public let variableTags: [Tag]?
 
-        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, shareRules: [ShareRule]? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
+        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, deprecateRule: DeprecateRule? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, shareRules: [ShareRule]? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
             self.copyTags = copyTags
             self.createRule = createRule
             self.crossRegionCopyRules = crossRegionCopyRules
+            self.deprecateRule = deprecateRule
             self.fastRestoreRule = fastRestoreRule
             self.name = name
             self.retainRule = retainRule
@@ -811,6 +867,7 @@ extension DLM {
             }
             try self.validate(self.crossRegionCopyRules, name: "crossRegionCopyRules", parent: name, max: 3)
             try self.validate(self.crossRegionCopyRules, name: "crossRegionCopyRules", parent: name, min: 0)
+            try self.deprecateRule?.validate(name: "\(name).deprecateRule")
             try self.fastRestoreRule?.validate(name: "\(name).fastRestoreRule")
             try self.validate(self.name, name: "name", parent: name, max: 120)
             try self.validate(self.name, name: "name", parent: name, min: 0)
@@ -837,6 +894,7 @@ extension DLM {
             case copyTags = "CopyTags"
             case createRule = "CreateRule"
             case crossRegionCopyRules = "CrossRegionCopyRules"
+            case deprecateRule = "DeprecateRule"
             case fastRestoreRule = "FastRestoreRule"
             case name = "Name"
             case retainRule = "RetainRule"
@@ -847,9 +905,9 @@ extension DLM {
     }
 
     public struct ShareRule: AWSEncodableShape & AWSDecodableShape {
-        /// The IDs of the AWS accounts with which to share the snapshots.
+        /// The IDs of the Amazon Web Services accounts with which to share the snapshots.
         public let targetAccounts: [String]
-        /// The period after which snapshots that are shared with other AWS accounts are automatically unshared.
+        /// The period after which snapshots that are shared with other Amazon Web Services accounts are automatically unshared.
         public let unshareInterval: Int?
         /// The unit of time for the automatic unsharing interval.
         public let unshareIntervalUnit: RetentionIntervalUnitValues?

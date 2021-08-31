@@ -468,8 +468,9 @@ extension DirectConnect {
         public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
-        /// The Direct Connect endpoint on which the BGP peer terminates.
+        /// The Direct Connect endpoint that terminates the BGP peer.
         public let awsDeviceV2: String?
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public let awsLogicalDeviceId: String?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
@@ -626,9 +627,9 @@ extension DirectConnect {
     public struct Connection: AWSDecodableShape {
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
-        /// The Direct Connect endpoint on which the physical connection terminates.
+        /// The Direct Connect endpoint that terminates the physical connection.
         public let awsDeviceV2: String?
-        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public let awsLogicalDeviceId: String?
         /// The bandwidth of the connection.
         public let bandwidth: String?
@@ -1873,9 +1874,9 @@ extension DirectConnect {
     public struct Interconnect: AWSDecodableShape {
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
-        /// The Direct Connect endpoint on which the physical connection terminates.
+        /// The Direct Connect endpoint that terminates the physical connection.
         public let awsDeviceV2: String?
-        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public let awsLogicalDeviceId: String?
         /// The bandwidth of the connection.
         public let bandwidth: String?
@@ -1959,7 +1960,7 @@ extension DirectConnect {
         public let awsDevice: String?
         /// The Direct Connect endpoint that hosts the LAG.
         public let awsDeviceV2: String?
-        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public let awsLogicalDeviceId: String?
         /// The connections bundled by the LAG.
         public let connections: [Connection]?
@@ -2859,9 +2860,9 @@ extension DirectConnect {
         public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
-        /// The Direct Connect endpoint on which the virtual interface terminates.
+        /// The Direct Connect endpoint that terminates the physical connection.
         public let awsDeviceV2: String?
-        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public let awsLogicalDeviceId: String?
         /// The BGP peers configured on this virtual interface.
         public let bgpPeers: [BGPPeer]?

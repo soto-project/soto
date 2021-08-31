@@ -33,6 +33,11 @@ extension GlueDataBrew {
         public var description: String { return self.rawValue }
     }
 
+    public enum DatabaseOutputMode: String, CustomStringConvertible, Codable {
+        case newTable = "NEW_TABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionMode: String, CustomStringConvertible, Codable {
         case sseKms = "SSE-KMS"
         case sseS3 = "SSE-S3"
@@ -88,6 +93,7 @@ extension GlueDataBrew {
         case json = "JSON"
         case orc = "ORC"
         case parquet = "PARQUET"
+        case tableauhyper = "TABLEAUHYPER"
         case xml = "XML"
         public var description: String { return self.rawValue }
     }
@@ -183,6 +189,55 @@ extension GlueDataBrew {
         }
     }
 
+    public struct ColumnSelector: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a column from a dataset.
+        public let name: String?
+        /// A regular expression for selecting a column from a dataset.
+        public let regex: String?
+
+        public init(name: String? = nil, regex: String? = nil) {
+            self.name = name
+            self.regex = regex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.regex, name: "regex", parent: name, max: 255)
+            try self.validate(self.regex, name: "regex", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case regex = "Regex"
+        }
+    }
+
+    public struct ColumnStatisticsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// List of column selectors. Selectors can be used to select columns from the dataset. When selectors are undefined, configuration will be applied to all supported columns.
+        public let selectors: [ColumnSelector]?
+        /// Configuration for evaluations. Statistics can be used to select evaluations and override parameters of evaluations.
+        public let statistics: StatisticsConfiguration
+
+        public init(selectors: [ColumnSelector]? = nil, statistics: StatisticsConfiguration) {
+            self.selectors = selectors
+            self.statistics = statistics
+        }
+
+        public func validate(name: String) throws {
+            try self.selectors?.forEach {
+                try $0.validate(name: "\(name).selectors[]")
+            }
+            try self.validate(self.selectors, name: "selectors", parent: name, min: 1)
+            try self.statistics.validate(name: "\(name).statistics")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectors = "Selectors"
+            case statistics = "Statistics"
+        }
+    }
+
     public struct ConditionExpression: AWSEncodableShape & AWSDecodableShape {
         /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the Glue DataBrew Developer Guide.
         public let condition: String
@@ -271,6 +326,8 @@ extension GlueDataBrew {
     }
 
     public struct CreateProfileJobRequest: AWSEncodableShape {
+        /// Configuration for profile jobs. Used to select columns, do evaluations, and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
+        public let configuration: ProfileConfiguration?
         /// The name of the dataset that this job is to act upon.
         public let datasetName: String
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
@@ -295,7 +352,8 @@ extension GlueDataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+        public init(configuration: ProfileConfiguration? = nil, datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+            self.configuration = configuration
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
@@ -311,6 +369,7 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 255)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
@@ -330,6 +389,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
@@ -421,7 +481,9 @@ extension GlueDataBrew {
     }
 
     public struct CreateRecipeJobRequest: AWSEncodableShape {
-        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write to.
+        public let databaseOutputs: [DatabaseOutput]?
+        /// One or more artifacts that represent the Glue Data Catalog output from running the job.
         public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The name of the dataset that this job processes.
         public let datasetName: String?
@@ -449,7 +511,8 @@ extension GlueDataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+        public init(databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+            self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
@@ -467,6 +530,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
+            try self.databaseOutputs?.forEach {
+                try $0.validate(name: "\(name).databaseOutputs[]")
+            }
+            try self.validate(self.databaseOutputs, name: "databaseOutputs", parent: name, min: 1)
             try self.dataCatalogOutputs?.forEach {
                 try $0.validate(name: "\(name).dataCatalogOutputs[]")
             }
@@ -496,6 +563,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case databaseOutputs = "DatabaseOutputs"
             case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
@@ -709,7 +777,7 @@ extension GlueDataBrew {
     }
 
     public struct DataCatalogOutput: AWSEncodableShape & AWSDecodableShape {
-        /// The unique identifier of the AWS account that holds the Data Catalog that stores the data.
+        /// The unique identifier of the Amazon Web Services account that holds the Data Catalog that stores the data.
         public let catalogId: String?
         /// The name of a database in the Data Catalog.
         public let databaseName: String
@@ -717,7 +785,7 @@ extension GlueDataBrew {
         public let databaseOptions: DatabaseTableOutputOptions?
         /// A value that, if true, means that any data in the location specified for output is overwritten with new output. Not supported with DatabaseOptions.
         public let overwrite: Bool?
-        /// Represents options that specify how and where DataBrew writes the S3 output generated by recipe jobs.
+        /// Represents options that specify how and where DataBrew writes the Amazon S3 output generated by recipe jobs.
         public let s3Options: S3TableOutputOptions?
         /// The name of a table in the Data Catalog.
         public let tableName: String
@@ -777,6 +845,33 @@ extension GlueDataBrew {
             case databaseTableName = "DatabaseTableName"
             case glueConnectionName = "GlueConnectionName"
             case tempDirectory = "TempDirectory"
+        }
+    }
+
+    public struct DatabaseOutput: AWSEncodableShape & AWSDecodableShape {
+        /// Represents options that specify how and where DataBrew writes the database output generated by recipe jobs.
+        public let databaseOptions: DatabaseTableOutputOptions
+        /// The output mode to write into the database. Currently supported option: NEW_TABLE.
+        public let databaseOutputMode: DatabaseOutputMode?
+        /// The Glue connection that stores the connection information for the target database.
+        public let glueConnectionName: String
+
+        public init(databaseOptions: DatabaseTableOutputOptions, databaseOutputMode: DatabaseOutputMode? = nil, glueConnectionName: String) {
+            self.databaseOptions = databaseOptions
+            self.databaseOutputMode = databaseOutputMode
+            self.glueConnectionName = glueConnectionName
+        }
+
+        public func validate(name: String) throws {
+            try self.databaseOptions.validate(name: "\(name).databaseOptions")
+            try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, max: 255)
+            try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseOptions = "DatabaseOptions"
+            case databaseOutputMode = "DatabaseOutputMode"
+            case glueConnectionName = "GlueConnectionName"
         }
     }
 
@@ -1207,7 +1302,9 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user associated with the creation of the job.
         public let createdBy: String?
-        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write into.
+        public let databaseOutputs: [DatabaseOutput]?
+        /// One or more artifacts that represent the Glue Data Catalog output from running the job.
         public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The dataset that the job acts upon.
         public let datasetName: String?
@@ -1231,6 +1328,8 @@ extension GlueDataBrew {
         public let name: String
         /// One or more artifacts that represent the output from running the job.
         public let outputs: [Output]?
+        /// Configuration for profile jobs. Used to select columns, do evaluations, and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
+        public let profileConfiguration: ProfileConfiguration?
         /// The DataBrew project associated with this job.
         public let projectName: String?
         public let recipeReference: RecipeReference?
@@ -1245,9 +1344,10 @@ extension GlueDataBrew {
         /// The job type, which must be one of the following:    PROFILE - The job analyzes the dataset to determine its size, data types, data distribution, and more.    RECIPE - The job applies one or more transformations to a dataset.
         public let type: JobType?
 
-        public init(createDate: Date? = nil, createdBy: String? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
+            self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
@@ -1260,6 +1360,7 @@ extension GlueDataBrew {
             self.maxRetries = maxRetries
             self.name = name
             self.outputs = outputs
+            self.profileConfiguration = profileConfiguration
             self.projectName = projectName
             self.recipeReference = recipeReference
             self.resourceArn = resourceArn
@@ -1272,6 +1373,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case createDate = "CreateDate"
             case createdBy = "CreatedBy"
+            case databaseOutputs = "DatabaseOutputs"
             case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
@@ -1284,6 +1386,7 @@ extension GlueDataBrew {
             case maxRetries = "MaxRetries"
             case name = "Name"
             case outputs = "Outputs"
+            case profileConfiguration = "ProfileConfiguration"
             case projectName = "ProjectName"
             case recipeReference = "RecipeReference"
             case resourceArn = "ResourceArn"
@@ -1325,7 +1428,9 @@ extension GlueDataBrew {
         public let attempt: Int?
         /// The date and time when the job completed processing.
         public let completedOn: Date?
-        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write into.
+        public let databaseOutputs: [DatabaseOutput]?
+        /// One or more artifacts that represent the Glue Data Catalog output from running the job.
         public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The name of the dataset for the job to process.
         public let datasetName: String?
@@ -1343,6 +1448,8 @@ extension GlueDataBrew {
         public let logSubscription: LogSubscription?
         /// One or more output artifacts from a job run.
         public let outputs: [Output]?
+        /// Configuration for profile jobs. Used to select columns, do evaluations, and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
+        public let profileConfiguration: ProfileConfiguration?
         public let recipeReference: RecipeReference?
         /// The unique identifier of the job run.
         public let runId: String?
@@ -1353,9 +1460,10 @@ extension GlueDataBrew {
         /// The current state of the job run entity itself.
         public let state: JobRunState?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
+            self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.errorMessage = errorMessage
@@ -1365,6 +1473,7 @@ extension GlueDataBrew {
             self.logGroupName = logGroupName
             self.logSubscription = logSubscription
             self.outputs = outputs
+            self.profileConfiguration = profileConfiguration
             self.recipeReference = recipeReference
             self.runId = runId
             self.startedBy = startedBy
@@ -1375,6 +1484,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case attempt = "Attempt"
             case completedOn = "CompletedOn"
+            case databaseOutputs = "DatabaseOutputs"
             case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case errorMessage = "ErrorMessage"
@@ -1384,6 +1494,7 @@ extension GlueDataBrew {
             case logGroupName = "LogGroupName"
             case logSubscription = "LogSubscription"
             case outputs = "Outputs"
+            case profileConfiguration = "ProfileConfiguration"
             case recipeReference = "RecipeReference"
             case runId = "RunId"
             case startedBy = "StartedBy"
@@ -1778,7 +1889,9 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the job.
         public let createdBy: String?
-        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write into.
+        public let databaseOutputs: [DatabaseOutput]?
+        /// One or more artifacts that represent the Glue Data Catalog output from running the job.
         public let dataCatalogOutputs: [DataCatalogOutput]?
         /// A dataset that the job is to process.
         public let datasetName: String?
@@ -1817,10 +1930,11 @@ extension GlueDataBrew {
         /// The job type of the job, which must be one of the following:    PROFILE - A job to analyze a dataset, to determine its size, data types, data distribution, and more.    RECIPE - A job to apply one or more transformations to a dataset.
         public let type: JobType?
 
-        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
+            self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
@@ -1846,6 +1960,7 @@ extension GlueDataBrew {
             case accountId = "AccountId"
             case createDate = "CreateDate"
             case createdBy = "CreatedBy"
+            case databaseOutputs = "DatabaseOutputs"
             case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
@@ -1873,7 +1988,9 @@ extension GlueDataBrew {
         public let attempt: Int?
         /// The date and time when the job completed processing.
         public let completedOn: Date?
-        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write into.
+        public let databaseOutputs: [DatabaseOutput]?
+        /// One or more artifacts that represent the Glue Data Catalog output from running the job.
         public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The name of the dataset for the job to process.
         public let datasetName: String?
@@ -1902,9 +2019,10 @@ extension GlueDataBrew {
         /// The current state of the job run entity itself.
         public let state: JobRunState?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
+            self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.errorMessage = errorMessage
@@ -1924,6 +2042,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case attempt = "Attempt"
             case completedOn = "CompletedOn"
+            case databaseOutputs = "DatabaseOutputs"
             case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case errorMessage = "ErrorMessage"
@@ -2432,6 +2551,39 @@ extension GlueDataBrew {
         }
     }
 
+    public struct ProfileConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// List of configurations for column evaluations. ColumnStatisticsConfigurations are used to select evaluations and override parameters of evaluations for particular columns. When ColumnStatisticsConfigurations is undefined, the profile job will profile all supported columns and run all supported evaluations.
+        public let columnStatisticsConfigurations: [ColumnStatisticsConfiguration]?
+        /// Configuration for inter-column evaluations. Configuration can be used to select evaluations and override parameters of evaluations. When configuration is undefined, the profile job will run all supported inter-column evaluations.
+        public let datasetStatisticsConfiguration: StatisticsConfiguration?
+        /// List of column selectors. ProfileColumns can be used to select columns from the dataset. When ProfileColumns is undefined, the profile job will profile all supported columns.
+        public let profileColumns: [ColumnSelector]?
+
+        public init(columnStatisticsConfigurations: [ColumnStatisticsConfiguration]? = nil, datasetStatisticsConfiguration: StatisticsConfiguration? = nil, profileColumns: [ColumnSelector]? = nil) {
+            self.columnStatisticsConfigurations = columnStatisticsConfigurations
+            self.datasetStatisticsConfiguration = datasetStatisticsConfiguration
+            self.profileColumns = profileColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.columnStatisticsConfigurations?.forEach {
+                try $0.validate(name: "\(name).columnStatisticsConfigurations[]")
+            }
+            try self.validate(self.columnStatisticsConfigurations, name: "columnStatisticsConfigurations", parent: name, min: 1)
+            try self.datasetStatisticsConfiguration?.validate(name: "\(name).datasetStatisticsConfiguration")
+            try self.profileColumns?.forEach {
+                try $0.validate(name: "\(name).profileColumns[]")
+            }
+            try self.validate(self.profileColumns, name: "profileColumns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnStatisticsConfigurations = "ColumnStatisticsConfigurations"
+            case datasetStatisticsConfiguration = "DatasetStatisticsConfiguration"
+            case profileColumns = "ProfileColumns"
+        }
+    }
+
     public struct Project: AWSDecodableShape {
         /// The ID of the Amazon Web Services account that owns the project.
         public let accountId: String?
@@ -2616,7 +2768,7 @@ extension GlueDataBrew {
                 try validate($0.key, name: "parameters.key", parent: name, max: 128)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[A-Za-z0-9]+$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 12288)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 32768)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
             }
         }
@@ -2949,6 +3101,66 @@ extension GlueDataBrew {
         }
     }
 
+    public struct StatisticOverride: AWSEncodableShape & AWSDecodableShape {
+        /// A map that includes overrides of an evaluation’s parameters.
+        public let parameters: [String: String]
+        /// The name of an evaluation
+        public let statistic: String
+
+        public init(parameters: [String: String], statistic: String) {
+            self.parameters = parameters
+            self.statistic = statistic
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 128)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[A-Za-z0-9]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 32768)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.statistic, name: "statistic", parent: name, max: 128)
+            try self.validate(self.statistic, name: "statistic", parent: name, min: 1)
+            try self.validate(self.statistic, name: "statistic", parent: name, pattern: "^[A-Z\\_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case statistic = "Statistic"
+        }
+    }
+
+    public struct StatisticsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// List of included evaluations. When the list is undefined, all supported evaluations will be included.
+        public let includedStatistics: [String]?
+        /// List of overrides for evaluations.
+        public let overrides: [StatisticOverride]?
+
+        public init(includedStatistics: [String]? = nil, overrides: [StatisticOverride]? = nil) {
+            self.includedStatistics = includedStatistics
+            self.overrides = overrides
+        }
+
+        public func validate(name: String) throws {
+            try self.includedStatistics?.forEach {
+                try validate($0, name: "includedStatistics[]", parent: name, max: 128)
+                try validate($0, name: "includedStatistics[]", parent: name, min: 1)
+                try validate($0, name: "includedStatistics[]", parent: name, pattern: "^[A-Z\\_]+$")
+            }
+            try self.validate(self.includedStatistics, name: "includedStatistics", parent: name, min: 1)
+            try self.overrides?.forEach {
+                try $0.validate(name: "\(name).overrides[]")
+            }
+            try self.validate(self.overrides, name: "overrides", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includedStatistics = "IncludedStatistics"
+            case overrides = "Overrides"
+        }
+    }
+
     public struct StopJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
@@ -3112,6 +3324,8 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
+        /// Configuration for profile jobs. Used to select columns, do evaluations, and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
+        public let configuration: ProfileConfiguration?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
@@ -3132,7 +3346,8 @@ extension GlueDataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil) {
+        public init(configuration: ProfileConfiguration? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil) {
+            self.configuration = configuration
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
             self.jobSample = jobSample
@@ -3146,6 +3361,7 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
@@ -3158,6 +3374,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
             case jobSample = "JobSample"
@@ -3236,7 +3453,9 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write into.
+        public let databaseOutputs: [DatabaseOutput]?
+        /// One or more artifacts that represent the Glue Data Catalog output from running the job.
         public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
@@ -3257,7 +3476,8 @@ extension GlueDataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(dataCatalogOutputs: [DataCatalogOutput]? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, roleArn: String, timeout: Int? = nil) {
+        public init(databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, roleArn: String, timeout: Int? = nil) {
+            self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
@@ -3271,6 +3491,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
+            try self.databaseOutputs?.forEach {
+                try $0.validate(name: "\(name).databaseOutputs[]")
+            }
+            try self.validate(self.databaseOutputs, name: "databaseOutputs", parent: name, min: 1)
             try self.dataCatalogOutputs?.forEach {
                 try $0.validate(name: "\(name).dataCatalogOutputs[]")
             }
@@ -3290,6 +3514,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case databaseOutputs = "DatabaseOutputs"
             case dataCatalogOutputs = "DataCatalogOutputs"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"

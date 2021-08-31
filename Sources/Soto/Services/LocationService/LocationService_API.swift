@@ -62,7 +62,7 @@ public struct LocationService: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection.  Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
+    /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection.  You can associate up to five geofence collections to each tracker resource.  Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
     public func associateTrackerConsumer(_ input: AssociateTrackerConsumerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrackerConsumerResponse> {
         return self.client.execute(operation: "AssociateTrackerConsumer", path: "/tracking/v0/trackers/{TrackerName}/consumers", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
@@ -77,12 +77,12 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "BatchDeleteGeofence", path: "/geofencing/v0/collections/{CollectionName}/delete-geofences", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Evaluates device positions against the geofence geometries from a given geofence collection. The evaluation determines if the device has entered or exited a geofenced area, which publishes ENTER or EXIT geofence events to Amazon EventBridge.  The last geofence that a device was observed within, if any, is tracked for 30 days after the most recent device position update
+    /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the following events to Amazon EventBridge:    ENTER if Amazon Location determines that the tracked device has entered a geofenced area.    EXIT if Amazon Location determines that the tracked device has exited a geofenced area.    The last geofence that a device was observed within is tracked for 30 days after the most recent device position update.
     public func batchEvaluateGeofences(_ input: BatchEvaluateGeofencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchEvaluateGeofencesResponse> {
         return self.client.execute(operation: "BatchEvaluateGeofences", path: "/geofencing/v0/collections/{CollectionName}/positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// A batch request to retrieve all device positions.
+    /// Lists the latest device positions for requested devices.
     public func batchGetDevicePosition(_ input: BatchGetDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDevicePositionResponse> {
         return self.client.execute(operation: "BatchGetDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/get-positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
@@ -97,7 +97,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "BatchUpdateDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 
-    ///  Calculates a route given the following required parameters: DeparturePostiton and DestinationPosition. Requires that you first create aroute calculator resource  By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:    Specifying a departure time using either DepartureTime or DepartureNow. This calculates a route based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartureNow in a single request. Specifying both parameters returns an error message.     Specifying a travel mode using TravelMode. This lets you specify additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
+    ///  Calculates a route given the following required parameters: DeparturePostiton and DestinationPosition. Requires that you first create a route calculator resource  By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:    Specifying a departure time using either DepartureTime or DepartureNow. This calculates a route based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartureNow in a single request. Specifying both parameters returns an error message.     Specifying a travel mode using TravelMode. This lets you specify an additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
     public func calculateRoute(_ input: CalculateRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CalculateRouteResponse> {
         return self.client.execute(operation: "CalculateRoute", path: "/routes/v0/calculators/{CalculatorName}/calculate/route", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
@@ -217,7 +217,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "GetMapTile", path: "/maps/v0/maps/{MapName}/tiles/{Z}/{X}/{Y}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Lists the latest device positions for requested devices.
+    /// A batch request to retrieve all device positions.
     public func listDevicePositions(_ input: ListDevicePositionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevicePositionsResponse> {
         return self.client.execute(operation: "ListDevicePositions", path: "/tracking/v0/trackers/{TrackerName}/list-positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
@@ -247,7 +247,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "ListRouteCalculators", path: "/routes/v0/list-calculators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
 
-    /// Returns the tags for the specified Amazon Location Service resource.
+    /// Returns a list of tags that are applied to the specified Amazon Location resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
@@ -277,14 +277,39 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "SearchPlaceIndexForText", path: "/places/v0/indexes/{IndexName}/search/text", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource.  &lt;p&gt;Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.&lt;/p&gt; &lt;p&gt;Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters.&lt;/p&gt; &lt;p&gt;You can use the &lt;code&gt;TagResource&lt;/code&gt; action with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. &lt;/p&gt; &lt;p&gt;You can associate as many as 50 tags with a resource.&lt;/p&gt;
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource.  &lt;p&gt;Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.&lt;/p&gt; &lt;p&gt;You can use the &lt;code&gt;TagResource&lt;/code&gt; operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag. &lt;/p&gt; &lt;p&gt;You can associate up to 50 tags with a resource.&lt;/p&gt;
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
 
-    /// Removes one or more tags from the specified Amazon Location Service resource.
+    /// Removes one or more tags from the specified Amazon Location resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified properties of a given geofence collection.
+    public func updateGeofenceCollection(_ input: UpdateGeofenceCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGeofenceCollectionResponse> {
+        return self.client.execute(operation: "UpdateGeofenceCollection", path: "/geofencing/v0/collections/{CollectionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified properties of a given map resource.
+    public func updateMap(_ input: UpdateMapRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMapResponse> {
+        return self.client.execute(operation: "UpdateMap", path: "/maps/v0/maps/{MapName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified properties of a given place index resource.
+    public func updatePlaceIndex(_ input: UpdatePlaceIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePlaceIndexResponse> {
+        return self.client.execute(operation: "UpdatePlaceIndex", path: "/places/v0/indexes/{IndexName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified properties for a given route calculator resource.
+    public func updateRouteCalculator(_ input: UpdateRouteCalculatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRouteCalculatorResponse> {
+        return self.client.execute(operation: "UpdateRouteCalculator", path: "/routes/v0/calculators/{CalculatorName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified properties of a given tracker resource.
+    public func updateTracker(_ input: UpdateTrackerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrackerResponse> {
+        return self.client.execute(operation: "UpdateTracker", path: "/tracking/v0/trackers/{TrackerName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 }
 

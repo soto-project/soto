@@ -83,7 +83,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches a policy to the specified target.
+    /// Attaches the specified policy to the specified principal (certificate or other credential).
     @discardableResult public func attachPolicy(_ input: AttachPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

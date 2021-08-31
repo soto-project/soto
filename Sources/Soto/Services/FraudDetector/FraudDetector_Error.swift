@@ -23,6 +23,7 @@ public struct FraudDetectorErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceUnavailableException = "ResourceUnavailableException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -51,8 +52,10 @@ public struct FraudDetectorErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An exception indicating an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// An exception indicating the specified resource was not found.
+    /// An exception indicating the specified resource was not found. This can occur if you submit a request, such as CreateBatchPredictionJob, but the detector name or version does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  An exception indicating that the attached customer-owned (external) model threw an exception when Amazon Fraud Detector invoked the model.
+    public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
     /// An exception indicating a throttling error.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// An exception indicating a specified value is not allowed.

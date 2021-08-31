@@ -51,6 +51,7 @@ extension Appflow {
         case redshift = "Redshift"
         case s3 = "S3"
         case salesforce = "Salesforce"
+        case sapodata = "SAPOData"
         case servicenow = "Servicenow"
         case singular = "Singular"
         case slack = "Slack"
@@ -235,9 +236,50 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrivateConnectionProvisioningFailureCause: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case connectorAuthentication = "CONNECTOR_AUTHENTICATION"
+        case connectorServer = "CONNECTOR_SERVER"
+        case internalServer = "INTERNAL_SERVER"
+        case validation = "VALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrivateConnectionProvisioningStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3ConnectorOperator: String, CustomStringConvertible, Codable {
         case addition = "ADDITION"
         case between = "BETWEEN"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
         case greaterThan = "GREATER_THAN"
@@ -512,6 +554,30 @@ extension Appflow {
         }
     }
 
+    public struct BasicAuthCredentials: AWSEncodableShape {
+        ///  The password to use to connect to a resource.
+        public let password: String
+        ///  The username to use to connect to a resource.
+        public let username: String
+
+        public init(password: String, username: String) {
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.password, name: "password", parent: name, max: 512)
+            try self.validate(self.password, name: "password", parent: name, pattern: ".*")
+            try self.validate(self.username, name: "username", parent: name, max: 512)
+            try self.validate(self.username, name: "username", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password
+            case username
+        }
+    }
+
     public struct ConnectorConfiguration: AWSDecodableShape {
         ///  Specifies whether the connector can be used as a destination.
         public let canUseAsDestination: Bool?
@@ -632,6 +698,7 @@ extension Appflow {
         public let s3: S3Metadata?
         ///  The connector metadata specific to Salesforce.
         public let salesforce: SalesforceMetadata?
+        public let sAPOData: SAPODataMetadata?
         ///  The connector metadata specific to ServiceNow.
         public let serviceNow: ServiceNowMetadata?
         ///  The connector metadata specific to Singular.
@@ -649,7 +716,7 @@ extension Appflow {
         ///  The connector metadata specific to Zendesk.
         public let zendesk: ZendeskMetadata?
 
-        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
+        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, sAPOData: SAPODataMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
             self.amplitude = amplitude
             self.customerProfiles = customerProfiles
             self.datadog = datadog
@@ -662,6 +729,7 @@ extension Appflow {
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
+            self.sAPOData = sAPOData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -685,6 +753,7 @@ extension Appflow {
             case redshift = "Redshift"
             case s3 = "S3"
             case salesforce = "Salesforce"
+            case sAPOData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -737,6 +806,8 @@ extension Appflow {
         public let s3: S3ConnectorOperator?
         ///  The operation to be performed on the provided Salesforce source fields.
         public let salesforce: SalesforceConnectorOperator?
+        ///  The operation to be performed on the provided SAPOData source fields.
+        public let sAPOData: SAPODataConnectorOperator?
         ///  The operation to be performed on the provided ServiceNow source fields.
         public let serviceNow: ServiceNowConnectorOperator?
         ///  The operation to be performed on the provided Singular source fields.
@@ -750,7 +821,7 @@ extension Appflow {
         ///  The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
-        public init(amplitude: AmplitudeConnectorOperator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
+        public init(amplitude: AmplitudeConnectorOperator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sAPOData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -759,6 +830,7 @@ extension Appflow {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
+            self.sAPOData = sAPOData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -776,6 +848,7 @@ extension Appflow {
             case marketo = "Marketo"
             case s3 = "S3"
             case salesforce = "Salesforce"
+            case sAPOData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -790,7 +863,7 @@ extension Appflow {
         public let connectionMode: ConnectionMode?
         ///  The Amazon Resource Name (ARN) of the connector profile.
         public let connectorProfileArn: String?
-        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the AWS account.
+        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
         public let connectorProfileName: String?
         ///  The connector-specific properties of the profile configuration.
         public let connectorProfileProperties: ConnectorProfileProperties?
@@ -802,8 +875,10 @@ extension Appflow {
         public let credentialsArn: String?
         ///  Specifies when the connector profile was last updated.
         public let lastUpdatedAt: Date?
+        ///  Specifies the private connection provisioning state.
+        public let privateConnectionProvisioningState: PrivateConnectionProvisioningState?
 
-        public init(connectionMode: ConnectionMode? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: Date? = nil, credentialsArn: String? = nil, lastUpdatedAt: Date? = nil) {
+        public init(connectionMode: ConnectionMode? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: Date? = nil, credentialsArn: String? = nil, lastUpdatedAt: Date? = nil, privateConnectionProvisioningState: PrivateConnectionProvisioningState? = nil) {
             self.connectionMode = connectionMode
             self.connectorProfileArn = connectorProfileArn
             self.connectorProfileName = connectorProfileName
@@ -812,6 +887,7 @@ extension Appflow {
             self.createdAt = createdAt
             self.credentialsArn = credentialsArn
             self.lastUpdatedAt = lastUpdatedAt
+            self.privateConnectionProvisioningState = privateConnectionProvisioningState
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -823,6 +899,7 @@ extension Appflow {
             case createdAt
             case credentialsArn
             case lastUpdatedAt
+            case privateConnectionProvisioningState
         }
     }
 
@@ -867,6 +944,7 @@ extension Appflow {
         public let redshift: RedshiftConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Salesforce.
         public let salesforce: SalesforceConnectorProfileCredentials?
+        public let sAPOData: SAPODataConnectorProfileCredentials?
         ///  The connector-specific credentials required when using ServiceNow.
         public let serviceNow: ServiceNowConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Singular.
@@ -882,7 +960,7 @@ extension Appflow {
         ///  The connector-specific credentials required when using Zendesk.
         public let zendesk: ZendeskConnectorProfileCredentials?
 
-        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sAPOData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -892,6 +970,7 @@ extension Appflow {
             self.marketo = marketo
             self.redshift = redshift
             self.salesforce = salesforce
+            self.sAPOData = sAPOData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -911,6 +990,7 @@ extension Appflow {
             try self.marketo?.validate(name: "\(name).marketo")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.sAPOData?.validate(name: "\(name).sAPOData")
             try self.serviceNow?.validate(name: "\(name).serviceNow")
             try self.singular?.validate(name: "\(name).singular")
             try self.slack?.validate(name: "\(name).slack")
@@ -930,6 +1010,7 @@ extension Appflow {
             case marketo = "Marketo"
             case redshift = "Redshift"
             case salesforce = "Salesforce"
+            case sAPOData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -959,6 +1040,7 @@ extension Appflow {
         public let redshift: RedshiftConnectorProfileProperties?
         ///  The connector-specific properties required by Salesforce.
         public let salesforce: SalesforceConnectorProfileProperties?
+        public let sAPOData: SAPODataConnectorProfileProperties?
         ///  The connector-specific properties required by serviceNow.
         public let serviceNow: ServiceNowConnectorProfileProperties?
         ///  The connector-specific properties required by Singular.
@@ -974,7 +1056,7 @@ extension Appflow {
         ///  The connector-specific properties required by Zendesk.
         public let zendesk: ZendeskConnectorProfileProperties?
 
-        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sAPOData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -984,6 +1066,7 @@ extension Appflow {
             self.marketo = marketo
             self.redshift = redshift
             self.salesforce = salesforce
+            self.sAPOData = sAPOData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -1000,6 +1083,7 @@ extension Appflow {
             try self.marketo?.validate(name: "\(name).marketo")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.sAPOData?.validate(name: "\(name).sAPOData")
             try self.serviceNow?.validate(name: "\(name).serviceNow")
             try self.slack?.validate(name: "\(name).slack")
             try self.snowflake?.validate(name: "\(name).snowflake")
@@ -1017,6 +1101,7 @@ extension Appflow {
             case marketo = "Marketo"
             case redshift = "Redshift"
             case salesforce = "Salesforce"
+            case sAPOData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -1028,11 +1113,11 @@ extension Appflow {
     }
 
     public struct CreateConnectorProfileRequest: AWSEncodableShape {
-        ///  Indicates the connection mode and specifies whether it is public or private. Private flows use AWS PrivateLink to route data over AWS infrastructure without exposing it to the public internet.
+        ///  Indicates the connection mode and specifies whether it is public or private. Private flows use Amazon Web Services PrivateLink to route data over Amazon Web Services infrastructure without exposing it to the public internet.
         public let connectionMode: ConnectionMode
         ///  Defines the connector-specific configuration and credentials.
         public let connectorProfileConfig: ConnectorProfileConfig
-        ///  The name of the connector profile. The name is unique for each ConnectorProfile in your AWS account.
+        ///  The name of the connector profile. The name is unique for each ConnectorProfile in your Amazon Web Services account.
         public let connectorProfileName: String
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType
@@ -1308,7 +1393,7 @@ extension Appflow {
     public struct DescribeConnectorEntityRequest: AWSEncodableShape {
         ///  The entity name for that connector.
         public let connectorEntityName: String
-        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the AWS account.
+        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
         public let connectorProfileName: String?
         ///  The type of connector application, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType?
@@ -1347,7 +1432,7 @@ extension Appflow {
     }
 
     public struct DescribeConnectorProfilesRequest: AWSEncodableShape {
-        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the AWS account.
+        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
         public let connectorProfileNames: [String]?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType?
@@ -1671,7 +1756,7 @@ extension Appflow {
     }
 
     public struct DestinationFlowConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The name of the connector profile. This name must be unique for each connector profile in the AWS account.
+        ///  The name of the connector profile. This name must be unique for each connector profile in the Amazon Web Services account.
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType
@@ -2230,7 +2315,7 @@ extension Appflow {
     }
 
     public struct ListConnectorEntitiesRequest: AWSEncodableShape {
-        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the AWS account, and is used to query the downstream connector.
+        ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account, and is used to query the downstream connector.
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType?
@@ -2423,6 +2508,79 @@ extension Appflow {
         }
     }
 
+    public struct OAuthCredentials: AWSEncodableShape {
+        ///  The access token used to access protected SAPOData resources.
+        public let accessToken: String?
+        ///  The identifier for the desired client.
+        public let clientId: String
+        ///  The client secret used by the OAuth client to authenticate to the authorization server.
+        public let clientSecret: String
+        ///  The OAuth requirement needed to request security tokens from the connector endpoint.
+        public let oAuthRequest: ConnectorOAuthRequest?
+        ///  The refresh token used to refresh expired access token.
+        public let refreshToken: String?
+
+        public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
+            self.accessToken = accessToken
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.oAuthRequest = oAuthRequest
+            self.refreshToken = refreshToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
+            try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken
+            case clientId
+            case clientSecret
+            case oAuthRequest
+            case refreshToken
+        }
+    }
+
+    public struct OAuthProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The authorization code url required to redirect to SAP Login Page to fetch authorization code for OAuth type authentication.
+        public let authCodeUrl: String
+        ///  The OAuth scopes required for OAuth type authentication.
+        public let oAuthScopes: [String]
+        ///  The token url required to fetch access/refresh tokens using authorization code and also to refresh expired access token using refresh token.
+        public let tokenUrl: String
+
+        public init(authCodeUrl: String, oAuthScopes: [String], tokenUrl: String) {
+            self.authCodeUrl = authCodeUrl
+            self.oAuthScopes = oAuthScopes
+            self.tokenUrl = tokenUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authCodeUrl, name: "authCodeUrl", parent: name, max: 256)
+            try self.validate(self.authCodeUrl, name: "authCodeUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+            try self.oAuthScopes.forEach {
+                try validate($0, name: "oAuthScopes[]", parent: name, max: 128)
+                try validate($0, name: "oAuthScopes[]", parent: name, pattern: "[/\\w]*")
+            }
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 256)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCodeUrl
+            case oAuthScopes
+            case tokenUrl
+        }
+    }
+
     public struct PrefixConfig: AWSEncodableShape & AWSDecodableShape {
         ///  Determines the level of granularity that's included in the prefix.
         public let prefixFormat: PrefixFormat?
@@ -2437,6 +2595,27 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case prefixFormat
             case prefixType
+        }
+    }
+
+    public struct PrivateConnectionProvisioningState: AWSDecodableShape {
+        ///  Specifies the private connection provisioning failure cause.
+        public let failureCause: PrivateConnectionProvisioningFailureCause?
+        ///  Specifies the private connection provisioning failure reason.
+        public let failureMessage: String?
+        ///  Specifies the private connection provisioning status.
+        public let status: PrivateConnectionProvisioningStatus?
+
+        public init(failureCause: PrivateConnectionProvisioningFailureCause? = nil, failureMessage: String? = nil, status: PrivateConnectionProvisioningStatus? = nil) {
+            self.failureCause = failureCause
+            self.failureMessage = failureMessage
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCause
+            case failureMessage
+            case status
         }
     }
 
@@ -2615,6 +2794,104 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case bucketName
             case bucketPrefix
+        }
+    }
+
+    public struct SAPODataConnectorProfileCredentials: AWSEncodableShape {
+        ///  The SAPOData basic authentication credentials.
+        public let basicAuthCredentials: BasicAuthCredentials?
+        ///  The SAPOData OAuth type authentication credentials.
+        public let oAuthCredentials: OAuthCredentials?
+
+        public init(basicAuthCredentials: BasicAuthCredentials? = nil, oAuthCredentials: OAuthCredentials? = nil) {
+            self.basicAuthCredentials = basicAuthCredentials
+            self.oAuthCredentials = oAuthCredentials
+        }
+
+        public func validate(name: String) throws {
+            try self.basicAuthCredentials?.validate(name: "\(name).basicAuthCredentials")
+            try self.oAuthCredentials?.validate(name: "\(name).oAuthCredentials")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basicAuthCredentials
+            case oAuthCredentials
+        }
+    }
+
+    public struct SAPODataConnectorProfileProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The location of the SAPOData resource.
+        public let applicationHostUrl: String
+        ///  The application path to catalog service.
+        public let applicationServicePath: String
+        ///  The client number for the client creating the connection.
+        public let clientNumber: String
+        ///  The logon language of SAPOData instance.
+        public let logonLanguage: String?
+        ///  The SAPOData OAuth properties required for OAuth type authentication.
+        public let oAuthProperties: OAuthProperties?
+        ///  The port number of the SAPOData instance.
+        public let portNumber: Int
+        ///  The SAPOData Private Link service name to be used for private data transfers.
+        public let privateLinkServiceName: String?
+
+        public init(applicationHostUrl: String, applicationServicePath: String, clientNumber: String, logonLanguage: String? = nil, oAuthProperties: OAuthProperties? = nil, portNumber: Int, privateLinkServiceName: String? = nil) {
+            self.applicationHostUrl = applicationHostUrl
+            self.applicationServicePath = applicationServicePath
+            self.clientNumber = clientNumber
+            self.logonLanguage = logonLanguage
+            self.oAuthProperties = oAuthProperties
+            self.portNumber = portNumber
+            self.privateLinkServiceName = privateLinkServiceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationHostUrl, name: "applicationHostUrl", parent: name, max: 256)
+            try self.validate(self.applicationHostUrl, name: "applicationHostUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+            try self.validate(self.applicationServicePath, name: "applicationServicePath", parent: name, max: 512)
+            try self.validate(self.applicationServicePath, name: "applicationServicePath", parent: name, pattern: "\\S+")
+            try self.validate(self.clientNumber, name: "clientNumber", parent: name, max: 3)
+            try self.validate(self.clientNumber, name: "clientNumber", parent: name, min: 3)
+            try self.validate(self.clientNumber, name: "clientNumber", parent: name, pattern: "^\\d{3}$")
+            try self.validate(self.logonLanguage, name: "logonLanguage", parent: name, max: 2)
+            try self.validate(self.logonLanguage, name: "logonLanguage", parent: name, pattern: "^[a-zA-Z0-9_]*$")
+            try self.oAuthProperties?.validate(name: "\(name).oAuthProperties")
+            try self.validate(self.portNumber, name: "portNumber", parent: name, max: 65535)
+            try self.validate(self.portNumber, name: "portNumber", parent: name, min: 1)
+            try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, max: 512)
+            try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, pattern: "^$|com.amazonaws.vpce.[\\w/!:@#.\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationHostUrl
+            case applicationServicePath
+            case clientNumber
+            case logonLanguage
+            case oAuthProperties
+            case portNumber
+            case privateLinkServiceName
+        }
+    }
+
+    public struct SAPODataMetadata: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct SAPODataSourceProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The object path specified in the SAPOData flow source.
+        public let objectPath: String?
+
+        public init(objectPath: String? = nil) {
+            self.objectPath = objectPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectPath, name: "objectPath", parent: name, max: 512)
+            try self.validate(self.objectPath, name: "objectPath", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectPath
         }
     }
 
@@ -3023,7 +3300,7 @@ extension Appflow {
         public let bucketPrefix: String?
         ///  The Snowflake Private Link service name to be used for private data transfers.
         public let privateLinkServiceName: String?
-        ///  The AWS Region of the Snowflake account.
+        ///  The Amazon Web Services Region of the Snowflake account.
         public let region: String?
         ///  The name of the Amazon S3 stage that was created while setting up an Amazon S3 stage in the Snowflake account. This is written in the following format: &lt; Database&gt;&lt; Schema&gt;&lt;Stage Name&gt;.
         public let stage: String
@@ -3049,7 +3326,7 @@ extension Appflow {
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
             try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, max: 512)
-            try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, pattern: "\\S+")
+            try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, pattern: "^$|com.amazonaws.vpce.[\\w/!:@#.\\-]+")
             try self.validate(self.region, name: "region", parent: name, max: 64)
             try self.validate(self.region, name: "region", parent: name, pattern: "\\S+")
             try self.validate(self.stage, name: "stage", parent: name, max: 512)
@@ -3106,7 +3383,7 @@ extension Appflow {
     }
 
     public struct SnowflakeMetadata: AWSDecodableShape {
-        ///  Specifies the supported AWS Regions when using Snowflake.
+        ///  Specifies the supported Amazon Web Services Regions when using Snowflake.
         public let supportedRegions: [String]?
 
         public init(supportedRegions: [String]? = nil) {
@@ -3135,6 +3412,7 @@ extension Appflow {
         public let s3: S3SourceProperties?
         ///  Specifies the information that is required for querying Salesforce.
         public let salesforce: SalesforceSourceProperties?
+        public let sAPOData: SAPODataSourceProperties?
         ///  Specifies the information that is required for querying ServiceNow.
         public let serviceNow: ServiceNowSourceProperties?
         ///  Specifies the information that is required for querying Singular.
@@ -3148,7 +3426,7 @@ extension Appflow {
         ///  Specifies the information that is required for querying Zendesk.
         public let zendesk: ZendeskSourceProperties?
 
-        public init(amplitude: AmplitudeSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
+        public init(amplitude: AmplitudeSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sAPOData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -3157,6 +3435,7 @@ extension Appflow {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
+            self.sAPOData = sAPOData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -3174,6 +3453,7 @@ extension Appflow {
             try self.marketo?.validate(name: "\(name).marketo")
             try self.s3?.validate(name: "\(name).s3")
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.sAPOData?.validate(name: "\(name).sAPOData")
             try self.serviceNow?.validate(name: "\(name).serviceNow")
             try self.singular?.validate(name: "\(name).singular")
             try self.slack?.validate(name: "\(name).slack")
@@ -3191,6 +3471,7 @@ extension Appflow {
             case marketo = "Marketo"
             case s3 = "S3"
             case salesforce = "Salesforce"
+            case sAPOData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -3218,7 +3499,7 @@ extension Appflow {
     }
 
     public struct SourceFlowConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The name of the connector profile. This name must be unique for each connector profile in the AWS account.
+        ///  The name of the connector profile. This name must be unique for each connector profile in the Amazon Web Services account.
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType
@@ -3536,7 +3817,7 @@ extension Appflow {
         public let connectionMode: ConnectionMode
         ///  Defines the connector-specific profile configuration and credentials.
         public let connectorProfileConfig: ConnectorProfileConfig
-        ///  The name of the connector profile and is unique for each ConnectorProfile in the AWS Account.
+        ///  The name of the connector profile and is unique for each ConnectorProfile in the Amazon Web Services account.
         public let connectorProfileName: String
 
         public init(connectionMode: ConnectionMode, connectorProfileConfig: ConnectorProfileConfig, connectorProfileName: String) {
@@ -3578,13 +3859,13 @@ extension Appflow {
         public let destinationFlowConfigList: [DestinationFlowConfig]
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
-        public let sourceFlowConfig: SourceFlowConfig?
+        public let sourceFlowConfig: SourceFlowConfig
         ///  A list of tasks that Amazon AppFlow performs while transferring the data in the flow run.
         public let tasks: [Task]
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
-        public init(description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, sourceFlowConfig: SourceFlowConfig? = nil, tasks: [Task], triggerConfig: TriggerConfig) {
+        public init(description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
             self.description = description
             self.destinationFlowConfigList = destinationFlowConfigList
             self.flowName = flowName
@@ -3601,7 +3882,7 @@ extension Appflow {
             }
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
-            try self.sourceFlowConfig?.validate(name: "\(name).sourceFlowConfig")
+            try self.sourceFlowConfig.validate(name: "\(name).sourceFlowConfig")
             try self.tasks.forEach {
                 try $0.validate(name: "\(name).tasks[]")
             }
@@ -3730,19 +4011,37 @@ extension Appflow {
     }
 
     public struct VeevaSourceProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The document type specified in the Veeva document extract flow.
+        public let documentType: String?
+        /// Boolean value to include All Versions of files in Veeva document extract flow.
+        public let includeAllVersions: Bool?
+        /// Boolean value to include file renditions in Veeva document extract flow.
+        public let includeRenditions: Bool?
+        /// Boolean value to include source files in Veeva document extract flow.
+        public let includeSourceFiles: Bool?
         ///  The object specified in the Veeva flow source.
         public let object: String
 
-        public init(object: String) {
+        public init(documentType: String? = nil, includeAllVersions: Bool? = nil, includeRenditions: Bool? = nil, includeSourceFiles: Bool? = nil, object: String) {
+            self.documentType = documentType
+            self.includeAllVersions = includeAllVersions
+            self.includeRenditions = includeRenditions
+            self.includeSourceFiles = includeSourceFiles
             self.object = object
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.documentType, name: "documentType", parent: name, max: 512)
+            try self.validate(self.documentType, name: "documentType", parent: name, pattern: "[\\s\\w_-]+")
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case documentType
+            case includeAllVersions
+            case includeRenditions
+            case includeSourceFiles
             case object
         }
     }

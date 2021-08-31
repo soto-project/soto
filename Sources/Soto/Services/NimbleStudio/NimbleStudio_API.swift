@@ -85,7 +85,7 @@ public struct NimbleStudio: AWSService {
         return self.client.execute(operation: "CreateStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new Studio. When creating a Studio, two IAM roles must be provided: the admin role and the user Role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The Admin Role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an AWS KMS key. By default, this key is owned by AWS and managed on your behalf. You may provide your own AWS KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an AWS KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
+    /// Create a new Studio. When creating a Studio, two IAM roles must be provided: the admin role and the user Role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The Admin Role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
     public func createStudio(_ input: CreateStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStudioResponse> {
         return self.client.execute(operation: "CreateStudio", path: "/2020-08-01/studios", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -205,7 +205,7 @@ public struct NimbleStudio: AWSService {
         return self.client.execute(operation: "ListLaunchProfiles", path: "/2020-08-01/studios/{studioId}/launch-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the streaming image resources available to this studio. This list will contain both images provided by AWS, as well as streaming images that you have created in your studio.
+    /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
     public func listStreamingImages(_ input: ListStreamingImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingImagesResponse> {
         return self.client.execute(operation: "ListStreamingImages", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -225,7 +225,7 @@ public struct NimbleStudio: AWSService {
         return self.client.execute(operation: "ListStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List studios in your AWS account in the requested AWS Region.
+    /// List studios in your Amazon Web Services account in the requested Amazon Web Services Region.
     public func listStudios(_ input: ListStudiosRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStudiosResponse> {
         return self.client.execute(operation: "ListStudios", path: "/2020-08-01/studios", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -245,7 +245,7 @@ public struct NimbleStudio: AWSService {
         return self.client.execute(operation: "PutStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Repairs the SSO configuration for a given studio. If the studio has a valid AWS SSO configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid AWS SSO configuration currently associated with it, then a new AWS SSO application is created for the studio and the studio is changed to the READY state. After the AWS SSO application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
+    /// Repairs the SSO configuration for a given studio. If the studio has a valid Amazon Web Services SSO configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid Amazon Web Services SSO configuration currently associated with it, then a new Amazon Web Services SSO application is created for the studio and the studio is changed to the READY state. After the Amazon Web Services SSO application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
     public func startStudioSSOConfigurationRepair(_ input: StartStudioSSOConfigurationRepairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartStudioSSOConfigurationRepairResponse> {
         return self.client.execute(operation: "StartStudioSSOConfigurationRepair", path: "/2020-08-01/studios/{studioId}/sso-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

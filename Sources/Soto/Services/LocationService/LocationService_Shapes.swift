@@ -647,9 +647,9 @@ extension LocationService {
     }
 
     public struct CalculateRouteResponse: AWSDecodableShape {
-        /// Contains details about each path between a pair of positions included along a route such as: StartPosition, EndPosition, Distance, DurationSeconds, Geometry, and Steps. The number of legs returned corresponds to one less than the total number of positions in the request.  For example, a route with a departure position and destination position returns one leg with the positions snapped to a nearby road:   The StartPosition is the departure position.   The EndPosition is the destination position.   A route with a waypoint between the departure and destination position returns two legs with the positions snapped to a nearby road.:   Leg 1: The StartPosition is the departure position . The EndPosition is the waypoint positon.   Leg 2: The StartPosition is the waypoint position. The EndPosition is the destination position.
+        /// Contains details about each path between a pair of positions included along a route such as: StartPosition, EndPosition, Distance, DurationSeconds, Geometry, and Steps. The number of legs returned corresponds to one fewer than the total number of positions in the request.  For example, a route with a departure position and destination position returns one leg with the positions snapped to a nearby road:   The StartPosition is the departure position.   The EndPosition is the destination position.   A route with a waypoint between the departure and destination position returns two legs with the positions snapped to a nearby road:   Leg 1: The StartPosition is the departure position . The EndPosition is the waypoint positon.   Leg 2: The StartPosition is the waypoint position. The EndPosition is the destination position.
         public let legs: [Leg]
-        /// Contains information about the whole route, such as: RouteBBox, DataSource, Distance, DistanceUnit, and DurationSeconds
+        /// Contains information about the whole route, such as: RouteBBox, DataSource, Distance, DistanceUnit, and DurationSeconds.
         public let summary: CalculateRouteSummary
 
         public init(legs: [Leg], summary: CalculateRouteSummary) {
@@ -672,7 +672,7 @@ extension LocationService {
         public let distanceUnit: DistanceUnit
         /// The total travel time for the route measured in seconds. The sum of the travel time between every stop on the route.
         public let durationSeconds: Double
-        /// Specifies a geographical box surrounding a route. Used to zoom into a route when displaying it in a map. For example, [min x, min y, max x, max y]  The first 2 bbox parameters describe the lower southwest corner:    The first bbox position is the X coordinate or longitude of the lower southwest corner.    The second bbox position is the Y coordinate or latitude of the lower southwest corner.    The next 2 bbox parameters describe the upper northeast corner:    The third bbox position is the X coordinate, or longitude of the upper northeast corner.    The fourth bbox position is the Y coordinate, or longitude of the upper northeast corner.
+        /// Specifies a geographical box surrounding a route. Used to zoom into a route when displaying it in a map. For example, [min x, min y, max x, max y]. The first 2 bbox parameters describe the lower southwest corner:    The first bbox position is the X coordinate or longitude of the lower southwest corner.    The second bbox position is the Y coordinate or latitude of the lower southwest corner.    The next 2 bbox parameters describe the upper northeast corner:    The third bbox position is the X coordinate, or longitude of the upper northeast corner.    The fourth bbox position is the Y coordinate, or longitude of the upper northeast corner.
         public let routeBBox: [Double]
 
         public init(dataSource: String, distance: Double, distanceUnit: DistanceUnit, durationSeconds: Double, routeBBox: [Double]) {
@@ -845,7 +845,7 @@ extension LocationService {
         /// The timestamp for when the map resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The Amazon Resource Name (ARN) for the map resource. Used when you need to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
+        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
         public let mapArn: String
         /// The name of the map resource.
         public let mapName: String
@@ -864,9 +864,9 @@ extension LocationService {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the data provider of geospatial data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE will return an error.  Valid values include:    Esri     Here   Place index resources using HERE as a data provider can't be used to store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional details on data providers, see the Amazon Location Service data providers page.
+        /// Specifies the data provider of geospatial data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here – For additional information about HERE Technologies's coverage in your region of interest, see HERE details on goecoding coverage.  Place index resources using HERE Technologies as a data provider can't store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
-        /// Specifies the data storage option for requesting Places.
+        /// Specifies the data storage option requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
         /// The optional description for the place index resource.
         public let description: String?
@@ -916,7 +916,7 @@ extension LocationService {
         /// The timestamp for when the place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across all AWS.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
+        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across AWS.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
         public let indexArn: String
         /// The name for the place index resource.
         public let indexName: String
@@ -937,7 +937,7 @@ extension LocationService {
     public struct CreateRouteCalculatorRequest: AWSEncodableShape {
         /// The name of the route calculator resource.  Requirements:   Can use alphanumeric characters (A–Z, a–z, 0–9) , hyphens (-), periods (.), and underscores (_).   Must be a unique Route calculator resource name.   No spaces allowed. For example, ExampleRouteCalculator.
         public let calculatorName: String
-        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid Values: Esri | Here  For more information about data providers, see Amazon Location Service data providers.
+        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage.    Here – For additional information about HERE Technologies's coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// The optional description for the route calculator resource.
         public let description: String?
@@ -1075,7 +1075,7 @@ extension LocationService {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how the results of an operation will be stored by the caller.  Valid values include:    SingleUse specifies that the results won't be stored.     Storage specifies that the result can be cached or stored in a database.  Place index resources using HERE as a data provider can't be configured to store results for locations in Japan when choosing Storage for the IntendedUse parameter.    Default value: SingleUse
+        /// Specifies how the results of an operation will be stored by the caller.  Valid values include:    SingleUse specifies that the results won't be stored.     Storage specifies that the result can be cached or stored in a database.   Default value: SingleUse
         public let intendedUse: IntendedUse?
 
         public init(intendedUse: IntendedUse? = nil) {
@@ -1311,7 +1311,7 @@ extension LocationService {
         public let dataSource: String
         /// The optional description for the map resource.
         public let description: String
-        /// The Amazon Resource Name (ARN) for the map resource. Used when you need to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
+        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
         public let mapArn: String
         /// The map style selected from an available provider.
         public let mapName: String
@@ -1379,7 +1379,7 @@ extension LocationService {
         public let dataSourceConfiguration: DataSourceConfiguration
         /// The optional description for the place index resource.
         public let description: String
-        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across all AWS.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
+        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across AWS.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
         public let indexArn: String
         /// The name of the place index resource being described.
         public let indexName: String
@@ -1840,7 +1840,7 @@ extension LocationService {
             AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
         ]
 
-        /// A comma-separated list of fonts to load glyphs from in order of preference.. For example, Noto Sans, Arial Unicode.
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid fonts for HERE Technologies styles:     VectorHereBerlin – Fira GO Regular | Fira GO Bold
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -2550,7 +2550,7 @@ extension LocationService {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2567,7 +2567,7 @@ extension LocationService {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The mapping from tag key to tag value for each tag associated with the specified resource.
+        /// Tags that have been applied to the specified resource. Tags are mapped from the tag key to the tag value: "TagKey" : "TagValue".   Format example: {"tag1" : "value1", "tag2" : "value2"}
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2707,7 +2707,7 @@ extension LocationService {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. Valid styles: RasterEsriImagery, VectorEsriStreets, VectorEsriTopographic, VectorEsriNavigation, VectorEsriDarkGrayCanvas, VectorEsriLightGrayCanvas, VectorHereBerlin.  When using HERE as your data provider, and selecting the Style VectorHereBerlin, you may not use HERE Maps for Asset Management. See the AWS Service Terms for Amazon Location Service.
+        /// Specifies the map style selected from an available data provider. For additional information on each map style and to preview each map style, see Esri map styles and HERE map styles. Valid Esri styles:     VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies styles:     VectorHereBerlin – The HERE Berlin map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.  When using HERE as your data provider, and selecting the Style VectorHereBerlin, you may not use HERE Technologies maps for Asset Management. See the AWS Service Terms for Amazon Location Service.
         public let style: String
 
         public init(style: String) {
@@ -3084,9 +3084,9 @@ extension LocationService {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource whose tags you want to update.
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to update.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
-        /// The mapping from tag key to tag value for each tag associated with the specified resource.
+        /// Tags that have been applied to the specified resource. Tags are mapped from the tag key to the tag value: "TagKey" : "TagValue".   Format example: {"tag1" : "value1", "tag2" : "value2"}
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -3175,9 +3175,9 @@ extension LocationService {
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.
+        /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
-        /// The list of tag keys to remove from the resource.
+        /// The list of tag keys to remove from the specified resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -3198,5 +3198,287 @@ extension LocationService {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateGeofenceCollectionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+        ]
+
+        /// The name of the geofence collection to update.
+        public let collectionName: String
+        /// Updates the description for the geofence collection.
+        public let description: String?
+        /// Updates the pricing plan for the geofence collection. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
+        /// Updates the data provider for the geofence collection.  A required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement  For more information about data providers and pricing plans, see the Amazon Location Service product page.  This can only be updated when updating the PricingPlan in the same request. Amazon Location Service uses PricingPlanDataSource to calculate billing for your geofence collection. Your data won't be shared with the data provider, and will remain in your AWS account and Region unless you move it.
+        public let pricingPlanDataSource: String?
+
+        public init(collectionName: String, description: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil) {
+            self.collectionName = collectionName
+            self.description = description
+            self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
+            try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
+            try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
+        }
+    }
+
+    public struct UpdateGeofenceCollectionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
+        public let collectionArn: String
+        /// The name of the updated geofence collection.
+        public let collectionName: String
+        /// The time when the geofence collection was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(collectionArn: String, collectionName: String, updateTime: Date) {
+            self.collectionArn = collectionArn
+            self.collectionName = collectionName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionArn = "CollectionArn"
+            case collectionName = "CollectionName"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct UpdateMapRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+        ]
+
+        /// Updates the description for the map resource.
+        public let description: String?
+        /// The name of the map resource to update.
+        public let mapName: String
+        /// Updates the pricing plan for the map resource. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
+
+        public init(description: String? = nil, mapName: String, pricingPlan: PricingPlan? = nil) {
+            self.description = description
+            self.mapName = mapName
+            self.pricingPlan = pricingPlan
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
+            try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
+            try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case pricingPlan = "PricingPlan"
+        }
+    }
+
+    public struct UpdateMapResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated map resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
+        public let mapArn: String
+        /// The name of the updated map resource.
+        public let mapName: String
+        /// The timestamp for when the map resource was last updated in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(mapArn: String, mapName: String, updateTime: Date) {
+            self.mapArn = mapArn
+            self.mapName = mapName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapArn = "MapArn"
+            case mapName = "MapName"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct UpdatePlaceIndexRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+        ]
+
+        /// Updates the data storage option for the place index resource.
+        public let dataSourceConfiguration: DataSourceConfiguration?
+        /// Updates the description for the place index resource.
+        public let description: String?
+        /// The name of the place index resource to update.
+        public let indexName: String
+        /// Updates the pricing plan for the place index resource. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
+
+        public init(dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, pricingPlan: PricingPlan? = nil) {
+            self.dataSourceConfiguration = dataSourceConfiguration
+            self.description = description
+            self.indexName = indexName
+            self.pricingPlan = pricingPlan
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceConfiguration = "DataSourceConfiguration"
+            case description = "Description"
+            case pricingPlan = "PricingPlan"
+        }
+    }
+
+    public struct UpdatePlaceIndexResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the upated place index resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:place- index/ExamplePlaceIndex
+        public let indexArn: String
+        /// The name of the updated place index resource.
+        public let indexName: String
+        /// The timestamp for when the place index resource was last updated in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(indexArn: String, indexName: String, updateTime: Date) {
+            self.indexArn = indexArn
+            self.indexName = indexName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexArn = "IndexArn"
+            case indexName = "IndexName"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct UpdateRouteCalculatorRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "calculatorName", location: .uri(locationName: "CalculatorName"))
+        ]
+
+        /// The name of the route calculator resource to update.
+        public let calculatorName: String
+        /// Updates the description for the route calculator resource.
+        public let description: String?
+        /// Updates the pricing plan for the route calculator resource. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
+
+        public init(calculatorName: String, description: String? = nil, pricingPlan: PricingPlan? = nil) {
+            self.calculatorName = calculatorName
+            self.description = description
+            self.pricingPlan = pricingPlan
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.calculatorName, name: "calculatorName", parent: name, max: 100)
+            try self.validate(self.calculatorName, name: "calculatorName", parent: name, min: 1)
+            try self.validate(self.calculatorName, name: "calculatorName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case pricingPlan = "PricingPlan"
+        }
+    }
+
+    public struct UpdateRouteCalculatorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated route calculator resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:route- calculator/ExampleCalculator
+        public let calculatorArn: String
+        /// The name of the updated route calculator resource.
+        public let calculatorName: String
+        /// The timestamp for when the route calculator was last updated in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(calculatorArn: String, calculatorName: String, updateTime: Date) {
+            self.calculatorArn = calculatorArn
+            self.calculatorName = calculatorName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatorArn = "CalculatorArn"
+            case calculatorName = "CalculatorName"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct UpdateTrackerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+        ]
+
+        /// Updates the description for the tracker resource.
+        public let description: String?
+        /// Updates the pricing plan for the tracker resource. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
+        /// Updates the data provider for the tracker resource.  A required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement  For more information about data providers and pricing plans, see the Amazon Location Service product page  This can only be updated when updating the PricingPlan in the same request. Amazon Location Service uses PricingPlanDataSource to calculate billing for your tracker resource. Your data won't be shared with the data provider, and will remain in your AWS account and Region unless you move it.
+        public let pricingPlanDataSource: String?
+        /// The name of the tracker resource to update.
+        public let trackerName: String
+
+        public init(description: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String) {
+            self.description = description
+            self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
+            self.trackerName = trackerName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
+            try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
+            try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
+        }
+    }
+
+    public struct UpdateTrackerResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated tracker resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
+        public let trackerArn: String
+        /// The name of the updated tracker resource.
+        public let trackerName: String
+        /// The timestamp for when the tracker resource was last updated in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(trackerArn: String, trackerName: String, updateTime: Date) {
+            self.trackerArn = trackerArn
+            self.trackerName = trackerName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackerArn = "TrackerArn"
+            case trackerName = "TrackerName"
+            case updateTime = "UpdateTime"
+        }
     }
 }

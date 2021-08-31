@@ -123,6 +123,7 @@ extension Kendra {
         case servicenow = "SERVICENOW"
         case sharepoint = "SHAREPOINT"
         case webcrawler = "WEBCRAWLER"
+        case workdocs = "WORKDOCS"
         public var description: String { return self.rawValue }
     }
 
@@ -755,9 +756,9 @@ extension Kendra {
     }
 
     public struct CapacityUnitsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of extra query capacity for an index and GetQuerySuggestions capacity. A single extra capacity unit for an index provides 0.5 queries per second or approximately 40,000 queries per day.  GetQuerySuggestions capacity is 5 times the provisioned query capacity for an index. For example, the base capacity for an index is 0.5 queries per second, so GetQuerySuggestions capacity is 2.5 calls per second. If adding another 0.5 queries per second to total 1 queries per second for an index, the GetQuerySuggestions capacity is 5 calls per second.
+        /// The amount of extra query capacity for an index and GetQuerySuggestions capacity. A single extra capacity unit for an index provides 0.1 queries per second or approximately 8,000 queries per day.  GetQuerySuggestions capacity is five times the provisioned query capacity for an index, or the base capacity of 2.5 calls per second, whichever is higher. For example, the base capacity for an index is 0.1 queries per second, and GetQuerySuggestions capacity has a base of 2.5 calls per second. If you add another 0.1 queries per second to total 0.2 queries per second for an index, the GetQuerySuggestions capacity is 2.5 calls per second (higher than five times 0.2 queries per second).
         public let queryCapacityUnits: Int
-        /// The amount of extra storage capacity for an index. A single capacity unit for an index provides 150 GB of storage space or 500,000 documents, whichever is reached first.
+        /// The amount of extra storage capacity for an index. A single capacity unit provides 30 GB of storage space or 100,000 documents, whichever is reached first.
         public let storageCapacityUnits: Int
 
         public init(queryCapacityUnits: Int, storageCapacityUnits: Int) {
@@ -1188,7 +1189,7 @@ extension Kendra {
         public let databaseName: String
         /// The port that the database uses for connections.
         public let databasePort: Int
-        /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Database Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the  Secrets Manager  user guide.
+        /// The Amazon Resource Name (ARN) of credentials stored in Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Database Data Source. For more information about Secrets Manager, see  What Is Secrets Manager in the  Secrets Manager  user guide.
         public let secretArn: String
         /// The name of the table that contains the document data.
         public let tableName: String
@@ -1389,7 +1390,7 @@ extension Kendra {
         public let clientToken: String?
         /// A description for the index.
         public let description: String?
-        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION.
+        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer editions, see Quotas.
         public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
@@ -1630,8 +1631,10 @@ extension Kendra {
         /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
         public let webCrawlerConfiguration: WebCrawlerConfiguration?
+        /// Provides the configuration information to connect to WorkDocs as your data source.
+        public let workDocsConfiguration: WorkDocsConfiguration?
 
-        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.googleDriveConfiguration = googleDriveConfiguration
@@ -1641,6 +1644,7 @@ extension Kendra {
             self.serviceNowConfiguration = serviceNowConfiguration
             self.sharePointConfiguration = sharePointConfiguration
             self.webCrawlerConfiguration = webCrawlerConfiguration
+            self.workDocsConfiguration = workDocsConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1653,6 +1657,7 @@ extension Kendra {
             try self.serviceNowConfiguration?.validate(name: "\(name).serviceNowConfiguration")
             try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
             try self.webCrawlerConfiguration?.validate(name: "\(name).webCrawlerConfiguration")
+            try self.workDocsConfiguration?.validate(name: "\(name).workDocsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,6 +1670,7 @@ extension Kendra {
             case serviceNowConfiguration = "ServiceNowConfiguration"
             case sharePointConfiguration = "SharePointConfiguration"
             case webCrawlerConfiguration = "WebCrawlerConfiguration"
+            case workDocsConfiguration = "WorkDocsConfiguration"
         }
     }
 
@@ -4868,7 +4874,7 @@ extension Kendra {
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let inclusionPatterns: [String]?
-        /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. If you use SharePoint Sever, you also need to provide the sever domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the Secrets Manager  user guide.
+        /// The Amazon Resource Name (ARN) of credentials stored in Secrets Manager. The credentials should be a user/password pair. If you use SharePoint Server, you also need to provide the sever domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. For more information about Secrets Manager, see  What Is Secrets Manager in the Secrets Manager  user guide.
         public let secretArn: String
         /// The version of Microsoft SharePoint that you are using as a data source.
         public let sharePointVersion: SharePointVersion
@@ -5790,6 +5796,62 @@ extension Kendra {
             case urlExclusionPatterns = "UrlExclusionPatterns"
             case urlInclusionPatterns = "UrlInclusionPatterns"
             case urls = "Urls"
+        }
+    }
+
+    public struct WorkDocsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  TRUE to include comments on documents in your index. Including comments in your index means each comment is a document that can be searched on. The default is set to FALSE.
+        public let crawlComments: Bool?
+        /// A list of regular expression patterns to exclude certain files in your Amazon WorkDocs site repository. Files that match the patterns are excluded from the index. Files that don’t match the patterns are included in the index. If a file matches both an inclusion pattern and an exclusion pattern, the exclusion pattern takes precedence and the file isn’t included in the index.
+        public let exclusionPatterns: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map Amazon WorkDocs field names to custom index field names in Amazon Kendra. You must first create the custom index fields using the UpdateIndex operation before you map to Amazon WorkDocs fields. For more information, see Mapping Data Source Fields. The Amazon WorkDocs data source field names need to exist in your Amazon WorkDocs custom metadata.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns to include certain files in your Amazon WorkDocs site repository. Files that match the patterns are included in the index. Files that don't match the patterns are excluded from the index. If a file matches both an inclusion pattern and an exclusion pattern, the exclusion pattern takes precedence and the file isn’t included in the index.
+        public let inclusionPatterns: [String]?
+        /// The identifier of the directory corresponding to your Amazon WorkDocs site repository. You can find the organization ID in the AWS Directory Service by going to Active Directory, then Directories. Your Amazon WorkDocs site directory has an ID, which is the organization ID. You can also set up a new Amazon WorkDocs directory in the AWS Directory Service console and enable a Amazon WorkDocs site for the directory in the Amazon WorkDocs console.
+        public let organizationId: String
+        ///  TRUE to use the change logs to update documents in your index instead of scanning all documents. If you are syncing your Amazon WorkDocs data source with your index for the first time, all documents are scanned. After your first sync, you can use the change logs to update your documents in your index for future syncs. The default is set to FALSE.
+        public let useChangeLog: Bool?
+
+        public init(crawlComments: Bool? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, organizationId: String, useChangeLog: Bool? = nil) {
+            self.crawlComments = crawlComments
+            self.exclusionPatterns = exclusionPatterns
+            self.fieldMappings = fieldMappings
+            self.inclusionPatterns = inclusionPatterns
+            self.organizationId = organizationId
+            self.useChangeLog = useChangeLog
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
+            try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 12)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 12)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "d-[0-9a-fA-F]{10}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlComments = "CrawlComments"
+            case exclusionPatterns = "ExclusionPatterns"
+            case fieldMappings = "FieldMappings"
+            case inclusionPatterns = "InclusionPatterns"
+            case organizationId = "OrganizationId"
+            case useChangeLog = "UseChangeLog"
         }
     }
 }

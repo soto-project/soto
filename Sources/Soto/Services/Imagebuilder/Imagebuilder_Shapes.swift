@@ -132,7 +132,7 @@ extension Imagebuilder {
         public let image: String?
         /// The name of the Amazon EC2 AMI.
         public let name: String?
-        /// The Region of the Amazon EC2 AMI.
+        /// The Amazon Web Services Region of the Amazon EC2 AMI.
         public let region: String?
         public let state: ImageState?
 
@@ -162,7 +162,7 @@ extension Imagebuilder {
         public let description: String?
         /// The KMS key identifier used to encrypt the distributed image.
         public let kmsKeyId: String?
-        ///  Launch permissions can be used to configure which accounts can use the AMI to launch instances.
+        ///  Launch permissions can be used to configure which Amazon Web Services accounts can use the AMI to launch instances.
         public let launchPermission: LaunchPermissionConfiguration?
         /// The name of the distribution configuration.
         public let name: String?
@@ -454,7 +454,7 @@ extension Imagebuilder {
     }
 
     public struct ComponentVersion: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the component.
+        /// The Amazon Resource Name (ARN) of the component.  Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
         /// The date that the component was created.
         public let dateCreated: String?
@@ -470,7 +470,7 @@ extension Imagebuilder {
         public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let type: ComponentType?
-        /// The semantic version of the component.
+        /// The semantic version of the component.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.  Filtering: When you retrieve or reference a resource with a semantic version, you can use wildcards (x) to filter your results. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. For example, specifying "1.2.x", or "1.x.x" works to filter list results, but neither "1.x.2", nor "x.2.x" will work. You do not have to specify the build - Image Builder automatically uses a wildcard for that, if applicable.
         public let version: String?
 
         public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
@@ -547,7 +547,7 @@ extension Imagebuilder {
     }
 
     public struct ContainerRecipe: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the container recipe.
+        /// The Amazon Resource Name (ARN) of the container recipe.  Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
         /// Components for build and test that are included in the container recipe.
         public let components: [ComponentConfiguration]?
@@ -577,7 +577,7 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// The destination repository for the container image.
         public let targetRepository: TargetContainerRepository?
-        /// The semantic version of the container recipe (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
+        /// The semantic version of the container recipe.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.  Filtering: When you retrieve or reference a resource with a semantic version, you can use wildcards (x) to filter your results. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. For example, specifying "1.2.x", or "1.x.x" works to filter list results, but neither "1.x.2", nor "x.2.x" will work. You do not have to specify the build - Image Builder automatically uses a wildcard for that, if applicable.
         public let version: String?
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
@@ -679,7 +679,7 @@ extension Imagebuilder {
         public let name: String
         /// The platform of the component.
         public let platform: Platform
-        /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
+        /// The semantic version of the component. This version follows the semantic version syntax.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
         public let semanticVersion: String
         ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
@@ -790,7 +790,7 @@ extension Imagebuilder {
         public let parentImage: String
         /// Specifies the operating system platform when you use a custom source image.
         public let platformOverride: Platform?
-        /// The semantic version of the container recipe (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
+        /// The semantic version of the container recipe. This version follows the semantic version syntax.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
         public let semanticVersion: String
         /// Tags that are attached to the container recipe.
         public let tags: [String: String]?
@@ -1071,7 +1071,7 @@ extension Imagebuilder {
         public let name: String
         /// The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x. You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder.
         public let parentImage: String
-        /// The semantic version of the image recipe.
+        /// The semantic version of the image recipe. This version follows the semantic version syntax.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
         public let semanticVersion: String
         ///  The tags of the image recipe.
         public let tags: [String: String]?
@@ -2193,9 +2193,9 @@ extension Imagebuilder {
     }
 
     public struct Image: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image.
+        /// The Amazon Resource Name (ARN) of the image.  Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
-        /// The container recipe used to create the container image type.
+        /// The recipe that is used to create an Image Builder container image.
         public let containerRecipe: ContainerRecipe?
         /// The date on which this image was created.
         public let dateCreated: String?
@@ -2227,7 +2227,7 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// Specifies whether this is an AMI or container image.
         public let type: ImageType?
-        /// The semantic version of the image.
+        /// The semantic version of the image.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.  Filtering: When you retrieve or reference a resource with a semantic version, you can use wildcards (x) to filter your results. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. For example, specifying "1.2.x", or "1.x.x" works to filter list results, but neither "1.x.2", nor "x.2.x" will work. You do not have to specify the build - Image Builder automatically uses a wildcard for that, if applicable.
         public let version: String?
 
         public init(arn: String? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
@@ -2562,21 +2562,21 @@ extension Imagebuilder {
     }
 
     public struct ImageVersion: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image semantic version.
+        /// The Amazon Resource Name (ARN) of a specific version of an Image Builder image.  Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
-        /// The date at which this image semantic version was created.
+        /// The date on which this specific version of the Image Builder image was created.
         public let dateCreated: String?
-        /// The name of the image semantic version.
+        /// The name of this specific version of an Image Builder image.
         public let name: String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
+        /// The operating system version of the Amazon EC2 build instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
-        /// The owner of the image semantic version.
+        /// The owner of the image version.
         public let owner: String?
-        /// The platform of the image semantic version.
+        /// The platform of the image version, for example "Windows" or "Linux".
         public let platform: Platform?
-        /// Specifies whether this is an AMI or container image.
+        /// Specifies whether this image is an AMI or a container image.
         public let type: ImageType?
-        /// The semantic version of the image semantic version.
+        /// Details for a specific version of an Image Builder image. This version follows the semantic version syntax.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number, and that is not open for updates.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.  Filtering: When you retrieve or reference a resource with a semantic version, you can use wildcards (x) to filter your results. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. For example, specifying "1.2.x", or "1.x.x" works to filter list results, but neither "1.x.2", nor "x.2.x" will work. You do not have to specify the build - Image Builder automatically uses a wildcard for that, if applicable.
         public let version: String?
 
         public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ImageType? = nil, version: String? = nil) {
@@ -2619,11 +2619,11 @@ extension Imagebuilder {
         public let name: String
         /// The platform of the component.
         public let platform: Platform
-        /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
+        /// The semantic version of the component. This version follows the semantic version syntax.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Filtering: When you retrieve or reference a resource with a semantic version, you can use wildcards (x) to filter your results. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. For example, specifying "1.2.x", or "1.x.x" works to filter list results, but neither "1.x.2", nor "x.2.x" will work. You do not have to specify the build - Image Builder automatically uses a wildcard for that, if applicable.
         public let semanticVersion: String
         /// The tags of the component.
         public let tags: [String: String]?
-        /// The type of the component denotes whether the component is used to build the image or only to test it.
+        /// The type of the component denotes whether the component is used to build the image, or only to test it.
         public let type: ComponentType
         /// The uri of the component. Must be an Amazon S3 URL and the requester must have permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
@@ -2878,7 +2878,7 @@ extension Imagebuilder {
     public struct LaunchPermissionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the group.
         public let userGroups: [String]?
-        /// The account ID.
+        /// The Amazon Web Services account ID.
         public let userIds: [String]?
 
         public init(userGroups: [String]? = nil, userIds: [String]? = nil) {
@@ -2981,9 +2981,9 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-        /// Returns the list of component build versions for the specified semantic version.
+        /// Returns the list of component build versions for the specified name.
         public let byName: Bool?
-        /// The filters.
+        /// Use the following filters to streamline results:    description     name     platform     supportedOsVersion     type     version
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -3022,7 +3022,7 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsResponse: AWSDecodableShape {
-        /// The list of component semantic versions.
+        /// The list of component semantic versions.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.
         public let componentVersionList: [ComponentVersion]?
         /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
@@ -3043,7 +3043,7 @@ extension Imagebuilder {
     }
 
     public struct ListContainerRecipesRequest: AWSEncodableShape {
-        /// Request filters that are used to narrow the list of container images that are returned.
+        /// Use the following filters to streamline results:    containerType     name     parentImage     platform
         public let filters: [Filter]?
         /// The maximum number of results to return in the list.
         public let maxResults: Int?
@@ -3101,7 +3101,7 @@ extension Imagebuilder {
     }
 
     public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
-        /// The filters.    name - The name of this distribution configuration.
+        /// You can filter on name to streamline results.
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -3155,7 +3155,7 @@ extension Imagebuilder {
     }
 
     public struct ListImageBuildVersionsRequest: AWSEncodableShape {
-        /// The filters.
+        /// Use the following filters to streamline results:    name     osVersion     platform     type     version
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve.
         public let imageVersionArn: String
@@ -3264,7 +3264,7 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelineImagesRequest: AWSEncodableShape {
-        /// The filters.
+        /// Use the following filters to streamline results:    name     version
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view.
         public let imagePipelineArn: String
@@ -3323,7 +3323,7 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelinesRequest: AWSEncodableShape {
-        /// The filters.
+        /// Use the following filters to streamline results:    description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -3377,7 +3377,7 @@ extension Imagebuilder {
     }
 
     public struct ListImageRecipesRequest: AWSEncodableShape {
-        /// The filters.
+        /// Use the following filters to streamline results:    name     parentImage     platform
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -3437,7 +3437,7 @@ extension Imagebuilder {
     public struct ListImagesRequest: AWSEncodableShape {
         /// Requests a list of images with a specific recipe name.
         public let byName: Bool?
-        /// The filters.
+        /// Use the following filters to streamline results:    name     osVersion     platform     type     version
         public let filters: [Filter]?
         /// Includes deprecated images in the response list.
         public let includeDeprecated: Bool?
@@ -3480,7 +3480,7 @@ extension Imagebuilder {
     }
 
     public struct ListImagesResponse: AWSDecodableShape {
-        /// The list of image semantic versions.
+        /// The list of image semantic versions.  The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.  Filtering: When you retrieve or reference a resource with a semantic version, you can use wildcards (x) to filter your results. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. For example, specifying "1.2.x", or "1.x.x" works to filter list results, but neither "1.x.2", nor "x.2.x" will work. You do not have to specify the build - Image Builder automatically uses a wildcard for that, if applicable.
         public let imageVersionList: [ImageVersion]?
         /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
@@ -3501,7 +3501,7 @@ extension Imagebuilder {
     }
 
     public struct ListInfrastructureConfigurationsRequest: AWSEncodableShape {
-        /// The filters.
+        /// You can filter on name to streamline results.
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -3878,7 +3878,7 @@ extension Imagebuilder {
     }
 
     public struct SystemsManagerAgent: AWSEncodableShape & AWSDecodableShape {
-        /// This property defaults to true. If Image Builder installs the SSM agent on a build instance, it removes the agent before creating a snapshot for the AMI. To ensure that the AMI you create includes the SSM agent, set this property to false.
+        /// Controls whether the SSM agent is removed from your final build image, prior to creating the new AMI. If this is set to true, then the agent is removed from the final image. If it's set to false, then the agent is left in, so that it is included in the new AMI. The default value is false.
         public let uninstallAfterBuild: Bool?
 
         public init(uninstallAfterBuild: Bool? = nil) {

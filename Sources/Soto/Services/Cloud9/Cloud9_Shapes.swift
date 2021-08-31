@@ -52,6 +52,12 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedCredentialsAction: String, CustomStringConvertible, Codable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable {
         case disabledByCollaborator = "DISABLED_BY_COLLABORATOR"
         case disabledByDefault = "DISABLED_BY_DEFAULT"
@@ -91,6 +97,8 @@ extension Cloud9 {
         public let connectionType: ConnectionType?
         /// The description of the environment to create.
         public let description: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
         /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. The default AMI is used if the parameter isn't explicitly assigned a value in the request. Because Amazon Linux AMI has ended standard support as of December 31, 2020, we recommend you choose Amazon Linux 2, which includes long term support through 2023.  AMI aliases      Amazon Linux (default): amazonlinux-1-x86_64     Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64     SSM paths     Amazon Linux (default): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64     Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
         public let imageId: String?
         /// The type of instance to connect to the environment (for example, t2.micro).
@@ -104,11 +112,12 @@ extension Cloud9 {
         /// An array of key-value pairs that will be associated with the new Cloud9 development environment.
         public let tags: [Tag]?
 
-        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, imageId: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
+        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, dryRun: Bool? = nil, imageId: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.automaticStopTimeMinutes = automaticStopTimeMinutes
             self.clientRequestToken = clientRequestToken
             self.connectionType = connectionType
             self.description = description
+            self.dryRun = dryRun
             self.imageId = imageId
             self.instanceType = instanceType
             self.name = name
@@ -143,6 +152,7 @@ extension Cloud9 {
             case clientRequestToken
             case connectionType
             case description
+            case dryRun
             case imageId
             case instanceType
             case name
@@ -665,12 +675,15 @@ extension Cloud9 {
         public let description: String?
         /// The ID of the environment to change settings.
         public let environmentId: String
+        /// Allows the environment owner to turn on or turn off the Amazon Web Services managed temporary credentials for an Cloud9 environment by using one of the following values:    ENABLE     DISABLE     Only the environment owner can change the status of managed temporary credentials. An AccessDeniedException is thrown if an attempt to turn on or turn off managed temporary credentials is made by an account that's not the environment owner.
+        public let managedCredentialsAction: ManagedCredentialsAction?
         /// A replacement name for the environment.
         public let name: String?
 
-        public init(description: String? = nil, environmentId: String, name: String? = nil) {
+        public init(description: String? = nil, environmentId: String, managedCredentialsAction: ManagedCredentialsAction? = nil, name: String? = nil) {
             self.description = description
             self.environmentId = environmentId
+            self.managedCredentialsAction = managedCredentialsAction
             self.name = name
         }
 
@@ -684,6 +697,7 @@ extension Cloud9 {
         private enum CodingKeys: String, CodingKey {
             case description
             case environmentId
+            case managedCredentialsAction
             case name
         }
     }

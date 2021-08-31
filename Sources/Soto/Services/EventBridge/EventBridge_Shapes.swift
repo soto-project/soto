@@ -87,6 +87,7 @@ extension EventBridge {
 
     public enum LaunchType: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
+        case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
@@ -267,13 +268,13 @@ extension EventBridge {
     }
 
     public struct BatchParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an AWS Batch job.
+        /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an Batch job.
         public let arrayProperties: BatchArrayProperties?
-        /// The ARN or name of the job definition to use if the event target is an AWS Batch job. This job definition must already exist.
+        /// The ARN or name of the job definition to use if the event target is an Batch job. This job definition must already exist.
         public let jobDefinition: String
-        /// The name to use for this execution of the job, if the target is an AWS Batch job.
+        /// The name to use for this execution of the job, if the target is an Batch job.
         public let jobName: String
-        /// The retry strategy to use for failed jobs, if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
+        /// The retry strategy to use for failed jobs, if the target is an Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
 
         public init(arrayProperties: BatchArrayProperties? = nil, jobDefinition: String, jobName: String, retryStrategy: BatchRetryStrategy? = nil) {
@@ -718,7 +719,7 @@ extension EventBridge {
         public let description: String?
         /// An event pattern to use to filter events sent to the archive.
         public let eventPattern: String?
-        /// The ARN of the event source associated with the archive.
+        /// The ARN of the event bus that sends events to the archive.
         public let eventSourceArn: String
         /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
         public let retentionDays: Int?
@@ -1025,9 +1026,9 @@ extension EventBridge {
     }
 
     public struct CreatePartnerEventSourceRequest: AWSEncodableShape {
-        /// The AWS account ID that is permitted to create a matching partner event bus for this partner event source.
+        /// The Amazon Web Services account ID that is permitted to create a matching partner event bus for this partner event source.
         public let account: String
-        /// The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
+        /// The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
         public let name: String
 
         public init(account: String, name: String) {
@@ -1262,7 +1263,7 @@ extension EventBridge {
     }
 
     public struct DeletePartnerEventSourceRequest: AWSEncodableShape {
-        /// The AWS account ID of the AWS customer that the event source was created for.
+        /// The Amazon Web Services account ID of the Amazon Web Services customer that the event source was created for.
         public let account: String
         /// The name of the event source to delete.
         public let name: String
@@ -1290,7 +1291,7 @@ extension EventBridge {
     public struct DeleteRuleRequest: AWSEncodableShape {
         /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+        /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The name of the rule.
         public let name: String
@@ -1770,7 +1771,7 @@ extension EventBridge {
         public let eventBusName: String?
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// If this is a managed rule, created by an AWS service on your behalf, this field displays the principal name of the AWS service that created the rule.
+        /// If this is a managed rule, created by an Amazon Web Services service on your behalf, this field displays the principal name of the Amazon Web Services service that created the rule.
         public let managedBy: String?
         /// The name of the rule.
         public let name: String?
@@ -1843,15 +1844,15 @@ extension EventBridge {
         public let enableExecuteCommand: Bool?
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
-        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where AWS Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
+        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate witt Amazon ECS is supported. For more information, see Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
-        /// Use this structure if the ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
+        /// Use this structure if the Amazon ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
         public let networkConfiguration: NetworkConfiguration?
         /// An array of placement constraint objects to use for the task. You can specify up to 10 constraints per task (including constraints in the task definition and those specified at runtime).
         public let placementConstraints: [PlacementConstraint]?
         /// The placement strategy objects to use for the task. You can specify a maximum of five strategy rules per task.
         public let placementStrategy: [PlacementStrategy]?
-        /// Specifies the platform version for the task. Specify only the numeric portion of the platform version, such as 1.1.0. This structure is used only if LaunchType is FARGATE. For more information about valid platform versions, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
+        /// Specifies the platform version for the task. Specify only the numeric portion of the platform version, such as 1.1.0. This structure is used only if LaunchType is FARGATE. For more information about valid platform versions, see Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
         /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags are not propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the TagResource API action.
         public let propagateTags: PropagateTags?
@@ -1952,7 +1953,7 @@ extension EventBridge {
         public let arn: String?
         /// The name of the event bus.
         public let name: String?
-        /// The permissions policy of the event bus, describing which other AWS accounts can write events to this event bus.
+        /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
         public let policy: String?
 
         public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
@@ -1975,7 +1976,7 @@ extension EventBridge {
         public let createdBy: String?
         /// The date and time the event source was created.
         public let creationTime: Date?
-        /// The date and time that the event source will expire, if the AWS account doesn't create a matching event bus for it.
+        /// The date and time that the event source will expire, if the Amazon Web Services account doesn't create a matching event bus for it.
         public let expirationTime: Date?
         /// The name of the event source.
         public let name: String?
@@ -2041,7 +2042,7 @@ extension EventBridge {
     }
 
     public struct InputTransformer: AWSEncodableShape & AWSDecodableShape {
-        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 100 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS."
+        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 100 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "Amazon Web Services."
         public let inputPathsMap: [String: String]?
         /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   }  The InputTemplate can also be valid JSON with varibles in quotes or out, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": '{"myInstance": &lt;instance&gt;,"myStatus": "&lt;instance&gt; is in state \"&lt;status&gt;\""}'   }
         public let inputTemplate: String
@@ -2443,7 +2444,7 @@ extension EventBridge {
     }
 
     public struct ListReplaysRequest: AWSEncodableShape {
-        /// The ARN of the event source associated with the replay.
+        /// The ARN of the archive from which the events are replayed.
         public let eventSourceArn: String?
         /// The maximum number of replays to retrieve.
         public let limit: Int?
@@ -2726,11 +2727,11 @@ extension EventBridge {
     }
 
     public struct PartnerEventSourceAccount: AWSDecodableShape {
-        /// The AWS account ID that the partner event source was offered to.
+        /// The Amazon Web Services account ID that the partner event source was offered to.
         public let account: String?
         /// The date and time the event source was created.
         public let creationTime: Date?
-        /// The date and time that the event source will expire, if the AWS account doesn't create a matching event bus for it.
+        /// The date and time that the event source will expire, if the Amazon Web Services account doesn't create a matching event bus for it.
         public let expirationTime: Date?
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
@@ -2820,13 +2821,13 @@ extension EventBridge {
         public let detailType: String?
         /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
+        /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
         /// The source of the event.
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: Date?
-        /// An AWS X-Ray trade header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the AWS X-Ray Developer Guide.
+        /// An X-Ray trade header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide.
         public let traceHeader: String?
 
         public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil, traceHeader: String? = nil) {
@@ -2922,9 +2923,9 @@ extension EventBridge {
         public let detail: String?
         /// A free-form string used to decide what fields to expect in the event detail.
         public let detailType: String?
-        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
+        /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
-        /// The event source that is generating the evntry.
+        /// The event source that is generating the entry.
         public let source: String?
         /// The date and time of the event.
         public let time: Date?
@@ -2991,15 +2992,15 @@ extension EventBridge {
     }
 
     public struct PutPermissionRequest: AWSEncodableShape {
-        /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
+        /// The action that you are enabling the other account to perform.
         public let action: String?
-        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services Organizations in the Amazon Web Services Organizations User Guide. If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
         public let condition: Condition?
         /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// A JSON string that describes the permission policy statement. You can include a Policy parameter in the request instead of using the StatementId, Action, Principal, or Condition parameters.
         public let policy: String?
-        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
+        /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
         public let principal: String?
         /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
         public let statementId: String?
@@ -3047,7 +3048,7 @@ extension EventBridge {
         public let eventPattern: String?
         /// The name of the rule that you are creating or updating.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the rule. If you're setting an event bus in another account as the target and that account granted permission to your account through an organization instead of directly by the account ID, you must specify a RoleArn with proper permissions in the Target structure, instead of here in this parameter.
         public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
@@ -3186,7 +3187,7 @@ extension EventBridge {
         public let database: String
         /// The database user name. Required when authenticating using temporary credentials.
         public let dbUser: String?
-        /// The name or ARN of the secret that enables access to the database. Required when authenticating using AWS Secrets Manager.
+        /// The name or ARN of the secret that enables access to the database. Required when authenticating using Amazon Web Services Secrets Manager.
         public let secretManagerArn: String?
         /// The SQL statement text to run.
         public let sql: String
@@ -3261,7 +3262,7 @@ extension EventBridge {
     public struct RemoveTargetsRequest: AWSEncodableShape {
         /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+        /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The IDs of the targets to remove from the rule.
         public let ids: [String]
@@ -3441,13 +3442,13 @@ extension EventBridge {
         public let eventBusName: String?
         /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// If the rule was created on behalf of your account by an AWS service, this field displays the principal name of the service that created the rule.
+        /// If the rule was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the rule.
         public let managedBy: String?
         /// The name of the rule.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
+        /// The Amazon Resource Name (ARN) of the role that is used for target invocation. If you're setting an event bus in another account as the target and that account granted permission to your account through an organization instead of directly by the account ID, you must specify a RoleArn with proper permissions in the Target structure, instead of here in this parameter.
         public let roleArn: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)". For more information, see Creating an Amazon EventBridge rule that runs on a schedule.
         public let scheduleExpression: String?
         /// The state of the rule.
         public let state: RuleState?
@@ -3710,7 +3711,7 @@ extension EventBridge {
     public struct Target: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the target.
         public let arn: String
-        /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
+        /// If the event target is an Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the Batch User Guide.
         public let batchParameters: BatchParameters?
         /// The DeadLetterConfig that defines the target queue to send dead-letter queue events to.
         public let deadLetterConfig: DeadLetterConfig?
@@ -3718,7 +3719,7 @@ extension EventBridge {
         public let ecsParameters: EcsParameters?
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public let httpParameters: HttpParameters?
-        /// The ID of the target.
+        /// The ID of the target. We recommend using a memorable and unique string.
         public let id: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
         public let input: String?
@@ -3728,7 +3729,7 @@ extension EventBridge {
         public let inputTransformer: InputTransformer?
         /// The custom parameter you can use to control the shard assignment, when the target is a Kinesis data stream. If you do not include this parameter, the default is to use the eventId as the partition key.
         public let kinesisParameters: KinesisParameters?
-        /// Contains the Redshift Data API parameters to use when the target is a Redshift cluster. If you specify a Redshift Cluster as a Target, you can use this to specify parameters to invoke the Redshift Data API ExecuteStatement based on EventBridge events.
+        /// Contains the Amazon Redshift Data API parameters to use when the target is a Amazon Redshift cluster. If you specify a Amazon Redshift Cluster as a Target, you can use this to specify parameters to invoke the Amazon Redshift Data API ExecuteStatement based on EventBridge events.
         public let redshiftDataParameters: RedshiftDataParameters?
         /// The RetryPolicy object that contains the retry policy configuration to use for the dead-letter queue.
         public let retryPolicy: RetryPolicy?
@@ -3802,7 +3803,7 @@ extension EventBridge {
     }
 
     public struct TestEventPatternRequest: AWSEncodableShape {
-        /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in AWS Events, and the following fields are mandatory:    id     account     source     time     region     resources     detail-type
+        /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events, and the following fields are mandatory:    id     account     source     time     region     resources     detail-type
         public let event: String
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String

@@ -87,15 +87,15 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var certificateLimitExceededException: Self { .init(.certificateLimitExceededException) }
     /// A client exception has occurred.
     public static var clientException: Self { .init(.clientException) }
-    /// The Region you specified is the same Region where the AWS Managed Microsoft AD directory was created. Specify a different Region and try again.
+    /// The Region you specified is the same Region where the Managed Microsoft AD directory was created. Specify a different Region and try again.
     public static var directoryAlreadyInRegionException: Self { .init(.directoryAlreadyInRegionException) }
-    /// The specified directory has already been shared with this AWS account.
+    /// The specified directory has already been shared with this Amazon Web Services account.
     public static var directoryAlreadySharedException: Self { .init(.directoryAlreadySharedException) }
     /// The specified directory does not exist in the system.
     public static var directoryDoesNotExistException: Self { .init(.directoryDoesNotExistException) }
     /// The maximum number of directories in the region has been reached. You can use the GetDirectoryLimits operation to determine your directory limits in the region.
     public static var directoryLimitExceededException: Self { .init(.directoryLimitExceededException) }
-    /// The specified directory has not been shared with this AWS account.
+    /// The specified directory has not been shared with this Amazon Web Services account.
     public static var directoryNotSharedException: Self { .init(.directoryNotSharedException) }
     /// The specified directory is unavailable or could not be found.
     public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
@@ -125,13 +125,13 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var ipRouteLimitExceededException: Self { .init(.ipRouteLimitExceededException) }
     /// Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     public static var noAvailableCertificateException: Self { .init(.noAvailableCertificateException) }
-    /// Exception encountered while trying to access your AWS organization.
+    /// Exception encountered while trying to access your Amazon Web Services organization.
     public static var organizationsException: Self { .init(.organizationsException) }
     /// You have reached the limit for maximum number of simultaneous Region replications per directory.
     public static var regionLimitExceededException: Self { .init(.regionLimitExceededException) }
-    /// An exception has occurred in AWS Directory Service.
+    /// An exception has occurred in Directory Service.
     public static var serviceException: Self { .init(.serviceException) }
-    /// The maximum number of AWS accounts that you can share with this directory has been reached.
+    /// The maximum number of Amazon Web Services accounts that you can share with this directory has been reached.
     public static var shareLimitExceededException: Self { .init(.shareLimitExceededException) }
     /// The maximum number of manual snapshots for the directory has been reached. You can use the GetSnapshotLimits operation to determine the snapshot limits for a directory.
     public static var snapshotLimitExceededException: Self { .init(.snapshotLimitExceededException) }

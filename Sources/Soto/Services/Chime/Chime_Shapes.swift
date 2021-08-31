@@ -262,6 +262,77 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
+    public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable {
+        case deDe = "de-DE"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
+        case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable {
+        case enUs = "en-US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable {
+        case apSoutheast2 = "ap-southeast-2"
+        case auto
+        case caCentral1 = "ca-central-1"
+        case euWest1 = "eu-west-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest2 = "us-west-2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeMedicalSpecialty: String, CustomStringConvertible, Codable {
+        case cardiology = "CARDIOLOGY"
+        case neurology = "NEUROLOGY"
+        case oncology = "ONCOLOGY"
+        case primarycare = "PRIMARYCARE"
+        case radiology = "RADIOLOGY"
+        case urology = "UROLOGY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeMedicalType: String, CustomStringConvertible, Codable {
+        case conversation = "CONVERSATION"
+        case dictation = "DICTATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeRegion: String, CustomStringConvertible, Codable {
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apSoutheast2 = "ap-southeast-2"
+        case auto
+        case caCentral1 = "ca-central-1"
+        case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case saEast1 = "sa-east-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest2 = "us-west-2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable {
+        case mask
+        case remove
+        case tag
+        public var description: String { return self.rawValue }
+    }
+
     public enum UserType: String, CustomStringConvertible, Codable {
         case privateuser = "PrivateUser"
         case shareddevice = "SharedDevice"
@@ -279,7 +350,7 @@ extension Chime {
     public struct Account: AWSDecodableShape {
         /// The Amazon Chime account ID.
         public let accountId: String
-        /// The status of the account, Suspended or Active.
+        /// The status of the account.
         public let accountStatus: AccountStatus?
         /// The Amazon Chime account type. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
         public let accountType: AccountType?
@@ -722,6 +793,7 @@ extension Chime {
     public struct BatchChannelMemberships: AWSDecodableShape {
         /// The ARN of the channel to which you're adding users.
         public let channelArn: String?
+        /// The identifier of the member who invited another member.
         public let invitedBy: Identity?
         /// The users successfully added to the request.
         public let members: [Identity]?
@@ -1277,7 +1349,6 @@ extension Chime {
     }
 
     public struct ChannelMembershipForAppInstanceUserSummary: AWSDecodableShape {
-        /// Returns the channel membership data for an AppInstance.
         public let appInstanceUserMembershipSummary: AppInstanceUserMembershipSummary?
         public let channelSummary: ChannelSummary?
 
@@ -1404,6 +1475,7 @@ extension Chime {
     }
 
     public struct ChannelModeratedByAppInstanceUserSummary: AWSDecodableShape {
+        /// Summary of the details of a Channel.
         public let channelSummary: ChannelSummary?
 
         public init(channelSummary: ChannelSummary? = nil) {
@@ -4051,6 +4123,64 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case dnis = "DNIS"
+        }
+    }
+
+    public struct EngineTranscribeMedicalSettings: AWSEncodableShape {
+        /// The language code specified for the Amazon Transcribe Medical engine.
+        public let languageCode: TranscribeMedicalLanguageCode
+        /// The AWS Region passed to Amazon Transcribe Medical. If you don't specify a Region, Amazon Chime uses the meeting's Region.
+        public let region: TranscribeMedicalRegion?
+        /// The specialty specified for the Amazon Transcribe Medical engine.
+        public let specialty: TranscribeMedicalSpecialty
+        /// The type of transcription.
+        public let type: TranscribeMedicalType
+        /// The name of the vocabulary passed to Amazon Transcribe Medical.
+        public let vocabularyName: String?
+
+        public init(languageCode: TranscribeMedicalLanguageCode, region: TranscribeMedicalRegion? = nil, specialty: TranscribeMedicalSpecialty, type: TranscribeMedicalType, vocabularyName: String? = nil) {
+            self.languageCode = languageCode
+            self.region = region
+            self.specialty = specialty
+            self.type = type
+            self.vocabularyName = vocabularyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case region = "Region"
+            case specialty = "Specialty"
+            case type = "Type"
+            case vocabularyName = "VocabularyName"
+        }
+    }
+
+    public struct EngineTranscribeSettings: AWSEncodableShape {
+        /// The language code specified for the Amazon Transcribe engine.
+        public let languageCode: TranscribeLanguageCode
+        /// The AWS Region passed to Amazon Transcribe. If you don't specify a Region, Amazon Chime uses the meeting's Region.
+        public let region: TranscribeRegion?
+        /// The filtering method passed to Amazon Transcribe.
+        public let vocabularyFilterMethod: TranscribeVocabularyFilterMethod?
+        /// The name of the vocabulary filter passed to Amazon Transcribe.
+        public let vocabularyFilterName: String?
+        /// The name of the vocabulary passed to Amazon Transcribe.
+        public let vocabularyName: String?
+
+        public init(languageCode: TranscribeLanguageCode, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.languageCode = languageCode
+            self.region = region
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyName = vocabularyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case region = "Region"
+            case vocabularyFilterMethod = "VocabularyFilterMethod"
+            case vocabularyFilterName = "VocabularyFilterName"
+            case vocabularyName = "VocabularyName"
         }
     }
 
@@ -6778,7 +6908,7 @@ extension Chime {
         public let audioFallbackUrl: String?
         /// The audio host URL.
         public let audioHostUrl: String?
-        /// The event ingestion URL.
+        /// The URL of the S3 bucket used to store the captured media.
         public let eventIngestionUrl: String?
         /// The screen data URL.
         public let screenDataUrl: String?
@@ -8442,6 +8572,57 @@ extension Chime {
         }
     }
 
+    public struct StartMeetingTranscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The unique ID of the meeting being transcribed.
+        public let meetingId: String
+        /// The configuration for the current transcription operation. Must contain EngineTranscribeSettings or EngineTranscribeMedicalSettings.
+        public let transcriptionConfiguration: TranscriptionConfiguration
+
+        public init(meetingId: String, transcriptionConfiguration: TranscriptionConfiguration) {
+            self.meetingId = meetingId
+            self.transcriptionConfiguration = transcriptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcriptionConfiguration = "TranscriptionConfiguration"
+        }
+    }
+
+    public struct StartMeetingTranscriptionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopMeetingTranscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
+        ]
+
+        /// The unique ID of the meeting for which you stop transcription.
+        public let meetingId: String
+
+        public init(meetingId: String) {
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopMeetingTranscriptionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The retention period, in hours, for the Amazon Kinesis data.
         public let dataRetentionInHours: Int
@@ -8667,6 +8848,23 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case source = "Source"
             case timestamp = "Timestamp"
+        }
+    }
+
+    public struct TranscriptionConfiguration: AWSEncodableShape {
+        /// The transcription configuration settings passed to Amazon Transcribe.
+        public let engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings?
+        /// The transcription configuration settings passed to Amazon Transcribe.
+        public let engineTranscribeSettings: EngineTranscribeSettings?
+
+        public init(engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings? = nil, engineTranscribeSettings: EngineTranscribeSettings? = nil) {
+            self.engineTranscribeMedicalSettings = engineTranscribeMedicalSettings
+            self.engineTranscribeSettings = engineTranscribeSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineTranscribeMedicalSettings = "EngineTranscribeMedicalSettings"
+            case engineTranscribeSettings = "EngineTranscribeSettings"
         }
     }
 

@@ -19,6 +19,59 @@ import SotoCore
 // MARK: Paginators
 
 extension Glue {
+    ///  Retrieves the details of blueprint runs for a specified blueprint.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getBlueprintRunsPaginator<Result>(
+        _ input: GetBlueprintRunsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetBlueprintRunsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getBlueprintRuns,
+            inputKey: \GetBlueprintRunsRequest.nextToken,
+            outputKey: \GetBlueprintRunsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getBlueprintRunsPaginator(
+        _ input: GetBlueprintRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetBlueprintRunsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getBlueprintRuns,
+            inputKey: \GetBlueprintRunsRequest.nextToken,
+            outputKey: \GetBlueprintRunsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists all classifier objects in the Data Catalog.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1026,6 +1079,59 @@ extension Glue {
         )
     }
 
+    ///  Lists all the blueprint names in an account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listBlueprintsPaginator<Result>(
+        _ input: ListBlueprintsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListBlueprintsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listBlueprints,
+            inputKey: \ListBlueprintsRequest.nextToken,
+            outputKey: \ListBlueprintsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listBlueprintsPaginator(
+        _ input: ListBlueprintsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListBlueprintsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listBlueprints,
+            inputKey: \ListBlueprintsRequest.nextToken,
+            outputKey: \ListBlueprintsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1557,6 +1663,16 @@ extension Glue {
     }
 }
 
+extension Glue.GetBlueprintRunsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.GetBlueprintRunsRequest {
+        return .init(
+            blueprintName: self.blueprintName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Glue.GetClassifiersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetClassifiersRequest {
         return .init(
@@ -1756,6 +1872,16 @@ extension Glue.GetWorkflowRunsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token
+        )
+    }
+}
+
+extension Glue.ListBlueprintsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListBlueprintsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            tags: self.tags
         )
     }
 }

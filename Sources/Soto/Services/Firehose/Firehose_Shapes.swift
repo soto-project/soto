@@ -146,14 +146,21 @@ extension Firehose {
     public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
         case bufferintervalinseconds = "BufferIntervalInSeconds"
         case buffersizeinmbs = "BufferSizeInMBs"
+        case delimiter = "Delimiter"
+        case jsonparsingengine = "JsonParsingEngine"
         case lambdaarn = "LambdaArn"
+        case metadataextractionquery = "MetadataExtractionQuery"
         case numberofretries = "NumberOfRetries"
         case rolearn = "RoleArn"
+        case subrecordtype = "SubRecordType"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessorType: String, CustomStringConvertible, Codable {
+        case appenddelimitertorecord = "AppendDelimiterToRecord"
         case lambda = "Lambda"
+        case metadataextraction = "MetadataExtraction"
+        case recorddeaggregation = "RecordDeAggregation"
         public var description: String { return self.rawValue }
     }
 
@@ -611,6 +618,27 @@ extension Firehose {
         }
     }
 
+    public struct DynamicPartitioningConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies that the dynamic partitioning is enabled for this Kinesis Data Firehose delivery stream.
+        public let enabled: Bool?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to an Amazon S3 prefix.
+        public let retryOptions: RetryOptions?
+
+        public init(enabled: Bool? = nil, retryOptions: RetryOptions? = nil) {
+            self.enabled = enabled
+            self.retryOptions = retryOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case retryOptions = "RetryOptions"
+        }
+    }
+
     public struct ElasticsearchBufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
@@ -907,6 +935,8 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html
+        public let dynamicPartitioningConfiguration: DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
@@ -922,12 +952,13 @@ extension Firehose {
         /// The Amazon S3 backup mode. After you create a delivery stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
         public let s3BackupMode: S3BackupMode?
 
-        public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: S3BackupMode? = nil) {
+        public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, dynamicPartitioningConfiguration: DynamicPartitioningConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: S3BackupMode? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
+            self.dynamicPartitioningConfiguration = dynamicPartitioningConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
@@ -944,6 +975,7 @@ extension Firehose {
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
+            try self.dynamicPartitioningConfiguration?.validate(name: "\(name).dynamicPartitioningConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 1024)
             try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 0)
@@ -964,6 +996,7 @@ extension Firehose {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
+            case dynamicPartitioningConfiguration = "DynamicPartitioningConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
             case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
@@ -985,6 +1018,8 @@ extension Firehose {
         public let compressionFormat: CompressionFormat
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html
+        public let dynamicPartitioningConfiguration: DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
         /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
@@ -1000,12 +1035,13 @@ extension Firehose {
         /// The Amazon S3 backup mode.
         public let s3BackupMode: S3BackupMode?
 
-        public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: S3BackupMode? = nil) {
+        public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, dynamicPartitioningConfiguration: DynamicPartitioningConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: S3BackupMode? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
+            self.dynamicPartitioningConfiguration = dynamicPartitioningConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
@@ -1021,6 +1057,7 @@ extension Firehose {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
+            case dynamicPartitioningConfiguration = "DynamicPartitioningConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
             case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
@@ -1042,6 +1079,8 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html
+        public let dynamicPartitioningConfiguration: DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
@@ -1057,12 +1096,13 @@ extension Firehose {
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
 
-        public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String? = nil, s3BackupMode: S3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil) {
+        public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, dynamicPartitioningConfiguration: DynamicPartitioningConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String? = nil, s3BackupMode: S3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
+            self.dynamicPartitioningConfiguration = dynamicPartitioningConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
@@ -1079,6 +1119,7 @@ extension Firehose {
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
+            try self.dynamicPartitioningConfiguration?.validate(name: "\(name).dynamicPartitioningConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 1024)
             try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 0)
@@ -1099,6 +1140,7 @@ extension Firehose {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
+            case dynamicPartitioningConfiguration = "DynamicPartitioningConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
             case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
@@ -1202,7 +1244,7 @@ extension Firehose {
         public let accessKey: String?
         /// The name of the HTTP endpoint selected as the destination.
         public let name: String?
-        /// The URL of the HTTP endpoint selected as the destination.
+        /// The URL of the HTTP endpoint selected as the destination.  If you choose an HTTP endpoint as your destination, review and follow the instructions in the Appendix - HTTP Endpoint Delivery Request and Response Specifications.
         public let url: String
 
         public init(accessKey: String? = nil, name: String? = nil, url: String) {
@@ -1832,7 +1874,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.parameterValue, name: "parameterValue", parent: name, max: 512)
+            try self.validate(self.parameterValue, name: "parameterValue", parent: name, max: 5120)
             try self.validate(self.parameterValue, name: "parameterValue", parent: name, min: 1)
             try self.validate(self.parameterValue, name: "parameterValue", parent: name, pattern: "^(?!\\s*$).+")
         }
@@ -2014,7 +2056,7 @@ extension Firehose {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
-            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$]+")
+            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+")
             try self.copyCommand.validate(name: "\(name).copyCommand")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
@@ -2137,7 +2179,7 @@ extension Firehose {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
-            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$]+")
+            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+")
             try self.copyCommand?.validate(name: "\(name).copyCommand")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
@@ -2171,6 +2213,24 @@ extension Firehose {
 
     public struct RedshiftRetryOptions: AWSEncodableShape & AWSDecodableShape {
         /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
+            self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 7200)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
+    public struct RetryOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The period of time during which Kinesis Data Firehose retries to deliver data to the specified Amazon S3 prefix.
         public let durationInSeconds: Int?
 
         public init(durationInSeconds: Int? = nil) {
@@ -2349,13 +2409,13 @@ extension Firehose {
     public struct SchemaConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
         public let catalogId: String?
-        /// Specifies the name of the AWS Glue database that contains the schema for the output data.
+        /// Specifies the name of the AWS Glue database that contains the schema for the output data.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the DatabaseName property is required and its value must be specified.
         public let databaseName: String?
         /// If you don't specify an AWS Region, the default is the current Region.
         public let region: String?
-        /// The role that Kinesis Data Firehose can use to access AWS Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed.
+        /// The role that Kinesis Data Firehose can use to access AWS Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the RoleARN property is required and its value must be specified.
         public let roleARN: String?
-        /// Specifies the AWS Glue table that contains the column information that constitutes your data schema.
+        /// Specifies the AWS Glue table that contains the column information that constitutes your data schema.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the TableName property is required and its value must be specified.
         public let tableName: String?
         /// Specifies the table version for the output data schema. If you don't specify this version ID, or if you set it to LATEST, Kinesis Data Firehose uses the most recent version. This means that any updates to the table are automatically picked up.
         public let versionId: String?

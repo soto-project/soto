@@ -35,6 +35,7 @@ extension EKS {
         case configurationconflict = "ConfigurationConflict"
         case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
         case internalfailure = "InternalFailure"
+        case k8sresourcenotfound = "K8sResourceNotFound"
         case unsupportedaddonmodification = "UnsupportedAddonModification"
         public var description: String { return self.rawValue }
     }
@@ -74,6 +75,7 @@ extension EKS {
         case insufficientfreeaddresses = "InsufficientFreeAddresses"
         case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
         case ipnotavailable = "IpNotAvailable"
+        case k8sresourcenotfound = "K8sResourceNotFound"
         case nodecreationfailure = "NodeCreationFailure"
         case operationnotpermitted = "OperationNotPermitted"
         case podevictionfailure = "PodEvictionFailure"
@@ -858,17 +860,21 @@ extension EKS {
     public struct DeleteAddonRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "preserve", location: .querystring(locationName: "preserve"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String
         /// The name of the cluster to delete the add-on from.
         public let clusterName: String
+        /// Specifying this option preserves the add-on software on your cluster but Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with the add-on, it is not removed.
+        public let preserve: Bool?
 
-        public init(addonName: String, clusterName: String) {
+        public init(addonName: String, clusterName: String, preserve: Bool? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
+            self.preserve = preserve
         }
 
         public func validate(name: String) throws {

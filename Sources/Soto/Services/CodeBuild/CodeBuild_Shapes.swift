@@ -46,6 +46,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum BucketOwnerAccess: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case none = "NONE"
+        case readOnly = "READ_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable {
         case combineArtifacts = "COMBINE_ARTIFACTS"
         case downloadBatchspec = "DOWNLOAD_BATCHSPEC"
@@ -158,6 +165,12 @@ extension CodeBuild {
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectVisibilityType: String, CustomStringConvertible, Codable {
+        case `private` = "PRIVATE"
+        case publicRead = "PUBLIC_READ"
         public var description: String { return self.rawValue }
     }
 
@@ -571,7 +584,7 @@ extension CodeBuild {
         public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// The unique ID for the build.
         public let id: String?
-        /// The entity that started the build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an Identity and Access Management user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
+        /// The entity that started the build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an IAM user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
         public let initiator: String?
         /// Information about the build's logs in CloudWatch Logs.
         public let logs: LogsLocation?
@@ -680,6 +693,7 @@ extension CodeBuild {
     public struct BuildArtifacts: AWSDecodableShape {
         ///  An identifier for this artifact definition.
         public let artifactIdentifier: String?
+        public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Information that tells you if encryption for build artifacts is disabled.
         public let encryptionDisabled: Bool?
         /// Information about the location of the build artifacts.
@@ -691,8 +705,9 @@ extension CodeBuild {
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP.
         public let sha256sum: String?
 
-        public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
+        public init(artifactIdentifier: String? = nil, bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
             self.artifactIdentifier = artifactIdentifier
+            self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.md5sum = md5sum
@@ -702,6 +717,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifactIdentifier
+            case bucketOwnerAccess
             case encryptionDisabled
             case location
             case md5sum
@@ -740,7 +756,7 @@ extension CodeBuild {
         public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// The identifier of the batch build.
         public let id: String?
-        /// The entity that started the batch build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an Identity and Access Management user started the build, the user's name.   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
+        /// The entity that started the batch build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an IAM user started the build, the user's name.   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
         public let initiator: String?
         public let logConfig: LogsConfig?
         /// An array of BuildBatchPhase objects the specify the phases of the batch build.
@@ -853,7 +869,7 @@ extension CodeBuild {
         public let durationInSeconds: Int64?
         /// When the batch build phase ended, expressed in Unix time format.
         public let endTime: Date?
-        /// The current status of the batch build phase. Valid values include:  FAILED  The build phase failed.  FAULT  The build phase faulted.  IN_PROGRESS  The build phase is still in progress.  QUEUED  The build has been submitted and is queued behind other submitted builds.  STOPPED  The build phase stopped.  SUCCEEDED  The build phase succeeded.  TIMED_OUT  The build phase timed out.
+        /// The current status of the batch build phase. Valid values include:  FAILED  The build phase failed.  FAULT  The build phase faulted.  IN_PROGRESS  The build phase is still in progress.  STOPPED  The build phase stopped.  SUCCEEDED  The build phase succeeded.  TIMED_OUT  The build phase timed out.
         public let phaseStatus: StatusType?
         /// The name of the batch build phase. Valid values include:  COMBINE_ARTIFACTS  Build output artifacts are being combined and uploaded to the output location.  DOWNLOAD_BATCHSPEC  The batch build specification is being downloaded.  FAILED  One or more of the builds failed.  IN_PROGRESS  The batch build is in progress.  STOPPED  The batch build was stopped.  SUBMITTED  The btach build has been submitted.  SUCCEEDED  The batch build succeeded.
         public let phaseType: BuildBatchPhaseType?
@@ -932,9 +948,9 @@ extension CodeBuild {
         public let durationInSeconds: Int64?
         /// When the build phase ended, expressed in Unix time format.
         public let endTime: Date?
-        /// The current status of the build phase. Valid values include:  FAILED  The build phase failed.  FAULT  The build phase faulted.  IN_PROGRESS  The build phase is still in progress.  QUEUED  The build has been submitted and is queued behind other submitted builds.  STOPPED  The build phase stopped.  SUCCEEDED  The build phase succeeded.  TIMED_OUT  The build phase timed out.
+        /// The current status of the build phase. Valid values include:  FAILED  The build phase failed.  FAULT  The build phase faulted.  IN_PROGRESS  The build phase is still in progress.  STOPPED  The build phase stopped.  SUCCEEDED  The build phase succeeded.  TIMED_OUT  The build phase timed out.
         public let phaseStatus: StatusType?
-        /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    QUEUED: The build has been submitted and is queued behind other submitted builds.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.
+        /// The name of the build phase. Valid values include:  BUILD  Core build activities typically occur in this build phase.  COMPLETED  The build has been completed.  DOWNLOAD_SOURCE  Source code is being downloaded in this build phase.  FINALIZING  The build process is completing in this build phase.  INSTALL  Installation activities typically occur in this build phase.  POST_BUILD  Post-build activities typically occur in this build phase.  PRE_BUILD  Pre-build activities typically occur in this build phase.  PROVISIONING  The build environment is being set up.  QUEUED  The build has been submitted and is queued behind other submitted builds.  SUBMITTED  The build has been submitted.  UPLOAD_ARTIFACTS  Build output artifacts are being uploaded to the output location.
         public let phaseType: BuildPhaseType?
         /// When the build phase started, expressed in Unix time format.
         public let startTime: Date?
@@ -1138,7 +1154,7 @@ extension CodeBuild {
         public let secondarySources: [ProjectSource]?
         /// An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take precedence over these secondarySourceVersions (at the project level).
         public let secondarySourceVersions: [ProjectSourceVersion]?
-        /// The ARN of the Identity and Access Management role that enables CodeBuild to interact with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
+        /// The ARN of the IAM role that enables CodeBuild to interact with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
         public let serviceRole: String
         /// Information about the build input source code for the build project.
         public let source: ProjectSource
@@ -1705,7 +1721,7 @@ extension CodeBuild {
         public let name: String
         /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Systems Manager Parameter Store. To learn how to specify a parameter store environment variable, see env/parameter-store in the CodeBuild User Guide.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in Secrets Manager. To learn how to specify a secrets manager environment variable, see env/secrets-manager in the CodeBuild User Guide.
         public let type: EnvironmentVariableType?
-        /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially Amazon Web Services secret key IDs and secret access keys. PLAINTEXT environment variables can be displayed in plain text using the CodeBuild console and the AWS Command Line Interface (AWS CLI). For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER.
+        /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially Amazon Web Services secret key IDs and secret access keys. PLAINTEXT environment variables can be displayed in plain text using the CodeBuild console and the CLI. For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER.
         public let value: String
 
         public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
@@ -2509,15 +2525,20 @@ extension CodeBuild {
         public let logsConfig: LogsConfig?
         /// The name of the build project.
         public let name: String?
+        public let projectVisibility: ProjectVisibilityType?
+        /// Contains the project identifier used with the public build APIs.
+        public let publicProjectAlias: String?
         /// The number of minutes a build is allowed to be queued before it times out.
         public let queuedTimeoutInMinutes: Int?
+        /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs and Amazon S3 artifacts for the project's builds.
+        public let resourceAccessRole: String?
         /// An array of ProjectArtifacts objects.
         public let secondaryArtifacts: [ProjectArtifacts]?
         /// An array of ProjectSource objects.
         public let secondarySources: [ProjectSource]?
         /// An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take over these secondarySourceVersions (at the project level).
         public let secondarySourceVersions: [ProjectSourceVersion]?
-        /// The ARN of the Identity and Access Management role that enables CodeBuild to interact with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
+        /// The ARN of the IAM role that enables CodeBuild to interact with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
         public let serviceRole: String?
         /// Information about the build input source code for this build project.
         public let source: ProjectSource?
@@ -2532,7 +2553,7 @@ extension CodeBuild {
         /// Information about a webhook that connects repository events to a build project in CodeBuild.
         public let webhook: Webhook?
 
-        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, created: Date? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: Date? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, created: Date? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: Date? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, projectVisibility: ProjectVisibilityType? = nil, publicProjectAlias: String? = nil, queuedTimeoutInMinutes: Int? = nil, resourceAccessRole: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.badge = badge
@@ -2547,7 +2568,10 @@ extension CodeBuild {
             self.lastModified = lastModified
             self.logsConfig = logsConfig
             self.name = name
+            self.projectVisibility = projectVisibility
+            self.publicProjectAlias = publicProjectAlias
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.resourceAccessRole = resourceAccessRole
             self.secondaryArtifacts = secondaryArtifacts
             self.secondarySources = secondarySources
             self.secondarySourceVersions = secondarySourceVersions
@@ -2575,7 +2599,10 @@ extension CodeBuild {
             case lastModified
             case logsConfig
             case name
+            case projectVisibility
+            case publicProjectAlias
             case queuedTimeoutInMinutes
+            case resourceAccessRole
             case secondaryArtifacts
             case secondarySources
             case secondarySourceVersions
@@ -2592,6 +2619,7 @@ extension CodeBuild {
     public struct ProjectArtifacts: AWSEncodableShape & AWSDecodableShape {
         ///  An identifier for this artifact definition.
         public let artifactIdentifier: String?
+        public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Set to true if you do not want your output artifacts encrypted. This option is valid only if your artifacts type is Amazon S3. If this is set with another artifacts type, an invalidInputException is thrown.
         public let encryptionDisabled: Bool?
         /// Information about the build output artifact location:   If type is set to CODEPIPELINE, CodePipeline ignores this value if specified. This is because CodePipeline manages its build output locations instead of CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the name of the output bucket.
@@ -2609,8 +2637,9 @@ extension CodeBuild {
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through CodePipeline.   The CODEPIPELINE type is not supported for secondaryArtifacts.     NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon S3.
         public let type: ArtifactsType
 
-        public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
+        public init(artifactIdentifier: String? = nil, bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
             self.artifactIdentifier = artifactIdentifier
+            self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.name = name
@@ -2623,6 +2652,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifactIdentifier
+            case bucketOwnerAccess
             case encryptionDisabled
             case location
             case name
@@ -2783,7 +2813,7 @@ extension CodeBuild {
     public struct ProjectSource: AWSEncodableShape & AWSDecodableShape {
         /// Information about the authorization settings for CodeBuild to access the source code to be built. This information is for the CodeBuild console's use only. Your code should not get or set this information directly.
         public let auth: SourceAuth?
-        /// The buildspec file declaration to use for the builds in this build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
+        /// The buildspec file declaration to use for the builds in this build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
         public let buildspec: String?
         /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
         public let buildStatusConfig: BuildStatusConfig?
@@ -2793,9 +2823,9 @@ extension CodeBuild {
         public let gitSubmodulesConfig: GitSubmodulesConfig?
         /// Enable this flag to ignore SSL warnings while connecting to the project source code.
         public let insecureSsl: Bool?
-        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in CodePipeline, location should not be specified. If it is specified, CodePipeline ignores it. This is because CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the buildspec file (for example, https://git-codecommit.&lt;region-ID&gt;.amazonaws.com/v1/repos/&lt;repo-name&gt;).   For source code in an Amazon S3 input bucket, one of the following.    The path to the ZIP file that contains the source code (for example, &lt;bucket-name&gt;/&lt;path&gt;/&lt;object-name&gt;.zip).    The path to the folder that contains the source code (for example, &lt;bucket-name&gt;/&lt;path-to-source-code&gt;/&lt;folder&gt;/).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your account to your GitHub account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your Bitbucket account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.    If you specify CODEPIPELINE for the Type property, don't specify this property. For all of the other types, you must specify Location.
+        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in CodePipeline, location should not be specified. If it is specified, CodePipeline ignores it. This is because CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the buildspec file (for example, https://git-codecommit.&lt;region-ID&gt;.amazonaws.com/v1/repos/&lt;repo-name&gt;).   For source code in an Amazon S3 input bucket, one of the following.    The path to the ZIP file that contains the source code (for example, &lt;bucket-name&gt;/&lt;path&gt;/&lt;object-name&gt;.zip).    The path to the folder that contains the source code (for example, &lt;bucket-name&gt;/&lt;path-to-source-code&gt;/&lt;folder&gt;/).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your GitHub account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your Bitbucket account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.    If you specify CODEPIPELINE for the Type property, don't specify this property. For all of the other types, you must specify Location.
         public let location: String?
-        ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown.  To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see Source provider access in the CodeBuild User Guide.   The status of a build triggered by a webhook is always reported to your source provider.
+        ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown.  To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see Source provider access in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider.  If your project's builds are triggered by a webhook, you must push a new commit to the repo for a change to this property to take effect.
         public let reportBuildStatus: Bool?
         /// An identifier for this project source. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
         public let sourceIdentifier: String?
@@ -2886,7 +2916,7 @@ extension CodeBuild {
     }
 
     public struct RegistryCredential: AWSEncodableShape & AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) or name of credentials created using Secrets Manager.    The credential can use the name of the credentials only if they exist in your current Region.
+        ///  The Amazon Resource Name (ARN) or name of credentials created using Secrets Manager.    The credential can use the name of the credentials only if they exist in your current Amazon Web Services Region.
         public let credential: String
         ///  The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for Secrets Manager.
         public let credentialProvider: CredentialProviderType
@@ -3168,6 +3198,7 @@ extension CodeBuild {
     }
 
     public struct S3LogsConfig: AWSEncodableShape & AWSDecodableShape {
+        public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Set to true if you do not want your S3 build log output encrypted. By default S3 build logs are encrypted.
         public let encryptionDisabled: Bool?
         ///  The ARN of an S3 bucket and the path prefix for S3 logs. If your Amazon S3 bucket name is my-bucket, and your path prefix is build-log, then acceptable formats are my-bucket/build-log or arn:aws:s3:::my-bucket/build-log.
@@ -3175,13 +3206,15 @@ extension CodeBuild {
         /// The current status of the S3 build logs. Valid values are:    ENABLED: S3 build logs are enabled for this build project.    DISABLED: S3 build logs are not enabled for this build project.
         public let status: LogsConfigStatusType
 
-        public init(encryptionDisabled: Bool? = nil, location: String? = nil, status: LogsConfigStatusType) {
+        public init(bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, status: LogsConfigStatusType) {
+            self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketOwnerAccess
             case encryptionDisabled
             case location
             case status
@@ -3269,7 +3302,7 @@ extension CodeBuild {
         public let artifactsOverride: ProjectArtifacts?
         /// A BuildBatchConfigOverride object that contains batch build configuration overrides.
         public let buildBatchConfigOverride: ProjectBuildBatchConfig?
-        /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
+        /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
         public let buildspecOverride: String?
         /// Overrides the build timeout specified in the batch build project.
         public let buildTimeoutInMinutesOverride: Int?
@@ -3439,7 +3472,7 @@ extension CodeBuild {
     public struct StartBuildInput: AWSEncodableShape {
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
-        /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
+        /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
         public let buildspecOverride: String?
         /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
         public let buildStatusConfigOverride: BuildStatusConfig?
@@ -3801,7 +3834,7 @@ extension CodeBuild {
         public let secondarySources: [ProjectSource]?
         ///  An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take over these secondarySourceVersions (at the project level).
         public let secondarySourceVersions: [ProjectSourceVersion]?
-        /// The replacement ARN of the Identity and Access Management role that enables CodeBuild to interact with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
+        /// The replacement ARN of the IAM role that enables CodeBuild to interact with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
         public let serviceRole: String?
         /// Information to be changed about the build input source code for the build project.
         public let source: ProjectSource?
@@ -3903,6 +3936,51 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case project
+        }
+    }
+
+    public struct UpdateProjectVisibilityInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the build project.
+        public let projectArn: String
+        public let projectVisibility: ProjectVisibilityType
+        /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs and Amazon S3 artifacts for the project's builds.
+        public let resourceAccessRole: String?
+
+        public init(projectArn: String, projectVisibility: ProjectVisibilityType, resourceAccessRole: String? = nil) {
+            self.projectArn = projectArn
+            self.projectVisibility = projectVisibility
+            self.resourceAccessRole = resourceAccessRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectArn, name: "projectArn", parent: name, min: 1)
+            try self.validate(self.resourceAccessRole, name: "resourceAccessRole", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn
+            case projectVisibility
+            case resourceAccessRole
+        }
+    }
+
+    public struct UpdateProjectVisibilityOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the build project.
+        public let projectArn: String?
+        public let projectVisibility: ProjectVisibilityType?
+        /// Contains the project identifier used with the public build APIs.
+        public let publicProjectAlias: String?
+
+        public init(projectArn: String? = nil, projectVisibility: ProjectVisibilityType? = nil, publicProjectAlias: String? = nil) {
+            self.projectArn = projectArn
+            self.projectVisibility = projectVisibility
+            self.publicProjectAlias = publicProjectAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn
+            case projectVisibility
+            case publicProjectAlias
         }
     }
 

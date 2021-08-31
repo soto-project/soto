@@ -125,7 +125,7 @@ extension Chime {
         )
     }
 
-    ///   List all AppInstanceUsers created under a single AppInstance.
+    ///  List all AppInstanceUsers created under a single AppInstance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

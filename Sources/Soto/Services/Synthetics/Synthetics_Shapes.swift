@@ -53,6 +53,33 @@ extension Synthetics {
 
     // MARK: Shapes
 
+    public struct BaseScreenshot: AWSEncodableShape & AWSDecodableShape {
+        /// Coordinates that define the part of a screen to ignore during screenshot comparisons. To obtain the coordinates to use here, use the CloudWatch Logs console to draw the boundaries on the screen. For more information, see {LINK}
+        public let ignoreCoordinates: [String]?
+        /// The name of the screenshot. This is generated the first time the canary is run after the UpdateCanary operation that specified for this canary to perform visual monitoring.
+        public let screenshotName: String
+
+        public init(ignoreCoordinates: [String]? = nil, screenshotName: String) {
+            self.ignoreCoordinates = ignoreCoordinates
+            self.screenshotName = screenshotName
+        }
+
+        public func validate(name: String) throws {
+            try self.ignoreCoordinates?.forEach {
+                try validate($0, name: "ignoreCoordinates[]", parent: name, pattern: "^(-?\\d{1,5}\\.?\\d{0,2},){3}(-?\\d{1,5}\\.?\\d{0,2}){1}$")
+            }
+            try self.validate(self.ignoreCoordinates, name: "ignoreCoordinates", parent: name, max: 20)
+            try self.validate(self.ignoreCoordinates, name: "ignoreCoordinates", parent: name, min: 0)
+            try self.validate(self.screenshotName, name: "screenshotName", parent: name, max: 1024)
+            try self.validate(self.screenshotName, name: "screenshotName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ignoreCoordinates = "IgnoreCoordinates"
+            case screenshotName = "ScreenshotName"
+        }
+    }
+
     public struct Canary: AWSDecodableShape {
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
@@ -80,9 +107,11 @@ extension Synthetics {
         public let tags: [String: String]?
         /// A structure that contains information about when the canary was created, modified, and most recently run.
         public let timeline: CanaryTimeline?
+        /// If this canary performs visual monitoring by comparing screenshots, this structure contains the ID of the canary run to use as the baseline for screenshots, and the coordinates of any parts of the screen to ignore during the visual monitoring comparison.
+        public let visualReference: VisualReferenceOutput?
         public let vpcConfig: VpcConfigOutput?
 
-        public init(artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, vpcConfig: VpcConfigOutput? = nil) {
+        public init(artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
             self.artifactS3Location = artifactS3Location
             self.code = code
             self.engineArn = engineArn
@@ -97,6 +126,7 @@ extension Synthetics {
             self.successRetentionPeriodInDays = successRetentionPeriodInDays
             self.tags = tags
             self.timeline = timeline
+            self.visualReference = visualReference
             self.vpcConfig = vpcConfig
         }
 
@@ -115,20 +145,21 @@ extension Synthetics {
             case successRetentionPeriodInDays = "SuccessRetentionPeriodInDays"
             case tags = "Tags"
             case timeline = "Timeline"
+            case visualReference = "VisualReference"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct CanaryCodeInput: AWSEncodableShape {
-        /// The entry point to use for the source code when running the canary. This value must end with the string .handler.
+        /// The entry point to use for the source code when running the canary. This value must end with the string .handler. The string is limited to 29 characters or fewer.
         public let handler: String
-        /// If your canary script is located in S3, specify the full bucket name here. The bucket must already exist. Specify the full bucket name, including s3:// as the start of the bucket name.
+        /// If your canary script is located in S3, specify the bucket name here. Do not include s3:// as the start of the bucket name.
         public let s3Bucket: String?
         /// The S3 key of your script. For more information, see Working with Amazon S3 Objects.
         public let s3Key: String?
         /// The S3 version ID of your script.
         public let s3Version: String?
-        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the .zip file that contains the script. It can be up to 5 MB.
+        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 256 Kb.
         public let zipFile: Data?
 
         public init(handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: Data? = nil) {
@@ -225,7 +256,7 @@ extension Synthetics {
     }
 
     public struct CanaryRunConfigInput: AWSEncodableShape {
-        /// Specifies whether this canary is to use active AWS X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see  Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
+        /// Specifies whether this canary is to use active X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see  Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
         public let activeTracing: Bool?
         /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see  Runtime environment variables.
         public let environmentVariables: [String: String]?
@@ -260,7 +291,7 @@ extension Synthetics {
     }
 
     public struct CanaryRunConfigOutput: AWSDecodableShape {
-        /// Displays whether this canary run used active AWS X-Ray tracing.
+        /// Displays whether this canary run used active X-Ray tracing.
         public let activeTracing: Bool?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
@@ -321,7 +352,7 @@ extension Synthetics {
     public struct CanaryScheduleInput: AWSEncodableShape {
         /// How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value. If you specify 0, the canary continues making runs until you stop it. If you omit this field, the default of 0 is used.
         public let durationInSeconds: Int64?
-        /// A rate expression that defines how often the canary is to run. The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started.
+        /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see  Scheduling canary runs using cron.
         public let expression: String
 
         public init(durationInSeconds: Int64? = nil, expression: String) {
@@ -345,7 +376,7 @@ extension Synthetics {
     public struct CanaryScheduleOutput: AWSDecodableShape {
         /// How long, in seconds, for the canary to continue making regular runs after it was created. The runs are performed according to the schedule in the Expression value.
         public let durationInSeconds: Int64?
-        /// A rate expression that defines how often the canary is to run. The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started.
+        /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. For information about the syntax for cron expressions, see  Scheduling canary runs using cron.
         public let expression: String?
 
         public init(durationInSeconds: Int64? = nil, expression: String? = nil) {
@@ -406,7 +437,7 @@ extension Synthetics {
     }
 
     public struct CreateCanaryRequest: AWSEncodableShape {
-        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
+        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
         public let artifactS3Location: String
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput
@@ -933,10 +964,12 @@ extension Synthetics {
         public let schedule: CanaryScheduleInput?
         /// The number of days to retain data about successful runs of this canary.
         public let successRetentionPeriodInDays: Int?
+        /// Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see  Visual monitoring and  Visual monitoring blueprint
+        public let visualReference: VisualReferenceInput?
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
-        public init(code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -945,6 +978,7 @@ extension Synthetics {
             self.runtimeVersion = runtimeVersion
             self.schedule = schedule
             self.successRetentionPeriodInDays = successRetentionPeriodInDays
+            self.visualReference = visualReference
             self.vpcConfig = vpcConfig
         }
 
@@ -964,6 +998,7 @@ extension Synthetics {
             try self.schedule?.validate(name: "\(name).schedule")
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, min: 1)
+            try self.visualReference?.validate(name: "\(name).visualReference")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -975,12 +1010,55 @@ extension Synthetics {
             case runtimeVersion = "RuntimeVersion"
             case schedule = "Schedule"
             case successRetentionPeriodInDays = "SuccessRetentionPeriodInDays"
+            case visualReference = "VisualReference"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct UpdateCanaryResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct VisualReferenceInput: AWSEncodableShape {
+        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the  CanaryRun from any past run of this canary.
+        public let baseCanaryRunId: String
+        /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
+        public let baseScreenshots: [BaseScreenshot]?
+
+        public init(baseCanaryRunId: String, baseScreenshots: [BaseScreenshot]? = nil) {
+            self.baseCanaryRunId = baseCanaryRunId
+            self.baseScreenshots = baseScreenshots
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseCanaryRunId, name: "baseCanaryRunId", parent: name, max: 1024)
+            try self.validate(self.baseCanaryRunId, name: "baseCanaryRunId", parent: name, min: 1)
+            try self.baseScreenshots?.forEach {
+                try $0.validate(name: "\(name).baseScreenshots[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCanaryRunId = "BaseCanaryRunId"
+            case baseScreenshots = "BaseScreenshots"
+        }
+    }
+
+    public struct VisualReferenceOutput: AWSDecodableShape {
+        /// The ID of the canary run that produced the screenshots that are used as the baseline for visual monitoring comparisons during future runs of this canary.
+        public let baseCanaryRunId: String?
+        /// An array of screenshots that are used as the baseline for comparisons during visual monitoring.
+        public let baseScreenshots: [BaseScreenshot]?
+
+        public init(baseCanaryRunId: String? = nil, baseScreenshots: [BaseScreenshot]? = nil) {
+            self.baseCanaryRunId = baseCanaryRunId
+            self.baseScreenshots = baseScreenshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCanaryRunId = "BaseCanaryRunId"
+            case baseScreenshots = "BaseScreenshots"
+        }
     }
 
     public struct VpcConfigInput: AWSEncodableShape {

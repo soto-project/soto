@@ -223,7 +223,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the  Database Migration Service User Guide.
+    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the  Database Migration Service User Guide.
     public func describeReplicationTaskAssessmentResults(_ input: DescribeReplicationTaskAssessmentResultsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationTaskAssessmentResultsResponse> {
         return self.client.execute(operation: "DescribeReplicationTaskAssessmentResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

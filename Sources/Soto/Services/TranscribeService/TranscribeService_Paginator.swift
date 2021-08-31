@@ -19,6 +19,112 @@ import SotoCore
 // MARK: Paginators
 
 extension TranscribeService {
+    ///  Provides more information about the call analytics categories that you've created. You can use the information in this list to find a specific category. You can then use the operation to get more information about it.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCallAnalyticsCategoriesPaginator<Result>(
+        _ input: ListCallAnalyticsCategoriesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCallAnalyticsCategoriesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCallAnalyticsCategories,
+            inputKey: \ListCallAnalyticsCategoriesRequest.nextToken,
+            outputKey: \ListCallAnalyticsCategoriesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCallAnalyticsCategoriesPaginator(
+        _ input: ListCallAnalyticsCategoriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCallAnalyticsCategoriesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCallAnalyticsCategories,
+            inputKey: \ListCallAnalyticsCategoriesRequest.nextToken,
+            outputKey: \ListCallAnalyticsCategoriesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List call analytics jobs with a specified status or substring that matches their names.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCallAnalyticsJobsPaginator<Result>(
+        _ input: ListCallAnalyticsJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCallAnalyticsJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCallAnalyticsJobs,
+            inputKey: \ListCallAnalyticsJobsRequest.nextToken,
+            outputKey: \ListCallAnalyticsJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCallAnalyticsJobsPaginator(
+        _ input: ListCallAnalyticsJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCallAnalyticsJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCallAnalyticsJobs,
+            inputKey: \ListCallAnalyticsJobsRequest.nextToken,
+            outputKey: \ListCallAnalyticsJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides more information about the custom language models you've created. You can use the information in this list to find a specific custom language model. You can then use the operation to get more information about it.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -334,6 +440,26 @@ extension TranscribeService {
             outputKey: \ListVocabularyFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension TranscribeService.ListCallAnalyticsCategoriesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListCallAnalyticsCategoriesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension TranscribeService.ListCallAnalyticsJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListCallAnalyticsJobsRequest {
+        return .init(
+            jobNameContains: self.jobNameContains,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
     }
 }

@@ -587,7 +587,7 @@ extension ECS {
         public let attachmentsStatus: String?
         /// The capacity providers associated with the cluster.
         public let capacityProviders: [String]?
-        /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains the arn:aws:ecs namespace, followed by the Region of the cluster, the account ID of the cluster owner, the cluster namespace, and then the cluster name. For example, arn:aws:ecs:region:012345678910:cluster/test.
+        /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains the arn:aws:ecs namespace, followed by the Region of the cluster, the Amazon Web Services account ID of the cluster owner, the cluster namespace, and then the cluster name. For example, arn:aws:ecs:region:012345678910:cluster/test.
         public let clusterArn: String?
         /// A user-generated string that you use to identify your cluster.
         public let clusterName: String?
@@ -947,7 +947,7 @@ extension ECS {
         public let attributes: [Attribute]?
         /// The capacity provider associated with the container instance.
         public let capacityProviderName: String?
-        /// The Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
+        /// The Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the Amazon Web Services account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
         public let containerInstanceArn: String?
         /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
         public let ec2InstanceId: String?
@@ -1141,7 +1141,7 @@ extension ECS {
         public let clusterName: String?
         /// The execute command configuration for the cluster.
         public let configuration: ClusterConfiguration?
-        /// The capacity provider strategy to set as the default for the cluster. When a default capacity provider strategy is set for a cluster, when calling the RunTask or CreateService APIs wtih no capacity provider strategy or launch type specified, the default capacity provider strategy for the cluster is used. If a default capacity provider strategy is not defined for a cluster during creation, it can be defined later with the PutClusterCapacityProviders API operation.
+        /// The capacity provider strategy to set as the default for the cluster. When a default capacity provider strategy is set for a cluster, when calling the RunTask or CreateService APIs with no capacity provider strategy or launch type specified, the default capacity provider strategy for the cluster is used. If a default capacity provider strategy is not defined for a cluster during creation, it can be defined later with the PutClusterCapacityProviders API operation.
         public let defaultCapacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The setting to use when creating a cluster. This parameter is used to enable CloudWatch Container Insights for a cluster. If this value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
         public let settings: [ClusterSetting]?
@@ -1192,7 +1192,7 @@ extension ECS {
     }
 
     public struct CreateServiceRequest: AWSEncodableShape {
-        /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used.
+        /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity providers.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
         public let clientToken: String?
@@ -1218,7 +1218,7 @@ extension ECS {
         public let networkConfiguration: NetworkConfiguration?
         /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at runtime).
         public let placementConstraints: [PlacementConstraint]?
-        /// The placement strategy objects to use for tasks in your service. You can specify a maximum of five strategy rules per service.
+        /// The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules per service.
         public let placementStrategy: [PlacementStrategy]?
         /// The platform version that your tasks in the service are running on. A platform version is specified only for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used by default. For more information, see Fargate platform versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
@@ -1704,7 +1704,7 @@ extension ECS {
     public struct DeregisterContainerInstanceRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        /// The container instance ID or full ARN of the container instance to deregister. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
+        /// The container instance ID or full ARN of the container instance to deregister. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the Amazon Web Services account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
         public let containerInstance: String
         /// Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
         public let force: Bool?
@@ -1810,7 +1810,7 @@ extension ECS {
     public struct DescribeClustersRequest: AWSEncodableShape {
         /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
-        /// Whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
+        /// Whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
         public let include: [ClusterField]?
 
         public init(clusters: [String]? = nil, include: [ClusterField]? = nil) {
@@ -2055,7 +2055,7 @@ extension ECS {
     public struct DiscoverPollEndpointRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster to which the container instance belongs.
         public let cluster: String?
-        /// The container instance ID or full ARN of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
+        /// The container instance ID or full ARN of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the Amazon Web Services account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
         public let containerInstance: String?
 
         public init(cluster: String? = nil, containerInstance: String? = nil) {
@@ -2380,7 +2380,7 @@ extension ECS {
     }
 
     public struct HealthCheck: AWSEncodableShape & AWSDecodableShape {
-        /// A string array representing the command that the container runs to determine if it is healthy. The string array must start with CMD to execute the command arguments directly, or CMD-SHELL to run the command with the container's default shell. For example:  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  An exit code of 0 indicates success, and non-zero exit code indicates failure. For more information, see HealthCheck in the Create a container section of the Docker Remote API.
+        /// A string array representing the command that the container runs to determine if it is healthy. The string array must start with CMD to execute the command arguments directly, or CMD-SHELL to run the command with the container's default shell.   When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, you should enclose the list of commands in brackets, as shown below.  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  You do not need to include the brackets when you use the Amazon Web Services Management Consoleas shown below.   "CMD-SHELL", "curl -f http://localhost/ || exit 1"   An exit code of 0 indicates success, and non-zero exit code indicates failure. For more information, see HealthCheck in the Create a container section of the Docker Remote API.
         public let command: [String]
         /// The time period in seconds between each health check execution. You may specify between 5 and 300 seconds. The default value is 30 seconds.
         public let interval: Int?
@@ -3162,7 +3162,7 @@ extension ECS {
     }
 
     public struct PlacementConstraint: AWSEncodableShape & AWSDecodableShape {
-        /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
+        /// A cluster query language expression to apply to the constraint. The expression can have a maximum length of 2000 characters. You can't specify an expression if the constraint type is distinctInstance. For more information, see Cluster query language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
         public let type: PlacementConstraintType?
@@ -3616,7 +3616,7 @@ extension ECS {
     }
 
     public struct RunTaskRequest: AWSEncodableShape {
-        /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
+        /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.  A capacity provider strategy may contain a maximum of 6 capacity providers.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to run your task. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -3630,19 +3630,19 @@ extension ECS {
         public let group: String?
         /// The infrastructure on which to run your standalone task. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see Fargate capacity providers in the Amazon ECS User Guide for Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
         public let launchType: LaunchType?
-        /// The network configuration for the task. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.
+        /// The network configuration for the task. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task networking in the Amazon Elastic Container Service Developer Guide.
         public let networkConfiguration: NetworkConfiguration?
-        /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure.
+        /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override. A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure.
         public let overrides: TaskOverride?
         /// An array of placement constraint objects to use for the task. You can specify up to 10 constraints per task (including constraints in the task definition and those specified at runtime).
         public let placementConstraints: [PlacementConstraint]?
-        /// The placement strategy objects to use for the task. You can specify a maximum of five strategy rules per task.
+        /// The placement strategy objects to use for the task. You can specify a maximum of 5 strategy rules per task.
         public let placementStrategy: [PlacementStrategy]?
-        /// The platform version the task should run. A platform version is only specified for tasks using the Fargate launch type. If one is not specified, the LATEST platform version is used by default. For more information, see Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
+        /// The platform version the task should use. A platform version is only specified for tasks hosted on Fargate. If one is not specified, the LATEST platform version is used by default. For more information, see Fargate platform versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
         /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags are not propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the TagResource API action.  An error will be received if you specify the SERVICE option when running a task.
         public let propagateTags: PropagateTags?
-        /// The reference ID to use for the task.
+        /// The reference ID to use for the task. The reference ID can have a maximum length of 1024 characters.
         public let referenceId: String?
         /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
         public let startedBy: String?
@@ -3801,7 +3801,7 @@ extension ECS {
         public let runningCount: Int?
         /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.    DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that do not meet the placement constraints.  Fargate tasks do not support the DAEMON scheduling strategy.
         public let schedulingStrategy: SchedulingStrategy?
-        /// The ARN that identifies the service. The ARN contains the arn:aws:ecs namespace, followed by the Region of the service, the account ID of the service owner, the service namespace, and then the service name. For example, arn:aws:ecs:region:012345678910:service/my-service.
+        /// The ARN that identifies the service. The ARN contains the arn:aws:ecs namespace, followed by the Region of the service, the Amazon Web Services account ID of the service owner, the service namespace, and then the service name. For example, arn:aws:ecs:region:012345678910:service/my-service.
         public let serviceArn: String?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
         public let serviceName: String?

@@ -337,7 +337,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the configurations for DNSSEC validation that are associated with the current AWS account.
+    ///  Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists all the Resolver endpoints that were created using the current AWS account.
+    ///  Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -602,7 +602,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the associations that were created between Resolver rules and VPCs using the current AWS account.
+    ///  Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -655,7 +655,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the Resolver rules that were created using the current AWS account.
+    ///  Lists the Resolver rules that were created using the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

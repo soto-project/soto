@@ -74,7 +74,7 @@ public struct CloudDirectoryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Access denied. Check your permissions.
+    /// Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling ListDirectories and check your permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// A BatchWrite exception has occurred.
     public static var batchWriteException: Self { .init(.batchWriteException) }

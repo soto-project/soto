@@ -129,6 +129,38 @@ extension Textract {
         }
     }
 
+    public struct AnalyzeExpenseRequest: AWSEncodableShape {
+        public let document: Document
+
+        public init(document: Document) {
+            self.document = document
+        }
+
+        public func validate(name: String) throws {
+            try self.document.validate(name: "\(name).document")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+        }
+    }
+
+    public struct AnalyzeExpenseResponse: AWSDecodableShape {
+        public let documentMetadata: DocumentMetadata?
+        /// The expenses detected by Amazon Textract.
+        public let expenseDocuments: [ExpenseDocument]?
+
+        public init(documentMetadata: DocumentMetadata? = nil, expenseDocuments: [ExpenseDocument]? = nil) {
+            self.documentMetadata = documentMetadata
+            self.expenseDocuments = expenseDocuments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentMetadata = "DocumentMetadata"
+            case expenseDocuments = "ExpenseDocuments"
+        }
+    }
+
     public struct Block: AWSDecodableShape {
         /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.
         public let blockType: BlockType?
@@ -306,6 +338,89 @@ extension Textract {
 
         private enum CodingKeys: String, CodingKey {
             case pages = "Pages"
+        }
+    }
+
+    public struct ExpenseDetection: AWSDecodableShape {
+        /// The confidence in detection, as a percentage
+        public let confidence: Float?
+        public let geometry: Geometry?
+        /// The word or line of text recognized by Amazon Textract
+        public let text: String?
+
+        public init(confidence: Float? = nil, geometry: Geometry? = nil, text: String? = nil) {
+            self.confidence = confidence
+            self.geometry = geometry
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case geometry = "Geometry"
+            case text = "Text"
+        }
+    }
+
+    public struct ExpenseDocument: AWSDecodableShape {
+        /// Denotes which invoice or receipt in the document the information is coming from. First document will be 1, the second 2, and so on.
+        public let expenseIndex: Int?
+        /// Information detected on each table of a document, seperated into LineItems.
+        public let lineItemGroups: [LineItemGroup]?
+        /// Any information found outside of a table by Amazon Textract.
+        public let summaryFields: [ExpenseField]?
+
+        public init(expenseIndex: Int? = nil, lineItemGroups: [LineItemGroup]? = nil, summaryFields: [ExpenseField]? = nil) {
+            self.expenseIndex = expenseIndex
+            self.lineItemGroups = lineItemGroups
+            self.summaryFields = summaryFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expenseIndex = "ExpenseIndex"
+            case lineItemGroups = "LineItemGroups"
+            case summaryFields = "SummaryFields"
+        }
+    }
+
+    public struct ExpenseField: AWSDecodableShape {
+        /// The explicitly stated label of a detected element.
+        public let labelDetection: ExpenseDetection?
+        /// The page number the value was detected on.
+        public let pageNumber: Int?
+        /// The implied label of a detected element. Present alongside LabelDetection for explicit elements.
+        public let type: ExpenseType?
+        /// The value of a detected element. Present in explicit and implicit elements.
+        public let valueDetection: ExpenseDetection?
+
+        public init(labelDetection: ExpenseDetection? = nil, pageNumber: Int? = nil, type: ExpenseType? = nil, valueDetection: ExpenseDetection? = nil) {
+            self.labelDetection = labelDetection
+            self.pageNumber = pageNumber
+            self.type = type
+            self.valueDetection = valueDetection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelDetection = "LabelDetection"
+            case pageNumber = "PageNumber"
+            case type = "Type"
+            case valueDetection = "ValueDetection"
+        }
+    }
+
+    public struct ExpenseType: AWSDecodableShape {
+        /// The confidence of accuracy, as a percentage.
+        public let confidence: Float?
+        /// The word or line of text detected by Amazon Textract.
+        public let text: String?
+
+        public init(confidence: Float? = nil, text: String? = nil) {
+            self.confidence = confidence
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case text = "Text"
         }
     }
 
@@ -527,6 +642,36 @@ extension Textract {
         }
     }
 
+    public struct LineItemFields: AWSDecodableShape {
+        /// ExpenseFields used to show information from detected lines on a table.
+        public let lineItemExpenseFields: [ExpenseField]?
+
+        public init(lineItemExpenseFields: [ExpenseField]? = nil) {
+            self.lineItemExpenseFields = lineItemExpenseFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineItemExpenseFields = "LineItemExpenseFields"
+        }
+    }
+
+    public struct LineItemGroup: AWSDecodableShape {
+        /// The number used to identify a specific table in a document. The first table encountered will have a LineItemGroupIndex of 1, the second 2, etc.
+        public let lineItemGroupIndex: Int?
+        /// The breakdown of information on a particular line of a table.
+        public let lineItems: [LineItemFields]?
+
+        public init(lineItemGroupIndex: Int? = nil, lineItems: [LineItemFields]? = nil) {
+            self.lineItemGroupIndex = lineItemGroupIndex
+            self.lineItems = lineItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineItemGroupIndex = "LineItemGroupIndex"
+            case lineItems = "LineItems"
+        }
+    }
+
     public struct NotificationChannel: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic.
         public let roleArn: String
@@ -614,7 +759,7 @@ extension Textract {
     }
 
     public struct S3Object: AWSEncodableShape {
-        /// The name of the S3 bucket.
+        /// The name of the S3 bucket. Note that the # character is not valid in the file name.
         public let bucket: String?
         /// The file name of the input document. Synchronous operations can use image files that are in JPEG or PNG format. Asynchronous operations also support PDF format files.
         public let name: String?

@@ -62,7 +62,7 @@ public struct EventBridgeErrorType: AWSErrorType {
     public static var invalidStateException: Self { .init(.invalidStateException) }
     /// The request failed because it attempted to create resource beyond the allowed service quota.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// This rule was created by an AWS service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
+    /// This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     public static var managedRuleException: Self { .init(.managedRuleException) }
     /// The operation you are attempting is not available in this region.
     public static var operationDisabledException: Self { .init(.operationDisabledException) }

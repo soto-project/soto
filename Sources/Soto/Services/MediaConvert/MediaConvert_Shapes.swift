@@ -501,6 +501,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CmafSegmentLengthControl: String, CustomStringConvertible, Codable {
+        case exact = "EXACT"
+        case gopMultiple = "GOP_MULTIPLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmafStreamInfResolution: String, CustomStringConvertible, Codable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
@@ -618,6 +624,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CopyProtectionAction: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case strip = "STRIP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashIsoGroupAudioChannelConfigSchemeIdUri: String, CustomStringConvertible, Codable {
         case dolbyChannelConfiguration = "DOLBY_CHANNEL_CONFIGURATION"
         case mpegChannelConfiguration = "MPEG_CHANNEL_CONFIGURATION"
@@ -658,6 +670,12 @@ extension MediaConvert {
     public enum DashIsoSegmentControl: String, CustomStringConvertible, Codable {
         case segmentedFiles = "SEGMENTED_FILES"
         case singleFile = "SINGLE_FILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoSegmentLengthControl: String, CustomStringConvertible, Codable {
+        case exact = "EXACT"
+        case gopMultiple = "GOP_MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
@@ -1040,6 +1058,7 @@ extension MediaConvert {
 
     public enum H264FieldEncoding: String, CustomStringConvertible, Codable {
         case forceField = "FORCE_FIELD"
+        case mbaff = "MBAFF"
         case paff = "PAFF"
         public var description: String { return self.rawValue }
     }
@@ -1465,6 +1484,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum HlsSegmentLengthControl: String, CustomStringConvertible, Codable {
+        case exact = "EXACT"
+        case gopMultiple = "GOP_MULTIPLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
@@ -1780,6 +1805,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum M2tsDataPtsControl: String, CustomStringConvertible, Codable {
+        case alignToVideo = "ALIGN_TO_VIDEO"
+        case auto = "AUTO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum M2tsEbpAudioInterval: String, CustomStringConvertible, Codable {
         case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
         case videoInterval = "VIDEO_INTERVAL"
@@ -1847,6 +1878,12 @@ extension MediaConvert {
     public enum M3u8AudioDuration: String, CustomStringConvertible, Codable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M3u8DataPtsControl: String, CustomStringConvertible, Codable {
+        case alignToVideo = "ALIGN_TO_VIDEO"
+        case auto = "AUTO"
         public var description: String { return self.rawValue }
     }
 
@@ -2094,6 +2131,12 @@ extension MediaConvert {
     public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable {
         case combineDuplicateStreams = "COMBINE_DUPLICATE_STREAMS"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MsSmoothFragmentLengthControl: String, CustomStringConvertible, Codable {
+        case exact = "EXACT"
+        case gopMultiple = "GOP_MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
@@ -2444,6 +2487,12 @@ extension MediaConvert {
     public enum Vc3Telecine: String, CustomStringConvertible, Codable {
         case hard = "HARD"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VchipAction: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case strip = "STRIP"
         public var description: String { return self.rawValue }
     }
 
@@ -3831,7 +3880,7 @@ extension MediaConvert {
         public let destinationSettings: DestinationSettings?
         /// DRM settings.
         public let encryption: CmafEncryptionSettings?
-        /// Length of fragments to generate (in seconds). Fragment length must be compatible with GOP size and Framerate. Note that fragments will end on the next keyframe after this number of seconds, so actual fragment length may be longer. When Emit Single File is checked, the fragmentation is internal to a single output file and it does not cause the creation of many output files as in other output types.
+        /// Specify the length, in whole seconds, of the mp4 fragments. When you don't specify a value, MediaConvert defaults to 2. Related setting: Use Fragment length control (FragmentLengthControl) to specify whether the encoder enforces this value strictly.
         public let fragmentLength: Int?
         /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest (WriteHlsManifest), MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest (WriteDashManifest), MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: CmafImageBasedTrickPlay?
@@ -3849,8 +3898,10 @@ extension MediaConvert {
         public let ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: CmafSegmentControl?
-        /// Use this setting to specify the length, in seconds, of each individual CMAF segment. This value applies to the whole package; that is, to every output in the output group. Note that segments end on the first keyframe after this number of seconds, so the actual segment length might be slightly longer. If you set Segment control (CmafSegmentControl) to single file, the service puts the content of each output in a single file that has metadata that marks these segments. If you set it to segmented files, the service creates multiple files for each output, each with the content of one segment.
+        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (CmafSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
+        /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        public let segmentLengthControl: CmafSegmentLengthControl?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public let streamInfResolution: CmafStreamInfResolution?
         /// When set to LEGACY, the segment target duration is always rounded up to the nearest integer value above its current value in seconds. When set to SPEC\\_COMPLIANT, the segment target duration is rounded up to the nearest integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5) and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if your client needs to ensure that the target duration is always longer than the actual duration of the segment. Some older players may experience interrupted playback when the actual duration of a track in a segment is longer than the target duration.
@@ -3862,7 +3913,7 @@ extension MediaConvert {
         /// When you enable Precise segment duration in DASH manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
@@ -3880,6 +3931,7 @@ extension MediaConvert {
             self.ptsOffsetHandlingForBFrames = ptsOffsetHandlingForBFrames
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
+            self.segmentLengthControl = segmentLengthControl
             self.streamInfResolution = streamInfResolution
             self.targetDurationCompatibilityMode = targetDurationCompatibilityMode
             self.writeDashManifest = writeDashManifest
@@ -3920,6 +3972,7 @@ extension MediaConvert {
             case ptsOffsetHandlingForBFrames
             case segmentControl
             case segmentLength
+            case segmentLengthControl
             case streamInfResolution
             case targetDurationCompatibilityMode
             case writeDashManifest
@@ -4390,12 +4443,14 @@ extension MediaConvert {
         public let ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: DashIsoSegmentControl?
-        /// Length of mpd segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer. When Emit Single File is checked, the segmentation is internal to a single output file and it does not cause the creation of many output files as in other output types.
+        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (DashIsoSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
+        /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        public let segmentLengthControl: DashIsoSegmentLengthControl?
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
@@ -4411,6 +4466,7 @@ extension MediaConvert {
             self.ptsOffsetHandlingForBFrames = ptsOffsetHandlingForBFrames
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
+            self.segmentLengthControl = segmentLengthControl
             self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
         }
 
@@ -4445,6 +4501,7 @@ extension MediaConvert {
             case ptsOffsetHandlingForBFrames
             case segmentControl
             case segmentLength
+            case segmentLengthControl
             case writeSegmentTimelineInRepresentation
         }
     }
@@ -5205,6 +5262,23 @@ extension MediaConvert {
         }
     }
 
+    public struct ExtendedDataServices: AWSEncodableShape & AWSDecodableShape {
+        /// The action to take on copy and redistribution control XDS packets.  If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
+        public let copyProtectionAction: CopyProtectionAction?
+        /// The action to take on content advisory XDS packets.  If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
+        public let vchipAction: VchipAction?
+
+        public init(copyProtectionAction: CopyProtectionAction? = nil, vchipAction: VchipAction? = nil) {
+            self.copyProtectionAction = copyProtectionAction
+            self.vchipAction = vchipAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyProtectionAction
+            case vchipAction
+        }
+    }
+
     public struct F4vSettings: AWSEncodableShape & AWSDecodableShape {
         /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
         public let moovPlacement: F4vMoovPlacement?
@@ -5462,7 +5536,7 @@ extension MediaConvert {
         public let dynamicSubGop: H264DynamicSubGop?
         /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
         public let entropyEncoding: H264EntropyEncoding?
-        /// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields.
+        /// The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.
         public let fieldEncoding: H264FieldEncoding?
         /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264FlickerAdaptiveQuantization is Disabled (DISABLED). Change this value to Enabled (ENABLED) to reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. To manually enable or disable H264FlickerAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
         public let flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization?
@@ -5492,7 +5566,7 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
-        /// Number of B-frames between reference frames.
+        /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
@@ -5719,7 +5793,7 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
-        /// Number of B-frames between reference frames.
+        /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
@@ -6130,8 +6204,10 @@ extension MediaConvert {
         public let programDateTimePeriod: Int?
         /// When set to SINGLE_FILE, emits program as a single media resource (.ts) file, uses #EXT-X-BYTERANGE tags to index segment for playback.
         public let segmentControl: HlsSegmentControl?
-        /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer.
+        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (HlsSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
+        /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        public let segmentLengthControl: HlsSegmentLengthControl?
         /// Number of segments to write to a subdirectory before starting a new one. directoryStructure must be SINGLE_DIRECTORY for this setting to have an effect.
         public let segmentsPerSubdirectory: Int?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
@@ -6145,7 +6221,7 @@ extension MediaConvert {
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
         public let timestampDeltaMilliseconds: Int?
 
-        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, audioOnlyHeader: HlsAudioOnlyHeader? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, imageBasedTrickPlay: HlsImageBasedTrickPlay? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
+        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, audioOnlyHeader: HlsAudioOnlyHeader? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, imageBasedTrickPlay: HlsImageBasedTrickPlay? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: HlsSegmentLengthControl? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
             self.additionalManifests = additionalManifests
             self.adMarkers = adMarkers
             self.audioOnlyHeader = audioOnlyHeader
@@ -6168,6 +6244,7 @@ extension MediaConvert {
             self.programDateTimePeriod = programDateTimePeriod
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
+            self.segmentLengthControl = segmentLengthControl
             self.segmentsPerSubdirectory = segmentsPerSubdirectory
             self.streamInfResolution = streamInfResolution
             self.targetDurationCompatibilityMode = targetDurationCompatibilityMode
@@ -6223,6 +6300,7 @@ extension MediaConvert {
             case programDateTimePeriod
             case segmentControl
             case segmentLength
+            case segmentLengthControl
             case segmentsPerSubdirectory
             case streamInfResolution
             case targetDurationCompatibilityMode
@@ -6863,6 +6941,8 @@ extension MediaConvert {
         public let availBlanking: AvailBlanking?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public let esam: EsamSettings?
+        /// Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory.
+        public let extendedDataServices: ExtendedDataServices?
         /// Use Inputs (inputs) to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -6880,10 +6960,11 @@ extension MediaConvert {
         /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags in any HLS outputs. To include timed metadata, you must enable it here, enable it in each output container, and specify tags and timecodes in ID3 insertion (Id3Insertion) objects.
         public let timedMetadataInsertion: TimedMetadataInsertion?
 
-        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [Input]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
+        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, extendedDataServices: ExtendedDataServices? = nil, inputs: [Input]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.esam = esam
+            self.extendedDataServices = extendedDataServices
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -6917,6 +6998,7 @@ extension MediaConvert {
             case adAvailOffset
             case availBlanking
             case esam
+            case extendedDataServices
             case inputs
             case kantarWatermark
             case motionImageInserter
@@ -6998,6 +7080,8 @@ extension MediaConvert {
         public let availBlanking: AvailBlanking?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public let esam: EsamSettings?
+        /// Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory.
+        public let extendedDataServices: ExtendedDataServices?
         /// Use Inputs (inputs) to define the source file used in the transcode job. There can only be one input in a job template.  Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -7015,10 +7099,11 @@ extension MediaConvert {
         /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags in any HLS outputs. To include timed metadata, you must enable it here, enable it in each output container, and specify tags and timecodes in ID3 insertion (Id3Insertion) objects.
         public let timedMetadataInsertion: TimedMetadataInsertion?
 
-        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [InputTemplate]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
+        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, extendedDataServices: ExtendedDataServices? = nil, inputs: [InputTemplate]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.esam = esam
+            self.extendedDataServices = extendedDataServices
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -7052,6 +7137,7 @@ extension MediaConvert {
             case adAvailOffset
             case availBlanking
             case esam
+            case extendedDataServices
             case inputs
             case kantarWatermark
             case motionImageInserter
@@ -7418,6 +7504,8 @@ extension MediaConvert {
         public let bitrate: Int?
         /// Controls what buffer model to use for accurate interleaving. If set to MULTIPLEX, use multiplex  buffer model. If set to NONE, this can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
         public let bufferModel: M2tsBufferModel?
+        /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.
+        public let dataPTSControl: M2tsDataPtsControl?
         /// Use these settings to insert a DVB Network Information Table (NIT) in the transport stream of this output. When you work directly in your JSON job specification, include this object only when your job has a transport stream output and the container settings contain the object M2tsSettings.
         public let dvbNitSettings: DvbNitSettings?
         /// Use these settings to insert a DVB Service Description Table (SDT) in the transport stream of this output. When you work directly in your JSON job specification, include this object only when your job has a transport stream output and the container settings contain the object M2tsSettings.
@@ -7481,13 +7569,14 @@ extension MediaConvert {
         /// Specify the packet identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioBufferModel = audioBufferModel
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.bitrate = bitrate
             self.bufferModel = bufferModel
+            self.dataPTSControl = dataPTSControl
             self.dvbNitSettings = dvbNitSettings
             self.dvbSdtSettings = dvbSdtSettings
             self.dvbSubPids = dvbSubPids
@@ -7573,6 +7662,7 @@ extension MediaConvert {
             case audioPids
             case bitrate
             case bufferModel
+            case dataPTSControl
             case dvbNitSettings
             case dvbSdtSettings
             case dvbSubPids
@@ -7614,6 +7704,8 @@ extension MediaConvert {
         public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
         public let audioPids: [Int]?
+        /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.
+        public let dataPTSControl: M3u8DataPtsControl?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
         public let maxPcrInterval: Int?
         /// If INSERT, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
@@ -7645,10 +7737,11 @@ extension MediaConvert {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, dataPTSControl: M3u8DataPtsControl? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.dataPTSControl = dataPTSControl
             self.maxPcrInterval = maxPcrInterval
             self.nielsenId3 = nielsenId3
             self.patInterval = patInterval
@@ -7701,6 +7794,7 @@ extension MediaConvert {
             case audioDuration
             case audioFramesPerPes
             case audioPids
+            case dataPTSControl
             case maxPcrInterval
             case nielsenId3
             case patInterval
@@ -7997,9 +8091,9 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public let gopClosedCadence: Int?
-        /// GOP Length (keyframe interval) in frames or seconds. Must be greater than zero.
+        /// Specify the interval between keyframes, in seconds or frames, for this output. Default: 12 Related settings: When you specify the GOP size in seconds, set GOP mode control (GopSizeUnits) to Specified, seconds (SECONDS). The default value for GOP mode control (GopSizeUnits) is Frames (FRAMES).
         public let gopSize: Double?
-        /// Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.
+        /// Specify the units for GOP size (GopSize). If you don't specify a value here, by default the encoder measures GOP size in frames.
         public let gopSizeUnits: Mpeg2GopSizeUnits?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let hrdBufferInitialFillPercentage: Int?
@@ -8013,7 +8107,7 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
-        /// Number of B-frames between reference frames.
+        /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: Mpeg2ParControl?
@@ -8192,18 +8286,21 @@ extension MediaConvert {
         public let destinationSettings: DestinationSettings?
         /// If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to specify the value SpekeKeyProvider.
         public let encryption: MsSmoothEncryptionSettings?
-        /// Use Fragment length (FragmentLength) to specify the mp4 fragment sizes in seconds. Fragment length must be compatible with GOP size and frame rate.
+        /// Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
         public let fragmentLength: Int?
+        /// Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        public let fragmentLengthControl: MsSmoothFragmentLengthControl?
         /// Use Manifest encoding (MsSmoothManifestEncoding) to specify the encoding format for the server and client manifest. Valid options are utf8 and utf16.
         public let manifestEncoding: MsSmoothManifestEncoding?
 
-        public init(additionalManifests: [MsSmoothAdditionalManifest]? = nil, audioDeduplication: MsSmoothAudioDeduplication? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: MsSmoothEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestEncoding: MsSmoothManifestEncoding? = nil) {
+        public init(additionalManifests: [MsSmoothAdditionalManifest]? = nil, audioDeduplication: MsSmoothAudioDeduplication? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: MsSmoothEncryptionSettings? = nil, fragmentLength: Int? = nil, fragmentLengthControl: MsSmoothFragmentLengthControl? = nil, manifestEncoding: MsSmoothManifestEncoding? = nil) {
             self.additionalManifests = additionalManifests
             self.audioDeduplication = audioDeduplication
             self.destination = destination
             self.destinationSettings = destinationSettings
             self.encryption = encryption
             self.fragmentLength = fragmentLength
+            self.fragmentLengthControl = fragmentLengthControl
             self.manifestEncoding = manifestEncoding
         }
 
@@ -8225,6 +8322,7 @@ extension MediaConvert {
             case destinationSettings
             case encryption
             case fragmentLength
+            case fragmentLengthControl
             case manifestEncoding
         }
     }
@@ -9162,20 +9260,25 @@ extension MediaConvert {
     public struct S3EncryptionSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3 (SERVER_SIDE_ENCRYPTION_S3). If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
         public let encryptionType: S3ServerSideEncryptionType?
+        /// Optionally, specify the encryption context that you want to use alongside your KMS key. AWS KMS uses this encryption context as additional authenticated data (AAD) to support authenticated encryption. This value must be a base64-encoded UTF-8 string holding JSON which represents a string-string map. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). For more information about encryption context, see: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.
+        public let kmsEncryptionContext: String?
         /// Optionally, specify the customer master key (CMK) that you want to use to encrypt the data key that AWS uses to encrypt your output content. Enter the Amazon Resource Name (ARN) of the CMK. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). If you set Server-side encryption to AWS KMS but don't specify a CMK here, AWS uses the AWS managed CMK associated with Amazon S3.
         public let kmsKeyArn: String?
 
-        public init(encryptionType: S3ServerSideEncryptionType? = nil, kmsKeyArn: String? = nil) {
+        public init(encryptionType: S3ServerSideEncryptionType? = nil, kmsEncryptionContext: String? = nil, kmsKeyArn: String? = nil) {
             self.encryptionType = encryptionType
+            self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyArn = kmsKeyArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, pattern: "^[A-Za-z0-9+\\/]+={0,2}$")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(-us-gov|-cn)?:kms:[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}:\\d{12}:key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionType
+            case kmsEncryptionContext
             case kmsKeyArn
         }
     }

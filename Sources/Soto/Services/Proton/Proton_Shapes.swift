@@ -328,21 +328,21 @@ extension Proton {
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// A description of the environment that's being created and deployed.
         public let description: String?
-        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. For more information, see Environment account connections in the AWS Proton Administration guide.
+        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. For more information, see Environment account connections in the AWS Proton Administrator guide.
         public let environmentAccountConnectionId: String?
         /// The name of the environment.
         public let name: String
         /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value.
         public let protonServiceRoleArn: String?
-        /// A link to a YAML formatted spec file that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the AWS Proton Administration Guide.
+        /// A link to a YAML formatted spec file that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the AWS Proton Administrator Guide.
         public let spec: String
-        /// Create tags for your environment. For more information, see AWS Proton resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+        /// Create tags for your environment. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
         public let tags: [Tag]?
         /// The ID of the major version of the environment template.
         public let templateMajorVersion: String
         /// The ID of the minor version of the environment template.
         public let templateMinorVersion: String?
-        /// The name of the environment template. For more information, see Environment Templates in the AWS Proton Administration Guide.
+        /// The name of the environment template. For more information, see Environment Templates in the AWS Proton Administrator Guide.
         public let templateName: String
 
         public init(description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
@@ -421,7 +421,7 @@ extension Proton {
         public let name: String
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// Create tags for your environment template. For more information, see AWS Proton resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+        /// Create tags for your environment template. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, provisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -546,13 +546,13 @@ extension Proton {
         public let description: String?
         /// The service name.
         public let name: String
-        /// The ARN of the repository connection. For more information, see Set up repository connection in the AWS Proton Administration Guide and Getting started in the AWS Proton User Guide. Don't include this parameter if your service template doesn't include a service pipeline.
+        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up repository connection in the AWS Proton Administrator Guide and Setting up with AWS Proton in the AWS Proton User Guide. Don't include this parameter if your service template doesn't include a service pipeline.
         public let repositoryConnectionArn: String?
         /// The ID of the code repository. Don't include this parameter if your service template doesn't include a service pipeline.
         public let repositoryId: String?
-        /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the AWS Proton Administration Guide and Create a service in the AWS Proton User Guide.
+        /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the AWS Proton Administrator Guide and Create a service in the AWS Proton User Guide.
         public let spec: String
-        /// Create tags for your service. For more information, see AWS Proton resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+        /// Create tags for your service. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
         public let tags: [Tag]?
         /// The ID of the major version of the service template that was used to create the service.
         public let templateMajorVersion: String
@@ -640,9 +640,9 @@ extension Proton {
         public let encryptionKey: String?
         /// The name of the service template.
         public let name: String
-        /// AWS Proton includes a service pipeline for your service by default. When included, this parameter indicates that an AWS Proton service pipeline won't be included for your service. Once specified, this parameter can't be changed. For more information, see Service template bundles in the AWS Proton Administration Guide.
+        /// AWS Proton includes a service pipeline for your service by default. When included, this parameter indicates that an AWS Proton service pipeline won't be included for your service. Once specified, this parameter can't be changed. For more information, see Service template bundles in the AWS Proton Administrator Guide.
         public let pipelineProvisioning: Provisioning?
-        /// Create tags for your service template. For more information, see AWS Proton resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+        /// Create tags for your service template. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, pipelineProvisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -1040,7 +1040,7 @@ extension Proton {
         public let lastDeploymentSucceededAt: Date
         /// The name of the environment.
         public let name: String
-        /// The ARN of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf.
+        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf.
         public let protonServiceRoleArn: String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
@@ -1050,7 +1050,7 @@ extension Proton {
         public let templateMajorVersion: String
         /// The ID of the minor version of the environment template.
         public let templateMinorVersion: String
-        /// The ARN of the environment template.
+        /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
 
         public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
@@ -1203,7 +1203,7 @@ extension Proton {
         public let lastDeploymentSucceededAt: Date
         /// The name of the environment.
         public let name: String
-        /// The ARN of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf.
+        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf.
         public let protonServiceRoleArn: String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
@@ -2153,7 +2153,7 @@ extension Proton {
         public let maxResults: Int?
         /// A token to indicate the location of the next resource tag in the array of resource tags, after the list of resource tags that was previously requested.
         public let nextToken: String?
-        /// The ARN of the resource for the listed tags.
+        /// The Amazon Resource Name (ARN) of the resource for the listed tags.
         public let resourceArn: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
@@ -2263,7 +2263,7 @@ extension Proton {
         public let name: String
         /// The service pipeline detail data.
         public let pipeline: ServicePipeline?
-        /// The ARN of the repository connection. For more information, see Set up a repository connection in the AWS Proton Administration Guide and Getting started in the AWS Proton User Guide.
+        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up a repository connection in the AWS Proton Administrator Guide and Setting up with AWS Proton in the AWS Proton User Guide.
         public let repositoryConnectionArn: String?
         /// The ID of the code repository.
         public let repositoryId: String?
@@ -2885,11 +2885,11 @@ extension Proton {
         public let deploymentType: DeploymentUpdateType
         /// A description of the environment update.
         public let description: String?
-        /// The ID of the environment account connection. You can only update to a new environment account connection if it was created in the same environment account that the current environment account connection was created in and associated with the current environment.
+        /// The ID of the environment account connection. You can only update to a new environment account connection if it was created in the same environment account that the current environment account connection was created in and is associated with the current environment.
         public let environmentAccountConnectionId: String?
         /// The name of the environment to update.
         public let name: String
-        /// The ARN of the AWS Proton service role that allows AWS Proton to make API calls to other services your behalf.
+        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make API calls to other services your behalf.
         public let protonServiceRoleArn: String?
         /// The formatted specification that defines the update.
         public let spec: String?
@@ -3058,7 +3058,7 @@ extension Proton {
         public let description: String?
         /// The name of the service to edit.
         public let name: String
-        /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the AWS Proton Administration Guide or the AWS Proton User Guide.
+        /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the AWS Proton Administrator Guide or the AWS Proton User Guide.
         public let spec: String?
 
         public init(description: String? = nil, name: String, spec: String? = nil) {

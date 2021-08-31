@@ -171,6 +171,8 @@ extension CustomerProfiles {
     }
 
     public enum StandardIdentifier: String, CustomStringConvertible, Codable {
+        case asset = "ASSET"
+        case `case` = "CASE"
         case lookupOnly = "LOOKUP_ONLY"
         case newOnly = "NEW_ONLY"
         case profile = "PROFILE"
@@ -390,7 +392,7 @@ extension CustomerProfiles {
         public let defaultExpirationDays: Int
         /// The unique name of the domain.
         public let domainName: String
-        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains. After that batch process completes, use the GetMatches API to return and review the results.
         public let matching: MatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -444,7 +446,7 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
-        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains. After that batch process completes, use the GetMatches API to return and review the results.
         public let matching: MatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -1121,7 +1123,7 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
-        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains. After that batch process completes, use the GetMatches API to return and review the results.
         public let matching: MatchingResponse?
         /// Usage-specific statistics about the domain.
         public let stats: DomainStats?
@@ -1803,15 +1805,18 @@ extension CustomerProfiles {
         public let maxResults: Int?
         /// The pagination token from the previous call to ListProfileObjects.
         public let nextToken: String?
+        /// Applies a filter to the response to include profile objects with the specified index values. This filter is only supported for ObjectTypeName _asset and _case.
+        public let objectFilter: ObjectFilter?
         /// The name of the profile object type.
         public let objectTypeName: String
         /// The unique identifier of a customer profile.
         public let profileId: String
 
-        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, objectTypeName: String, profileId: String) {
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, objectFilter: ObjectFilter? = nil, objectTypeName: String, profileId: String) {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.objectFilter = objectFilter
             self.objectTypeName = objectTypeName
             self.profileId = profileId
         }
@@ -1824,6 +1829,7 @@ extension CustomerProfiles {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.objectFilter?.validate(name: "\(name).objectFilter")
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -1831,6 +1837,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case objectFilter = "ObjectFilter"
             case objectTypeName = "ObjectTypeName"
             case profileId = "ProfileId"
         }
@@ -2001,6 +2008,33 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ObjectFilter: AWSEncodableShape {
+        /// A searchable identifier of a standard profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, _serialNumber. The predefined keys you can use to search for _case include: _caseId.
+        public let keyName: String
+        /// A list of key values.
+        public let values: [String]
+
+        public init(keyName: String, values: [String]) {
+            self.keyName = keyName
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 64)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyName = "KeyName"
+            case values = "Values"
+        }
+    }
+
     public struct ObjectTypeField: AWSEncodableShape & AWSDecodableShape {
         /// The content type of the field. Used for determining equality when searching.
         public let contentType: FieldContentType?
@@ -2032,7 +2066,7 @@ extension CustomerProfiles {
     public struct ObjectTypeKey: AWSEncodableShape & AWSDecodableShape {
         /// The reference for the key name of the fields map.
         public let fieldNames: [String]?
-        /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE means that this key can be used to tie an object to a PROFILE. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
+        /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET or CASE means that this key can be used to tie an object to a PROFILE, ASSET or CASE respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
         public let standardIdentifiers: [StandardIdentifier]?
 
         public init(fieldNames: [String]? = nil, standardIdentifiers: [StandardIdentifier]? = nil) {
@@ -2907,7 +2941,7 @@ extension CustomerProfiles {
         public let defaultExpirationDays: Int?
         /// The unique name of the domain.
         public let domainName: String
-        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains. After that batch process completes, use the GetMatches API to return and review the results.
         public let matching: MatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -2961,7 +2995,7 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
-        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains. After that batch process completes, use the GetMatches API to return and review the results.
         public let matching: MatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?

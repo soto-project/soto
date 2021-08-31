@@ -32,6 +32,7 @@ extension LicenseManager {
     }
 
     public enum CheckoutType: String, CustomStringConvertible, Codable {
+        case perpetual = "PERPETUAL"
         case provisional = "PROVISIONAL"
         public var description: String { return self.rawValue }
     }

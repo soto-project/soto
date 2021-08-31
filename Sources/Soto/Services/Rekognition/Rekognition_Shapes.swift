@@ -83,6 +83,12 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum KnownGenderType: String, CustomStringConvertible, Codable {
+        case female = "Female"
+        case male = "Male"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable {
         case name = "NAME"
         case timestamp = "TIMESTAMP"
@@ -202,13 +208,23 @@ extension Rekognition {
     public enum TechnicalCueType: String, CustomStringConvertible, Codable {
         case blackframes = "BlackFrames"
         case colorbars = "ColorBars"
+        case content = "Content"
         case endcredits = "EndCredits"
+        case openingcredits = "OpeningCredits"
+        case slate = "Slate"
+        case studiologo = "StudioLogo"
         public var description: String { return self.rawValue }
     }
 
     public enum TextTypes: String, CustomStringConvertible, Codable {
         case line = "LINE"
         case word = "WORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoColorRange: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case limited = "LIMITED"
         public var description: String { return self.rawValue }
     }
 
@@ -296,6 +312,30 @@ extension Rekognition {
         }
     }
 
+    public struct BlackFrame: AWSEncodableShape {
+        ///  A threshold used to determine the maximum luminance value for a pixel to be considered black. In a full color range video, luminance values range from 0-255. A pixel value of 0 is pure black, and the most strict filter. The maximum black pixel value is computed as follows: max_black_pixel_value = minimum_luminance + MaxPixelThreshold *luminance_range.  For example, for a full range video with BlackPixelThreshold = 0.1, max_black_pixel_value is 0 + 0.1 * (255-0) = 25.5. The default value of MaxPixelThreshold is 0.2, which maps to a max_black_pixel_value of 51 for a full range video. You can lower this threshold to be more strict on black levels.
+        public let maxPixelThreshold: Float?
+        ///  The minimum percentage of pixels in a frame that need to have a luminance below the max_black_pixel_value for a frame to be considered a black frame. Luminance is calculated using the BT.709 matrix.  The default value is 99, which means at least 99% of all pixels in the frame are black pixels as per the MaxPixelThreshold set. You can reduce this value to allow more noise on the black frame.
+        public let minCoveragePercentage: Float?
+
+        public init(maxPixelThreshold: Float? = nil, minCoveragePercentage: Float? = nil) {
+            self.maxPixelThreshold = maxPixelThreshold
+            self.minCoveragePercentage = minCoveragePercentage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxPixelThreshold, name: "maxPixelThreshold", parent: name, max: 1)
+            try self.validate(self.maxPixelThreshold, name: "maxPixelThreshold", parent: name, min: 0)
+            try self.validate(self.minCoveragePercentage, name: "minCoveragePercentage", parent: name, max: 100)
+            try self.validate(self.minCoveragePercentage, name: "minCoveragePercentage", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPixelThreshold = "MaxPixelThreshold"
+            case minCoveragePercentage = "MinCoveragePercentage"
+        }
+    }
+
     public struct BoundingBox: AWSEncodableShape & AWSDecodableShape {
         /// Height of the bounding box as a ratio of the overall image height.
         public let height: Float?
@@ -326,6 +366,7 @@ extension Rekognition {
         public let face: ComparedFace?
         /// A unique identifier for the celebrity.
         public let id: String?
+        public let knownGender: KnownGender?
         /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity.
         public let matchConfidence: Float?
         /// The name of the celebrity.
@@ -333,9 +374,10 @@ extension Rekognition {
         /// An array of URLs pointing to additional information about the celebrity. If there is no additional information about the celebrity, this list is empty.
         public let urls: [String]?
 
-        public init(face: ComparedFace? = nil, id: String? = nil, matchConfidence: Float? = nil, name: String? = nil, urls: [String]? = nil) {
+        public init(face: ComparedFace? = nil, id: String? = nil, knownGender: KnownGender? = nil, matchConfidence: Float? = nil, name: String? = nil, urls: [String]? = nil) {
             self.face = face
             self.id = id
+            self.knownGender = knownGender
             self.matchConfidence = matchConfidence
             self.name = name
             self.urls = urls
@@ -344,6 +386,7 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case face = "Face"
             case id = "Id"
+            case knownGender = "KnownGender"
             case matchConfidence = "MatchConfidence"
             case name = "Name"
             case urls = "Urls"
@@ -483,27 +526,35 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// Level of confidence that what the bounding box contains is a face.
         public let confidence: Float?
+        ///  The emotions that appear to be expressed on the face, and the confidence level in the determination. Valid values include "Happy", "Sad", "Angry", "Confused", "Disgusted", "Surprised", "Calm", "Unknown", and "Fear".
+        public let emotions: [Emotion]?
         /// An array of facial landmarks.
         public let landmarks: [Landmark]?
         /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
         public let pose: Pose?
         /// Identifies face image brightness and sharpness.
         public let quality: ImageQuality?
+        ///  Indicates whether or not the face is smiling, and the confidence level in the determination.
+        public let smile: Smile?
 
-        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, landmarks: [Landmark]? = nil, pose: Pose? = nil, quality: ImageQuality? = nil) {
+        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, emotions: [Emotion]? = nil, landmarks: [Landmark]? = nil, pose: Pose? = nil, quality: ImageQuality? = nil, smile: Smile? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
+            self.emotions = emotions
             self.landmarks = landmarks
             self.pose = pose
             self.quality = quality
+            self.smile = smile
         }
 
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
             case confidence = "Confidence"
+            case emotions = "Emotions"
             case landmarks = "Landmarks"
             case pose = "Pose"
             case quality = "Quality"
+            case smile = "Smile"
         }
     }
 
@@ -525,9 +576,9 @@ extension Rekognition {
     }
 
     public struct ContentModerationDetection: AWSDecodableShape {
-        /// The unsafe content label detected by in the stored video.
+        /// The content moderation label detected by in the stored video.
         public let moderationLabel: ModerationLabel?
-        /// Time, in milliseconds from the beginning of the video, that the unsafe content label was detected.
+        /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected.
         public let timestamp: Int64?
 
         public init(moderationLabel: ModerationLabel? = nil, timestamp: Int64? = nil) {
@@ -643,9 +694,9 @@ extension Rekognition {
     }
 
     public struct CreateProjectVersionRequest: AWSEncodableShape {
-        /// The identifier for your AWS Key Management Service (AWS KMS) customer master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your CMK, or an alias for your CMK. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
+        /// The identifier for your AWS Key Management Service (AWS KMS) customer master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your CMK, an alias for your CMK, or an alias ARN. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own CMK, you need the following permissions on the CMK.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
         public let kmsKeyId: String?
-        /// The Amazon S3 location to store the results of training.
+        /// The Amazon S3 bucket location to store the results of training. The S3 bucket can be in any AWS account as long as the caller has s3:PutObject permissions on the S3 bucket.
         public let outputConfig: OutputConfig
         /// The ARN of the Amazon Rekognition Custom Labels project that manages the model that you want to train.
         public let projectArn: String
@@ -1174,7 +1225,7 @@ extension Rekognition {
         public let image: Image
         /// Maximum number of results you want the service to return in the response. The service returns the specified number of highest confidence labels ranked from highest confidence to lowest.
         public let maxResults: Int?
-        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence lower than this specified value. If you specify a value of 0, all labels are return, regardless of the default thresholds that the model version applies.
+        /// Specifies the minimum confidence level for the labels to return. DetectCustomLabels doesn't return any labels with a confidence value that's lower than this specified value. If you specify a value of 0, DetectCustomLabels returns all labels, regardless of the assumed threshold applied to each label. If you don't specify a value for MinConfidence, DetectCustomLabels returns labels based on the assumed threshold of each label.
         public let minConfidence: Float?
         /// The ARN of the model version that you want to use.
         public let projectVersionArn: String
@@ -1806,17 +1857,21 @@ extension Rekognition {
     }
 
     public struct GetCelebrityInfoResponse: AWSDecodableShape {
+        /// Retrieves the known gender for the celebrity.
+        public let knownGender: KnownGender?
         /// The name of the celebrity.
         public let name: String?
         /// An array of URLs pointing to additional celebrity information.
         public let urls: [String]?
 
-        public init(name: String? = nil, urls: [String]? = nil) {
+        public init(knownGender: KnownGender? = nil, name: String? = nil, urls: [String]? = nil) {
+            self.knownGender = knownGender
             self.name = name
             self.urls = urls
         }
 
         private enum CodingKeys: String, CodingKey {
+            case knownGender = "KnownGender"
             case name = "Name"
             case urls = "Urls"
         }
@@ -1885,11 +1940,11 @@ extension Rekognition {
     }
 
     public struct GetContentModerationRequest: AWSEncodableShape {
-        /// The identifier for the unsafe content job. Use JobId to identify the job in a subsequent call to GetContentModeration.
+        /// The identifier for the inappropriate, unwanted, or offensive content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of unsafe content labels.
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of content moderation labels.
         public let nextToken: String?
         /// Sort to use for elements in the ModerationLabelDetections array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: ContentModerationSortBy?
@@ -1918,13 +1973,13 @@ extension Rekognition {
     }
 
     public struct GetContentModerationResponse: AWSDecodableShape {
-        /// The current status of the unsafe content analysis job.
+        /// The current status of the content moderation analysis job.
         public let jobStatus: VideoJobStatus?
-        /// The detected unsafe content labels and the time(s) they were detected.
+        /// The detected inappropriate, unwanted, or offensive content moderation labels and the time(s) they were detected.
         public let moderationLabels: [ContentModerationDetection]?
-        /// Version number of the moderation detection model that was used to detect unsafe content.
+        /// Version number of the moderation detection model that was used to detect inappropriate, unwanted, or offensive content.
         public let moderationModelVersion: String?
-        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of unsafe content labels.
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of content moderation labels.
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -2568,6 +2623,19 @@ extension Rekognition {
         }
     }
 
+    public struct KnownGender: AWSDecodableShape {
+        /// A string value of the KnownGender info about the Celebrity.
+        public let type: KnownGenderType?
+
+        public init(type: KnownGenderType? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
     public struct Label: AWSDecodableShape {
         /// Level of confidence.
         public let confidence: Float?
@@ -3196,9 +3264,9 @@ extension Rekognition {
     }
 
     public struct RecognizeCelebritiesResponse: AWSDecodableShape {
-        /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 64 celebrities in an image.
+        /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 64 celebrities in an image. Each celebrity object includes the following attributes: Face, Confidence, Emotions, Landmarks, Pose, Quality, Smile, Id, KnownGender, MatchConfidence, Name, Urls.
         public let celebrityFaces: [Celebrity]?
-        /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.
+        ///  Support for estimating image orientation using the the OrientationCorrection field has ceased as of August 2021. Any returned values for this field included in an API response will always be NULL.  The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.
         public let orientationCorrection: OrientationCorrection?
         /// Details about each unrecognized face in the image.
         public let unrecognizedFaces: [ComparedFace]?
@@ -3383,16 +3451,22 @@ extension Rekognition {
     }
 
     public struct SegmentDetection: AWSDecodableShape {
+        ///  The duration of a video segment, expressed in frames.
+        public let durationFrames: Int64?
         /// The duration of the detected segment in milliseconds.
         public let durationMillis: Int64?
         /// The duration of the timecode for the detected segment in SMPTE format.
         public let durationSMPTE: String?
+        ///  The frame number at the end of a video segment, using a frame index that starts with 0.
+        public let endFrameNumber: Int64?
         /// The frame-accurate SMPTE timecode, from the start of a video, for the end of a detected segment. EndTimecode is in HH:MM:SS:fr format (and ;fr for drop frame-rates).
         public let endTimecodeSMPTE: String?
         /// The end time of the detected segment, in milliseconds, from the start of the video. This value is rounded down.
         public let endTimestampMillis: Int64?
         /// If the segment is a shot detection, contains information about the shot detection.
         public let shotSegment: ShotSegment?
+        ///  The frame number of the start of a video segment, using a frame index that starts with 0.
+        public let startFrameNumber: Int64?
         /// The frame-accurate SMPTE timecode, from the start of a video, for the start of a detected segment. StartTimecode is in HH:MM:SS:fr format (and ;fr for drop frame-rates).
         public let startTimecodeSMPTE: String?
         /// The start time of the detected segment in milliseconds from the start of the video. This value is rounded down. For example, if the actual timestamp is 100.6667 milliseconds, Amazon Rekognition Video returns a value of 100 millis.
@@ -3402,12 +3476,15 @@ extension Rekognition {
         /// The type of the segment. Valid values are TECHNICAL_CUE and SHOT.
         public let type: SegmentType?
 
-        public init(durationMillis: Int64? = nil, durationSMPTE: String? = nil, endTimecodeSMPTE: String? = nil, endTimestampMillis: Int64? = nil, shotSegment: ShotSegment? = nil, startTimecodeSMPTE: String? = nil, startTimestampMillis: Int64? = nil, technicalCueSegment: TechnicalCueSegment? = nil, type: SegmentType? = nil) {
+        public init(durationFrames: Int64? = nil, durationMillis: Int64? = nil, durationSMPTE: String? = nil, endFrameNumber: Int64? = nil, endTimecodeSMPTE: String? = nil, endTimestampMillis: Int64? = nil, shotSegment: ShotSegment? = nil, startFrameNumber: Int64? = nil, startTimecodeSMPTE: String? = nil, startTimestampMillis: Int64? = nil, technicalCueSegment: TechnicalCueSegment? = nil, type: SegmentType? = nil) {
+            self.durationFrames = durationFrames
             self.durationMillis = durationMillis
             self.durationSMPTE = durationSMPTE
+            self.endFrameNumber = endFrameNumber
             self.endTimecodeSMPTE = endTimecodeSMPTE
             self.endTimestampMillis = endTimestampMillis
             self.shotSegment = shotSegment
+            self.startFrameNumber = startFrameNumber
             self.startTimecodeSMPTE = startTimecodeSMPTE
             self.startTimestampMillis = startTimestampMillis
             self.technicalCueSegment = technicalCueSegment
@@ -3415,11 +3492,14 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case durationFrames = "DurationFrames"
             case durationMillis = "DurationMillis"
             case durationSMPTE = "DurationSMPTE"
+            case endFrameNumber = "EndFrameNumber"
             case endTimecodeSMPTE = "EndTimecodeSMPTE"
             case endTimestampMillis = "EndTimestampMillis"
             case shotSegment = "ShotSegment"
+            case startFrameNumber = "StartFrameNumber"
             case startTimecodeSMPTE = "StartTimecodeSMPTE"
             case startTimestampMillis = "StartTimestampMillis"
             case technicalCueSegment = "TechnicalCueSegment"
@@ -3483,7 +3563,7 @@ extension Rekognition {
         public let clientRequestToken: String?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to.
+        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -3534,9 +3614,9 @@ extension Rekognition {
         public let jobTag: String?
         /// Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value. If you don't specify MinConfidence, GetContentModeration returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
-        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the unsafe content analysis to.
+        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the content analysis to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy to access the topic.
         public let notificationChannel: NotificationChannel?
-        /// The video in which you want to detect unsafe content. The video must be stored in an Amazon S3 bucket.
+        /// The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket.
         public let video: Video
 
         public init(clientRequestToken: String? = nil, jobTag: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
@@ -3570,7 +3650,7 @@ extension Rekognition {
     }
 
     public struct StartContentModerationResponse: AWSDecodableShape {
-        /// The identifier for the unsafe content analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
+        /// The identifier for the content analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String?
 
         public init(jobId: String? = nil) {
@@ -3589,7 +3669,7 @@ extension Rekognition {
         public let faceAttributes: FaceAttributes?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the face detection operation.
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the face detection operation. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect faces. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -3644,7 +3724,7 @@ extension Rekognition {
         public let faceMatchThreshold: Float?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search.
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy to access the topic.
         public let notificationChannel: NotificationChannel?
         /// The video you want to search. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -3704,7 +3784,7 @@ extension Rekognition {
         public let jobTag: String?
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
-        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to.
+        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -3757,7 +3837,7 @@ extension Rekognition {
         public let clientRequestToken: String?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the people detection operation to.
+        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the people detection operation to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect people. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -3867,7 +3947,7 @@ extension Rekognition {
         public let filters: StartSegmentDetectionFilters?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the segment detection operation.
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the segment detection operation. Note that the Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy to access the topic.
         public let notificationChannel: NotificationChannel?
         /// An array of segment types to detect in the video. Valid values are TECHNICAL_CUE and SHOT.
         public let segmentTypes: [SegmentType]
@@ -3960,19 +4040,24 @@ extension Rekognition {
     }
 
     public struct StartTechnicalCueDetectionFilter: AWSEncodableShape {
+        ///  A filter that allows you to control the black frame detection by specifying the black levels and pixel coverage of black pixels in a frame. Videos can come from multiple sources, formats, and time periods, with different standards and varying noise levels for black frames that need to be accounted for.
+        public let blackFrame: BlackFrame?
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
         public let minSegmentConfidence: Float?
 
-        public init(minSegmentConfidence: Float? = nil) {
+        public init(blackFrame: BlackFrame? = nil, minSegmentConfidence: Float? = nil) {
+            self.blackFrame = blackFrame
             self.minSegmentConfidence = minSegmentConfidence
         }
 
         public func validate(name: String) throws {
+            try self.blackFrame?.validate(name: "\(name).blackFrame")
             try self.validate(self.minSegmentConfidence, name: "minSegmentConfidence", parent: name, max: 100)
             try self.validate(self.minSegmentConfidence, name: "minSegmentConfidence", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blackFrame = "BlackFrame"
             case minSegmentConfidence = "MinSegmentConfidence"
         }
     }
@@ -4472,6 +4557,8 @@ extension Rekognition {
     public struct VideoMetadata: AWSDecodableShape {
         /// Type of compression used in the analyzed video.
         public let codec: String?
+        ///  A description of the range of luminance values in a video, either LIMITED (16 to 235) or FULL (0 to 255).
+        public let colorRange: VideoColorRange?
         /// Length of the video in milliseconds.
         public let durationMillis: Int64?
         /// Format of the analyzed video. Possible values are MP4, MOV and AVI.
@@ -4483,8 +4570,9 @@ extension Rekognition {
         /// Horizontal pixel dimension of the video.
         public let frameWidth: Int64?
 
-        public init(codec: String? = nil, durationMillis: Int64? = nil, format: String? = nil, frameHeight: Int64? = nil, frameRate: Float? = nil, frameWidth: Int64? = nil) {
+        public init(codec: String? = nil, colorRange: VideoColorRange? = nil, durationMillis: Int64? = nil, format: String? = nil, frameHeight: Int64? = nil, frameRate: Float? = nil, frameWidth: Int64? = nil) {
             self.codec = codec
+            self.colorRange = colorRange
             self.durationMillis = durationMillis
             self.format = format
             self.frameHeight = frameHeight
@@ -4494,6 +4582,7 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case codec = "Codec"
+            case colorRange = "ColorRange"
             case durationMillis = "DurationMillis"
             case format = "Format"
             case frameHeight = "FrameHeight"

@@ -20,6 +20,19 @@ import SotoCore
 extension Connect {
     // MARK: Enums
 
+    public enum AgentStatusState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentStatusType: String, CustomStringConvertible, Codable {
+        case custom = "CUSTOM"
+        case offline = "OFFLINE"
+        case routable = "ROUTABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Channel: String, CustomStringConvertible, Codable {
         case chat = "CHAT"
         case task = "TASK"
@@ -478,6 +491,72 @@ extension Connect {
 
     // MARK: Shapes
 
+    public struct AgentStatus: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the agent status.
+        public let agentStatusARN: String?
+        /// The identifier of the agent status.
+        public let agentStatusId: String?
+        /// The description of the agent status.
+        public let description: String?
+        /// The display order of the agent status.
+        public let displayOrder: Int?
+        /// The name of the agent status.
+        public let name: String?
+        /// The state of the agent status.
+        public let state: AgentStatusState?
+        /// One or more tags.
+        public let tags: [String: String]?
+        /// The type of agent status.
+        public let type: AgentStatusType?
+
+        public init(agentStatusARN: String? = nil, agentStatusId: String? = nil, description: String? = nil, displayOrder: Int? = nil, name: String? = nil, state: AgentStatusState? = nil, tags: [String: String]? = nil, type: AgentStatusType? = nil) {
+            self.agentStatusARN = agentStatusARN
+            self.agentStatusId = agentStatusId
+            self.description = description
+            self.displayOrder = displayOrder
+            self.name = name
+            self.state = state
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatusARN = "AgentStatusARN"
+            case agentStatusId = "AgentStatusId"
+            case description = "Description"
+            case displayOrder = "DisplayOrder"
+            case name = "Name"
+            case state = "State"
+            case tags = "Tags"
+            case type = "Type"
+        }
+    }
+
+    public struct AgentStatusSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the agent status.
+        public let arn: String?
+        /// The identifier for an agent status.
+        public let id: String?
+        /// The name of the agent status.
+        public let name: String?
+        /// The type of the agent status.
+        public let type: AgentStatusType?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, type: AgentStatusType? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
     public struct AssociateApprovedOriginRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -838,6 +917,76 @@ extension Connect {
         }
     }
 
+    public struct CreateAgentStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The description of the status.
+        public let description: String?
+        /// The display order of the status.
+        public let displayOrder: Int?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the status.
+        public let name: String
+        /// The state of the status.
+        public let state: AgentStatusState
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String, state: AgentStatusState, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayOrder = displayOrder
+            self.instanceId = instanceId
+            self.name = name
+            self.state = state
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.displayOrder, name: "displayOrder", parent: name, max: 50)
+            try self.validate(self.displayOrder, name: "displayOrder", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayOrder = "DisplayOrder"
+            case name = "Name"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAgentStatusResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the agent status.
+        public let agentStatusARN: String?
+        /// The identifier of the agent status.
+        public let agentStatusId: String?
+
+        public init(agentStatusARN: String? = nil, agentStatusId: String? = nil) {
+            self.agentStatusARN = agentStatusARN
+            self.agentStatusId = agentStatusId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatusARN = "AgentStatusARN"
+            case agentStatusId = "AgentStatusId"
+        }
+    }
+
     public struct CreateContactFlowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -900,6 +1049,79 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case contactFlowArn = "ContactFlowArn"
             case contactFlowId = "ContactFlowId"
+        }
+    }
+
+    public struct CreateHoursOfOperationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// Configuration information for the hours of operation: day, start time, and end time.
+        public let config: [HoursOfOperationConfig]
+        /// The description of the hours of operation.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the hours of operation.
+        public let name: String
+        /// One or more tags.
+        public let tags: [String: String]?
+        /// The time zone of the hours of operation.
+        public let timeZone: String
+
+        public init(config: [HoursOfOperationConfig], description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil, timeZone: String) {
+            self.config = config
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.tags = tags
+            self.timeZone = timeZone
+        }
+
+        public func validate(name: String) throws {
+            try self.config.forEach {
+                try $0.validate(name: "\(name).config[]")
+            }
+            try self.validate(self.config, name: "config", parent: name, max: 100)
+            try self.validate(self.config, name: "config", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+            case timeZone = "TimeZone"
+        }
+    }
+
+    public struct CreateHoursOfOperationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the hours of operation.
+        public let hoursOfOperationArn: String?
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String?
+
+        public init(hoursOfOperationArn: String? = nil, hoursOfOperationId: String? = nil) {
+            self.hoursOfOperationArn = hoursOfOperationArn
+            self.hoursOfOperationId = hoursOfOperationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperationArn = "HoursOfOperationArn"
+            case hoursOfOperationId = "HoursOfOperationId"
         }
     }
 
@@ -1528,6 +1750,30 @@ extension Connect {
         }
     }
 
+    public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(hoursOfOperationId: String, instanceId: String) {
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -1676,6 +1922,43 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAgentStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "agentStatusId", location: .uri(locationName: "AgentStatusId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier for the agent status.
+        public let agentStatusId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(agentStatusId: String, instanceId: String) {
+            self.agentStatusId = agentStatusId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAgentStatusResponse: AWSDecodableShape {
+        /// The agent status.
+        public let agentStatus: AgentStatus?
+
+        public init(agentStatus: AgentStatus? = nil) {
+            self.agentStatus = agentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatus = "AgentStatus"
+        }
     }
 
     public struct DescribeContactFlowRequest: AWSEncodableShape {
@@ -2848,18 +3131,23 @@ extension Connect {
         }
     }
 
-    public struct HoursOfOperationConfig: AWSDecodableShape {
+    public struct HoursOfOperationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The day that the hours of operation applies to.
-        public let day: HoursOfOperationDays?
+        public let day: HoursOfOperationDays
         /// The end time that your contact center is closes.
-        public let endTime: HoursOfOperationTimeSlice?
+        public let endTime: HoursOfOperationTimeSlice
         /// The start time that your contact center is open.
-        public let startTime: HoursOfOperationTimeSlice?
+        public let startTime: HoursOfOperationTimeSlice
 
-        public init(day: HoursOfOperationDays? = nil, endTime: HoursOfOperationTimeSlice? = nil, startTime: HoursOfOperationTimeSlice? = nil) {
+        public init(day: HoursOfOperationDays, endTime: HoursOfOperationTimeSlice, startTime: HoursOfOperationTimeSlice) {
             self.day = day
             self.endTime = endTime
             self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.endTime.validate(name: "\(name).endTime")
+            try self.startTime.validate(name: "\(name).startTime")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2890,15 +3178,22 @@ extension Connect {
         }
     }
 
-    public struct HoursOfOperationTimeSlice: AWSDecodableShape {
+    public struct HoursOfOperationTimeSlice: AWSEncodableShape & AWSDecodableShape {
         /// The hours.
-        public let hours: Int?
+        public let hours: Int
         /// The minutes.
-        public let minutes: Int?
+        public let minutes: Int
 
-        public init(hours: Int? = nil, minutes: Int? = nil) {
+        public init(hours: Int, minutes: Int) {
             self.hours = hours
             self.minutes = minutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hours, name: "hours", parent: name, max: 23)
+            try self.validate(self.hours, name: "hours", parent: name, min: 0)
+            try self.validate(self.minutes, name: "minutes", parent: name, max: 59)
+            try self.validate(self.minutes, name: "minutes", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3203,6 +3498,58 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case aliasArn = "AliasArn"
+        }
+    }
+
+    public struct ListAgentStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "agentStatusTypes", location: .querystring(locationName: "AgentStatusTypes")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// Available agent status types.
+        public let agentStatusTypes: [AgentStatusType]?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(agentStatusTypes: [AgentStatusType]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.agentStatusTypes = agentStatusTypes
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentStatusTypes, name: "agentStatusTypes", parent: name, max: 3)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentStatusResponse: AWSDecodableShape {
+        /// A summary of agent statuses.
+        public let agentStatusSummaryList: [AgentStatusSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(agentStatusSummaryList: [AgentStatusSummary]? = nil, nextToken: String? = nil) {
+            self.agentStatusSummaryList = agentStatusSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatusSummaryList = "AgentStatusSummaryList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -5321,6 +5668,57 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateAgentStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "agentStatusId", location: .uri(locationName: "AgentStatusId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the agent status.
+        public let agentStatusId: String
+        /// The description of the agent status.
+        public let description: String?
+        /// The display order of the agent status.
+        public let displayOrder: Int?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the agent status.
+        public let name: String?
+        /// A number indicating the reset order of the agent status.
+        public let resetOrderNumber: Bool?
+        /// The state of the agent status.
+        public let state: AgentStatusState?
+
+        public init(agentStatusId: String, description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String? = nil, resetOrderNumber: Bool? = nil, state: AgentStatusState? = nil) {
+            self.agentStatusId = agentStatusId
+            self.description = description
+            self.displayOrder = displayOrder
+            self.instanceId = instanceId
+            self.name = name
+            self.resetOrderNumber = resetOrderNumber
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.displayOrder, name: "displayOrder", parent: name, max: 50)
+            try self.validate(self.displayOrder, name: "displayOrder", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayOrder = "DisplayOrder"
+            case name = "Name"
+            case resetOrderNumber = "ResetOrderNumber"
+            case state = "State"
+        }
+    }
+
     public struct UpdateContactAttributesRequest: AWSEncodableShape {
         /// The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]
@@ -5421,6 +5819,56 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
+        }
+    }
+
+    public struct UpdateHoursOfOperationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// Configuration information of the hours of operation.
+        public let config: [HoursOfOperationConfig]?
+        /// The description of the hours of operation.
+        public let description: String?
+        /// The identifier of the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the hours of operation.
+        public let name: String?
+        /// The time zone of the hours of operation.
+        public let timeZone: String?
+
+        public init(config: [HoursOfOperationConfig]? = nil, description: String? = nil, hoursOfOperationId: String, instanceId: String, name: String? = nil, timeZone: String? = nil) {
+            self.config = config
+            self.description = description
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+            self.name = name
+            self.timeZone = timeZone
+        }
+
+        public func validate(name: String) throws {
+            try self.config?.forEach {
+                try $0.validate(name: "\(name).config[]")
+            }
+            try self.validate(self.config, name: "config", parent: name, max: 100)
+            try self.validate(self.config, name: "config", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case description = "Description"
+            case name = "Name"
+            case timeZone = "TimeZone"
         }
     }
 

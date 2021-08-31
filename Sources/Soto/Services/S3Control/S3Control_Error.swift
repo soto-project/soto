@@ -52,7 +52,7 @@ public struct S3ControlErrorType: AWSErrorType {
     public var errorCode: String { self.error.rawValue }
 
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the AWS Outposts in this Region. Select a different name and try again.
+    /// The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the Outposts in this Region. Select a different name and try again.
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
     /// The Outposts bucket you tried to create already exists, and you own it.
     public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }

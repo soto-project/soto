@@ -47,6 +47,31 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataShareStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case authorized = "AUTHORIZED"
+        case available = "AVAILABLE"
+        case deauthorized = "DEAUTHORIZED"
+        case pendingAuthorization = "PENDING_AUTHORIZATION"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataShareStatusForConsumer: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case available = "AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataShareStatusForProducer: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case authorized = "AUTHORIZED"
+        case deauthorized = "DEAUTHORIZED"
+        case pendingAuthorization = "PENDING_AUTHORIZATION"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mode: String, CustomStringConvertible, Codable {
         case highPerformance = "high-performance"
         case standard
@@ -250,7 +275,7 @@ extension Redshift {
     public struct AccountWithRestoreAccess: AWSDecodableShape {
         /// The identifier of an Amazon Web Services support account authorized to restore a snapshot. For Amazon Web Services Support, the identifier is amazon-redshift-support.
         public let accountAlias: String?
-        /// The identifier of an account authorized to restore a snapshot.
+        /// The identifier of an Amazon Web Services account authorized to restore a snapshot.
         public let accountId: String?
 
         public init(accountAlias: String? = nil, accountId: String? = nil) {
@@ -265,7 +290,7 @@ extension Redshift {
     }
 
     public struct AquaConfiguration: AWSDecodableShape {
-        /// The value represents how the cluster is configured to use AQUA. Possible values include the following.   enabled - Use AQUA if it is available for the current Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// The value represents how the cluster is configured to use AQUA. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The value indicates the status of AQUA on the cluster. Possible values include the following.   enabled - AQUA is enabled.   disabled - AQUA is not enabled.    applying - AQUA status is being applied.
         public let aquaStatus: AquaStatus?
@@ -278,6 +303,32 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case aquaConfigurationStatus = "AquaConfigurationStatus"
             case aquaStatus = "AquaStatus"
+        }
+    }
+
+    public struct AssociateDataShareConsumerMessage: AWSEncodableShape {
+        /// A value that specifies whether the datashare is associated with the entire account.
+        public let associateEntireAccount: Bool?
+        /// The Amazon Resource Name (ARN) of the consumer that is associated with the datashare.
+        public let consumerArn: String?
+        /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use with the account or the namespace.
+        public let dataShareArn: String
+
+        public init(associateEntireAccount: Bool? = nil, consumerArn: String? = nil, dataShareArn: String) {
+            self.associateEntireAccount = associateEntireAccount
+            self.consumerArn = consumerArn
+            self.dataShareArn = dataShareArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 2_147_483_647)
+            try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associateEntireAccount = "AssociateEntireAccount"
+            case consumerArn = "ConsumerArn"
+            case dataShareArn = "DataShareArn"
         }
     }
 
@@ -318,7 +369,7 @@ extension Redshift {
         public let clusterSecurityGroupName: String
         /// The EC2 security group to be added the Amazon Redshift security group.
         public let eC2SecurityGroupName: String?
-        /// The account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is not an acceptable value.  Example: 111122223333
+        /// The Amazon Web Services account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is not an acceptable value.  Example: 111122223333
         public let eC2SecurityGroupOwnerId: String?
 
         public init(cidrip: String? = nil, clusterSecurityGroupName: String, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
@@ -355,10 +406,32 @@ extension Redshift {
         }
     }
 
+    public struct AuthorizeDataShareMessage: AWSEncodableShape {
+        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an AWS account ID.
+        public let consumerIdentifier: String
+        /// The Amazon Resource Name (ARN) of the datashare that producers are to authorize sharing for.
+        public let dataShareArn: String
+
+        public init(consumerIdentifier: String, dataShareArn: String) {
+            self.consumerIdentifier = consumerIdentifier
+            self.dataShareArn = dataShareArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.consumerIdentifier, name: "consumerIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerIdentifier = "ConsumerIdentifier"
+            case dataShareArn = "DataShareArn"
+        }
+    }
+
     public struct AuthorizeEndpointAccessMessage: AWSEncodableShape {
         public struct _VpcIdsEncoding: ArrayCoderProperties { public static let member = "VpcIdentifier" }
 
-        /// The account ID to grant access to.
+        /// The Amazon Web Services account ID to grant access to.
         public let account: String
         /// The cluster identifier of the cluster to grant access to.
         public let clusterIdentifier: String?
@@ -388,7 +461,7 @@ extension Redshift {
     }
 
     public struct AuthorizeSnapshotAccessMessage: AWSEncodableShape {
-        /// The identifier of the account authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services Support, specify amazon-redshift-support.
+        /// The identifier of the Amazon Web Services account authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services Support, specify amazon-redshift-support.
         public let accountWithRestoreAccess: String
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
@@ -1255,7 +1328,7 @@ extension Redshift {
         public let sourceSnapshotClusterIdentifier: String?
         /// The identifier for the source snapshot. Constraints:   Must be the identifier for a valid automated snapshot whose state is available.
         public let sourceSnapshotIdentifier: String
-        /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the account that is making the request.
+        /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the Amazon Web Services account that is making the request.
         public let targetSnapshotIdentifier: String
 
         public init(manualSnapshotRetentionPeriod: Int? = nil, sourceSnapshotClusterIdentifier: String? = nil, sourceSnapshotIdentifier: String, targetSnapshotIdentifier: String) {
@@ -1341,7 +1414,7 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
         public let allowVersionUpgrade: Bool?
-        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) when it is created. Possible values include the following.   enabled - Use AQUA if it is available for the current Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) when it is created. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
@@ -1349,7 +1422,7 @@ extension Redshift {
         public let availabilityZone: String?
         /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is created.
         public let availabilityZoneRelocation: Bool?
-        /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an account.   Example: myexamplecluster
+        /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.   Example: myexamplecluster
         public let clusterIdentifier: String
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups  Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let clusterParameterGroupName: String?
@@ -1515,9 +1588,9 @@ extension Redshift {
 
         /// A description of the parameter group.
         public let description: String
-        /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0".
+        /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your Amazon Web Services account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0".
         public let parameterGroupFamily: String
-        /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your account.    This value is stored as a lower-case string.
+        /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your Amazon Web Services account.    This value is stored as a lower-case string.
         public let parameterGroupName: String
         /// A list of tag instances.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1574,7 +1647,7 @@ extension Redshift {
     public struct CreateClusterSecurityGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your account.   Example: examplesecuritygroup
+        /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your Amazon Web Services account.   Example: examplesecuritygroup
         public let clusterSecurityGroupName: String
         /// A description for the security group.
         public let description: String
@@ -1622,7 +1695,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int?
-        /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the account. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
+        /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the Amazon Web Services account. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
         public let snapshotIdentifier: String
         /// A list of tag instances.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1667,7 +1740,7 @@ extension Redshift {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all subnet groups that are created by your account.   Example: examplesubnetgroup
+        /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all subnet groups that are created by your Amazon Web Services account.   Example: examplesubnetgroup
         public let clusterSubnetGroupName: String
         /// A description for the subnet group.
         public let description: String
@@ -1723,7 +1796,7 @@ extension Redshift {
         public let clusterIdentifier: String?
         /// The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
         public let endpointName: String
-        /// The account ID of the owner of the cluster. This is only required if the cluster is in another account.
+        /// The Amazon Web Services account ID of the owner of the cluster. This is only required if the cluster is in another Amazon Web Services account.
         public let resourceOwner: String?
         /// The subnet group from which Amazon Redshift chooses the subnet to deploy the endpoint.
         public let subnetGroupName: String
@@ -1765,7 +1838,7 @@ extension Redshift {
 
         /// A boolean value; set to true to activate the subscription, and set to false to create the subscription but not activate it.
         public let enabled: Bool?
-        /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
+        /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security, pending
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
@@ -1775,7 +1848,7 @@ extension Redshift {
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
         @OptionalCustomCoding<ArrayCoder<_SourceIdsEncoding, String>>
         public var sourceIds: [String]?
-        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
+        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your Amazon Web Services account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
         public let sourceType: String?
         /// The name of the event subscription to be created. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let subscriptionName: String
@@ -1991,7 +2064,7 @@ extension Redshift {
 
         /// The unique identifier of the customer master key (CMK) to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
         public let kmsKeyId: String?
-        /// The name of the snapshot copy grant. This name must be unique in the region for the account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an account.
+        /// The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.
         public let snapshotCopyGrantName: String
         /// A list of tag instances.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -2168,6 +2241,57 @@ extension Redshift {
         }
     }
 
+    public struct DataShare: AWSDecodableShape {
+        /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
+        public let allowPubliclyAccessibleConsumers: Bool?
+        /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+        public let dataShareArn: String?
+        /// A value that specifies when the datashare has an association between a producer and data consumers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dataShareAssociations: [DataShareAssociation]?
+        /// The Amazon Resource Name (ARN) of the producer.
+        public let producerArn: String?
+
+        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, producerArn: String? = nil) {
+            self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
+            self.dataShareArn = dataShareArn
+            self.dataShareAssociations = dataShareAssociations
+            self.producerArn = producerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowPubliclyAccessibleConsumers = "AllowPubliclyAccessibleConsumers"
+            case dataShareArn = "DataShareArn"
+            case dataShareAssociations = "DataShareAssociations"
+            case producerArn = "ProducerArn"
+        }
+    }
+
+    public struct DataShareAssociation: AWSDecodableShape {
+        /// The name of the consumer accounts that have an association with a producer datashare.
+        public let consumerIdentifier: String?
+        /// The creation date of the datashare that is associated.
+        public let createdDate: Date?
+        /// The status of the datashare that is associated.
+        public let status: DataShareStatus?
+        /// The status change data of the datashare that is associated.
+        public let statusChangeDate: Date?
+
+        public init(consumerIdentifier: String? = nil, createdDate: Date? = nil, status: DataShareStatus? = nil, statusChangeDate: Date? = nil) {
+            self.consumerIdentifier = consumerIdentifier
+            self.createdDate = createdDate
+            self.status = status
+            self.statusChangeDate = statusChangeDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerIdentifier = "ConsumerIdentifier"
+            case createdDate = "CreatedDate"
+            case status = "Status"
+            case statusChangeDate = "StatusChangeDate"
+        }
+    }
+
     public struct DataTransferProgress: AWSDecodableShape {
         /// Describes the data transfer rate in MB's per second.
         public let currentRateInMegaBytesPerSecond: Double?
@@ -2198,6 +2322,28 @@ extension Redshift {
             case estimatedTimeToCompletionInSeconds = "EstimatedTimeToCompletionInSeconds"
             case status = "Status"
             case totalDataInMegaBytes = "TotalDataInMegaBytes"
+        }
+    }
+
+    public struct DeauthorizeDataShareMessage: AWSEncodableShape {
+        /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an AWS account ID.
+        public let consumerIdentifier: String
+        /// The Amazon Resource Name (ARN) of the datashare to remove authorization from.
+        public let dataShareArn: String
+
+        public init(consumerIdentifier: String, dataShareArn: String) {
+            self.consumerIdentifier = consumerIdentifier
+            self.dataShareArn = dataShareArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.consumerIdentifier, name: "consumerIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerIdentifier = "ConsumerIdentifier"
+            case dataShareArn = "DataShareArn"
         }
     }
 
@@ -2783,7 +2929,7 @@ extension Redshift {
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your account, or do not specify the parameter.
+        /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter.
         public let ownerAccount: String?
         /// The snapshot identifier of the snapshot about which to return information.
         public let snapshotIdentifier: String?
@@ -2992,6 +3138,146 @@ extension Redshift {
         }
     }
 
+    public struct DescribeDataSharesForConsumerMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the consumer that returns in the list of datashares.
+        public let consumerArn: String?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+        public let maxRecords: Int?
+        /// An identifier giving the status of a datashare in the consumer cluster. If this field is specified, Amazon Redshift returns the list of datashares that have the specified status.
+        public let status: DataShareStatusForConsumer?
+
+        public init(consumerArn: String? = nil, marker: String? = nil, maxRecords: Int? = nil, status: DataShareStatusForConsumer? = nil) {
+            self.consumerArn = consumerArn
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 2_147_483_647)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerArn = "ConsumerArn"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSharesForConsumerResult: AWSDecodableShape {
+        /// Shows the results of datashares available for consumers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dataShares: [DataShare]?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+
+        public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
+            self.dataShares = dataShares
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataShares = "DataShares"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeDataSharesForProducerMessage: AWSEncodableShape {
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+        public let maxRecords: Int?
+        /// The Amazon Resource Name (ARN) of the producer that returns in the list of datashares.
+        public let producerArn: String?
+        /// An identifier giving the status of a datashare in the producer. If this field is specified, Amazon Redshift returns the list of datashares that have the specified status.
+        public let status: DataShareStatusForProducer?
+
+        public init(marker: String? = nil, maxRecords: Int? = nil, producerArn: String? = nil, status: DataShareStatusForProducer? = nil) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.producerArn = producerArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+            try self.validate(self.producerArn, name: "producerArn", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case producerArn = "ProducerArn"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSharesForProducerResult: AWSDecodableShape {
+        /// Shows the results of datashares available for producers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dataShares: [DataShare]?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+
+        public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
+            self.dataShares = dataShares
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataShares = "DataShares"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeDataSharesMessage: AWSEncodableShape {
+        /// The identifier of the datashare to describe details of.
+        public let dataShareArn: String?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+        public let maxRecords: Int?
+
+        public init(dataShareArn: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dataShareArn = dataShareArn
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataShareArn = "DataShareArn"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDataSharesResult: AWSDecodableShape {
+        /// The results returned from describing datashares.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dataShares: [DataShare]?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+
+        public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
+            self.dataShares = dataShares
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataShares = "DataShares"
+            case marker = "Marker"
+        }
+    }
+
     public struct DescribeDefaultClusterParametersMessage: AWSEncodableShape {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDefaultClusterParameters request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -3039,7 +3325,7 @@ extension Redshift {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a Marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
-        /// The account ID of the owner of the cluster.
+        /// The Amazon Web Services account ID of the owner of the cluster.
         public let resourceOwner: String?
         /// The virtual private cloud (VPC) identifier with access to the cluster.
         public let vpcId: String?
@@ -3072,7 +3358,7 @@ extension Redshift {
     }
 
     public struct DescribeEndpointAuthorizationMessage: AWSEncodableShape {
-        /// The Aaccount ID of either the cluster owner (grantor) or grantee. If Grantee parameter is true, then the Account value is of the grantor.
+        /// The AAmazon Web Services account ID of either the cluster owner (grantor) or grantee. If Grantee parameter is true, then the Account value is of the grantor.
         public let account: String?
         /// The cluster identifier of the cluster to access.
         public let clusterIdentifier: String?
@@ -3214,7 +3500,7 @@ extension Redshift {
         public struct _TagKeysEncoding: ArrayCoderProperties { public static let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { public static let member = "TagValue" }
 
-        /// The identifier of a specific HSM client certificate for which you want information. If no identifier is specified, information is returned for all HSM client certificates owned by your account.
+        /// The identifier of a specific HSM client certificate for which you want information. If no identifier is specified, information is returned for all HSM client certificates owned by your Amazon Web Services account.
         public let hsmClientCertificateIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmClientCertificates request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -3259,7 +3545,7 @@ extension Redshift {
         public struct _TagKeysEncoding: ArrayCoderProperties { public static let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { public static let member = "TagValue" }
 
-        /// The identifier of a specific Amazon Redshift HSM configuration to be described. If no identifier is specified, information is returned for all HSM configurations owned by your account.
+        /// The identifier of a specific Amazon Redshift HSM configuration to be described. If no identifier is specified, information is returned for all HSM configurations owned by your Amazon Web Services account.
         public let hsmConfigurationIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmConfigurations request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -3331,7 +3617,7 @@ extension Redshift {
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 500  Constraints: minimum 100, maximum 500.
         public let maxRecords: Int?
-        /// The account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
+        /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
         /// The identifier of the snapshot to evaluate for possible node configurations.
         public let snapshotIdentifier: String?
@@ -3399,7 +3685,7 @@ extension Redshift {
     }
 
     public struct DescribePartnersInputMessage: AWSEncodableShape {
-        /// The Region ID that owns the cluster.
+        /// The Amazon Web Services account ID that owns the cluster.
         public let accountId: String
         /// The cluster identifier of the cluster whose partner integration is being described.
         public let clusterIdentifier: String
@@ -3504,7 +3790,7 @@ extension Redshift {
     }
 
     public struct DescribeResizeMessage: AWSEncodableShape {
-        /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an account are returned.
+        /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned.
         public let clusterIdentifier: String
 
         public init(clusterIdentifier: String) {
@@ -3868,12 +4154,38 @@ extension Redshift {
         }
     }
 
+    public struct DisassociateDataShareConsumerMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the consumer that association for the datashare is removed from.
+        public let consumerArn: String?
+        /// The Amazon Resource Name (ARN) of the datashare to remove association for.
+        public let dataShareArn: String
+        /// A value that specifies whether association for the datashare is removed from the entire account.
+        public let disassociateEntireAccount: Bool?
+
+        public init(consumerArn: String? = nil, dataShareArn: String, disassociateEntireAccount: Bool? = nil) {
+            self.consumerArn = consumerArn
+            self.dataShareArn = dataShareArn
+            self.disassociateEntireAccount = disassociateEntireAccount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 2_147_483_647)
+            try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerArn = "ConsumerArn"
+            case dataShareArn = "DataShareArn"
+            case disassociateEntireAccount = "DisassociateEntireAccount"
+        }
+    }
+
     public struct EC2SecurityGroup: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The name of the EC2 Security Group.
         public let eC2SecurityGroupName: String?
-        /// The account ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field.
+        /// The Amazon Web Services account ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field.
         public let eC2SecurityGroupOwnerId: String?
         /// The status of the EC2 security group.
         public let status: String?
@@ -3943,9 +4255,9 @@ extension Redshift {
     public struct EnableSnapshotCopyMessage: AWSEncodableShape {
         /// The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled.
         public let clusterIdentifier: String
-        /// The destination Region that you want to copy snapshots to. Constraints: Must be the name of a valid Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference.
+        /// The destination Amazon Web Services Region that you want to copy snapshots to. Constraints: Must be the name of a valid Amazon Web Services Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference.
         public let destinationRegion: String
-        /// The number of days to retain newly copied snapshots in the destination Region after they are copied from the source Region. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653.
+        /// The number of days to retain newly copied snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653.
         public let manualSnapshotRetentionPeriod: Int?
         /// The number of days to retain automated snapshots in the destination region after they are copied from the source region. Default: 7. Constraints: Must be at least 1 and no more than 35.
         public let retentionPeriod: Int?
@@ -4026,7 +4338,7 @@ extension Redshift {
         public let endpointStatus: String?
         /// The port number on which the cluster accepts incoming connections.
         public let port: Int?
-        /// The account ID of the owner of the cluster.
+        /// The Amazon Web Services account ID of the owner of the cluster.
         public let resourceOwner: String?
         /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
         public let subnetGroupName: String?
@@ -4096,9 +4408,9 @@ extension Redshift {
         public let clusterStatus: String?
         /// The number of Redshift-managed VPC endpoints created for the authorization.
         public let endpointCount: Int?
-        /// The account ID of the grantee of the cluster.
+        /// The Amazon Web Services account ID of the grantee of the cluster.
         public let grantee: String?
-        /// The account ID of the cluster owner.
+        /// The Amazon Web Services account ID of the cluster owner.
         public let grantor: String?
         /// The status of the authorization action.
         public let status: AuthorizationStatus?
@@ -4151,7 +4463,7 @@ extension Redshift {
 
         /// The date and time of the event.
         public let date: Date?
-        /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
+        /// A list of the event categories. Values: Configuration, Management, Monitoring, Security, Pending
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
         /// The identifier of the event.
@@ -4255,13 +4567,13 @@ extension Redshift {
         public struct _SourceIdsListEncoding: ArrayCoderProperties { public static let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The account associated with the Amazon Redshift event notification subscription.
+        /// The Amazon Web Services account associated with the Amazon Redshift event notification subscription.
         public let customerAwsId: String?
         /// The name of the Amazon Redshift event notification subscription.
         public let custSubscriptionId: String?
         /// A boolean value indicating whether the subscription is enabled; true indicates that the subscription is enabled.
         public let enabled: Bool?
-        /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security
+        /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security, Pending
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesListEncoding, String>>
         public var eventCategoriesList: [String]?
         /// The event severity specified in the Amazon Redshift event notification subscription. Values: ERROR, INFO
@@ -4640,7 +4952,7 @@ extension Redshift {
     }
 
     public struct ModifyAquaInputMessage: AWSEncodableShape {
-        /// The new value of AQUA configuration status. Possible values include the following.   enabled - Use AQUA if it is available for the current Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// The new value of AQUA configuration status. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The identifier of the cluster to be modified.
         public let clusterIdentifier: String
@@ -4886,7 +5198,7 @@ extension Redshift {
         public let manualSnapshotRetentionPeriod: Int?
         /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.
         public let masterUserPassword: String?
-        /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an account.   Example: examplecluster
+        /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.   Example: examplecluster
         public let newClusterIdentifier: String?
         /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.  For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
@@ -5161,7 +5473,7 @@ extension Redshift {
 
         /// A Boolean value indicating if the subscription is enabled. true indicates the subscription is enabled
         public let enabled: Bool?
-        /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
+        /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security, pending
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
@@ -5171,7 +5483,7 @@ extension Redshift {
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
         @OptionalCustomCoding<ArrayCoder<_SourceIdsEncoding, String>>
         public var sourceIds: [String]?
-        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
+        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your Amazon Web Services account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
         public let sourceType: String?
         /// The name of the modified Amazon Redshift event notification subscription.
         public let subscriptionName: String
@@ -5272,11 +5584,11 @@ extension Redshift {
     }
 
     public struct ModifySnapshotCopyRetentionPeriodMessage: AWSEncodableShape {
-        /// The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
+        /// The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination Amazon Web Services Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
         /// Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.
         public let manual: Bool?
-        /// The number of days to retain automated snapshots in the destination Region after they are copied from the source Region. By default, this only changes the retention period of copied automated snapshots.  If you decrease the retention period for automated snapshots that are copied to a destination Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots.  If you specify the manual option, only newly copied manual snapshots will have the new retention period.  If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
+        /// The number of days to retain automated snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this only changes the retention period of copied automated snapshots.  If you decrease the retention period for automated snapshots that are copied to a destination Amazon Web Services Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination Amazon Web Services Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots.  If you specify the manual option, only newly copied manual snapshots will have the new retention period.  If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
         public let retentionPeriod: Int
 
         public init(clusterIdentifier: String, manual: Bool? = nil, retentionPeriod: Int) {
@@ -5597,7 +5909,7 @@ extension Redshift {
     }
 
     public struct PartnerIntegrationInputMessage: AWSEncodableShape {
-        /// The Region ID that owns the cluster.
+        /// The Amazon Web Services account ID that owns the cluster.
         public let accountId: String
         /// The cluster identifier of the cluster that receives data from the partner.
         public let clusterIdentifier: String
@@ -5808,6 +6120,23 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case recurringChargeAmount = "RecurringChargeAmount"
             case recurringChargeFrequency = "RecurringChargeFrequency"
+        }
+    }
+
+    public struct RejectDataShareMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the datashare to reject.
+        public let dataShareArn: String
+
+        public init(dataShareArn: String) {
+            self.dataShareArn = dataShareArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataShareArn = "DataShareArn"
         }
     }
 
@@ -6141,7 +6470,7 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true
         public let allowVersionUpgrade: Bool?
-        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include the following.   enabled - Use AQUA if it is available for the current Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
@@ -6149,7 +6478,7 @@ extension Redshift {
         public let availabilityZone: String?
         /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.
         public let availabilityZoneRelocation: Bool?
-        /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an account.
+        /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.
         public let clusterIdentifier: String
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let clusterParameterGroupName: String?
@@ -6179,7 +6508,7 @@ extension Redshift {
         public let nodeType: String?
         /// The number of nodes specified when provisioning the restored cluster.
         public let numberOfNodes: Int?
-        /// The account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
+        /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
         /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Constraints: Must be between 1115 and 65535.
         public let port: Int?
@@ -6458,7 +6787,7 @@ extension Redshift {
         public let clusterSecurityGroupName: String
         /// The name of the EC2 Security Group whose access is to be revoked. If EC2SecurityGroupName is specified, EC2SecurityGroupOwnerId must also be provided and CIDRIP cannot be provided.
         public let eC2SecurityGroupName: String?
-        /// The account number of the owner of the security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example: 111122223333
+        /// The Amazon Web Services account number of the owner of the security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example: 111122223333
         public let eC2SecurityGroupOwnerId: String?
 
         public init(cidrip: String? = nil, clusterSecurityGroupName: String, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
@@ -6498,7 +6827,7 @@ extension Redshift {
     public struct RevokeEndpointAccessMessage: AWSEncodableShape {
         public struct _VpcIdsEncoding: ArrayCoderProperties { public static let member = "VpcIdentifier" }
 
-        /// The account ID whose access is to be revoked.
+        /// The Amazon Web Services account ID whose access is to be revoked.
         public let account: String?
         /// The cluster to revoke access from.
         public let clusterIdentifier: String?
@@ -6532,7 +6861,7 @@ extension Redshift {
     }
 
     public struct RevokeSnapshotAccessMessage: AWSEncodableShape {
-        /// The identifier of the account that can no longer restore the specified snapshot.
+        /// The identifier of the Amazon Web Services account that can no longer restore the specified snapshot.
         public let accountWithRestoreAccess: String
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
@@ -6725,7 +7054,7 @@ extension Redshift {
         public struct _RestorableNodeTypesEncoding: ArrayCoderProperties { public static let member = "NodeType" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// A list of the accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner.
+        /// A list of the Amazon Web Services accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner.
         @OptionalCustomCoding<ArrayCoder<_AccountsWithRestoreAccessEncoding, AccountWithRestoreAccess>>
         public var accountsWithRestoreAccess: [AccountWithRestoreAccess]?
         /// The size of the incremental backup.
@@ -6770,7 +7099,7 @@ extension Redshift {
         public let nodeType: String?
         /// The number of nodes in the cluster.
         public let numberOfNodes: Int?
-        /// For manual snapshots, the account used to create or copy the snapshot. For automatic snapshots, the owner of the cluster. The owner can perform all snapshot actions, such as sharing a manual snapshot.
+        /// For manual snapshots, the Amazon Web Services account used to create or copy the snapshot. For automatic snapshots, the owner of the cluster. The owner can perform all snapshot actions, such as sharing a manual snapshot.
         public let ownerAccount: String?
         /// The port that the cluster is listening on.
         public let port: Int?
@@ -7237,7 +7566,7 @@ extension Redshift {
     }
 
     public struct UpdatePartnerStatusInputMessage: AWSEncodableShape {
-        /// The Region ID that owns the cluster.
+        /// The Amazon Web Services account ID that owns the cluster.
         public let accountId: String
         /// The cluster identifier of the cluster whose partner integration status is being updated.
         public let clusterIdentifier: String

@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension SSOAdmin {
-    ///  Lists the status of the AWS account assignment creation requests for a specified SSO instance.
+    ///  Lists the status of the Amazon Web Services account assignment creation requests for a specified SSO instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -72,7 +72,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the AWS account assignment deletion requests for a specified SSO instance.
+    ///  Lists the status of the Amazon Web Services account assignment deletion requests for a specified SSO instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -125,7 +125,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the assignee of the specified AWS account with the specified permission set.
+    ///  Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +178,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all the AWS accounts where the specified permission set is provisioned.
+    ///  Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all the permission sets that are provisioned to a specified AWS account.
+    ///  Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

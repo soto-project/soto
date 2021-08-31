@@ -58,6 +58,7 @@ extension AppSync {
         case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case apiKey = "API_KEY"
         case awsIam = "AWS_IAM"
+        case awsLambda = "AWS_LAMBDA"
         case openidConnect = "OPENID_CONNECT"
         public var description: String { return self.rawValue }
     }
@@ -140,21 +141,29 @@ extension AppSync {
     // MARK: Shapes
 
     public struct AdditionalAuthenticationProvider: AWSEncodableShape & AWSDecodableShape {
-        /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
+        /// The authentication type: API key, Identity and Access Management, OIDC, or Amazon Cognito user pools.
         public let authenticationType: AuthenticationType?
+        /// Configuration for AWS Lambda function authorization.
+        public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The OpenID Connect configuration.
         public let openIDConnectConfig: OpenIDConnectConfig?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: CognitoUserPoolConfig?
 
-        public init(authenticationType: AuthenticationType? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: CognitoUserPoolConfig? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: CognitoUserPoolConfig? = nil) {
             self.authenticationType = authenticationType
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.openIDConnectConfig = openIDConnectConfig
             self.userPoolConfig = userPoolConfig
         }
 
+        public func validate(name: String) throws {
+            try self.lambdaAuthorizerConfig?.validate(name: "\(name).lambdaAuthorizerConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationType
+            case lambdaAuthorizerConfig
             case openIDConnectConfig
             case userPoolConfig
         }
@@ -221,7 +230,7 @@ extension AppSync {
     public struct AuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.
         public let authorizationType: AuthorizationType
-        /// The AWS IAM settings.
+        /// The Identity and Access Management settings.
         public let awsIamConfig: AwsIamConfig?
 
         public init(authorizationType: AuthorizationType, awsIamConfig: AwsIamConfig? = nil) {
@@ -236,9 +245,9 @@ extension AppSync {
     }
 
     public struct AwsIamConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The signing region for AWS IAM authorization.
+        /// The signing region for Identity and Access Management authorization.
         public let signingRegion: String?
-        /// The signing service name for AWS IAM authorization.
+        /// The signing service name for Identity and Access Management authorization.
         public let signingServiceName: String?
 
         public init(signingRegion: String? = nil, signingServiceName: String? = nil) {
@@ -272,7 +281,7 @@ extension AppSync {
     public struct CognitoUserPoolConfig: AWSEncodableShape & AWSDecodableShape {
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
-        /// The AWS Region in which the user pool was created.
+        /// The Amazon Web Services Region in which the user pool was created.
         public let awsRegion: String
         /// The user pool ID.
         public let userPoolId: String
@@ -391,13 +400,13 @@ extension AppSync {
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
-        /// AWS Lambda settings.
+        /// Amazon Web Services Lambda settings.
         public let lambdaConfig: LambdaDataSourceConfig?
         /// A user-supplied name for the DataSource.
         public let name: String
         /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
+        /// The Identity and Access Management service role ARN for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
         /// The type of the DataSource.
         public let type: DataSourceType
@@ -519,8 +528,10 @@ extension AppSync {
     public struct CreateGraphqlApiRequest: AWSEncodableShape {
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
-        /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
+        /// The authentication type: API key, Identity and Access Management, OIDC, or Amazon Cognito user pools.
         public let authenticationType: AuthenticationType
+        /// Configuration for AWS Lambda function authorization.
+        public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
         /// A user-supplied name for the GraphqlApi.
@@ -534,9 +545,10 @@ extension AppSync {
         /// A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
         public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.authenticationType = authenticationType
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.logConfig = logConfig
             self.name = name
             self.openIDConnectConfig = openIDConnectConfig
@@ -546,10 +558,14 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try self.additionalAuthenticationProviders?.forEach {
+                try $0.validate(name: "\(name).additionalAuthenticationProviders[]")
+            }
+            try self.lambdaAuthorizerConfig?.validate(name: "\(name).lambdaAuthorizerConfig")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
@@ -557,6 +573,7 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case additionalAuthenticationProviders
             case authenticationType
+            case lambdaAuthorizerConfig
             case logConfig
             case name
             case openIDConnectConfig
@@ -708,15 +725,15 @@ extension AppSync {
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
-        /// AWS Lambda settings.
+        /// Amazon Web Services Lambda settings.
         public let lambdaConfig: LambdaDataSourceConfig?
         /// The name of the data source.
         public let name: String?
         /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
+        /// The Identity and Access Management service role ARN for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
-        /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an AWS Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
+        /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an Amazon Web Services Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
         public let type: DataSourceType?
 
         public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
@@ -952,7 +969,7 @@ extension AppSync {
     }
 
     public struct DynamodbDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Region.
+        /// The Amazon Web Services Region.
         public let awsRegion: String
         /// The DeltaSyncConfig for a versioned datasource.
         public let deltaSyncConfig: DeltaSyncConfig?
@@ -981,7 +998,7 @@ extension AppSync {
     }
 
     public struct ElasticsearchDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Region.
+        /// The Amazon Web Services Region.
         public let awsRegion: String
         /// The endpoint.
         public let endpoint: String
@@ -1360,6 +1377,8 @@ extension AppSync {
         public let arn: String?
         /// The authentication type.
         public let authenticationType: AuthenticationType?
+        ///  Configuration for AWS Lambda function authorization.
+        public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
         /// The API name.
@@ -1372,16 +1391,17 @@ extension AppSync {
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
-        /// The ARN of the AWS Web Application Firewall (WAF) ACL associated with this GraphqlApi, if one exists.
+        /// The ARN of the WAF ACL associated with this GraphqlApi, if one exists.
         public let wafWebAclArn: String?
         /// A flag representing whether X-Ray tracing is enabled for this GraphqlApi.
         public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.arn = arn
             self.authenticationType = authenticationType
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.logConfig = logConfig
             self.name = name
             self.openIDConnectConfig = openIDConnectConfig
@@ -1397,6 +1417,7 @@ extension AppSync {
             case apiId
             case arn
             case authenticationType
+            case lambdaAuthorizerConfig
             case logConfig
             case name
             case openIDConnectConfig
@@ -1411,7 +1432,7 @@ extension AppSync {
     public struct HttpDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The authorization config in case the HTTP endpoint requires authorization.
         public let authorizationConfig: AuthorizationConfig?
-        /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AWS AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
+        /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
         public let endpoint: String?
 
         public init(authorizationConfig: AuthorizationConfig? = nil, endpoint: String? = nil) {
@@ -1422,6 +1443,32 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case authorizationConfig
             case endpoint
+        }
+    }
+
+    public struct LambdaAuthorizerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds). The Lambda function can override this by returning a ttlOverride key in its response. A value of 0 disables caching of responses.
+        public let authorizerResultTtlInSeconds: Int?
+        /// The ARN of the lambda function to be called for authorization. This may be a standard Lambda ARN, a version ARN (.../v3) or alias ARN.   Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the Console, this is done for you. To do so with the AWS CLI, run the following:  aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
+        public let authorizerUri: String
+        /// A regular expression for validation of tokens before the Lambda Function is called.
+        public let identityValidationExpression: String?
+
+        public init(authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String, identityValidationExpression: String? = nil) {
+            self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
+            self.authorizerUri = authorizerUri
+            self.identityValidationExpression = identityValidationExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authorizerResultTtlInSeconds, name: "authorizerResultTtlInSeconds", parent: name, max: 3600)
+            try self.validate(self.authorizerResultTtlInSeconds, name: "authorizerResultTtlInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerResultTtlInSeconds
+            case authorizerUri
+            case identityValidationExpression
         }
     }
 
@@ -1830,7 +1877,7 @@ extension AppSync {
     }
 
     public struct LogConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account.
+        /// The service role that AppSync will assume to publish to Amazon CloudWatch logs in your account.
         public let cloudWatchLogsRoleArn: String
         /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
         public let excludeVerboseContent: Bool?
@@ -1853,7 +1900,7 @@ extension AppSync {
     public struct OpenIDConnectConfig: AWSEncodableShape & AWSDecodableShape {
         /// The number of milliseconds a token is valid after being authenticated.
         public let authTTL: Int64?
-        /// The client identifier of the Relying party at the OpenID identity provider. This identifier is typically obtained when the Relying party is registered with the OpenID identity provider. You can specify a regular expression so the AWS AppSync can validate against multiple client identifiers at a time.
+        /// The client identifier of the Relying party at the OpenID identity provider. This identifier is typically obtained when the Relying party is registered with the OpenID identity provider. You can specify a regular expression so the AppSync can validate against multiple client identifiers at a time.
         public let clientId: String?
         /// The number of milliseconds a token is valid after being issued to a user.
         public let iatTTL: Int64?
@@ -1889,9 +1936,9 @@ extension AppSync {
     }
 
     public struct RdsHttpEndpointConfig: AWSEncodableShape & AWSDecodableShape {
-        /// AWS Region for RDS HTTP endpoint.
+        /// Amazon Web Services Region for RDS HTTP endpoint.
         public let awsRegion: String?
-        /// AWS secret store ARN for database credentials.
+        /// Amazon Web Services secret store ARN for database credentials.
         public let awsSecretStoreArn: String?
         /// Logical database name.
         public let databaseName: String?
@@ -2059,7 +2106,7 @@ extension AppSync {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
@@ -2125,7 +2172,7 @@ extension AppSync {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -2236,7 +2283,7 @@ extension AppSync {
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// The new HTTP endpoint configuration.
         public let httpConfig: HttpDataSourceConfig?
-        /// The new AWS Lambda configuration.
+        /// The new Amazon Web Services Lambda configuration.
         public let lambdaConfig: LambdaDataSourceConfig?
         /// The new name for the data source.
         public let name: String
@@ -2378,6 +2425,8 @@ extension AppSync {
         public let apiId: String
         /// The new authentication type for the GraphqlApi object.
         public let authenticationType: AuthenticationType?
+        /// Configuration for AWS Lambda function authorization.
+        public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration for the GraphqlApi object.
         public let logConfig: LogConfig?
         /// The new name for the GraphqlApi object.
@@ -2389,10 +2438,11 @@ extension AppSync {
         /// A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
         public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.authenticationType = authenticationType
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.logConfig = logConfig
             self.name = name
             self.openIDConnectConfig = openIDConnectConfig
@@ -2400,9 +2450,17 @@ extension AppSync {
             self.xrayEnabled = xrayEnabled
         }
 
+        public func validate(name: String) throws {
+            try self.additionalAuthenticationProviders?.forEach {
+                try $0.validate(name: "\(name).additionalAuthenticationProviders[]")
+            }
+            try self.lambdaAuthorizerConfig?.validate(name: "\(name).lambdaAuthorizerConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalAuthenticationProviders
             case authenticationType
+            case lambdaAuthorizerConfig
             case logConfig
             case name
             case openIDConnectConfig
@@ -2555,7 +2613,7 @@ extension AppSync {
     public struct UserPoolConfig: AWSEncodableShape & AWSDecodableShape {
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
-        /// The AWS Region in which the user pool was created.
+        /// The Amazon Web Services Region in which the user pool was created.
         public let awsRegion: String
         /// The action that you want your GraphQL API to take when a request that uses Amazon Cognito user pool authentication doesn't match the Amazon Cognito user pool configuration.
         public let defaultAction: DefaultAction

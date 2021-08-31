@@ -20,6 +20,12 @@ import SotoCore
 extension ComputeOptimizer {
     // MARK: Enums
 
+    public enum CpuVendorArchitecture: String, CustomStringConvertible, Codable {
+        case awsArm64 = "AWS_ARM64"
+        case current = "CURRENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EBSFilterName: String, CustomStringConvertible, Codable {
         case finding = "Finding"
         public var description: String { return self.rawValue }
@@ -36,6 +42,11 @@ extension ComputeOptimizer {
         case volumereadopspersecond = "VolumeReadOpsPerSecond"
         case volumewritebytespersecond = "VolumeWriteBytesPerSecond"
         case volumewriteopspersecond = "VolumeWriteOpsPerSecond"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnrollmentFilterName: String, CustomStringConvertible, Codable {
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
@@ -319,6 +330,7 @@ extension ComputeOptimizer {
     }
 
     public enum PlatformDifference: String, CustomStringConvertible, Codable {
+        case architecture = "Architecture"
         case hypervisor = "Hypervisor"
         case instancestoreavailability = "InstanceStoreAvailability"
         case networkinterface = "NetworkInterface"
@@ -353,6 +365,31 @@ extension ComputeOptimizer {
 
     // MARK: Shapes
 
+    public struct AccountEnrollmentStatus: AWSDecodableShape {
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The account enrollment status.
+        public let status: Status?
+        /// The reason for the account enrollment status. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
+        public let statusReason: String?
+
+        public init(accountId: String? = nil, lastUpdatedTimestamp: Date? = nil, status: Status? = nil, statusReason: String? = nil) {
+            self.accountId = accountId
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case lastUpdatedTimestamp
+            case status
+            case statusReason
+        }
+    }
+
     public struct AutoScalingGroupConfiguration: AWSDecodableShape {
         /// The desired capacity, or number of instances, for the Auto Scaling group.
         public let desiredCapacity: Int?
@@ -379,7 +416,7 @@ extension ComputeOptimizer {
     }
 
     public struct AutoScalingGroupRecommendation: AWSDecodableShape {
-        /// The AWS account ID of the Auto Scaling group.
+        /// The Amazon Web Services account ID of the Auto Scaling group.
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public let autoScalingGroupArn: String?
@@ -387,9 +424,9 @@ extension ComputeOptimizer {
         public let autoScalingGroupName: String?
         /// An array of objects that describe the current configuration of the Auto Scaling group.
         public let currentConfiguration: AutoScalingGroupConfiguration?
-        /// The finding classification of the Auto Scaling group. Findings for Auto Scaling groups include:     NotOptimized —An Auto Scaling group is considered not optimized when AWS Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
+        /// The finding classification of the Auto Scaling group. Findings for Auto Scaling groups include:     NotOptimized —An Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public let finding: Finding?
-        /// The time stamp of when the Auto Scaling group recommendation was last refreshed.
+        /// The timestamp of when the Auto Scaling group recommendation was last refreshed.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
         public let lookBackPeriodInDays: Double?
@@ -426,7 +463,7 @@ extension ComputeOptimizer {
     public struct AutoScalingGroupRecommendationOption: AWSDecodableShape {
         /// An array of objects that describe an Auto Scaling group configuration.
         public let configuration: AutoScalingGroupConfiguration?
-        /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 to 5, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommended resource meets the performance requirements of your workload before migrating your resource.
+        /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public let performanceRisk: Double?
         /// An array of objects that describe the projected utilization metrics of the Auto Scaling group recommendation option.  The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
         public let projectedUtilizationMetrics: [UtilizationMetric]?
@@ -449,11 +486,11 @@ extension ComputeOptimizer {
     }
 
     public struct DescribeRecommendationExportJobsRequest: AWSEncodableShape {
-        /// An array of objects that describe a filter to return a more specific list of export jobs.
+        /// An array of objects to specify a filter that returns a more specific list of export jobs.
         public let filters: [JobFilter]?
         /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions. All export jobs created in the last seven days are returned if this parameter is omitted.
         public let jobIds: [String]?
-        /// The maximum number of export jobs to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        /// The maximum number of export jobs to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of export jobs.
         public let nextToken: String?
@@ -491,7 +528,7 @@ extension ComputeOptimizer {
     }
 
     public struct EBSFilter: AWSEncodableShape {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (e.g., NotOptimized).
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized).
         public let name: EBSFilterName?
         /// The value of the filter. The valid values are Optimized, or NotOptimized.
         public let values: [String]?
@@ -510,7 +547,7 @@ extension ComputeOptimizer {
     public struct EBSUtilizationMetric: AWSDecodableShape {
         /// The name of the utilization metric. The following utilization metrics are available:    VolumeReadOpsPerSecond - The completed read operations per second from the volume in a specified period of time. Unit: Count    VolumeWriteOpsPerSecond - The completed write operations per second to the volume in a specified period of time. Unit: Count    VolumeReadBytesPerSecond - The bytes read per second from the volume in a specified period of time. Unit: Bytes    VolumeWriteBytesPerSecond - The bytes written to the volume in a specified period of time. Unit: Bytes
         public let name: EBSMetricName?
-        /// The statistic of the utilization metric. The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the AWS Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
+        /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
         public let statistic: MetricStatistic?
         /// The value of the utilization metric.
         public let value: Double?
@@ -528,26 +565,46 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct EnrollmentFilter: AWSEncodableShape {
+        /// The name of the filter. Specify Status to return accounts with a specific enrollment status (for example, Active).
+        public let name: EnrollmentFilterName?
+        /// The value of the filter. The valid values are Active, Inactive, Pending, and Failed.
+        public let values: [String]?
+
+        public init(name: EnrollmentFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case values
+        }
+    }
+
     public struct ExportAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        /// The IDs of the Amazon Web Services accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableAutoScalingGroupField]?
         /// The format of the export file. The only export file format currently supported is Csv.
         public let fileFormat: FileFormat?
-        /// An array of objects that describe a filter to export a more specific set of Auto Scaling group recommendations.
+        /// An array of objects to specify a filter that exports a more specific set of Auto Scaling group recommendations.
         public let filters: [Filter]?
-        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
         public let includeMemberAccounts: Bool?
-        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer user guide.
+        /// An object to specify the preferences for the Auto Scaling group recommendations to export.
+        public let recommendationPreferences: RecommendationPreferences?
+        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
         public let s3DestinationConfig: S3DestinationConfig
 
-        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableAutoScalingGroupField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableAutoScalingGroupField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
             self.fileFormat = fileFormat
             self.filters = filters
             self.includeMemberAccounts = includeMemberAccounts
+            self.recommendationPreferences = recommendationPreferences
             self.s3DestinationConfig = s3DestinationConfig
         }
 
@@ -557,6 +614,7 @@ extension ComputeOptimizer {
             case fileFormat
             case filters
             case includeMemberAccounts
+            case recommendationPreferences
             case s3DestinationConfig
         }
     }
@@ -592,15 +650,15 @@ extension ComputeOptimizer {
     }
 
     public struct ExportEBSVolumeRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to export Amazon EBS volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        /// The IDs of the Amazon Web Services accounts for which to export Amazon EBS volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableVolumeField]?
         /// The format of the export file. The only export file format currently supported is Csv.
         public let fileFormat: FileFormat?
-        /// An array of objects that describe a filter to export a more specific set of Amazon EBS volume recommendations.
+        /// An array of objects to specify a filter that exports a more specific set of Amazon EBS volume recommendations.
         public let filters: [EBSFilter]?
-        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
         public let includeMemberAccounts: Bool?
         public let s3DestinationConfig: S3DestinationConfig
 
@@ -640,25 +698,28 @@ extension ComputeOptimizer {
     }
 
     public struct ExportEC2InstanceRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        /// The IDs of the Amazon Web Services accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableInstanceField]?
         /// The format of the export file. The only export file format currently supported is Csv.
         public let fileFormat: FileFormat?
-        /// An array of objects that describe a filter to export a more specific set of instance recommendations.
+        /// An array of objects to specify a filter that exports a more specific set of instance recommendations.
         public let filters: [Filter]?
-        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
         public let includeMemberAccounts: Bool?
-        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer user guide.
+        /// An object to specify the preferences for the Amazon EC2 instance recommendations to export.
+        public let recommendationPreferences: RecommendationPreferences?
+        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
         public let s3DestinationConfig: S3DestinationConfig
 
-        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableInstanceField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableInstanceField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
             self.fileFormat = fileFormat
             self.filters = filters
             self.includeMemberAccounts = includeMemberAccounts
+            self.recommendationPreferences = recommendationPreferences
             self.s3DestinationConfig = s3DestinationConfig
         }
 
@@ -668,6 +729,7 @@ extension ComputeOptimizer {
             case fileFormat
             case filters
             case includeMemberAccounts
+            case recommendationPreferences
             case s3DestinationConfig
         }
     }
@@ -690,15 +752,15 @@ extension ComputeOptimizer {
     }
 
     public struct ExportLambdaFunctionRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to export Lambda function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        /// The IDs of the Amazon Web Services accounts for which to export Lambda function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableLambdaFunctionField]?
         /// The format of the export file. The only export file format currently supported is Csv.
         public let fileFormat: FileFormat?
-        /// An array of objects that describe a filter to export a more specific set of Lambda function recommendations.
+        /// An array of objects to specify a filter that exports a more specific set of Lambda function recommendations.
         public let filters: [LambdaFunctionRecommendationFilter]?
-        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
         public let includeMemberAccounts: Bool?
         public let s3DestinationConfig: S3DestinationConfig
 
@@ -738,7 +800,7 @@ extension ComputeOptimizer {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (e.g., Underprovisioned). Specify RecommendationSourceType to return recommendations of a specific resource type (e.g., Ec2Instance). Specify FindingReasonCodes to return recommendations with a specific finding reason code (e.g., CPUUnderprovisioned).
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, Underprovisioned). Specify RecommendationSourceType to return recommendations of a specific resource type (for example, Ec2Instance). Specify FindingReasonCodes to return recommendations with a specific finding reason code (for example, CPUUnderprovisioned).
         public let name: FilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:   Specify Optimized or NotOptimized if you specify the name parameter as Finding and you want to filter results for Auto Scaling groups.   Specify Underprovisioned, Overprovisioned, or Optimized if you specify the name parameter as Finding and you want to filter results for EC2 instances.   Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as RecommendationSourceType.   Specify one of the following options if you specify the name parameter as FindingReasonCodes:     CPUOverprovisioned  — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload.     CPUUnderprovisioned  — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance.     MemoryOverprovisioned  — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload.     MemoryUnderprovisioned  — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance.     EBSThroughputOverprovisioned  — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload.     EBSThroughputUnderprovisioned  — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance.     EBSIOPSOverprovisioned  — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload.     EBSIOPSUnderprovisioned  — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned  — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload.     NetworkPPSUnderprovisioned  — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance.     DiskIOPSOverprovisioned  — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload.     DiskIOPSUnderprovisioned  — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance.     DiskThroughputOverprovisioned  — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload.     DiskThroughputUnderprovisioned  — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance.
         public let values: [String]?
@@ -755,23 +817,26 @@ extension ComputeOptimizer {
     }
 
     public struct GetAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
-        /// The ID of the AWS account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
+        /// The ID of the Amazon Web Services account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
         public let autoScalingGroupArns: [String]?
-        /// An array of objects that describe a filter that returns a more specific list of Auto Scaling group recommendations.
+        /// An array of objects to specify a filter that returns a more specific list of Auto Scaling group recommendations.
         public let filters: [Filter]?
-        /// The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        /// The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of Auto Scaling group recommendations.
         public let nextToken: String?
+        /// An object to specify the preferences for the Auto Scaling group recommendations to return in the response.
+        public let recommendationPreferences: RecommendationPreferences?
 
-        public init(accountIds: [String]? = nil, autoScalingGroupArns: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountIds: [String]? = nil, autoScalingGroupArns: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationPreferences: RecommendationPreferences? = nil) {
             self.accountIds = accountIds
             self.autoScalingGroupArns = autoScalingGroupArns
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.recommendationPreferences = recommendationPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -780,6 +845,7 @@ extension ComputeOptimizer {
             case filters
             case maxResults
             case nextToken
+            case recommendationPreferences
         }
     }
 
@@ -805,11 +871,11 @@ extension ComputeOptimizer {
     }
 
     public struct GetEBSVolumeRecommendationsRequest: AWSEncodableShape {
-        /// The ID of the AWS account for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return volume recommendations. Only one account ID can be specified per request.
+        /// The ID of the Amazon Web Services account for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return volume recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
-        /// An array of objects that describe a filter that returns a more specific list of volume recommendations.
+        /// An array of objects to specify a filter that returns a more specific list of volume recommendations.
         public let filters: [EBSFilter]?
-        /// The maximum number of volume recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        /// The maximum number of volume recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of volume recommendations.
         public let nextToken: String?
@@ -855,23 +921,26 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2InstanceRecommendationsRequest: AWSEncodableShape {
-        /// The ID of the AWS account for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return instance recommendations. Only one account ID can be specified per request.
+        /// The ID of the Amazon Web Services account for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return instance recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
-        /// An array of objects that describe a filter that returns a more specific list of instance recommendations.
+        /// An array of objects to specify a filter that returns a more specific list of instance recommendations.
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the instances for which to return recommendations.
         public let instanceArns: [String]?
-        /// The maximum number of instance recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        /// The maximum number of instance recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of instance recommendations.
         public let nextToken: String?
+        /// An object to specify the preferences for the Amazon EC2 instance recommendations to return in the response.
+        public let recommendationPreferences: RecommendationPreferences?
 
-        public init(accountIds: [String]? = nil, filters: [Filter]? = nil, instanceArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountIds: [String]? = nil, filters: [Filter]? = nil, instanceArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationPreferences: RecommendationPreferences? = nil) {
             self.accountIds = accountIds
             self.filters = filters
             self.instanceArns = instanceArns
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.recommendationPreferences = recommendationPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,6 +949,7 @@ extension ComputeOptimizer {
             case instanceArns
             case maxResults
             case nextToken
+            case recommendationPreferences
         }
     }
 
@@ -905,21 +975,24 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2RecommendationProjectedMetricsRequest: AWSEncodableShape {
-        /// The time stamp of the last projected metrics data point to return.
+        /// The timestamp of the last projected metrics data point to return.
         public let endTime: Date
         /// The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.
         public let instanceArn: String
         /// The granularity, in seconds, of the projected metrics data points.
         public let period: Int
-        /// The time stamp of the first projected metrics data point to return.
+        /// An object to specify the preferences for the Amazon EC2 recommendation projected metrics to return in the response.
+        public let recommendationPreferences: RecommendationPreferences?
+        /// The timestamp of the first projected metrics data point to return.
         public let startTime: Date
         /// The statistic of the projected metrics.
         public let stat: MetricStatistic
 
-        public init(endTime: Date, instanceArn: String, period: Int, startTime: Date, stat: MetricStatistic) {
+        public init(endTime: Date, instanceArn: String, period: Int, recommendationPreferences: RecommendationPreferences? = nil, startTime: Date, stat: MetricStatistic) {
             self.endTime = endTime
             self.instanceArn = instanceArn
             self.period = period
+            self.recommendationPreferences = recommendationPreferences
             self.startTime = startTime
             self.stat = stat
         }
@@ -928,13 +1001,14 @@ extension ComputeOptimizer {
             case endTime
             case instanceArn
             case period
+            case recommendationPreferences
             case startTime
             case stat
         }
     }
 
     public struct GetEC2RecommendationProjectedMetricsResponse: AWSDecodableShape {
-        /// An array of objects that describe a projected metrics.
+        /// An array of objects that describes projected metrics.
         public let recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]?
 
         public init(recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]? = nil) {
@@ -951,34 +1025,80 @@ extension ComputeOptimizer {
     }
 
     public struct GetEnrollmentStatusResponse: AWSDecodableShape {
-        /// Confirms the enrollment status of member accounts within the organization, if the account is a management account of an organization.
+        /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// Confirms the enrollment status of member accounts of the organization, if the account is a management account of an organization.
         public let memberAccountsEnrolled: Bool?
+        /// The count of organization member accounts that are opted in to the service, if your account is an organization management account.
+        public let numberOfMemberAccountsOptedIn: Int?
         /// The enrollment status of the account.
         public let status: Status?
         /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
         public let statusReason: String?
 
-        public init(memberAccountsEnrolled: Bool? = nil, status: Status? = nil, statusReason: String? = nil) {
+        public init(lastUpdatedTimestamp: Date? = nil, memberAccountsEnrolled: Bool? = nil, numberOfMemberAccountsOptedIn: Int? = nil, status: Status? = nil, statusReason: String? = nil) {
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.memberAccountsEnrolled = memberAccountsEnrolled
+            self.numberOfMemberAccountsOptedIn = numberOfMemberAccountsOptedIn
             self.status = status
             self.statusReason = statusReason
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTimestamp
             case memberAccountsEnrolled
+            case numberOfMemberAccountsOptedIn
             case status
             case statusReason
         }
     }
 
+    public struct GetEnrollmentStatusesForOrganizationRequest: AWSEncodableShape {
+        /// An array of objects to specify a filter that returns a more specific list of account enrollment statuses.
+        public let filters: [EnrollmentFilter]?
+        /// The maximum number of account enrollment statuses to return with a single request. You can specify up to 100 statuses to return with each request. To retrieve the remaining results, make another request with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token to advance to the next page of account enrollment statuses.
+        public let nextToken: String?
+
+        public init(filters: [EnrollmentFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct GetEnrollmentStatusesForOrganizationResponse: AWSDecodableShape {
+        /// An array of objects that describe the enrollment statuses of organization member accounts.
+        public let accountEnrollmentStatuses: [AccountEnrollmentStatus]?
+        /// The token to use to advance to the next page of account enrollment statuses. This value is null when there are no more pages of account enrollment statuses to return.
+        public let nextToken: String?
+
+        public init(accountEnrollmentStatuses: [AccountEnrollmentStatus]? = nil, nextToken: String? = nil) {
+            self.accountEnrollmentStatuses = accountEnrollmentStatuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountEnrollmentStatuses
+            case nextToken
+        }
+    }
+
     public struct GetLambdaFunctionRecommendationsRequest: AWSEncodableShape {
-        /// The ID of the AWS account for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request.
+        /// The ID of the Amazon Web Services account for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
-        /// An array of objects that describe a filter that returns a more specific list of function recommendations.
+        /// An array of objects to specify a filter that returns a more specific list of function recommendations.
         public let filters: [LambdaFunctionRecommendationFilter]?
-        /// The Amazon Resource Name (ARN) of the functions for which to return recommendations. You can specify a qualified or unqualified ARN. If you specify an unqualified ARN without a function version suffix, Compute Optimizer will return recommendations for the latest ($LATEST) version of the function. If you specify a qualified ARN with a version suffix, Compute Optimizer will return recommendations for the specified function version. For more information about using function versions, see Using versions in the AWS Lambda Developer Guide.
+        /// The Amazon Resource Name (ARN) of the functions for which to return recommendations. You can specify a qualified or unqualified ARN. If you specify an unqualified ARN without a function version suffix, Compute Optimizer will return recommendations for the latest ($LATEST) version of the function. If you specify a qualified ARN with a version suffix, Compute Optimizer will return recommendations for the specified function version. For more information about using function versions, see Using versions in the Lambda Developer Guide.
         public let functionArns: [String]?
-        /// The maximum number of function recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        /// The maximum number of function recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of function recommendations.
         public let nextToken: String?
@@ -1039,9 +1159,9 @@ extension ComputeOptimizer {
     }
 
     public struct GetRecommendationSummariesRequest: AWSEncodableShape {
-        /// The ID of the AWS account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
+        /// The ID of the Amazon Web Services account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
-        /// The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+        /// The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
         public let maxResults: Int?
         /// The token to advance to the next page of recommendation summaries.
         public let nextToken: String?
@@ -1077,19 +1197,19 @@ extension ComputeOptimizer {
     }
 
     public struct InstanceRecommendation: AWSDecodableShape {
-        /// The AWS account ID of the instance.
+        /// The Amazon Web Services account ID of the instance.
         public let accountId: String?
         /// The instance type of the current instance.
         public let currentInstanceType: String?
-        /// The finding classification of the instance. Findings for instances include:     Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.     Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.     Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, AWS Compute Optimizer might recommend a new generation instance type.
+        /// The finding classification of the instance. Findings for instances include:     Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.     Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.     Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public let finding: Finding?
-        /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned  — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned  — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned  — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned  — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the AWS Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned  — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned  — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned  — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned  — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned  — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned  — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned  — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned  — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned  — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned  — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
+        /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned  — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned  — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned  — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned  — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned  — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned  — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned  — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned  — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned  — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned  — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned  — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned  — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned  — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned  — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
         public let findingReasonCodes: [InstanceRecommendationFindingReasonCode]?
         /// The Amazon Resource Name (ARN) of the current instance.
         public let instanceArn: String?
         /// The name of the current instance.
         public let instanceName: String?
-        /// The time stamp of when the instance recommendation was last refreshed.
+        /// The timestamp of when the instance recommendation was last refreshed.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the instance.
         public let lookBackPeriodInDays: Double?
@@ -1132,9 +1252,9 @@ extension ComputeOptimizer {
     public struct InstanceRecommendationOption: AWSDecodableShape {
         /// The instance type of the instance recommendation.
         public let instanceType: String?
-        /// The performance risk of the instance recommendation option. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 to 5, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
+        /// The performance risk of the instance recommendation option. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public let performanceRisk: Double?
-        /// Describes the configuration differences between the current instance and the recommended instance type. You should consider the configuration differences before migrating your workloads from the current instance to the recommended instance type. The Change the instance type guide for Linux and Change the instance type guide for Windows provide general guidance for getting started with an instance migration. Platform differences include:     Hypervisor  — The hypervisor of the recommended instance type is different than that of the current instance. For example, the recommended instance type uses a Nitro hypervisor and the current instance uses a Xen hypervisor. The differences that you should consider between these hypervisors are covered in the Nitro Hypervisor section of the Amazon EC2 frequently asked questions. For more information, see Instances built on the Nitro System in the Amazon EC2 User Guide for Linux, or Instances built on the Nitro System in the Amazon EC2 User Guide for Windows.     NetworkInterface  — The network interface of the recommended instance type is different than that of the current instance. For example, the recommended instance type supports enhanced networking and the current instance might not. To enable enhanced networking for the recommended instance type, you will need to install the Elastic Network Adapter (ENA) driver or the Intel 82599 Virtual Function driver. For more information, see Networking and storage features and Enhanced networking on Linux in the Amazon EC2 User Guide for Linux, or Networking and storage features and Enhanced networking on Windows in the Amazon EC2 User Guide for Windows.     StorageInterface  — The storage interface of the recommended instance type is different than that of the current instance. For example, the recommended instance type uses an NVMe storage interface and the current instance does not. To access NVMe volumes for the recommended instance type, you will need to install or upgrade the NVMe driver. For more information, see Networking and storage features and Amazon EBS and NVMe on Linux instances in the Amazon EC2 User Guide for Linux, or Networking and storage features and Amazon EBS and NVMe on Windows instances in the Amazon EC2 User Guide for Windows.     InstanceStoreAvailability  — The recommended instance type does not support instance store volumes and the current instance does. Before migrating, you might need to back up the data on your instance store volumes if you want to preserve them. For more information, see How do I back up an instance store volume on my Amazon EC2 instance to Amazon EBS? in the AWS Premium Support Knowledge Base. For more information, see Networking and storage features and Amazon EC2 instance store in the Amazon EC2 User Guide for Linux, or see Networking and storage features and Amazon EC2 instance store in the Amazon EC2 User Guide for Windows.     VirtualizationType  — The recommended instance type uses the hardware virtual machine (HVM) virtualization type and the current instance uses the paravirtual (PV) virtualization type. For more information about the differences between these virtualization types, see Linux AMI virtualization types in the Amazon EC2 User Guide for Linux, or Windows AMI virtualization types in the Amazon EC2 User Guide for Windows.
+        /// Describes the configuration differences between the current instance and the recommended instance type. You should consider the configuration differences before migrating your workloads from the current instance to the recommended instance type. The Change the instance type guide for Linux and Change the instance type guide for Windows provide general guidance for getting started with an instance migration. Platform differences include:     Hypervisor  — The hypervisor of the recommended instance type is different than that of the current instance. For example, the recommended instance type uses a Nitro hypervisor and the current instance uses a Xen hypervisor. The differences that you should consider between these hypervisors are covered in the Nitro Hypervisor section of the Amazon EC2 frequently asked questions. For more information, see Instances built on the Nitro System in the Amazon EC2 User Guide for Linux, or Instances built on the Nitro System in the Amazon EC2 User Guide for Windows.     NetworkInterface  — The network interface of the recommended instance type is different than that of the current instance. For example, the recommended instance type supports enhanced networking and the current instance might not. To enable enhanced networking for the recommended instance type, you must install the Elastic Network Adapter (ENA) driver or the Intel 82599 Virtual Function driver. For more information, see Networking and storage features and Enhanced networking on Linux in the Amazon EC2 User Guide for Linux, or Networking and storage features and Enhanced networking on Windows in the Amazon EC2 User Guide for Windows.     StorageInterface  — The storage interface of the recommended instance type is different than that of the current instance. For example, the recommended instance type uses an NVMe storage interface and the current instance does not. To access NVMe volumes for the recommended instance type, you will need to install or upgrade the NVMe driver. For more information, see Networking and storage features and Amazon EBS and NVMe on Linux instances in the Amazon EC2 User Guide for Linux, or Networking and storage features and Amazon EBS and NVMe on Windows instances in the Amazon EC2 User Guide for Windows.     InstanceStoreAvailability  — The recommended instance type does not support instance store volumes and the current instance does. Before migrating, you might need to back up the data on your instance store volumes if you want to preserve them. For more information, see How do I back up an instance store volume on my Amazon EC2 instance to Amazon EBS? in the Amazon Web Services Premium Support Knowledge Base. For more information, see Networking and storage features and Amazon EC2 instance store in the Amazon EC2 User Guide for Linux, or see Networking and storage features and Amazon EC2 instance store in the Amazon EC2 User Guide for Windows.     VirtualizationType  — The recommended instance type uses the hardware virtual machine (HVM) virtualization type and the current instance uses the paravirtual (PV) virtualization type. For more information about the differences between these virtualization types, see Linux AMI virtualization types in the Amazon EC2 User Guide for Linux, or Windows AMI virtualization types in the Amazon EC2 User Guide for Windows.     Architecture  — The CPU architecture between the recommended instance type and the current instance is different. For example, the recommended instance type might use an x86 CPU architecture and the current instance type might use a different one, such as ARM. Before migrating, you should consider recompiling the software on your instance for the new architecture. Alternatively, you might switch to an Amazon Machine Image (AMI) that supports the new architecture. For more information about the CPU architecture for each instance type, see Amazon EC2 Instance Types.
         public let platformDifferences: [PlatformDifference]?
         /// An array of objects that describe the projected utilization metrics of the instance recommendation option.  The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
         public let projectedUtilizationMetrics: [UtilizationMetric]?
@@ -1159,7 +1279,7 @@ extension ComputeOptimizer {
     }
 
     public struct JobFilter: AWSEncodableShape {
-        /// The name of the filter. Specify ResourceType to return export jobs of a specific resource type (e.g., Ec2Instance). Specify JobStatus to return export jobs with a specific status (e.g, Complete).
+        /// The name of the filter. Specify ResourceType to return export jobs of a specific resource type (for example, Ec2Instance). Specify JobStatus to return export jobs with a specific status (e.g, Complete).
         public let name: JobFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as ResourceType. There is no filter for EBS volumes because volume recommendations cannot be exported at this time.   Specify Queued, InProgress, Complete, or Failed if you specify the name parameter as JobStatus.
         public let values: [String]?
@@ -1218,25 +1338,25 @@ extension ComputeOptimizer {
     }
 
     public struct LambdaFunctionRecommendation: AWSDecodableShape {
-        /// The AWS account ID of the function.
+        /// The Amazon Web Services account ID of the function.
         public let accountId: String?
         /// The amount of memory, in MB, that's allocated to the current function.
         public let currentMemorySize: Int?
         /// The finding classification of the function. Findings for functions include:     Optimized  — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.     NotOptimized  — The function is performing at a higher level (over-provisioned) or at a lower level (under-provisioned) than required for your workload because its current configuration is not optimal. Over-provisioned resources might lead to unnecessary infrastructure cost, and under-provisioned resources might lead to poor application performance. This finding classification can include the MemoryUnderprovisioned and MemoryUnderprovisioned finding reason codes.     Unavailable  — Compute Optimizer was unable to generate a recommendation for the function. This could be because the function has not accumulated sufficient metric data, or the function does not qualify for a recommendation. This finding classification can include the InsufficientData and Inconclusive finding reason codes.  Functions with a finding of unavailable are not returned unless you specify the filter parameter with a value of Unavailable in your GetLambdaFunctionRecommendations request.
         public let finding: LambdaFunctionRecommendationFinding?
-        /// The reason for the finding classification of the function.  Functions that have a finding classification of Optimized don't have a finding reason code.  Finding reason codes for functions include:     MemoryOverprovisioned  — The function is over-provisioned when its memory configuration can be sized down while still meeting the performance requirements of your workload. An over-provisioned function might lead to unnecessary infrastructure cost. This finding reason code is part of the NotOptimized finding classification.     MemoryUnderprovisioned  — The function is under-provisioned when its memory configuration doesn't meet the performance requirements of the workload. An under-provisioned function might lead to poor application performance. This finding reason code is part of the NotOptimized finding classification.     InsufficientData  — The function does not have sufficient metric data for Compute Optimizer to generate a recommendation. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide. This finding reason code is part of the Unavailable finding classification.     Inconclusive  — The function does not qualify for a recommendation because Compute Optimizer cannot generate a recommendation with a high degree of confidence. This finding reason code is part of the Unavailable finding classification.
+        /// The reason for the finding classification of the function.  Functions that have a finding classification of Optimized don't have a finding reason code.  Finding reason codes for functions include:     MemoryOverprovisioned  — The function is over-provisioned when its memory configuration can be sized down while still meeting the performance requirements of your workload. An over-provisioned function might lead to unnecessary infrastructure cost. This finding reason code is part of the NotOptimized finding classification.     MemoryUnderprovisioned  — The function is under-provisioned when its memory configuration doesn't meet the performance requirements of the workload. An under-provisioned function might lead to poor application performance. This finding reason code is part of the NotOptimized finding classification.     InsufficientData  — The function does not have sufficient metric data for Compute Optimizer to generate a recommendation. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide. This finding reason code is part of the Unavailable finding classification.     Inconclusive  — The function does not qualify for a recommendation because Compute Optimizer cannot generate a recommendation with a high degree of confidence. This finding reason code is part of the Unavailable finding classification.
         public let findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]?
         /// The Amazon Resource Name (ARN) of the current function.
         public let functionArn: String?
         /// The version number of the current function.
         public let functionVersion: String?
-        /// The time stamp of when the function recommendation was last refreshed.
+        /// The timestamp of when the function recommendation was last refreshed.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the function.
         public let lookbackPeriodInDays: Double?
         /// An array of objects that describe the memory configuration recommendation options for the function.
         public let memorySizeRecommendationOptions: [LambdaFunctionMemoryRecommendationOption]?
-        /// The number of times your function code was executed during the look-back period.
+        /// The number of times your function code was applied during the look-back period.
         public let numberOfInvocations: Int64?
         /// An array of objects that describe the utilization metrics of the function.
         public let utilizationMetrics: [LambdaFunctionUtilizationMetric]?
@@ -1271,7 +1391,7 @@ extension ComputeOptimizer {
     }
 
     public struct LambdaFunctionRecommendationFilter: AWSEncodableShape {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (e.g., NotOptimized). Specify FindingReasonCode to return recommendations with a specific finding reason code (e.g., MemoryUnderprovisioned).
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). Specify FindingReasonCode to return recommendations with a specific finding reason code (for example, MemoryUnderprovisioned).
         public let name: LambdaFunctionRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   Specify Optimized, NotOptimized, or Unavailable if you specify the name parameter as Finding.   Specify MemoryOverprovisioned, MemoryUnderprovisioned, InsufficientData, or Inconclusive if you specify the name parameter as FindingReasonCode.
         public let values: [String]?
@@ -1290,7 +1410,7 @@ extension ComputeOptimizer {
     public struct LambdaFunctionUtilizationMetric: AWSDecodableShape {
         /// The name of the utilization metric. The following utilization metrics are available:    Duration - The amount of time that your function code spends processing an event.    Memory - The amount of memory used per invocation.
         public let name: LambdaFunctionMetricName?
-        /// The statistic of the utilization metric. The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the AWS Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
+        /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
         public let statistic: LambdaFunctionMetricStatistic?
         /// The value of the utilization metric.
         public let value: Double?
@@ -1311,7 +1431,7 @@ extension ComputeOptimizer {
     public struct ProjectedMetric: AWSDecodableShape {
         /// The name of the projected utilization metric. The following projected utilization metrics are returned:    Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
         public let name: MetricName?
-        /// The time stamps of the projected utilization metric.
+        /// The timestamps of the projected utilization metric.
         public let timestamps: [Date]?
         /// The values of the projected utilization metrics.
         public let values: [Double]?
@@ -1383,6 +1503,19 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct RecommendationPreferences: AWSEncodableShape {
+        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
+        public let cpuVendorArchitectures: [CpuVendorArchitecture]?
+
+        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil) {
+            self.cpuVendorArchitectures = cpuVendorArchitectures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuVendorArchitectures
+        }
+    }
+
     public struct RecommendationSource: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public let recommendationSourceArn: String?
@@ -1401,7 +1534,7 @@ extension ComputeOptimizer {
     }
 
     public struct RecommendationSummary: AWSDecodableShape {
-        /// The AWS account ID of the recommendation summary.
+        /// The Amazon Web Services account ID of the recommendation summary.
         public let accountId: String?
         /// The resource type of the recommendation.
         public let recommendationResourceType: RecommendationSourceType?
@@ -1504,7 +1637,7 @@ extension ComputeOptimizer {
     public struct UpdateEnrollmentStatusRequest: AWSEncodableShape {
         /// Indicates whether to enroll member accounts of the organization if the account is the management account of an organization.
         public let includeMemberAccounts: Bool?
-        /// The new enrollment status of the account. The following status options are available:    Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your AWS resources after you opt in. For more information, see Metrics analyzed by AWS Compute Optimizer in the AWS Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out.    The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account.
+        /// The new enrollment status of the account. The following status options are available:    Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your Amazon Web Services resources after you opt in. For more information, see Metrics analyzed by Compute Optimizer in the Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out.    The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account.
         public let status: Status
 
         public init(includeMemberAccounts: Bool? = nil, status: Status) {
@@ -1538,7 +1671,7 @@ extension ComputeOptimizer {
     public struct UtilizationMetric: AWSDecodableShape {
         /// The name of the utilization metric. The following utilization metrics are available:    Cpu - The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application on the instance. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that is currently in use on the instance. This metric identifies the amount of memory required to run an application on the instance. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.     EBS_READ_OPS_PER_SECOND - The completed read operations from all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_WRITE_OPS_PER_SECOND - The completed write operations to all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_READ_BYTES_PER_SECOND - The bytes read from all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    EBS_WRITE_BYTES_PER_SECOND - The bytes written to all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    DISK_READ_OPS_PER_SECOND - The completed read operations from all instance store volumes available to the instance in a specified period of time. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_WRITE_OPS_PER_SECOND - The completed write operations from all instance store volumes available to the instance in a specified period of time. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_READ_BYTES_PER_SECOND - The bytes read from all instance store volumes available to the instance. This metric is used to determine the volume of the data the application reads from the disk of the instance. This can be used to determine the speed of the application. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_WRITE_BYTES_PER_SECOND - The bytes written to all instance store volumes available to the instance. This metric is used to determine the volume of the data the application writes onto the disk of the instance. This can be used to determine the speed of the application. If there are no instance store volumes, either the value is 0 or the metric is not reported.    NETWORK_IN_BYTES_PER_SECOND - The number of bytes received by the instance on all network interfaces. This metric identifies the volume of incoming network traffic to a single instance.    NETWORK_OUT_BYTES_PER_SECOND - The number of bytes sent out by the instance on all network interfaces. This metric identifies the volume of outgoing network traffic from a single instance.    NETWORK_PACKETS_IN_PER_SECOND - The number of packets received by the instance on all network interfaces. This metric identifies the volume of incoming traffic in terms of the number of packets on a single instance.    NETWORK_PACKETS_OUT_PER_SECOND - The number of packets sent out by the instance on all network interfaces. This metric identifies the volume of outgoing traffic in terms of the number of packets on a single instance.
         public let name: MetricName?
-        /// The statistic of the utilization metric. The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the AWS Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
+        /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
         public let statistic: MetricStatistic?
         /// The value of the utilization metric.
         public let value: Double?
@@ -1590,13 +1723,13 @@ extension ComputeOptimizer {
     }
 
     public struct VolumeRecommendation: AWSDecodableShape {
-        /// The AWS account ID of the volume.
+        /// The Amazon Web Services account ID of the volume.
         public let accountId: String?
         /// An array of objects that describe the current configuration of the volume.
         public let currentConfiguration: VolumeConfiguration?
-        /// The finding classification of the volume. Findings for volumes include:     NotOptimized —A volume is considered not optimized when AWS Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An volume is considered optimized when Compute Optimizer determines that the volume is correctly provisioned to run your workload based on the chosen volume type. For optimized resources, Compute Optimizer might recommend a new generation volume type.
+        /// The finding classification of the volume. Findings for volumes include:     NotOptimized —A volume is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An volume is considered optimized when Compute Optimizer determines that the volume is correctly provisioned to run your workload based on the chosen volume type. For optimized resources, Compute Optimizer might recommend a new generation volume type.
         public let finding: EBSFinding?
-        /// The time stamp of when the volume recommendation was last refreshed.
+        /// The timestamp of when the volume recommendation was last refreshed.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the volume.
         public let lookBackPeriodInDays: Double?
@@ -1633,7 +1766,7 @@ extension ComputeOptimizer {
     public struct VolumeRecommendationOption: AWSDecodableShape {
         /// An array of objects that describe a volume configuration.
         public let configuration: VolumeConfiguration?
-        /// The performance risk of the volume recommendation option. Performance risk is the likelihood of the recommended volume type meeting the performance requirement of your workload. The value ranges from 0 to 5, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
+        /// The performance risk of the volume recommendation option. Performance risk is the likelihood of the recommended volume type meeting the performance requirement of your workload. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public let performanceRisk: Double?
         /// The rank of the volume recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?

@@ -90,6 +90,8 @@ extension APIGateway {
     public enum DomainNameStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case pending = "PENDING"
+        case pendingCertificateReimport = "PENDING_CERTIFICATE_REIMPORT"
+        case pendingOwnershipVerification = "PENDING_OWNERSHIP_VERIFICATION"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -122,6 +124,7 @@ extension APIGateway {
         case throttled = "THROTTLED"
         case unauthorized = "UNAUTHORIZED"
         case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
+        case wafFiltered = "WAF_FILTERED"
         public var description: String { return self.rawValue }
     }
 
@@ -752,6 +755,8 @@ extension APIGateway {
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
+        /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
+        public let ownershipVerificationCertificateArn: String?
         /// The reference to an AWS-managed certificate that will be used by regional endpoint for this domain name. AWS Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
@@ -761,7 +766,7 @@ extension APIGateway {
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -770,6 +775,7 @@ extension APIGateway {
             self.domainName = domainName
             self.endpointConfiguration = endpointConfiguration
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.securityPolicy = securityPolicy
@@ -785,6 +791,7 @@ extension APIGateway {
             case domainName
             case endpointConfiguration
             case mutualTlsAuthentication
+            case ownershipVerificationCertificateArn
             case regionalCertificateArn
             case regionalCertificateName
             case securityPolicy
@@ -1213,7 +1220,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
+        /// [Required] The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
@@ -1673,7 +1680,7 @@ extension APIGateway {
         public let distributionHostedZoneId: String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public let domainName: String?
-        /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
+        /// The status of the DomainName migration. The valid values are AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public let domainNameStatusMessage: String?
@@ -1681,6 +1688,8 @@ extension APIGateway {
         public let endpointConfiguration: EndpointConfiguration?
         /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
         public let mutualTlsAuthentication: MutualTlsAuthentication?
+        /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
+        public let ownershipVerificationCertificateArn: String?
         /// The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The name of the certificate that will be used for validating the regional domain name.
@@ -1694,7 +1703,7 @@ extension APIGateway {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
@@ -1705,6 +1714,7 @@ extension APIGateway {
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointConfiguration = endpointConfiguration
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
@@ -1724,6 +1734,7 @@ extension APIGateway {
             case domainNameStatusMessage
             case endpointConfiguration
             case mutualTlsAuthentication
+            case ownershipVerificationCertificateArn
             case regionalCertificateArn
             case regionalCertificateName
             case regionalDomainName
@@ -1840,7 +1851,7 @@ extension APIGateway {
         public let responseParameters: [String: String]?
         /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
         public let responseTemplates: [String: String]?
-        /// The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
+        /// The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType?
         /// The HTTP status code for this GatewayResponse.
         public let statusCode: String?
@@ -2284,7 +2295,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
+        /// [Required] The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
@@ -3329,7 +3340,7 @@ extension APIGateway {
         public let responseParameters: [String: String]?
         /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
         public let responseTemplates: [String: String]?
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
+        /// [Required] The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
@@ -4458,7 +4469,7 @@ extension APIGateway {
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
+        /// [Required] The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String

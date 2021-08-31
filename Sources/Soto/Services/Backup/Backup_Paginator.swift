@@ -178,7 +178,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of existing backup plans for an authenticated account. The list is populated only if the advanced option is set for the backup plan. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    ///  Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +390,60 @@ extension Backup {
         )
     }
 
-    ///  Returns an array of resources successfully backed up by AWS Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+    ///  Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFrameworksPaginator<Result>(
+        _ input: ListFrameworksInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFrameworksOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFrameworks,
+            inputKey: \ListFrameworksInput.nextToken,
+            outputKey: \ListFrameworksOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFrameworksPaginator(
+        _ input: ListFrameworksInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFrameworksOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFrameworks,
+            inputKey: \ListFrameworksInput.nextToken,
+            outputKey: \ListFrameworksOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -496,7 +549,7 @@ extension Backup {
         )
     }
 
-    ///  Returns detailed information about recovery points of the type specified by a resource Amazon Resource Name (ARN).
+    ///  Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -549,7 +602,113 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of jobs that AWS Backup initiated to restore a saved resource, including metadata about the recovery process.
+    ///  Returns details about your report jobs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listReportJobsPaginator<Result>(
+        _ input: ListReportJobsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListReportJobsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listReportJobs,
+            inputKey: \ListReportJobsInput.nextToken,
+            outputKey: \ListReportJobsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listReportJobsPaginator(
+        _ input: ListReportJobsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListReportJobsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listReportJobs,
+            inputKey: \ListReportJobsInput.nextToken,
+            outputKey: \ListReportJobsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listReportPlansPaginator<Result>(
+        _ input: ListReportPlansInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListReportPlansOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listReportPlans,
+            inputKey: \ListReportPlansInput.nextToken,
+            outputKey: \ListReportPlansOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listReportPlansPaginator(
+        _ input: ListReportPlansInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListReportPlansOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listReportPlans,
+            inputKey: \ListReportPlansInput.nextToken,
+            outputKey: \ListReportPlansOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -736,6 +895,15 @@ extension Backup.ListCopyJobsInput: AWSPaginateToken {
     }
 }
 
+extension Backup.ListFrameworksInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListFrameworksInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Backup.ListProtectedResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListProtectedResourcesInput {
         return .init(
@@ -766,6 +934,28 @@ extension Backup.ListRecoveryPointsByResourceInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension Backup.ListReportJobsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListReportJobsInput {
+        return .init(
+            byCreationAfter: self.byCreationAfter,
+            byCreationBefore: self.byCreationBefore,
+            byReportPlanName: self.byReportPlanName,
+            byStatus: self.byStatus,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Backup.ListReportPlansInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListReportPlansInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

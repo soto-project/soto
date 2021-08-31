@@ -73,11 +73,28 @@ extension SageMaker {
         case mlM52Xlarge = "ml.m5.2xlarge"
         case mlM54Xlarge = "ml.m5.4xlarge"
         case mlM58Xlarge = "ml.m5.8xlarge"
+        case mlM5D12Xlarge = "ml.m5d.12xlarge"
+        case mlM5D16Xlarge = "ml.m5d.16xlarge"
+        case mlM5D24Xlarge = "ml.m5d.24xlarge"
+        case mlM5D2Xlarge = "ml.m5d.2xlarge"
+        case mlM5D4Xlarge = "ml.m5d.4xlarge"
+        case mlM5D8Xlarge = "ml.m5d.8xlarge"
+        case mlM5DLarge = "ml.m5d.large"
+        case mlM5DXlarge = "ml.m5d.xlarge"
         case mlM5Large = "ml.m5.large"
         case mlM5Xlarge = "ml.m5.xlarge"
         case mlP316Xlarge = "ml.p3.16xlarge"
         case mlP32Xlarge = "ml.p3.2xlarge"
         case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR516Xlarge = "ml.r5.16xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
@@ -607,6 +624,12 @@ extension SageMaker {
         case mlC5D9Xlarge = "ml.c5d.9xlarge"
         case mlC5DXlarge = "ml.c5d.xlarge"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -616,6 +639,14 @@ extension SageMaker {
         case mlM524Xlarge = "ml.m5.24xlarge"
         case mlM52Xlarge = "ml.m5.2xlarge"
         case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5D12Xlarge = "ml.m5d.12xlarge"
+        case mlM5D16Xlarge = "ml.m5d.16xlarge"
+        case mlM5D24Xlarge = "ml.m5d.24xlarge"
+        case mlM5D2Xlarge = "ml.m5d.2xlarge"
+        case mlM5D4Xlarge = "ml.m5d.4xlarge"
+        case mlM5D8Xlarge = "ml.m5d.8xlarge"
+        case mlM5DLarge = "ml.m5d.large"
+        case mlM5DXlarge = "ml.m5d.xlarge"
         case mlM5Xlarge = "ml.m5.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
@@ -623,6 +654,15 @@ extension SageMaker {
         case mlP316Xlarge = "ml.p3.16xlarge"
         case mlP32Xlarge = "ml.p3.2xlarge"
         case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR516Xlarge = "ml.r5.16xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
         case mlT22Xlarge = "ml.t2.2xlarge"
         case mlT2Large = "ml.t2.large"
         case mlT2Medium = "ml.t2.medium"
@@ -687,6 +727,13 @@ extension SageMaker {
     public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable {
         case createdate = "CreateDate"
         case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricSetSource: String, CustomStringConvertible, Codable {
+        case test = "Test"
+        case train = "Train"
+        case validation = "Validation"
         public var description: String { return self.rawValue }
     }
 
@@ -1862,7 +1909,7 @@ extension SageMaker {
     }
 
     public struct AnnotationConsolidationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. This parameter is required for all labeling jobs. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    rn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
+        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. This parameter is required for all labeling jobs. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
         public let annotationConsolidationLambdaArn: String
 
         public init(annotationConsolidationLambdaArn: String) {
@@ -2144,6 +2191,99 @@ extension SageMaker {
         }
     }
 
+    public struct AsyncInferenceClientConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of concurrent requests sent by the SageMaker client to the model container. If no value is provided, Amazon SageMaker will choose an optimal value for you.
+        public let maxConcurrentInvocationsPerInstance: Int?
+
+        public init(maxConcurrentInvocationsPerInstance: Int? = nil) {
+            self.maxConcurrentInvocationsPerInstance = maxConcurrentInvocationsPerInstance
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxConcurrentInvocationsPerInstance, name: "maxConcurrentInvocationsPerInstance", parent: name, max: 1000)
+            try self.validate(self.maxConcurrentInvocationsPerInstance, name: "maxConcurrentInvocationsPerInstance", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrentInvocationsPerInstance = "MaxConcurrentInvocationsPerInstance"
+        }
+    }
+
+    public struct AsyncInferenceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the behavior of the client used by Amazon SageMaker to interact with the model container during asynchronous inference.
+        public let clientConfig: AsyncInferenceClientConfig?
+        /// Specifies the configuration for asynchronous inference invocation outputs.
+        public let outputConfig: AsyncInferenceOutputConfig
+
+        public init(clientConfig: AsyncInferenceClientConfig? = nil, outputConfig: AsyncInferenceOutputConfig) {
+            self.clientConfig = clientConfig
+            self.outputConfig = outputConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.clientConfig?.validate(name: "\(name).clientConfig")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientConfig = "ClientConfig"
+            case outputConfig = "OutputConfig"
+        }
+    }
+
+    public struct AsyncInferenceNotificationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Amazon SNS topic to post a notification to when inference fails. If no topic is provided, no notification is sent on failure.
+        public let errorTopic: String?
+        /// Amazon SNS topic to post a notification to when inference completes successfully. If no topic is provided, no notification is sent on success.
+        public let successTopic: String?
+
+        public init(errorTopic: String? = nil, successTopic: String? = nil) {
+            self.errorTopic = errorTopic
+            self.successTopic = successTopic
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.errorTopic, name: "errorTopic", parent: name, max: 2048)
+            try self.validate(self.errorTopic, name: "errorTopic", parent: name, pattern: "arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]+")
+            try self.validate(self.successTopic, name: "successTopic", parent: name, max: 2048)
+            try self.validate(self.successTopic, name: "successTopic", parent: name, pattern: "arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorTopic = "ErrorTopic"
+            case successTopic = "SuccessTopic"
+        }
+    }
+
+    public struct AsyncInferenceOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the asynchronous inference output in Amazon S3.
+        public let kmsKeyId: String?
+        /// Specifies the configuration for notifications of inference results for asynchronous inference.
+        public let notificationConfig: AsyncInferenceNotificationConfig?
+        /// The Amazon S3 location to upload inference responses to.
+        public let s3OutputPath: String
+
+        public init(kmsKeyId: String? = nil, notificationConfig: AsyncInferenceNotificationConfig? = nil, s3OutputPath: String) {
+            self.kmsKeyId = kmsKeyId
+            self.notificationConfig = notificationConfig
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.notificationConfig?.validate(name: "\(name).notificationConfig")
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 512)
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/])/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case notificationConfig = "NotificationConfig"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
     public struct AthenaDatasetDefinition: AWSEncodableShape & AWSDecodableShape {
         public let catalog: String
         public let database: String
@@ -2201,7 +2341,7 @@ extension SageMaker {
     public struct AutoMLCandidate: AWSDecodableShape {
         /// The name of the candidate.
         public let candidateName: String
-        /// The AutoML candidate's properties.
+        /// The properties of an AutoML candidate job.
         public let candidateProperties: CandidateProperties?
         /// The candidate's status.
         public let candidateStatus: CandidateStatus
@@ -2300,7 +2440,7 @@ extension SageMaker {
     public struct AutoMLContainerDefinition: AWSDecodableShape {
         /// The environment variables to set in the container. For more information, see .
         public let environment: [String: String]?
-        /// The ECR path of the container. For more information, see .
+        /// The Amazon Elastic Container Registry (Amazon ECR) path of the container. For more information, see .
         public let image: String
         /// The location of the model artifacts. For more information, see .
         public let modelDataUrl: String
@@ -2402,7 +2542,7 @@ extension SageMaker {
     }
 
     public struct AutoMLJobObjective: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:    MSE: The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive: the better a model is at predicting the actual values, the smaller the MSE value. When the data contains outliers, they tend to dominate the MSE, which might cause subpar prediction performance.    Accuracy: The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for binary and multiclass classification. It measures how close the predicted class values are to the actual values. Accuracy values vary between zero and one: one indicates perfect accuracy and zero indicates perfect inaccuracy.    F1: The F1 score is the harmonic mean of the precision and recall. It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class and false when they do not. Precision is the ratio of the true positive predictions to all positive predictions (including the false positives) in a data set and measures the quality of the prediction when it predicts the positive class. Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances and measures how completely a model predicts the actual class members in a data set. The standard F1 score weighs precision and recall equally. But which metric is paramount typically depends on specific aspects of a problem. F1 scores vary between zero and one: one indicates the best possible performance and zero the worst.    AUC: The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms such as logistic regression that return probabilities. A threshold is needed to map the probabilities into classifications. The relevant curve is the receiver operating characteristic curve that plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives but more false negatives. AUC is the area under this receiver operating characteristic curve and so provides an aggregated measure of the model performance across all possible classification thresholds. The AUC score can also be interpreted as the probability that a randomly selected positive data point is more likely to be predicted positive than a randomly selected negative example. AUC scores vary between zero and one: a score of one indicates perfect accuracy and a score of one half indicates that the prediction is not better than a random classifier. Values under one half predict less accurately than a random predictor. But such consistently bad predictors can simply be inverted to obtain better than random predictors.    F1macro: The F1macro score applies F1 scoring to multiclass classification. In this context, you have multiple classes to predict. You just calculate the precision and recall for each class as you did for the positive class in binary classification. Then, use these values to calculate the F1 score for each class and average them to obtain the F1macro score. F1macro scores vary between zero and one: one indicates the best possible performance and zero the worst.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
+        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:    MSE: The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive: the better a model is at predicting the actual values, the smaller the MSE value is. When the data contains outliers, they tend to dominate the MSE, which might cause subpar prediction performance.    Accuracy: The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for binary and multiclass classification. It measures how close the predicted class values are to the actual values. Accuracy values vary between zero and one: one indicates perfect accuracy and zero indicates perfect inaccuracy.    F1: The F1 score is the harmonic mean of the precision and recall. It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class and false when they do not. Precision is the ratio of the true positive predictions to all positive predictions (including the false positives) in a data set and measures the quality of the prediction when it predicts the positive class. Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances and measures how completely a model predicts the actual class members in a data set. The standard F1 score weighs precision and recall equally. But which metric is paramount typically depends on specific aspects of a problem. F1 scores vary between zero and one: one indicates the best possible performance and zero the worst.    AUC: The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms such as logistic regression that return probabilities. A threshold is needed to map the probabilities into classifications. The relevant curve is the receiver operating characteristic curve that plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives but more false negatives. AUC is the area under this receiver operating characteristic curve and so provides an aggregated measure of the model performance across all possible classification thresholds. The AUC score can also be interpreted as the probability that a randomly selected positive data point is more likely to be predicted positive than a randomly selected negative example. AUC scores vary between zero and one: a score of one indicates perfect accuracy and a score of one half indicates that the prediction is not better than a random classifier. Values under one half predict less accurately than a random predictor. But such consistently bad predictors can simply be inverted to obtain better than random predictors.    F1macro: The F1macro score applies F1 scoring to multiclass classification. In this context, you have multiple classes to predict. You just calculate the precision and recall for each class as you did for the positive class in binary classification. Then, use these values to calculate the F1 score for each class and average them to obtain the F1macro score. F1macro scores vary between zero and one: one indicates the best possible performance and zero the worst.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
         public let metricName: AutoMLMetricEnum
 
         public init(metricName: AutoMLMetricEnum) {
@@ -2417,7 +2557,7 @@ extension SageMaker {
     public struct AutoMLJobSummary: AWSDecodableShape {
         /// The ARN of the AutoML job.
         public let autoMLJobArn: String
-        /// The name of the AutoML you are requesting.
+        /// The name of the AutoML job you are requesting.
         public let autoMLJobName: String
         /// The secondary status of the AutoML job.
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
@@ -2658,13 +2798,17 @@ extension SageMaker {
     public struct CandidateProperties: AWSDecodableShape {
         /// The Amazon S3 prefix to the artifacts generated for an AutoML candidate.
         public let candidateArtifactLocations: CandidateArtifactLocations?
+        /// Information about the candidate metrics for an AutoML job.
+        public let candidateMetrics: [MetricDatum]?
 
-        public init(candidateArtifactLocations: CandidateArtifactLocations? = nil) {
+        public init(candidateArtifactLocations: CandidateArtifactLocations? = nil, candidateMetrics: [MetricDatum]? = nil) {
             self.candidateArtifactLocations = candidateArtifactLocations
+            self.candidateMetrics = candidateMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
             case candidateArtifactLocations = "CandidateArtifactLocations"
+            case candidateMetrics = "CandidateMetrics"
         }
     }
 
@@ -3643,7 +3787,7 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobResponse: AWSDecodableShape {
-        /// The unique ARN that is assigned to the AutoML job when it is created.
+        /// The unique ARN assigned to the AutoML job when it is created.
         public let autoMLJobArn: String
 
         public init(autoMLJobArn: String) {
@@ -4114,6 +4258,8 @@ extension SageMaker {
     }
 
     public struct CreateEndpointConfigInput: AWSEncodableShape {
+        /// Specifies configuration for how an endpoint performs asynchronous inference. This is a required field in order for your Endpoint to be invoked using  InvokeEndpointAsync .
+        public let asyncInferenceConfig: AsyncInferenceConfig?
         public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request.
         public let endpointConfigName: String
@@ -4124,7 +4270,8 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
-        public init(dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
+            self.asyncInferenceConfig = asyncInferenceConfig
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointConfigName = endpointConfigName
             self.kmsKeyId = kmsKeyId
@@ -4133,6 +4280,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.asyncInferenceConfig?.validate(name: "\(name).asyncInferenceConfig")
             try self.dataCaptureConfig?.validate(name: "\(name).dataCaptureConfig")
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
@@ -4151,6 +4299,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asyncInferenceConfig = "AsyncInferenceConfig"
             case dataCaptureConfig = "DataCaptureConfig"
             case endpointConfigName = "EndpointConfigName"
             case kmsKeyId = "KmsKeyId"
@@ -4650,7 +4799,7 @@ extension SageMaker {
         public let inputConfig: LabelingJobInputConfig
         /// The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the following built-in task types, the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".   Image semantic segmentation (SemanticSegmentation), and adjustment (AdjustmentSemanticSegmentation) and verification (VerificationSemanticSegmentation) labeling jobs for this task type.   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
         public let labelAttributeName: String
-        /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs.  For all other built-in task types and custom tasks, your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories.  {    "document-version": "2018-11-28",   "labels": [{"label": "label_1"},{"label": "label_2"},...{"label": "label_n"}]   }  Note the following about the label category configuration file:   For image classification and text classification (single and multi-label) you must specify at least two label categories. For all other task types, the minimum number of label categories required is one.    Each label category must be unique, you cannot specify duplicate label categories.   If you create a 3D point cloud or video frame adjustment or verification labeling job, you must include auditLabelAttributeName in the label category configuration. Use this parameter to enter the  LabelAttributeName  of the labeling job you want to adjust or verify annotations of.
+        /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs.  For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"&lt;h1&gt;Add header&lt;/h1&gt;&lt;p&gt;Add Instructions&lt;/p&gt;", "fullInstruction":"&lt;p&gt;Add additional instructions.&lt;/p&gt;"}. For details and an example, see Create a Named Entity Recognition Labeling Job (API) . For all other built-in task types and custom tasks, your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories.  {    "document-version": "2018-11-28",   "labels": [{"label": "label_1"},{"label": "label_2"},...{"label": "label_n"}]   }  Note the following about the label category configuration file:   For image classification and text classification (single and multi-label) you must specify at least two label categories. For all other task types, the minimum number of label categories required is one.    Each label category must be unique, you cannot specify duplicate label categories.   If you create a 3D point cloud or video frame adjustment or verification labeling job, you must include auditLabelAttributeName in the label category configuration. Use this parameter to enter the  LabelAttributeName  of the labeling job you want to adjust or verify annotations of.
         public let labelCategoryConfigS3Uri: String?
         /// Configures the information required to perform automated data labeling.
         public let labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig?
@@ -4922,7 +5071,7 @@ extension SageMaker {
             try self.containers?.forEach {
                 try $0.validate(name: "\(name).containers[]")
             }
-            try self.validate(self.containers, name: "containers", parent: name, max: 5)
+            try self.validate(self.containers, name: "containers", parent: name, max: 15)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -5245,6 +5394,8 @@ extension SageMaker {
         public let lifecycleConfigName: String?
         /// The name of the new notebook instance.
         public let notebookInstanceName: String
+        /// The platform identifier of the notebook instance runtime environment.
+        public let platformIdentifier: String?
         ///  When you send any requests to Amazon Web Services resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
@@ -5258,7 +5409,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, platformIdentifier: String? = nil, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
@@ -5267,6 +5418,7 @@ extension SageMaker {
             self.kmsKeyId = kmsKeyId
             self.lifecycleConfigName = lifecycleConfigName
             self.notebookInstanceName = notebookInstanceName
+            self.platformIdentifier = platformIdentifier
             self.roleArn = roleArn
             self.rootAccess = rootAccess
             self.securityGroupIds = securityGroupIds
@@ -5291,6 +5443,8 @@ extension SageMaker {
             try self.validate(self.lifecycleConfigName, name: "lifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, max: 63)
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, max: 15)
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "^(notebook-al1-v1|notebook-al2-v1)$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -5319,6 +5473,7 @@ extension SageMaker {
             case kmsKeyId = "KmsKeyId"
             case lifecycleConfigName = "LifecycleConfigName"
             case notebookInstanceName = "NotebookInstanceName"
+            case platformIdentifier = "PlatformIdentifier"
             case roleArn = "RoleArn"
             case rootAccess = "RootAccess"
             case securityGroupIds = "SecurityGroupIds"
@@ -8097,7 +8252,7 @@ extension SageMaker {
         public let partialFailureReasons: [AutoMLPartialFailureReason]?
         /// Returns the job's problem type.
         public let problemType: ProblemType?
-        /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
+        /// This contains ProblemType, AutoMLJobObjective, and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
         public let resolvedAttributes: ResolvedAttributes?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
@@ -8764,6 +8919,8 @@ extension SageMaker {
     }
 
     public struct DescribeEndpointConfigOutput: AWSDecodableShape {
+        /// Returns the description of an endpoint configuration created using the  CreateEndpointConfig  API.
+        public let asyncInferenceConfig: AsyncInferenceConfig?
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: Date
         public let dataCaptureConfig: DataCaptureConfig?
@@ -8776,7 +8933,8 @@ extension SageMaker {
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
 
-        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
+            self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointConfigArn = endpointConfigArn
@@ -8786,6 +8944,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asyncInferenceConfig = "AsyncInferenceConfig"
             case creationTime = "CreationTime"
             case dataCaptureConfig = "DataCaptureConfig"
             case endpointConfigArn = "EndpointConfigArn"
@@ -8814,6 +8973,8 @@ extension SageMaker {
     }
 
     public struct DescribeEndpointOutput: AWSDecodableShape {
+        /// Returns the description of an endpoint configuration created using the  CreateEndpointConfig  API.
+        public let asyncInferenceConfig: AsyncInferenceConfig?
         /// A timestamp that shows when the endpoint was created.
         public let creationTime: Date
         public let dataCaptureConfig: DataCaptureConfigSummary?
@@ -8834,7 +8995,8 @@ extension SageMaker {
         ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
         public let productionVariants: [ProductionVariantSummary]?
 
-        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, productionVariants: [ProductionVariantSummary]? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, productionVariants: [ProductionVariantSummary]? = nil) {
+            self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
@@ -8848,6 +9010,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asyncInferenceConfig = "AsyncInferenceConfig"
             case creationTime = "CreationTime"
             case dataCaptureConfig = "DataCaptureConfig"
             case endpointArn = "EndpointArn"
@@ -10039,6 +10202,8 @@ extension SageMaker {
         public let notebookInstanceName: String?
         /// The status of the notebook instance.
         public let notebookInstanceStatus: NotebookInstanceStatus?
+        /// The platform identifier of the notebook instance runtime environment.
+        public let platformIdentifier: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the instance.
         public let roleArn: String?
         /// Whether root access is enabled or disabled for users of the notebook instance.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
@@ -10052,7 +10217,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to the notebook instance.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
@@ -10067,6 +10232,7 @@ extension SageMaker {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.notebookInstanceName = notebookInstanceName
             self.notebookInstanceStatus = notebookInstanceStatus
+            self.platformIdentifier = platformIdentifier
             self.roleArn = roleArn
             self.rootAccess = rootAccess
             self.securityGroups = securityGroups
@@ -10090,6 +10256,7 @@ extension SageMaker {
             case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
             case notebookInstanceName = "NotebookInstanceName"
             case notebookInstanceStatus = "NotebookInstanceStatus"
+            case platformIdentifier = "PlatformIdentifier"
             case roleArn = "RoleArn"
             case rootAccess = "RootAccess"
             case securityGroups = "SecurityGroups"
@@ -11084,7 +11251,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.desiredInstanceCount, name: "desiredInstanceCount", parent: name, min: 1)
+            try self.validate(self.desiredInstanceCount, name: "desiredInstanceCount", parent: name, min: 0)
             try self.validate(self.desiredWeight, name: "desiredWeight", parent: name, min: 0)
             try self.validate(self.variantName, name: "variantName", parent: name, max: 63)
             try self.validate(self.variantName, name: "variantName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
@@ -13022,7 +13189,7 @@ extension SageMaker {
             try self.containers.forEach {
                 try $0.validate(name: "\(name).containers[]")
             }
-            try self.validate(self.containers, name: "containers", parent: name, max: 5)
+            try self.validate(self.containers, name: "containers", parent: name, max: 15)
             try self.validate(self.containers, name: "containers", parent: name, min: 1)
             try self.supportedContentTypes.forEach {
                 try validate($0, name: "supportedContentTypes[]", parent: name, max: 256)
@@ -13580,6 +13747,23 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case preHumanTaskLambdaArn = "PreHumanTaskLambdaArn"
             case workteamArn = "WorkteamArn"
+        }
+    }
+
+    public struct LambdaStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution.
+        public let arn: String?
+        /// A list of the output parameters of the Lambda step.
+        public let outputParameters: [OutputParameter]?
+
+        public init(arn: String? = nil, outputParameters: [OutputParameter]? = nil) {
+            self.arn = arn
+            self.outputParameters = outputParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case outputParameters = "OutputParameters"
         }
     }
 
@@ -17238,6 +17422,27 @@ extension SageMaker {
         }
     }
 
+    public struct MetricDatum: AWSDecodableShape {
+        /// The name of the metric.
+        public let metricName: AutoMLMetricEnum?
+        /// The dataset split from which the AutoML job produced the metric.
+        public let set: MetricSetSource?
+        /// The value of the metric.
+        public let value: Float?
+
+        public init(metricName: AutoMLMetricEnum? = nil, set: MetricSetSource? = nil, value: Float? = nil) {
+            self.metricName = metricName
+            self.set = set
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case set = "Set"
+            case value = "Value"
+        }
+    }
+
     public struct MetricDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The name of the metric.
         public let name: String
@@ -18848,7 +19053,7 @@ extension SageMaker {
     }
 
     public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN for the SNS topic to which notifications should be published.
+        /// The ARN for the Amazon SNS topic to which notifications should be published.
         public let notificationTopicArn: String?
 
         public init(notificationTopicArn: String? = nil) {
@@ -19447,14 +19652,17 @@ extension SageMaker {
     }
 
     public struct PipelineExecutionStepMetadata: AWSDecodableShape {
+        /// The URL of the Amazon SQS queue used by this step execution, the pipeline generated token, and a list of output parameters.
         public let callback: CallbackStepMetadata?
-        /// If this is a Condition step metadata object, details on the condition.
+        /// The outcome of the condition evaluation that was run by this step execution.
         public let condition: ConditionStepMetadata?
-        /// Metadata for the Model step.
+        /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
+        public let lambda: LambdaStepMetadata?
+        /// The Amazon Resource Name (ARN) of the model that was created by this step execution.
         public let model: ModelStepMetadata?
         /// The Amazon Resource Name (ARN) of the processing job that was run by this step execution.
         public let processingJob: ProcessingJobStepMetadata?
-        /// Metadata for the RegisterModel step.
+        /// The Amazon Resource Name (ARN) of the model package the model was registered to by this step execution.
         public let registerModel: RegisterModelStepMetadata?
         /// The Amazon Resource Name (ARN) of the training job that was run by this step execution.
         public let trainingJob: TrainingJobStepMetadata?
@@ -19463,9 +19671,10 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
         public let tuningJob: TuningJobStepMetaData?
 
-        public init(callback: CallbackStepMetadata? = nil, condition: ConditionStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+        public init(callback: CallbackStepMetadata? = nil, condition: ConditionStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
             self.callback = callback
             self.condition = condition
+            self.lambda = lambda
             self.model = model
             self.processingJob = processingJob
             self.registerModel = registerModel
@@ -19477,6 +19686,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case callback = "Callback"
             case condition = "Condition"
+            case lambda = "Lambda"
             case model = "Model"
             case processingJob = "ProcessingJob"
             case registerModel = "RegisterModel"
@@ -21551,7 +21761,7 @@ extension SageMaker {
     }
 
     public struct StoppingCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum length of time, in seconds, that a training or compilation job can run. If the job does not complete during this time, Amazon SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days.
+        /// The maximum length of time, in seconds, that a training or compilation job can run. For compilation jobs, if the job does not complete during this time, you will receive a TimeOut error. We recommend starting with 900 seconds and increase as necessary based on your model. For all other jobs, if the job does not complete during this time, Amazon SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days.
         public let maxRuntimeInSeconds: Int?
         /// The maximum length of time, in seconds, that a managed Spot training job has to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the job can run. It must be equal to or greater than MaxRuntimeInSeconds. If the job does not complete during this time, Amazon SageMaker ends the job. When RetryStrategy is specified in the job request, MaxWaitTimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt.
         public let maxWaitTimeInSeconds: Int?
@@ -22867,7 +23077,7 @@ extension SageMaker {
     }
 
     public struct UiConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for 3D point cloud and video fram labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the Amazon Web Services region you are creating your labeling job in.  3D Point Cloud HumanTaskUiArns  Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectDetection     Use this HumanTaskUiArn for 3D point cloud object tracking and 3D point cloud object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectTracking     Use this HumanTaskUiArn for 3D point cloud semantic segmentation and 3D point cloud semantic segmentation adjustment labeling jobs.    arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudSemanticSegmentation     Video Frame HumanTaskUiArns  Use this HumanTaskUiArn for video frame object detection and video frame object detection adjustment labeling jobs.     arn:aws:sagemaker:region:394669845002:human-task-ui/VideoObjectDetection     Use this HumanTaskUiArn for video frame object tracking and video frame object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/VideoObjectTracking
+        /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for named entity recognition, 3D point cloud and video frame labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the Amazon Web Services Region you are creating your labeling job in. For example, replace aws-region with us-west-1 if you create a labeling job in US West (N. California).  Named Entity Recognition  Use the following HumanTaskUiArn for named entity recognition labeling jobs:  arn:aws:sagemaker:aws-region:394669845002:human-task-ui/NamedEntityRecognition   3D Point Cloud HumanTaskUiArns  Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectDetection     Use this HumanTaskUiArn for 3D point cloud object tracking and 3D point cloud object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectTracking     Use this HumanTaskUiArn for 3D point cloud semantic segmentation and 3D point cloud semantic segmentation adjustment labeling jobs.    arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudSemanticSegmentation     Video Frame HumanTaskUiArns  Use this HumanTaskUiArn for video frame object detection and video frame object detection adjustment labeling jobs.     arn:aws:sagemaker:region:394669845002:human-task-ui/VideoObjectDetection     Use this HumanTaskUiArn for video frame object tracking and video frame object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/VideoObjectTracking
         public let humanTaskUiArn: String?
         /// The Amazon S3 bucket location of the UI template, or worker task template. This is the template used to render the worker UI and tools for labeling job tasks. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String?

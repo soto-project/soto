@@ -609,6 +609,19 @@ extension EMR {
         }
     }
 
+    public struct AutoTerminationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the amount of idle time in seconds after which the cluster automatically terminates. You can specify a minimum of 60 seconds and a maximum of 604800 seconds (seven days).
+        public let idleTimeout: Int64?
+
+        public init(idleTimeout: Int64? = nil) {
+            self.idleTimeout = idleTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleTimeout = "IdleTimeout"
+        }
+    }
+
     public struct BlockPublicAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether Amazon EMR block public access is enabled (true) or disabled (false). By default, the value is false for accounts that have created EMR clusters before July 2019. For accounts created after this, the default is true.
         public let blockPublicSecurityGroupRules: Bool
@@ -824,7 +837,7 @@ extension EMR {
         public let instanceCollectionType: InstanceCollectionType?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the Amazon EMR Management Guide.
         public let kerberosAttributes: KerberosAttributes?
-        ///  The AWS KMS customer master key (CMK) used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+        ///  The KMS key used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
         public let logEncryptionKmsKeyId: String?
         /// The path to the Amazon S3 location where logs for this cluster are stored.
         public let logUri: String?
@@ -850,7 +863,7 @@ extension EMR {
         public let scaleDownBehavior: ScaleDownBehavior?
         /// The name of the security configuration applied to the cluster.
         public let securityConfiguration: String?
-        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
+        /// The IAM role that will be assumed by the Amazon EMR service to access Amazon Web Services resources on your behalf.
         public let serviceRole: String?
         /// The current status details about the cluster.
         public let status: ClusterStatus?
@@ -860,7 +873,7 @@ extension EMR {
         public let tags: [Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
         public let terminationProtected: Bool?
-        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
+        /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform EMR cluster actions on the cluster that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the EMR API RunJobFlow command, the CLI create-cluster command, or the Amazon Web Services Management Console. IAM principals that are allowed to perform actions on the cluster can use the SetVisibleToAllUsers action to change the value on a running cluster. For more information, see Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
         public let visibleToAllUsers: Bool?
 
         public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
@@ -1144,7 +1157,7 @@ extension EMR {
         public let engineSecurityGroupId: String
         /// A descriptive name for the Amazon EMR Studio.
         public let name: String
-        /// The IAM role that will be assumed by the Amazon EMR Studio. The service role provides a way for Amazon EMR Studio to interoperate with other AWS services.
+        /// The IAM role that will be assumed by the Amazon EMR Studio. The service role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services services.
         public let serviceRole: String
         /// A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId. Studio users can create a Workspace in any of the specified subnets.
         public let subnetIds: [String]
@@ -1231,13 +1244,13 @@ extension EMR {
     }
 
     public struct CreateStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group from the AWS SSO Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
         public let identityId: String?
-        /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user or group. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
         public let identityName: String?
         /// Specifies whether the identity to map to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType
-        /// The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. Session policies refine Studio user permissions without the need to use multiple IAM user roles.
+        /// The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. You should specify the ARN for the session policy that you want to apply, not the ARN of your user role. For more information, see Create an EMR Studio User Role with Session Policies.
         public let sessionPolicyArn: String
         /// The ID of the Amazon EMR Studio to which the user or group will be mapped.
         public let studioId: String
@@ -1317,9 +1330,9 @@ extension EMR {
     }
 
     public struct DeleteStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the Amazon Web Services SSO Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
         /// Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType
@@ -1454,6 +1467,53 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case notebookExecution = "NotebookExecution"
+        }
+    }
+
+    public struct DescribeReleaseLabelInput: AWSEncodableShape {
+        /// Reserved for future use. Currently set to null.
+        public let maxResults: Int?
+        /// The pagination token. Reserved for future use. Currently set to null.
+        public let nextToken: String?
+        /// The target release label to be described.
+        public let releaseLabel: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, releaseLabel: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.releaseLabel = releaseLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case releaseLabel = "ReleaseLabel"
+        }
+    }
+
+    public struct DescribeReleaseLabelOutput: AWSDecodableShape {
+        /// The list of applications available for the target release label. Name is the name of the application. Version is the concise version of the application.
+        public let applications: [SimplifiedApplication]?
+        /// The pagination token. Reserved for future use. Currently set to null.
+        public let nextToken: String?
+        /// The target release label described in the response.
+        public let releaseLabel: String?
+
+        public init(applications: [SimplifiedApplication]? = nil, nextToken: String? = nil, releaseLabel: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+            self.releaseLabel = releaseLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
+            case nextToken = "NextToken"
+            case releaseLabel = "ReleaseLabel"
         }
     }
 
@@ -1731,6 +1791,32 @@ extension EMR {
         }
     }
 
+    public struct GetAutoTerminationPolicyInput: AWSEncodableShape {
+        /// Specifies the ID of the Amazon EMR cluster for which the auto-termination policy will be fetched.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct GetAutoTerminationPolicyOutput: AWSDecodableShape {
+        /// Specifies the auto-termination policy that is attached to an Amazon EMR cluster.
+        public let autoTerminationPolicy: AutoTerminationPolicy?
+
+        public init(autoTerminationPolicy: AutoTerminationPolicy? = nil) {
+            self.autoTerminationPolicy = autoTerminationPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoTerminationPolicy = "AutoTerminationPolicy"
+        }
+    }
+
     public struct GetBlockPublicAccessConfigurationInput: AWSEncodableShape {
         public init() {}
     }
@@ -1738,7 +1824,7 @@ extension EMR {
     public struct GetBlockPublicAccessConfigurationOutput: AWSDecodableShape {
         /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region.
         public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
-        /// Properties that describe the AWS principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
+        /// Properties that describe the Amazon Web Services principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
         public let blockPublicAccessConfigurationMetadata: BlockPublicAccessConfigurationMetadata
 
         public init(blockPublicAccessConfiguration: BlockPublicAccessConfiguration, blockPublicAccessConfigurationMetadata: BlockPublicAccessConfigurationMetadata) {
@@ -1779,9 +1865,9 @@ extension EMR {
     }
 
     public struct GetStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user or group to fetch. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user or group to fetch. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
         /// Specifies whether the identity to fetch is a user or a group.
         public let identityType: IdentityType
@@ -1896,7 +1982,7 @@ extension EMR {
     }
 
     public struct Instance: AWSDecodableShape {
-        /// The list of EBS volumes that are attached to this instance.
+        /// The list of Amazon EBS volumes that are attached to this instance.
         public let ebsVolumes: [EbsVolume]?
         /// The unique identifier of the instance in Amazon EC2.
         public let ec2InstanceId: String?
@@ -1957,7 +2043,7 @@ extension EMR {
         public let id: String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK.
         public let instanceFleetType: InstanceFleetType?
-        /// The specification for the instance types that comprise an instance fleet. Up to five unique instance specifications may be defined for each instance fleet.
+        /// An array of specifications for the instance types that comprise an instance fleet.
         public let instanceTypeSpecifications: [InstanceTypeSpecification]?
         /// Describes the launch specification for an instance fleet.
         public let launchSpecifications: InstanceFleetProvisioningSpecifications?
@@ -2158,10 +2244,12 @@ extension EMR {
         public let autoScalingPolicy: AutoScalingPolicyDescription?
         /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
-        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
+        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
         /// The version number of the requested configuration specification for this instance group.
         public let configurationsVersion: Int64?
+        /// The custom AMI ID to use for the provisioned instance group.
+        public let customAmiId: String?
         /// The EBS block devices that are mapped to this instance group.
         public let ebsBlockDevices: [EbsBlockDevice]?
         /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance uses an optimized configuration stack and provides additional, dedicated capacity for Amazon EBS I/O.
@@ -2189,11 +2277,12 @@ extension EMR {
         /// The current status of the instance group.
         public let status: InstanceGroupStatus?
 
-        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, configurationsVersion: Int64? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, lastSuccessfullyAppliedConfigurations: [Configuration]? = nil, lastSuccessfullyAppliedConfigurationsVersion: Int64? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int? = nil, runningInstanceCount: Int? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
+        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, configurationsVersion: Int64? = nil, customAmiId: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, lastSuccessfullyAppliedConfigurations: [Configuration]? = nil, lastSuccessfullyAppliedConfigurationsVersion: Int64? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int? = nil, runningInstanceCount: Int? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
             self.configurationsVersion = configurationsVersion
+            self.customAmiId = customAmiId
             self.ebsBlockDevices = ebsBlockDevices
             self.ebsOptimized = ebsOptimized
             self.id = id
@@ -2214,6 +2303,7 @@ extension EMR {
             case bidPrice = "BidPrice"
             case configurations = "Configurations"
             case configurationsVersion = "ConfigurationsVersion"
+            case customAmiId = "CustomAmiId"
             case ebsBlockDevices = "EbsBlockDevices"
             case ebsOptimized = "EbsOptimized"
             case id = "Id"
@@ -2237,6 +2327,8 @@ extension EMR {
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
+        /// The custom AMI ID to use for the provisioned instance group.
+        public let customAmiId: String?
         /// EBS configurations that will be attached to each EC2 instance in the instance group.
         public let ebsConfiguration: EbsConfiguration?
         /// Target number of instances for the instance group.
@@ -2250,10 +2342,11 @@ extension EMR {
         /// Friendly name given to the instance group.
         public let name: String?
 
-        public init(autoScalingPolicy: AutoScalingPolicy? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceCount: Int, instanceRole: InstanceRoleType, instanceType: String, market: MarketType? = nil, name: String? = nil) {
+        public init(autoScalingPolicy: AutoScalingPolicy? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceCount: Int, instanceRole: InstanceRoleType, instanceType: String, market: MarketType? = nil, name: String? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
+            self.customAmiId = customAmiId
             self.ebsConfiguration = ebsConfiguration
             self.instanceCount = instanceCount
             self.instanceRole = instanceRole
@@ -2267,6 +2360,9 @@ extension EMR {
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, max: 256)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, min: 0)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.customAmiId, name: "customAmiId", parent: name, max: 256)
+            try self.validate(self.customAmiId, name: "customAmiId", parent: name, min: 0)
+            try self.validate(self.customAmiId, name: "customAmiId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2279,6 +2375,7 @@ extension EMR {
             case autoScalingPolicy = "AutoScalingPolicy"
             case bidPrice = "BidPrice"
             case configurations = "Configurations"
+            case customAmiId = "CustomAmiId"
             case ebsConfiguration = "EbsConfiguration"
             case instanceCount = "InstanceCount"
             case instanceRole = "InstanceRole"
@@ -2293,6 +2390,8 @@ extension EMR {
         public let bidPrice: String?
         /// The date/time the instance group was created.
         public let creationDateTime: Date
+        /// The custom AMI ID to use for the provisioned instance group.
+        public let customAmiId: String?
         /// The date/time the instance group was terminated.
         public let endDateTime: Date?
         /// Unique identifier for the instance group.
@@ -2318,9 +2417,10 @@ extension EMR {
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
         public let state: InstanceGroupState
 
-        public init(bidPrice: String? = nil, creationDateTime: Date, endDateTime: Date? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int, instanceRole: InstanceRoleType, instanceRunningCount: Int, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: Date? = nil, startDateTime: Date? = nil, state: InstanceGroupState) {
+        public init(bidPrice: String? = nil, creationDateTime: Date, customAmiId: String? = nil, endDateTime: Date? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int, instanceRole: InstanceRoleType, instanceRunningCount: Int, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: Date? = nil, startDateTime: Date? = nil, state: InstanceGroupState) {
             self.bidPrice = bidPrice
             self.creationDateTime = creationDateTime
+            self.customAmiId = customAmiId
             self.endDateTime = endDateTime
             self.instanceGroupId = instanceGroupId
             self.instanceRequestCount = instanceRequestCount
@@ -2338,6 +2438,7 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case bidPrice = "BidPrice"
             case creationDateTime = "CreationDateTime"
+            case customAmiId = "CustomAmiId"
             case endDateTime = "EndDateTime"
             case instanceGroupId = "InstanceGroupId"
             case instanceRequestCount = "InstanceRequestCount"
@@ -2534,17 +2635,20 @@ extension EMR {
         public let bidPriceAsPercentageOfOnDemandPrice: Double?
         /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster.
         public let configurations: [Configuration]?
-        /// The configuration of Amazon Elastic Block Storage (Amazon EBS) attached to each instance as defined by InstanceType.
+        /// The custom AMI ID to use for the instance type.
+        public let customAmiId: String?
+        /// The configuration of Amazon Elastic Block Store (Amazon EBS) attached to each instance as defined by InstanceType.
         public let ebsConfiguration: EbsConfiguration?
         /// An EC2 instance type, such as m3.xlarge.
         public let instanceType: String
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified.
         public let weightedCapacity: Int?
 
-        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String, weightedCapacity: Int? = nil) {
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String, weightedCapacity: Int? = nil) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
+            self.customAmiId = customAmiId
             self.ebsConfiguration = ebsConfiguration
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
@@ -2555,6 +2659,9 @@ extension EMR {
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, min: 0)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.bidPriceAsPercentageOfOnDemandPrice, name: "bidPriceAsPercentageOfOnDemandPrice", parent: name, min: 0)
+            try self.validate(self.customAmiId, name: "customAmiId", parent: name, max: 256)
+            try self.validate(self.customAmiId, name: "customAmiId", parent: name, min: 0)
+            try self.validate(self.customAmiId, name: "customAmiId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2565,6 +2672,7 @@ extension EMR {
             case bidPrice = "BidPrice"
             case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
             case configurations = "Configurations"
+            case customAmiId = "CustomAmiId"
             case ebsConfiguration = "EbsConfiguration"
             case instanceType = "InstanceType"
             case weightedCapacity = "WeightedCapacity"
@@ -2578,7 +2686,9 @@ extension EMR {
         public let bidPriceAsPercentageOfOnDemandPrice: Double?
         /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR.
         public let configurations: [Configuration]?
-        /// The configuration of Amazon Elastic Block Storage (Amazon EBS) attached to each instance as defined by InstanceType.
+        /// The custom AMI ID to use for the instance type.
+        public let customAmiId: String?
+        /// The configuration of Amazon Elastic Block Store (Amazon EBS) attached to each instance as defined by InstanceType.
         public let ebsBlockDevices: [EbsBlockDevice]?
         /// Evaluates to TRUE when the specified InstanceType is EBS-optimized.
         public let ebsOptimized: Bool?
@@ -2587,10 +2697,11 @@ extension EMR {
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
         public let weightedCapacity: Int?
 
-        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, weightedCapacity: Int? = nil) {
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, weightedCapacity: Int? = nil) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
+            self.customAmiId = customAmiId
             self.ebsBlockDevices = ebsBlockDevices
             self.ebsOptimized = ebsOptimized
             self.instanceType = instanceType
@@ -2601,6 +2712,7 @@ extension EMR {
             case bidPrice = "BidPrice"
             case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
             case configurations = "Configurations"
+            case customAmiId = "CustomAmiId"
             case ebsBlockDevices = "EbsBlockDevices"
             case ebsOptimized = "EbsOptimized"
             case instanceType = "InstanceType"
@@ -2623,7 +2735,7 @@ extension EMR {
         public let jobFlowId: String
         /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
         public let jobFlowRole: String?
-        /// The AWS KMS customer master key (CMK) used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+        /// The KMS key used for encrypting log files. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
         public let logEncryptionKmsKeyId: String?
         /// The location in Amazon S3 where log files for the job are stored.
         public let logUri: String?
@@ -2631,13 +2743,13 @@ extension EMR {
         public let name: String
         /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
         public let scaleDownBehavior: ScaleDownBehavior?
-        /// The IAM role that is assumed by the Amazon EMR service to access AWS resources on your behalf.
+        /// The IAM role that is assumed by the Amazon EMR service to access Amazon Web Services resources on your behalf.
         public let serviceRole: String?
         /// A list of steps run by the job flow.
         public let steps: [StepDetail]?
         /// A list of strings set by third-party software when the job flow is launched. If you are not using third-party software to manage the job flow, this value is empty.
         public let supportedProducts: [String]?
-        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
+        /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the EMR API RunJobFlow command, the CLI create-cluster command, or the Amazon Web Services Management Console. IAM principals that are authorized to perform actions on the cluster can use the SetVisibleToAllUsers action to change the value on a running cluster. For more information, see Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
         public let visibleToAllUsers: Bool?
 
         public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
@@ -2721,9 +2833,9 @@ extension EMR {
         public let ec2SubnetId: String?
         /// Applies to clusters that use the instance fleet configuration. When multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
         public let ec2SubnetIds: [String]?
-        /// The identifier of the Amazon EC2 security group for the master node.
+        /// The identifier of the Amazon EC2 security group for the master node. If you specify EmrManagedMasterSecurityGroup, you must also specify EmrManagedSlaveSecurityGroup.
         public let emrManagedMasterSecurityGroup: String?
-        /// The identifier of the Amazon EC2 security group for the core and task nodes.
+        /// The identifier of the Amazon EC2 security group for the core and task nodes. If you specify EmrManagedSlaveSecurityGroup, you must also specify EmrManagedMasterSecurityGroup.
         public let emrManagedSlaveSecurityGroup: String?
         /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for the cluster. Valid inputs are "0.18" (no longer maintained), "0.20" (no longer maintained), "0.20.205" (no longer maintained), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
         public let hadoopVersion: String?
@@ -2733,7 +2845,7 @@ extension EMR {
         public let instanceFleets: [InstanceFleetConfig]?
         /// Configuration for the instance groups in a cluster.
         public let instanceGroups: [InstanceGroupConfig]?
-        /// Specifies whether the cluster should remain available after completing all steps.
+        /// Specifies whether the cluster should remain available after completing all steps. Defaults to true. For more information about configuring cluster termination, see Control Cluster Termination in the EMR Management Guide.
         public let keepJobFlowAliveWhenNoSteps: Bool?
         /// The EC2 instance type of the master node.
         public let masterInstanceType: String?
@@ -3005,7 +3117,7 @@ extension EMR {
     }
 
     public struct ListClustersInput: AWSEncodableShape {
-        /// The cluster state filters to apply when listing clusters.
+        /// The cluster state filters to apply when listing clusters. Clusters that change state while this action runs may be not be returned as expected in the list of clusters.
         public let clusterStates: [ClusterState]?
         /// The creation date and time beginning value filter for listing clusters.
         public let createdAfter: Date?
@@ -3220,6 +3332,49 @@ extension EMR {
         }
     }
 
+    public struct ListReleaseLabelsInput: AWSEncodableShape {
+        /// Filters the results of the request. Prefix specifies the prefix of release labels to return. Application specifies the application (with/without version) of release labels to return.
+        public let filters: ReleaseLabelFilter?
+        /// Defines the maximum number of release labels to return in a single response. The default is 100.
+        public let maxResults: Int?
+        /// Specifies the next page of results. If NextToken is not specified, which is usually the case for the first request of ListReleaseLabels, the first page of results are determined by other filtering parameters or by the latest version. The ListReleaseLabels request fails if the identity (Amazon Web Services account ID) and all filtering parameters are different from the original request, or if the NextToken is expired or tampered with.
+        public let nextToken: String?
+
+        public init(filters: ReleaseLabelFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListReleaseLabelsOutput: AWSDecodableShape {
+        /// Used to paginate the next page of results if specified in the next ListReleaseLabels request.
+        public let nextToken: String?
+        /// The returned release labels.
+        public let releaseLabels: [String]?
+
+        public init(nextToken: String? = nil, releaseLabels: [String]? = nil) {
+            self.nextToken = nextToken
+            self.releaseLabels = releaseLabels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case releaseLabels = "ReleaseLabels"
+        }
+    }
+
     public struct ListSecurityConfigurationsInput: AWSEncodableShape {
         /// The pagination token that indicates the set of results to retrieve.
         public let marker: String?
@@ -3253,7 +3408,7 @@ extension EMR {
     public struct ListStepsInput: AWSEncodableShape {
         /// The identifier of the cluster for which to list the steps.
         public let clusterId: String
-        /// The pagination token that indicates the next set of results to retrieve.
+        /// The maximum number of steps that a single ListSteps action returns is 50. To return a longer list of steps, use multiple ListSteps actions along with the Marker parameter, which is a pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character constraint applies to the overall length of the array.
         public let stepIds: [String]?
@@ -3284,7 +3439,7 @@ extension EMR {
     }
 
     public struct ListStepsOutput: AWSDecodableShape {
-        /// The pagination token that indicates the next set of results to retrieve.
+        /// The maximum number of steps that a single ListSteps action returns is 50. To return a longer list of steps, use multiple ListSteps actions along with the Marker parameter, which is a pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The filtered list of steps for the cluster.
         public let steps: [StepSummary]?
@@ -3407,7 +3562,7 @@ extension EMR {
     public struct ModifyClusterInput: AWSEncodableShape {
         /// The unique identifier of the cluster.
         public let clusterId: String
-        /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps.
+        /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change this parameter while steps are running or the ActionOnFailure setting may not behave as expected. For more information see Step$ActionOnFailure.
         public let stepConcurrencyLevel: Int?
 
         public init(clusterId: String, stepConcurrencyLevel: Int? = nil) {
@@ -3437,7 +3592,7 @@ extension EMR {
     public struct ModifyInstanceFleetInput: AWSEncodableShape {
         /// The unique identifier of the cluster.
         public let clusterId: String
-        /// The unique identifier of the instance fleet.
+        /// The configuration parameters of the instance fleet.
         public let instanceFleet: InstanceFleetModifyConfig
 
         public init(clusterId: String, instanceFleet: InstanceFleetModifyConfig) {
@@ -3577,7 +3732,7 @@ extension EMR {
         public let capacityReservationPreference: OnDemandCapacityReservationPreference?
         /// The ARN of the Capacity Reservation resource group in which to run the instance.
         public let capacityReservationResourceGroupArn: String?
-        /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
+        /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price). If you do not specify a value, the fleet fulfills the On-Demand capacity according to the chosen On-Demand allocation strategy.
         public let usageStrategy: OnDemandCapacityReservationUsageStrategy?
 
         public init(capacityReservationPreference: OnDemandCapacityReservationPreference? = nil, capacityReservationResourceGroupArn: String? = nil, usageStrategy: OnDemandCapacityReservationUsageStrategy? = nil) {
@@ -3739,6 +3894,27 @@ extension EMR {
         }
     }
 
+    public struct PutAutoTerminationPolicyInput: AWSEncodableShape {
+        /// Specifies the auto-termination policy to attach to the cluster.
+        public let autoTerminationPolicy: AutoTerminationPolicy?
+        /// Specifies the ID of the Amazon EMR cluster to which the auto-termination policy will be attached.
+        public let clusterId: String
+
+        public init(autoTerminationPolicy: AutoTerminationPolicy? = nil, clusterId: String) {
+            self.autoTerminationPolicy = autoTerminationPolicy
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoTerminationPolicy = "AutoTerminationPolicy"
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct PutAutoTerminationPolicyOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutBlockPublicAccessConfigurationInput: AWSEncodableShape {
         /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region.
         public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
@@ -3781,6 +3957,23 @@ extension EMR {
         public init() {}
     }
 
+    public struct ReleaseLabelFilter: AWSEncodableShape {
+        /// Optional release label application filter. For example, spark@2.1.0.
+        public let application: String?
+        /// Optional release label version prefix filter. For example, emr-5.
+        public let prefix: String?
+
+        public init(application: String? = nil, prefix: String? = nil) {
+            self.application = application
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "Application"
+            case prefix = "Prefix"
+        }
+    }
+
     public struct RemoveAutoScalingPolicyInput: AWSEncodableShape {
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
         public let clusterId: String
@@ -3799,6 +3992,23 @@ extension EMR {
     }
 
     public struct RemoveAutoScalingPolicyOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RemoveAutoTerminationPolicyInput: AWSEncodableShape {
+        /// Specifies the ID of the Amazon EMR cluster from which the auto-termination policy will be removed.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct RemoveAutoTerminationPolicyOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -3849,6 +4059,7 @@ extension EMR {
         public let applications: [Application]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
         public let autoScalingRole: String?
+        public let autoTerminationPolicy: AutoTerminationPolicy?
         /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
         public let bootstrapActions: [BootstrapActionConfig]?
         /// For Amazon EMR releases 4.0 and later. The list of configurations supplied for the EMR cluster you are creating.
@@ -3863,7 +4074,7 @@ extension EMR {
         public let jobFlowRole: String?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the Amazon EMR Management Guide.
         public let kerberosAttributes: KerberosAttributes?
-        /// The AWS KMS customer master key (CMK) used for encrypting log files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is only available with Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
+        /// The KMS key used for encrypting log files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is only available with Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
         public let logEncryptionKmsKeyId: String?
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
         public let logUri: String?
@@ -3883,7 +4094,7 @@ extension EMR {
         public let scaleDownBehavior: ScaleDownBehavior?
         /// The name of a security configuration to apply to the cluster.
         public let securityConfiguration: String?
-        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
+        /// The IAM role that will be assumed by the Amazon EMR service to access Amazon Web Services resources on your behalf.
         public let serviceRole: String?
         /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
         public let stepConcurrencyLevel: Int?
@@ -3893,14 +4104,15 @@ extension EMR {
         public let supportedProducts: [String]?
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
         public let tags: [Tag]?
-        /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
+        /// Set this value to true so that IAM principals in the Amazon Web Services account associated with the cluster can perform EMR actions on the cluster that their IAM policies allow. This value defaults to true for clusters created using the EMR API or the CLI create-cluster command. When set to false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions for the cluster, regardless of the IAM permissions policies attached to other IAM principals. For more information, see Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
             self.autoScalingRole = autoScalingRole
+            self.autoTerminationPolicy = autoTerminationPolicy
             self.bootstrapActions = bootstrapActions
             self.configurations = configurations
             self.customAmiId = customAmiId
@@ -3983,6 +4195,7 @@ extension EMR {
             case amiVersion = "AmiVersion"
             case applications = "Applications"
             case autoScalingRole = "AutoScalingRole"
+            case autoTerminationPolicy = "AutoTerminationPolicy"
             case bootstrapActions = "BootstrapActions"
             case configurations = "Configurations"
             case customAmiId = "CustomAmiId"
@@ -4109,7 +4322,7 @@ extension EMR {
     public struct ScriptBootstrapActionConfig: AWSEncodableShape & AWSDecodableShape {
         /// A list of command line arguments to pass to the bootstrap action script.
         public let args: [String]?
-        /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
+        /// Location in Amazon S3 of the script to run during a bootstrap action.
         public let path: String
 
         public init(args: [String]? = nil, path: String) {
@@ -4156,7 +4369,7 @@ extension EMR {
         public let creationTime: Date?
         /// The globally unique identifier (GUID) of the user or group.
         public let identityId: String?
-        /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference.
+        /// The name of the user or group. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
         public let identityName: String?
         /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType?
@@ -4191,9 +4404,9 @@ extension EMR {
     public struct SessionMappingSummary: AWSDecodableShape {
         /// The time the session mapping was created.
         public let creationTime: Date?
-        /// The globally unique identifier (GUID) of the user or group from the AWS SSO Identity Store.
+        /// The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store.
         public let identityId: String?
-        /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference.
+        /// The name of the user or group. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
         public let identityName: String?
         /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType?
@@ -4249,7 +4462,7 @@ extension EMR {
     public struct SetVisibleToAllUsersInput: AWSEncodableShape {
         /// The unique identifier of the job flow (cluster).
         public let jobFlowIds: [String]
-        /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
+        /// A value of true indicates that an IAM principal in the Amazon Web Services account can perform EMR actions on the cluster that the IAM policies attached to the principal allow. A value of false indicates that only the IAM principal that created the cluster and the Amazon Web Services root user can perform EMR actions on the cluster.
         public let visibleToAllUsers: Bool
 
         public init(jobFlowIds: [String], visibleToAllUsers: Bool) {
@@ -4306,6 +4519,23 @@ extension EMR {
             case adjustmentType = "AdjustmentType"
             case coolDown = "CoolDown"
             case scalingAdjustment = "ScalingAdjustment"
+        }
+    }
+
+    public struct SimplifiedApplication: AWSDecodableShape {
+        /// The returned release label application name. For example, hadoop.
+        public let name: String?
+        /// The returned release label application version. For example, 3.2.1.
+        public let version: String?
+
+        public init(name: String? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
         }
     }
 
@@ -4416,7 +4646,7 @@ extension EMR {
     }
 
     public struct Step: AWSDecodableShape {
-        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
+        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead. If a cluster's StepConcurrencyLevel is greater than 1, do not use AddJobFlowSteps to submit a step with this parameter set to CANCEL_AND_WAIT or TERMINATE_CLUSTER. The step is not submitted and the action fails with a message that the ActionOnFailure setting is not valid. If you change a cluster's StepConcurrencyLevel to be greater than 1 while a step is running, the ActionOnFailure parameter may not behave as you expect. In this case, for a step that fails with this parameter set to CANCEL_AND_WAIT, pending steps and the running step are not canceled; for a step that fails with this parameter set to TERMINATE_CLUSTER, the cluster does not terminate.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
@@ -4445,7 +4675,7 @@ extension EMR {
     }
 
     public struct StepConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
+        /// The action to take when the step fails. Use one of the following values:    TERMINATE_CLUSTER - Shuts down the cluster.    CANCEL_AND_WAIT - Cancels any pending steps and returns the cluster to the WAITING state.    CONTINUE - Continues to the next step in the queue.    TERMINATE_JOB_FLOW - Shuts down the cluster. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.   If a cluster's StepConcurrencyLevel is greater than 1, do not use AddJobFlowSteps to submit a step with this parameter set to CANCEL_AND_WAIT or TERMINATE_CLUSTER. The step is not submitted and the action fails with a message that the ActionOnFailure setting is not valid. If you change a cluster's StepConcurrencyLevel to be greater than 1 while a step is running, the ActionOnFailure parameter may not behave as you expect. In this case, for a step that fails with this parameter set to CANCEL_AND_WAIT, pending steps and the running step are not canceled; for a step that fails with this parameter set to TERMINATE_CLUSTER, the cluster does not terminate.
         public let actionOnFailure: ActionOnFailure?
         /// The JAR file used for the step.
         public let hadoopJarStep: HadoopJarStepConfig
@@ -4561,7 +4791,7 @@ extension EMR {
     }
 
     public struct StepSummary: AWSDecodableShape {
-        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
+        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward compatibility.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
@@ -4842,9 +5072,9 @@ extension EMR {
     }
 
     public struct UpdateStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user or group to update. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user or group to update. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
         /// Specifies whether the identity to update is a user or a group.
         public let identityType: IdentityType

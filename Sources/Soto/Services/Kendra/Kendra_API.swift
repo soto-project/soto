@@ -238,7 +238,7 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "StopDataSourceSyncJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables you to provide feedback to Amazon Kendra to improve the performance of the service.
+    /// Enables you to provide feedback to Amazon Kendra to improve the performance of your index.
     @discardableResult public func submitFeedback(_ input: SubmitFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "SubmitFeedback", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

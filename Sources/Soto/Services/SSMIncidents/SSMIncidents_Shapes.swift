@@ -333,8 +333,8 @@ extension SSMIncidents {
 
     public struct CreateTimelineEventInput: AWSEncodableShape {
         /// A token ensuring that the action is called only once with the specified details.
-        public let clientToken: String
-        /// A short description of the event.
+        public let clientToken: String?
+        /// A valid JSON string. There is no other schema imposed. A short description of the event.
         public let eventData: String
         /// The time that the event occurred.
         public let eventTime: Date
@@ -343,7 +343,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident record you are adding the event to.
         public let incidentRecordArn: String
 
-        public init(clientToken: String = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventTime: Date, eventType: String, incidentRecordArn: String) {
+        public init(clientToken: String? = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventTime: Date, eventType: String, incidentRecordArn: String) {
             self.clientToken = clientToken
             self.eventData = eventData
             self.eventTime = eventTime
@@ -828,7 +828,7 @@ extension SSMIncidents {
         public let lastModifiedBy: String
         /// The time at which the incident was most recently modified.
         public let lastModifiedTime: Date
-        /// The SNS targets that AWS Chatbot uses to notify the chat channels and perform actions on the incident record.
+        /// The SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The time at which the incident was resolved. This appears as a timeline event.
         public let resolvedTime: Date?
@@ -941,7 +941,7 @@ extension SSMIncidents {
         public let dedupeString: String?
         /// The impact of the incident on your customers and applications.
         public let impact: Int
-        /// The SNS targets that AWS Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel using the SNS topics.
+        /// The SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The summary of the incident. The summary is a brief synopsis of what occurred, what's currently happening, and context.
         public let summary: String?
@@ -1452,6 +1452,8 @@ extension SSMIncidents {
     }
 
     public struct ReplicationSet: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the replication set.
+        public let arn: String?
         /// Details about who created the replication set.
         public let createdBy: String
         /// When the replication set was created.
@@ -1467,7 +1469,8 @@ extension SSMIncidents {
         /// The status of the replication set. If the replication set is still pending, you can't use Incident Manager functionality.
         public let status: ReplicationSetStatus
 
-        public init(createdBy: String, createdTime: Date, deletionProtected: Bool, lastModifiedBy: String, lastModifiedTime: Date, regionMap: [String: RegionInfo], status: ReplicationSetStatus) {
+        public init(arn: String? = nil, createdBy: String, createdTime: Date, deletionProtected: Bool, lastModifiedBy: String, lastModifiedTime: Date, regionMap: [String: RegionInfo], status: ReplicationSetStatus) {
+            self.arn = arn
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.deletionProtected = deletionProtected
@@ -1478,6 +1481,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn
             case createdBy
             case createdTime
             case deletionProtected
@@ -1816,7 +1820,7 @@ extension SSMIncidents {
         public let clientToken: String?
         /// Defines the impact to customers and applications. Providing an impact overwrites the impact provided by the response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
         public let impact: Int?
-        /// The SNS targets that AWS Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel using the SNS topics.  Using multiple SNS topics creates redundancy in the case that a Region is down during the incident.
+        /// The SNS targets that are notified when updates are made to an incident. Using multiple SNS topics creates redundancy in the case that a Region is down during the incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The status of the incident. An incident can be Open or Resolved.
         public let status: IncidentRecordStatus?
@@ -1971,7 +1975,7 @@ extension SSMIncidents {
         public let actions: [Action]?
         /// The Amazon Resource Name (ARN) of the response plan.
         public let arn: String
-        /// The AWS Chatbot chat channel used for collaboration during an incident.
+        /// The AWS Chatbot chat channel used for collaboration during an incident. Use the empty structure to remove the chat channel from the response plan.
         public let chatChannel: ChatChannel?
         /// A token ensuring that the action is called only once with the specified details.
         public let clientToken: String?
@@ -1983,7 +1987,7 @@ extension SSMIncidents {
         public let incidentTemplateDedupeString: String?
         /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact    4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
         public let incidentTemplateImpact: Int?
-        /// The SNS targets that AWS Chatbot uses to notify the chat channels and perform actions on the incident record.
+        /// The SNS targets that are notified when updates are made to an incident.
         public let incidentTemplateNotificationTargets: [NotificationTargetItem]?
         /// A brief summary of the incident. This typically contains what has happened, what's currently happening, and next steps.
         public let incidentTemplateSummary: String?
@@ -2061,7 +2065,7 @@ extension SSMIncidents {
 
     public struct UpdateTimelineEventInput: AWSEncodableShape {
         /// A token ensuring that the action is called only once with the specified details.
-        public let clientToken: String
+        public let clientToken: String?
         /// A short description of the event.
         public let eventData: String?
         /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
@@ -2073,7 +2077,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that the timeline event is part of.
         public let incidentRecordArn: String
 
-        public init(clientToken: String = UpdateTimelineEventInput.idempotencyToken(), eventData: String? = nil, eventId: String, eventTime: Date? = nil, eventType: String? = nil, incidentRecordArn: String) {
+        public init(clientToken: String? = UpdateTimelineEventInput.idempotencyToken(), eventData: String? = nil, eventId: String, eventTime: Date? = nil, eventType: String? = nil, incidentRecordArn: String) {
             self.clientToken = clientToken
             self.eventData = eventData
             self.eventId = eventId

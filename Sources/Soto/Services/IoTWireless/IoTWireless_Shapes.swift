@@ -93,6 +93,7 @@ extension IoTWireless {
 
     public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable {
         case deveui = "DevEui"
+        case sidewalkmanufacturingsn = "SidewalkManufacturingSn"
         case thingname = "ThingName"
         case wirelessdeviceid = "WirelessDeviceId"
         public var description: String { return self.rawValue }
@@ -1243,7 +1244,7 @@ extension IoTWireless {
         ]
 
         public let resourceIdentifier: String
-        /// The type of the resource, currently support WirelessDevice and WirelessGateway.
+        /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
 
         public init(resourceIdentifier: String, resourceType: String) {
@@ -2648,7 +2649,7 @@ extension IoTWireless {
 
         public let logLevel: LogLevel
         public let resourceIdentifier: String
-        /// The type of the resource, currently support WirelessDevice and WirelessGateway.
+        /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
 
         public init(logLevel: LogLevel, resourceIdentifier: String, resourceType: String) {
@@ -2685,7 +2686,7 @@ extension IoTWireless {
         ]
 
         public let resourceIdentifier: String
-        /// The type of the resource, currently support WirelessDevice and WirelessGateway.
+        /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
 
         public init(resourceIdentifier: String, resourceType: String) {
@@ -2711,7 +2712,7 @@ extension IoTWireless {
 
         /// The ID of the wireless device to receive the data.
         public let id: String
-        /// The message payload to send.
+        /// The binary to be sent to the end device, encoded in base64.
         public let payloadData: String
         /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
         public let transmitMode: Int
@@ -2875,6 +2876,7 @@ extension IoTWireless {
     }
 
     public struct SidewalkDevice: AWSDecodableShape {
+        public let amazonId: String?
         /// The sidewalk device certificates for Ed25519 and P256r1.
         public let deviceCertificates: [CertificateList]?
         /// The sidewalk device identification.
@@ -2882,13 +2884,15 @@ extension IoTWireless {
         /// The Sidewalk manufacturing series number.
         public let sidewalkManufacturingSn: String?
 
-        public init(deviceCertificates: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil) {
+        public init(amazonId: String? = nil, deviceCertificates: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil) {
+            self.amazonId = amazonId
             self.deviceCertificates = deviceCertificates
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonId = "AmazonId"
             case deviceCertificates = "DeviceCertificates"
             case sidewalkId = "SidewalkId"
             case sidewalkManufacturingSn = "SidewalkManufacturingSn"

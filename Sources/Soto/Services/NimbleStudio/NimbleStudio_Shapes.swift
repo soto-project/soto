@@ -471,14 +471,16 @@ extension NimbleStudio {
         public let clientToken: String?
         public let ec2InstanceType: StreamingInstanceType?
         public let launchProfileId: String?
+        public let ownedBy: String?
         public let streamingImageId: String?
         public let studioId: String
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateStreamingSessionRequest.idempotencyToken(), ec2InstanceType: StreamingInstanceType? = nil, launchProfileId: String? = nil, streamingImageId: String? = nil, studioId: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateStreamingSessionRequest.idempotencyToken(), ec2InstanceType: StreamingInstanceType? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, streamingImageId: String? = nil, studioId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.ec2InstanceType = ec2InstanceType
             self.launchProfileId = launchProfileId
+            self.ownedBy = ownedBy
             self.streamingImageId = streamingImageId
             self.studioId = studioId
             self.tags = tags
@@ -494,6 +496,7 @@ extension NimbleStudio {
         private enum CodingKeys: String, CodingKey {
             case ec2InstanceType
             case launchProfileId
+            case ownedBy
             case streamingImageId
             case tags
         }
@@ -1679,18 +1682,21 @@ extension NimbleStudio {
         public static var _encoding = [
             AWSMemberEncoding(label: "createdBy", location: .querystring(locationName: "createdBy")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "ownedBy", location: .querystring(locationName: "ownedBy")),
             AWSMemberEncoding(label: "sessionIds", location: .querystring(locationName: "sessionIds")),
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
         public let createdBy: String?
         public let nextToken: String?
+        public let ownedBy: String?
         public let sessionIds: String?
         public let studioId: String
 
-        public init(createdBy: String? = nil, nextToken: String? = nil, sessionIds: String? = nil, studioId: String) {
+        public init(createdBy: String? = nil, nextToken: String? = nil, ownedBy: String? = nil, sessionIds: String? = nil, studioId: String) {
             self.createdBy = createdBy
             self.nextToken = nextToken
+            self.ownedBy = ownedBy
             self.sessionIds = sessionIds
             self.studioId = studioId
         }
@@ -1909,6 +1915,7 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.members, name: "members", parent: name, max: 20)
+            try self.validate(self.members, name: "members", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1943,6 +1950,7 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.members, name: "members", parent: name, max: 20)
+            try self.validate(self.members, name: "members", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2166,6 +2174,7 @@ extension NimbleStudio {
         public let createdBy: String?
         public let ec2InstanceType: String?
         public let launchProfileId: String?
+        public let ownedBy: String?
         public let sessionId: String?
         public let state: StreamingSessionState?
         public let statusCode: StreamingSessionStatusCode?
@@ -2178,12 +2187,13 @@ extension NimbleStudio {
         public var updatedAt: Date?
         public let updatedBy: String?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, sessionId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.ec2InstanceType = ec2InstanceType
             self.launchProfileId = launchProfileId
+            self.ownedBy = ownedBy
             self.sessionId = sessionId
             self.state = state
             self.statusCode = statusCode
@@ -2201,6 +2211,7 @@ extension NimbleStudio {
             case createdBy
             case ec2InstanceType
             case launchProfileId
+            case ownedBy
             case sessionId
             case state
             case statusCode
@@ -2219,15 +2230,17 @@ extension NimbleStudio {
         public let createdBy: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expiresAt: Date?
+        public let ownedBy: String?
         public let state: StreamingSessionStreamState?
         public let statusCode: StreamingSessionStreamStatusCode?
         public let streamId: String?
         public let url: String?
 
-        public init(createdAt: Date? = nil, createdBy: String? = nil, expiresAt: Date? = nil, state: StreamingSessionStreamState? = nil, statusCode: StreamingSessionStreamStatusCode? = nil, streamId: String? = nil, url: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, expiresAt: Date? = nil, ownedBy: String? = nil, state: StreamingSessionStreamState? = nil, statusCode: StreamingSessionStreamStatusCode? = nil, streamId: String? = nil, url: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.expiresAt = expiresAt
+            self.ownedBy = ownedBy
             self.state = state
             self.statusCode = statusCode
             self.streamId = streamId
@@ -2238,6 +2251,7 @@ extension NimbleStudio {
             case createdAt
             case createdBy
             case expiresAt
+            case ownedBy
             case state
             case statusCode
             case streamId

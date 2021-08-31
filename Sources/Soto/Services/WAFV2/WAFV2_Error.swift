@@ -21,6 +21,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     enum Code: String {
         case wAFAssociatedItemException = "WAFAssociatedItemException"
         case wAFDuplicateItemException = "WAFDuplicateItemException"
+        case wAFExpiredManagedRuleGroupVersionException = "WAFExpiredManagedRuleGroupVersionException"
         case wAFInternalErrorException = "WAFInternalErrorException"
         case wAFInvalidOperationException = "WAFInvalidOperationException"
         case wAFInvalidParameterException = "WAFInvalidParameterException"
@@ -58,6 +59,8 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wAFAssociatedItemException: Self { .init(.wAFAssociatedItemException) }
     /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
     public static var wAFDuplicateItemException: Self { .init(.wAFDuplicateItemException) }
+    /// The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling ListAvailableManagedRuleGroupVersions.
+    public static var wAFExpiredManagedRuleGroupVersionException: Self { .init(.wAFExpiredManagedRuleGroupVersionException) }
     /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     public static var wAFInternalErrorException: Self { .init(.wAFInternalErrorException) }
     /// The operation isn't valid.
@@ -68,7 +71,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wAFInvalidPermissionPolicyException: Self { .init(.wAFInvalidPermissionPolicyException) }
     /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     public static var wAFInvalidResourceException: Self { .init(.wAFInvalidResourceException) }
-    /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an account. For more information, see Limits in the WAF Developer Guide.
+    /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see WAF quotas in the WAF Developer Guide.
     public static var wAFLimitsExceededException: Self { .init(.wAFLimitsExceededException) }
     /// WAF couldn’t perform the operation because your resource doesn’t exist.
     public static var wAFNonexistentItemException: Self { .init(.wAFNonexistentItemException) }
