@@ -251,7 +251,7 @@ class S3AsyncTests: XCTestCase {
         self.s3Test(bucket: name) {
             await withThrowingTaskGroup(of: String?.self) { group in
                 for index in 1...16 {
-                    group.async {
+                    group.addTask {
                         let body = "testMultipleUpload - " + index.description
                         let filename = "file" + index.description
                         _ = try await Self.s3.putObject(.init(body: .string(body), bucket: name, key: filename))
@@ -287,7 +287,7 @@ class S3AsyncTests: XCTestCase {
                 for index in 1...16 {
                     let body = "testMultipleUpload - " + index.description
                     let filename = "file" + index.description
-                    group.async {
+                    group.addTask {
                         return try await Self.s3.putObject(.init(body: .string(body), bucket: name, key: filename)).eTag
                     }
                 }
