@@ -225,6 +225,10 @@ struct Operation: Decodable {
         var hostPrefix: String
     }
 
+    struct EndpointDiscovery: Decodable {
+        var required: Bool?
+    }
+
     var name: String
     var http: HTTP
     var input: Input?
@@ -237,6 +241,8 @@ struct Operation: Decodable {
     var streaming: Bool
     var documentationUrl: String?
     var endpoint: Endpoint?
+    var endpointDiscovery: EndpointDiscovery?
+    var endpointOperation: Bool?
 
     init(from decoder: Decoder) throws {
         self.eventStream = false
@@ -252,6 +258,8 @@ struct Operation: Decodable {
         self.deprecatedMessage = try container.decodeIfPresent(String.self, forKey: .deprecatedMessage)
         self.documentationUrl = try container.decodeIfPresent(String.self, forKey: .documentationUrl)
         self.endpoint = try container.decodeIfPresent(Endpoint.self, forKey: .endpoint)
+        self.endpointDiscovery = try container.decodeIfPresent(EndpointDiscovery.self, forKey: .endpointDiscovery)
+        self.endpointOperation = try container.decodeIfPresent(Bool.self, forKey: .endpointOperation)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -266,6 +274,8 @@ struct Operation: Decodable {
         case eventStream
         case documentationUrl
         case endpoint
+        case endpointDiscovery = "endpointdiscovery"
+        case endpointOperation = "endpointoperation"
     }
 }
 

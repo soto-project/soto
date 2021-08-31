@@ -21,6 +21,10 @@ public struct {{ name }}: AWSService {
     public let client: AWSClient
     /// Service configuration
     public let config: AWSServiceConfig
+{{#endpointOperation}}
+    /// endpoint storage
+    let endpointStorage: EndpointStorage
+{{/endpointOperation}}
 
     // MARK: Initialization
 
@@ -80,6 +84,9 @@ public struct {{ name }}: AWSService {
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
+{{#endpointOperation}}
+        self.endpointStorage = .init(endpoint: self.config.endpoint)
+{{/endpointOperation}}
     }
 
     // MARK: API Calls
@@ -95,7 +102,7 @@ public struct {{ name }}: AWSService {
     @available(*, deprecated, message:"{{.}}")
 {{/deprecated}}
     {{^outputShape}}@discardableResult {{/outputShape}}public func {{funcName}}({{#inputShape}}_ input: {{.}}, {{/inputShape}}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<{{#outputShape}}{{.}}{{/outputShape}}{{^outputShape}}Void{{/outputShape}}> {
-        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}{{#hostPrefix}}, hostPrefix: "{{{.}}}"{{/hostPrefix}}, logger: logger, on: eventLoop)
+        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}{{#endpointDiscovery}}, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: {{required}}){{/endpointDiscovery}}{{#hostPrefix}}, hostPrefix: "{{{.}}}"{{/hostPrefix}}, logger: logger, on: eventLoop)
     }
 {{/operations}}
 {{#first(streamingOperations)}}
@@ -110,10 +117,20 @@ public struct {{ name }}: AWSService {
     @available(*, deprecated, message:"{{.}}")
 {{/deprecated}}
     {{^outputShape}}@discardableResult {{/outputShape}}public func {{funcName}}Streaming({{#inputShape}}_ input: {{.}}, {{/inputShape}}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil{{#streaming}}, _ stream: @escaping ({{.}}, EventLoop)->EventLoopFuture<Void>{{/streaming}}) -> EventLoopFuture<{{#outputShape}}{{.}}{{/outputShape}}{{^outputShape}}Void{{/outputShape}}> {
-        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}{{#hostPrefix}}, hostPrefix: "{{{.}}}"{{/hostPrefix}}, logger: logger, on: eventLoop{{#streaming}}, stream: stream{{/streaming}})
+        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}{{#endpointDiscovery}}, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: {{required}}){{/endpointDiscovery}}{{#hostPrefix}}, hostPrefix: "{{{.}}}"{{/hostPrefix}}, logger: logger, on: eventLoop{{#streaming}}, stream: stream{{/streaming}})
     }
 {{/streamingOperations}}
 {{/first(streamingOperations)}}
+{{#endpointOperation}}
+
+    func getEndpoint(logger: Logger, eventLoop: EventLoop) -> EventLoopFuture<AWSEndpoints> {
+        return {{.}}(.init(), logger: logger, on: eventLoop).map {
+            .init(endpoints: $0.endpoints.map {
+                .init(address: "https://\($0.address)", cachePeriodInMinutes: $0.cachePeriodInMinutes)
+            })
+        }
+    }
+{{/endpointOperation}}
 }
 
 extension {{ name }} {
@@ -122,5 +139,8 @@ extension {{ name }} {
     public init(from: {{ name }}, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+{{#endpointOperation}}
+        self.endpointStorage = from.endpointStorage
+{{/endpointOperation}}
     }
 }
