@@ -23,7 +23,7 @@ public struct {{ name }}: AWSService {
     public let config: AWSServiceConfig
 {{#endpointOperation}}
     /// endpoint storage
-    let endpointStorage: EndpointStorage
+    let endpointStorage: AWSEndpointStorage
 {{/endpointOperation}}
 
     // MARK: Initialization

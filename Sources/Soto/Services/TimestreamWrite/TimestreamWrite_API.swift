@@ -27,7 +27,7 @@ public struct TimestreamWrite: AWSService {
     /// Service configuration
     public let config: AWSServiceConfig
     /// endpoint storage
-    let endpointStorage: EndpointStorage
+    let endpointStorage: AWSEndpointStorage
 
     // MARK: Initialization
 
