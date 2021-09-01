@@ -64,7 +64,7 @@ public struct AppSyncErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The GraphQL schema is not valid.
     public static var graphQLSchemaException: Self { .init(.graphQLSchemaException) }
-    /// An internal AWS AppSync error occurred. Try your request again.
+    /// An internal AppSync error occurred. Try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// The request exceeded a limit. Try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }

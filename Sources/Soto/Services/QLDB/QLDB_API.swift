@@ -67,7 +67,7 @@ public struct QLDB: AWSService {
         return self.client.execute(operation: "CancelJournalKinesisStream", path: "/ledgers/{name}/journal-kinesis-streams/{streamId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new ledger in your AWS account in the current Region.
+    /// Creates a new ledger in your account in the current Region.
     public func createLedger(_ input: CreateLedgerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLedgerResponse> {
         return self.client.execute(operation: "CreateLedger", path: "/ledgers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -87,7 +87,7 @@ public struct QLDB: AWSService {
         return self.client.execute(operation: "DescribeJournalS3Export", path: "/ledgers/{name}/journal-s3-exports/{exportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a ledger, including its state and when it was created.
+    /// Returns information about a ledger, including its state, permissions mode, encryption at rest settings, and when it was created.
     public func describeLedger(_ input: DescribeLedgerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLedgerResponse> {
         return self.client.execute(operation: "DescribeLedger", path: "/ledgers/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -117,7 +117,7 @@ public struct QLDB: AWSService {
         return self.client.execute(operation: "ListJournalKinesisStreamsForLedger", path: "/ledgers/{name}/journal-kinesis-streams", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see Export job expiration in the Amazon QLDB Developer Guide.
+    /// Returns an array of journal export job descriptions for all ledgers that are associated with the current account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see Export job expiration in the Amazon QLDB Developer Guide.
     public func listJournalS3Exports(_ input: ListJournalS3ExportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJournalS3ExportsResponse> {
         return self.client.execute(operation: "ListJournalS3Exports", path: "/journal-s3-exports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -127,7 +127,7 @@ public struct QLDB: AWSService {
         return self.client.execute(operation: "ListJournalS3ExportsForLedger", path: "/ledgers/{name}/journal-s3-exports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns an array of ledger summaries that are associated with the current AWS account and Region. This action returns a maximum of 100 items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
+    /// Returns an array of ledger summaries that are associated with the current account and Region. This action returns a maximum of 100 items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
     public func listLedgers(_ input: ListLedgersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLedgersResponse> {
         return self.client.execute(operation: "ListLedgers", path: "/ledgers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -178,7 +178,7 @@ extension GreengrassV2 {
         )
     }
 
-    ///  Retrieves a paginated list of AWS IoT Greengrass core devices.
+    ///  Retrieves a paginated list of Greengrass core devices.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension GreengrassV2 {
         )
     }
 
-    ///  Retrieves a paginated list of deployment jobs that AWS IoT Greengrass sends to AWS IoT Greengrass core devices.
+    ///  Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension GreengrassV2 {
         )
     }
 
-    ///  Retrieves a paginated list of the components that a AWS IoT Greengrass core device runs.
+    ///  Retrieves a paginated list of the components that a Greengrass core device runs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

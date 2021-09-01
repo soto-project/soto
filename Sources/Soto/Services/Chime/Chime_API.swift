@@ -392,7 +392,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DescribeAppInstanceAdmin", path: "/app-instances/{appInstanceArn}/admins/{appInstanceAdminArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    ///  Returns the full details of an AppInstanceUser .
+    /// Returns the full details of an AppInstanceUser.
     public func describeAppInstanceUser(_ input: DescribeAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeAppInstanceUser", path: "/app-instance-users/{appInstanceUserArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
@@ -622,7 +622,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListAppInstanceAdmins", path: "/app-instances/{appInstanceArn}/admins", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
 
-    ///  List all AppInstanceUsers created under a single AppInstance.
+    /// List all AppInstanceUsers created under a single AppInstance.
     public func listAppInstanceUsers(_ input: ListAppInstanceUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInstanceUsersResponse> {
         return self.client.execute(operation: "ListAppInstanceUsers", path: "/app-instance-users", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "identity-", logger: logger, on: eventLoop)
     }
@@ -865,6 +865,16 @@ public struct Chime: AWSService {
     /// Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
     public func sendChannelMessage(_ input: SendChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendChannelMessageResponse> {
         return self.client.execute(operation: "SendChannelMessage", path: "/channels/{channelArn}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
+    }
+
+    /// Start transcription for the specified meetingId.
+    public func startMeetingTranscription(_ input: StartMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMeetingTranscriptionResponse> {
+        return self.client.execute(operation: "StartMeetingTranscription", path: "/meetings/{meetingId}/transcription?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops transcription for the specified meetingId.
+    public func stopMeetingTranscription(_ input: StopMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMeetingTranscriptionResponse> {
+        return self.client.execute(operation: "StopMeetingTranscription", path: "/meetings/{meetingId}/transcription?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Applies the specified tags to the specified Amazon Chime SDK attendee.

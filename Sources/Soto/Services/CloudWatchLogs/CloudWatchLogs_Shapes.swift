@@ -87,7 +87,7 @@ extension CloudWatchLogs {
     // MARK: Shapes
 
     public struct AssociateKmsKeyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) and Using Symmetric and Asymmetric Keys.
+        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - Key Management Service and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
         /// The name of the log group.
         public let logGroupName: String
@@ -129,7 +129,7 @@ extension CloudWatchLogs {
     }
 
     public struct CreateExportTaskRequest: AWSEncodableShape {
-        /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
+        /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services region.
         public let destination: String
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
         public let destinationPrefix: String?
@@ -194,11 +194,11 @@ extension CloudWatchLogs {
     }
 
     public struct CreateLogGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
+        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - Key Management Service.
         public let kmsKeyId: String?
         /// The name of the log group.
         public let logGroupName: String
-        /// The key-value pairs to use for the tags.
+        /// The key-value pairs to use for the tags. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to log groups using the aws:Resource/key-name  or aws:TagKeys condition keys. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
         public init(kmsKeyId: String? = nil, logGroupName: String, tags: [String: String]? = nil) {
@@ -886,7 +886,7 @@ extension CloudWatchLogs {
     }
 
     public struct Destination: AWSDecodableShape {
-        /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
+        /// An IAM policy document that governs which Amazon Web Services accounts can create subscription filters against this destination.
         public let accessPolicy: String?
         /// The ARN of this destination.
         public let arn: String?
@@ -1139,9 +1139,9 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
-        /// The token for the next set of items to return. (You received this token from a previous call.) Using this token works only when you specify true for startFromHead.
+        /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using nextToken in this operation, you must specify true for startFromHead.
+        /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead.
         public let startFromHead: Bool?
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
         public let startTime: Int64?
@@ -1500,7 +1500,7 @@ extension CloudWatchLogs {
     public struct MetricTransformation: AWSEncodableShape & AWSDecodableShape {
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
         public let defaultValue: Double?
-        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric.  To help prevent accidental high charges, Amazon disables a metric filter if it generates 1000 different name/value pairs for the dimensions that you have specified within a certain amount of time. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see  Creating a Billing Alarm to Monitor Your Estimated AWS Charges.
+        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric.  To help prevent accidental high charges, Amazon disables a metric filter if it generates 1000 different name/value pairs for the dimensions that you have specified within a certain amount of time. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
         public let dimensions: [String: String]?
         /// The name of the CloudWatch metric.
         public let metricName: String
@@ -1781,7 +1781,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }
+        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports aws:SourceArn and aws:SourceAccount condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs and replace the value of SourceAccount with the Amazon Web Services account ID making that call.   { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }
         public let policyDocument: String?
         /// Name of the new policy. This parameter is required.
         public let policyName: String?
@@ -1838,7 +1838,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutSubscriptionFilterRequest: AWSEncodableShape {
-        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you are setting up a cross-account subscription, the destination must have an IAM policy associated with it that allows the sender to send logs to the destination. For more information, see PutDestinationPolicy.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.
+        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you are setting up a cross-account subscription, the destination must have an IAM policy associated with it that allows the sender to send logs to the destination. For more information, see PutDestinationPolicy.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   A Lambda function belonging to the same account as the subscription filter, for same-account delivery.
         public let destinationArn: String
         /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
         public let distribution: Distribution?

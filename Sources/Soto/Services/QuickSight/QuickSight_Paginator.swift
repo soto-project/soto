@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension QuickSight {
-    ///  Lists Amazon QuickSight analyses that exist in the specified AWS account.
+    ///  Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account;.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -125,7 +125,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists dashboards in an AWS account.
+    ///  Lists dashboards in an Amazon Web Services account;.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +178,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+    ///  Lists all of the datasets belonging to the current Amazon Web Services account; in an Amazon Web Services Region;. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists data sources in current AWS Region that belong to this AWS account.
+    ///  Lists data sources in current Amazon Web Services Region; that belong to this Amazon Web Services account;.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists the namespaces for the specified AWS account.
+    ///  Lists the namespaces for the specified Amazon Web Services account;.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -549,7 +549,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the versions of the themes in the current AWS account.
+    ///  Lists all the versions of the themes in the current Amazon Web Services account;.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -602,7 +602,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the themes in the current AWS account.
+    ///  Lists all the themes in the current Amazon Web Services account;.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -655,7 +655,7 @@ extension QuickSight {
         )
     }
 
-    ///  Searches for analyses that belong to the user specified in the filter.
+    ///  Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -708,7 +708,7 @@ extension QuickSight {
         )
     }
 
-    ///  Searches for dashboards that belong to a user.
+    ///  Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -77,6 +77,131 @@ extension SageMaker {
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
     ///   - logger: Logger for logging output
     ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilImageCreated(
+        _ input: DescribeImageRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("imageStatus", expected: "CREATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("imageStatus", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
+            ],
+            minDelayTime: .seconds(60),
+            command: describeImage
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilImageDeleted(
+        _ input: DescribeImageRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("imageStatus", expected: "DELETE_FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
+            ],
+            minDelayTime: .seconds(60),
+            command: describeImage
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilImageUpdated(
+        _ input: DescribeImageRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("imageStatus", expected: "CREATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("imageStatus", expected: "UPDATE_FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
+            ],
+            minDelayTime: .seconds(60),
+            command: describeImage
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilImageVersionCreated(
+        _ input: DescribeImageVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("imageVersionStatus", expected: "CREATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("imageVersionStatus", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
+            ],
+            minDelayTime: .seconds(60),
+            command: describeImageVersion
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilImageVersionDeleted(
+        _ input: DescribeImageVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("imageVersionStatus", expected: "DELETE_FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
+            ],
+            minDelayTime: .seconds(60),
+            command: describeImageVersion
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilNotebookInstanceDeleted(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount? = nil,

@@ -25,7 +25,7 @@ extension IdentityStore {
     public struct DescribeGroupRequest: AWSEncodableShape {
         /// The identifier for a group in the identity store.
         public let groupId: String
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string which contains number and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains number and lower case letters. This value is generated at the time that a new identity store is created.
         public let identityStoreId: String
 
         public init(groupId: String, identityStoreId: String) {
@@ -49,7 +49,7 @@ extension IdentityStore {
     }
 
     public struct DescribeGroupResponse: AWSDecodableShape {
-        /// Contains the group’s display name value. The length limit is 1024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space and non breaking space in this attribute. The characters “&lt;&gt;;:%” are excluded. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
+        /// Contains the group’s display name value. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. The characters &lt;&gt;;:% are excluded. This value is specified at the time that the group is created and stored as an attribute of the group object in the identity store.
         public let displayName: String
         /// The identifier for a group in the identity store.
         public let groupId: String
@@ -66,7 +66,7 @@ extension IdentityStore {
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string which contains number and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains number and lower case letters. This value is generated at the time that a new identity store is created.
         public let identityStoreId: String
         /// The identifier for a user in the identity store.
         public let userId: String
@@ -94,7 +94,7 @@ extension IdentityStore {
     public struct DescribeUserResponse: AWSDecodableShape {
         /// The identifier for a user in the identity store.
         public let userId: String
-        /// Contains the user’s username value. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers and punctuation. The characters “&lt;&gt;;:%” are excluded. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
+        /// Contains the user’s user name value. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. The characters &lt;&gt;;:% are excluded. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
         public let userName: String
 
         public init(userId: String, userName: String) {
@@ -109,7 +109,7 @@ extension IdentityStore {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The attribute path used to specify which attribute name to search. Length limit is 255 characters. For example, UserName is a valid attribute path for the ListUsers API, and DisplayName is a valid attribute path for the ListGroups API.
+        /// The attribute path that is used to specify which attribute name to search. Length limit is 255 characters. For example, UserName is a valid attribute path for the ListUsers API, and DisplayName is a valid attribute path for the ListGroups API.
         public let attributePath: String
         /// Represents the data for an attribute. Each attribute value is described as a name-value pair.
         public let attributeValue: String
@@ -135,7 +135,7 @@ extension IdentityStore {
     }
 
     public struct Group: AWSDecodableShape {
-        /// Contains the group’s display name value. The length limit is 1024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space and non breaking space in this attribute. The characters “&lt;&gt;;:%” are excluded. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
+        /// Contains the group’s display name value. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. The characters &lt;&gt;;:% are excluded. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
         public let displayName: String
         /// The identifier for a group in the identity store.
         public let groupId: String
@@ -154,11 +154,11 @@ extension IdentityStore {
     public struct ListGroupsRequest: AWSEncodableShape {
         /// A list of Filter objects, which is used in the ListUsers and ListGroups request.
         public let filters: [Filter]?
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string which contains number and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains number and lower case letters. This value is generated at the time that a new identity store is created.
         public let identityStoreId: String
-        /// The maximum number of results to be returned per request, which is used in the ListUsers and ListGroups request to specify how many results to return in one page. The length limit is 50 characters.
+        /// The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups request to specify how many results to return in one page. The length limit is 50 characters.
         public let maxResults: Int?
-        /// The pagination token used for the ListUsers and ListGroups APIs. This value is generated by the identity store service and is returned in the API response if the total results are more than the size of one page, and when this token is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -193,7 +193,7 @@ extension IdentityStore {
     public struct ListGroupsResponse: AWSDecodableShape {
         /// A list of Group objects in the identity store.
         public let groups: [Group]
-        /// The pagination token used for the ListUsers and ListGroups APIs. This value is generated by the identity store service and is returned in the API response if the total results are more than the size of one page, and when this token is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it1 is used in the API request to search for the next page.
         public let nextToken: String?
 
         public init(groups: [Group], nextToken: String? = nil) {
@@ -210,11 +210,11 @@ extension IdentityStore {
     public struct ListUsersRequest: AWSEncodableShape {
         /// A list of Filter objects, which is used in the ListUsers and ListGroups request.
         public let filters: [Filter]?
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string which contains number and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains number and lower case letters. This value is generated at the time that a new identity store is created.
         public let identityStoreId: String
-        /// The maximum number of results to be returned per request, which is used in the ListUsers and ListGroups request to specify how many results to return in one page. The length limit is 50 characters.
+        /// The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups request to specify how many results to return in one page. The length limit is 50 characters.
         public let maxResults: Int?
-        /// The pagination token used for the ListUsers and ListGroups APIs. This value is generated by the identity store service and is returned in the API response if the total results are more than the size of one page, and when this token is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -247,7 +247,7 @@ extension IdentityStore {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
-        /// The pagination token used for the ListUsers and ListGroups APIs. This value is generated by the identity store service and is returned in the API response if the total results are more than the size of one page, and when this token is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
         /// A list of User objects in the identity store.
         public let users: [User]
@@ -266,7 +266,7 @@ extension IdentityStore {
     public struct User: AWSDecodableShape {
         /// The identifier for a user in the identity store.
         public let userId: String
-        /// Contains the user’s username value. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers and punctuation. The characters “&lt;&gt;;:%” are excluded. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
+        /// Contains the user’s user name value. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. The characters &lt;&gt;;:% are excluded. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
         public let userName: String
 
         public init(userId: String, userName: String) {

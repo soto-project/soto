@@ -31,6 +31,7 @@ public struct GlueErrorType: AWSErrorType {
         case entityNotFoundException = "EntityNotFoundException"
         case glueEncryptionException = "GlueEncryptionException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case illegalBlueprintStateException = "IllegalBlueprintStateException"
         case illegalWorkflowStateException = "IllegalWorkflowStateException"
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
@@ -87,6 +88,7 @@ public struct GlueErrorType: AWSErrorType {
     public static var glueEncryptionException: Self { .init(.glueEncryptionException) }
     /// The same unique identifier was associated with two different records.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var illegalBlueprintStateException: Self { .init(.illegalBlueprintStateException) }
     /// The workflow is in an invalid state to perform a requested operation.
     public static var illegalWorkflowStateException: Self { .init(.illegalWorkflowStateException) }
     /// An internal service error occurred.

@@ -296,7 +296,7 @@ extension SavingsPlans {
                 try validate($0, name: "operations[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.:-]*$")
             }
             try self.savingsPlanOfferingIds?.forEach {
-                try validate($0, name: "savingsPlanOfferingIds[]", parent: name, pattern: "^(([0-9a-f]+)(-?))+$")
+                try validate($0, name: "savingsPlanOfferingIds[]", parent: name, pattern: "[a-f0-9]+(-[a-f0-9]+)*")
             }
             try self.usageTypes?.forEach {
                 try validate($0, name: "usageTypes[]", parent: name, max: 255)
@@ -394,7 +394,7 @@ extension SavingsPlans {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9/=\\+]+$")
             try self.offeringIds?.forEach {
-                try validate($0, name: "offeringIds[]", parent: name, pattern: "^(([0-9a-f]+)(-?))+$")
+                try validate($0, name: "offeringIds[]", parent: name, pattern: "[a-f0-9]+(-[a-f0-9]+)*")
             }
             try self.operations?.forEach {
                 try validate($0, name: "operations[]", parent: name, max: 255)

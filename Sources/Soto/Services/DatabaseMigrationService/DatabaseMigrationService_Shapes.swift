@@ -33,6 +33,18 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum CannedAclForObjectsValue: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case bucketOwnerRead = "bucket-owner-read"
+        case none
+        case `private`
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CharLengthSemantics: String, CustomStringConvertible, Codable {
         case byte
         case char
@@ -138,6 +150,13 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum RedisAuthTypeValue: String, CustomStringConvertible, Codable {
+        case authRole = "auth-role"
+        case authToken = "auth-token"
+        case none
+        public var description: String { return self.rawValue }
+    }
+
     public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
         case failed
         case refreshing
@@ -174,6 +193,12 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum SslSecurityProtocolValue: String, CustomStringConvertible, Codable {
+        case plaintext
+        case sslEncryption = "ssl-encryption"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
         case reloadTarget = "reload-target"
         case resumeProcessing = "resume-processing"
@@ -190,7 +215,7 @@ extension DatabaseMigrationService {
     // MARK: Shapes
 
     public struct AccountQuota: AWSDecodableShape {
-        /// The name of the DMS quota for this account.
+        /// The name of the DMS quota for this Amazon Web Services account.
         public let accountQuotaName: String?
         /// The maximum allowed value for the quota.
         public let max: Int64?
@@ -414,7 +439,7 @@ extension DatabaseMigrationService {
         public let kafkaSettings: KafkaSettings?
         /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using object mapping to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
         public let kinesisSettings: KinesisSettings?
-        /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your account. Your account has a different default encryption key for each Region.
+        /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and  Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
         public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
@@ -432,6 +457,8 @@ extension DatabaseMigrationService {
         public let port: Int?
         /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and  Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
         public let postgreSQLSettings: PostgreSQLSettings?
+        /// Settings in JSON format for the target Redis endpoint.
+        public let redisSettings: RedisSettings?
         public let redshiftSettings: RedshiftSettings?
         /// A friendly name for the resource identifier at the end of the EndpointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1. For example, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1. If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn.
         public let resourceIdentifier: String?
@@ -450,7 +477,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -474,6 +501,7 @@ extension DatabaseMigrationService {
             self.password = password
             self.port = port
             self.postgreSQLSettings = postgreSQLSettings
+            self.redisSettings = redisSettings
             self.redshiftSettings = redshiftSettings
             self.resourceIdentifier = resourceIdentifier
             self.s3Settings = s3Settings
@@ -509,6 +537,7 @@ extension DatabaseMigrationService {
             case password = "Password"
             case port = "Port"
             case postgreSQLSettings = "PostgreSQLSettings"
+            case redisSettings = "RedisSettings"
             case redshiftSettings = "RedshiftSettings"
             case resourceIdentifier = "ResourceIdentifier"
             case s3Settings = "S3Settings"
@@ -589,17 +618,17 @@ extension DatabaseMigrationService {
         public let allocatedStorage: Int?
         /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true
         public let autoMinorVersionUpgrade: Bool?
-        /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Region, for example: us-east-1d
+        /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d
         public let availabilityZone: String?
         /// A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
         public let dnsNameServers: String?
         /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
         public let engineVersion: String?
-        /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your account. Your account has a different default encryption key for each Region.
+        /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
         public let publiclyAccessible: Bool?
@@ -988,7 +1017,7 @@ extension DatabaseMigrationService {
     public struct DescribeAccountAttributesResponse: AWSDecodableShape {
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
-        /// A unique DMS identifier for an account in a particular Region. The value of this identifier has the following format: c99999999999. DMS uses this identifier to name artifacts. For example, DMS uses this identifier to name the default Amazon S3 bucket for storing task assessment reports in a given Region. The format of this S3 bucket name is the following: dms-AccountNumber-UniqueAccountIdentifier. Here is an example name for this default S3 bucket: dms-111122223333-c44445555666.  DMS supports the UniqueAccountIdentifier parameter in versions 3.1.4 and later.
+        /// A unique DMS identifier for an account in a particular Amazon Web Services Region. The value of this identifier has the following format: c99999999999. DMS uses this identifier to name artifacts. For example, DMS uses this identifier to name the default Amazon S3 bucket for storing task assessment reports in a given Amazon Web Services Region. The format of this S3 bucket name is the following: dms-AccountNumber-UniqueAccountIdentifier. Here is an example name for this default S3 bucket: dms-111122223333-c44445555666.  DMS supports the UniqueAccountIdentifier parameter in versions 3.1.4 and later.
         public let uniqueAccountIdentifier: String?
 
         public init(accountQuotas: [AccountQuota]? = nil, uniqueAccountIdentifier: String? = nil) {
@@ -1867,7 +1896,7 @@ extension DatabaseMigrationService {
         public let docsToInvestigate: Int?
         ///  Specifies the document ID. Use this setting when NestingLevel is set to "none".  Default value is "false".
         public let extractDocId: Bool?
-        /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your account. Your account has a different default encryption key for each Region.
+        /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies either document or table mode.  Default value is "none". Specify "none" to use document mode. Specify "one" to use table mode.
         public let nestingLevel: NestingLevelValue?
@@ -1985,7 +2014,7 @@ extension DatabaseMigrationService {
         public let kafkaSettings: KafkaSettings?
         /// The settings for the Amazon Kinesis target endpoint. For more information, see the KinesisSettings structure.
         public let kinesisSettings: KinesisSettings?
-        /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your account. Your account has a different default encryption key for each Region.
+        /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         /// The settings for the Microsoft SQL Server source and target endpoint. For more information, see the MicrosoftSQLServerSettings structure.
         public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
@@ -2001,6 +2030,8 @@ extension DatabaseMigrationService {
         public let port: Int?
         /// The settings for the PostgreSQL source and target endpoint. For more information, see the PostgreSQLSettings structure.
         public let postgreSQLSettings: PostgreSQLSettings?
+        /// The settings for the Redis target endpoint. For more information, see the RedisSettings structure.
+        public let redisSettings: RedisSettings?
         /// Settings for the Amazon Redshift endpoint.
         public let redshiftSettings: RedshiftSettings?
         /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
@@ -2018,7 +2049,7 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2044,6 +2075,7 @@ extension DatabaseMigrationService {
             self.oracleSettings = oracleSettings
             self.port = port
             self.postgreSQLSettings = postgreSQLSettings
+            self.redisSettings = redisSettings
             self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
@@ -2080,6 +2112,7 @@ extension DatabaseMigrationService {
             case oracleSettings = "OracleSettings"
             case port = "Port"
             case postgreSQLSettings = "PostgreSQLSettings"
+            case redisSettings = "RedisSettings"
             case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
@@ -2348,7 +2381,7 @@ extension DatabaseMigrationService {
         public let messageFormat: MessageFormatValue?
         /// The maximum size in bytes for records created on the endpoint The default is 1,000,000.
         public let messageMaxBytes: Int?
-        /// If this attribute is Y, it allows hexadecimal values that don't have the 0x prefix when migrated to a Kafka target. If this attribute is N, all hexadecimal values include this prefix when migrated to Kafka.
+        /// Set this optional parameter to true to avoid adding a '0x' prefix to raw data in hexadecimal format. For example, by default, DMS adds a '0x' prefix to the LOB column type in hexadecimal format moving from an Oracle source to a Kafka target. Use the NoHexPrefix endpoint setting to enable migration of RAW data type columns without adding the '0x' prefix.
         public let noHexPrefix: Bool?
         /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is false.
         public let partitionIncludeSchemaTable: Bool?
@@ -2358,7 +2391,7 @@ extension DatabaseMigrationService {
         public let saslUsername: String?
         /// Set secure connection to a Kafka target endpoint using Transport Layer Security (TLS). Options include ssl-encryption, ssl-authentication, and sasl-ssl. sasl-ssl requires SaslUsername and SaslPassword.
         public let securityProtocol: KafkaSecurityProtocol?
-        ///  The Amazon Resource Name (ARN) for the private Certification Authority (CA) cert that DMS uses to securely connect to your Kafka target endpoint.
+        ///  The Amazon Resource Name (ARN) for the private certificate authority (CA) cert that DMS uses to securely connect to your Kafka target endpoint.
         public let sslCaCertificateArn: String?
         /// The Amazon Resource Name (ARN) of the client certificate used to securely connect to a Kafka target endpoint.
         public let sslClientCertificateArn: String?
@@ -2425,7 +2458,7 @@ extension DatabaseMigrationService {
         public let includeTransactionDetails: Bool?
         /// The output format for the records created on the endpoint. The message format is JSON (default) or JSON_UNFORMATTED (a single line with no tab).
         public let messageFormat: MessageFormatValue?
-        /// If this attribute is Y, it allows hexadecimal values that don't have the 0x prefix when migrated to a Kinesis target. If this attribute is N, all hexadecimal values include this prefix when migrated to Kinesis.
+        /// Set this optional parameter to true to avoid adding a '0x' prefix to raw data in hexadecimal format. For example, by default, DMS adds a '0x' prefix to the LOB column type in hexadecimal format moving from an Oracle source to an Amazon Kinesis target. Use the NoHexPrefix endpoint setting to enable migration of RAW data type columns without adding the '0x' prefix.
         public let noHexPrefix: Bool?
         /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kinesis shards. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same shard, which causes throttling. The default is false.
         public let partitionIncludeSchemaTable: Bool?
@@ -2462,15 +2495,19 @@ extension DatabaseMigrationService {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the DMS resource.
-        public let resourceArn: String
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the DMS resource to list tags for. This returns a list of keys (names of tags) created for the resource and their associated tag values.
+        public let resourceArn: String?
+        /// List of ARNs that identify multiple DMS resources that you want to list tags for. This returns a list of keys (tag names) and their associated tag values. It also returns each tag's associated ResourceArn value, which is the ARN of the resource for which each listed tag is created.
+        public let resourceArnList: [String]?
 
-        public init(resourceArn: String) {
+        public init(resourceArn: String? = nil, resourceArnList: [String]? = nil) {
             self.resourceArn = resourceArn
+            self.resourceArnList = resourceArnList
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
+            case resourceArnList = "ResourceArnList"
         }
     }
 
@@ -2601,6 +2638,8 @@ extension DatabaseMigrationService {
         public let port: Int?
         /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and  Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
         public let postgreSQLSettings: PostgreSQLSettings?
+        /// Settings in JSON format for the Redis target endpoint.
+        public let redisSettings: RedisSettings?
         public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for DMS in the Database Migration Service User Guide.
         public let s3Settings: S3Settings?
@@ -2615,7 +2654,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, exactSettings: Bool? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, exactSettings: Bool? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2640,6 +2679,7 @@ extension DatabaseMigrationService {
             self.password = password
             self.port = port
             self.postgreSQLSettings = postgreSQLSettings
+            self.redisSettings = redisSettings
             self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
@@ -2674,6 +2714,7 @@ extension DatabaseMigrationService {
             case password = "Password"
             case port = "Port"
             case postgreSQLSettings = "PostgreSQLSettings"
+            case redisSettings = "RedisSettings"
             case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
@@ -2910,7 +2951,7 @@ extension DatabaseMigrationService {
         public let docsToInvestigate: String?
         ///  Specifies the document ID. Use this setting when NestingLevel is set to "none".  Default value is "false".
         public let extractDocId: String?
-        /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your account. Your account has a different default encryption key for each Region.
+        /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies either document or table mode.  Default value is "none". Specify "none" to use document mode. Specify "one" to use table mode.
         public let nestingLevel: NestingLevelValue?
@@ -3123,6 +3164,8 @@ extension DatabaseMigrationService {
         public let directPathParallelLoad: Bool?
         /// Set this attribute to enable homogenous tablespace replication and create existing tables or indexes under the same tablespace on the target.
         public let enableHomogenousTablespace: Bool?
+        /// Specifies the IDs of one more destinations for one or more archived redo logs. These IDs are the values of the dest_id column in the v$archived_log view. Use this setting with the archivedLogDestId extra connection attribute in a primary-to-single setup or a primary-to-multiple-standby setup.  This setting is useful in a switchover when you use an Oracle Data Guard database as a source. In this case, DMS needs information about what destination to get archive redo logs from to read changes. DMS needs this because after the switchover the previous primary is a standby instance. For example, in a primary-to-single standby setup you might apply the following settings.   archivedLogDestId=1; ExtraArchivedLogDestIds=[2]  In a primary-to-multiple-standby setup, you might apply the following settings.  archivedLogDestId=1; ExtraArchivedLogDestIds=[2,3,4]  Although DMS supports the use of the Oracle RESETLOGS option to open the database, never use RESETLOGS unless it's necessary. For more information about RESETLOGS, see  RMAN Data Repair Concepts in the Oracle Database Backup and Recovery User's Guide.
+        public let extraArchivedLogDestIds: [Int]?
         /// When set to true, this attribute causes a task to fail if the actual size of an LOB column is greater than the specified LobMaxSize. If a task is set to limited LOB mode and this option is set to true, the task fails instead of truncating the LOB data.
         public let failTasksOnLobTruncation: Bool?
         /// Specifies the number scale. You can select a scale up to 38, or you can select FLOAT. By default, the NUMBER data type is converted to precision 38, scale 10. Example: numberDataTypeScale=12
@@ -3174,7 +3217,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, standbyDelayTime: Int? = nil, useAlternateFolderForOnline: Bool? = nil, useBFile: Bool? = nil, useDirectPathFullLoad: Bool? = nil, useLogminerReader: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
+        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, extraArchivedLogDestIds: [Int]? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, standbyDelayTime: Int? = nil, useAlternateFolderForOnline: Bool? = nil, useBFile: Bool? = nil, useDirectPathFullLoad: Bool? = nil, useLogminerReader: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
             self.accessAlternateDirectly = accessAlternateDirectly
             self.additionalArchivedLogDestId = additionalArchivedLogDestId
             self.addSupplementalLogging = addSupplementalLogging
@@ -3189,6 +3232,7 @@ extension DatabaseMigrationService {
             self.directPathNoLog = directPathNoLog
             self.directPathParallelLoad = directPathParallelLoad
             self.enableHomogenousTablespace = enableHomogenousTablespace
+            self.extraArchivedLogDestIds = extraArchivedLogDestIds
             self.failTasksOnLobTruncation = failTasksOnLobTruncation
             self.numberDatatypeScale = numberDatatypeScale
             self.oraclePathPrefix = oraclePathPrefix
@@ -3231,6 +3275,7 @@ extension DatabaseMigrationService {
             case directPathNoLog = "DirectPathNoLog"
             case directPathParallelLoad = "DirectPathParallelLoad"
             case enableHomogenousTablespace = "EnableHomogenousTablespace"
+            case extraArchivedLogDestIds = "ExtraArchivedLogDestIds"
             case failTasksOnLobTruncation = "FailTasksOnLobTruncation"
             case numberDatatypeScale = "NumberDatatypeScale"
             case oraclePathPrefix = "OraclePathPrefix"
@@ -3350,7 +3395,7 @@ extension DatabaseMigrationService {
         public let executeTimeout: Int?
         /// When set to true, this value causes a task to fail if the actual size of a LOB column is greater than the specified LobMaxSize. If task is set to Limited LOB mode and this option is set to true, the task fails instead of truncating the LOB data.
         public let failTasksOnLobTruncation: Bool?
-        /// If this attribute is set to true, the write-ahead log (WAL) heartbeat keeps restart_lsn moving and prevents storage full scenarios. The WAL heartbeat mimics a dummy transaction, so that idle logical replication slots don't hold onto old WAL logs that result in storage full situations on the source.
+        /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By doing this, it prevents idle logical replication slots from holding onto old WAL logs, which can result in storage full situations on the source. This heartbeat keeps restart_lsn moving and prevents storage full scenarios.
         public let heartbeatEnable: Bool?
         /// Sets the WAL heartbeat frequency (in minutes).
         public let heartbeatFrequency: Int?
@@ -3370,7 +3415,7 @@ extension DatabaseMigrationService {
         public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
-        /// Sets the name of a previously created logical replication slot for a CDC load of the PostgreSQL source instance. When used with the DMS API CdcStartPosition request parameter, this attribute also enables using native CDC start points.
+        /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance.  When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see Determining a CDC native start point in the Database Migration Service User Guide. For more information about using CdcStartPosition, see CreateReplicationTask, StartReplicationTask, and ModifyReplicationTask.
         public let slotName: String?
         /// Endpoint connection user name.
         public let username: String?
@@ -3445,6 +3490,43 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case replicationInstance = "ReplicationInstance"
+        }
+    }
+
+    public struct RedisSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The password provided with the auth-role and auth-token options of the AuthType setting for a Redis target endpoint.
+        public let authPassword: String?
+        /// The type of authentication to perform when connecting to a Redis target. Options include none, auth-token, and auth-role. The auth-token option requires an AuthPassword value to be provided. The auth-role option requires AuthUserName and AuthPassword values to be provided.
+        public let authType: RedisAuthTypeValue?
+        /// The user name provided with the auth-role option of the AuthType setting for a Redis target endpoint.
+        public let authUserName: String?
+        /// Transmission Control Protocol (TCP) port for the endpoint.
+        public let port: Int
+        /// Fully qualified domain name of the endpoint.
+        public let serverName: String
+        /// The Amazon Resource Name (ARN) for the certificate authority (CA) that DMS uses to connect to your Redis target endpoint.
+        public let sslCaCertificateArn: String?
+        /// The connection to a Redis target endpoint using Transport Layer Security (TLS). Valid values include plaintext and ssl-encryption. The default is ssl-encryption. The ssl-encryption option makes an encrypted connection. Optionally, you can identify an Amazon Resource Name (ARN) for an SSL certificate authority (CA) using the SslCaCertificateArn setting. If an ARN isn't given for a CA, DMS uses the Amazon root CA. The plaintext option doesn't provide Transport Layer Security (TLS) encryption for traffic between endpoint and database.
+        public let sslSecurityProtocol: SslSecurityProtocolValue?
+
+        public init(authPassword: String? = nil, authType: RedisAuthTypeValue? = nil, authUserName: String? = nil, port: Int, serverName: String, sslCaCertificateArn: String? = nil, sslSecurityProtocol: SslSecurityProtocolValue? = nil) {
+            self.authPassword = authPassword
+            self.authType = authType
+            self.authUserName = authUserName
+            self.port = port
+            self.serverName = serverName
+            self.sslCaCertificateArn = sslCaCertificateArn
+            self.sslSecurityProtocol = sslSecurityProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authPassword = "AuthPassword"
+            case authType = "AuthType"
+            case authUserName = "AuthUserName"
+            case port = "Port"
+            case serverName = "ServerName"
+            case sslCaCertificateArn = "SslCaCertificateArn"
+            case sslSecurityProtocol = "SslSecurityProtocol"
         }
     }
 
@@ -3706,7 +3788,7 @@ extension DatabaseMigrationService {
         public let freeUntil: Date?
         /// The time the replication instance was created.
         public let instanceCreateTime: Date?
-        /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your account. Your account has a different default encryption key for each Region.
+        /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
@@ -4155,14 +4237,22 @@ extension DatabaseMigrationService {
     }
 
     public struct S3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// An optional parameter that, when set to true or y, you can use to add column name information to the .csv output file. The default value is false. Valid values are true, false, y, and n.
+        public let addColumnName: Bool?
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path  bucketFolder/schema_name/table_name/. If this parameter isn't specified, then the path used is  schema_name/table_name/.
         public let bucketFolder: String?
         ///  The name of the S3 bucket.
         public let bucketName: String?
+        /// A value that enables DMS to specify a predefined (canned) access control list for objects created in an Amazon S3 bucket as .csv or .parquet files. For more information about Amazon S3 canned ACLs, see Canned ACL in the Amazon S3 Developer Guide.  The default value is NONE. Valid values include NONE, PRIVATE, PUBLIC_READ, PUBLIC_READ_WRITE, AUTHENTICATED_READ, AWS_EXEC_READ, BUCKET_OWNER_READ, and BUCKET_OWNER_FULL_CONTROL.
+        public let cannedAclForObjects: CannedAclForObjectsValue?
         /// A value that enables a change data capture (CDC) load to write INSERT and UPDATE operations to .csv or .parquet (columnar storage) output files. The default setting is false, but when CdcInsertsAndUpdates is set to true or y, only INSERTs and UPDATEs from the source database are migrated to the .csv or .parquet file.  For .csv file format only, how these INSERTs and UPDATEs are recorded depends on the value of the IncludeOpForFullLoad parameter. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to either I or U to indicate INSERT and UPDATE operations at the source. But if IncludeOpForFullLoad is set to false, CDC records are written without an indication of INSERT or UPDATE operations at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the Database Migration Service User Guide..  DMS supports the use of the CdcInsertsAndUpdates parameter in versions 3.3.1 and later.  CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both.
         public let cdcInsertsAndUpdates: Bool?
         /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If CdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the Database Migration Service User Guide..  DMS supports the interaction described preceding between the CdcInsertsOnly and IncludeOpForFullLoad parameters in versions 3.1.4 and later.   CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both.
         public let cdcInsertsOnly: Bool?
+        /// Maximum length of the interval, defined in seconds, after which to output a file to Amazon S3. When CdcMaxBatchInterval and CdcMinFileSize are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 60 seconds.
+        public let cdcMaxBatchInterval: Int?
+        /// Minimum file size, defined in megabytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 32 MB.
+        public let cdcMinFileSize: Int?
         /// Specifies the folder path of CDC files. For an S3 source, this setting is required if a task captures change data; otherwise, it's optional. If CdcPath is set, DMS reads CDC files from this path and replicates the data changes to the target endpoint. For an S3 target if you set  PreserveTransactions  to true, DMS verifies that you have set this parameter to a folder path on your S3 target where DMS can save the transaction order for the CDC load. DMS creates this CDC folder path in either your S3 target working directory or the S3 target location specified by  BucketFolder  and  BucketName . For example, if you specify CdcPath as MyChangedData, and you specify BucketName as MyTargetBucket but do not specify BucketFolder, DMS creates the CDC folder path following: MyTargetBucket/MyChangedData. If you specify the same CdcPath, and you specify BucketName as MyTargetBucket and BucketFolder as MyTargetData, DMS creates the CDC folder path following: MyTargetBucket/MyTargetData/MyChangedData. For more information on CDC including transaction order on an S3 target, see Capturing data changes (CDC) including transaction order on the S3 target.  This setting is supported in DMS versions 3.4.2 and later.
         public let cdcPath: String?
         /// An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Either set this parameter to NONE (the default) or don't use it to leave the files uncompressed. This parameter applies to both .csv and .parquet file formats.
@@ -4171,6 +4261,8 @@ extension DatabaseMigrationService {
         public let csvDelimiter: String?
         /// This setting only applies if your Amazon S3 output files during a change data capture (CDC) load are written in .csv format. If  UseCsvNoSupValue  is set to true, specify a string value that you want DMS to use for all columns not included in the supplemental log. If you do not specify a string value, DMS uses the null value for these columns regardless of the UseCsvNoSupValue setting.  This setting is supported in DMS versions 3.4.1 and later.
         public let csvNoSupValue: String?
+        /// An optional parameter that specifies how DMS treats null values. While handling the null value, you can use this parameter to pass a user-defined string as null when writing to the target. For example, when target columns are not nullable, you can use this option to differentiate between the empty string value and the null value. So, if you set this parameter value to the empty string ("" or ''), DMS treats the empty string as the null value instead of NULL. The default value is NULL. Valid values include any valid string.
+        public let csvNullValue: String?
         ///  The delimiter used to separate rows in the .csv file for both source and target. The default is a carriage return (\n).
         public let csvRowDelimiter: String?
         /// The format of the data that you want to use for output. You can choose one of the following:     csv : This is a row-based file format with comma-separated values (.csv).     parquet : Apache Parquet (.parquet) is a columnar storage file format that features efficient compression and provides faster query response.
@@ -4193,14 +4285,20 @@ extension DatabaseMigrationService {
         public let encryptionMode: EncryptionModeValue?
         ///  Specifies how tables are defined in the S3 source files only.
         public let externalTableDefinition: String?
+        /// When this value is set to 1, DMS ignores the first row header in a .csv file. A value of 1 turns on the feature; a value of 0 turns off the feature. The default is 0.
+        public let ignoreHeaderRows: Int?
         /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database.  DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the Database Migration Service User Guide..
         public let includeOpForFullLoad: Bool?
+        /// A value that specifies the maximum size (in KB) of any .csv file to be created while migrating to an S3 target during full load. The default value is 1,048,576 KB (1 GB). Valid values include 1 to 1,048,576.
+        public let maxFileSize: Int?
         /// A value that specifies the precision of any TIMESTAMP column values that are written to an Amazon S3 object file in .parquet format.  DMS supports the ParquetTimestampInMillisecond parameter in versions 3.1.4 and later.  When ParquetTimestampInMillisecond is set to true or y, DMS writes all TIMESTAMP columns in a .parquet formatted file with millisecond precision. Otherwise, DMS writes them with microsecond precision. Currently, Amazon Athena and Glue can handle only millisecond precision for TIMESTAMP values. Set this parameter to true for S3 endpoint object files that are .parquet formatted only if you plan to query or process the data with Athena or Glue.  DMS writes any TIMESTAMP column values written to an S3 file in .csv format with microsecond precision. Setting ParquetTimestampInMillisecond has no effect on the string format of the timestamp column value that is inserted by setting the TimestampColumnName parameter.
         public let parquetTimestampInMillisecond: Bool?
         /// The version of the Apache Parquet format that you want to use: parquet_1_0 (the default) or parquet_2_0.
         public let parquetVersion: ParquetVersionValue?
         /// If set to true, DMS saves the transaction order for a change data capture (CDC) load on the Amazon S3 target specified by  CdcPath . For more information, see Capturing data changes (CDC) including transaction order on the S3 target.  This setting is supported in DMS versions 3.4.2 and later.
         public let preserveTransactions: Bool?
+        /// For an S3 source, when this value is set to true or y, each leading double quotation mark has to be followed by an ending double quotation mark. This formatting complies with RFC 4180. When this value is set to false or n, string literals are copied to the target as is. In this case, a delimiter (row or column) signals the end of the field. Thus, you can't use a delimiter as part of the string, because it signals the end of the value. For an S3 target, an optional parameter used to set behavior to comply with RFC 4180 for data migrated to Amazon S3 using .csv file format only. When this value is set to true or y using Amazon S3 as a target, if the data has quotation marks or newline characters in it, DMS encloses the entire column with an additional pair of double quotation marks ("). Every quotation mark within the data is repeated twice. The default value is true. Valid values include true, false, y, and n.
+        public let rfc4180: Bool?
         /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. This parameter defaults to 10,000 rows. This number is used for .parquet file format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024).
         public let rowGroupLength: Int?
         /// If you are using SSE_KMS for the EncryptionMode, provide the KMS key ID. The key that you use needs an attached policy that enables Identity and Access Management (IAM) user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier value --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=value,BucketFolder=value,BucketName=value,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=value
@@ -4212,15 +4310,20 @@ extension DatabaseMigrationService {
         /// This setting applies if the S3 output files during a change data capture (CDC) load are written in .csv format. If set to true for columns not included in the supplemental log, DMS uses the value specified by  CsvNoSupValue . If not set or set to false, DMS uses the null value for these columns.  This setting is supported in DMS versions 3.4.1 and later.
         public let useCsvNoSupValue: Bool?
 
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, includeOpForFullLoad: Bool? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil) {
+        public init(addColumnName: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil) {
+            self.addColumnName = addColumnName
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
+            self.cannedAclForObjects = cannedAclForObjects
             self.cdcInsertsAndUpdates = cdcInsertsAndUpdates
             self.cdcInsertsOnly = cdcInsertsOnly
+            self.cdcMaxBatchInterval = cdcMaxBatchInterval
+            self.cdcMinFileSize = cdcMinFileSize
             self.cdcPath = cdcPath
             self.compressionType = compressionType
             self.csvDelimiter = csvDelimiter
             self.csvNoSupValue = csvNoSupValue
+            self.csvNullValue = csvNullValue
             self.csvRowDelimiter = csvRowDelimiter
             self.dataFormat = dataFormat
             self.dataPageSize = dataPageSize
@@ -4232,10 +4335,13 @@ extension DatabaseMigrationService {
             self.encodingType = encodingType
             self.encryptionMode = encryptionMode
             self.externalTableDefinition = externalTableDefinition
+            self.ignoreHeaderRows = ignoreHeaderRows
             self.includeOpForFullLoad = includeOpForFullLoad
+            self.maxFileSize = maxFileSize
             self.parquetTimestampInMillisecond = parquetTimestampInMillisecond
             self.parquetVersion = parquetVersion
             self.preserveTransactions = preserveTransactions
+            self.rfc4180 = rfc4180
             self.rowGroupLength = rowGroupLength
             self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -4244,14 +4350,19 @@ extension DatabaseMigrationService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addColumnName = "AddColumnName"
             case bucketFolder = "BucketFolder"
             case bucketName = "BucketName"
+            case cannedAclForObjects = "CannedAclForObjects"
             case cdcInsertsAndUpdates = "CdcInsertsAndUpdates"
             case cdcInsertsOnly = "CdcInsertsOnly"
+            case cdcMaxBatchInterval = "CdcMaxBatchInterval"
+            case cdcMinFileSize = "CdcMinFileSize"
             case cdcPath = "CdcPath"
             case compressionType = "CompressionType"
             case csvDelimiter = "CsvDelimiter"
             case csvNoSupValue = "CsvNoSupValue"
+            case csvNullValue = "CsvNullValue"
             case csvRowDelimiter = "CsvRowDelimiter"
             case dataFormat = "DataFormat"
             case dataPageSize = "DataPageSize"
@@ -4263,10 +4374,13 @@ extension DatabaseMigrationService {
             case encodingType = "EncodingType"
             case encryptionMode = "EncryptionMode"
             case externalTableDefinition = "ExternalTableDefinition"
+            case ignoreHeaderRows = "IgnoreHeaderRows"
             case includeOpForFullLoad = "IncludeOpForFullLoad"
+            case maxFileSize = "MaxFileSize"
             case parquetTimestampInMillisecond = "ParquetTimestampInMillisecond"
             case parquetVersion = "ParquetVersion"
             case preserveTransactions = "PreserveTransactions"
+            case rfc4180 = "Rfc4180"
             case rowGroupLength = "RowGroupLength"
             case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
@@ -4619,16 +4733,20 @@ extension DatabaseMigrationService {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created.
+        public let resourceArn: String?
         /// A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String? = nil, resourceArn: String? = nil, value: String? = nil) {
             self.key = key
+            self.resourceArn = resourceArn
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+            case resourceArn = "ResourceArn"
             case value = "Value"
         }
     }

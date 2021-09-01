@@ -23,6 +23,7 @@ public struct LocationServiceErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -45,15 +46,17 @@ public struct LocationServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The request was denied due to insufficient access or permission. Check with an administrator to verify your permissions.
+    /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request was unsuccessful due to a conflict.
+    /// The request was unsuccessful because of a conflict.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request has failed to process because of an unknown server error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The resource that you've entered was not found in your AWS account.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request was denied due to request throttling.
+    /// The operation was denied because the request would exceed the maximum quota set for Amazon Location Service.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request was denied because of request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input failed to meet the constraints specified by the AWS service.
     public static var validationException: Self { .init(.validationException) }

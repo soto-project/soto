@@ -20,6 +20,12 @@ import SotoCore
 extension SSMContacts {
     // MARK: Enums
 
+    public enum AcceptCodeValidation: String, CustomStringConvertible, Codable {
+        case enforce = "ENFORCE"
+        case ignore = "IGNORE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AcceptType: String, CustomStringConvertible, Codable {
         case delivered = "DELIVERED"
         case read = "READ"
@@ -59,6 +65,8 @@ extension SSMContacts {
     public struct AcceptPageRequest: AWSEncodableShape {
         /// The accept code is a 6-digit code used to acknowledge the page.
         public let acceptCode: String
+        /// An optional field that Incident Manager uses to ENFORCE AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation causes Incident Manager to verify that the code entered by the user matches the code sent by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation. Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the AcceptCode.
+        public let acceptCodeValidation: AcceptCodeValidation?
         /// The type indicates if the page was DELIVERED or READ.
         public let acceptType: AcceptType
         /// The ARN of the contact channel.
@@ -68,8 +76,9 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the engagement to a contact channel.
         public let pageId: String
 
-        public init(acceptCode: String, acceptType: AcceptType, contactChannelId: String? = nil, note: String? = nil, pageId: String) {
+        public init(acceptCode: String, acceptCodeValidation: AcceptCodeValidation? = nil, acceptType: AcceptType, contactChannelId: String? = nil, note: String? = nil, pageId: String) {
             self.acceptCode = acceptCode
+            self.acceptCodeValidation = acceptCodeValidation
             self.acceptType = acceptType
             self.contactChannelId = contactChannelId
             self.note = note
@@ -93,6 +102,7 @@ extension SSMContacts {
 
         private enum CodingKeys: String, CodingKey {
             case acceptCode = "AcceptCode"
+            case acceptCodeValidation = "AcceptCodeValidation"
             case acceptType = "AcceptType"
             case contactChannelId = "ContactChannelId"
             case note = "Note"
@@ -1226,7 +1236,7 @@ extension SSMContacts {
     }
 
     public struct Stage: AWSEncodableShape & AWSDecodableShape {
-        /// The time to wait until beginning the next stage.
+        /// The time to wait until beginning the next stage. The duration can only be set to 0 if a target is specified.
         public let durationInMinutes: Int
         /// The contacts or contact methods that the escalation plan or engagement plan is engaging.
         public let targets: [Target]
@@ -1472,7 +1482,7 @@ extension SSMContacts {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
 

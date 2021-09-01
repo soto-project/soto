@@ -178,7 +178,7 @@ extension Batch {
         )
     }
 
-    ///  Returns a list of AWS Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
+    ///  Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -268,6 +268,7 @@ extension Batch.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Batch.ListJobsRequest {
         return .init(
             arrayJobId: self.arrayJobId,
+            filters: self.filters,
             jobQueue: self.jobQueue,
             jobStatus: self.jobStatus,
             maxResults: self.maxResults,

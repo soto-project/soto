@@ -88,6 +88,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "BatchDeleteTableVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves information about a list of blueprints.
+    public func batchGetBlueprints(_ input: BatchGetBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetBlueprintsResponse> {
+        return self.client.execute(operation: "BatchGetBlueprints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     public func batchGetCrawlers(_ input: BatchGetCrawlersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCrawlersResponse> {
         return self.client.execute(operation: "BatchGetCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -136,6 +141,11 @@ public struct Glue: AWSService {
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
     public func checkSchemaVersionValidity(_ input: CheckSchemaVersionValidityInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CheckSchemaVersionValidityResponse> {
         return self.client.execute(operation: "CheckSchemaVersionValidity", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Registers a blueprint with Glue.
+    public func createBlueprint(_ input: CreateBlueprintRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBlueprintResponse> {
+        return self.client.execute(operation: "CreateBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
@@ -221,6 +231,11 @@ public struct Glue: AWSService {
     /// Creates a new workflow.
     public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkflowResponse> {
         return self.client.execute(operation: "CreateWorkflow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an existing blueprint.
+    public func deleteBlueprint(_ input: DeleteBlueprintRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBlueprintResponse> {
+        return self.client.execute(operation: "DeleteBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a classifier from the Data Catalog.
@@ -326,6 +341,21 @@ public struct Glue: AWSService {
     /// Deletes a workflow.
     public func deleteWorkflow(_ input: DeleteWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkflowResponse> {
         return self.client.execute(operation: "DeleteWorkflow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of a blueprint.
+    public func getBlueprint(_ input: GetBlueprintRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlueprintResponse> {
+        return self.client.execute(operation: "GetBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of a blueprint run.
+    public func getBlueprintRun(_ input: GetBlueprintRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlueprintRunResponse> {
+        return self.client.execute(operation: "GetBlueprintRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of blueprint runs for a specified blueprint.
+    public func getBlueprintRuns(_ input: GetBlueprintRunsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlueprintRunsResponse> {
+        return self.client.execute(operation: "GetBlueprintRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the status of a migration operation.
@@ -593,6 +623,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "ImportCatalogToGlue", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all the blueprint names in an account.
+    public func listBlueprints(_ input: ListBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBlueprintsResponse> {
+        return self.client.execute(operation: "ListBlueprints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listCrawlers(_ input: ListCrawlersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCrawlersResponse> {
         return self.client.execute(operation: "ListCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -688,6 +723,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "SearchTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts a new run of the specified blueprint.
+    public func startBlueprintRun(_ input: StartBlueprintRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartBlueprintRunResponse> {
+        return self.client.execute(operation: "StartBlueprintRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
     public func startCrawler(_ input: StartCrawlerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCrawlerResponse> {
         return self.client.execute(operation: "StartCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -761,6 +801,11 @@ public struct Glue: AWSService {
     /// Removes tags from a resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a registered blueprint.
+    public func updateBlueprint(_ input: UpdateBlueprintRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBlueprintResponse> {
+        return self.client.execute(operation: "UpdateBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).

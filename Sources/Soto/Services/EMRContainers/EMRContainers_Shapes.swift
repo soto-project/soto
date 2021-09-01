@@ -236,9 +236,9 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
             try self.info?.validate(name: "\(name).info")
         }
 
@@ -623,9 +623,9 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.namespace, name: "namespace", parent: name, max: 256)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 63)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -645,6 +645,8 @@ extension EMRContainers {
         public var createdAt: Date?
         /// The execution role ARN of the endpoint.
         public let executionRoleArn: String?
+        ///  The reasons why the endpoint has failed.
+        public let failureReason: FailureReason?
         /// The ID of the endpoint.
         public let id: String?
         /// The name of the endpoint.
@@ -657,6 +659,8 @@ extension EMRContainers {
         public let serverUrl: String?
         /// The state of the endpoint.
         public let state: EndpointState?
+        ///  Additional details of the endpoint state.
+        public let stateDetails: String?
         /// The subnet IDs of the endpoint.
         public let subnetIds: [String]?
         /// The tags of the endpoint.
@@ -666,18 +670,20 @@ extension EMRContainers {
         /// The ID of the endpoint's virtual cluster.
         public let virtualClusterId: String?
 
-        public init(arn: String? = nil, certificateArn: String? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
+        public init(arn: String? = nil, certificateArn: String? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.certificateArn = certificateArn
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
             self.executionRoleArn = executionRoleArn
+            self.failureReason = failureReason
             self.id = id
             self.name = name
             self.releaseLabel = releaseLabel
             self.securityGroup = securityGroup
             self.serverUrl = serverUrl
             self.state = state
+            self.stateDetails = stateDetails
             self.subnetIds = subnetIds
             self.tags = tags
             self.type = type
@@ -690,12 +696,14 @@ extension EMRContainers {
             case configurationOverrides
             case createdAt
             case executionRoleArn
+            case failureReason
             case id
             case name
             case releaseLabel
             case securityGroup
             case serverUrl
             case state
+            case stateDetails
             case subnetIds
             case tags
             case type
@@ -1110,7 +1118,7 @@ extension EMRContainers {
                 try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
                 try validate($0, name: "entryPointArguments[]", parent: name, pattern: "(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)")
             }
-            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 1024)
+            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102_400)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: "(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)")
         }

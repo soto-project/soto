@@ -29,6 +29,22 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum BlueprintRunState: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case rollingBack = "ROLLING_BACK"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlueprintStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case sseKms = "SSE-KMS"
@@ -746,6 +762,54 @@ extension Glue {
         }
     }
 
+    public struct BatchGetBlueprintsRequest: AWSEncodableShape {
+        /// Specifies whether or not to include the blueprint in the response.
+        public let includeBlueprint: Bool?
+        /// Specifies whether or not to include the parameters, as a JSON string, for the blueprint in the response.
+        public let includeParameterSpec: Bool?
+        /// A list of blueprint names.
+        public let names: [String]
+
+        public init(includeBlueprint: Bool? = nil, includeParameterSpec: Bool? = nil, names: [String]) {
+            self.includeBlueprint = includeBlueprint
+            self.includeParameterSpec = includeParameterSpec
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.names.forEach {
+                try validate($0, name: "names[]", parent: name, max: 128)
+                try validate($0, name: "names[]", parent: name, min: 1)
+                try validate($0, name: "names[]", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 25)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeBlueprint = "IncludeBlueprint"
+            case includeParameterSpec = "IncludeParameterSpec"
+            case names = "Names"
+        }
+    }
+
+    public struct BatchGetBlueprintsResponse: AWSDecodableShape {
+        /// Returns a list of blueprint as a Blueprints object.
+        public let blueprints: [Blueprint]?
+        /// Returns a list of BlueprintNames that were not found.
+        public let missingBlueprints: [String]?
+
+        public init(blueprints: [Blueprint]? = nil, missingBlueprints: [String]? = nil) {
+            self.blueprints = blueprints
+            self.missingBlueprints = missingBlueprints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprints = "Blueprints"
+            case missingBlueprints = "MissingBlueprints"
+        }
+    }
+
     public struct BatchGetCrawlersRequest: AWSEncodableShape {
         /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
         public let crawlerNames: [String]
@@ -1207,6 +1271,121 @@ extension Glue {
             case averageLength = "AverageLength"
             case maximumLength = "MaximumLength"
             case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
+    public struct Blueprint: AWSDecodableShape {
+        /// Specifies the path in Amazon S3 where the blueprint is published.
+        public let blueprintLocation: String?
+        /// Specifies a path in Amazon S3 where the blueprint is copied when you call CreateBlueprint/UpdateBlueprint to register the blueprint in Glue.
+        public let blueprintServiceLocation: String?
+        /// The date and time the blueprint was registered.
+        public let createdOn: Date?
+        /// The description of the blueprint.
+        public let description: String?
+        /// An error message.
+        public let errorMessage: String?
+        /// When there are multiple versions of a blueprint and the latest version has some errors, this attribute indicates the last successful blueprint definition that is available with the service.
+        public let lastActiveDefinition: LastActiveDefinition?
+        /// The date and time the blueprint was last modified.
+        public let lastModifiedOn: Date?
+        /// The name of the blueprint.
+        public let name: String?
+        /// A JSON string that indicates the list of parameter specifications for the blueprint.
+        public let parameterSpec: String?
+        /// The status of the blueprint registration.   Creating — The blueprint registration is in progress.   Active — The blueprint has been successfully registered.   Updating — An update to the blueprint registration is in progress.   Failed — The blueprint registration failed.
+        public let status: BlueprintStatus?
+
+        public init(blueprintLocation: String? = nil, blueprintServiceLocation: String? = nil, createdOn: Date? = nil, description: String? = nil, errorMessage: String? = nil, lastActiveDefinition: LastActiveDefinition? = nil, lastModifiedOn: Date? = nil, name: String? = nil, parameterSpec: String? = nil, status: BlueprintStatus? = nil) {
+            self.blueprintLocation = blueprintLocation
+            self.blueprintServiceLocation = blueprintServiceLocation
+            self.createdOn = createdOn
+            self.description = description
+            self.errorMessage = errorMessage
+            self.lastActiveDefinition = lastActiveDefinition
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+            self.parameterSpec = parameterSpec
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintLocation = "BlueprintLocation"
+            case blueprintServiceLocation = "BlueprintServiceLocation"
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case lastActiveDefinition = "LastActiveDefinition"
+            case lastModifiedOn = "LastModifiedOn"
+            case name = "Name"
+            case parameterSpec = "ParameterSpec"
+            case status = "Status"
+        }
+    }
+
+    public struct BlueprintDetails: AWSDecodableShape {
+        /// The name of the blueprint.
+        public let blueprintName: String?
+        /// The run ID for this blueprint.
+        public let runId: String?
+
+        public init(blueprintName: String? = nil, runId: String? = nil) {
+            self.blueprintName = blueprintName
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintName = "BlueprintName"
+            case runId = "RunId"
+        }
+    }
+
+    public struct BlueprintRun: AWSDecodableShape {
+        /// The name of the blueprint.
+        public let blueprintName: String?
+        /// The date and time that the blueprint run completed.
+        public let completedOn: Date?
+        /// Indicates any errors that are seen while running the blueprint.
+        public let errorMessage: String?
+        /// The blueprint parameters as a string. You will have to provide a value for each key that is required from the parameter spec that is defined in the Blueprint$ParameterSpec.
+        public let parameters: String?
+        /// The role ARN. This role will be assumed by the Glue service and will be used to create the workflow and other entities of a workflow.
+        public let roleArn: String?
+        /// If there are any errors while creating the entities of a workflow, we try to roll back the created entities until that point and delete them. This attribute indicates the errors seen while trying to delete the entities that are created.
+        public let rollbackErrorMessage: String?
+        /// The run ID for this blueprint run.
+        public let runId: String?
+        /// The date and time that the blueprint run started.
+        public let startedOn: Date?
+        /// The state of the blueprint run. Possible values are:   Running — The blueprint run is in progress.   Succeeded — The blueprint run completed successfully.   Failed — The blueprint run failed and rollback is complete.   Rolling Back — The blueprint run failed and rollback is in progress.
+        public let state: BlueprintRunState?
+        /// The name of a workflow that is created as a result of a successful blueprint run. If a blueprint run has an error, there will not be a workflow created.
+        public let workflowName: String?
+
+        public init(blueprintName: String? = nil, completedOn: Date? = nil, errorMessage: String? = nil, parameters: String? = nil, roleArn: String? = nil, rollbackErrorMessage: String? = nil, runId: String? = nil, startedOn: Date? = nil, state: BlueprintRunState? = nil, workflowName: String? = nil) {
+            self.blueprintName = blueprintName
+            self.completedOn = completedOn
+            self.errorMessage = errorMessage
+            self.parameters = parameters
+            self.roleArn = roleArn
+            self.rollbackErrorMessage = rollbackErrorMessage
+            self.runId = runId
+            self.startedOn = startedOn
+            self.state = state
+            self.workflowName = workflowName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintName = "BlueprintName"
+            case completedOn = "CompletedOn"
+            case errorMessage = "ErrorMessage"
+            case parameters = "Parameters"
+            case roleArn = "RoleArn"
+            case rollbackErrorMessage = "RollbackErrorMessage"
+            case runId = "RunId"
+            case startedOn = "StartedOn"
+            case state = "State"
+            case workflowName = "WorkflowName"
         }
     }
 
@@ -1821,7 +2000,7 @@ extension Glue {
     public struct ConnectionInput: AWSEncodableShape {
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).    MARKETPLACE - Uses configuration settings contained in a connector purchased from Marketplace to read from and write to data stores that are not natively supported by Glue.    CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.    CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   SFTP is not supported.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -2111,6 +2290,61 @@ extension Glue {
             case jdbcTargets = "JdbcTargets"
             case mongoDBTargets = "MongoDBTargets"
             case s3Targets = "S3Targets"
+        }
+    }
+
+    public struct CreateBlueprintRequest: AWSEncodableShape {
+        /// Specifies a path in Amazon S3 where the blueprint is published.
+        public let blueprintLocation: String
+        /// A description of the blueprint.
+        public let description: String?
+        /// The name of the blueprint.
+        public let name: String
+        /// The tags to be applied to this blueprint.
+        public let tags: [String: String]?
+
+        public init(blueprintLocation: String, description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.blueprintLocation = blueprintLocation
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintLocation, name: "blueprintLocation", parent: name, max: 8192)
+            try self.validate(self.blueprintLocation, name: "blueprintLocation", parent: name, min: 1)
+            try self.validate(self.blueprintLocation, name: "blueprintLocation", parent: name, pattern: "^s3://([^/]+)/([^/]+/)*([^/]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintLocation = "BlueprintLocation"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateBlueprintResponse: AWSDecodableShape {
+        /// Returns the name of the blueprint that was registered.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -3205,6 +3439,7 @@ extension Glue {
         public let actions: [Action]
         /// A description of the new trigger.
         public let description: String?
+        /// Batch condition that must be met (specified number of events received or batch time window expired) before EventBridge event trigger fires.
         public let eventBatchingCondition: EventBatchingCondition?
         /// The name of the trigger.
         public let name: String
@@ -3690,6 +3925,38 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case scale = "Scale"
             case unscaledValue = "UnscaledValue"
+        }
+    }
+
+    public struct DeleteBlueprintRequest: AWSEncodableShape {
+        /// The name of the blueprint to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteBlueprintResponse: AWSDecodableShape {
+        /// Returns the name of the blueprint that was deleted.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -4844,6 +5111,131 @@ extension Glue {
             case jobId = "JobId"
             case jobName = "JobName"
             case jobRunId = "JobRunId"
+        }
+    }
+
+    public struct GetBlueprintRequest: AWSEncodableShape {
+        /// Specifies whether or not to include the blueprint in the response.
+        public let includeBlueprint: Bool?
+        /// Specifies whether or not to include the parameter specification.
+        public let includeParameterSpec: Bool?
+        /// The name of the blueprint.
+        public let name: String
+
+        public init(includeBlueprint: Bool? = nil, includeParameterSpec: Bool? = nil, name: String) {
+            self.includeBlueprint = includeBlueprint
+            self.includeParameterSpec = includeParameterSpec
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeBlueprint = "IncludeBlueprint"
+            case includeParameterSpec = "IncludeParameterSpec"
+            case name = "Name"
+        }
+    }
+
+    public struct GetBlueprintResponse: AWSDecodableShape {
+        /// Returns a Blueprint object.
+        public let blueprint: Blueprint?
+
+        public init(blueprint: Blueprint? = nil) {
+            self.blueprint = blueprint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprint = "Blueprint"
+        }
+    }
+
+    public struct GetBlueprintRunRequest: AWSEncodableShape {
+        /// The name of the blueprint.
+        public let blueprintName: String
+        /// The run ID for the blueprint run you want to retrieve.
+        public let runId: String
+
+        public init(blueprintName: String, runId: String) {
+            self.blueprintName = blueprintName
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, max: 128)
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, min: 1)
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintName = "BlueprintName"
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetBlueprintRunResponse: AWSDecodableShape {
+        /// Returns a BlueprintRun object.
+        public let blueprintRun: BlueprintRun?
+
+        public init(blueprintRun: BlueprintRun? = nil) {
+            self.blueprintRun = blueprintRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintRun = "BlueprintRun"
+        }
+    }
+
+    public struct GetBlueprintRunsRequest: AWSEncodableShape {
+        /// The name of the blueprint.
+        public let blueprintName: String
+        /// The maximum size of a list to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+
+        public init(blueprintName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.blueprintName = blueprintName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, max: 255)
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, min: 1)
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintName = "BlueprintName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetBlueprintRunsResponse: AWSDecodableShape {
+        /// Returns a list of BlueprintRun objects.
+        public let blueprintRuns: [BlueprintRun]?
+        /// A continuation token, if not all blueprint runs have been returned.
+        public let nextToken: String?
+
+        public init(blueprintRuns: [BlueprintRun]? = nil, nextToken: String? = nil) {
+            self.blueprintRuns = blueprintRuns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintRuns = "BlueprintRuns"
+            case nextToken = "NextToken"
         }
     }
 
@@ -7926,6 +8318,35 @@ extension Glue {
         }
     }
 
+    public struct LastActiveDefinition: AWSDecodableShape {
+        /// Specifies a path in Amazon S3 where the blueprint is published by the Glue developer.
+        public let blueprintLocation: String?
+        /// Specifies a path in Amazon S3 where the blueprint is copied when you create or update the blueprint.
+        public let blueprintServiceLocation: String?
+        /// The description of the blueprint.
+        public let description: String?
+        /// The date and time the blueprint was last modified.
+        public let lastModifiedOn: Date?
+        /// A JSON string specifying the parameters for the blueprint.
+        public let parameterSpec: String?
+
+        public init(blueprintLocation: String? = nil, blueprintServiceLocation: String? = nil, description: String? = nil, lastModifiedOn: Date? = nil, parameterSpec: String? = nil) {
+            self.blueprintLocation = blueprintLocation
+            self.blueprintServiceLocation = blueprintServiceLocation
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.parameterSpec = parameterSpec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintLocation = "BlueprintLocation"
+            case blueprintServiceLocation = "BlueprintServiceLocation"
+            case description = "Description"
+            case lastModifiedOn = "LastModifiedOn"
+            case parameterSpec = "ParameterSpec"
+        }
+    }
+
     public struct LastCrawlInfo: AWSDecodableShape {
         /// If an error occurred, the error information about the last crawl.
         public let errorMessage: String?
@@ -7969,6 +8390,55 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case crawlerLineageSettings = "CrawlerLineageSettings"
+        }
+    }
+
+    public struct ListBlueprintsRequest: AWSEncodableShape {
+        /// The maximum size of a list to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// Filters the list by an Amazon Web Services resource tag.
+        public let tags: [String: String]?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListBlueprintsResponse: AWSDecodableShape {
+        /// List of names of blueprints in the account.
+        public let blueprints: [String]?
+        /// A continuation token, if not all blueprint names have been returned.
+        public let nextToken: String?
+
+        public init(blueprints: [String]? = nil, nextToken: String? = nil) {
+            self.blueprints = blueprints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprints = "Blueprints"
+            case nextToken = "NextToken"
         }
     }
 
@@ -9090,7 +9560,7 @@ extension Glue {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// If 'TRUE', indicates that you are using both methods to grant cross-account access to Data Catalog resources:   By directly updating the resource policy with PutResourePolicy    By using the Grant permissions command on the Management Console.   Must be set to 'TRUE' if you have already used the Management Console to grant cross-account access, otherwise the call fails. Default is 'FALSE'.
+        /// If 'TRUE', indicates that you are using both methods to grant cross-account access to Data Catalog resources:   By directly updating the resource policy with PutResourePolicy    By using the Grant permissions command on the Amazon Web Services Management Console.   Must be set to 'TRUE' if you have already used the Management Console to grant cross-account access, otherwise the call fails. Default is 'FALSE'.
         public let enableHybrid: EnableHybridValues?
         /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call does not depend on the existence of a policy.
         public let policyExistsCondition: ExistCondition?
@@ -10092,6 +10562,51 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case fieldName = "FieldName"
             case sort = "Sort"
+        }
+    }
+
+    public struct StartBlueprintRunRequest: AWSEncodableShape {
+        /// The name of the blueprint.
+        public let blueprintName: String
+        /// Specifies the parameters as a BlueprintParameters object.
+        public let parameters: String?
+        /// Specifies the IAM role used to create the workflow.
+        public let roleArn: String
+
+        public init(blueprintName: String, parameters: String? = nil, roleArn: String) {
+            self.blueprintName = blueprintName
+            self.parameters = parameters
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, max: 128)
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, min: 1)
+            try self.validate(self.blueprintName, name: "blueprintName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 131_072)
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws[^:]*:iam::[0-9]*:role/.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintName = "BlueprintName"
+            case parameters = "Parameters"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct StartBlueprintRunResponse: AWSDecodableShape {
+        /// The run ID for this blueprint run.
+        public let runId: String?
+
+        public init(runId: String? = nil) {
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
         }
     }
 
@@ -11344,6 +11859,51 @@ extension Glue {
         public init() {}
     }
 
+    public struct UpdateBlueprintRequest: AWSEncodableShape {
+        /// Specifies a path in Amazon S3 where the blueprint is published.
+        public let blueprintLocation: String
+        /// A description of the blueprint.
+        public let description: String?
+        /// The name of the blueprint.
+        public let name: String
+
+        public init(blueprintLocation: String, description: String? = nil, name: String) {
+            self.blueprintLocation = blueprintLocation
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintLocation, name: "blueprintLocation", parent: name, max: 8192)
+            try self.validate(self.blueprintLocation, name: "blueprintLocation", parent: name, min: 1)
+            try self.validate(self.blueprintLocation, name: "blueprintLocation", parent: name, pattern: "^s3://([^/]+)/([^/]+/)*([^/]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintLocation = "BlueprintLocation"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateBlueprintResponse: AWSDecodableShape {
+        /// Returns the name of the blueprint that was updated.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct UpdateClassifierRequest: AWSEncodableShape {
         /// A CsvClassifier object with updated fields.
         public let csvClassifier: UpdateCsvClassifierRequest?
@@ -12390,6 +12950,8 @@ extension Glue {
     }
 
     public struct Workflow: AWSDecodableShape {
+        /// This structure indicates the details of the blueprint that this particular workflow is created from.
+        public let blueprintDetails: BlueprintDetails?
         /// The date and time when the workflow was created.
         public let createdOn: Date?
         /// A collection of properties to be used as part of each execution of the workflow. The run properties are made available to each job in the workflow. A job can modify the properties for the next jobs in the flow.
@@ -12407,7 +12969,8 @@ extension Glue {
         /// The name of the workflow.
         public let name: String?
 
-        public init(createdOn: Date? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: Date? = nil, lastRun: WorkflowRun? = nil, maxConcurrentRuns: Int? = nil, name: String? = nil) {
+        public init(blueprintDetails: BlueprintDetails? = nil, createdOn: Date? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: Date? = nil, lastRun: WorkflowRun? = nil, maxConcurrentRuns: Int? = nil, name: String? = nil) {
+            self.blueprintDetails = blueprintDetails
             self.createdOn = createdOn
             self.defaultRunProperties = defaultRunProperties
             self.description = description
@@ -12419,6 +12982,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blueprintDetails = "BlueprintDetails"
             case createdOn = "CreatedOn"
             case defaultRunProperties = "DefaultRunProperties"
             case description = "Description"

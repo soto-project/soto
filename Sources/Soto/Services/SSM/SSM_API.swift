@@ -123,7 +123,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "CreatePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Configuring resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple accounts and Regions or EntireOrganization by using Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
+    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Configuring resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
     public func createResourceDataSync(_ input: CreateResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceDataSyncResult> {
         return self.client.execute(operation: "CreateResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -133,7 +133,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DeleteActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified instance. When you disassociate a document from an instance, it doesn't change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
+    /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified instance. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from an instance, it doesn't change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
     public func deleteAssociation(_ input: DeleteAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAssociationResult> {
         return self.client.execute(operation: "DeleteAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -158,12 +158,12 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DeleteOpsMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete a parameter from the system.
+    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
     public func deleteParameter(_ input: DeleteParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteParameterResult> {
         return self.client.execute(operation: "DeleteParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete a list of parameters.
+    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
     public func deleteParameters(_ input: DeleteParametersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteParametersResult> {
         return self.client.execute(operation: "DeleteParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -203,7 +203,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeActivations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the association for the specified target or instance. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID. If you created the association by specifying an instance ID and an Amazon Web Services Systems Manager document (SSM document), then you retrieve the association by specifying the document name and the instance ID.
+    /// Describes the association for the specified target or instance. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID.
     public func describeAssociation(_ input: DescribeAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssociationResult> {
         return self.client.execute(operation: "DescribeAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -238,7 +238,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's account ID) or publicly (All).
+    /// Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's Amazon Web Services account ID) or publicly (All).
     public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDocumentPermissionResponse> {
         return self.client.execute(operation: "DescribeDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -313,7 +313,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the maintenance windows in an account.
+    /// Retrieves the maintenance windows in an Amazon Web Services account.
     public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowsResult> {
         return self.client.execute(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -333,7 +333,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the patch baselines in your account.
+    /// Lists the patch baselines in your Amazon Web Services account.
     public func describePatchBaselines(_ input: DescribePatchBaselinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePatchBaselinesResult> {
         return self.client.execute(operation: "DescribePatchBaselines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -388,7 +388,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local AWS credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a capability of Amazon Web Services Systems Manager, with an SSM document that enables you to target an instance with a script or command. For example, run the command using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
+    /// Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a capability of Amazon Web Services Systems Manager, with an SSM document that enables you to target an instance with a script or command. For example, run the command using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
     public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeployablePatchSnapshotForInstanceResult> {
         return self.client.execute(operation: "GetDeployablePatchSnapshotForInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -398,7 +398,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Query inventory information.
+    /// Query inventory information. This includes instance status, such as Stopped or Terminated.
     public func getInventory(_ input: GetInventoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInventoryResult> {
         return self.client.execute(operation: "GetInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -448,7 +448,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetOpsSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get information about a parameter by using the parameter name. Don't confuse this API operation with the GetParameters API operation.
+    /// Get information about a single parameter by specifying the parameter name.  To get information about more than one parameter at a time, use the GetParameters operation.
     public func getParameter(_ input: GetParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParameterResult> {
         return self.client.execute(operation: "GetParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -458,7 +458,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetParameterHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get details of a parameter. Don't confuse this API operation with the GetParameter API operation.
+    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.
     public func getParameters(_ input: GetParametersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParametersResult> {
         return self.client.execute(operation: "GetParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -478,7 +478,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false. This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API operation to change the default setting. Or use the ResetServiceSetting to change the value back to the original value defined by the Amazon Web Services service team. Query the current service setting for the account.
+    ///  ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false. This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API operation to change the default setting. Or use the ResetServiceSetting to change the value back to the original value defined by the Amazon Web Services service team. Query the current service setting for the Amazon Web Services account.
     public func getServiceSetting(_ input: GetServiceSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceSettingResult> {
         return self.client.execute(operation: "GetServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -493,7 +493,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ListAssociationVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns all State Manager associations in the current account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
+    /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or instance by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
     public func listAssociations(_ input: ListAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociationsResult> {
         return self.client.execute(operation: "ListAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -503,7 +503,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ListCommandInvocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the commands requested by users of the account.
+    /// Lists the commands requested by users of the Amazon Web Services account.
     public func listCommands(_ input: ListCommandsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCommandsResult> {
         return self.client.execute(operation: "ListCommands", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -518,7 +518,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ListComplianceSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Information about approval reviews for a version of an SSM document.
+    /// Information about approval reviews for a version of a change template in Change Manager.
     public func listDocumentMetadataHistory(_ input: ListDocumentMetadataHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentMetadataHistoryResponse> {
         return self.client.execute(operation: "ListDocumentMetadataHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -528,7 +528,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ListDocumentVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns all Systems Manager (SSM) documents in the current account and Region. You can limit the results of this request by using a filter.
+    /// Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter.
     public func listDocuments(_ input: ListDocumentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentsResult> {
         return self.client.execute(operation: "ListDocuments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -538,7 +538,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ListInventoryEntries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of all OpsItem events in the current Region and account. You can limit the results to events associated with specific OpsItems by specifying a filter.
+    /// Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
     public func listOpsItemEvents(_ input: ListOpsItemEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOpsItemEventsResponse> {
         return self.client.execute(operation: "ListOpsItemEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -673,7 +673,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "UpdateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified instance.
+    /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified instance.  UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter.
     public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAssociationStatusResult> {
         return self.client.execute(operation: "UpdateAssociationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -688,7 +688,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates information related to approval reviews for a specific version of a document.
+    /// Updates information related to approval reviews for a specific version of a change template in Change Manager.
     public func updateDocumentMetadata(_ input: UpdateDocumentMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDocumentMetadataResponse> {
         return self.client.execute(operation: "UpdateDocumentMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

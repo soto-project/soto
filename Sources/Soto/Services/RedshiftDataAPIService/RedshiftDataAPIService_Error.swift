@@ -20,6 +20,7 @@ import SotoCore
 public struct RedshiftDataAPIServiceErrorType: AWSErrorType {
     enum Code: String {
         case activeStatementsExceededException = "ActiveStatementsExceededException"
+        case batchExecuteStatementException = "BatchExecuteStatementException"
         case executeStatementException = "ExecuteStatementException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -46,6 +47,8 @@ public struct RedshiftDataAPIServiceErrorType: AWSErrorType {
 
     /// The number of active statements exceeds the limit.
     public static var activeStatementsExceededException: Self { .init(.activeStatementsExceededException) }
+    /// An SQL statement encountered an environmental error while running.
+    public static var batchExecuteStatementException: Self { .init(.batchExecuteStatementException) }
     /// The SQL statement encountered an environmental error while running.
     public static var executeStatementException: Self { .init(.executeStatementException) }
     /// The Amazon Redshift Data API operation failed due to invalid input.

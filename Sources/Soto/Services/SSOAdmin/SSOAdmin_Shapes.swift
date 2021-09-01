@@ -60,7 +60,7 @@ extension SSOAdmin {
     // MARK: Shapes
 
     public struct AccessControlAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute associated with your identities in your identity source. This is used to map a specified attribute in your identity source with an attribute in AWS SSO.
+        /// The name of the attribute associated with your identities in your identity source. This is used to map a specified attribute in your identity source with an attribute in Amazon Web Services SSO.
         public let key: String
         /// The value used for mapping a specified attribute to an identity source.
         public let value: AccessControlAttributeValue
@@ -84,7 +84,7 @@ extension SSOAdmin {
     }
 
     public struct AccessControlAttributeValue: AWSEncodableShape & AWSDecodableShape {
-        /// The identity source to use when mapping a specified attribute to AWS SSO.
+        /// The identity source to use when mapping a specified attribute to Amazon Web Services SSO.
         public let source: [String]
 
         public init(source: [String]) {
@@ -107,11 +107,11 @@ extension SSOAdmin {
     }
 
     public struct AccountAssignment: AWSDecodableShape {
-        /// The identifier of the AWS account.
+        /// The identifier of the Amazon Web Services account.
         public let accountId: String?
-        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
-        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+        /// An identifier for an object in Amazon Web Services SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO Identity Store API Reference.
         public let principalId: String?
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType?
@@ -136,9 +136,9 @@ extension SSOAdmin {
         public let createdDate: Date?
         /// The message that contains an error or exception in case of an operation failure.
         public let failureReason: String?
-        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
-        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+        /// An identifier for an object in Amazon Web Services SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO Identity Store API Reference.
         public let principalId: String?
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType?
@@ -146,7 +146,7 @@ extension SSOAdmin {
         public let requestId: String?
         /// The status of the permission set provisioning process.
         public let status: StatusValues?
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String?
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType?
@@ -198,7 +198,7 @@ extension SSOAdmin {
     }
 
     public struct AttachManagedPolicyToPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The IAM managed policy ARN to be attached to a permission set.
         public let managedPolicyArn: String
@@ -234,7 +234,7 @@ extension SSOAdmin {
     }
 
     public struct AttachedManagedPolicy: AWSDecodableShape {
-        /// The ARN of the IAM managed policy. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the IAM managed policy. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let arn: String?
         /// The name of the IAM managed policy.
         public let name: String?
@@ -251,15 +251,15 @@ extension SSOAdmin {
     }
 
     public struct CreateAccountAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that the admin wants to grant the principal access to.
         public let permissionSetArn: String
-        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+        /// An identifier for an object in Amazon Web Services SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO Identity Store API Reference.
         public let principalId: String
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType
@@ -310,7 +310,7 @@ extension SSOAdmin {
     }
 
     public struct CreateInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
-        /// Specifies the AWS SSO identity store attributes to add to your ABAC configuration. When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the AWS SSO identity store. If a SAML assertion passes any of these attributes, AWS SSO will replace the attribute value with the value from the AWS SSO identity store.
+        /// Specifies the Amazon Web Services SSO identity store attributes to add to your ABAC configuration. When using an external identity provider as an identity source, you can pass attributes through the SAML assertion. Doing so provides an alternative to configuring attributes from the Amazon Web Services SSO identity store. If a SAML assertion passes any of these attributes, Amazon Web Services SSO will replace the attribute value with the value from the Amazon Web Services SSO identity store.
         public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration
         /// The ARN of the SSO instance under which the operation will be executed.
         public let instanceArn: String
@@ -340,7 +340,7 @@ extension SSOAdmin {
     public struct CreatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The name of the PermissionSet.
         public let name: String
@@ -394,7 +394,7 @@ extension SSOAdmin {
     }
 
     public struct CreatePermissionSetResponse: AWSDecodableShape {
-        /// Defines the level of access on an AWS account.
+        /// Defines the level of access on an Amazon Web Services account.
         public let permissionSet: PermissionSet?
 
         public init(permissionSet: PermissionSet? = nil) {
@@ -407,15 +407,15 @@ extension SSOAdmin {
     }
 
     public struct DeleteAccountAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
-        /// An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+        /// An identifier for an object in Amazon Web Services SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO Identity Store API Reference.
         public let principalId: String
         /// The entity type for which the assignment will be deleted.
         public let principalType: PrincipalType
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String
         /// The entity type for which the assignment will be deleted.
         public let targetType: TargetType
@@ -466,7 +466,7 @@ extension SSOAdmin {
     }
 
     public struct DeleteInlinePolicyFromPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
@@ -519,7 +519,7 @@ extension SSOAdmin {
     }
 
     public struct DeletePermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that should be deleted.
         public let permissionSetArn: String
@@ -551,7 +551,7 @@ extension SSOAdmin {
     public struct DescribeAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentCreationRequestId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
         public init(accountAssignmentCreationRequestId: String, instanceArn: String) {
@@ -588,7 +588,7 @@ extension SSOAdmin {
     public struct DescribeAccountAssignmentDeletionStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentDeletionRequestId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
         public init(accountAssignmentDeletionRequestId: String, instanceArn: String) {
@@ -642,7 +642,7 @@ extension SSOAdmin {
     }
 
     public struct DescribeInstanceAccessControlAttributeConfigurationResponse: AWSDecodableShape {
-        /// Gets the list of AWS SSO identity store attributes added to your ABAC configuration.
+        /// Gets the list of Amazon Web Services SSO identity store attributes that have been added to your ABAC configuration.
         public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration?
         /// The status of the attribute configuration process.
         public let status: InstanceAccessControlAttributeConfigurationStatus?
@@ -663,7 +663,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetProvisioningStatusRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
         public let provisionPermissionSetRequestId: String
@@ -700,7 +700,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -726,7 +726,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetResponse: AWSDecodableShape {
-        /// Describes the level of access on an AWS account.
+        /// Describes the level of access on an Amazon Web Services account.
         public let permissionSet: PermissionSet?
 
         public init(permissionSet: PermissionSet? = nil) {
@@ -739,7 +739,7 @@ extension SSOAdmin {
     }
 
     public struct DetachManagedPolicyFromPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The IAM managed policy ARN to be attached to a permission set.
         public let managedPolicyArn: String
@@ -775,7 +775,7 @@ extension SSOAdmin {
     }
 
     public struct GetInlinePolicyForPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -814,7 +814,7 @@ extension SSOAdmin {
     }
 
     public struct InstanceAccessControlAttributeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Lists the attributes that are configured for ABAC in the specified AWS SSO instance.
+        /// Lists the attributes that are configured for ABAC in the specified Amazon Web Services SSO instance.
         public let accessControlAttributes: [AccessControlAttribute]
 
         public init(accessControlAttributes: [AccessControlAttribute]) {
@@ -837,7 +837,7 @@ extension SSOAdmin {
     public struct InstanceMetadata: AWSDecodableShape {
         /// The identifier of the identity store that is connected to the SSO instance.
         public let identityStoreId: String?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
 
         public init(identityStoreId: String? = nil, instanceArn: String? = nil) {
@@ -854,7 +854,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -906,7 +906,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentDeletionStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -956,9 +956,9 @@ extension SSOAdmin {
     }
 
     public struct ListAccountAssignmentsRequest: AWSEncodableShape {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -999,7 +999,7 @@ extension SSOAdmin {
     }
 
     public struct ListAccountAssignmentsResponse: AWSDecodableShape {
-        /// The list of assignments that match the input AWS account and permission set.
+        /// The list of assignments that match the input Amazon Web Services account and permission set.
         public let accountAssignments: [AccountAssignment]?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1016,15 +1016,15 @@ extension SSOAdmin {
     }
 
     public struct ListAccountsForProvisionedPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
         public let maxResults: Int?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
-        /// The ARN of the PermissionSet from which the associated AWS accounts will be listed.
+        /// The ARN of the PermissionSet from which the associated Amazon Web Services accounts will be listed.
         public let permissionSetArn: String
-        /// The permission set provisioning status for an AWS account.
+        /// The permission set provisioning status for an Amazon Web Services account.
         public let provisioningStatus: ProvisioningStatus?
 
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String, provisioningStatus: ProvisioningStatus? = nil) {
@@ -1058,7 +1058,7 @@ extension SSOAdmin {
     }
 
     public struct ListAccountsForProvisionedPermissionSetResponse: AWSDecodableShape {
-        /// The list of AWS AccountIds.
+        /// The list of Amazon Web Services AccountIds.
         public let accountIds: [String]?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1116,7 +1116,7 @@ extension SSOAdmin {
     }
 
     public struct ListManagedPoliciesInPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
         public let maxResults: Int?
@@ -1173,7 +1173,7 @@ extension SSOAdmin {
     public struct ListPermissionSetProvisioningStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1223,9 +1223,9 @@ extension SSOAdmin {
     }
 
     public struct ListPermissionSetsProvisionedToAccountRequest: AWSEncodableShape {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1265,7 +1265,7 @@ extension SSOAdmin {
     public struct ListPermissionSetsProvisionedToAccountResponse: AWSDecodableShape {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
-        /// Defines the level of access that an AWS account has.
+        /// Defines the level of access that an Amazon Web Services account has.
         public let permissionSets: [String]?
 
         public init(nextToken: String? = nil, permissionSets: [String]? = nil) {
@@ -1280,7 +1280,7 @@ extension SSOAdmin {
     }
 
     public struct ListPermissionSetsRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1313,7 +1313,7 @@ extension SSOAdmin {
     public struct ListPermissionSetsResponse: AWSDecodableShape {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
-        /// Defines the level of access on an AWS account.
+        /// Defines the level of access on an Amazon Web Services account.
         public let permissionSets: [String]?
 
         public init(nextToken: String? = nil, permissionSets: [String]? = nil) {
@@ -1328,7 +1328,7 @@ extension SSOAdmin {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1396,7 +1396,7 @@ extension SSOAdmin {
         public let description: String?
         /// The name of the permission set.
         public let name: String?
-        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// Used to redirect users within the application during the federation authentication process.
         public let relayState: String?
@@ -1423,13 +1423,13 @@ extension SSOAdmin {
     }
 
     public struct PermissionSetProvisioningStatus: AWSDecodableShape {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String?
         /// The date that the permission set was created.
         public let createdDate: Date?
         /// The message that contains an error or exception in case of an operation failure.
         public let failureReason: String?
-        /// The ARN of the permission set that is being provisioned. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the permission set that is being provisioned. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// The identifier for tracking the request operation that is generated by the universally unique identifier (UUID) workflow.
         public let requestId: String?
@@ -1477,11 +1477,11 @@ extension SSOAdmin {
     }
 
     public struct ProvisionPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, typically a 10-12 digit string (For example, 123456789012).
         public let targetId: String?
         /// The entity type for which the assignment will be created.
         public let targetType: ProvisionTargetType
@@ -1527,7 +1527,7 @@ extension SSOAdmin {
     public struct PutInlinePolicyToPermissionSetRequest: AWSEncodableShape {
         /// The IAM inline policy to attach to a PermissionSet.
         public let inlinePolicy: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -1588,7 +1588,7 @@ extension SSOAdmin {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
@@ -1627,7 +1627,7 @@ extension SSOAdmin {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
@@ -1698,7 +1698,7 @@ extension SSOAdmin {
     public struct UpdatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String

@@ -36,6 +36,12 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClientAuthenticationStatus: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClientAuthenticationType: String, CustomStringConvertible, Codable {
         case smartcard = "SmartCard"
         public var description: String { return self.rawValue }
@@ -263,9 +269,9 @@ extension DirectoryService {
     public struct AddIpRoutesRequest: AWSEncodableShape {
         /// Identifier (ID) of the directory to which to add the address block.
         public let directoryId: String
-        /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
+        /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your self-managed domain.
         public let ipRoutes: [IpRoute]
-        /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
+        /// If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
         public let updateSecurityGroupForDirectoryControllers: Bool?
 
         public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool? = nil) {
@@ -468,6 +474,27 @@ extension DirectoryService {
         }
     }
 
+    public struct ClientAuthenticationSettingInfo: AWSDecodableShape {
+        /// The date and time when the status of the client authentication type was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// Whether the client authentication type is enabled or disabled for the specified directory.
+        public let status: ClientAuthenticationStatus?
+        /// The type of client authentication for the specified directory. If no type is specified, a list of all client authentication types that are supported for the directory is retrieved.
+        public let type: ClientAuthenticationType?
+
+        public init(lastUpdatedDateTime: Date? = nil, status: ClientAuthenticationStatus? = nil, type: ClientAuthenticationType? = nil) {
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case status = "Status"
+            case type = "Type"
+        }
+    }
+
     public struct ClientCertAuthSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate.
         public let oCSPUrl: String?
@@ -513,7 +540,7 @@ extension DirectoryService {
         public let dnsIpAddrs: [String]?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
         public let remoteDomainName: String?
-        /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
+        /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your Amazon Web Services directory.
         public let replicationScope: ReplicationScope?
 
         public init(dnsIpAddrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
@@ -534,11 +561,11 @@ extension DirectoryService {
         public let connectSettings: DirectoryConnectSettings
         /// A description for the directory.
         public let description: String?
-        /// The fully qualified name of the on-premises directory, such as corp.example.com.
+        /// The fully qualified name of your self-managed directory, such as corp.example.com.
         public let name: String
-        /// The password for the on-premises user account.
+        /// The password for your self-managed user account.
         public let password: String
-        /// The NetBIOS name of the on-premises directory, such as CORP.
+        /// The NetBIOS name of your self-managed directory, such as CORP.
         public let shortName: String?
         /// The size of the directory.
         public let size: DirectorySize
@@ -594,7 +621,7 @@ extension DirectoryService {
     }
 
     public struct CreateAliasRequest: AWSEncodableShape {
-        /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
+        /// The requested alias. The alias must be unique amongst all aliases in Amazon Web Services. This operation throws an EntityAlreadyExistsException error if the alias already exists.
         public let alias: String
         /// The identifier of the directory for which to create the alias.
         public let directoryId: String
@@ -607,7 +634,7 @@ extension DirectoryService {
         public func validate(name: String) throws {
             try self.validate(self.alias, name: "alias", parent: name, max: 62)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
-            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*")
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!D-|d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*")
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -691,7 +718,7 @@ extension DirectoryService {
     }
 
     public struct CreateConditionalForwarderRequest: AWSEncodableShape {
-        /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
+        /// The directory ID of the Amazon Web Services directory for which you are creating the conditional forwarder.
         public let directoryId: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let dnsIpAddrs: [String]
@@ -815,17 +842,17 @@ extension DirectoryService {
     }
 
     public struct CreateMicrosoftADRequest: AWSEncodableShape {
-        /// A description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
+        /// A description for the directory. This label will appear on the Amazon Web Services console Directory Details page after the directory is created.
         public let description: String?
-        /// AWS Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
+        /// Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
         public let edition: DirectoryEdition?
-        /// The fully qualified domain name for the AWS Managed Microsoft AD directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
+        /// The fully qualified domain name for the Managed Microsoft AD directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
         public let name: String
         /// The password for the default administrative user named Admin. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
         public let password: String
         /// The NetBIOS name for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com.
         public let shortName: String?
-        /// The tags to be assigned to the AWS Managed Microsoft AD directory.
+        /// The tags to be assigned to the Managed Microsoft AD directory.
         public let tags: [Tag]?
         /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
         public let vpcSettings: DirectoryVpcSettings
@@ -917,7 +944,7 @@ extension DirectoryService {
     public struct CreateTrustRequest: AWSEncodableShape {
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let conditionalForwarderIpAddrs: [String]?
-        /// The Directory ID of the AWS Managed Microsoft AD directory for which to establish the trust relationship.
+        /// The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship.
         public let directoryId: String
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
         public let remoteDomainName: String
@@ -1143,9 +1170,9 @@ extension DirectoryService {
     }
 
     public struct DeregisterEventTopicRequest: AWSEncodableShape {
-        /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
+        /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified Amazon SNS topic.
         public let directoryId: String
-        /// The name of the SNS topic from which to remove the directory as a publisher.
+        /// The name of the Amazon SNS topic from which to remove the directory as a publisher.
         public let topicName: String
 
         public init(directoryId: String, topicName: String) {
@@ -1202,6 +1229,54 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
+        }
+    }
+
+    public struct DescribeClientAuthenticationSettingsRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to retrieve information.
+        public let directoryId: String
+        /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
+        public let limit: Int?
+        /// The DescribeClientAuthenticationSettingsResult.NextToken value from a previous call to DescribeClientAuthenticationSettings. Pass null if this is the first call.
+        public let nextToken: String?
+        /// The type of client authentication for which to retrieve information. If no type is specified, a list of all client authentication types that are supported for the specified directory is retrieved.
+        public let type: ClientAuthenticationType?
+
+        public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil, type: ClientAuthenticationType? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case type = "Type"
+        }
+    }
+
+    public struct DescribeClientAuthenticationSettingsResult: AWSDecodableShape {
+        /// Information about the type of client authentication for the specified directory. The following information is retrieved: The date and time when the status of the client authentication type was last updated, whether the client authentication type is enabled or disabled, and the type of client authentication.
+        public let clientAuthenticationSettingsInfo: [ClientAuthenticationSettingInfo]?
+        /// The next token used to retrieve the client authentication settings if the number of setting types exceeds page limit and there is another page.
+        public let nextToken: String?
+
+        public init(clientAuthenticationSettingsInfo: [ClientAuthenticationSettingInfo]? = nil, nextToken: String? = nil) {
+            self.clientAuthenticationSettingsInfo = clientAuthenticationSettingsInfo
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAuthenticationSettingsInfo = "ClientAuthenticationSettingsInfo"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1338,9 +1413,9 @@ extension DirectoryService {
     }
 
     public struct DescribeEventTopicsRequest: AWSEncodableShape {
-        /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
+        /// The Directory ID for which to get the list of associated Amazon SNS topics. If this member is null, associations for all Directory IDs are returned.
         public let directoryId: String?
-        /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
+        /// A list of Amazon SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
         public let topicNames: [String]?
 
         public init(directoryId: String? = nil, topicNames: [String]? = nil) {
@@ -1364,7 +1439,7 @@ extension DirectoryService {
     }
 
     public struct DescribeEventTopicsResult: AWSDecodableShape {
-        /// A list of SNS topic names that receive status messages from the specified Directory ID.
+        /// A list of Amazon SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
 
         public init(eventTopics: [EventTopic]? = nil) {
@@ -1569,7 +1644,7 @@ extension DirectoryService {
     }
 
     public struct DescribeTrustsRequest: AWSEncodableShape {
-        /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
+        /// The Directory ID of the Amazon Web Services directory that is a part of the requested trust relationship.
         public let directoryId: String?
         /// The maximum number of objects to return.
         public let limit: Int?
@@ -1619,9 +1694,9 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettings: AWSEncodableShape {
-        /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
+        /// A list of one or more IP addresses of DNS servers or domain controllers in your self-managed directory.
         public let customerDnsIps: [String]
-        /// The user name of an account in the on-premises directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain
+        /// The user name of an account in your self-managed directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain
         public let customerUserName: String
         /// A list of subnet identifiers in the VPC in which the AD Connector is created.
         public let subnetIds: [String]
@@ -1660,7 +1735,7 @@ extension DirectoryService {
         public let availabilityZones: [String]?
         /// The IP addresses of the AD Connector servers.
         public let connectIps: [String]?
-        /// The user name of the service account in the on-premises directory.
+        /// The user name of the service account in your self-managed directory.
         public let customerUserName: String?
         /// The security group identifier for the AD Connector directory.
         public let securityGroupId: String?
@@ -1701,7 +1776,7 @@ extension DirectoryService {
         public let desiredNumberOfDomainControllers: Int?
         /// The directory identifier.
         public let directoryId: String?
-        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
+        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in your self-managed directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
         /// The edition associated with this directory.
         public let edition: DirectoryEdition?
@@ -1709,7 +1784,7 @@ extension DirectoryService {
         public let launchTime: Date?
         /// The fully qualified name of the directory.
         public let name: String?
-        /// Describes the AWS Managed Microsoft AD directory in the directory owner account.
+        /// Describes the Managed Microsoft AD directory in the directory owner account.
         public let ownerDirectoryDescription: OwnerDirectoryDescription?
         /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
         public let radiusSettings: RadiusSettings?
@@ -1717,11 +1792,11 @@ extension DirectoryService {
         public let radiusStatus: RadiusStatus?
         /// Lists the Regions where the directory has replicated.
         public let regionsInfo: RegionsInfo?
-        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
+        /// The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organization (ORGANIZATIONS) or with any Amazon Web Services account by sending a shared directory request (HANDSHAKE).
         public let shareMethod: ShareMethod?
         /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
         public let shareNotes: String?
-        /// Current directory status of the shared AWS Managed Microsoft AD directory.
+        /// Current directory status of the shared Managed Microsoft AD directory.
         public let shareStatus: ShareStatus?
         /// The short name of the directory.
         public let shortName: String?
@@ -1737,7 +1812,7 @@ extension DirectoryService {
         public let stageReason: String?
         /// The directory size.
         public let type: DirectoryType?
-        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
+        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
         public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
@@ -1804,11 +1879,11 @@ extension DirectoryService {
         public let cloudOnlyDirectoriesLimit: Int?
         /// Indicates if the cloud directory limit has been reached.
         public let cloudOnlyDirectoriesLimitReached: Bool?
-        /// The current number of AWS Managed Microsoft AD directories in the region.
+        /// The current number of Managed Microsoft AD directories in the region.
         public let cloudOnlyMicrosoftADCurrentCount: Int?
-        /// The maximum number of AWS Managed Microsoft AD directories allowed in the region.
+        /// The maximum number of Managed Microsoft AD directories allowed in the region.
         public let cloudOnlyMicrosoftADLimit: Int?
-        /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
+        /// Indicates if the Managed Microsoft AD directory limit has been reached.
         public let cloudOnlyMicrosoftADLimitReached: Bool?
         /// The current number of connected directories in the Region.
         public let connectedDirectoriesCurrentCount: Int?
@@ -1843,7 +1918,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryVpcSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
+        /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets.
         public let subnetIds: [String]
         /// The identifier of the VPC in which to create the directory.
         public let vpcId: String
@@ -2047,7 +2122,7 @@ extension DirectoryService {
     public struct EnableClientAuthenticationRequest: AWSEncodableShape {
         /// The identifier of the specified directory.
         public let directoryId: String
-        /// The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Connector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in the on-premises AD.
+        /// The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Connector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in your self-managed AD.
         public let type: ClientAuthenticationType
 
         public init(directoryId: String, type: ClientAuthenticationType) {
@@ -2154,15 +2229,15 @@ extension DirectoryService {
     }
 
     public struct EventTopic: AWSDecodableShape {
-        /// The date and time of when you associated your directory with the SNS topic.
+        /// The date and time of when you associated your directory with the Amazon SNS topic.
         public let createdDateTime: Date?
-        /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
+        /// The Directory ID of an Directory Service directory that will publish status messages to an Amazon SNS topic.
         public let directoryId: String?
         /// The topic registration status.
         public let status: TopicStatus?
-        /// The SNS topic ARN (Amazon Resource Name).
+        /// The Amazon SNS topic ARN (Amazon Resource Name).
         public let topicArn: String?
-        /// The name of an AWS SNS topic the receives status messages from the directory.
+        /// The name of an Amazon SNS topic the receives status messages from the directory.
         public let topicName: String?
 
         public init(createdDateTime: Date? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
@@ -2187,7 +2262,7 @@ extension DirectoryService {
     }
 
     public struct GetDirectoryLimitsResult: AWSDecodableShape {
-        /// A DirectoryLimits object that contains the directory limits for the current rRegion.
+        /// A DirectoryLimits object that contains the directory limits for the current Region.
         public let directoryLimits: DirectoryLimits?
 
         public init(directoryLimits: DirectoryLimits? = nil) {
@@ -2230,7 +2305,7 @@ extension DirectoryService {
     }
 
     public struct IpRoute: AWSEncodableShape {
-        /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
+        /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
         /// Description of the address block.
         public let description: String?
@@ -2395,7 +2470,7 @@ extension DirectoryService {
     }
 
     public struct ListLogSubscriptionsRequest: AWSEncodableShape {
-        /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
+        /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your Amazon Web Services account. If there are no log subscriptions for the Amazon Web Services account or the directory, an empty list will be returned.
         public let directoryId: String?
         /// The maximum number of items returned.
         public let limit: Int?
@@ -2421,7 +2496,7 @@ extension DirectoryService {
     }
 
     public struct ListLogSubscriptionsResult: AWSDecodableShape {
-        /// A list of active LogSubscription objects for calling the AWS account.
+        /// A list of active LogSubscription objects for calling the Amazon Web Services account.
         public let logSubscriptions: [LogSubscription]?
         /// The token for the next set of items to return.
         public let nextToken: String?
@@ -2547,7 +2622,7 @@ extension DirectoryService {
     public struct OwnerDirectoryDescription: AWSDecodableShape {
         /// Identifier of the directory owner account.
         public let accountId: String?
-        /// Identifier of the AWS Managed Microsoft AD directory in the directory owner account.
+        /// Identifier of the Managed Microsoft AD directory in the directory owner account.
         public let directoryId: String?
         /// IP address of the directory’s domain controllers.
         public let dnsIpAddrs: [String]?
@@ -2582,7 +2657,7 @@ extension DirectoryService {
         public let authenticationProtocol: RadiusAuthenticationProtocol?
         /// Not currently used.
         public let displayLabel: String?
-        /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
+        /// The port that your RADIUS server is using for communications. Your self-managed network must allow inbound traffic over this port from the Directory Service servers.
         public let radiusPort: Int?
         /// The maximum number of times that communication with the RADIUS server is attempted.
         public let radiusRetries: Int?
@@ -2621,6 +2696,7 @@ extension DirectoryService {
             try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, min: 1)
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, max: 512)
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, min: 8)
+            try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, pattern: "^(\\p{LD}|\\p{Punct}| )+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2682,7 +2758,7 @@ extension DirectoryService {
     public struct RegionsInfo: AWSDecodableShape {
         /// Lists the Regions where the directory has been replicated, excluding the primary Region.
         public let additionalRegions: [String]?
-        /// The Region where the AWS Managed Microsoft AD directory was originally created.
+        /// The Region where the Managed Microsoft AD directory was originally created.
         public let primaryRegion: String?
 
         public init(additionalRegions: [String]? = nil, primaryRegion: String? = nil) {
@@ -2742,9 +2818,9 @@ extension DirectoryService {
     }
 
     public struct RegisterEventTopicRequest: AWSEncodableShape {
-        /// The Directory ID that will publish status messages to the SNS topic.
+        /// The Directory ID that will publish status messages to the Amazon SNS topic.
         public let directoryId: String
-        /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
+        /// The Amazon SNS topic name to which the directory will publish status messages. This Amazon SNS topic must be in the same region as the specified Directory ID.
         public let topicName: String
 
         public init(directoryId: String, topicName: String) {
@@ -2879,7 +2955,7 @@ extension DirectoryService {
     }
 
     public struct ResetUserPasswordRequest: AWSEncodableShape {
-        /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
+        /// Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides.
         public let directoryId: String
         /// The new password that will be reset.
         public let newPassword: String
@@ -2971,9 +3047,9 @@ extension DirectoryService {
     }
 
     public struct ShareDirectoryRequest: AWSEncodableShape {
-        /// Identifier of the AWS Managed Microsoft AD directory that you want to share with other AWS accounts.
+        /// Identifier of the Managed Microsoft AD directory that you want to share with other Amazon Web Services accounts.
         public let directoryId: String
-        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a directory sharing request (HANDSHAKE).
+        /// The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organization (ORGANIZATIONS) or with any Amazon Web Services account by sending a directory sharing request (HANDSHAKE).
         public let shareMethod: ShareMethod
         /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
         public let shareNotes: String?
@@ -3049,11 +3125,11 @@ extension DirectoryService {
         public let sharedAccountId: String?
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String?
-        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
+        /// The method used when sharing a directory to determine whether the directory should be shared within your Amazon Web Services organization (ORGANIZATIONS) or with any Amazon Web Services account by sending a shared directory request (HANDSHAKE).
         public let shareMethod: ShareMethod?
         /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
         public let shareNotes: String?
-        /// Current directory status of the shared AWS Managed Microsoft AD directory.
+        /// Current directory status of the shared Managed Microsoft AD directory.
         public let shareStatus: ShareStatus?
 
         public init(createdDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil) {
@@ -3211,7 +3287,7 @@ extension DirectoryService {
     public struct Trust: AWSDecodableShape {
         /// The date and time that the trust relationship was created.
         public let createdDateTime: Date?
-        /// The Directory ID of the AWS directory involved in the trust relationship.
+        /// The Directory ID of the Amazon Web Services directory involved in the trust relationship.
         public let directoryId: String?
         /// The date and time that the trust relationship was last updated.
         public let lastUpdatedDateTime: Date?
@@ -3262,7 +3338,7 @@ extension DirectoryService {
     }
 
     public struct UnshareDirectoryRequest: AWSEncodableShape {
-        /// The identifier of the AWS Managed Microsoft AD directory that you want to stop sharing.
+        /// The identifier of the Managed Microsoft AD directory that you want to stop sharing.
         public let directoryId: String
         /// Identifier for the directory consumer account with whom the directory has to be unshared.
         public let unshareTarget: UnshareTarget
@@ -3319,7 +3395,7 @@ extension DirectoryService {
     }
 
     public struct UpdateConditionalForwarderRequest: AWSEncodableShape {
-        /// The directory ID of the AWS directory for which to update the conditional forwarder.
+        /// The directory ID of the Amazon Web Services directory for which to update the conditional forwarder.
         public let directoryId: String
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
         public let dnsIpAddrs: [String]

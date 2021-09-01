@@ -1079,7 +1079,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the maintenance windows in an account.
+    ///  Retrieves the maintenance windows in an Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1291,7 +1291,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the patch baselines in your account.
+    ///  Lists the patch baselines in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1503,7 +1503,7 @@ extension SSM {
         )
     }
 
-    ///  Query inventory information.
+    ///  Query inventory information. This includes instance status, such as Stopped or Terminated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1821,7 +1821,7 @@ extension SSM {
         )
     }
 
-    ///  Returns all State Manager associations in the current account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
+    ///  Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or instance by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1927,7 +1927,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the commands requested by users of the account.
+    ///  Lists the commands requested by users of the Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2139,7 +2139,7 @@ extension SSM {
         )
     }
 
-    ///  Returns all Systems Manager (SSM) documents in the current account and Region. You can limit the results of this request by using a filter.
+    ///  Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2192,7 +2192,7 @@ extension SSM {
         )
     }
 
-    ///  Returns a list of all OpsItem events in the current Region and account. You can limit the results to events associated with specific OpsItems by specifying a filter.
+    ///  Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

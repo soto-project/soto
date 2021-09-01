@@ -22,6 +22,7 @@ public struct GreengrassV2ErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case requestAlreadyInProgressException = "RequestAlreadyInProgressException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -50,8 +51,10 @@ public struct GreengrassV2ErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     public static var conflictException: Self { .init(.conflictException) }
-    /// AWS IoT Greengrass can't process your request right now. Try again later.
+    /// IoT Greengrass can't process your request right now. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request is already in progress. This exception occurs when you use a client token for multiple requests while IoT Greengrass is still processing an earlier request that uses the same client token.
+    public static var requestAlreadyInProgressException: Self { .init(.requestAlreadyInProgressException) }
     /// The requested resource can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your request exceeds a service quota. For example, you might have the maximum number of components that you can create.

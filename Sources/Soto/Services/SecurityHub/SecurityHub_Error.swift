@@ -54,7 +54,7 @@ public struct SecurityHubErrorType: AWSErrorType {
     public static var invalidAccessException: Self { .init(.invalidAccessException) }
     /// The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
-    /// The request was rejected because it attempted to create resources beyond the current AWS account or throttling limits. The error code describes the limit exceeded.
+    /// The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource specified in the request conflicts with an existing resource.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }

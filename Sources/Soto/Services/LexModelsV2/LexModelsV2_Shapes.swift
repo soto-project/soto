@@ -3621,10 +3621,13 @@ extension LexModelsV2 {
     }
 
     public struct IntentClosingSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user and no closing input from the user is used. If the active field isn't specified, the default is true.
+        public let active: Bool?
         /// The response that Amazon Lex sends to the user when the intent is complete.
         public let closingResponse: ResponseSpecification
 
-        public init(closingResponse: ResponseSpecification) {
+        public init(active: Bool? = nil, closingResponse: ResponseSpecification) {
+            self.active = active
             self.closingResponse = closingResponse
         }
 
@@ -3633,17 +3636,21 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case active
             case closingResponse
         }
     }
 
     public struct IntentConfirmationSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent and processing continues as if the responses aren't present. If the active field isn't specified, the default is true.
+        public let active: Bool?
         /// When the user answers "no" to the question defined in promptSpecification, Amazon Lex responds with this response to acknowledge that the intent was canceled.
         public let declinationResponse: ResponseSpecification
         /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.
         public let promptSpecification: PromptSpecification
 
-        public init(declinationResponse: ResponseSpecification, promptSpecification: PromptSpecification) {
+        public init(active: Bool? = nil, declinationResponse: ResponseSpecification, promptSpecification: PromptSpecification) {
+            self.active = active
             self.declinationResponse = declinationResponse
             self.promptSpecification = promptSpecification
         }
@@ -3654,6 +3661,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case active
             case declinationResponse
             case promptSpecification
         }
@@ -4982,7 +4990,7 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.priority, name: "priority", parent: name, max: 25)
+            try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.validate(self.slotId, name: "slotId", parent: name, max: 10)
             try self.validate(self.slotId, name: "slotId", parent: name, min: 10)
@@ -6326,6 +6334,8 @@ extension LexModelsV2 {
     }
 
     public struct WaitAndContinueSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used and the bot expects an appropriate response within the configured timeout. If the active field isn't specified, the default is true.
+        public let active: Bool?
         /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.
         public let continueResponse: ResponseSpecification
         /// A response that Amazon Lex sends periodically to the user to indicate that the bot is still waiting for input from the user.
@@ -6333,7 +6343,8 @@ extension LexModelsV2 {
         /// The response that Amazon Lex sends to indicate that the bot is waiting for the conversation to continue.
         public let waitingResponse: ResponseSpecification
 
-        public init(continueResponse: ResponseSpecification, stillWaitingResponse: StillWaitingResponseSpecification? = nil, waitingResponse: ResponseSpecification) {
+        public init(active: Bool? = nil, continueResponse: ResponseSpecification, stillWaitingResponse: StillWaitingResponseSpecification? = nil, waitingResponse: ResponseSpecification) {
+            self.active = active
             self.continueResponse = continueResponse
             self.stillWaitingResponse = stillWaitingResponse
             self.waitingResponse = waitingResponse
@@ -6346,6 +6357,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case active
             case continueResponse
             case stillWaitingResponse
             case waitingResponse

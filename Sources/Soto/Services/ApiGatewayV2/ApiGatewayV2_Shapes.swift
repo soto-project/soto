@@ -55,6 +55,8 @@ extension ApiGatewayV2 {
 
     public enum DomainNameStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
+        case pendingCertificateReimport = "PENDING_CERTIFICATE_REIMPORT"
+        case pendingOwnershipVerification = "PENDING_OWNERSHIP_VERIFICATION"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -1571,7 +1573,7 @@ extension ApiGatewayV2 {
         /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var certificateUploadDate: Date?
-        /// The status of the domain name migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
+        /// The status of the domain name migration. The valid values are AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the domain name migration.
         public let domainNameStatusMessage: String?
@@ -1579,10 +1581,12 @@ extension ApiGatewayV2 {
         public let endpointType: EndpointType?
         /// The Amazon Route 53 Hosted Zone ID of the endpoint.
         public let hostedZoneId: String?
+        /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn
+        public let ownershipVerificationCertificateArn: String?
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
 
-        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil) {
+        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, ownershipVerificationCertificateArn: String? = nil, securityPolicy: SecurityPolicy? = nil) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
             self.certificateName = certificateName
@@ -1591,6 +1595,7 @@ extension ApiGatewayV2 {
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointType = endpointType
             self.hostedZoneId = hostedZoneId
+            self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
             self.securityPolicy = securityPolicy
         }
 
@@ -1603,6 +1608,7 @@ extension ApiGatewayV2 {
             case domainNameStatusMessage
             case endpointType
             case hostedZoneId
+            case ownershipVerificationCertificateArn
             case securityPolicy
         }
     }

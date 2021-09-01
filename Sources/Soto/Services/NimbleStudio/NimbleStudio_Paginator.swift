@@ -231,7 +231,7 @@ extension NimbleStudio {
         )
     }
 
-    ///  List the streaming image resources available to this studio. This list will contain both images provided by AWS, as well as streaming images that you have created in your studio.
+    ///  List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension NimbleStudio {
         )
     }
 
-    ///  List studios in your AWS account in the requested AWS Region.
+    ///  List studios in your Amazon Web Services account in the requested Amazon Web Services Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -554,6 +554,7 @@ extension NimbleStudio.ListStreamingSessionsRequest: AWSPaginateToken {
         return .init(
             createdBy: self.createdBy,
             nextToken: token,
+            ownedBy: self.ownedBy,
             sessionIds: self.sessionIds,
             studioId: self.studioId
         )

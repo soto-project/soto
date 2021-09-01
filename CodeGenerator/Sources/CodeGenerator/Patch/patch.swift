@@ -28,10 +28,6 @@ extension API {
             ReplacePatch(PatchKeyPath2(\Self.operations["GetDashboard"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
             ReplacePatch(PatchKeyPath2(\Self.operations["DeleteDashboards"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
         ],
-        "CloudFormation": [
-            // this fixes the waiters
-            AddPatch(PatchKeyPath3(\Self.shapes["StackStatus"], \.type.enum, \.cases), value: "UPDATE_FAILED"),
-        ],
         "ComprehendMedical": [
             AddPatch(PatchKeyPath3(\Self.shapes["EntitySubType"], \.type.enum, \.cases), value: "DX_NAME"),
         ],

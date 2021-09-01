@@ -62,7 +62,7 @@ public struct Polly: AWSService {
 
     // MARK: API Calls
 
-    /// Deletes the specified pronunciation lexicon stored in an AWS Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons.
+    /// Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons.
     public func deleteLexicon(_ input: DeleteLexiconInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLexiconOutput> {
         return self.client.execute(operation: "DeleteLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -72,7 +72,7 @@ public struct Polly: AWSService {
         return self.client.execute(operation: "DescribeVoices", path: "/v1/voices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the content of the specified pronunciation lexicon stored in an AWS Region. For more information, see Managing Lexicons.
+    /// Returns the content of the specified pronunciation lexicon stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
     public func getLexicon(_ input: GetLexiconInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLexiconOutput> {
         return self.client.execute(operation: "GetLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -82,7 +82,7 @@ public struct Polly: AWSService {
         return self.client.execute(operation: "GetSpeechSynthesisTask", path: "/v1/synthesisTasks/{TaskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of pronunciation lexicons stored in an AWS Region. For more information, see Managing Lexicons.
+    /// Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
     public func listLexicons(_ input: ListLexiconsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLexiconsOutput> {
         return self.client.execute(operation: "ListLexicons", path: "/v1/lexicons", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -92,12 +92,12 @@ public struct Polly: AWSService {
         return self.client.execute(operation: "ListSpeechSynthesisTasks", path: "/v1/synthesisTasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stores a pronunciation lexicon in an AWS Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
+    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
     public func putLexicon(_ input: PutLexiconInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutLexiconOutput> {
         return self.client.execute(operation: "PutLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask. This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn). Once the synthesis task is created, this operation will return a SpeechSynthesisTask object, which will include an identifier of this task as well as the current status.
+    /// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask. This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn). Once the synthesis task is created, this operation will return a SpeechSynthesisTask object, which will include an identifier of this task as well as the current status. The SpeechSynthesisTask object is available for 72 hours after starting the asynchronous synthesis task.
     public func startSpeechSynthesisTask(_ input: StartSpeechSynthesisTaskInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSpeechSynthesisTaskOutput> {
         return self.client.execute(operation: "StartSpeechSynthesisTask", path: "/v1/synthesisTasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

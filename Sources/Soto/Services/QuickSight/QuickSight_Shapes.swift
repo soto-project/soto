@@ -327,6 +327,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum Status: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TemplateErrorType: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
         case dataSetNotFound = "DATA_SET_NOT_FOUND"
@@ -378,9 +384,9 @@ extension QuickSight {
     }
 
     public struct AccountSettings: AWSDecodableShape {
-        /// The "account name" you provided for the QuickSight subscription in your AWS account. You create this name when you sign up for QuickSight. It is unique in all of AWS and it appears only in the console when users sign in.
+        /// The "account name" you provided for the QuickSight subscription in your Amazon Web Services account;. You create this name when you sign up for QuickSight. It is unique in all of Amazon Web Services and it appears only when users sign in.
         public let accountName: String?
-        /// The default QuickSight namespace for your AWS account.
+        /// The default QuickSight namespace for your Amazon Web Services account;.
         public let defaultNamespace: String?
         /// The edition of QuickSight that you're currently subscribed to: Enterprise edition or Standard edition.
         public let edition: Edition?
@@ -611,6 +617,42 @@ extension QuickSight {
         }
     }
 
+    public struct AnonymousUserDashboardEmbeddingConfiguration: AWSEncodableShape {
+        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        public let initialDashboardId: String
+
+        public init(initialDashboardId: String) {
+            self.initialDashboardId = initialDashboardId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, max: 2048)
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, min: 1)
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialDashboardId = "InitialDashboardId"
+        }
+    }
+
+    public struct AnonymousUserEmbeddingExperienceConfiguration: AWSEncodableShape {
+        /// The type of embedding experience. In this case, an Amazon QuickSight dashboard.
+        public let dashboard: AnonymousUserDashboardEmbeddingConfiguration?
+
+        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil) {
+            self.dashboard = dashboard
+        }
+
+        public func validate(name: String) throws {
+            try self.dashboard?.validate(name: "\(name).dashboard")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboard = "Dashboard"
+        }
+    }
+
     public struct AthenaParameters: AWSEncodableShape & AWSDecodableShape {
         /// The workgroup that Amazon Athena uses.
         public let workGroup: String?
@@ -757,7 +799,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
         public let dataSetId: String
@@ -791,7 +833,7 @@ extension QuickSight {
         public let arn: String?
         /// An ID for the ingestion.
         public let ingestionId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -974,9 +1016,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
         ]
 
-        /// The QuickSight customizations you're adding in the current AWS Region. You can add these to an AWS account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+        /// The QuickSight customizations you're adding in the current Amazon Web Services Region;. You can add these to an Amazon Web Services account; and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
         public let accountCustomization: AccountCustomization
-        /// The ID for the AWS account that you want to customize QuickSight for.
+        /// The ID for the Amazon Web Services account; that you want to customize QuickSight for.
         public let awsAccountId: String
         /// The QuickSight namespace that you want to add customizations to.
         public let namespace: String?
@@ -1014,15 +1056,15 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The QuickSight customizations you're adding in the current AWS Region.
+        /// The QuickSight customizations you're adding in the current Amazon Web Services Region;.
         public let accountCustomization: AccountCustomization?
-        /// The Amazon Resource Name (ARN) for the customization that you created for this AWS account.
+        /// The Amazon Resource Name (ARN) for the customization that you created for this Amazon Web Services account;.
         public let arn: String?
-        /// The ID for the AWS account that you want to customize QuickSight for.
+        /// The ID for the Amazon Web Services account; that you want to customize QuickSight for.
         public let awsAccountId: String?
         /// The namespace associated with the customization you're creating.
         public let namespace: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1054,13 +1096,13 @@ extension QuickSight {
 
         /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
         public let analysisId: String
-        /// The ID of the AWS account where you are creating an analysis.
+        /// The ID of the Amazon Web Services account; where you are creating an analysis.
         public let awsAccountId: String
         /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the QuickSight console.
         public let name: String
         /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of AWS Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
+        /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
         public let permissions: [ResourcePermission]?
         /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets.
         public let sourceEntity: AnalysisSourceEntity
@@ -1124,7 +1166,7 @@ extension QuickSight {
         public let arn: String?
         /// The status of the creation of the analysis.
         public let creationStatus: ResourceStatus?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1173,7 +1215,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
-        /// The ID of the AWS account where you want to create the dashboard.
+        /// The ID of the Amazon Web Services account; where you want to create the dashboard.
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
@@ -1185,11 +1227,11 @@ extension QuickSight {
         public let parameters: Parameters?
         /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
         public let permissions: [ResourcePermission]?
-        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account; and any QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: DashboardSourceEntity
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
-        /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same AWS account where you create the dashboard.
+        /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same Amazon Web Services account; where you create the dashboard.
         public let themeArn: String?
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
@@ -1255,7 +1297,7 @@ extension QuickSight {
         public let creationStatus: ResourceStatus?
         /// The ID for the dashboard.
         public let dashboardId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1286,13 +1328,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
         /// A set of one or more definitions of a  ColumnLevelPermissionRule .
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
-        /// An ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// An ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String
         /// The folder that contains fields and nested subfolders for your dataset.
         public let fieldFolders: [String: FieldFolder]?
@@ -1308,10 +1350,12 @@ extension QuickSight {
         public let physicalTableMap: [String: PhysicalTable]
         /// The row-level security configuration for the data that you want to create.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+        /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+        public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
         public let tags: [Tag]?
 
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, tags: [Tag]? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -1323,6 +1367,7 @@ extension QuickSight {
             self.permissions = permissions
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
             self.tags = tags
         }
 
@@ -1364,6 +1409,7 @@ extension QuickSight {
                 try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
             }
             try self.rowLevelPermissionDataSet?.validate(name: "\(name).rowLevelPermissionDataSet")
+            try self.rowLevelPermissionTagConfiguration?.validate(name: "\(name).rowLevelPermissionTagConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1382,6 +1428,7 @@ extension QuickSight {
             case permissions = "Permissions"
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+            case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"
             case tags = "Tags"
         }
     }
@@ -1393,13 +1440,13 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String?
         /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
         public let ingestionArn: String?
         /// The ID of the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
         public let ingestionId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1428,11 +1475,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The credentials QuickSight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
         public let credentials: DataSourceCredentials?
-        /// An ID for the data source. This ID is unique per AWS Region for each AWS account.
+        /// An ID for the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String
         /// The parameters that QuickSight uses to connect to your underlying source.
         public let dataSourceParameters: DataSourceParameters?
@@ -1504,9 +1551,9 @@ extension QuickSight {
         public let arn: String?
         /// The status of creating the data source.
         public let creationStatus: ResourceStatus?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1686,7 +1733,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to add the user to.
         public let groupName: String
@@ -1725,7 +1772,7 @@ extension QuickSight {
 
         /// The group member.
         public let groupMember: GroupMember?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1749,7 +1796,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// A description for the group that you want to create.
         public let description: String?
@@ -1790,7 +1837,7 @@ extension QuickSight {
 
         /// The name of the group.
         public let group: Group?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1814,11 +1861,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The name of the assignment, also called a rule. It must be unique within an AWS account.
+        /// The name of the assignment, also called a rule. It must be unique within an Amazon Web Services account;.
         public let assignmentName: String
         /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
         public let assignmentStatus: AssignmentStatus
-        /// The ID of the AWS account where you want to assign an IAM policy to QuickSight users or groups.
+        /// The ID of the Amazon Web Services account; where you want to assign an IAM policy to QuickSight users or groups.
         public let awsAccountId: String
         /// The QuickSight users, groups, or both that you want to assign the policy to.
         public let identities: [String: [String]]?
@@ -1861,7 +1908,7 @@ extension QuickSight {
 
         /// The ID for the assignment.
         public let assignmentId: String?
-        /// The name of the assignment. This name must be unique within the AWS account.
+        /// The name of the assignment. This name must be unique within the Amazon Web Services account;.
         public let assignmentName: String?
         /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
         public let assignmentStatus: AssignmentStatus?
@@ -1869,7 +1916,7 @@ extension QuickSight {
         public let identities: [String: [String]]?
         /// The ARN for the IAM policy that is applied to the QuickSight users and groups specified in this assignment.
         public let policyArn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1902,7 +1949,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
         public let dataSetId: String
@@ -1938,7 +1985,7 @@ extension QuickSight {
         public let ingestionId: String?
         /// The ingestion status.
         public let ingestionStatus: IngestionStatus?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -1965,7 +2012,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The ID for the AWS account that you want to create the QuickSight namespace in.
+        /// The ID for the Amazon Web Services account; that you want to create the QuickSight namespace in.
         public let awsAccountId: String
         /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
         public let identityStore: IdentityStore
@@ -2008,7 +2055,7 @@ extension QuickSight {
 
         /// The ARN of the QuickSight namespace you created.
         public let arn: String?
-        /// The AWS Region that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in.
+        /// The Amazon Web Services Region; that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in.
         public let capacityRegion: String?
         /// The status of the creation of the namespace. This is an asynchronous process. A status of CREATED means that your namespace is ready to use. If an error occurs, it indicates if the process is retryable or non-retryable. In the case of a non-retryable error, refer to the error message for follow-up tasks.
         public let creationStatus: NamespaceStatus?
@@ -2016,7 +2063,7 @@ extension QuickSight {
         public let identityStore: IdentityStore?
         /// The name of the new namespace that you created.
         public let name: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -2049,9 +2096,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by QuickSight.
+        /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Amazon QuickSight.
         public let aliasName: String
-        /// The ID of the AWS account that contains the template that you creating an alias for.
+        /// The ID of the Amazon Web Services account; that contains the template that you creating an alias for.
         public let awsAccountId: String
         /// An ID for the template.
         public let templateId: String
@@ -2088,7 +2135,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -2114,17 +2161,17 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// A display name for the template.
         public let name: String?
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
-        /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account; and any QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: TemplateSourceEntity
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [Tag]?
-        /// An ID for the template that you want to create. This template is unique per AWS Region in each AWS account.
+        /// An ID for the template that you want to create. This template is unique per Amazon Web Services Region; in each Amazon Web Services account;.
         public let templateId: String
         /// A description of the current template version being created. This API operation creates the first version of the template. Every time UpdateTemplate is called, a new version is created. Each version of the template maintains a description of the version in the VersionDescription field.
         public let versionDescription: String?
@@ -2181,7 +2228,7 @@ extension QuickSight {
         public let arn: String?
         /// The template creation status.
         public let creationStatus: ResourceStatus?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -2218,7 +2265,7 @@ extension QuickSight {
 
         /// The name that you want to give to the theme alias that you are creating. The alias name can't begin with a $. Alias names that start with $ are reserved by Amazon QuickSight.
         public let aliasName: String
-        /// The ID of the AWS account that contains the theme for the new theme alias.
+        /// The ID of the Amazon Web Services account; that contains the theme for the new theme alias.
         public let awsAccountId: String
         /// An ID for the theme alias.
         public let themeId: String
@@ -2255,7 +2302,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -2281,7 +2328,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
         ]
 
-        /// The ID of the AWS account where you want to store the new theme.
+        /// The ID of the Amazon Web Services account; where you want to store the new theme.
         public let awsAccountId: String
         /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of the starting themes defined by Amazon QuickSight. For a list of the starting themes, use ListThemes or choose Themes from within a QuickSight analysis.
         public let baseThemeId: String
@@ -2293,7 +2340,7 @@ extension QuickSight {
         public let permissions: [ResourcePermission]?
         /// A map of the key-value pairs for the resource tag or tags that you want to add to the resource.
         public let tags: [Tag]?
-        /// An ID for the theme that you want to create. The theme ID is unique per AWS Region in each AWS account.
+        /// An ID for the theme that you want to create. The theme ID is unique per Amazon Web Services Region; in each Amazon Web Services account;.
         public let themeId: String
         /// A description of the first version of the theme that you're creating. Every time UpdateTheme is called, a new version is created. Each version of the theme has a description of the version in the VersionDescription field.
         public let versionDescription: String?
@@ -2355,7 +2402,7 @@ extension QuickSight {
         public let arn: String?
         /// The theme creation status.
         public let creationStatus: ResourceStatus?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -2771,8 +2818,10 @@ extension QuickSight {
         public let physicalTableMap: [String: PhysicalTable]?
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+        /// The element you can use to define tags for row-level security.
+        public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
-        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -2787,6 +2836,7 @@ extension QuickSight {
             self.outputColumns = outputColumns
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2804,6 +2854,7 @@ extension QuickSight {
             case outputColumns = "OutputColumns"
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+            case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"
         }
     }
 
@@ -2879,8 +2930,10 @@ extension QuickSight {
         public let name: String?
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+        /// Whether or not the row level permission tags are applied.
+        public let rowLevelPermissionTagConfigurationApplied: Bool?
 
-        public init(arn: String? = nil, columnLevelPermissionRulesApplied: Bool? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, columnLevelPermissionRulesApplied: Bool? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfigurationApplied: Bool? = nil) {
             self.arn = arn
             self.columnLevelPermissionRulesApplied = columnLevelPermissionRulesApplied
             self.createdTime = createdTime
@@ -2889,6 +2942,7 @@ extension QuickSight {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.rowLevelPermissionTagConfigurationApplied = rowLevelPermissionTagConfigurationApplied
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2900,6 +2954,7 @@ extension QuickSight {
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+            case rowLevelPermissionTagConfigurationApplied = "RowLevelPermissionTagConfigurationApplied"
         }
     }
 
@@ -2910,7 +2965,7 @@ extension QuickSight {
         public let arn: String?
         /// The time that this data source was created.
         public let createdTime: Date?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String?
         /// The parameters that Amazon QuickSight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
         public let dataSourceParameters: DataSourceParameters?
@@ -3008,7 +3063,7 @@ extension QuickSight {
         public let auroraParameters: AuroraParameters?
         /// Aurora PostgreSQL parameters.
         public let auroraPostgreSqlParameters: AuroraPostgreSqlParameters?
-        /// AWS IoT Analytics parameters.
+        /// Amazon Web Services IoT Analytics parameters.
         public let awsIotAnalyticsParameters: AwsIotAnalyticsParameters?
         /// Jira parameters.
         public let jiraParameters: JiraParameters?
@@ -3159,7 +3214,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
         ]
 
-        /// The ID for the AWS account that you want to delete QuickSight customizations from in this AWS Region.
+        /// The ID for the Amazon Web Services account; that you want to delete QuickSight customizations from in this Amazon Web Services Region;.
         public let awsAccountId: String
         /// The QuickSight namespace that you're deleting the customizations from.
         public let namespace: String?
@@ -3185,7 +3240,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3211,7 +3266,7 @@ extension QuickSight {
 
         /// The ID of the analysis that you're deleting.
         public let analysisId: String
-        /// The ID of the AWS account where you want to delete an analysis.
+        /// The ID of the Amazon Web Services account; where you want to delete an analysis.
         public let awsAccountId: String
         /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
         public let forceDeleteWithoutRecovery: Bool?
@@ -3250,7 +3305,7 @@ extension QuickSight {
         public let arn: String?
         /// The date and time that the analysis is scheduled to be deleted.
         public let deletionTime: Date?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3279,7 +3334,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
-        /// The ID of the AWS account that contains the dashboard that you're deleting.
+        /// The ID of the Amazon Web Services account; that contains the dashboard that you're deleting.
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
@@ -3314,7 +3369,7 @@ extension QuickSight {
         public let arn: String?
         /// The ID of the dashboard.
         public let dashboardId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3340,9 +3395,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String
 
         public init(awsAccountId: String, dataSetId: String) {
@@ -3366,9 +3421,9 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3394,9 +3449,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String
 
         public init(awsAccountId: String, dataSourceId: String) {
@@ -3420,9 +3475,9 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the data source that you deleted.
         public let arn: String?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3563,7 +3618,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to delete the user from.
         public let groupName: String
@@ -3600,7 +3655,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3623,7 +3678,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to delete.
         public let groupName: String
@@ -3654,7 +3709,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3679,7 +3734,7 @@ extension QuickSight {
 
         /// The name of the assignment.
         public let assignmentName: String
-        /// The AWS account ID where you want to delete the IAM policy assignment.
+        /// The Amazon Web Services account; ID where you want to delete the IAM policy assignment.
         public let awsAccountId: String
         /// The namespace that contains the assignment.
         public let namespace: String
@@ -3710,7 +3765,7 @@ extension QuickSight {
 
         /// The name of the assignment.
         public let assignmentName: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3734,7 +3789,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that you want to delete the QuickSight namespace from.
+        /// The ID for the Amazon Web Services account; that you want to delete the QuickSight namespace from.
         public let awsAccountId: String
         /// The namespace that you want to delete.
         public let namespace: String
@@ -3760,7 +3815,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3785,7 +3840,7 @@ extension QuickSight {
 
         /// The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter.
         public let aliasName: String
-        /// The ID of the AWS account that contains the item to delete.
+        /// The ID of the Amazon Web Services account; that contains the item to delete.
         public let awsAccountId: String
         /// The ID for the template that the specified alias is for.
         public let templateId: String
@@ -3820,7 +3875,7 @@ extension QuickSight {
         public let aliasName: String?
         /// The Amazon Resource Name (ARN) of the template you want to delete.
         public let arn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3851,7 +3906,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
-        /// The ID of the AWS account that contains the template that you're deleting.
+        /// The ID of the Amazon Web Services account; that contains the template that you're deleting.
         public let awsAccountId: String
         /// An ID for the template you want to delete.
         public let templateId: String
@@ -3884,7 +3939,7 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3915,7 +3970,7 @@ extension QuickSight {
 
         /// The unique name for the theme alias to delete.
         public let aliasName: String
-        /// The ID of the AWS account that contains the theme alias to delete.
+        /// The ID of the Amazon Web Services account; that contains the theme alias to delete.
         public let awsAccountId: String
         /// The ID for the theme that the specified alias is for.
         public let themeId: String
@@ -3950,7 +4005,7 @@ extension QuickSight {
         public let aliasName: String?
         /// The Amazon Resource Name (ARN) of the theme resource using the deleted alias.
         public let arn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -3981,7 +4036,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
-        /// The ID of the AWS account that contains the theme that you're deleting.
+        /// The ID of the Amazon Web Services account; that contains the theme that you're deleting.
         public let awsAccountId: String
         /// An ID for the theme that you want to delete.
         public let themeId: String
@@ -4014,7 +4069,7 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4043,7 +4098,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId"))
         ]
 
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -4072,7 +4127,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4095,7 +4150,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -4126,7 +4181,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4149,7 +4204,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "resolved", location: .querystring(locationName: "resolved"))
         ]
 
-        /// The ID for the AWS account that you want to describe QuickSight customizations for.
+        /// The ID for the Amazon Web Services account; that you want to describe QuickSight customizations for.
         public let awsAccountId: String
         /// The QuickSight namespace that you want to describe QuickSight customizations for.
         public let namespace: String?
@@ -4178,15 +4233,15 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The QuickSight customizations that exist in the current AWS Region.
+        /// The QuickSight customizations that exist in the current Amazon Web Services Region;.
         public let accountCustomization: AccountCustomization?
-        /// The Amazon Resource Name (ARN) of the customization that's associated with this AWS account.
+        /// The Amazon Resource Name (ARN) of the customization that's associated with this Amazon Web Services account;.
         public let arn: String?
-        /// The ID for the AWS account that you're describing.
+        /// The ID for the Amazon Web Services account; that you're describing.
         public let awsAccountId: String?
         /// The QuickSight namespace that you're describing.
         public let namespace: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4215,7 +4270,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The ID for the AWS account that contains the settings that you want to list.
+        /// The ID for the Amazon Web Services account; that contains the settings that you want to list.
         public let awsAccountId: String
 
         public init(awsAccountId: String) {
@@ -4236,9 +4291,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The QuickSight settings for this AWS account. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. In the QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your AWS account. The edition that you subscribe to applies to QuickSight in every AWS Region where you use it.
+        /// The QuickSight settings for this Amazon Web Services account;. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. In the QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your Amazon Web Services account;. The edition that you subscribe to applies to QuickSight in every Amazon Web Services Region; where you use it.
         public let accountSettings: AccountSettings?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4264,7 +4319,7 @@ extension QuickSight {
 
         /// The ID of the analysis whose permissions you're describing. The ID is part of the analysis URL.
         public let analysisId: String
-        /// The ID of the AWS account that contains the analysis whose permissions you're describing. You must be using the AWS account that the analysis is in.
+        /// The ID of the Amazon Web Services account; that contains the analysis whose permissions you're describing. You must be using the Amazon Web Services account; that the analysis is in.
         public let awsAccountId: String
 
         public init(analysisId: String, awsAccountId: String) {
@@ -4295,7 +4350,7 @@ extension QuickSight {
         public let analysisId: String?
         /// A structure that describes the principals and the resource-level permissions on an analysis.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4325,7 +4380,7 @@ extension QuickSight {
 
         /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
         public let analysisId: String
-        /// The ID of the AWS account that contains the analysis. You must be using the AWS account that the analysis is in.
+        /// The ID of the Amazon Web Services account; that contains the analysis. You must be using the Amazon Web Services account; that the analysis is in.
         public let awsAccountId: String
 
         public init(analysisId: String, awsAccountId: String) {
@@ -4352,7 +4407,7 @@ extension QuickSight {
 
         /// A metadata structure that contains summary information for the analysis that you're describing.
         public let analysis: Analysis?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4376,7 +4431,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
-        /// The ID of the AWS account that contains the dashboard that you're describing permissions for.
+        /// The ID of the Amazon Web Services account; that contains the dashboard that you're describing permissions for.
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
@@ -4409,7 +4464,7 @@ extension QuickSight {
         public let dashboardId: String?
         /// A structure that contains the permissions for the dashboard.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4441,7 +4496,7 @@ extension QuickSight {
 
         /// The alias name.
         public let aliasName: String?
-        /// The ID of the AWS account that contains the dashboard that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the dashboard that you're describing.
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
@@ -4478,7 +4533,7 @@ extension QuickSight {
 
         /// Information about the dashboard.
         public let dashboard: Dashboard?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of this request.
         public let status: Int?
@@ -4502,9 +4557,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String
 
         public init(awsAccountId: String, dataSetId: String) {
@@ -4528,11 +4583,11 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String?
         /// A list of resource permissions on the dataset.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4560,9 +4615,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String
 
         public init(awsAccountId: String, dataSetId: String) {
@@ -4586,7 +4641,7 @@ extension QuickSight {
 
         /// Information on the dataset.
         public let dataSet: DataSet?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4610,9 +4665,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String
 
         public init(awsAccountId: String, dataSourceId: String) {
@@ -4636,11 +4691,11 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String?
         /// A list of resource permissions on the data source.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4668,9 +4723,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String
 
         public init(awsAccountId: String, dataSourceId: String) {
@@ -4694,7 +4749,7 @@ extension QuickSight {
 
         /// The information on the data source.
         public let dataSource: DataSource?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4894,7 +4949,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to describe.
         public let groupName: String
@@ -4927,7 +4982,7 @@ extension QuickSight {
 
         /// The name of the group.
         public let group: Group?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -4954,7 +5009,7 @@ extension QuickSight {
 
         /// The name of the assignment, also called a rule.
         public let assignmentName: String
-        /// The ID of the AWS account that contains the assignment that you want to describe.
+        /// The ID of the Amazon Web Services account; that contains the assignment that you want to describe.
         public let awsAccountId: String
         /// The namespace that contains the assignment.
         public let namespace: String
@@ -4985,7 +5040,7 @@ extension QuickSight {
 
         /// Information describing the IAM policy assignment.
         public let iAMPolicyAssignment: IAMPolicyAssignment?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5010,7 +5065,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
         public let dataSetId: String
@@ -5042,7 +5097,7 @@ extension QuickSight {
 
         /// Information about the ingestion.
         public let ingestion: Ingestion?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5066,7 +5121,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that contains the QuickSight namespace that you want to describe.
+        /// The ID for the Amazon Web Services account; that contains the QuickSight namespace that you want to describe.
         public let awsAccountId: String
         /// The namespace that you want to describe.
         public let namespace: String
@@ -5092,9 +5147,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The information about the namespace that you're describing. The response includes the namespace ARN, name, AWS Region, creation status, and identity store. DescribeNamespace also works for namespaces that are in the process of being created. For incomplete namespaces, this API operation lists the namespace error types and messages associated with the creation process.
+        /// The information about the namespace that you're describing. The response includes the namespace ARN, name, Amazon Web Services Region;, creation status, and identity store. DescribeNamespace also works for namespaces that are in the process of being created. For incomplete namespaces, this API operation lists the namespace error types and messages associated with the creation process.
         public let namespace: NamespaceInfoV2?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5121,7 +5176,7 @@ extension QuickSight {
 
         /// The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
         public let aliasName: String
-        /// The ID of the AWS account that contains the template alias that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the template alias that you're describing.
         public let awsAccountId: String
         /// The ID for the template.
         public let templateId: String
@@ -5152,7 +5207,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5178,7 +5233,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The ID of the AWS account that contains the template that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the template that you're describing.
         public let awsAccountId: String
         /// The ID for the template.
         public let templateId: String
@@ -5207,7 +5262,7 @@ extension QuickSight {
 
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5243,7 +5298,7 @@ extension QuickSight {
 
         /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
         public let aliasName: String?
-        /// The ID of the AWS account that contains the template that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the template that you're describing.
         public let awsAccountId: String
         /// The ID for the template.
         public let templateId: String
@@ -5278,7 +5333,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5307,7 +5362,7 @@ extension QuickSight {
 
         /// The name of the theme alias that you want to describe.
         public let aliasName: String
-        /// The ID of the AWS account that contains the theme alias that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the theme alias that you're describing.
         public let awsAccountId: String
         /// The ID for the theme.
         public let themeId: String
@@ -5338,7 +5393,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5364,7 +5419,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
         ]
 
-        /// The ID of the AWS account that contains the theme that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the theme that you're describing.
         public let awsAccountId: String
         /// The ID for the theme that you want to describe permissions for.
         public let themeId: String
@@ -5393,7 +5448,7 @@ extension QuickSight {
 
         /// A list of resource permissions set on the theme.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5429,7 +5484,7 @@ extension QuickSight {
 
         /// The alias of the theme that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to themes.
         public let aliasName: String?
-        /// The ID of the AWS account that contains the theme that you're describing.
+        /// The ID of the Amazon Web Services account; that contains the theme that you're describing.
         public let awsAccountId: String
         /// The ID for the theme.
         public let themeId: String
@@ -5462,7 +5517,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5489,7 +5544,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -5520,7 +5575,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5718,6 +5773,145 @@ extension QuickSight {
         }
     }
 
+    public struct GenerateEmbedUrlForAnonymousUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The Amazon Resource Names for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view.
+        public let authorizedResourceArns: [String]
+        /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
+        public let awsAccountId: String
+        /// The configuration of the experience you are embedding.
+        public let experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration
+        /// The Amazon QuickSight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
+        public let namespace: String
+        /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
+        public let sessionLifetimeInMinutes: Int64?
+        /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags.
+        public let sessionTags: [SessionTag]?
+
+        public init(authorizedResourceArns: [String], awsAccountId: String, experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration, namespace: String, sessionLifetimeInMinutes: Int64? = nil, sessionTags: [SessionTag]? = nil) {
+            self.authorizedResourceArns = authorizedResourceArns
+            self.awsAccountId = awsAccountId
+            self.experienceConfiguration = experienceConfiguration
+            self.namespace = namespace
+            self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+            self.sessionTags = sessionTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.experienceConfiguration.validate(name: "\(name).experienceConfiguration")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
+            try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
+            try self.sessionTags?.forEach {
+                try $0.validate(name: "\(name).sessionTags[]")
+            }
+            try self.validate(self.sessionTags, name: "sessionTags", parent: name, max: 50)
+            try self.validate(self.sessionTags, name: "sessionTags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedResourceArns = "AuthorizedResourceArns"
+            case experienceConfiguration = "ExperienceConfiguration"
+            case namespace = "Namespace"
+            case sessionLifetimeInMinutes = "SessionLifetimeInMinutes"
+            case sessionTags = "SessionTags"
+        }
+    }
+
+    public struct GenerateEmbedUrlForAnonymousUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The embed URL for the dashboard.
+        public let embedUrl: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String
+        /// The HTTP status of the request.
+        public let status: Int
+
+        public init(embedUrl: String, requestId: String, status: Int) {
+            self.embedUrl = embedUrl
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embedUrl = "EmbedUrl"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct GenerateEmbedUrlForRegisteredUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
+        public let awsAccountId: String
+        /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
+        public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
+        /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
+        public let sessionLifetimeInMinutes: Int64?
+        /// The Amazon Resource Name for the registered user.
+        public let userArn: String
+
+        public init(awsAccountId: String, experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration, sessionLifetimeInMinutes: Int64? = nil, userArn: String) {
+            self.awsAccountId = awsAccountId
+            self.experienceConfiguration = experienceConfiguration
+            self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+            self.userArn = userArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.experienceConfiguration.validate(name: "\(name).experienceConfiguration")
+            try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
+            try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experienceConfiguration = "ExperienceConfiguration"
+            case sessionLifetimeInMinutes = "SessionLifetimeInMinutes"
+            case userArn = "UserArn"
+        }
+    }
+
+    public struct GenerateEmbedUrlForRegisteredUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The embed URL for the Amazon QuickSight dashboard or console.
+        public let embedUrl: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String
+        /// The HTTP status of the request.
+        public let status: Int
+
+        public init(embedUrl: String, requestId: String, status: Int) {
+            self.embedUrl = embedUrl
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embedUrl = "EmbedUrl"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct GeoSpatialColumnGroup: AWSEncodableShape & AWSDecodableShape {
         /// Columns in this hierarchy.
         public let columns: [String]
@@ -5766,13 +5960,13 @@ extension QuickSight {
 
         /// A list of one or more dashboard IDs that you want to add to a session that includes anonymous users. The IdentityType parameter must be set to ANONYMOUS for this to work, because other identity types authenticate as QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
-        /// The ID for the AWS account that contains the dashboard that you're embedding.
+        /// The ID for the Amazon Web Services account; that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The ID for the dashboard, also added to the AWS Identity and Access Management (IAM) policy.
+        /// The ID for the dashboard, also added to the Identity and Access Management (IAM) policy.
         public let dashboardId: String
         /// The authentication method that the user uses to sign in.
         public let identityType: EmbeddingIdentityType
-        /// The QuickSight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set this to "default".
+        /// The Amazon QuickSight namespace that the user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
         public let namespace: String?
         /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
         public let resetDisabled: Bool?
@@ -5828,7 +6022,7 @@ extension QuickSight {
 
         /// A single-use URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
         public let embedUrl: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5854,13 +6048,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
         ]
 
-        /// The ID for the AWS account associated with your QuickSight subscription.
+        /// The ID for the Amazon Web Services account; associated with your QuickSight subscription.
         public let awsAccountId: String
         /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId  - where DashboardId is the actual ID key from the QuickSight console URL of the dashboard    /analyses/AnalysisId  - where AnalysisId is the actual ID key from the QuickSight console URL of the analysis
         public let entryPoint: String?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   AWS Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(awsAccountId: String, entryPoint: String? = nil, sessionLifetimeInMinutes: Int64? = nil, userArn: String? = nil) {
@@ -5890,7 +6084,7 @@ extension QuickSight {
 
         /// A single-use URL that you can put into your server-side web page to embed your QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
         public let embedUrl: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -5970,7 +6164,7 @@ extension QuickSight {
         public let assignmentName: String?
         /// Assignment status.
         public let assignmentStatus: AssignmentStatus?
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String?
         /// Identities.
         public let identities: [String: [String]]?
@@ -6189,7 +6383,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID of the AWS account that contains the analyses.
+        /// The ID of the Amazon Web Services account; that contains the analyses.
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -6222,7 +6416,7 @@ extension QuickSight {
         public let analysisSummaryList: [AnalysisSummary]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6250,7 +6444,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID of the AWS account that contains the dashboard that you're listing versions for.
+        /// The ID of the Amazon Web Services account; that contains the dashboard that you're listing versions for.
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
@@ -6289,7 +6483,7 @@ extension QuickSight {
         public let dashboardVersionSummaryList: [DashboardVersionSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6316,7 +6510,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID of the AWS account that contains the dashboards that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the dashboards that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -6345,11 +6539,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// A structure that contains all of the dashboards in your AWS account. This structure provides basic information about the dashboards.
+        /// A structure that contains all of the dashboards in your Amazon Web Services account;. This structure provides basic information about the dashboards.
         public let dashboardSummaryList: [DashboardSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6376,7 +6570,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -6409,7 +6603,7 @@ extension QuickSight {
         public let dataSetSummaries: [DataSetSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6436,7 +6630,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -6469,7 +6663,7 @@ extension QuickSight {
         public let dataSources: [DataSource]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6625,7 +6819,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to see a membership list of.
         public let groupName: String
@@ -6668,7 +6862,7 @@ extension QuickSight {
         public let groupMemberList: [GroupMember]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6696,7 +6890,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -6734,7 +6928,7 @@ extension QuickSight {
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6763,7 +6957,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
-        /// The ID of the AWS account that contains the assignments.
+        /// The ID of the Amazon Web Services account; that contains the assignments.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -6806,7 +7000,7 @@ extension QuickSight {
         public let activeAssignments: [ActiveIAMPolicyAssignment]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6836,7 +7030,7 @@ extension QuickSight {
 
         /// The status of the assignments.
         public let assignmentStatus: AssignmentStatus?
-        /// The ID of the AWS account that contains these IAM policy assignments.
+        /// The ID of the Amazon Web Services account; that contains these IAM policy assignments.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -6877,7 +7071,7 @@ extension QuickSight {
         public let iAMPolicyAssignments: [IAMPolicyAssignmentSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6905,7 +7099,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The ID of the dataset used in the ingestion.
         public let dataSetId: String
@@ -6941,7 +7135,7 @@ extension QuickSight {
         public let ingestions: [Ingestion]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -6968,7 +7162,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID for the AWS account that contains the QuickSight namespaces that you want to list.
+        /// The ID for the Amazon Web Services account; that contains the QuickSight namespaces that you want to list.
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -6997,11 +7191,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The information about the namespaces in this AWS account. The response includes the namespace ARN, name, AWS Region, notification email address, creation status, and identity store.
+        /// The information about the namespaces in this Amazon Web Services account;. The response includes the namespace ARN, name, Amazon Web Services Region;, notification email address, creation status, and identity store.
         public let namespaces: [NamespaceInfoV2]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7041,7 +7235,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7069,7 +7263,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The ID of the AWS account that contains the template aliases that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the template aliases that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7106,7 +7300,7 @@ extension QuickSight {
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7136,7 +7330,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The ID of the AWS account that contains the templates that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the templates that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7173,7 +7367,7 @@ extension QuickSight {
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7202,7 +7396,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID of the AWS account that contains the templates that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the templates that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7233,7 +7427,7 @@ extension QuickSight {
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7263,7 +7457,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
         ]
 
-        /// The ID of the AWS account that contains the theme aliases that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the theme aliases that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7300,7 +7494,7 @@ extension QuickSight {
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7330,7 +7524,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
         ]
 
-        /// The ID of the AWS account that contains the themes that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the themes that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7367,7 +7561,7 @@ extension QuickSight {
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7397,13 +7591,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
-        /// The ID of the AWS account that contains the themes that you're listing.
+        /// The ID of the Amazon Web Services account; that contains the themes that you're listing.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by QuickSight.
+        /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
         public let type: ThemeType?
 
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, type: ThemeType? = nil) {
@@ -7431,7 +7625,7 @@ extension QuickSight {
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7462,7 +7656,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
-        /// The AWS account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The Amazon Web Services account; ID that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int?
@@ -7505,7 +7699,7 @@ extension QuickSight {
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7533,7 +7727,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int?
@@ -7569,7 +7763,7 @@ extension QuickSight {
 
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -7781,7 +7975,7 @@ extension QuickSight {
     public struct NamespaceInfoV2: AWSDecodableShape {
         /// The namespace ARN.
         public let arn: String?
-        /// The namespace AWS Region.
+        /// The namespace Amazon Web Services Region;.
         public let capacityRegion: String?
         /// The creation status of a namespace that is not yet completely created.
         public let creationStatus: NamespaceStatus?
@@ -8093,11 +8287,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser  instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser  instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
@@ -8168,7 +8362,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -8189,6 +8383,65 @@ extension QuickSight {
             case status = "Status"
             case user = "User"
             case userInvitationUrl = "UserInvitationUrl"
+        }
+    }
+
+    public struct RegisteredUserDashboardEmbeddingConfiguration: AWSEncodableShape {
+        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
+        public let initialDashboardId: String
+
+        public init(initialDashboardId: String) {
+            self.initialDashboardId = initialDashboardId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, max: 2048)
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, min: 1)
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialDashboardId = "InitialDashboardId"
+        }
+    }
+
+    public struct RegisteredUserEmbeddingExperienceConfiguration: AWSEncodableShape {
+        /// The configuration details for providing a dashboard embedding experience.
+        public let dashboard: RegisteredUserDashboardEmbeddingConfiguration?
+        /// The configuration details for providing an Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use GenerateEmbedUrlForRegisteredUser where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser  API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+        public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
+
+        public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
+            self.dashboard = dashboard
+            self.quickSightConsole = quickSightConsole
+        }
+
+        public func validate(name: String) throws {
+            try self.dashboard?.validate(name: "\(name).dashboard")
+            try self.quickSightConsole?.validate(name: "\(name).quickSightConsole")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboard = "Dashboard"
+            case quickSightConsole = "QuickSightConsole"
+        }
+    }
+
+    public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration: AWSEncodableShape {
+        /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard.    /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis.
+        public let initialPath: String?
+
+        public init(initialPath: String? = nil) {
+            self.initialPath = initialPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initialPath, name: "initialPath", parent: name, max: 1000)
+            try self.validate(self.initialPath, name: "initialPath", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialPath = "InitialPath"
         }
     }
 
@@ -8260,7 +8513,7 @@ extension QuickSight {
     public struct ResourcePermission: AWSEncodableShape & AWSDecodableShape {
         /// The IAM action to grant or revoke permissions on.
         public let actions: [String]
-        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across AWS accounts. (This is less common.)
+        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an Amazon Web Services account; root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. (This is less common.)
         public let principal: String
 
         public init(actions: [String], principal: String) {
@@ -8289,7 +8542,7 @@ extension QuickSight {
 
         /// The ID of the analysis that you're restoring.
         public let analysisId: String
-        /// The ID of the AWS account that contains the analysis.
+        /// The ID of the Amazon Web Services account; that contains the analysis.
         public let awsAccountId: String
 
         public init(analysisId: String, awsAccountId: String) {
@@ -8318,7 +8571,7 @@ extension QuickSight {
         public let analysisId: String?
         /// The Amazon Resource Name (ARN) of the analysis that you're restoring.
         public let arn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -8364,12 +8617,15 @@ extension QuickSight {
         public let namespace: String?
         /// The type of permissions to use when interpretting the permissions for RLS. DENY_ACCESS is included for backward compatibility only.
         public let permissionPolicy: RowLevelPermissionPolicy
+        /// The status of the row-level security permission dataset. If enabled, the status is ENABLED. If disabled, the status is DISABLED.
+        public let status: Status?
 
-        public init(arn: String, formatVersion: RowLevelPermissionFormatVersion? = nil, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
+        public init(arn: String, formatVersion: RowLevelPermissionFormatVersion? = nil, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy, status: Status? = nil) {
             self.arn = arn
             self.formatVersion = formatVersion
             self.namespace = namespace
             self.permissionPolicy = permissionPolicy
+            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -8382,11 +8638,70 @@ extension QuickSight {
             case formatVersion = "FormatVersion"
             case namespace = "Namespace"
             case permissionPolicy = "PermissionPolicy"
+            case status = "Status"
+        }
+    }
+
+    public struct RowLevelPermissionTagConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of row-level security tags. If enabled, the status is ENABLED. If disabled, the status is DISABLED.
+        public let status: Status?
+        /// A set of rules associated with row-level security, such as the tag names and columns that they are assigned to.
+        public let tagRules: [RowLevelPermissionTagRule]
+
+        public init(status: Status? = nil, tagRules: [RowLevelPermissionTagRule]) {
+            self.status = status
+            self.tagRules = tagRules
+        }
+
+        public func validate(name: String) throws {
+            try self.tagRules.forEach {
+                try $0.validate(name: "\(name).tagRules[]")
+            }
+            try self.validate(self.tagRules, name: "tagRules", parent: name, max: 50)
+            try self.validate(self.tagRules, name: "tagRules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case tagRules = "TagRules"
+        }
+    }
+
+    public struct RowLevelPermissionTagRule: AWSEncodableShape & AWSDecodableShape {
+        /// The column name that a tag key is assigned to.
+        public let columnName: String
+        /// A string that you want to use to filter by all the values in a column in the dataset and don’t want to list the values one by one. For example, you can use an asterisk as your match all value.
+        public let matchAllValue: String?
+        /// The unique key for a tag.
+        public let tagKey: String
+        /// A string that you want to use to delimit the values when you pass the values at run time. For example, you can delimit the values with a comma.
+        public let tagMultiValueDelimiter: String?
+
+        public init(columnName: String, matchAllValue: String? = nil, tagKey: String, tagMultiValueDelimiter: String? = nil) {
+            self.columnName = columnName
+            self.matchAllValue = matchAllValue
+            self.tagKey = tagKey
+            self.tagMultiValueDelimiter = tagMultiValueDelimiter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.matchAllValue, name: "matchAllValue", parent: name, max: 256)
+            try self.validate(self.matchAllValue, name: "matchAllValue", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagMultiValueDelimiter, name: "tagMultiValueDelimiter", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case matchAllValue = "MatchAllValue"
+            case tagKey = "TagKey"
+            case tagMultiValueDelimiter = "TagMultiValueDelimiter"
         }
     }
 
     public struct S3Parameters: AWSEncodableShape & AWSDecodableShape {
-        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded in the console.
+        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into QuickSight.
         public let manifestFileLocation: ManifestFileLocation
 
         public init(manifestFileLocation: ManifestFileLocation) {
@@ -8437,7 +8752,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The ID of the AWS account that contains the analyses that you're searching for.
+        /// The ID of the Amazon Web Services account; that contains the analyses that you're searching for.
         public let awsAccountId: String
         /// The structure for the search filters that you want to apply to your search.
         public let filters: [AnalysisSearchFilter]
@@ -8479,7 +8794,7 @@ extension QuickSight {
         public let analysisSummaryList: [AnalysisSummary]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -8504,7 +8819,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The ID of the AWS account that contains the user whose dashboards you're searching for.
+        /// The ID of the Amazon Web Services account; that contains the user whose dashboards you're searching for.
         public let awsAccountId: String
         /// The filters to apply to the search. Currently, you can search only by user name, for example, "Filters": [ { "Name": "QUICKSIGHT_USER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ]
         public let filters: [DashboardSearchFilter]
@@ -8546,7 +8861,7 @@ extension QuickSight {
         public let dashboardSummaryList: [DashboardSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -8647,6 +8962,30 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case siteBaseUrl = "SiteBaseUrl"
+        }
+    }
+
+    public struct SessionTag: AWSEncodableShape {
+        /// The key for the tag.
+        public let key: String
+        /// The value that you want to assign the tag.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 
@@ -8841,7 +9180,7 @@ extension QuickSight {
     public struct TagColumnOperation: AWSEncodableShape & AWSDecodableShape {
         /// The column that this operation acts on.
         public let columnName: String
-        /// The dataset column tag, currently only used for geospatial type tagging. .  This is not tags for the AWS tagging feature. .
+        /// The dataset column tag, currently only used for geospatial type tagging.  This is not tags for the Amazon Web Services tagging feature.
         public let tags: [ColumnTag]
 
         public init(columnName: String, tags: [ColumnTag]) {
@@ -8898,7 +9237,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -8923,7 +9262,7 @@ extension QuickSight {
         public let lastUpdatedTime: Date?
         /// The display name of the template.
         public let name: String?
-        /// The ID for the template. This is unique per AWS Region for each AWS account.
+        /// The ID for the template. This is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let templateId: String?
         /// A structure describing the versions of the template.
         public let version: TemplateVersion?
@@ -9054,7 +9393,7 @@ extension QuickSight {
         public let latestVersionNumber: Int64?
         /// A display name for the template.
         public let name: String?
-        /// The ID of the template. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the template. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let templateId: String?
 
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, templateId: String? = nil) {
@@ -9291,7 +9630,7 @@ extension QuickSight {
         public let latestVersionNumber: Int64?
         /// the display name for the theme.
         public let name: String?
-        /// The ID of the theme. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the theme. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let themeId: String?
 
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, themeId: String? = nil) {
@@ -9603,7 +9942,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -9625,9 +9964,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace"))
         ]
 
-        /// The QuickSight customizations you're updating in the current AWS Region.
+        /// The QuickSight customizations you're updating in the current Amazon Web Services Region;.
         public let accountCustomization: AccountCustomization
-        /// The ID for the AWS account that you want to update QuickSight customizations for.
+        /// The ID for the Amazon Web Services account; that you want to update QuickSight customizations for.
         public let awsAccountId: String
         /// The namespace that you want to update QuickSight customizations for.
         public let namespace: String?
@@ -9656,15 +9995,15 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The QuickSight customizations you're updating in the current AWS Region.
+        /// The QuickSight customizations you're updating in the current Amazon Web Services Region;.
         public let accountCustomization: AccountCustomization?
-        /// The Amazon Resource Name (ARN) for the updated customization for this AWS account.
+        /// The Amazon Resource Name (ARN) for the updated customization for this Amazon Web Services account;.
         public let arn: String?
-        /// The ID for the AWS account that you want to update QuickSight customizations for.
+        /// The ID for the Amazon Web Services account; that you want to update QuickSight customizations for.
         public let awsAccountId: String?
         /// The namespace associated with the customization that you're updating.
         public let namespace: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -9693,11 +10032,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The ID for the AWS account that contains the QuickSight settings that you want to list.
+        /// The ID for the Amazon Web Services account; that contains the QuickSight settings that you want to list.
         public let awsAccountId: String
-        /// The default namespace for this AWS account. Currently, the default is default. AWS Identity and Access Management (IAM) users that register for the first time with QuickSight provide an email that becomes associated with the default namespace.
+        /// The default namespace for this Amazon Web Services account;. Currently, the default is default. Identity and Access Management (IAM) users that register for the first time with QuickSight provide an email that becomes associated with the default namespace.
         public let defaultNamespace: String
-        /// The email address that you want QuickSight to send notifications to regarding your AWS account or QuickSight subscription.
+        /// The email address that you want QuickSight to send notifications to regarding your Amazon Web Services account; or QuickSight subscription.
         public let notificationEmail: String?
 
         public init(awsAccountId: String, defaultNamespace: String, notificationEmail: String? = nil) {
@@ -9725,7 +10064,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -9749,7 +10088,7 @@ extension QuickSight {
 
         /// The ID of the analysis whose permissions you're updating. The ID is part of the analysis URL.
         public let analysisId: String
-        /// The ID of the AWS account that contains the analysis whose permissions you're updating. You must be using the AWS account that the analysis is in.
+        /// The ID of the Amazon Web Services account; that contains the analysis whose permissions you're updating. You must be using the Amazon Web Services account; that the analysis is in.
         public let awsAccountId: String
         /// A structure that describes the permissions to add and the principal to add them to.
         public let grantPermissions: [ResourcePermission]?
@@ -9797,7 +10136,7 @@ extension QuickSight {
         public let analysisId: String?
         /// A structure that describes the principals and the resource-level permissions on an analysis.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -9827,7 +10166,7 @@ extension QuickSight {
 
         /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
         public let analysisId: String
-        /// The ID of the AWS account that contains the analysis that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the analysis that you're updating.
         public let awsAccountId: String
         /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the QuickSight console.
         public let name: String
@@ -9877,7 +10216,7 @@ extension QuickSight {
         public let analysisId: String?
         /// The ARN of the analysis that you're updating.
         public let arn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -9907,7 +10246,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
-        /// The ID of the AWS account that contains the dashboard whose permissions you're updating.
+        /// The ID of the Amazon Web Services account; that contains the dashboard whose permissions you're updating.
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
@@ -9957,7 +10296,7 @@ extension QuickSight {
         public let dashboardId: String?
         /// Information about the permissions on the dashboard.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -9986,7 +10325,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
-        /// The ID of the AWS account that contains the dashboard that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the dashboard that you're updating.
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
@@ -10021,7 +10360,7 @@ extension QuickSight {
         public let dashboardArn: String?
         /// The ID for the dashboard.
         public let dashboardId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10047,7 +10386,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
-        /// The ID of the AWS account that contains the dashboard that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the dashboard that you're updating.
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
@@ -10057,9 +10396,9 @@ extension QuickSight {
         public let name: String
         /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account; and any QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: DashboardSourceEntity
-        /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same AWS account where you create the dashboard.
+        /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account; where you create the dashboard.
         public let themeArn: String?
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
@@ -10107,7 +10446,7 @@ extension QuickSight {
         public let creationStatus: ResourceStatus?
         /// The ID for the dashboard.
         public let dashboardId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10139,9 +10478,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID for the dataset whose permissions you want to update. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset whose permissions you want to update. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String
         /// The resource permissions that you want to grant to the dataset.
         public let grantPermissions: [ResourcePermission]?
@@ -10184,9 +10523,9 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
-        /// The ID for the dataset whose permissions you want to update. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset whose permissions you want to update. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10212,13 +10551,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
         /// A set of one or more definitions of a  ColumnLevelPermissionRule .
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
-        /// The ID for the dataset that you want to update. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String
         /// The folder that contains fields and nested subfolders for your dataset.
         public let fieldFolders: [String: FieldFolder]?
@@ -10232,8 +10571,10 @@ extension QuickSight {
         public let physicalTableMap: [String: PhysicalTable]
         /// The row-level security configuration for the data you want to create.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+        /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+        public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -10244,6 +10585,7 @@ extension QuickSight {
             self.name = name
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
         }
 
         public func validate(name: String) throws {
@@ -10279,6 +10621,7 @@ extension QuickSight {
                 try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
             }
             try self.rowLevelPermissionDataSet?.validate(name: "\(name).rowLevelPermissionDataSet")
+            try self.rowLevelPermissionTagConfiguration?.validate(name: "\(name).rowLevelPermissionTagConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10290,6 +10633,7 @@ extension QuickSight {
             case name = "Name"
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+            case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"
         }
     }
 
@@ -10300,13 +10644,13 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
-        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSetId: String?
         /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
         public let ingestionArn: String?
         /// The ID of the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
         public let ingestionId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10336,9 +10680,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String
         /// A list of resource permissions that you want to grant on the data source.
         public let grantPermissions: [ResourcePermission]?
@@ -10381,9 +10725,9 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10409,11 +10753,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
-        /// The AWS account ID.
+        /// The Amazon Web Services account; ID.
         public let awsAccountId: String
         /// The credentials that QuickSight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
         public let credentials: DataSourceCredentials?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String
         /// The parameters that QuickSight uses to connect to your underlying source.
         public let dataSourceParameters: DataSourceParameters?
@@ -10460,9 +10804,9 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
-        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region; for each Amazon Web Services account;.
         public let dataSourceId: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10633,7 +10977,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the group is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The description for the group that you want to update.
         public let description: String?
@@ -10673,7 +11017,7 @@ extension QuickSight {
 
         /// The name of the group.
         public let group: Group?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10698,11 +11042,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The name of the assignment, also called a rule. This name must be unique within an AWS account.
+        /// The name of the assignment, also called a rule. This name must be unique within an Amazon Web Services account;.
         public let assignmentName: String
         /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
         public let assignmentStatus: AssignmentStatus?
-        /// The ID of the AWS account that contains the IAM policy assignment.
+        /// The ID of the Amazon Web Services account; that contains the IAM policy assignment.
         public let awsAccountId: String
         /// The QuickSight users, groups, or both that you want to assign the policy to.
         public let identities: [String: [String]]?
@@ -10752,7 +11096,7 @@ extension QuickSight {
         public let identities: [String: [String]]?
         /// The ARN for the IAM policy applied to the QuickSight users and groups specified in this assignment.
         public let policyArn: String?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10787,7 +11131,7 @@ extension QuickSight {
 
         /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
         public let aliasName: String
-        /// The ID of the AWS account that contains the template alias that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the template alias that you're updating.
         public let awsAccountId: String
         /// The ID for the template.
         public let templateId: String
@@ -10824,7 +11168,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10850,7 +11194,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The ID of the AWS account that contains the template.
+        /// The ID of the Amazon Web Services account; that contains the template.
         public let awsAccountId: String
         /// A list of resource permissions to be granted on the template.
         public let grantPermissions: [ResourcePermission]?
@@ -10896,7 +11240,7 @@ extension QuickSight {
 
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -10928,11 +11272,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
-        /// The ID of the AWS account that contains the template that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the template that you're updating.
         public let awsAccountId: String
         /// The name for the template.
         public let name: String?
-        /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any AWS Account and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account; and any QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: TemplateSourceEntity
         /// The ID for the template.
         public let templateId: String
@@ -10977,7 +11321,7 @@ extension QuickSight {
         public let arn: String?
         /// The creation status of the template.
         public let creationStatus: ResourceStatus?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -11014,7 +11358,7 @@ extension QuickSight {
 
         /// The name of the theme alias that you want to update.
         public let aliasName: String
-        /// The ID of the AWS account that contains the theme alias that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the theme alias that you're updating.
         public let awsAccountId: String
         /// The ID for the theme.
         public let themeId: String
@@ -11051,7 +11395,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -11077,7 +11421,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
         ]
 
-        /// The ID of the AWS account that contains the theme.
+        /// The ID of the Amazon Web Services account; that contains the theme.
         public let awsAccountId: String
         /// A list of resource permissions to be granted for the theme.
         public let grantPermissions: [ResourcePermission]?
@@ -11123,7 +11467,7 @@ extension QuickSight {
 
         /// The resulting list of resource permissions for the theme.
         public let permissions: [ResourcePermission]?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -11155,9 +11499,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "themeId", location: .uri(locationName: "ThemeId"))
         ]
 
-        /// The ID of the AWS account that contains the theme that you're updating.
+        /// The ID of the Amazon Web Services account; that contains the theme that you're updating.
         public let awsAccountId: String
-        /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits from. All themes initially inherit from a default QuickSight theme.
+        /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits from. All themes initially inherit from a default Amazon QuickSight theme.
         public let baseThemeId: String
         /// The theme configuration, which contains the theme display properties.
         public let configuration: ThemeConfiguration?
@@ -11211,7 +11555,7 @@ extension QuickSight {
         public let arn: String?
         /// The creation status of the theme.
         public let creationStatus: ResourceStatus?
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
@@ -11246,11 +11590,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account; that the user is in. Currently, you use the ID for the Amazon Web Services account; that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String
@@ -11309,7 +11653,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The AWS request ID for this operation.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?

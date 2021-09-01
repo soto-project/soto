@@ -52,13 +52,13 @@ public struct ComputeOptimizerErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An internal error has occurred. Try your call again.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// An invalid or out-of-range value was supplied for the input parameter.
+    /// The value supplied for the input parameter is out of range or not valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// The request exceeds a limit of the service.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The request must contain either a valid (registered) AWS access key ID or X.509 certificate.
+    /// The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
     public static var missingAuthenticationToken: Self { .init(.missingAuthenticationToken) }
-    /// The account is not opted in to AWS Compute Optimizer.
+    /// The account is not opted in to Compute Optimizer.
     public static var optInRequiredException: Self { .init(.optInRequiredException) }
     /// A resource that is required for the action doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

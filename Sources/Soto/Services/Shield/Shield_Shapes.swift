@@ -98,7 +98,7 @@ extension Shield {
     // MARK: Shapes
 
     public struct AssociateDRTLogBucketRequest: AWSEncodableShape {
-        /// The Amazon S3 bucket that contains your AWS WAF logs.
+        /// The Amazon S3 bucket that contains the logs that you want to share.
         public let logBucket: String
 
         public init(logBucket: String) {
@@ -121,7 +121,7 @@ extension Shield {
     }
 
     public struct AssociateDRTRoleRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
+        /// The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
 
         public init(roleArn: String) {
@@ -174,7 +174,7 @@ extension Shield {
     }
 
     public struct AssociateProactiveEngagementDetailsRequest: AWSEncodableShape {
-        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you for escalations to the DRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.
+        /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.
         public let emergencyContactList: [EmergencyContact]
 
         public init(emergencyContactList: [EmergencyContact]) {
@@ -203,7 +203,7 @@ extension Shield {
         public let attackCounters: [SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
-        /// The array of AttackProperty objects.
+        /// The array of objects that provide details of the Shield event.  For infrastructure layer events (L3 and L4 events) after January 25, 2021, you can view metrics for top contributors in Amazon CloudWatch metrics. For more information, see Shield metrics and alarms in the WAF Developer Guide.
         public let attackProperties: [AttackProperty]?
         /// The time the attack ended, in Unix time in seconds. For more information see timestamp.
         public let endTime: Date?
@@ -240,15 +240,15 @@ extension Shield {
     }
 
     public struct AttackProperty: AWSDecodableShape {
-        /// The type of distributed denial of service (DDoS) event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
+        /// The type of Shield event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events. For infrastructure layer events (L3 and L4 events) after January 25, 2021, you can view metrics for top contributors in Amazon CloudWatch metrics. For more information, see Shield metrics and alarms in the WAF Developer Guide.
         public let attackLayer: AttackLayer?
-        /// Defines the DDoS attack property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback DDoS attacks.
+        /// Defines the Shield event property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback events.
         public let attackPropertyIdentifier: AttackPropertyIdentifier?
-        /// The array of contributor objects that includes the top five contributors to an attack.
+        /// Contributor objects for the top five contributors to a Shield event.
         public let topContributors: [Contributor]?
-        /// The total contributions made to this attack by all contributors, not just the five listed in the TopContributors list.
+        /// The total contributions made to this Shield event by all contributors.
         public let total: Int64?
-        /// The unit of the Value of the contributions.
+        /// The unit used for the Contributor Value property.
         public let unit: Unit?
 
         public init(attackLayer: AttackLayer? = nil, attackPropertyIdentifier: AttackPropertyIdentifier? = nil, topContributors: [Contributor]? = nil, total: Int64? = nil, unit: Unit? = nil) {
@@ -379,7 +379,7 @@ extension Shield {
     }
 
     public struct CreateProtectionGroupRequest: AWSEncodableShape {
-        /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
+        /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions.
         public let aggregation: ProtectionGroupAggregation
         /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
         public let members: [String]?
@@ -436,7 +436,7 @@ extension Shield {
     public struct CreateProtectionRequest: AWSEncodableShape {
         /// Friendly name for the Protection you are creating.
         public let name: String
-        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
+        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an Amazon CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
         public let resourceArn: String
         /// One or more tag key-value pairs for the Protection object that is created.
         public let tags: [Tag]?
@@ -600,9 +600,9 @@ extension Shield {
     }
 
     public struct DescribeDRTAccessResponse: AWSDecodableShape {
-        /// The list of Amazon S3 buckets accessed by the DRT.
+        /// The list of Amazon S3 buckets accessed by the SRT.
         public let logBucketList: [String]?
-        /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS account.
+        /// The Amazon Resource Name (ARN) of the role the SRT used to access your Amazon Web Services account.
         public let roleArn: String?
 
         public init(logBucketList: [String]? = nil, roleArn: String? = nil) {
@@ -621,7 +621,7 @@ extension Shield {
     }
 
     public struct DescribeEmergencyContactSettingsResponse: AWSDecodableShape {
-        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support.
+        /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
         public let emergencyContactList: [EmergencyContact]?
 
         public init(emergencyContactList: [EmergencyContact]? = nil) {
@@ -653,7 +653,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionGroupResponse: AWSDecodableShape {
-        /// A grouping of protected resources that you and AWS Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
+        /// A grouping of protected resources that you and Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
         public let protectionGroup: ProtectionGroup
 
         public init(protectionGroup: ProtectionGroup) {
@@ -668,7 +668,7 @@ extension Shield {
     public struct DescribeProtectionRequest: AWSEncodableShape {
         /// The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
         public let protectionId: String?
-        /// The ARN (Amazon Resource Name) of the AWS resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
+        /// The ARN (Amazon Resource Name) of the Amazon Web Services resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
         public let resourceArn: String?
 
         public init(protectionId: String? = nil, resourceArn: String? = nil) {
@@ -709,7 +709,7 @@ extension Shield {
     }
 
     public struct DescribeSubscriptionResponse: AWSDecodableShape {
-        /// The AWS Shield Advanced subscription details for an account.
+        /// The Shield Advanced subscription details for an account.
         public let subscription: Subscription?
 
         public init(subscription: Subscription? = nil) {
@@ -730,7 +730,7 @@ extension Shield {
     }
 
     public struct DisassociateDRTLogBucketRequest: AWSEncodableShape {
-        /// The Amazon S3 bucket that contains your AWS WAF logs.
+        /// The Amazon S3 bucket that contains the logs that you want to share.
         public let logBucket: String
 
         public init(logBucket: String) {
@@ -950,7 +950,7 @@ extension Shield {
     }
 
     public struct ListProtectionGroupsResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more protection groups than the value of MaxResults, AWS Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
+        /// If you specify a value for MaxResults and you have more protection groups than the value of MaxResults, Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
         public let nextToken: String?
         public let protectionGroups: [ProtectionGroup]
 
@@ -991,7 +991,7 @@ extension Shield {
     }
 
     public struct ListProtectionsResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. Shield Advanced might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, Shield Advanced will always also return a NextToken.
+        /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. Shield Advanced might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, Shield Advanced will always also return a NextToken.
         public let nextToken: String?
         /// The array of enabled Protection objects.
         public let protections: [Protection]?
@@ -1040,7 +1040,7 @@ extension Shield {
     }
 
     public struct ListResourcesInProtectionGroupResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more resources in the protection group than the value of MaxResults, AWS Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
+        /// If you specify a value for MaxResults and you have more resources in the protection group than the value of MaxResults, Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
         public let nextToken: String?
         /// The Amazon Resource Names (ARNs) of the resources that are included in the protection group.
         public let resourceArns: [String]
@@ -1110,7 +1110,7 @@ extension Shield {
         public let name: String?
         /// The ARN (Amazon Resource Name) of the protection.
         public let protectionArn: String?
-        /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
+        /// The ARN (Amazon Resource Name) of the Amazon Web Services resource that is protected.
         public let resourceArn: String?
 
         public init(healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, protectionArn: String? = nil, resourceArn: String? = nil) {
@@ -1131,7 +1131,7 @@ extension Shield {
     }
 
     public struct ProtectionGroup: AWSDecodableShape {
-        /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
+        /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront distributions and origin resources for CloudFront distributions.
         public let aggregation: ProtectionGroupAggregation
         /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
         public let members: [String]
@@ -1251,7 +1251,7 @@ extension Shield {
         public let endTime: Date?
         /// Specifies how many protections of a given type you can create.
         public let limits: [Limit]?
-        /// If ENABLED, the DDoS Response Team (DRT) will use email and phone to notify contacts about escalations to the DRT and to initiate proactive customer support. If PENDING, you have requested proactive engagement and the request is pending. The status changes to ENABLED when your request is fully processed. If DISABLED, the DRT will not proactively notify contacts about escalations or to initiate proactive customer support.
+        /// If ENABLED, the Shield Response Team (SRT) will use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support. If PENDING, you have requested proactive engagement and the request is pending. The status changes to ENABLED when your request is fully processed. If DISABLED, the SRT will not proactively notify contacts about escalations or to initiate proactive customer support.
         public let proactiveEngagementStatus: ProactiveEngagementStatus?
         /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
         public let startTime: Date?
@@ -1259,7 +1259,7 @@ extension Shield {
         public let subscriptionArn: String?
         /// Limits settings for your subscription.
         public let subscriptionLimits: SubscriptionLimits
-        /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
+        /// The length, in seconds, of the Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
         public init(autoRenew: AutoRenew? = nil, endTime: Date? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: Date? = nil, subscriptionArn: String? = nil, subscriptionLimits: SubscriptionLimits, timeCommitmentInSeconds: Int64? = nil) {
@@ -1459,7 +1459,7 @@ extension Shield {
     }
 
     public struct UpdateEmergencyContactSettingsRequest: AWSEncodableShape {
-        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
+        /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
         public let emergencyContactList: [EmergencyContact]?
 
         public init(emergencyContactList: [EmergencyContact]? = nil) {
@@ -1484,7 +1484,7 @@ extension Shield {
     }
 
     public struct UpdateProtectionGroupRequest: AWSEncodableShape {
-        /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
+        /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront distributions and origin resources for CloudFront distributions.
         public let aggregation: ProtectionGroupAggregation
         /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
         public let members: [String]?

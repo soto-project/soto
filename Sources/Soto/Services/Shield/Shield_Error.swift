@@ -54,7 +54,7 @@ public struct ShieldErrorType: AWSErrorType {
 
     /// Exception that indicates the specified AttackId does not exist, or the requester does not have the appropriate permissions to access the AttackId.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// In order to grant the necessary access to the DDoS Response Team (DRT), the user submitting the request must have the iam:PassRole permission. This error indicates the user did not have the appropriate permissions. For more information, see Granting a User Permissions to Pass a Role to an AWS Service.
+    /// In order to grant the necessary access to the Shield Response Team (SRT) the user submitting the request must have the iam:PassRole permission. This error indicates the user did not have the appropriate permissions. For more information, see Granting a User Permissions to Pass a Role to an Amazon Web Services Service.
     public static var accessDeniedForDependencyException: Self { .init(.accessDeniedForDependencyException) }
     /// Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     public static var internalErrorException: Self { .init(.internalErrorException) }

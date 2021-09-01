@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS AppSync service.
 ///
-/// AWS AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
+/// AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
 public struct AppSync: AWSService {
     // MARK: Member variables
 

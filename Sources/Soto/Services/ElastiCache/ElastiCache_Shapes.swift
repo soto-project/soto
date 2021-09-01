@@ -175,7 +175,7 @@ extension ElastiCache {
     public struct AddTagsToResourceMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
         public let resourceName: String
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -233,7 +233,7 @@ extension ElastiCache {
         public let cacheSecurityGroupName: String
         /// The Amazon EC2 security group to be authorized for ingress to the cache security group.
         public let eC2SecurityGroupName: String
-        /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
+        /// The Amazon account number of the Amazon EC2 security group owner. Note that this is not the same thing as an Amazon access key ID - you must provide a valid Amazon account number for this parameter.
         public let eC2SecurityGroupOwnerId: String
 
         public init(cacheSecurityGroupName: String, eC2SecurityGroupName: String, eC2SecurityGroupOwnerId: String) {
@@ -538,7 +538,7 @@ extension ElastiCache {
     public struct CacheNode: AWSDecodableShape {
         /// The date and time when the cache node was created.
         public let cacheNodeCreateTime: Date?
-        /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's AWS account.
+        /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's Amazon account.
         public let cacheNodeId: String?
         /// The current state of this cache node, one of the following values: available, creating, rebooting, or deleting.
         public let cacheNodeStatus: String?
@@ -806,7 +806,7 @@ extension ElastiCache {
         /// A list of Amazon EC2 security groups that are associated with this cache security group.
         @OptionalCustomCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
         public var eC2SecurityGroups: [EC2SecurityGroup]?
-        /// The AWS account ID of the cache security group owner.
+        /// The Amazon account ID of the cache security group owner.
         public let ownerId: String?
 
         public init(arn: String? = nil, cacheSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, ownerId: String? = nil) {
@@ -1302,7 +1302,7 @@ extension ElastiCache {
     public struct CreateGlobalReplicationGroupMessage: AWSEncodableShape {
         /// Provides details of the Global datastore
         public let globalReplicationGroupDescription: String?
-        /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each AWS Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of AWS Regions and their respective Global datastore iD prefixes, see Using the AWS CLI with Global datastores .
+        /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
         public let globalReplicationGroupIdSuffix: String
         /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
         public let primaryReplicationGroupId: String
@@ -2573,7 +2573,7 @@ extension ElastiCache {
         public let globalReplicationGroupId: String
         /// The name of the secondary cluster you wish to remove from the Global datastore
         public let replicationGroupId: String
-        /// The AWS region of secondary cluster you wish to remove from the Global datastore
+        /// The Amazon region of secondary cluster you wish to remove from the Global datastore
         public let replicationGroupRegion: String
 
         public init(globalReplicationGroupId: String, replicationGroupId: String, replicationGroupRegion: String) {
@@ -2604,7 +2604,7 @@ extension ElastiCache {
     public struct EC2SecurityGroup: AWSDecodableShape {
         /// The name of the Amazon EC2 security group.
         public let eC2SecurityGroupName: String?
-        /// The AWS account ID of the Amazon EC2 security group owner.
+        /// The Amazon account ID of the Amazon EC2 security group owner.
         public let eC2SecurityGroupOwnerId: String?
         /// The status of the Amazon EC2 security group.
         public let status: String?
@@ -2717,7 +2717,7 @@ extension ElastiCache {
     public struct FailoverGlobalReplicationGroupMessage: AWSEncodableShape {
         /// The name of the Global datastore
         public let globalReplicationGroupId: String
-        /// The AWS region of the primary cluster of the Global datastore
+        /// The Amazon region of the primary cluster of the Global datastore
         public let primaryRegion: String
         /// The name of the primary replication group
         public let primaryReplicationGroupId: String
@@ -2878,7 +2878,7 @@ extension ElastiCache {
         public let automaticFailover: AutomaticFailoverStatus?
         /// The replication group id of the Global datastore member.
         public let replicationGroupId: String?
-        /// The AWS region of the Global datastore member.
+        /// The Amazon region of the Global datastore member.
         public let replicationGroupRegion: String?
         /// Indicates the role of the replication group, primary or secondary.
         public let role: String?
@@ -2911,7 +2911,7 @@ extension ElastiCache {
         public let globalReplicationGroupId: String
         /// The number of node groups you wish to add
         public let nodeGroupCount: Int
-        /// Describes the replication group IDs, the AWS regions where they are stored and the shard configuration for each that comprise the Global datastore
+        /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore
         @OptionalCustomCoding<ArrayCoder<_RegionalConfigurationsEncoding, RegionalConfiguration>>
         public var regionalConfigurations: [RegionalConfiguration]?
 
@@ -3025,7 +3025,7 @@ extension ElastiCache {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let resourceName: String
 
         public init(resourceName: String) {
@@ -3343,7 +3343,7 @@ extension ElastiCache {
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
-        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        /// A flag to indicate MultiAZ is enabled.
         public let multiAZEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.
         public let notificationTopicArn: String?
@@ -4103,7 +4103,7 @@ extension ElastiCache {
 
         /// The name of the secondary cluster
         public let replicationGroupId: String
-        /// The AWS region where the cluster is stored
+        /// The Amazon region where the cluster is stored
         public let replicationGroupRegion: String
         /// A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster.
         @CustomCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
@@ -4129,7 +4129,7 @@ extension ElastiCache {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
         public let resourceName: String
         /// A list of TagKeys identifying the tags you want removed from the named resource.
         @CustomCoding<StandardArrayCoder>
@@ -4190,6 +4190,8 @@ extension ElastiCache {
         public var nodeGroups: [NodeGroup]?
         /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
         public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
+        /// The date and time when the cluster was created.
+        public let replicationGroupCreateTime: Date?
         /// The identifier for the replication group.
         public let replicationGroupId: String?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
@@ -4206,7 +4208,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -4224,6 +4226,7 @@ extension ElastiCache {
             self.multiAZ = multiAZ
             self.nodeGroups = nodeGroups
             self.pendingModifiedValues = pendingModifiedValues
+            self.replicationGroupCreateTime = replicationGroupCreateTime
             self.replicationGroupId = replicationGroupId
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.snapshottingClusterId = snapshottingClusterId
@@ -4251,6 +4254,7 @@ extension ElastiCache {
             case multiAZ = "MultiAZ"
             case nodeGroups = "NodeGroups"
             case pendingModifiedValues = "PendingModifiedValues"
+            case replicationGroupCreateTime = "ReplicationGroupCreateTime"
             case replicationGroupId = "ReplicationGroupId"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
             case snapshottingClusterId = "SnapshottingClusterId"
@@ -4531,7 +4535,7 @@ extension ElastiCache {
         public let cacheSecurityGroupName: String
         /// The name of the Amazon EC2 security group to revoke access from.
         public let eC2SecurityGroupName: String
-        /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
+        /// The Amazon account number of the Amazon EC2 security group owner. Note that this is not the same thing as an Amazon access key ID - you must provide a valid Amazon account number for this parameter.
         public let eC2SecurityGroupOwnerId: String
 
         public init(cacheSecurityGroupName: String, eC2SecurityGroupName: String, eC2SecurityGroupOwnerId: String) {

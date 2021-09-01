@@ -20,6 +20,7 @@ import SotoCore
 public struct BackupErrorType: AWSErrorType {
     enum Code: String {
         case alreadyExistsException = "AlreadyExistsException"
+        case conflictException = "ConflictException"
         case dependencyFailureException = "DependencyFailureException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case invalidRequestException = "InvalidRequestException"
@@ -50,13 +51,15 @@ public struct BackupErrorType: AWSErrorType {
 
     /// The required resource already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
-    /// A dependent AWS service or resource returned an error to the AWS Backup service, and the action cannot be completed.
+    /// Backup can't perform the action that you requested until it finishes performing a previous action. Try again later.
+    public static var conflictException: Self { .init(.conflictException) }
+    /// A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
     public static var dependencyFailureException: Self { .init(.dependencyFailureException) }
     /// Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// AWS Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
+    /// Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
     public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
     /// A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     public static var limitExceededException: Self { .init(.limitExceededException) }

@@ -17,6 +17,8 @@
 @_exported import SotoCore
 
 /// Service object for interacting with AWS IdentityStore service.
+///
+/// The AWS Single Sign-On (SSO) Identity Store service provides a single place to retrieve all of your identities (users and groups). For more information about AWS, see the AWS Single Sign-On User Guide.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 

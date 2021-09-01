@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Backup service.
 ///
-/// AWS Backup AWS Backup is a unified backup service designed to protect AWS services and their associated data. AWS Backup simplifies the creation, migration, restoration, and deletion of backups, while also providing reporting and auditing.
+/// Backup Backup is a unified backup service designed to protect Amazon Web Services services and their associated data. Backup simplifies the creation, migration, restoration, and deletion of backups, while also providing reporting and auditing.
 public struct Backup: AWSService {
     // MARK: Member variables
 
@@ -62,7 +62,7 @@ public struct Backup: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that AWS Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, an AlreadyExistsException is returned.
+    /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     public func createBackupPlan(_ input: CreateBackupPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackupPlanOutput> {
         return self.client.execute(operation: "CreateBackupPlan", path: "/backup/plans/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -72,9 +72,19 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "CreateBackupSelection", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID.  Sensitive data, such as passport numbers, should not be included the name of a backup vault.
+    /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     public func createBackupVault(_ input: CreateBackupVaultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackupVaultOutput> {
         return self.client.execute(operation: "CreateBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies. To get insights into the compliance status of your frameworks, you can set up automatic daily reports.
+    public func createFramework(_ input: CreateFrameworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFrameworkOutput> {
+        return self.client.execute(operation: "CreateFramework", path: "/audit/frameworks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
+    public func createReportPlan(_ input: CreateReportPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReportPlanOutput> {
+        return self.client.execute(operation: "CreateReportPlan", path: "/audit/report-plans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
@@ -102,9 +112,19 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DeleteBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the framework specified by a framework name.
+    @discardableResult public func deleteFramework(_ input: DeleteFrameworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteFramework", path: "/audit/frameworks/{frameworkName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup.
     @discardableResult public func deleteRecoveryPoint(_ input: DeleteRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the report plan specified by a report plan name.
+    @discardableResult public func deleteReportPlan(_ input: DeleteReportPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteReportPlan", path: "/audit/report-plans/{reportPlanName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns backup job details for the specified BackupJobId.
@@ -122,12 +142,17 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the global settings of the AWS account, including whether it is opted in to cross-account backup.
+    /// Returns the framework details for the specified FrameworkName.
+    public func describeFramework(_ input: DescribeFrameworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFrameworkOutput> {
+        return self.client.execute(operation: "DescribeFramework", path: "/audit/frameworks/{frameworkName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     public func describeGlobalSettings(_ input: DescribeGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGlobalSettingsOutput> {
         return self.client.execute(operation: "DescribeGlobalSettings", path: "/global-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
+    /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
     public func describeProtectedResource(_ input: DescribeProtectedResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProtectedResourceOutput> {
         return self.client.execute(operation: "DescribeProtectedResource", path: "/resources/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -137,9 +162,19 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the current service opt-in settings for the Region. If service-opt-in is enabled for a service, AWS Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not try to protect that service's resources in this Region, AWS Backup does not try to protect that service's resources in this Region.
+    /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
     public func describeRegionSettings(_ input: DescribeRegionSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegionSettingsOutput> {
         return self.client.execute(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the details associated with creating a report as specified by its ReportJobId.
+    public func describeReportJob(_ input: DescribeReportJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReportJobOutput> {
+        return self.client.execute(operation: "DescribeReportJob", path: "/audit/report-jobs/{reportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
+    public func describeReportPlan(_ input: DescribeReportPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReportPlanOutput> {
+        return self.client.execute(operation: "DescribeReportPlan", path: "/audit/report-plans/{reportPlanName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns metadata associated with a restore job that is specified by a job ID.
@@ -147,7 +182,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DescribeRestoreJob", path: "/restore-jobs/{restoreJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified continuous backup recovery point from AWS Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
+    /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
     @discardableResult public func disassociateRecoveryPoint(_ input: DisassociateRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateRecoveryPoint", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -192,7 +227,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "GetRecoveryPointRestoreMetadata", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}/restore-metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the AWS resource types supported by AWS Backup.
+    /// Returns the Amazon Web Services resource types supported by Backup.
     public func getSupportedResourceTypes(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSupportedResourceTypesOutput> {
         return self.client.execute(operation: "GetSupportedResourceTypes", path: "/supported-resource-types", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
@@ -212,7 +247,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "ListBackupPlanVersions", path: "/backup/plans/{backupPlanId}/versions/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of existing backup plans for an authenticated account. The list is populated only if the advanced option is set for the backup plan. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     public func listBackupPlans(_ input: ListBackupPlansInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackupPlansOutput> {
         return self.client.execute(operation: "ListBackupPlans", path: "/backup/plans/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -232,7 +267,12 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "ListCopyJobs", path: "/copy-jobs/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns an array of resources successfully backed up by AWS Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+    /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
+    public func listFrameworks(_ input: ListFrameworksInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFrameworksOutput> {
+        return self.client.execute(operation: "ListFrameworks", path: "/audit/frameworks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public func listProtectedResources(_ input: ListProtectedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProtectedResourcesOutput> {
         return self.client.execute(operation: "ListProtectedResources", path: "/resources/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -242,12 +282,22 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "ListRecoveryPointsByBackupVault", path: "/backup-vaults/{backupVaultName}/recovery-points/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns detailed information about recovery points of the type specified by a resource Amazon Resource Name (ARN).
+    /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     public func listRecoveryPointsByResource(_ input: ListRecoveryPointsByResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecoveryPointsByResourceOutput> {
         return self.client.execute(operation: "ListRecoveryPointsByResource", path: "/resources/{resourceArn}/recovery-points/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of jobs that AWS Backup initiated to restore a saved resource, including metadata about the recovery process.
+    /// Returns details about your report jobs.
+    public func listReportJobs(_ input: ListReportJobsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReportJobsOutput> {
+        return self.client.execute(operation: "ListReportJobs", path: "/audit/report-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
+    public func listReportPlans(_ input: ListReportPlansInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReportPlansOutput> {
+        return self.client.execute(operation: "ListReportPlans", path: "/audit/report-plans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     public func listRestoreJobs(_ input: ListRestoreJobsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRestoreJobsOutput> {
         return self.client.execute(operation: "ListRestoreJobs", path: "/restore-jobs/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -277,6 +327,11 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "StartCopyJob", path: "/copy-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts an on-demand report job for the specified report plan.
+    public func startReportJob(_ input: StartReportJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartReportJobOutput> {
+        return self.client.execute(operation: "StartReportJob", path: "/audit/report-jobs/{reportPlanName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
     public func startRestoreJob(_ input: StartRestoreJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartRestoreJobOutput> {
         return self.client.execute(operation: "StartRestoreJob", path: "/restore-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -302,19 +357,29 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "UpdateBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the current global settings for the AWS account. Use the DescribeGlobalSettings API to determine the current settings.
+    /// Updates an existing framework identified by its FrameworkName with the input document in JSON format.
+    public func updateFramework(_ input: UpdateFrameworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFrameworkOutput> {
+        return self.client.execute(operation: "UpdateFramework", path: "/audit/frameworks/{frameworkName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateGlobalSettings", path: "/global-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Only Amazon EFS file system backups can be transitioned to cold storage. Does not support continuous backups.
+    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Only Amazon EFS file system backups can be transitioned to cold storage. Does not support continuous backups.
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecoveryPointLifecycleOutput> {
         return self.client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, AWS Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
+    /// Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
     @discardableResult public func updateRegionSettings(_ input: UpdateRegionSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing report plan identified by its ReportPlanName with the input document in JSON format.
+    public func updateReportPlan(_ input: UpdateReportPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateReportPlanOutput> {
+        return self.client.execute(operation: "UpdateReportPlan", path: "/audit/report-plans/{reportPlanName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

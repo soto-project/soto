@@ -70,7 +70,7 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
-    /// The most likely cause is an invalid AWS access key ID or secret key.
+    /// The most likely cause is an invalid Amazon Web Services access key ID or secret key.
     public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
 }
 

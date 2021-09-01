@@ -1955,6 +1955,26 @@ extension AutoScaling {
         }
     }
 
+    public struct DesiredConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let launchTemplate: LaunchTemplateSpecification?
+        public let mixedInstancesPolicy: MixedInstancesPolicy?
+
+        public init(launchTemplate: LaunchTemplateSpecification? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil) {
+            self.launchTemplate = launchTemplate
+            self.mixedInstancesPolicy = mixedInstancesPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.launchTemplate?.validate(name: "\(name).launchTemplate")
+            try self.mixedInstancesPolicy?.validate(name: "\(name).mixedInstancesPolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchTemplate = "LaunchTemplate"
+            case mixedInstancesPolicy = "MixedInstancesPolicy"
+        }
+    }
+
     public struct DetachInstancesAnswer: AWSDecodableShape {
         /// The activities related to detaching the instances from the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -2518,6 +2538,8 @@ extension AutoScaling {
     public struct InstanceRefresh: AWSDecodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
+        /// Describes the specific update you want to deploy.
+        public let desiredConfiguration: DesiredConfiguration?
         /// The date and time at which the instance refresh ended.
         public let endTime: Date?
         /// The instance refresh ID.
@@ -2526,6 +2548,7 @@ extension AutoScaling {
         public let instancesToUpdate: Int?
         /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
         public let percentageComplete: Int?
+        public let preferences: RefreshPreferences?
         /// Additional progress details for an Auto Scaling group that has a warm pool.
         public let progressDetails: InstanceRefreshProgressDetails?
         /// The date and time at which the instance refresh began.
@@ -2535,12 +2558,14 @@ extension AutoScaling {
         /// Provides more details about the current status of the instance refresh.
         public let statusReason: String?
 
-        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, desiredConfiguration: DesiredConfiguration? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, preferences: RefreshPreferences? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
+            self.desiredConfiguration = desiredConfiguration
             self.endTime = endTime
             self.instanceRefreshId = instanceRefreshId
             self.instancesToUpdate = instancesToUpdate
             self.percentageComplete = percentageComplete
+            self.preferences = preferences
             self.progressDetails = progressDetails
             self.startTime = startTime
             self.status = status
@@ -2549,10 +2574,12 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
+            case desiredConfiguration = "DesiredConfiguration"
             case endTime = "EndTime"
             case instanceRefreshId = "InstanceRefreshId"
             case instancesToUpdate = "InstancesToUpdate"
             case percentageComplete = "PercentageComplete"
+            case preferences = "Preferences"
             case progressDetails = "ProgressDetails"
             case startTime = "StartTime"
             case status = "Status"
@@ -3100,7 +3127,7 @@ extension AutoScaling {
     public struct MixedInstancesPolicy: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the instances distribution. If not provided, the value for each property in InstancesDistribution uses a default value.
         public let instancesDistribution: InstancesDistribution?
-        /// Specifies the launch template to use and optionally the instance types (overrides) that are used to provision EC2 instances to fulfill On-Demand and Spot capacities. Required when creating a mixed instances policy.
+        /// Specifies the launch template to use and the instance types (overrides) that are used to provision EC2 instances to fulfill On-Demand and Spot capacities. Required when creating a mixed instances policy.
         public let launchTemplate: LaunchTemplate?
 
         public init(instancesDistribution: InstancesDistribution? = nil, launchTemplate: LaunchTemplate? = nil) {
@@ -3694,7 +3721,7 @@ extension AutoScaling {
         }
     }
 
-    public struct RefreshPreferences: AWSEncodableShape {
+    public struct RefreshPreferences: AWSEncodableShape & AWSDecodableShape {
         /// The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public let checkpointDelay: Int?
         /// Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Adding checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
@@ -3702,14 +3729,17 @@ extension AutoScaling {
         public var checkpointPercentages: [Int]?
         /// The number of seconds until a newly launched instance is configured and ready to use. During this time, Amazon EC2 Auto Scaling does not immediately move on to the next replacement. The default is to use the value for the health check grace period defined for the group.
         public let instanceWarmup: Int?
-        /// The amount of capacity in the Auto Scaling group that must remain healthy during an instance refresh to allow the operation to continue, as a percentage of the desired capacity of the Auto Scaling group (rounded up to the nearest integer). The default is 90.
+        /// The amount of capacity in the Auto Scaling group that must remain healthy during an instance refresh to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group (rounded up to the nearest integer). The default is 90. Setting the minimum healthy percentage to 100 percent limits the rate of replacement to one instance at a time. In contrast, setting it to 0 percent has the effect of replacing all instances at the same time.
         public let minHealthyPercentage: Int?
+        /// A boolean value that indicates whether skip matching is enabled. If true, then Amazon EC2 Auto Scaling skips replacing instances that match the desired configuration. If no desired configuration is specified, then it skips replacing instances that have the same configuration that is already set on the group. The default is false.
+        public let skipMatching: Bool?
 
-        public init(checkpointDelay: Int? = nil, checkpointPercentages: [Int]? = nil, instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil) {
+        public init(checkpointDelay: Int? = nil, checkpointPercentages: [Int]? = nil, instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil, skipMatching: Bool? = nil) {
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
             self.instanceWarmup = instanceWarmup
             self.minHealthyPercentage = minHealthyPercentage
+            self.skipMatching = skipMatching
         }
 
         public func validate(name: String) throws {
@@ -3729,6 +3759,7 @@ extension AutoScaling {
             case checkpointPercentages = "CheckpointPercentages"
             case instanceWarmup = "InstanceWarmup"
             case minHealthyPercentage = "MinHealthyPercentage"
+            case skipMatching = "SkipMatching"
         }
     }
 
@@ -4070,13 +4101,16 @@ extension AutoScaling {
     public struct StartInstanceRefreshType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// Set of preferences associated with the instance refresh request. If not provided, the default values are used. For MinHealthyPercentage, the default value is 90. For InstanceWarmup, the default is to use the value specified for the health check grace period for the Auto Scaling group. For more information, see RefreshPreferences in the Amazon EC2 Auto Scaling API Reference.
+        /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration.   When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and version. This can help you reduce the number of replacements that are required to apply updates.
+        public let desiredConfiguration: DesiredConfiguration?
+        /// Set of preferences associated with the instance refresh request. If not provided, the default values are used.
         public let preferences: RefreshPreferences?
-        /// The strategy to use for the instance refresh. The only valid value is Rolling. A rolling update is an update that is applied to all instances in an Auto Scaling group until all instances have been updated. A rolling update can fail due to failed health checks or if instances are on standby or are protected from scale in. If the rolling update process fails, any instances that were already replaced are not rolled back to their previous configuration.
+        /// The strategy to use for the instance refresh. The only valid value is Rolling. A rolling update helps you update your instances gradually. A rolling update can fail due to failed health checks or if instances are on standby or are protected from scale in. If the rolling update process fails, any instances that are replaced are not rolled back to their previous configuration.
         public let strategy: RefreshStrategy?
 
-        public init(autoScalingGroupName: String, preferences: RefreshPreferences? = nil, strategy: RefreshStrategy? = nil) {
+        public init(autoScalingGroupName: String, desiredConfiguration: DesiredConfiguration? = nil, preferences: RefreshPreferences? = nil, strategy: RefreshStrategy? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
+            self.desiredConfiguration = desiredConfiguration
             self.preferences = preferences
             self.strategy = strategy
         }
@@ -4085,11 +4119,13 @@ extension AutoScaling {
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.desiredConfiguration?.validate(name: "\(name).desiredConfiguration")
             try self.preferences?.validate(name: "\(name).preferences")
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
+            case desiredConfiguration = "DesiredConfiguration"
             case preferences = "Preferences"
             case strategy = "Strategy"
         }

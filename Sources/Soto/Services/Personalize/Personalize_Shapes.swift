@@ -567,13 +567,13 @@ extension Personalize {
         /// The configuration details of a campaign.
         public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
-        public let minProvisionedTPS: Int
+        public let minProvisionedTPS: Int?
         /// A name for the new campaign. The campaign name must be unique within your account.
         public let name: String
         /// The Amazon Resource Name (ARN) of the solution version to deploy.
         public let solutionVersionArn: String
 
-        public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int, name: String, solutionVersionArn: String) {
+        public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, name: String, solutionVersionArn: String) {
             self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
             self.name = name
@@ -620,7 +620,7 @@ extension Personalize {
         public let jobName: String
         /// The path to the Amazon S3 bucket where the job's output is stored.
         public let jobOutput: DatasetExportJobOutput
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management service role that has permissions to add data to your output Amazon S3 bucket.
+        /// The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket.
         public let roleArn: String
 
         public init(datasetArn: String, ingestionMode: IngestionMode? = nil, jobName: String, jobOutput: DatasetExportJobOutput, roleArn: String) {
@@ -665,11 +665,11 @@ extension Personalize {
     }
 
     public struct CreateDatasetGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
+        /// The Amazon Resource Name (ARN) of a Key Management Service (KMS) key used to encrypt the datasets.
         public let kmsKeyArn: String?
         /// The name for the new dataset group.
         public let name: String
-        /// The ARN of the IAM role that has permissions to access the KMS key. Supplying an IAM role is only valid when also specifying a KMS key.
+        /// The ARN of the Identity and Access Management (IAM) role that has permissions to access the Key Management Service (KMS) key. Supplying an IAM role is only valid when also specifying a KMS key.
         public let roleArn: String?
 
         public init(kmsKeyArn: String? = nil, name: String, roleArn: String? = nil) {
@@ -1101,7 +1101,7 @@ extension Personalize {
         public let jobOutput: DatasetExportJobOutput?
         /// The date and time (in Unix time) the status of the dataset export job was last updated.
         public let lastUpdatedDateTime: Date?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management service role that has permissions to add data to your output Amazon S3 bucket.
+        /// The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket.
         public let roleArn: String?
         /// The status of the dataset export job. A dataset export job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
         public let status: String?
@@ -1189,7 +1189,7 @@ extension Personalize {
         public let datasetGroupArn: String?
         /// If creating a dataset group fails, provides the reason why.
         public let failureReason: String?
-        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the datasets.
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used to encrypt the datasets.
         public let kmsKeyArn: String?
         /// The last update date and time (in Unix time) of the dataset group.
         public let lastUpdatedDateTime: Date?
@@ -1271,7 +1271,7 @@ extension Personalize {
         public let jobName: String?
         /// The date and time (in Unix time) the dataset was last updated.
         public let lastUpdatedDateTime: Date?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that has permissions to read from the Amazon S3 data source.
+        /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
         public let roleArn: String?
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
         public let status: String?
@@ -2074,7 +2074,7 @@ extension Personalize {
     }
 
     public struct EventTracker: AWSDecodableShape {
-        /// The Amazon AWS account that owns the event tracker.
+        /// The Amazon Web Services account that owns the event tracker.
         public let accountId: String?
         /// The date and time (in Unix format) that the event tracker was created.
         public let creationDateTime: Date?
@@ -3063,7 +3063,7 @@ extension Personalize {
     }
 
     public struct S3DataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files of a batch inference job.
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files of a batch inference job.
         public let kmsKeyArn: String?
         /// The file path of the Amazon S3 bucket.
         public let path: String

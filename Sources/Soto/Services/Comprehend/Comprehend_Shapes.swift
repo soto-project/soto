@@ -1562,6 +1562,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input data configuration that you supplied when you created the document classification job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:document-classification-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the document classification job.
         public let jobId: String?
         /// The name that you assigned to the document classification job.
@@ -1579,11 +1581,12 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -1599,6 +1602,7 @@ extension Comprehend {
             case documentClassifierArn = "DocumentClassifierArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -1835,6 +1839,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input data configuration that you supplied when you created the dominant language detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:dominant-language-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the dominant language detection job.
         public let jobId: String?
         /// The name that you assigned to the dominant language detection job.
@@ -1852,10 +1858,11 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -1870,6 +1877,7 @@ extension Comprehend {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -1996,6 +2004,8 @@ extension Comprehend {
         public let entityRecognizerArn: String?
         /// The input data configuration that you supplied when you created the entities detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:entities-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the entities detection job.
         public let jobId: String?
         /// The name that you assigned the entities detection job.
@@ -2015,11 +2025,12 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -2036,6 +2047,7 @@ extension Comprehend {
             case endTime = "EndTime"
             case entityRecognizerArn = "EntityRecognizerArn"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -2423,6 +2435,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input data configuration that you supplied when you created the events detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:events-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the events detection job.
         public let jobId: String?
         /// The name you assigned the events detection job.
@@ -2440,10 +2454,11 @@ extension Comprehend {
         /// The types of events that are detected by the job.
         public let targetEventTypes: [String]?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, targetEventTypes: [String]? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, targetEventTypes: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -2458,6 +2473,7 @@ extension Comprehend {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -2554,6 +2570,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input data configuration that you supplied when you created the key phrases detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the key phrases detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:key-phrases-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the key phrases detection job.
         public let jobId: String?
         /// The name that you assigned the key phrases detection job.
@@ -2573,10 +2591,11 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -2592,6 +2611,7 @@ extension Comprehend {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -3210,6 +3230,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input properties for a PII entities detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the PII entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:pii-entities-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the PII entities detection job.
         public let jobId: String?
         /// The name that you assigned the PII entities detection job.
@@ -3229,10 +3251,11 @@ extension Comprehend {
         /// The time that the PII entities detection job was submitted for processing.
         public let submitTime: Date?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: PiiEntitiesDetectionMode? = nil, outputDataConfig: PiiOutputDataConfig? = nil, redactionConfig: RedactionConfig? = nil, submitTime: Date? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: PiiEntitiesDetectionMode? = nil, outputDataConfig: PiiOutputDataConfig? = nil, redactionConfig: RedactionConfig? = nil, submitTime: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -3248,6 +3271,7 @@ extension Comprehend {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -3367,6 +3391,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input data configuration that you supplied when you created the sentiment detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:sentiment-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the sentiment detection job.
         public let jobId: String?
         /// The name that you assigned to the sentiment detection job
@@ -3386,10 +3412,11 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -3405,6 +3432,7 @@ extension Comprehend {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
@@ -3455,18 +3483,21 @@ extension Comprehend {
         public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the document classification job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = StartDocumentClassificationJobRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartDocumentClassificationJobRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -3485,6 +3516,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -3496,23 +3530,28 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct StartDocumentClassificationJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:document-classification-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job. To get the status of the job, use this identifier with the operation.
         public let jobId: String?
         /// The status of the job:   SUBMITTED - The job has been received and queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. For details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3529,17 +3568,20 @@ extension Comprehend {
         public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the dominant language detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = StartDominantLanguageDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartDominantLanguageDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -3556,6 +3598,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -3566,23 +3611,28 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct StartDominantLanguageDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:dominant-language-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3603,12 +3653,14 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = StartEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.entityRecognizerArn = entityRecognizerArn
@@ -3616,6 +3668,7 @@ extension Comprehend {
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -3634,6 +3687,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -3646,23 +3702,28 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct StartEntitiesDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:entities-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
         public let jobId: String?
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3681,16 +3742,19 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the events detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// The types of events to detect in the input documents.
         public let targetEventTypes: [String]
 
-        public init(clientRequestToken: String? = StartEventsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, targetEventTypes: [String]) {
+        public init(clientRequestToken: String? = StartEventsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, targetEventTypes: [String]) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.targetEventTypes = targetEventTypes
         }
 
@@ -3706,6 +3770,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.targetEventTypes.forEach {
                 try validate($0, name: "targetEventTypes[]", parent: name, max: 40)
                 try validate($0, name: "targetEventTypes[]", parent: name, min: 1)
@@ -3721,22 +3788,27 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case targetEventTypes = "TargetEventTypes"
         }
     }
 
     public struct StartEventsDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:events-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let jobId: String?
         /// The status of the events detection job.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3755,18 +3827,21 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the key phrases detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = StartKeyPhrasesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartKeyPhrasesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -3783,6 +3858,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -3794,23 +3872,28 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct StartKeyPhrasesDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the key phrase detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:key-phrases-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3833,8 +3916,10 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig
         /// Provides configuration parameters for PII entity redaction. This parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
         public let redactionConfig: RedactionConfig?
+        /// Tags to be associated with the PII entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = StartPiiEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, mode: PiiEntitiesDetectionMode, outputDataConfig: OutputDataConfig, redactionConfig: RedactionConfig? = nil) {
+        public init(clientRequestToken: String? = StartPiiEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, mode: PiiEntitiesDetectionMode, outputDataConfig: OutputDataConfig, redactionConfig: RedactionConfig? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
@@ -3843,6 +3928,7 @@ extension Comprehend {
             self.mode = mode
             self.outputDataConfig = outputDataConfig
             self.redactionConfig = redactionConfig
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -3858,6 +3944,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
             try self.redactionConfig?.validate(name: "\(name).redactionConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3869,21 +3958,26 @@ extension Comprehend {
             case mode = "Mode"
             case outputDataConfig = "OutputDataConfig"
             case redactionConfig = "RedactionConfig"
+            case tags = "Tags"
         }
     }
 
     public struct StartPiiEntitiesDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the PII entity detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:pii-entities-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job.
         public let jobId: String?
         /// The status of the job.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3902,18 +3996,21 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = StartSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -3930,6 +4027,9 @@ extension Comprehend {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -3941,23 +4041,28 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct StartSentimentDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:sentiment-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -3976,18 +4081,21 @@ extension Comprehend {
         public let numberOfTopics: Int?
         /// Specifies where to send the output files. The output is a compressed archive with two files, topic-terms.csv that lists the terms associated with each topic, and doc-topics.csv that lists the documents associated with each topic
         public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the topics detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = StartTopicsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartTopicsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.numberOfTopics = numberOfTopics
             self.outputDataConfig = outputDataConfig
+            self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -4006,6 +4114,9 @@ extension Comprehend {
             try self.validate(self.numberOfTopics, name: "numberOfTopics", parent: name, max: 100)
             try self.validate(self.numberOfTopics, name: "numberOfTopics", parent: name, min: 1)
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -4017,23 +4128,28 @@ extension Comprehend {
             case jobName = "JobName"
             case numberOfTopics = "NumberOfTopics"
             case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct StartTopicsDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:topics-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
         public let jobId: String?
         /// The status of the job:    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the DescribeTopicDetectionJob operation.
         public let jobStatus: JobStatus?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
@@ -4418,6 +4534,8 @@ extension Comprehend {
         public let endTime: Date?
         /// The input data configuration supplied when you created the topic detection job.
         public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn:&lt;partition&gt;:comprehend:&lt;region&gt;:&lt;account-id&gt;:topics-detection-job/&lt;job-id&gt;  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:topics-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
         /// The identifier assigned to the topic detection job.
         public let jobId: String?
         /// The name of the topic detection job.
@@ -4437,10 +4555,11 @@ extension Comprehend {
         /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -4456,6 +4575,7 @@ extension Comprehend {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"

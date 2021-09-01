@@ -826,9 +826,9 @@ extension CloudWatch {
     }
 
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the dimension. Dimension names cannot contain blank spaces or non-ASCII characters.
+        /// The name of the dimension. Dimension names must contain only ASCII characters and must include at least one non-whitespace character.
         public let name: String
-        /// The value of the dimension. Dimension values cannot contain blank spaces or non-ASCII characters.
+        /// The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character.
         public let value: String
 
         public init(name: String, value: String) {
@@ -1336,7 +1336,7 @@ extension CloudWatch {
     public struct GetMetricWidgetImageInput: AWSEncodableShape {
         /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
         public let metricWidget: String
-        /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:   &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;    &lt;GetMetricWidgetImageResult&gt;    &lt;MetricWidgetImage&gt;    iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...    &lt;/MetricWidgetImage&gt;    &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;    &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;    &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an AWS SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image.
+        /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:   &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;    &lt;GetMetricWidgetImageResult&gt;    &lt;MetricWidgetImage&gt;    iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...    &lt;/MetricWidgetImage&gt;    &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;    &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;    &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an Amazon Web Services SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image.
         public let outputFormat: String?
 
         public init(metricWidget: String, outputFormat: String? = nil) {
@@ -1823,6 +1823,8 @@ extension CloudWatch {
     }
 
     public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the account where the metrics are located, if this is a cross-account alarm. Use this field only for PutMetricAlarm operations. It is not used in GetMetricData operations.
+        public let accountId: String?
         /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let expression: String?
         /// A short name used to tie this object to the results in the response. This name must be unique within a single call to GetMetricData. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscore. The first character must be a lowercase letter.
@@ -1836,7 +1838,8 @@ extension CloudWatch {
         /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public let returnData: Bool?
 
-        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, period: Int? = nil, returnData: Bool? = nil) {
+        public init(accountId: String? = nil, expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, period: Int? = nil, returnData: Bool? = nil) {
+            self.accountId = accountId
             self.expression = expression
             self.id = id
             self.label = label
@@ -1846,6 +1849,8 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 255)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 1)
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 255)
@@ -1855,6 +1860,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case expression = "Expression"
             case id = "Id"
             case label = "Label"
@@ -2268,7 +2274,7 @@ extension CloudWatch {
     public struct PutMetricAlarmInput: AWSEncodableShape {
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
         public let actionsEnabled: Bool?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name  | arn:aws:ssm:region:account-id:opsitem:severity   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name  | arn:aws:ssm:region:account-id:opsitem:severity  | arn:aws:ssm-incidents::account-id:response-plan:response-plan-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarmActions: [String]?
         /// The description for the alarm.
@@ -2419,7 +2425,7 @@ extension CloudWatch {
         /// The data for the metric. The array can include no more than 20 metrics per call.
         @CustomCoding<StandardArrayCoder>
         public var metricData: [MetricDatum]
-        /// The namespace for the metric data. To avoid conflicts with AWS service namespaces, you should not specify a namespace that begins with AWS/
+        /// The namespace for the metric data. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
         public let namespace: String
 
         public init(metricData: [MetricDatum], namespace: String) {
@@ -2457,7 +2463,7 @@ extension CloudWatch {
         public let outputFormat: MetricStreamOutputFormat
         /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:   firehose:PutRecord   firehose:PutRecordBatch
         public let roleArn: String
-        /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
+        /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. You can use this parameter only when you are creating a new metric stream. If you are using this operation to update an existing metric stream, any tags you specify in this parameter are ignored. To change the tags of an existing metric stream, use TagResource or UntagResource.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 

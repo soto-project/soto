@@ -544,6 +544,7 @@ extension FraudDetector {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.trainingDataSchema.validate(name: "\(name).trainingDataSchema")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1671,6 +1672,8 @@ extension FraudDetector {
             try self.entities.forEach {
                 try $0.validate(name: "\(name).entities[]")
             }
+            try self.validate(self.eventTimestamp, name: "eventTimestamp", parent: name, max: 30)
+            try self.validate(self.eventTimestamp, name: "eventTimestamp", parent: name, min: 10)
             try self.eventVariables.forEach {
                 try validate($0.key, name: "eventVariables.key", parent: name, max: 64)
                 try validate($0.key, name: "eventVariables.key", parent: name, min: 1)
@@ -1697,7 +1700,7 @@ extension FraudDetector {
     public struct GetEventPredictionResult: AWSDecodableShape {
         /// The model scores. Amazon Fraud Detector generates model scores between 0 and 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores are directly related to the false positive rate (FPR). For example, a score of 600 corresponds to an estimated 10% false positive rate whereas a score of 900 corresponds to an estimated 2% false positive rate.
         public let modelScores: [ModelScores]?
-        /// The results.
+        /// The results from the rules.
         public let ruleResults: [RuleResult]?
 
         public init(modelScores: [ModelScores]? = nil, ruleResults: [RuleResult]? = nil) {
@@ -2179,6 +2182,12 @@ extension FraudDetector {
             self.labelMapper = labelMapper
         }
 
+        public func validate(name: String) throws {
+            try self.labelMapper.forEach {
+                try validate($0.value, name: "labelMapper[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case labelMapper
         }
@@ -2230,8 +2239,8 @@ extension FraudDetector {
         }
     }
 
-    public struct LogitMetric: AWSDecodableShape {
-        /// The relative importance of the variable.
+    public struct LogOddsMetric: AWSDecodableShape {
+        /// The relative importance of the variable. For more information, see Model variable importance.
         public let variableImportance: Float
         /// The name of the variable.
         public let variableName: String
@@ -2977,6 +2986,10 @@ extension FraudDetector {
             self.modelVariables = modelVariables
         }
 
+        public func validate(name: String) throws {
+            try self.labelSchema.validate(name: "\(name).labelSchema")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case labelSchema
             case modelVariables
@@ -3519,14 +3532,14 @@ extension FraudDetector {
 
     public struct VariableImportanceMetrics: AWSDecodableShape {
         /// List of variable metrics.
-        public let logitMetrics: [LogitMetric]?
+        public let logOddsMetrics: [LogOddsMetric]?
 
-        public init(logitMetrics: [LogitMetric]? = nil) {
-            self.logitMetrics = logitMetrics
+        public init(logOddsMetrics: [LogOddsMetric]? = nil) {
+            self.logOddsMetrics = logOddsMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logitMetrics = "LogitMetrics"
+            case logOddsMetrics
         }
     }
 }

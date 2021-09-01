@@ -1723,6 +1723,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum WebvttDestinationStyleControl: String, CustomStringConvertible, Codable {
+        case noStyleData = "NO_STYLE_DATA"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
@@ -2067,6 +2073,28 @@ extension MediaLive {
         }
     }
 
+    public struct AudioHlsRenditionSelection: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio rendition.
+        public let groupId: String
+        /// Specifies the NAME in the #EXT-X-MEDIA tag of the target HLS audio rendition.
+        public let name: String
+
+        public init(groupId: String, name: String) {
+            self.groupId = groupId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId
+            case name
+        }
+    }
+
     public struct AudioLanguageSelection: AWSEncodableShape & AWSDecodableShape {
         /// Selects a specific three-letter language code from within an audio source.
         public let languageCode: String
@@ -2180,22 +2208,26 @@ extension MediaLive {
     }
 
     public struct AudioSelectorSettings: AWSEncodableShape & AWSDecodableShape {
+        public let audioHlsRenditionSelection: AudioHlsRenditionSelection?
         public let audioLanguageSelection: AudioLanguageSelection?
         public let audioPidSelection: AudioPidSelection?
         public let audioTrackSelection: AudioTrackSelection?
 
-        public init(audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil, audioTrackSelection: AudioTrackSelection? = nil) {
+        public init(audioHlsRenditionSelection: AudioHlsRenditionSelection? = nil, audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil, audioTrackSelection: AudioTrackSelection? = nil) {
+            self.audioHlsRenditionSelection = audioHlsRenditionSelection
             self.audioLanguageSelection = audioLanguageSelection
             self.audioPidSelection = audioPidSelection
             self.audioTrackSelection = audioTrackSelection
         }
 
         public func validate(name: String) throws {
+            try self.audioHlsRenditionSelection?.validate(name: "\(name).audioHlsRenditionSelection")
             try self.audioPidSelection?.validate(name: "\(name).audioPidSelection")
             try self.audioTrackSelection?.validate(name: "\(name).audioTrackSelection")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioHlsRenditionSelection
             case audioLanguageSelection
             case audioPidSelection
             case audioTrackSelection
@@ -10616,6 +10648,15 @@ extension MediaLive {
     }
 
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions.  PASSTHROUGH - Valid only if the source captions are EMBEDDED or TELETEXT.  NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information.
+        public let styleControl: WebvttDestinationStyleControl?
+
+        public init(styleControl: WebvttDestinationStyleControl? = nil) {
+            self.styleControl = styleControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case styleControl
+        }
     }
 }

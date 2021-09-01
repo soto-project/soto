@@ -78,10 +78,12 @@ public struct RedshiftErrorType: AWSErrorType {
         case invalidClusterSubnetGroupStateFault = "InvalidClusterSubnetGroupStateFault"
         case invalidClusterSubnetStateFault = "InvalidClusterSubnetStateFault"
         case invalidClusterTrackFault = "InvalidClusterTrack"
+        case invalidDataShareFault = "InvalidDataShareFault"
         case invalidElasticIpFault = "InvalidElasticIpFault"
         case invalidEndpointStateFault = "InvalidEndpointState"
         case invalidHsmClientCertificateStateFault = "InvalidHsmClientCertificateStateFault"
         case invalidHsmConfigurationStateFault = "InvalidHsmConfigurationStateFault"
+        case invalidNamespaceFault = "InvalidNamespaceFault"
         case invalidReservedNodeStateFault = "InvalidReservedNodeState"
         case invalidRestoreFault = "InvalidRestore"
         case invalidRetentionPeriodFault = "InvalidRetentionPeriodFault"
@@ -260,7 +262,7 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
     /// The cluster does not have read bucket or put object permissions on the S3 bucket specified when enabling logging.
     public static var insufficientS3BucketPolicyFault: Self { .init(.insufficientS3BucketPolicyFault) }
-    /// The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Region.
+    /// The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
     public static var invalidAuthenticationProfileRequestFault: Self { .init(.invalidAuthenticationProfileRequestFault) }
     /// The status of the authorization is not valid.
     public static var invalidAuthorizationStateFault: Self { .init(.invalidAuthorizationStateFault) }
@@ -280,6 +282,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var invalidClusterSubnetStateFault: Self { .init(.invalidClusterSubnetStateFault) }
     /// The provided cluster track name is not valid.
     public static var invalidClusterTrackFault: Self { .init(.invalidClusterTrackFault) }
+    /// There is an error with the datashare.
+    public static var invalidDataShareFault: Self { .init(.invalidDataShareFault) }
     /// The Elastic IP (EIP) is invalid or cannot be found.
     public static var invalidElasticIpFault: Self { .init(.invalidElasticIpFault) }
     /// The status of the endpoint is not valid.
@@ -288,6 +292,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var invalidHsmClientCertificateStateFault: Self { .init(.invalidHsmClientCertificateStateFault) }
     /// The specified HSM configuration is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
     public static var invalidHsmConfigurationStateFault: Self { .init(.invalidHsmConfigurationStateFault) }
+    /// The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
+    public static var invalidNamespaceFault: Self { .init(.invalidNamespaceFault) }
     /// Indicates that the Reserved Node being exchanged is not in an active state.
     public static var invalidReservedNodeStateFault: Self { .init(.invalidReservedNodeStateFault) }
     /// The restore is invalid.
@@ -364,7 +370,7 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var snapshotCopyGrantAlreadyExistsFault: Self { .init(.snapshotCopyGrantAlreadyExistsFault) }
     /// The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
     public static var snapshotCopyGrantNotFoundFault: Self { .init(.snapshotCopyGrantNotFoundFault) }
-    /// The account has exceeded the maximum number of snapshot copy grants in this region.
+    /// The Amazon Web Services account has exceeded the maximum number of snapshot copy grants in this region.
     public static var snapshotCopyGrantQuotaExceededFault: Self { .init(.snapshotCopyGrantQuotaExceededFault) }
     /// The specified snapshot schedule already exists.
     public static var snapshotScheduleAlreadyExistsFault: Self { .init(.snapshotScheduleAlreadyExistsFault) }

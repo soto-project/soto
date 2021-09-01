@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Proton {
-    ///  View a list of environment account connections. For more information, see Environment account connections in the AWS Proton Administration guide.
+    ///  View a list of environment account connections. For more information, see Environment account connections in the AWS Proton Administrator guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension Proton {
         )
     }
 
-    ///  List tags for a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+    ///  List tags for a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

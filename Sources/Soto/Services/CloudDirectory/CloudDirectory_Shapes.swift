@@ -1210,7 +1210,9 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectParents: AWSEncodableShape {
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int?
+        /// The pagination token.
         public let nextToken: String?
         public let objectReference: ObjectReference
 
@@ -1232,7 +1234,9 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectParentsResponse: AWSDecodableShape {
+        /// The pagination token.
         public let nextToken: String?
+        /// Returns a list of parent reference and LinkName Tuples.
         public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
 
         public init(nextToken: String? = nil, parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil) {
@@ -1462,6 +1466,7 @@ extension CloudDirectory {
         public let listObjectChildren: BatchListObjectChildren?
         /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
         public let listObjectParentPaths: BatchListObjectParentPaths?
+        /// Lists parent objects that are associated with a given object in pagination fashion.
         public let listObjectParents: BatchListObjectParents?
         /// Returns policies attached to an object in pagination fashion.
         public let listObjectPolicies: BatchListObjectPolicies?
@@ -1602,6 +1607,7 @@ extension CloudDirectory {
         public let listObjectChildren: BatchListObjectChildrenResponse?
         /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
         public let listObjectParentPaths: BatchListObjectParentPathsResponse?
+        /// The list of parent objects to retrieve.
         public let listObjectParents: BatchListObjectParentsResponse?
         /// Returns policies attached to an object in pagination fashion.
         public let listObjectPolicies: BatchListObjectPoliciesResponse?
@@ -4180,7 +4186,7 @@ extension CloudDirectory {
     }
 
     public struct ObjectReference: AWSEncodableShape & AWSDecodableShape {
-        /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call
+        /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes.     /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call
         public let selector: String?
 
         public init(selector: String? = nil) {
@@ -4383,9 +4389,9 @@ extension CloudDirectory {
     }
 
     public struct SchemaFacet: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the facet.
+        /// The name of the facet. If this value is set, SchemaArn must also be set.
         public let facetName: String?
-        /// The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions.
+        /// The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set.
         public let schemaArn: String?
 
         public init(facetName: String? = nil, schemaArn: String? = nil) {

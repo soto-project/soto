@@ -188,7 +188,7 @@ extension Health {
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -536,7 +536,7 @@ extension Health {
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -679,13 +679,13 @@ extension Health {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
                 try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
-            try self.validate(self.entityArns, name: "entityArns", parent: name, max: 100)
+            try self.validate(self.entityArns, name: "entityArns", parent: name, max: 99)
             try self.validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 1224)
                 try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
-            try self.validate(self.entityValues, name: "entityValues", parent: name, max: 100)
+            try self.validate(self.entityValues, name: "entityValues", parent: name, max: 99)
             try self.validate(self.entityValues, name: "entityValues", parent: name, min: 1)
             try self.eventArns.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
@@ -915,13 +915,13 @@ extension Health {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
                 try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
-            try self.validate(self.entityArns, name: "entityArns", parent: name, max: 100)
+            try self.validate(self.entityArns, name: "entityArns", parent: name, max: 99)
             try self.validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 1224)
                 try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
-            try self.validate(self.entityValues, name: "entityValues", parent: name, max: 100)
+            try self.validate(self.entityValues, name: "entityValues", parent: name, max: 99)
             try self.validate(self.entityValues, name: "entityValues", parent: name, min: 1)
             try self.eventArns?.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
@@ -1207,13 +1207,13 @@ extension Health {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
                 try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
-            try self.validate(self.entityArns, name: "entityArns", parent: name, max: 100)
+            try self.validate(self.entityArns, name: "entityArns", parent: name, max: 99)
             try self.validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 1224)
                 try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
-            try self.validate(self.entityValues, name: "entityValues", parent: name, max: 100)
+            try self.validate(self.entityValues, name: "entityValues", parent: name, max: 99)
             try self.validate(self.entityValues, name: "entityValues", parent: name, min: 1)
             try self.validate(self.eventStatusCodes, name: "eventStatusCodes", parent: name, max: 6)
             try self.validate(self.eventStatusCodes, name: "eventStatusCodes", parent: name, min: 1)

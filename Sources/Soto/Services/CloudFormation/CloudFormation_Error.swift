@@ -34,6 +34,7 @@ public struct CloudFormationErrorType: AWSErrorType {
         case operationNotFoundException = "OperationNotFoundException"
         case operationStatusCheckFailedException = "ConditionalCheckFailed"
         case stackInstanceNotFoundException = "StackInstanceNotFoundException"
+        case stackNotFoundException = "StackNotFoundException"
         case stackSetNotEmptyException = "StackSetNotEmptyException"
         case stackSetNotFoundException = "StackSetNotFoundException"
         case staleRequestException = "StaleRequestException"
@@ -76,7 +77,7 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// Error reserved for use by the CloudFormation CLI. CloudFormation does not return this error to users.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
-    /// The quota for the resource has already been reached. For information on resource and stack limitations, see Limits in the AWS CloudFormation User Guide.
+    /// The quota for the resource has already been reached. For information on resource and stack limitations, see Limits in the CloudFormation User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified name is already in use.
     public static var nameAlreadyExistsException: Self { .init(.nameAlreadyExistsException) }
@@ -90,6 +91,8 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var operationStatusCheckFailedException: Self { .init(.operationStatusCheckFailedException) }
     /// The specified stack instance doesn't exist.
     public static var stackInstanceNotFoundException: Self { .init(.stackInstanceNotFoundException) }
+    /// The specified stack ARN doesn’t exist or stack doesn’t exist corresponding to the ARN in input.
+    public static var stackNotFoundException: Self { .init(.stackNotFoundException) }
     /// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
     public static var stackSetNotEmptyException: Self { .init(.stackSetNotEmptyException) }
     /// The specified stack set doesn't exist.

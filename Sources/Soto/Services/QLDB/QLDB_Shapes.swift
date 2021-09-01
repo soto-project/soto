@@ -20,6 +20,13 @@ import SotoCore
 extension QLDB {
     // MARK: Enums
 
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case kmsKeyInaccessible = "KMS_KEY_INACCESSIBLE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ErrorCause: String, CustomStringConvertible, Codable {
         case iamPermissionRevoked = "IAM_PERMISSION_REVOKED"
         case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
@@ -109,21 +116,25 @@ extension QLDB {
     public struct CreateLedgerRequest: AWSEncodableShape {
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
-        /// The name of the ledger that you want to create. The name must be unique among all of your ledgers in the current AWS Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
+        /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: By default, use an Amazon Web Services owned KMS key.    A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
+        public let kmsKey: String?
+        /// The name of the ledger that you want to create. The name must be unique among all of the ledgers in your account in the current Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
         public let name: String
         /// The permissions mode to assign to the ledger that you want to create. This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access control with API-level granularity for ledgers. This mode allows users who have the SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or command-level IAM permissions policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that enables access control with finer granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for specific table resources and PartiQL actions, in addition to the SendCommand API permission for the ledger. For information, see Getting started with the standard permissions mode in the Amazon QLDB Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize the security of your ledger data.
         public let permissionsMode: PermissionsMode
         /// The key-value pairs to add as tags to the ledger that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
         public let tags: [String: String]?
 
-        public init(deletionProtection: Bool? = nil, name: String, permissionsMode: PermissionsMode, tags: [String: String]? = nil) {
+        public init(deletionProtection: Bool? = nil, kmsKey: String? = nil, name: String, permissionsMode: PermissionsMode, tags: [String: String]? = nil) {
             self.deletionProtection = deletionProtection
+            self.kmsKey = kmsKey
             self.name = name
             self.permissionsMode = permissionsMode
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -137,6 +148,7 @@ extension QLDB {
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtection = "DeletionProtection"
+            case kmsKey = "KmsKey"
             case name = "Name"
             case permissionsMode = "PermissionsMode"
             case tags = "Tags"
@@ -150,6 +162,8 @@ extension QLDB {
         public let creationDateTime: Date?
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
+        /// The ARN of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
+        public let kmsKeyArn: String?
         /// The name of the ledger.
         public let name: String?
         /// The permissions mode of the ledger that you created.
@@ -157,10 +171,11 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, kmsKeyArn: String? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.permissionsMode = permissionsMode
             self.state = state
@@ -170,6 +185,7 @@ extension QLDB {
             case arn = "Arn"
             case creationDateTime = "CreationDateTime"
             case deletionProtection = "DeletionProtection"
+            case kmsKeyArn = "KmsKeyArn"
             case name = "Name"
             case permissionsMode = "PermissionsMode"
             case state = "State"
@@ -307,6 +323,8 @@ extension QLDB {
         public let creationDateTime: Date?
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
+        /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error).
+        public let encryptionDescription: LedgerEncryptionDescription?
         /// The name of the ledger.
         public let name: String?
         /// The permissions mode of the ledger.
@@ -314,10 +332,11 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, encryptionDescription: LedgerEncryptionDescription? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
+            self.encryptionDescription = encryptionDescription
             self.name = name
             self.permissionsMode = permissionsMode
             self.state = state
@@ -327,6 +346,7 @@ extension QLDB {
             case arn = "Arn"
             case creationDateTime = "CreationDateTime"
             case deletionProtection = "DeletionProtection"
+            case encryptionDescription = "EncryptionDescription"
             case name = "Name"
             case permissionsMode = "PermissionsMode"
             case state = "State"
@@ -344,7 +364,7 @@ extension QLDB {
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in Key Management Service (KMS) for server-side encryption of your exported data.
         public let roleArn: String
         /// The configuration settings of the Amazon S3 bucket destination for your export request.
         public let s3ExportConfiguration: S3ExportConfiguration
@@ -537,7 +557,7 @@ extension QLDB {
         public let creationTime: Date?
         /// The error message that describes the reason that a stream has a status of IMPAIRED or FAILED. This is not applicable to streams that have other status values.
         public let errorCause: ErrorCause?
-        /// The exclusive date and time that specifies when the stream ends. If this parameter is blank, the stream runs indefinitely until you cancel it.
+        /// The exclusive date and time that specifies when the stream ends. If this parameter is undefined, the stream runs indefinitely until you cancel it.
         public let exclusiveEndTime: Date?
         /// The inclusive start date and time from which to start streaming journal data.
         public let inclusiveStartTime: Date?
@@ -594,7 +614,7 @@ extension QLDB {
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let ledgerName: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in Key Management Service (KMS) for server-side encryption of your exported data.
         public let roleArn: String
         public let s3ExportConfiguration: S3ExportConfiguration
         /// The current state of the journal export job.
@@ -642,6 +662,27 @@ extension QLDB {
         private enum CodingKeys: String, CodingKey {
             case aggregationEnabled = "AggregationEnabled"
             case streamArn = "StreamArn"
+        }
+    }
+
+    public struct LedgerEncryptionDescription: AWSDecodableShape {
+        /// The current state of encryption at rest for the ledger. This can be one of the following values:    ENABLED: Encryption is fully enabled using the specified key.    UPDATING: The ledger is actively processing the specified key change. Key changes in QLDB are asynchronous. The ledger is fully accessible without any performance impact while the key change is being processed. The amount of time it takes to update a key varies depending on the ledger size.    KMS_KEY_INACCESSIBLE: The specified customer managed KMS key is not accessible, and the ledger is impaired. Either the key was disabled or deleted, or the grants on the key were revoked. When a ledger is impaired, it is not accessible and does not accept any read or write requests. An impaired ledger automatically returns to an active state after you restore the grants on the key, or re-enable the key that was disabled. However, deleting a customer managed KMS key is irreversible. After a key is deleted, you can no longer access the ledgers that are protected with that key, and the data becomes unrecoverable permanently.
+        public let encryptionStatus: EncryptionStatus
+        /// The date and time, in epoch time format, when the KMS key first became inaccessible, in the case of an error. (Epoch time format is the number of seconds that have elapsed since 12:00:00 AM January 1, 1970 UTC.) This parameter is undefined if the KMS key is accessible.
+        public let inaccessibleKmsKeyDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
+        public let kmsKeyArn: String
+
+        public init(encryptionStatus: EncryptionStatus, inaccessibleKmsKeyDateTime: Date? = nil, kmsKeyArn: String) {
+            self.encryptionStatus = encryptionStatus
+            self.inaccessibleKmsKeyDateTime = inaccessibleKmsKeyDateTime
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionStatus = "EncryptionStatus"
+            case inaccessibleKmsKeyDateTime = "InaccessibleKmsKeyDateTime"
+            case kmsKeyArn = "KmsKeyArn"
         }
     }
 
@@ -796,7 +837,7 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsResponse: AWSDecodableShape {
-        /// The array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region.
+        /// The array of journal export job descriptions for all ledgers that are associated with the current account and Region.
         public let journalS3Exports: [JournalS3ExportDescription]?
         ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3Exports call.
         public let nextToken: String?
@@ -840,7 +881,7 @@ extension QLDB {
     }
 
     public struct ListLedgersResponse: AWSDecodableShape {
-        /// The array of ledger summaries that are associated with the current AWS account and Region.
+        /// The array of ledger summaries that are associated with the current account and Region.
         public let ledgers: [LedgerSummary]?
         /// A pagination token, indicating whether there are more results available:   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListLedgers call.
         public let nextToken: String?
@@ -890,7 +931,7 @@ extension QLDB {
     }
 
     public struct S3EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in AWS Key Management Service (AWS KMS). Amazon S3 does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
+        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) in Key Management Service (KMS). Amazon S3 does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see Protecting Data Using Server-Side Encryption in the Amazon S3 Developer Guide.
         public let objectEncryptionType: S3ObjectEncryptionType
@@ -1135,15 +1176,19 @@ extension QLDB {
 
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
+        /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
+        public let kmsKey: String?
         /// The name of the ledger.
         public let name: String
 
-        public init(deletionProtection: Bool? = nil, name: String) {
+        public init(deletionProtection: Bool? = nil, kmsKey: String? = nil, name: String) {
             self.deletionProtection = deletionProtection
+            self.kmsKey = kmsKey
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -1151,6 +1196,7 @@ extension QLDB {
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtection = "DeletionProtection"
+            case kmsKey = "KmsKey"
         }
     }
 
@@ -1161,15 +1207,18 @@ extension QLDB {
         public let creationDateTime: Date?
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
+        /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error).
+        public let encryptionDescription: LedgerEncryptionDescription?
         /// The name of the ledger.
         public let name: String?
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, encryptionDescription: LedgerEncryptionDescription? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
+            self.encryptionDescription = encryptionDescription
             self.name = name
             self.state = state
         }
@@ -1178,6 +1227,7 @@ extension QLDB {
             case arn = "Arn"
             case creationDateTime = "CreationDateTime"
             case deletionProtection = "DeletionProtection"
+            case encryptionDescription = "EncryptionDescription"
             case name = "Name"
             case state = "State"
         }
