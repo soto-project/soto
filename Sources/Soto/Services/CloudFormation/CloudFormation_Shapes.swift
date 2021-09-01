@@ -367,7 +367,6 @@ extension CloudFormation {
         case updateComplete = "UPDATE_COMPLETE"
         case updateCompleteCleanupInProgress = "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"
         case updateFailed = "UPDATE_FAILED"
-        case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateRollbackComplete = "UPDATE_ROLLBACK_COMPLETE"
         case updateRollbackCompleteCleanupInProgress = "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
