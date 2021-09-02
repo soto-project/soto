@@ -1,0 +1,42 @@
+name: Update AWS service files (Smithy)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 1'
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+    - name: App Token
+      uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_PRIVATE_KEY }}
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: smithy
+        fetch-depth: 1
+    - name: Install Dependencies
+      run: |
+        brew install mint
+        mint install soto-project/soto-codegenerator
+    - name: Update Models
+      id: update-models
+      run: |
+        ./scripts/update_models.sh | grep AWS_MODELS_VERSION >> $GITHUB_ENV
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ steps.generate-token.outputs.token }}
+        commit-message: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
+        committer: GitHub <noreply@github.com>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        branch: aws-sdk-go-v2-update-models
+        title: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
+        body: 'Automated update of AWS service files from Smithy model files in aws-sdk-go-v2 repository'
+        base: smithy
