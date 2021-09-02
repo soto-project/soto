@@ -1,7 +1,6 @@
 name: Update AWS service files (Smithy)
 
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: '0 2 * * 1'
@@ -30,10 +29,10 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ steps.generate-token.outputs.token }}
-        commit-message: 'Update models from aws-sdk-go ${{ env.AWS_MODELS_VERSION }}'
+        commit-message: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-sdk-go-v2-update-models
-        title: 'Update models from aws-sdk-go ${{ env.AWS_MODELS_VERSION }}'
-        body: 'Automated update of AWS service files from json model files in aws-sdk-go repository'
+        title: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
+        body: 'Automated update of AWS service files from Smithy model files in aws-sdk-go-v2 repository'
         base: smithy
