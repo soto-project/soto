@@ -107,7 +107,7 @@ AWS_MODELS_VERSION=""
 COMPILE_FILES=""
 COMMIT_FILES=""
 
-while getopts 'bcv:' option
+while getopts 'gcv:' option
 do
     case $option in
         v) AWS_MODELS_VERSION=$OPTARG ;;
