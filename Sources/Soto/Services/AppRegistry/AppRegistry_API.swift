@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS AppRegistry service.
 ///
-///  AWS Service Catalog AppRegistry enables organizations to understand the application context of their AWS resources. AppRegistry provides a repository of your applications, their resources, and the application metadata that you use within your enterprise.
+///  Amazon Web Services Service Catalog AppRegistry enables organizations to understand the application context of their Amazon Web Services resources. AppRegistry provides a repository of your applications, their resources, and the application metadata that you use within your enterprise.
 public struct AppRegistry: AWSService {
     // MARK: Member variables
 
@@ -108,6 +108,11 @@ public struct AppRegistry: AWSService {
         return self.client.execute(operation: "GetApplication", path: "/applications/{application}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the resource associated with the application.
+    public func getAssociatedResource(_ input: GetAssociatedResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAssociatedResourceResponse> {
+        return self.client.execute(operation: "GetAssociatedResource", path: "/applications/{application}/resources/{resourceType}/{resource}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves an attribute group, either by its name or its ID. The attribute group can be specified either by its unique ID or by its name.
     public func getAttributeGroup(_ input: GetAttributeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttributeGroupResponse> {
         return self.client.execute(operation: "GetAttributeGroup", path: "/attribute-groups/{attributeGroup}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -138,7 +143,7 @@ public struct AppRegistry: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Syncs the resource with what is currently recorded in App registry. Specifically, the resource’s App registry system tags are synced with its associated application. The resource is removed if it is not associated with the application. The caller must have permissions to read and update the resource.
+    /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
     public func syncResource(_ input: SyncResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SyncResourceResponse> {
         return self.client.execute(operation: "SyncResource", path: "/sync/{resourceType}/{resource}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

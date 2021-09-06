@@ -334,7 +334,7 @@ extension ACMPCA {
         public let ownerAccount: String?
         /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest action.
         public let restorableUntil: Date?
-        /// Information about the certificate revocation list (CRL) created and maintained by your private CA.
+        /// Information about the Online Certificate Status Protocol (OCSP) configuration or certificate revocation list (CRL) created and maintained by your private CA.
         public let revocationConfiguration: RevocationConfiguration?
         /// Serial number of your private CA.
         public let serial: String?
@@ -463,7 +463,7 @@ extension ACMPCA {
         public let idempotencyToken: String?
         /// Specifies a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in Region ap-northeast-3. When creating a CA in the ap-northeast-3, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the message, "A certificate authority cannot be created in this region with the specified security standard."
         public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
-        /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM Private CA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure.
+        /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. The default is for both certificate validation mechanisms to be disabled. For more information, see the OcspConfiguration and CrlConfiguration types.
         public let revocationConfiguration: RevocationConfiguration?
         /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA. For information using tags with IAM to manage permissions, see Controlling Access Using IAM Tags.
         public let tags: [Tag]?
@@ -559,7 +559,7 @@ extension ACMPCA {
         public let enabled: Bool
         /// Validity period of the CRL in days.
         public let expirationInDays: Int?
-        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority action. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
+        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority operation. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
         public let s3BucketName: String?
         /// Determines whether the CRL will be publicly readable or privately held in the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access.  If no value is specified, the default is PUBLIC_READ.  Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see Blocking public access to the S3 bucket.
         public let s3ObjectAcl: S3ObjectAcl?
@@ -1350,6 +1350,28 @@ extension ACMPCA {
         }
     }
 
+    public struct OcspConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for validating certificate revocation status.
+        public let enabled: Bool
+        /// By default, ACM Private CA injects an AWS domain into certificates being validated by the Online Certificate Status Protocol (OCSP). A customer can alternatively use this object to define a CNAME specifying a customized OCSP domain. Note: The value of the CNAME must not include a protocol prefix such as "http://" or "https://". For more information, see Customizing Online Certificate Status Protocol (OCSP)  in the AWS Certificate Manager Private Certificate Authority (PCA) User Guide.
+        public let ocspCustomCname: String?
+
+        public init(enabled: Bool, ocspCustomCname: String? = nil) {
+            self.enabled = enabled
+            self.ocspCustomCname = ocspCustomCname
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ocspCustomCname, name: "ocspCustomCname", parent: name, max: 253)
+            try self.validate(self.ocspCustomCname, name: "ocspCustomCname", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case ocspCustomCname = "OcspCustomCname"
+        }
+    }
+
     public struct OtherName: AWSEncodableShape & AWSDecodableShape {
         /// Specifies an OID.
         public let typeId: String
@@ -1521,19 +1543,24 @@ extension ACMPCA {
     }
 
     public struct RevocationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.
+        /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, ACM Private CA makes further attempts every 15 minutes.
         public let crlConfiguration: CrlConfiguration?
+        /// Configuration of Online Certificate Status Protocol (OCSP) support, if any, maintained by your private CA. When you revoke a certificate, OCSP responses may take up to 60 minutes to reflect the new status.
+        public let ocspConfiguration: OcspConfiguration?
 
-        public init(crlConfiguration: CrlConfiguration? = nil) {
+        public init(crlConfiguration: CrlConfiguration? = nil, ocspConfiguration: OcspConfiguration? = nil) {
             self.crlConfiguration = crlConfiguration
+            self.ocspConfiguration = ocspConfiguration
         }
 
         public func validate(name: String) throws {
             try self.crlConfiguration?.validate(name: "\(name).crlConfiguration")
+            try self.ocspConfiguration?.validate(name: "\(name).ocspConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case crlConfiguration = "CrlConfiguration"
+            case ocspConfiguration = "OcspConfiguration"
         }
     }
 
@@ -1651,7 +1678,7 @@ extension ACMPCA {
     public struct UpdateCertificateAuthorityRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
-        /// Revocation information for your private CA.
+        /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. If this parameter is not supplied, existing capibilites remain unchanged. For more information, see the OcspConfiguration and CrlConfiguration types.
         public let revocationConfiguration: RevocationConfiguration?
         /// Status of your private CA.
         public let status: CertificateAuthorityStatus?

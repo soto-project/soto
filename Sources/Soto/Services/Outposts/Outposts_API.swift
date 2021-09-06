@@ -63,6 +63,11 @@ public struct Outposts: AWSService {
 
     // MARK: API Calls
 
+    /// Creates an order for an Outpost.
+    public func createOrder(_ input: CreateOrderInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOrderOutput> {
+        return self.client.execute(operation: "CreateOrder", path: "/orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
     public func createOutpost(_ input: CreateOutpostInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutpostOutput> {
         return self.client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

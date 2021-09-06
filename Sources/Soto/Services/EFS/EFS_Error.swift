@@ -69,9 +69,9 @@ public struct EFSErrorType: AWSErrorType {
 
     /// Returned if the access point you are trying to create already exists, with the creation token you provided in the request.
     public static var accessPointAlreadyExists: Self { .init(.accessPointAlreadyExists) }
-    /// Returned if the AWS account has already created the maximum number of access points allowed per file system.
+    /// Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system.
     public static var accessPointLimitExceeded: Self { .init(.accessPointLimitExceeded) }
-    /// Returned if the specified AccessPointId value doesn't exist in the requester's AWS account.
+    /// Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
     public static var accessPointNotFound: Self { .init(.accessPointNotFound) }
     /// Returned if the Availability Zone that was specified for a mount target is different from the Availability Zone that was specified for One Zone storage classes. For more information, see Regional and One Zone storage redundancy.
     public static var availabilityZonesMismatch: Self { .init(.availabilityZonesMismatch) }
@@ -83,9 +83,9 @@ public struct EFSErrorType: AWSErrorType {
     public static var fileSystemAlreadyExists: Self { .init(.fileSystemAlreadyExists) }
     /// Returned if a file system has mount targets.
     public static var fileSystemInUse: Self { .init(.fileSystemInUse) }
-    /// Returned if the AWS account has already created the maximum number of file systems allowed per account.
+    /// Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
     public static var fileSystemLimitExceeded: Self { .init(.fileSystemLimitExceeded) }
-    /// Returned if the specified FileSystemId value doesn't exist in the requester's AWS account.
+    /// Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     public static var fileSystemNotFound: Self { .init(.fileSystemNotFound) }
     /// Returned if the file system's lifecycle state is not "available".
     public static var incorrectFileSystemLifeCycleState: Self { .init(.incorrectFileSystemLifeCycleState) }
@@ -101,9 +101,9 @@ public struct EFSErrorType: AWSErrorType {
     public static var ipAddressInUse: Self { .init(.ipAddressInUse) }
     /// Returned if the mount target would violate one of the specified restrictions based on the file system's existing mount targets.
     public static var mountTargetConflict: Self { .init(.mountTargetConflict) }
-    /// Returned if there is no mount target with the specified ID found in the caller's account.
+    /// Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     public static var mountTargetNotFound: Self { .init(.mountTargetNotFound) }
-    /// The calling account has reached the limit for elastic network interfaces for the specific AWS Region. The client should try to delete some elastic network interfaces or get the account limit raised. For more information, see Amazon VPC Limits in the Amazon VPC User Guide  (see the Network interfaces per VPC entry in the table).
+    /// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. The client should try to delete some elastic network interfaces or get the account limit raised. For more information, see Amazon VPC Limits in the Amazon VPC User Guide  (see the Network interfaces per VPC entry in the table).
     public static var networkInterfaceLimitExceeded: Self { .init(.networkInterfaceLimitExceeded) }
     /// Returned if IpAddress was not specified in the request and there are no free IP addresses in the subnet.
     public static var noFreeAddressesInSubnet: Self { .init(.noFreeAddressesInSubnet) }
@@ -121,7 +121,7 @@ public struct EFSErrorType: AWSErrorType {
     public static var tooManyRequests: Self { .init(.tooManyRequests) }
     /// Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
     public static var unsupportedAvailabilityZone: Self { .init(.unsupportedAvailabilityZone) }
-    /// Returned if the AWS Backup service is not available in the Region in which the request was made.
+    /// Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
     public static var validationException: Self { .init(.validationException) }
 }
 

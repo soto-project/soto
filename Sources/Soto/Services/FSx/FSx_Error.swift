@@ -40,12 +40,15 @@ public struct FSxErrorType: AWSErrorType {
         case invalidRegion = "InvalidRegion"
         case invalidSourceKmsKey = "InvalidSourceKmsKey"
         case missingFileSystemConfiguration = "MissingFileSystemConfiguration"
+        case missingVolumeConfiguration = "MissingVolumeConfiguration"
         case notServiceResourceError = "NotServiceResourceError"
         case resourceDoesNotSupportTagging = "ResourceDoesNotSupportTagging"
         case resourceNotFound = "ResourceNotFound"
         case serviceLimitExceeded = "ServiceLimitExceeded"
         case sourceBackupUnavailable = "SourceBackupUnavailable"
+        case storageVirtualMachineNotFound = "StorageVirtualMachineNotFound"
         case unsupportedOperation = "UnsupportedOperation"
+        case volumeNotFound = "VolumeNotFound"
     }
 
     private let error: Code
@@ -92,34 +95,40 @@ public struct FSxErrorType: AWSErrorType {
     public static var incompatibleRegionForMultiAZ: Self { .init(.incompatibleRegionForMultiAZ) }
     /// A generic error indicating a server-side failure.
     public static var internalServerError: Self { .init(.internalServerError) }
-    /// The AWS Key Management Service (AWS KMS) key of the destination backup is invalid.
+    /// The Key Management Service (KMS) key of the destination backup is invalid.
     public static var invalidDestinationKmsKey: Self { .init(.invalidDestinationKmsKey) }
     /// The path provided for data repository export isn't valid.
     public static var invalidExportPath: Self { .init(.invalidExportPath) }
     /// The path provided for data repository import isn't valid.
     public static var invalidImportPath: Self { .init(.invalidImportPath) }
-    /// One or more network settings specified in the request are invalid. InvalidVpcId means that the ID passed for the virtual private cloud (VPC) is invalid. InvalidSubnetIds returns the list of IDs for subnets that are either invalid or not part of the VPC specified. InvalidSecurityGroupIds returns the list of IDs for security groups that are either invalid or not part of the VPC specified.
+    /// One or more network settings specified in the request are invalid.
     public static var invalidNetworkSettings: Self { .init(.invalidNetworkSettings) }
     /// An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     public static var invalidPerUnitStorageThroughput: Self { .init(.invalidPerUnitStorageThroughput) }
-    /// The Region provided for Source Region is invalid or is in a different AWS partition.
+    /// The Region provided for Source Region is invalid or is in a different Amazon Web Services partition.
     public static var invalidRegion: Self { .init(.invalidRegion) }
-    /// The AWS Key Management Service (AWS KMS) key of the source backup is invalid.
+    /// The Key Management Service (KMS) key of the source backup is invalid.
     public static var invalidSourceKmsKey: Self { .init(.invalidSourceKmsKey) }
     /// A file system configuration is required for this operation.
     public static var missingFileSystemConfiguration: Self { .init(.missingFileSystemConfiguration) }
+    /// A volume configuration is required for this operation.
+    public static var missingVolumeConfiguration: Self { .init(.missingVolumeConfiguration) }
     /// The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
     public static var notServiceResourceError: Self { .init(.notServiceResourceError) }
     /// The resource specified does not support tagging.
     public static var resourceDoesNotSupportTagging: Self { .init(.resourceDoesNotSupportTagging) }
     /// The resource specified by the Amazon Resource Name (ARN) can't be found.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
-    /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting AWS Support.
+    /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
     /// The request was rejected because the lifecycle status of the source backup is not AVAILABLE.
     public static var sourceBackupUnavailable: Self { .init(.sourceBackupUnavailable) }
+    /// No Amazon FSx for NetApp ONTAP SVMs were found based upon the supplied parameters.
+    public static var storageVirtualMachineNotFound: Self { .init(.storageVirtualMachineNotFound) }
     /// The requested operation is not supported for this resource or API.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
+    /// No Amazon FSx for NetApp ONTAP volumes were found based upon the supplied parameters.
+    public static var volumeNotFound: Self { .init(.volumeNotFound) }
 }
 
 extension FSxErrorType: Equatable {

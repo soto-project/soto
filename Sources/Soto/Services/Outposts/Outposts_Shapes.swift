@@ -20,7 +20,78 @@ import SotoCore
 extension Outposts {
     // MARK: Enums
 
+    public enum OrderStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case fulfilled = "FULFILLED"
+        case installing = "INSTALLING"
+        case pending = "PENDING"
+        case processing = "PROCESSING"
+        case received = "RECEIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaymentOption: String, CustomStringConvertible, Codable {
+        case allUpfront = "ALL_UPFRONT"
+        case noUpfront = "NO_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaymentTerm: String, CustomStringConvertible, Codable {
+        case threeYears = "THREE_YEARS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct CreateOrderInput: AWSEncodableShape {
+        /// The line items that make up the order.
+        public let lineItems: [LineItemRequest]
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        public let outpostIdentifier: String
+        /// The payment option for the order.
+        public let paymentOption: PaymentOption
+        /// The payment terms for the order.
+        public let paymentTerm: PaymentTerm?
+
+        public init(lineItems: [LineItemRequest], outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil) {
+            self.lineItems = lineItems
+            self.outpostIdentifier = outpostIdentifier
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
+        }
+
+        public func validate(name: String) throws {
+            try self.lineItems.forEach {
+                try $0.validate(name: "\(name).lineItems[]")
+            }
+            try self.validate(self.lineItems, name: "lineItems", parent: name, max: 20)
+            try self.validate(self.lineItems, name: "lineItems", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineItems = "LineItems"
+            case outpostIdentifier = "OutpostIdentifier"
+            case paymentOption = "PaymentOption"
+            case paymentTerm = "PaymentTerm"
+        }
+    }
+
+    public struct CreateOrderOutput: AWSDecodableShape {
+        /// Information about this order.
+        public let order: Order?
+
+        public init(order: Order? = nil) {
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case order = "Order"
+        }
+    }
 
     public struct CreateOutpostInput: AWSEncodableShape {
         public let availabilityZone: String?
@@ -92,6 +163,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
 
+        ///  The ID of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -140,6 +212,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
 
+        ///  The ID of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -164,6 +237,7 @@ extension Outposts {
 
         public let maxResults: Int?
         public let nextToken: String?
+        ///  The ID of the Outpost.
         public let outpostId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
@@ -190,6 +264,7 @@ extension Outposts {
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
         public let outpostArn: String?
+        ///  The ID of the Outpost.
         public let outpostId: String?
 
         public init(instanceTypes: [InstanceTypeItem]? = nil, nextToken: String? = nil, outpostArn: String? = nil, outpostId: String? = nil) {
@@ -228,6 +303,56 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case instanceType = "InstanceType"
+        }
+    }
+
+    public struct LineItem: AWSDecodableShape {
+        ///  The ID of the catalog item.
+        public let catalogItemId: String?
+        /// The ID of the line item.
+        public let lineItemId: String?
+        /// The quantity of the line item.
+        public let quantity: Int?
+        /// The status of the line item.
+        public let status: String?
+
+        public init(catalogItemId: String? = nil, lineItemId: String? = nil, quantity: Int? = nil, status: String? = nil) {
+            self.catalogItemId = catalogItemId
+            self.lineItemId = lineItemId
+            self.quantity = quantity
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogItemId = "CatalogItemId"
+            case lineItemId = "LineItemId"
+            case quantity = "Quantity"
+            case status = "Status"
+        }
+    }
+
+    public struct LineItemRequest: AWSEncodableShape {
+        /// The ID of the catalog item.
+        public let catalogItemId: String?
+        /// The quantity of a line item request.
+        public let quantity: Int?
+
+        public init(catalogItemId: String? = nil, quantity: Int? = nil) {
+            self.catalogItemId = catalogItemId
+            self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogItemId, name: "catalogItemId", parent: name, max: 10)
+            try self.validate(self.catalogItemId, name: "catalogItemId", parent: name, min: 1)
+            try self.validate(self.catalogItemId, name: "catalogItemId", parent: name, pattern: "OR-[A-Z0-9]{7}")
+            try self.validate(self.quantity, name: "quantity", parent: name, max: 20)
+            try self.validate(self.quantity, name: "quantity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogItemId = "CatalogItemId"
+            case quantity = "Quantity"
         }
     }
 
@@ -377,6 +502,43 @@ extension Outposts {
         }
     }
 
+    public struct Order: AWSDecodableShape {
+        /// The line items for the order
+        public let lineItems: [LineItem]?
+        /// The fulfillment date of the order.
+        public let orderFulfilledDate: Date?
+        /// The ID of the order.
+        public let orderId: String?
+        /// The submission date for the order.
+        public let orderSubmissionDate: Date?
+        ///  The ID of the Outpost.
+        public let outpostId: String?
+        /// The payment option for the order.
+        public let paymentOption: PaymentOption?
+        /// The status of the order
+        public let status: OrderStatus?
+
+        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, status: OrderStatus? = nil) {
+            self.lineItems = lineItems
+            self.orderFulfilledDate = orderFulfilledDate
+            self.orderId = orderId
+            self.orderSubmissionDate = orderSubmissionDate
+            self.outpostId = outpostId
+            self.paymentOption = paymentOption
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineItems = "LineItems"
+            case orderFulfilledDate = "OrderFulfilledDate"
+            case orderId = "OrderId"
+            case orderSubmissionDate = "OrderSubmissionDate"
+            case outpostId = "OutpostId"
+            case paymentOption = "PaymentOption"
+            case status = "Status"
+        }
+    }
+
     public struct Outpost: AWSDecodableShape {
         public let availabilityZone: String?
         public let availabilityZoneId: String?
@@ -384,6 +546,7 @@ extension Outposts {
         public let lifeCycleStatus: String?
         public let name: String?
         public let outpostArn: String?
+        ///  The ID of the Outpost.
         public let outpostId: String?
         public let ownerId: String?
         public let siteArn: String?

@@ -20,6 +20,16 @@ import SotoCore
 extension AppRegistry {
     // MARK: Enums
 
+    public enum ResourceGroupState: String, CustomStringConvertible, Codable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case cfnStack = "CFN_STACK"
         public var description: String { return self.rawValue }
@@ -126,10 +136,10 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -175,7 +185,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
@@ -299,7 +309,7 @@ extension AppRegistry {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
+            try self.validate(self.name, name: "name", parent: name, pattern: "[-.\\w]+")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -360,7 +370,7 @@ extension AppRegistry {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
+            try self.validate(self.name, name: "name", parent: name, pattern: "[-.\\w]+")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -407,7 +417,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -441,7 +451,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -479,10 +489,10 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -528,7 +538,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
@@ -569,7 +579,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -587,6 +597,8 @@ extension AppRegistry {
         public let description: String?
         /// The identifier of the application.
         public let id: String?
+        /// The information about the integration of the application with other services, such as Resource Groups.
+        public let integrations: Integrations?
         /// The ISO-8601 formatted timestamp of the moment when the application was last updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdateTime: Date?
@@ -595,12 +607,13 @@ extension AppRegistry {
         /// Key-value pairs associated with the application.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, associatedResourceCount: Int? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, associatedResourceCount: Int? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, integrations: Integrations? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.associatedResourceCount = associatedResourceCount
             self.creationTime = creationTime
             self.description = description
             self.id = id
+            self.integrations = integrations
             self.lastUpdateTime = lastUpdateTime
             self.name = name
             self.tags = tags
@@ -612,9 +625,55 @@ extension AppRegistry {
             case creationTime
             case description
             case id
+            case integrations
             case lastUpdateTime
             case name
             case tags
+        }
+    }
+
+    public struct GetAssociatedResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
+            AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
+            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+        ]
+
+        /// The name or ID of the application.
+        public let application: String
+        /// The name or ID of the resource associated with the application.
+        public let resource: String
+        /// The type of resource associated with the application.
+        public let resourceType: ResourceType
+
+        public init(application: String, resource: String, resourceType: ResourceType) {
+            self.application = application
+            self.resource = resource
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.application, name: "application", parent: name, max: 256)
+            try self.validate(self.application, name: "application", parent: name, min: 1)
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
+            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAssociatedResourceResponse: AWSDecodableShape {
+        /// The resource associated with the application.
+        public let resource: Resource?
+
+        public init(resource: Resource? = nil) {
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource
         }
     }
 
@@ -633,7 +692,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -679,6 +738,19 @@ extension AppRegistry {
             case lastUpdateTime
             case name
             case tags
+        }
+    }
+
+    public struct Integrations: AWSDecodableShape {
+        ///  The information about the resource group integration.
+        public let resourceGroup: ResourceGroup?
+
+        public init(resourceGroup: ResourceGroup? = nil) {
+            self.resourceGroup = resourceGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroup
         }
     }
 
@@ -749,7 +821,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
@@ -800,7 +872,7 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
@@ -906,6 +978,53 @@ extension AppRegistry {
         }
     }
 
+    public struct Resource: AWSDecodableShape {
+        /// The Amazon resource name (ARN) of the resource.
+        public let arn: String?
+        /// The time the resource was associated with the application.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var associationTime: Date?
+        /// The service integration information about the resource.
+        public let integrations: ResourceIntegrations?
+        /// The name of the resource.
+        public let name: String?
+
+        public init(arn: String? = nil, associationTime: Date? = nil, integrations: ResourceIntegrations? = nil, name: String? = nil) {
+            self.arn = arn
+            self.associationTime = associationTime
+            self.integrations = integrations
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case associationTime
+            case integrations
+            case name
+        }
+    }
+
+    public struct ResourceGroup: AWSDecodableShape {
+        /// The Amazon resource name (ARN) of the resource group.
+        public let arn: String?
+        /// The error message that generates when the propagation process for the resource group fails.
+        public let errorMessage: String?
+        /// The state of the propagation process for the resource group. The states includes:  CREATING if the resource group is in the process of being created.  CREATE_COMPLETE if the resource group was created successfully.  CREATE_FAILED if the resource group failed to be created.  UPDATING if the resource group is in the process of being updated.  UPDATE_COMPLETE if the resource group updated successfully.  UPDATE_FAILED if the resource group could not update successfully.
+        public let state: ResourceGroupState?
+
+        public init(arn: String? = nil, errorMessage: String? = nil, state: ResourceGroupState? = nil) {
+            self.arn = arn
+            self.errorMessage = errorMessage
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case errorMessage
+            case state
+        }
+    }
+
     public struct ResourceInfo: AWSDecodableShape {
         /// The Amazon resource name (ARN) that specifies the resource across services.
         public let arn: String?
@@ -923,13 +1042,26 @@ extension AppRegistry {
         }
     }
 
+    public struct ResourceIntegrations: AWSDecodableShape {
+        /// The information about the integration of Resource Groups.
+        public let resourceGroup: ResourceGroup?
+
+        public init(resourceGroup: ResourceGroup? = nil) {
+            self.resourceGroup = resourceGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroup
+        }
+    }
+
     public struct SyncResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
             AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
         ]
 
-        /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an AWS CloudFormation stack, or an Amazon S3 bucket.
+        /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket.
         public let resource: String
         /// The type of resource of which the application will be associated.
         public let resourceType: ResourceType
@@ -1063,11 +1195,11 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
+            try self.validate(self.name, name: "name", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,14 +1245,14 @@ extension AppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.attributes, name: "attributes", parent: name, max: 8000)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
             try self.validate(self.attributes, name: "attributes", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
+            try self.validate(self.name, name: "name", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {

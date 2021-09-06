@@ -72,6 +72,59 @@ extension Transfer {
         )
     }
 
+    ///  Lists all executions for the specified workflow.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExecutionsPaginator<Result>(
+        _ input: ListExecutionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExecutionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExecutions,
+            inputKey: \ListExecutionsRequest.nextToken,
+            outputKey: \ListExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExecutionsPaginator(
+        _ input: ListExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExecutions,
+            inputKey: \ListExecutionsRequest.nextToken,
+            outputKey: \ListExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the security policies that are attached to your file transfer protocol-enabled servers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -283,6 +336,59 @@ extension Transfer {
             onPage: onPage
         )
     }
+
+    ///  Lists all of your workflows.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listWorkflowsPaginator<Result>(
+        _ input: ListWorkflowsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListWorkflowsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listWorkflows,
+            inputKey: \ListWorkflowsRequest.nextToken,
+            outputKey: \ListWorkflowsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listWorkflowsPaginator(
+        _ input: ListWorkflowsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListWorkflowsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listWorkflows,
+            inputKey: \ListWorkflowsRequest.nextToken,
+            outputKey: \ListWorkflowsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension Transfer.ListAccessesRequest: AWSPaginateToken {
@@ -291,6 +397,16 @@ extension Transfer.ListAccessesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serverId: self.serverId
+        )
+    }
+}
+
+extension Transfer.ListExecutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Transfer.ListExecutionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workflowId: self.workflowId
         )
     }
 }
@@ -329,6 +445,15 @@ extension Transfer.ListUsersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serverId: self.serverId
+        )
+    }
+}
+
+extension Transfer.ListWorkflowsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Transfer.ListWorkflowsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

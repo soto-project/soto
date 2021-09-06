@@ -50,6 +50,7 @@ extension MediaTailor {
     }
 
     public enum PlaybackMode: String, CustomStringConvertible, Codable {
+        case linear = "LINEAR"
         case loop = "LOOP"
         public var description: String { return self.rawValue }
     }
@@ -57,6 +58,12 @@ extension MediaTailor {
     public enum RelativePosition: String, CustomStringConvertible, Codable {
         case afterProgram = "AFTER_PROGRAM"
         case beforeProgram = "BEFORE_PROGRAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleEntryType: String, CustomStringConvertible, Codable {
+        case fillerSlate = "FILLER_SLATE"
+        case program = "PROGRAM"
         public var description: String { return self.rawValue }
     }
 
@@ -214,21 +221,24 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        /// Contains information about the slate used to fill gaps between programs in the schedule. You must configure FillerSlate if your channel uses an LINEAR PlaybackMode.
+        public let fillerSlate: SlateSource?
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The channel's output properties.
         public let outputs: [ResponseOutputItem]
-        /// The type of playback mode for this channel. Possible values: ONCE or LOOP.
+        /// The type of playback mode for this channel. LINEAR - Programs play back-to-back only once. LOOP - Programs play back-to-back in an endless loop. When the last program in the schedule plays, playback loops back to the first program in the schedule.
         public let playbackMode: String
         /// The tags to assign to the channel.
         public let tags: [String: String]?
 
-        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil) {
+        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
+            self.fillerSlate = fillerSlate
             self.lastModifiedTime = lastModifiedTime
             self.outputs = outputs
             self.playbackMode = playbackMode
@@ -240,6 +250,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case channelState = "ChannelState"
             case creationTime = "CreationTime"
+            case fillerSlate = "FillerSlate"
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
@@ -253,21 +264,25 @@ extension MediaTailor {
         ]
 
         public let channelName: String
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses an LINEAR PlaybackMode.
+        public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
-        /// The type of playback mode for this channel. The only supported value is LOOP.
+        /// The type of playback mode to use for this channel. LINEAR - The programs in the schedule play once back-to-back in the schedule. LOOP - The programs in the schedule play back-to-back in an endless loop. When the last program in the schedule stops playing, playback loops back to the first program in the schedule.
         public let playbackMode: PlaybackMode
         /// The tags to assign to the channel.
         public let tags: [String: String]?
 
-        public init(channelName: String, outputs: [RequestOutputItem], playbackMode: PlaybackMode, tags: [String: String]? = nil) {
+        public init(channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem], playbackMode: PlaybackMode, tags: [String: String]? = nil) {
             self.channelName = channelName
+            self.fillerSlate = fillerSlate
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fillerSlate = "FillerSlate"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
             case tags
@@ -280,17 +295,19 @@ extension MediaTailor {
         public let channelState: ChannelState?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        public let fillerSlate: SlateSource?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         public let outputs: [ResponseOutputItem]?
         public let playbackMode: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
+            self.fillerSlate = fillerSlate
             self.lastModifiedTime = lastModifiedTime
             self.outputs = outputs
             self.playbackMode = playbackMode
@@ -302,6 +319,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case channelState = "ChannelState"
             case creationTime = "CreationTime"
+            case fillerSlate = "FillerSlate"
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
@@ -350,15 +368,18 @@ extension MediaTailor {
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
         public let programName: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var scheduledStartTime: Date?
         public let sourceLocationName: String?
         public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.channelName = channelName
             self.creationTime = creationTime
             self.programName = programName
+            self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
         }
@@ -369,6 +390,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case creationTime = "CreationTime"
             case programName = "ProgramName"
+            case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
             case vodSourceName = "VodSourceName"
         }
@@ -712,21 +734,24 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        /// Contains information about the slate used to fill gaps between programs in the schedule.
+        public let fillerSlate: SlateSource?
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The channel's output properties.
         public let outputs: [ResponseOutputItem]?
-        /// The type of playback for this channel. The only supported value is LOOP.
+        /// The channel's playback mode.
         public let playbackMode: String?
         /// The tags assigned to the channel.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
+            self.fillerSlate = fillerSlate
             self.lastModifiedTime = lastModifiedTime
             self.outputs = outputs
             self.playbackMode = playbackMode
@@ -738,6 +763,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case channelState = "ChannelState"
             case creationTime = "CreationTime"
+            case fillerSlate = "FillerSlate"
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
@@ -774,17 +800,21 @@ extension MediaTailor {
         public var creationTime: Date?
         /// The name of the program.
         public let programName: String?
+        /// The date and time that the program is scheduled to start in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2021-03-27T17:48:16.751Z represents March 27, 2021 at 17:48:16.751 UTC.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var scheduledStartTime: Date?
         /// The source location name.
         public let sourceLocationName: String?
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.channelName = channelName
             self.creationTime = creationTime
             self.programName = programName
+            self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
         }
@@ -795,6 +825,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case creationTime = "CreationTime"
             case programName = "ProgramName"
+            case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
             case vodSourceName = "VodSourceName"
         }
@@ -1740,18 +1771,21 @@ extension MediaTailor {
         public let programName: String
         /// The schedule's ad break properties.
         public let scheduleAdBreaks: [ScheduleAdBreak]?
+        /// The type of schedule entry. Valid values: PROGRAM or FILLER_SLATE.
+        public let scheduleEntryType: ScheduleEntryType?
         /// The name of the source location.
         public let sourceLocationName: String
         /// The name of the VOD source.
         public let vodSourceName: String
 
-        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, programName: String, scheduleAdBreaks: [ScheduleAdBreak]? = nil, sourceLocationName: String, vodSourceName: String) {
+        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, programName: String, scheduleAdBreaks: [ScheduleAdBreak]? = nil, scheduleEntryType: ScheduleEntryType? = nil, sourceLocationName: String, vodSourceName: String) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.arn = arn
             self.channelName = channelName
             self.programName = programName
             self.scheduleAdBreaks = scheduleAdBreaks
+            self.scheduleEntryType = scheduleEntryType
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
         }
@@ -1763,6 +1797,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case programName = "ProgramName"
             case scheduleAdBreaks = "ScheduleAdBreaks"
+            case scheduleEntryType = "ScheduleEntryType"
             case sourceLocationName = "SourceLocationName"
             case vodSourceName = "VodSourceName"
         }
@@ -1929,22 +1964,26 @@ extension MediaTailor {
     }
 
     public struct Transition: AWSEncodableShape {
-        /// The position where this program will be inserted relative to the RelativeProgram. Possible values are: AFTER_PROGRAM, and BEFORE_PROGRAM.
+        /// The position where this program will be inserted relative to the RelativePosition.
         public let relativePosition: RelativePosition
         /// The name of the program that this program will be inserted next to, as defined by RelativePosition.
         public let relativeProgram: String?
-        /// When the program should be played. RELATIVE means that programs will be played back-to-back.
+        /// The date and time that the program is scheduled to start, in epoch milliseconds.
+        public let scheduledStartTimeMillis: Int64?
+        /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE. ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel. RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
         public let type: String
 
-        public init(relativePosition: RelativePosition, relativeProgram: String? = nil, type: String) {
+        public init(relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
             self.relativePosition = relativePosition
             self.relativeProgram = relativeProgram
+            self.scheduledStartTimeMillis = scheduledStartTimeMillis
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case relativePosition = "RelativePosition"
             case relativeProgram = "RelativeProgram"
+            case scheduledStartTimeMillis = "ScheduledStartTimeMillis"
             case type = "Type"
         }
     }
@@ -1991,17 +2030,19 @@ extension MediaTailor {
         public let channelState: ChannelState?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        public let fillerSlate: SlateSource?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         public let outputs: [ResponseOutputItem]?
         public let playbackMode: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
+            self.fillerSlate = fillerSlate
             self.lastModifiedTime = lastModifiedTime
             self.outputs = outputs
             self.playbackMode = playbackMode
@@ -2013,6 +2054,7 @@ extension MediaTailor {
             case channelName = "ChannelName"
             case channelState = "ChannelState"
             case creationTime = "CreationTime"
+            case fillerSlate = "FillerSlate"
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"

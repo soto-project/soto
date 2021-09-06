@@ -41,11 +41,13 @@ extension Schemas {
     // MARK: Shapes
 
     public struct CreateDiscovererRequest: AWSEncodableShape {
+        public let crossAccount: Bool?
         public let description: String?
         public let sourceArn: String
         public let tags: [String: String]?
 
-        public init(description: String? = nil, sourceArn: String, tags: [String: String]? = nil) {
+        public init(crossAccount: Bool? = nil, description: String? = nil, sourceArn: String, tags: [String: String]? = nil) {
+            self.crossAccount = crossAccount
             self.description = description
             self.sourceArn = sourceArn
             self.tags = tags
@@ -59,6 +61,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossAccount = "CrossAccount"
             case description = "Description"
             case sourceArn = "SourceArn"
             case tags
@@ -66,6 +69,7 @@ extension Schemas {
     }
 
     public struct CreateDiscovererResponse: AWSDecodableShape {
+        public let crossAccount: Bool?
         public let description: String?
         public let discovererArn: String?
         public let discovererId: String?
@@ -73,7 +77,8 @@ extension Schemas {
         public let state: DiscovererState?
         public let tags: [String: String]?
 
-        public init(description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+        public init(crossAccount: Bool? = nil, description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+            self.crossAccount = crossAccount
             self.description = description
             self.discovererArn = discovererArn
             self.discovererId = discovererId
@@ -83,6 +88,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossAccount = "CrossAccount"
             case description = "Description"
             case discovererArn = "DiscovererArn"
             case discovererId = "DiscovererId"
@@ -351,6 +357,7 @@ extension Schemas {
     }
 
     public struct DescribeDiscovererResponse: AWSDecodableShape {
+        public let crossAccount: Bool?
         public let description: String?
         public let discovererArn: String?
         public let discovererId: String?
@@ -358,7 +365,8 @@ extension Schemas {
         public let state: DiscovererState?
         public let tags: [String: String]?
 
-        public init(description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+        public init(crossAccount: Bool? = nil, description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+            self.crossAccount = crossAccount
             self.description = description
             self.discovererArn = discovererArn
             self.discovererId = discovererId
@@ -368,6 +376,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossAccount = "CrossAccount"
             case description = "Description"
             case discovererArn = "DiscovererArn"
             case discovererId = "DiscovererId"
@@ -471,6 +480,8 @@ extension Schemas {
     }
 
     public struct DiscovererSummary: AWSDecodableShape {
+        /// The Status if the discoverer will discover schemas from events sent from another account.
+        public let crossAccount: Bool?
         /// The ARN of the discoverer.
         public let discovererArn: String?
         /// The ID of the discoverer.
@@ -482,7 +493,8 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
-        public init(discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+        public init(crossAccount: Bool? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+            self.crossAccount = crossAccount
             self.discovererArn = discovererArn
             self.discovererId = discovererId
             self.sourceArn = sourceArn
@@ -491,6 +503,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossAccount = "CrossAccount"
             case discovererArn = "DiscovererArn"
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
@@ -1170,10 +1183,12 @@ extension Schemas {
             AWSMemberEncoding(label: "discovererId", location: .uri(locationName: "discovererId"))
         ]
 
+        public let crossAccount: Bool?
         public let description: String?
         public let discovererId: String
 
-        public init(description: String? = nil, discovererId: String) {
+        public init(crossAccount: Bool? = nil, description: String? = nil, discovererId: String) {
+            self.crossAccount = crossAccount
             self.description = description
             self.discovererId = discovererId
         }
@@ -1184,11 +1199,13 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossAccount = "CrossAccount"
             case description = "Description"
         }
     }
 
     public struct UpdateDiscovererResponse: AWSDecodableShape {
+        public let crossAccount: Bool?
         public let description: String?
         public let discovererArn: String?
         public let discovererId: String?
@@ -1196,7 +1213,8 @@ extension Schemas {
         public let state: DiscovererState?
         public let tags: [String: String]?
 
-        public init(description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+        public init(crossAccount: Bool? = nil, description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
+            self.crossAccount = crossAccount
             self.description = description
             self.discovererArn = discovererArn
             self.discovererId = discovererId
@@ -1206,6 +1224,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossAccount = "CrossAccount"
             case description = "Description"
             case discovererArn = "DiscovererArn"
             case discovererId = "DiscovererId"

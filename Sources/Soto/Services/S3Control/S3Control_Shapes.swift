@@ -20,6 +20,13 @@ import SotoCore
 extension S3Control {
     // MARK: Enums
 
+    public enum AsyncOperationName: String, CustomStringConvertible, Codable {
+        case createmultiregionaccesspoint = "CreateMultiRegionAccessPoint"
+        case deletemultiregionaccesspoint = "DeleteMultiRegionAccessPoint"
+        case putmultiregionaccesspointpolicy = "PutMultiRegionAccessPointPolicy"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BucketCannedACL: String, CustomStringConvertible, Codable {
         case authenticatedRead = "authenticated-read"
         case `private`
@@ -99,6 +106,16 @@ extension S3Control {
         case preparing = "Preparing"
         case ready = "Ready"
         case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiRegionAccessPointStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case inconsistentAcrossRegions = "INCONSISTENT_ACROSS_REGIONS"
+        case partiallyCreated = "PARTIALLY_CREATED"
+        case partiallyDeleted = "PARTIALLY_DELETED"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
@@ -306,6 +323,102 @@ extension S3Control {
         }
     }
 
+    public struct AsyncErrorDetails: AWSDecodableShape {
+        /// A string that uniquely identifies the error condition.
+        public let code: String?
+        /// A generic descritpion of the error condition in English.
+        public let message: String?
+        /// The ID of the request associated with the error.
+        public let requestId: String?
+        /// The identifier of the resource associated with the error.
+        public let resource: String?
+
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, resource: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+            case resource = "Resource"
+        }
+    }
+
+    public struct AsyncOperation: AWSDecodableShape {
+        /// The time that the request was sent to the service.
+        public let creationTime: Date?
+        /// The specific operation for the asynchronous request.
+        public let operation: AsyncOperationName?
+        /// The parameters associated with the request.
+        public let requestParameters: AsyncRequestParameters?
+        /// The current status of the request.
+        public let requestStatus: String?
+        /// The request token associated with the request.
+        public let requestTokenARN: String?
+        /// The details of the response.
+        public let responseDetails: AsyncResponseDetails?
+
+        public init(creationTime: Date? = nil, operation: AsyncOperationName? = nil, requestParameters: AsyncRequestParameters? = nil, requestStatus: String? = nil, requestTokenARN: String? = nil, responseDetails: AsyncResponseDetails? = nil) {
+            self.creationTime = creationTime
+            self.operation = operation
+            self.requestParameters = requestParameters
+            self.requestStatus = requestStatus
+            self.requestTokenARN = requestTokenARN
+            self.responseDetails = responseDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case operation = "Operation"
+            case requestParameters = "RequestParameters"
+            case requestStatus = "RequestStatus"
+            case requestTokenARN = "RequestTokenARN"
+            case responseDetails = "ResponseDetails"
+        }
+    }
+
+    public struct AsyncRequestParameters: AWSDecodableShape {
+        /// A container of the parameters for a CreateMultiRegionAccessPoint request.
+        public let createMultiRegionAccessPointRequest: CreateMultiRegionAccessPointInput?
+        /// A container of the parameters for a DeleteMultiRegionAccessPoint request.
+        public let deleteMultiRegionAccessPointRequest: DeleteMultiRegionAccessPointInput?
+        /// A container of the parameters for a PutMultiRegionAccessPoint request.
+        public let putMultiRegionAccessPointPolicyRequest: PutMultiRegionAccessPointPolicyInput?
+
+        public init(createMultiRegionAccessPointRequest: CreateMultiRegionAccessPointInput? = nil, deleteMultiRegionAccessPointRequest: DeleteMultiRegionAccessPointInput? = nil, putMultiRegionAccessPointPolicyRequest: PutMultiRegionAccessPointPolicyInput? = nil) {
+            self.createMultiRegionAccessPointRequest = createMultiRegionAccessPointRequest
+            self.deleteMultiRegionAccessPointRequest = deleteMultiRegionAccessPointRequest
+            self.putMultiRegionAccessPointPolicyRequest = putMultiRegionAccessPointPolicyRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createMultiRegionAccessPointRequest = "CreateMultiRegionAccessPointRequest"
+            case deleteMultiRegionAccessPointRequest = "DeleteMultiRegionAccessPointRequest"
+            case putMultiRegionAccessPointPolicyRequest = "PutMultiRegionAccessPointPolicyRequest"
+        }
+    }
+
+    public struct AsyncResponseDetails: AWSDecodableShape {
+        /// Error details for an asynchronous request.
+        public let errorDetails: AsyncErrorDetails?
+        /// The details for the Multi-Region Access Point.
+        public let multiRegionAccessPointDetails: MultiRegionAccessPointsAsyncResponse?
+
+        public init(errorDetails: AsyncErrorDetails? = nil, multiRegionAccessPointDetails: MultiRegionAccessPointsAsyncResponse? = nil) {
+            self.errorDetails = errorDetails
+            self.multiRegionAccessPointDetails = multiRegionAccessPointDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case multiRegionAccessPointDetails = "MultiRegionAccessPointDetails"
+        }
+    }
+
     public struct AwsLambdaTransformation: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Lambda function.
         public let functionArn: String
@@ -358,7 +471,7 @@ extension S3Control {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID for owner of the specified Object Lambda Access Point.
+        /// The Amazon Web Services account ID for owner of the specified Object Lambda Access Point.
         public let accountId: String
         /// Object Lambda Access Point configuration as a JSON document.
         public let configuration: ObjectLambdaConfiguration
@@ -406,7 +519,7 @@ extension S3Control {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID for the owner of the bucket for which you want to create an access point.
+        /// The Amazon Web Services account ID for the owner of the bucket for which you want to create an access point.
         public let accountId: String
         /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -564,7 +677,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
         ]
 
-        /// The account ID that creates the job.
+        /// The Amazon Web Services account ID that creates the job.
         public let accountId: String
         /// An idempotency token to ensure that you don't accidentally submit the same request twice. You can use any string up to the maximum length.
         public let clientRequestToken: String
@@ -642,6 +755,84 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
+        }
+    }
+
+    public struct CreateMultiRegionAccessPointInput: AWSEncodableShape & AWSDecodableShape {
+        public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
+
+        /// The name of the Multi-Region Access Point associated with this request.
+        public let name: String
+        public let publicAccessBlock: PublicAccessBlockConfiguration?
+        /// The buckets in different Regions that are associated with the Multi-Region Access Point.
+        @CustomCoding<ArrayCoder<_RegionsEncoding, Region>>
+        public var regions: [Region]
+
+        public init(name: String, publicAccessBlock: PublicAccessBlockConfiguration? = nil, regions: [Region]) {
+            self.name = name
+            self.publicAccessBlock = publicAccessBlock
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$")
+            try self.regions.forEach {
+                try $0.validate(name: "\(name).regions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case publicAccessBlock = "PublicAccessBlock"
+            case regions = "Regions"
+        }
+    }
+
+    public struct CreateMultiRegionAccessPointRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets.
+        public let accountId: String
+        /// An idempotency token used to identify the request and guarantee that requests are unique.
+        public let clientToken: String
+        /// A container element containing details about the Multi-Region Access Point.
+        public let details: CreateMultiRegionAccessPointInput
+
+        public init(accountId: String, clientToken: String = CreateMultiRegionAccessPointRequest.idempotencyToken(), details: CreateMultiRegionAccessPointInput) {
+            self.accountId = accountId
+            self.clientToken = clientToken
+            self.details = details
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
+            try self.details.validate(name: "\(name).details")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case details = "Details"
+        }
+    }
+
+    public struct CreateMultiRegionAccessPointResult: AWSDecodableShape {
+        /// The request token associated with the request. You can use this token with DescribeMultiRegionAccessPointOperation to determine the status of asynchronous requests.
+        public let requestTokenARN: String?
+
+        public init(requestTokenARN: String? = nil) {
+            self.requestTokenARN = requestTokenARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestTokenARN = "RequestTokenARN"
         }
     }
 
@@ -843,7 +1034,7 @@ extension S3Control {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID of the Outposts bucket tag set to be removed.
+        /// The Amazon Web Services account ID of the Outposts bucket tag set to be removed.
         public let accountId: String
         /// The bucket ARN that has the tag set to be removed. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -870,7 +1061,7 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the S3 Batch Operations job whose tags you want to delete.
         public let jobId: String
@@ -895,13 +1086,78 @@ extension S3Control {
         public init() {}
     }
 
+    public struct DeleteMultiRegionAccessPointInput: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Multi-Region Access Point associated with this request.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteMultiRegionAccessPointRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// An idempotency token used to identify the request and guarantee that requests are unique.
+        public let clientToken: String
+        /// A container element containing details about the Multi-Region Access Point.
+        public let details: DeleteMultiRegionAccessPointInput
+
+        public init(accountId: String, clientToken: String = DeleteMultiRegionAccessPointRequest.idempotencyToken(), details: DeleteMultiRegionAccessPointInput) {
+            self.accountId = accountId
+            self.clientToken = clientToken
+            self.details = details
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
+            try self.details.validate(name: "\(name).details")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case details = "Details"
+        }
+    }
+
+    public struct DeleteMultiRegionAccessPointResult: AWSDecodableShape {
+        /// The request token associated with the request. You can use this token with DescribeMultiRegionAccessPointOperation to determine the status of asynchronous requests.
+        public let requestTokenARN: String?
+
+        public init(requestTokenARN: String? = nil) {
+            self.requestTokenARN = requestTokenARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestTokenARN = "RequestTokenARN"
+        }
+    }
+
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
         ]
 
-        /// The account ID for the account whose PublicAccessBlock configuration you want to remove.
+        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
         public let accountId: String
 
         public init(accountId: String) {
@@ -983,7 +1239,7 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the job whose information you want to retrieve.
         public let jobId: String
@@ -1014,6 +1270,60 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case job = "Job"
+        }
+    }
+
+    public struct DescribeMultiRegionAccessPointOperationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
+            AWSMemberEncoding(label: "requestTokenARN", location: .uri(locationName: "request_token"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action.
+        public let requestTokenARN: String
+
+        public init(accountId: String, requestTokenARN: String) {
+            self.accountId = accountId
+            self.requestTokenARN = requestTokenARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.requestTokenARN, name: "requestTokenARN", parent: name, max: 1024)
+            try self.validate(self.requestTokenARN, name: "requestTokenARN", parent: name, min: 1)
+            try self.validate(self.requestTokenARN, name: "requestTokenARN", parent: name, pattern: "arn:.+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeMultiRegionAccessPointOperationResult: AWSDecodableShape {
+        /// A container element containing the details of the asynchronous operation.
+        public let asyncOperation: AsyncOperation?
+
+        public init(asyncOperation: AsyncOperation? = nil) {
+            self.asyncOperation = asyncOperation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asyncOperation = "AsyncOperation"
+        }
+    }
+
+    public struct EstablishedMultiRegionAccessPointPolicy: AWSDecodableShape {
+        /// The details of the last established policy.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
@@ -1382,7 +1692,7 @@ extension S3Control {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -1425,7 +1735,7 @@ extension S3Control {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -1465,7 +1775,7 @@ extension S3Control {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -1512,7 +1822,7 @@ extension S3Control {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -1553,7 +1863,7 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
         public let jobId: String
@@ -1588,6 +1898,125 @@ extension S3Control {
         }
     }
 
+    public struct GetMultiRegionAccessPointPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMultiRegionAccessPointPolicyResult: AWSDecodableShape {
+        /// The policy associated with the specified Multi-Region Access Point.
+        public let policy: MultiRegionAccessPointPolicyDocument?
+
+        public init(policy: MultiRegionAccessPointPolicyDocument? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct GetMultiRegionAccessPointPolicyStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMultiRegionAccessPointPolicyStatusResult: AWSDecodableShape {
+        public let established: PolicyStatus?
+
+        public init(established: PolicyStatus? = nil) {
+            self.established = established
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case established = "Established"
+        }
+    }
+
+    public struct GetMultiRegionAccessPointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// The name of the Multi-Region Access Point whose configuration information you want to receive. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMultiRegionAccessPointResult: AWSDecodableShape {
+        /// A container element containing the details of the requested Multi-Region Access Point.
+        public let accessPoint: MultiRegionAccessPointReport?
+
+        public init(accessPoint: MultiRegionAccessPointReport? = nil) {
+            self.accessPoint = accessPoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPoint = "AccessPoint"
+        }
+    }
+
     public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
@@ -1595,7 +2024,7 @@ extension S3Control {
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
-        /// The PublicAccessBlock configuration currently in effect for this account.
+        /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
 
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
@@ -1613,7 +2042,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
         ]
 
-        /// The account ID for the account whose PublicAccessBlock configuration you want to retrieve.
+        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
         public let accountId: String
 
         public init(accountId: String) {
@@ -2286,7 +2715,7 @@ extension S3Control {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The account ID for owner of the bucket whose access points you want to list.
+        /// The Amazon Web Services account ID for owner of the bucket whose access points you want to list.
         public let accountId: String
         /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String?
@@ -2345,7 +2774,7 @@ extension S3Control {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The List Jobs request returns jobs that match the statuses listed in this element.
         public let jobStatuses: [JobStatus]?
@@ -2392,6 +2821,59 @@ extension S3Control {
         }
     }
 
+    public struct ListMultiRegionAccessPointsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// Not currently used. Do not use this parameter.
+        public let maxResults: Int?
+        /// Not currently used. Do not use this parameter.
+        public let nextToken: String?
+
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMultiRegionAccessPointsResult: AWSDecodableShape {
+        public struct _AccessPointsEncoding: ArrayCoderProperties { public static let member = "AccessPoint" }
+
+        /// The list of Multi-Region Access Points associated with the user.
+        @OptionalCustomCoding<ArrayCoder<_AccessPointsEncoding, MultiRegionAccessPointReport>>
+        public var accessPoints: [MultiRegionAccessPointReport]?
+        /// If the specified bucket has more Multi-Region Access Points than can be returned in one call to this action, this field contains a continuation token. You can use this token tin subsequent calls to this action to retrieve additional Multi-Region Access Points.
+        public let nextToken: String?
+
+        public init(accessPoints: [MultiRegionAccessPointReport]? = nil, nextToken: String? = nil) {
+            self.accessPoints = accessPoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPoints = "AccessPoints"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListRegionalBucketsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
@@ -2401,7 +2883,7 @@ extension S3Control {
             AWSMemberEncoding(label: "outpostId", location: .header(locationName: "x-amz-outpost-id"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         public let maxResults: Int?
         public let nextToken: String?
@@ -2512,6 +2994,91 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case storageLensConfigurationList = "StorageLensConfiguration"
+        }
+    }
+
+    public struct MultiRegionAccessPointPolicyDocument: AWSDecodableShape {
+        /// The last established policy for the Multi-Region Access Point.
+        public let established: EstablishedMultiRegionAccessPointPolicy?
+        /// The proposed policy for the Multi-Region Access Point.
+        public let proposed: ProposedMultiRegionAccessPointPolicy?
+
+        public init(established: EstablishedMultiRegionAccessPointPolicy? = nil, proposed: ProposedMultiRegionAccessPointPolicy? = nil) {
+            self.established = established
+            self.proposed = proposed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case established = "Established"
+            case proposed = "Proposed"
+        }
+    }
+
+    public struct MultiRegionAccessPointRegionalResponse: AWSDecodableShape {
+        /// The name of the Region in the Multi-Region Access Point.
+        public let name: String?
+        /// The current status of the Multi-Region Access Point in this Region.
+        public let requestStatus: String?
+
+        public init(name: String? = nil, requestStatus: String? = nil) {
+            self.name = name
+            self.requestStatus = requestStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case requestStatus = "RequestStatus"
+        }
+    }
+
+    public struct MultiRegionAccessPointReport: AWSDecodableShape {
+        public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
+
+        /// The alias for the Multi-Region Access Point. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points.
+        public let alias: String?
+        /// When the Multi-Region Access Point create request was received.
+        public let createdAt: Date?
+        /// The name of the Multi-Region Access Point.
+        public let name: String?
+        public let publicAccessBlock: PublicAccessBlockConfiguration?
+        /// A collection of the Regions and buckets associated with the Multi-Region Access Point.
+        @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, RegionReport>>
+        public var regions: [RegionReport]?
+        /// The current status of the Multi-Region Access Point.  CREATING and DELETING are temporary states that exist while the request is propogating and being completed. If a Multi-Region Access Point has a status of PARTIALLY_CREATED, you can retry creation or send a request to delete the Multi-Region Access Point. If a Multi-Region Access Point has a status of PARTIALLY_DELETED, you can retry a delete request to finish the deletion of the Multi-Region Access Point.
+        public let status: MultiRegionAccessPointStatus?
+
+        public init(alias: String? = nil, createdAt: Date? = nil, name: String? = nil, publicAccessBlock: PublicAccessBlockConfiguration? = nil, regions: [RegionReport]? = nil, status: MultiRegionAccessPointStatus? = nil) {
+            self.alias = alias
+            self.createdAt = createdAt
+            self.name = name
+            self.publicAccessBlock = publicAccessBlock
+            self.regions = regions
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case createdAt = "CreatedAt"
+            case name = "Name"
+            case publicAccessBlock = "PublicAccessBlock"
+            case regions = "Regions"
+            case status = "Status"
+        }
+    }
+
+    public struct MultiRegionAccessPointsAsyncResponse: AWSDecodableShape {
+        public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
+
+        /// A collection of status information for the different Regions that a Multi-Region Access Point supports.
+        @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, MultiRegionAccessPointRegionalResponse>>
+        public var regions: [MultiRegionAccessPointRegionalResponse]?
+
+        public init(regions: [MultiRegionAccessPointRegionalResponse]? = nil) {
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regions = "Regions"
         }
     }
 
@@ -2691,6 +3258,19 @@ extension S3Control {
         }
     }
 
+    public struct ProposedMultiRegionAccessPointPolicy: AWSDecodableShape {
+        /// The details of the proposed policy.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
 
@@ -2795,7 +3375,7 @@ extension S3Control {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The account ID for owner of the bucket associated with the specified access point.
+        /// The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
         public let accountId: String
         /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
@@ -2830,7 +3410,7 @@ extension S3Control {
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// The name of the bucket for which to set the configuration.
         public let bucket: String
@@ -2865,7 +3445,7 @@ extension S3Control {
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -2903,7 +3483,7 @@ extension S3Control {
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging"))
         ]
 
-        /// The account ID of the Outposts bucket.
+        /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
@@ -2936,7 +3516,7 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the S3 Batch Operations job whose tags you want to replace.
         public let jobId: String
@@ -2970,6 +3550,75 @@ extension S3Control {
         public init() {}
     }
 
+    public struct PutMultiRegionAccessPointPolicyInput: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Multi-Region Access Point associated with the request.
+        public let name: String
+        /// The policy details for the PutMultiRegionAccessPoint request.
+        public let policy: String
+
+        public init(name: String, policy: String) {
+            self.name = name
+            self.policy = policy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case policy = "Policy"
+        }
+    }
+
+    public struct PutMultiRegionAccessPointPolicyRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// An idempotency token used to identify the request and guarantee that requests are unique.
+        public let clientToken: String
+        /// A container element containing the details of the policy for the Multi-Region Access Point.
+        public let details: PutMultiRegionAccessPointPolicyInput
+
+        public init(accountId: String, clientToken: String = PutMultiRegionAccessPointPolicyRequest.idempotencyToken(), details: PutMultiRegionAccessPointPolicyInput) {
+            self.accountId = accountId
+            self.clientToken = clientToken
+            self.details = details
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
+            try self.details.validate(name: "\(name).details")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case details = "Details"
+        }
+    }
+
+    public struct PutMultiRegionAccessPointPolicyResult: AWSDecodableShape {
+        /// The request token associated with the request. You can use this token with DescribeMultiRegionAccessPointOperation to determine the status of asynchronous requests.
+        public let requestTokenARN: String?
+
+        public init(requestTokenARN: String? = nil) {
+            self.requestTokenARN = requestTokenARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestTokenARN = "RequestTokenARN"
+        }
+    }
+
     public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
@@ -2979,9 +3628,9 @@ extension S3Control {
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
-        /// The account ID for the account whose PublicAccessBlock configuration you want to set.
+        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
         public let accountId: String
-        /// The PublicAccessBlock configuration that you want to apply to the specified account.
+        /// The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
@@ -3084,6 +3733,41 @@ extension S3Control {
 
     public struct PutStorageLensConfigurationTaggingResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Region: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the associated bucket for the Region.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct RegionReport: AWSDecodableShape {
+        /// The name of the bucket.
+        public let bucket: String?
+        /// The name of the Region.
+        public let region: String?
+
+        public init(bucket: String? = nil, region: String? = nil) {
+            self.bucket = bucket
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case region = "Region"
+        }
     }
 
     public struct RegionalBucket: AWSDecodableShape {
@@ -3782,7 +4466,7 @@ extension S3Control {
             AWSMemberEncoding(label: "priority", location: .querystring(locationName: "priority"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the job whose priority you want to update.
         public let jobId: String
@@ -3834,7 +4518,7 @@ extension S3Control {
             AWSMemberEncoding(label: "statusUpdateReason", location: .querystring(locationName: "statusUpdateReason"))
         ]
 
-        /// The account ID associated with the S3 Batch Operations job.
+        /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID of the job whose status you want to update.
         public let jobId: String
