@@ -87,6 +87,7 @@ extension LexModelBuildingService {
         case frFr = "fr-FR"
         case itIt = "it-IT"
         case jaJp = "ja-JP"
+        case koKr = "ko-KR"
         public var description: String { return self.rawValue }
     }
 

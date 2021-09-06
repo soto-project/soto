@@ -1252,6 +1252,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum LaunchTemplateInstanceMetadataProtocolIpv6: String, CustomStringConvertible, Codable {
+        case disabled
+        case enabled
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListingState: String, CustomStringConvertible, Codable {
         case available
         case cancelled
@@ -26107,6 +26113,8 @@ extension EC2 {
     public struct LaunchTemplateInstanceMetadataOptions: AWSDecodableShape {
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.
         public let httpEndpoint: LaunchTemplateInstanceMetadataEndpointState?
+        /// Enables or disables the IPv6 endpoint for the instance metadata service. Default: disabled
+        public let httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
         /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
@@ -26114,8 +26122,9 @@ extension EC2 {
         /// The state of the metadata option changes.  pending - The metadata options are being updated and the instance is not ready to process metadata traffic with the new selection.  applied - The metadata options have been successfully applied on the instance.
         public let state: LaunchTemplateInstanceMetadataOptionsState?
 
-        public init(httpEndpoint: LaunchTemplateInstanceMetadataEndpointState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: LaunchTemplateHttpTokensState? = nil, state: LaunchTemplateInstanceMetadataOptionsState? = nil) {
+        public init(httpEndpoint: LaunchTemplateInstanceMetadataEndpointState? = nil, httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: LaunchTemplateHttpTokensState? = nil, state: LaunchTemplateInstanceMetadataOptionsState? = nil) {
             self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
             self.state = state
@@ -26123,6 +26132,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case httpEndpoint
+            case httpProtocolIpv6
             case httpPutResponseHopLimit
             case httpTokens
             case state
@@ -26132,19 +26142,23 @@ extension EC2 {
     public struct LaunchTemplateInstanceMetadataOptionsRequest: AWSEncodableShape {
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.
         public let httpEndpoint: LaunchTemplateInstanceMetadataEndpointState?
+        /// Enables or disables the IPv6 endpoint for the instance metadata service. Default: disabled
+        public let httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
         /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
         public let httpTokens: LaunchTemplateHttpTokensState?
 
-        public init(httpEndpoint: LaunchTemplateInstanceMetadataEndpointState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: LaunchTemplateHttpTokensState? = nil) {
+        public init(httpEndpoint: LaunchTemplateInstanceMetadataEndpointState? = nil, httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: LaunchTemplateHttpTokensState? = nil) {
             self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
         }
 
         private enum CodingKeys: String, CodingKey {
             case httpEndpoint = "HttpEndpoint"
+            case httpProtocolIpv6 = "HttpProtocolIpv6"
             case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
             case httpTokens = "HttpTokens"
         }
@@ -26172,9 +26186,9 @@ extension EC2 {
         public var groups: [String]?
         /// The type of network interface.
         public let interfaceType: String?
-        /// The number of IPv4 delegated prefixes that AWS automatically assigned to the network interface.
+        /// The number of IPv4 prefixes that Amazon Web Services automatically assigned to the network interface.
         public let ipv4PrefixCount: Int?
-        /// One or more IPv4 delegated prefixes assigned to the network interface.
+        /// One or more IPv4 prefixes assigned to the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, Ipv4PrefixSpecificationResponse>>
         public var ipv4Prefixes: [Ipv4PrefixSpecificationResponse]?
         /// The number of IPv6 addresses for the network interface.
@@ -26182,9 +26196,9 @@ extension EC2 {
         /// The IPv6 addresses for the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, InstanceIpv6Address>>
         public var ipv6Addresses: [InstanceIpv6Address]?
-        /// The number of IPv6 delegated prefixes that AWS automatically assigned to the network interface.
+        /// The number of IPv6 prefixes that Amazon Web Services automatically assigned to the network interface.
         public let ipv6PrefixCount: Int?
-        /// One or more IPv6 delegated prefixes assigned to the network interface.
+        /// One or more IPv6 prefixes assigned to the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv6PrefixesEncoding, Ipv6PrefixSpecificationResponse>>
         public var ipv6Prefixes: [Ipv6PrefixSpecificationResponse]?
         /// The index of the network card.
@@ -26268,9 +26282,9 @@ extension EC2 {
         public var groups: [String]?
         /// The type of network interface. To create an Elastic Fabric Adapter (EFA), specify efa. For more information, see Elastic Fabric Adapter in the Amazon Elastic Compute Cloud User Guide. If you are not creating an EFA, specify interface or omit this parameter. Valid values: interface | efa
         public let interfaceType: String?
-        /// The number of IPv4 delegated prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv4Prefix option.
+        /// The number of IPv4 prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv4Prefix option.
         public let ipv4PrefixCount: Int?
-        /// One or more IPv4 delegated prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
+        /// One or more IPv4 prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, Ipv4PrefixSpecificationRequest>>
         public var ipv4Prefixes: [Ipv4PrefixSpecificationRequest]?
         /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
@@ -26278,9 +26292,9 @@ extension EC2 {
         /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't use this option if you're specifying a number of IPv6 addresses.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, InstanceIpv6AddressRequest>>
         public var ipv6Addresses: [InstanceIpv6AddressRequest]?
-        /// The number of IPv6 delegated prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv6Prefix option.
+        /// The number of IPv6 prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv6Prefix option.
         public let ipv6PrefixCount: Int?
-        /// One or more IPv6 delegated prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
+        /// One or more IPv6 prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
         @OptionalCustomCoding<ArrayCoder<_Ipv6PrefixesEncoding, Ipv6PrefixSpecificationRequest>>
         public var ipv6Prefixes: [Ipv6PrefixSpecificationRequest]?
         /// The index of the network card. Some instance types support multiple network cards. The primary network interface must be assigned to network card index 0. The default is network card index 0.
@@ -32294,7 +32308,7 @@ extension EC2 {
         /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, LaunchTemplateTagSpecificationRequest>>
         public var tagSpecifications: [LaunchTemplateTagSpecificationRequest]?
-        /// The Base64-encoded user data to make available to the instance. For more information, see Running Commands on Your Linux Instance at Launch (Linux) and Adding User Data (Windows).
+        /// The user data to make available to the instance. You must provide base64-encoded text. User data is limited to 16 KB. For more information, see Running Commands on Your Linux Instance at Launch (Linux) or Adding User Data (Windows). If you are creating the launch template for use with Batch, the user data must be provided in the  MIME multi-part archive format. For more information, see Amazon EC2 user data in launch templates in the Batch User Guide.
         public let userData: String?
 
         public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, placement: LaunchTemplatePlacementRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {

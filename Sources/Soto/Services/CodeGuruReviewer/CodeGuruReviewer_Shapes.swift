@@ -58,6 +58,7 @@ extension CodeGuruReviewer {
     public enum RecommendationCategory: String, CustomStringConvertible, Codable {
         case awsbestpractices = "AWSBestPractices"
         case awscloudformationissues = "AWSCloudFormationIssues"
+        case codeinconsistencies = "CodeInconsistencies"
         case codemaintenanceissues = "CodeMaintenanceIssues"
         case concurrencyissues = "ConcurrencyIssues"
         case duplicatecode = "DuplicateCode"

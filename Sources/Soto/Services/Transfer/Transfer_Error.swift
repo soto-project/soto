@@ -50,7 +50,7 @@ public struct TransferErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// This exception is thrown when the UpdatServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
+    /// This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
     public static var conflictException: Self { .init(.conflictException) }
     /// This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
     public static var internalServiceError: Self { .init(.internalServiceError) }

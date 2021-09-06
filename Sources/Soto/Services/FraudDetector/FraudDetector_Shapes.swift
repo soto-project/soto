@@ -1369,6 +1369,40 @@ extension FraudDetector {
         }
     }
 
+    public struct ExternalModelOutputs: AWSDecodableShape {
+        /// The Amazon SageMaker model.
+        public let externalModel: ExternalModelSummary?
+        /// The fraud prediction scores from Amazon SageMaker model.
+        public let outputs: [String: String]?
+
+        public init(externalModel: ExternalModelSummary? = nil, outputs: [String: String]? = nil) {
+            self.externalModel = externalModel
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalModel
+            case outputs
+        }
+    }
+
+    public struct ExternalModelSummary: AWSDecodableShape {
+        /// The endpoint of the Amazon SageMaker model.
+        public let modelEndpoint: String?
+        /// The source of the model.
+        public let modelSource: ModelSource?
+
+        public init(modelEndpoint: String? = nil, modelSource: ModelSource? = nil) {
+            self.modelEndpoint = modelEndpoint
+            self.modelSource = modelSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelEndpoint
+            case modelSource
+        }
+    }
+
     public struct FieldValidationMessage: AWSDecodableShape {
         /// The message content.
         public let content: String?
@@ -1698,17 +1732,21 @@ extension FraudDetector {
     }
 
     public struct GetEventPredictionResult: AWSDecodableShape {
+        /// The model scores for Amazon SageMaker models.
+        public let externalModelOutputs: [ExternalModelOutputs]?
         /// The model scores. Amazon Fraud Detector generates model scores between 0 and 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores are directly related to the false positive rate (FPR). For example, a score of 600 corresponds to an estimated 10% false positive rate whereas a score of 900 corresponds to an estimated 2% false positive rate.
         public let modelScores: [ModelScores]?
         /// The results from the rules.
         public let ruleResults: [RuleResult]?
 
-        public init(modelScores: [ModelScores]? = nil, ruleResults: [RuleResult]? = nil) {
+        public init(externalModelOutputs: [ExternalModelOutputs]? = nil, modelScores: [ModelScores]? = nil, ruleResults: [RuleResult]? = nil) {
+            self.externalModelOutputs = externalModelOutputs
             self.modelScores = modelScores
             self.ruleResults = ruleResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case externalModelOutputs
             case modelScores
             case ruleResults
         }

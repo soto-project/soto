@@ -94,9 +94,9 @@ public struct ConfigServiceErrorType: AWSErrorType {
 
     /// You have specified a template that is not valid or supported.
     public static var conformancePackTemplateValidationException: Self { .init(.conformancePackTemplateValidationException) }
-    /// Your Amazon S3 bucket policy does not permit AWS Config to write to it.
+    /// Your Amazon S3 bucket policy does not permit Config to write to it.
     public static var insufficientDeliveryPolicyException: Self { .init(.insufficientDeliveryPolicyException) }
-    /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have permissions:    To call IAM GetRole action or create a service linked role.   To read Amazon S3 bucket.
+    /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have permissions:    To call IAM GetRole action or create a service linked role.   To read Amazon S3 bucket.
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
     /// You have provided a configuration recorder name that is not valid.
     public static var invalidConfigurationRecorderNameException: Self { .init(.invalidConfigurationRecorderNameException) }
@@ -110,7 +110,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// One or more of the specified parameters are invalid. Verify that your parameters are valid and try again.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// AWS Config throws an exception if the recording group does not contain a valid list of resource types. Invalid values might also be incorrectly formatted.
+    /// Config throws an exception if the recording group does not contain a valid list of resource types. Invalid values might also be incorrectly formatted.
     public static var invalidRecordingGroupException: Self { .init(.invalidRecordingGroupException) }
     /// The specified ResultToken is invalid.
     public static var invalidResultTokenException: Self { .init(.invalidResultTokenException) }
@@ -130,17 +130,17 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// You have reached the limit (100,000) of active custom resource types in your account. Delete unused resources using DeleteResourceConfig.
     public static var maxActiveResourcesExceededException: Self { .init(.maxActiveResourcesExceededException) }
-    /// Failed to add the AWS Config rule because the account already contains the maximum number of 150 rules. Consider deleting any deactivated rules before you add new rules.
+    /// Failed to add the Config rule because the account already contains the maximum number of 150 rules. Consider deleting any deactivated rules before you add new rules.
     public static var maxNumberOfConfigRulesExceededException: Self { .init(.maxNumberOfConfigRulesExceededException) }
     /// You have reached the limit of the number of recorders you can create.
     public static var maxNumberOfConfigurationRecordersExceededException: Self { .init(.maxNumberOfConfigurationRecordersExceededException) }
-    /// You have reached the limit (6) of the number of conformance packs in an account (6 conformance pack with 25 AWS Config rules per pack).
+    /// You have reached the limit (6) of the number of conformance packs in an account (6 conformance pack with 25 Config rules per pack).
     public static var maxNumberOfConformancePacksExceededException: Self { .init(.maxNumberOfConformancePacksExceededException) }
     /// You have reached the limit of the number of delivery channels you can create.
     public static var maxNumberOfDeliveryChannelsExceededException: Self { .init(.maxNumberOfDeliveryChannelsExceededException) }
     /// You have reached the limit of the number of organization config rules you can create.
     public static var maxNumberOfOrganizationConfigRulesExceededException: Self { .init(.maxNumberOfOrganizationConfigRulesExceededException) }
-    /// You have reached the limit (6) of the number of organization conformance packs in an account (6 conformance pack with 25 AWS Config rules per pack per account).
+    /// You have reached the limit (6) of the number of organization conformance packs in an account (6 conformance pack with 25 Config rules per pack per account).
     public static var maxNumberOfOrganizationConformancePacksExceededException: Self { .init(.maxNumberOfOrganizationConformancePacksExceededException) }
     /// Failed to add the retention configuration because a retention configuration with that name already exists.
     public static var maxNumberOfRetentionConfigurationsExceededException: Self { .init(.maxNumberOfRetentionConfigurationsExceededException) }
@@ -154,9 +154,9 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var noRunningConfigurationRecorderException: Self { .init(.noRunningConfigurationRecorderException) }
     /// The specified Amazon S3 bucket does not exist.
     public static var noSuchBucketException: Self { .init(.noSuchBucketException) }
-    /// One or more AWS Config rules in the request are invalid. Verify that the rule names are correct and try again.
+    /// One or more Config rules in the request are invalid. Verify that the rule names are correct and try again.
     public static var noSuchConfigRuleException: Self { .init(.noSuchConfigRuleException) }
-    /// AWS Config rule that you passed in the filter does not exist.
+    /// Config rule that you passed in the filter does not exist.
     public static var noSuchConfigRuleInConformancePackException: Self { .init(.noSuchConfigRuleInConformancePackException) }
     /// You have specified a configuration aggregator that does not exist.
     public static var noSuchConfigurationAggregatorException: Self { .init(.noSuchConfigurationAggregatorException) }
@@ -168,27 +168,27 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var noSuchDeliveryChannelException: Self { .init(.noSuchDeliveryChannelException) }
     /// You specified one or more organization config rules that do not exist.
     public static var noSuchOrganizationConfigRuleException: Self { .init(.noSuchOrganizationConfigRuleException) }
-    /// AWS Config organization conformance pack that you passed in the filter does not exist. For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
+    /// Config organization conformance pack that you passed in the filter does not exist. For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
     public static var noSuchOrganizationConformancePackException: Self { .init(.noSuchOrganizationConformancePackException) }
-    /// You specified an AWS Config rule without a remediation configuration.
+    /// You specified an Config rule without a remediation configuration.
     public static var noSuchRemediationConfigurationException: Self { .init(.noSuchRemediationConfigurationException) }
     /// You tried to delete a remediation exception that does not exist.
     public static var noSuchRemediationExceptionException: Self { .init(.noSuchRemediationExceptionException) }
     /// You have specified a retention configuration that does not exist.
     public static var noSuchRetentionConfigurationException: Self { .init(.noSuchRetentionConfigurationException) }
-    /// For PutConfigurationAggregator API, you can see this exception for the following reasons:   No permission to call EnableAWSServiceAccess API   The configuration aggregator cannot be updated because your AWS Organization management account or the delegated administrator role changed. Delete this aggregator and create a new one with the current AWS Organization.   The configuration aggregator is associated with a previous AWS Organization and AWS Config cannot aggregate data with current AWS Organization. Delete this aggregator and create a new one with the current AWS Organization.   You are not a registered delegated administrator for AWS Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for AWS Config service principle name before the delegated administrator creates an aggregator.   For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws an exception if APIs are called from member accounts. All APIs must be called from organization master account.
+    /// For PutConfigurationAggregator API, you can see this exception for the following reasons:   No permission to call EnableAWSServiceAccess API   The configuration aggregator cannot be updated because your Amazon Web Services Organization management account or the delegated administrator role changed. Delete this aggregator and create a new one with the current Amazon Web Services Organization.   The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.   You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.   For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization master account.
     public static var organizationAccessDeniedException: Self { .init(.organizationAccessDeniedException) }
-    /// AWS Config resource cannot be created because your organization does not have all features enabled.
+    /// Config resource cannot be created because your organization does not have all features enabled.
     public static var organizationAllFeaturesNotEnabledException: Self { .init(.organizationAllFeaturesNotEnabledException) }
     /// You have specified a template that is not valid or supported.
     public static var organizationConformancePackTemplateValidationException: Self { .init(.organizationConformancePackTemplateValidationException) }
     /// The configuration item size is outside the allowable range.
     public static var oversizedConfigurationItemException: Self { .init(.oversizedConfigurationItemException) }
-    /// Remediation action is in progress. You can either cancel execution in AWS Systems Manager or wait and try again later.
+    /// Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
     public static var remediationInProgressException: Self { .init(.remediationInProgressException) }
     /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
     public static var resourceConcurrentModificationException: Self { .init(.resourceConcurrentModificationException) }
-    /// You see this exception in the following cases:    For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.   For DeleteConfigRule, the rule is deleting your evaluation results. Try your request again later.   For DeleteConfigRule, a remediation action is associated with the rule and AWS Config cannot delete this rule. Delete the remediation action associated with the rule before deleting the rule and try your request again later.   For PutConfigOrganizationRule, organization config rule deletion is in progress. Try your request again later.   For DeleteOrganizationConfigRule, organization config rule creation is in progress. Try your request again later.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.   For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
+    /// You see this exception in the following cases:    For DeleteConfigRule, Config is deleting this rule. Try your request again later.   For DeleteConfigRule, the rule is deleting your evaluation results. Try your request again later.   For DeleteConfigRule, a remediation action is associated with the rule and Config cannot delete this rule. Delete the remediation action associated with the rule before deleting the rule and try your request again later.   For PutConfigOrganizationRule, organization config rule deletion is in progress. Try your request again later.   For DeleteOrganizationConfigRule, organization config rule creation is in progress. Try your request again later.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.   For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// You have specified a resource that is either unknown or has not been discovered.
     public static var resourceNotDiscoveredException: Self { .init(.resourceNotDiscoveredException) }

@@ -83,11 +83,11 @@ public struct CloudTrailErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// This exception is thrown when an operation is called with an invalid trail ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     public static var cloudTrailARNInvalidException: Self { .init(.cloudTrailARNInvalidException) }
-    /// This exception is thrown when trusted access has not been enabled between AWS CloudTrail and AWS Organizations. For more information, see Enabling Trusted Access with Other AWS Services and Prepare For Creating a Trail For Your Organization.
+    /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see Enabling Trusted Access with Other Amazon Web Services Services and Prepare For Creating a Trail For Your Organization.
     public static var cloudTrailAccessNotEnabledException: Self { .init(.cloudTrailAccessNotEnabledException) }
-    /// This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended AWS account.
+    /// This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended Amazon Web Services account.
     public static var cloudTrailInvalidClientTokenIdException: Self { .init(.cloudTrailInvalidClientTokenIdException) }
     /// Cannot set a CloudWatch Logs delivery for this region.
     public static var cloudWatchLogsDeliveryUnavailableException: Self { .init(.cloudWatchLogsDeliveryUnavailableException) }
@@ -101,27 +101,27 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var insufficientEncryptionPolicyException: Self { .init(.insufficientEncryptionPolicyException) }
     /// This exception is thrown when the policy on the S3 bucket is not sufficient.
     public static var insufficientS3BucketPolicyException: Self { .init(.insufficientS3BucketPolicyException) }
-    /// This exception is thrown when the policy on the SNS topic is not sufficient.
+    /// This exception is thrown when the policy on the Amazon SNS topic is not sufficient.
     public static var insufficientSnsTopicPolicyException: Self { .init(.insufficientSnsTopicPolicyException) }
-    /// This exception is thrown when the provided CloudWatch log group is not valid.
+    /// This exception is thrown when the provided CloudWatch Logs log group is not valid.
     public static var invalidCloudWatchLogsLogGroupArnException: Self { .init(.invalidCloudWatchLogsLogGroupArnException) }
     /// This exception is thrown when the provided role is not valid.
     public static var invalidCloudWatchLogsRoleArnException: Self { .init(.invalidCloudWatchLogsRoleArnException) }
     /// Occurs if an event category that is not valid is specified as a value of EventCategory.
     public static var invalidEventCategoryException: Self { .init(.invalidEventCategoryException) }
-    /// This exception is thrown when the PutEventSelectors operation is called with a number of event selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:   Specify a valid number of event selectors (1 to 5) for a trail.   Specify a valid number of data resources (1 to 250) for an event selector. The limit of number of resources on an individual event selector is configurable up to 250. However, this upper limit is allowed only if the total number of data resources does not exceed 250 across all event selectors for a trail.   Specify up to 500 values for all conditions in all advanced event selectors for a trail.   Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is invalid.
+    /// This exception is thrown when the PutEventSelectors operation is called with a number of event selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:   Specify a valid number of event selectors (1 to 5) for a trail.   Specify a valid number of data resources (1 to 250) for an event selector. The limit of number of resources on an individual event selector is configurable up to 250. However, this upper limit is allowed only if the total number of data resources does not exceed 250 across all event selectors for a trail.   Specify up to 500 values for all conditions in all advanced event selectors for a trail.   Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is not valid.
     public static var invalidEventSelectorsException: Self { .init(.invalidEventSelectorsException) }
     /// This exception is thrown when an operation is called on a trail from a region other than the region in which the trail was created.
     public static var invalidHomeRegionException: Self { .init(.invalidHomeRegionException) }
     /// The formatting or syntax of the InsightSelectors JSON statement in your PutInsightSelectors or GetInsightSelectors request is not valid, or the specified insight type in the InsightSelectors statement is not a valid insight type.
     public static var invalidInsightSelectorsException: Self { .init(.invalidInsightSelectorsException) }
-    /// This exception is thrown when the KMS key ARN is invalid.
+    /// This exception is thrown when the KMS key ARN is not valid.
     public static var invalidKmsKeyIdException: Self { .init(.invalidKmsKeyIdException) }
-    /// Occurs when an invalid lookup attribute is specified.
+    /// Occurs when a lookup attribute is specified that is not valid.
     public static var invalidLookupAttributesException: Self { .init(.invalidLookupAttributesException) }
-    /// This exception is thrown if the limit specified is invalid.
+    /// This exception is thrown if the limit specified is not valid.
     public static var invalidMaxResultsException: Self { .init(.invalidMaxResultsException) }
-    /// Invalid token or token that was previously used in a request with different parameters. This exception is thrown if the token is invalid.
+    /// A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// This exception is thrown when the combination of parameters provided is not valid.
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
@@ -133,27 +133,27 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidSnsTopicNameException: Self { .init(.invalidSnsTopicNameException) }
     /// This exception is thrown when the specified tag key or values are not valid. It can also occur if there are duplicate tags or too many tags on the resource.
     public static var invalidTagParameterException: Self { .init(.invalidTagParameterException) }
-    /// Occurs if the timestamp values are invalid. Either the start time occurs after the end time or the time range is outside the range of possible values.
+    /// Occurs if the timestamp values are not valid. Either the start time occurs after the end time, or the time range is outside the range of possible values.
     public static var invalidTimeRangeException: Self { .init(.invalidTimeRangeException) }
     /// Reserved for future use.
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
-    /// This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)
+    /// This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)
     public static var invalidTrailNameException: Self { .init(.invalidTrailNameException) }
     /// This exception is thrown when there is an issue with the specified KMS key and the trail can’t be updated.
     public static var kmsException: Self { .init(.kmsException) }
     /// This exception is no longer in use.
     public static var kmsKeyDisabledException: Self { .init(.kmsKeyDisabledException) }
-    /// This exception is thrown when the AWS KMS key does not exist, when the S3 bucket and the AWS KMS key are not in the same region, or when the AWS KMS key associated with the SNS topic either does not exist or is not in the same region.
+    /// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same region.
     public static var kmsKeyNotFoundException: Self { .init(.kmsKeyNotFoundException) }
     /// This exception is thrown when the maximum number of trails is reached.
     public static var maximumNumberOfTrailsExceededException: Self { .init(.maximumNumberOfTrailsExceededException) }
-    /// This exception is thrown when the AWS account making the request to create or update an organization trail is not the master account for an organization in AWS Organizations. For more information, see Prepare For Creating a Trail For Your Organization.
+    /// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail is not the management account for an organization in Organizations. For more information, see Prepare For Creating a Trail For Your Organization.
     public static var notOrganizationMasterAccountException: Self { .init(.notOrganizationMasterAccountException) }
     /// This exception is thrown when the requested operation is not permitted.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
-    /// This exception is thrown when AWS Organizations is not configured to support all features. All features must be enabled in AWS Organization to support creating an organization trail. For more information, see Prepare For Creating a Trail For Your Organization.
+    /// This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail. For more information, see Prepare For Creating a Trail For Your Organization.
     public static var organizationNotInAllFeaturesModeException: Self { .init(.organizationNotInAllFeaturesModeException) }
-    /// This exception is thrown when the request is made from an AWS account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
+    /// This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     public static var organizationsNotInUseException: Self { .init(.organizationsNotInUseException) }
     /// This exception is thrown when the specified resource is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

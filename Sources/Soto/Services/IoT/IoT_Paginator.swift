@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension IoT {
-    ///   Returns a Device Defender's ML Detect Security Profile training model's status.
+    ///   Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -72,7 +72,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the active violations for a given Device Defender security profile.
+    ///  Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -125,7 +125,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the policies attached to the specified thing group.
+    ///  Lists the policies attached to the specified thing group. Requires permission to access the ListAttachedPolicies action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +178,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)
+    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the ListAuditFindings action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension IoT {
         )
     }
 
-    ///  Gets the status of audit mitigation action tasks that were executed.
+    ///  Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of audit mitigation action tasks that match the specified filters.
+    ///  Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension IoT {
         )
     }
 
-    ///   Lists your Device Defender audit listings.
+    ///   Lists your Device Defender audit listings.  Requires permission to access the ListAuditSuppressions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +390,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender audits that have been performed during a given time period.
+    ///  Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the ListAuditTasks action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the authorizers registered in your account.
+    ///  Lists the authorizers registered in your account. Requires permission to access the ListAuthorizers action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -496,7 +496,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the billing groups you have created.
+    ///  Lists the billing groups you have created. Requires permission to access the ListBillingGroups action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -549,7 +549,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the CA certificates registered for your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+    ///  Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCACertificates action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -602,7 +602,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+    ///  Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCertificates action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -655,7 +655,7 @@ extension IoT {
         )
     }
 
-    ///  List the device certificates signed by the specified CA certificate.
+    ///  List the device certificates signed by the specified CA certificate. Requires permission to access the ListCertificatesByCA action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -708,7 +708,7 @@ extension IoT {
         )
     }
 
-    ///   Lists your Device Defender detect custom metrics.
+    ///   Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -761,7 +761,7 @@ extension IoT {
         )
     }
 
-    ///   Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
+    ///   Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -814,7 +814,7 @@ extension IoT {
         )
     }
 
-    ///   List of Device Defender ML Detect mitigation actions tasks.
+    ///   List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -867,7 +867,7 @@ extension IoT {
         )
     }
 
-    ///  List the set of dimensions that are defined for your AWS account.
+    ///  List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -920,7 +920,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.
+    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the ListDomainConfigurations action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -973,7 +973,60 @@ extension IoT {
         )
     }
 
-    ///  Lists the search indices.
+    ///  Lists all your fleet metrics.  Requires permission to access the ListFleetMetrics action.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFleetMetricsPaginator<Result>(
+        _ input: ListFleetMetricsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFleetMetricsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFleetMetrics,
+            inputKey: \ListFleetMetricsRequest.nextToken,
+            outputKey: \ListFleetMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFleetMetricsPaginator(
+        _ input: ListFleetMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFleetMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFleetMetrics,
+            inputKey: \ListFleetMetricsRequest.nextToken,
+            outputKey: \ListFleetMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the search indices. Requires permission to access the ListIndices action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1026,7 +1079,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the job executions for a job.
+    ///  Lists the job executions for a job. Requires permission to access the ListJobExecutionsForJob action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1079,7 +1132,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the job executions for the specified thing.
+    ///  Lists the job executions for the specified thing. Requires permission to access the ListJobExecutionsForThing action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1132,7 +1185,60 @@ extension IoT {
         )
     }
 
-    ///  Lists jobs.
+    ///  Returns a list of job templates. Requires permission to access the ListJobTemplates action.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listJobTemplatesPaginator<Result>(
+        _ input: ListJobTemplatesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListJobTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listJobTemplates,
+            inputKey: \ListJobTemplatesRequest.nextToken,
+            outputKey: \ListJobTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listJobTemplatesPaginator(
+        _ input: ListJobTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListJobTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listJobTemplates,
+            inputKey: \ListJobTemplatesRequest.nextToken,
+            outputKey: \ListJobTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists jobs. Requires permission to access the ListJobs action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1185,7 +1291,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of all mitigation actions that match the specified filter criteria.
+    ///  Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1238,7 +1344,7 @@ extension IoT {
         )
     }
 
-    ///  Lists OTA updates.
+    ///  Lists OTA updates. Requires permission to access the ListOTAUpdates action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1291,7 +1397,7 @@ extension IoT {
         )
     }
 
-    ///  Lists certificates that are being transferred but not yet accepted.
+    ///  Lists certificates that are being transferred but not yet accepted. Requires permission to access the ListOutgoingCertificates action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1344,7 +1450,7 @@ extension IoT {
         )
     }
 
-    ///  Lists your policies.
+    ///  Lists your policies. Requires permission to access the ListPolicies action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1397,7 +1503,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the principals associated with the specified policy.  Note: This API is deprecated. Please use ListTargetsForPolicy instead.
+    ///  Lists the principals associated with the specified policy.  Note: This action is deprecated. Please use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1452,7 +1558,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use ListAttachedPolicies instead.
+    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated. Please use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1507,7 +1613,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
+    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  Requires permission to access the ListPrincipalThings action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1560,7 +1666,7 @@ extension IoT {
         )
     }
 
-    ///  A list of fleet provisioning template versions.
+    ///  A list of fleet provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1613,7 +1719,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the fleet provisioning templates in your AWS account.
+    ///  Lists the fleet provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1666,7 +1772,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the role aliases registered in your account.
+    ///  Lists the role aliases registered in your account. Requires permission to access the ListRoleAliases action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1719,7 +1825,7 @@ extension IoT {
         )
     }
 
-    ///  Lists all of your scheduled audits.
+    ///  Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1772,7 +1878,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric.   dimensionName and metricName cannot be used in the same request.
+    ///  Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1825,7 +1931,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profiles attached to a target (thing group).
+    ///  Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1878,7 +1984,7 @@ extension IoT {
         )
     }
 
-    ///  Lists all of the streams in your AWS account.
+    ///  Lists all of the streams in your Amazon Web Services account. Requires permission to access the ListStreams action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1931,7 +2037,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the tags (metadata) you have assigned to the resource.
+    ///  Lists the tags (metadata) you have assigned to the resource. Requires permission to access the ListTagsForResource action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1984,7 +2090,7 @@ extension IoT {
         )
     }
 
-    ///  List targets for the specified policy.
+    ///  List targets for the specified policy. Requires permission to access the ListTargetsForPolicy action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2037,7 +2143,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the targets (thing groups) associated with a given Device Defender security profile.
+    ///  Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2090,7 +2196,7 @@ extension IoT {
         )
     }
 
-    ///  List the thing groups in your account.
+    ///  List the thing groups in your account. Requires permission to access the ListThingGroups action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2143,7 +2249,7 @@ extension IoT {
         )
     }
 
-    ///  List the thing groups to which the specified thing belongs.
+    ///  List the thing groups to which the specified thing belongs. Requires permission to access the ListThingGroupsForThing action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2196,7 +2302,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
+    ///  Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the ListThingPrincipals action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2302,7 +2408,7 @@ extension IoT {
         )
     }
 
-    ///  List bulk thing provisioning tasks.
+    ///  List bulk thing provisioning tasks. Requires permission to access the ListThingRegistrationTasks action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2355,7 +2461,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the existing thing types.
+    ///  Lists the existing thing types. Requires permission to access the ListThingTypes action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2408,7 +2514,7 @@ extension IoT {
         )
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.  Requires permission to access the ListThings action.  You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2461,7 +2567,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the things you have added to the given billing group.
+    ///  Lists the things you have added to the given billing group. Requires permission to access the ListThingsInBillingGroup action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2514,7 +2620,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the things in the specified group.
+    ///  Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2567,7 +2673,7 @@ extension IoT {
         )
     }
 
-    ///  Lists all the topic rule destinations in your AWS account.
+    ///  Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the ListTopicRuleDestinations action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2620,7 +2726,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the rules for the specific topic.
+    ///  Lists the rules for the specific topic. Requires permission to access the ListTopicRules action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2673,7 +2779,7 @@ extension IoT {
         )
     }
 
-    ///  Lists logging levels.
+    ///  Lists logging levels. Requires permission to access the ListV2LoggingLevels action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2726,7 +2832,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device).
+    ///  Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device). Requires permission to access the ListViolationEvents action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2985,6 +3091,15 @@ extension IoT.ListDomainConfigurationsRequest: AWSPaginateToken {
     }
 }
 
+extension IoT.ListFleetMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListFleetMetricsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoT.ListIndicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListIndicesRequest {
         return .init(
@@ -3013,6 +3128,15 @@ extension IoT.ListJobExecutionsForThingRequest: AWSPaginateToken {
             nextToken: token,
             status: self.status,
             thingName: self.thingName
+        )
+    }
+}
+
+extension IoT.ListJobTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListJobTemplatesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

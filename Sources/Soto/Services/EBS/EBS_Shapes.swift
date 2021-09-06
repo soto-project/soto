@@ -428,7 +428,7 @@ extension EBS {
         public let tags: [Tag]?
         /// The amount of time (in minutes) after which the snapshot is automatically cancelled if:   No blocks are written to the snapshot.   The snapshot is not completed after writing the last block of data.   If no value is specified, the timeout defaults to 60 minutes.
         public let timeout: Int?
-        /// The size of the volume, in GiB. The maximum size is 16384 GiB (16 TiB).
+        /// The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB).
         public let volumeSize: Int64
 
         public init(clientToken: String? = StartSnapshotRequest.idempotencyToken(), description: String? = nil, encrypted: Bool? = nil, kmsKeyArn: String? = nil, parentSnapshotId: String? = nil, tags: [Tag]? = nil, timeout: Int? = nil, volumeSize: Int64) {

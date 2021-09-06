@@ -33,6 +33,13 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum AggregationTypeName: String, CustomStringConvertible, Codable {
+        case cardinality = "Cardinality"
+        case percentiles = "Percentiles"
+        case statistics = "Statistics"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AlertTargetType: String, CustomStringConvertible, Codable {
         case sns = "SNS"
         public var description: String { return self.rawValue }
@@ -299,6 +306,37 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum FleetMetricUnit: String, CustomStringConvertible, Codable {
+        case bits = "Bits"
+        case bitsSecond = "Bits/Second"
+        case bytes = "Bytes"
+        case bytesSecond = "Bytes/Second"
+        case count = "Count"
+        case countSecond = "Count/Second"
+        case gigabits = "Gigabits"
+        case gigabitsSecond = "Gigabits/Second"
+        case gigabytes = "Gigabytes"
+        case gigabytesSecond = "Gigabytes/Second"
+        case kilobits = "Kilobits"
+        case kilobitsSecond = "Kilobits/Second"
+        case kilobytes = "Kilobytes"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabits = "Megabits"
+        case megabitsSecond = "Megabits/Second"
+        case megabytes = "Megabytes"
+        case megabytesSecond = "Megabytes/Second"
+        case microseconds = "Microseconds"
+        case milliseconds = "Milliseconds"
+        case none = "None"
+        case percent = "Percent"
+        case seconds = "Seconds"
+        case terabits = "Terabits"
+        case terabitsSecond = "Terabits/Second"
+        case terabytes = "Terabytes"
+        case terabytesSecond = "Terabytes/Second"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IndexStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case building = "BUILDING"
@@ -501,7 +539,7 @@ extension IoT {
         public let failureType: JobExecutionFailureType
         /// The minimum number of things which must receive job execution notifications before the job can be aborted.
         public let minNumberOfExecutedThings: Int
-        /// The minimum percentage of job execution failures that must occur to initiate the job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        /// The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
         public init(action: AbortAction, failureType: JobExecutionFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
@@ -566,11 +604,11 @@ extension IoT {
         public let firehose: FirehoseAction?
         /// Send data to an HTTPS endpoint.
         public let http: HttpAction?
-        /// Sends message data to an AWS IoT Analytics channel.
+        /// Sends message data to an IoT Analytics channel.
         public let iotAnalytics: IotAnalyticsAction?
-        /// Sends an input to an AWS IoT Events detector.
+        /// Sends an input to an IoT Events detector.
         public let iotEvents: IotEventsAction?
-        /// Sends data from the MQTT message that triggered the rule to AWS IoT SiteWise asset properties.
+        /// Sends data from the MQTT message that triggered the rule to IoT SiteWise asset properties.
         public let iotSiteWise: IotSiteWiseAction?
         /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK) or self-managed Apache Kafka cluster.
         public let kafka: KafkaAction?
@@ -801,6 +839,31 @@ extension IoT {
         }
     }
 
+    public struct AggregationType: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the aggregation type.
+        public let name: AggregationTypeName
+        /// A list of the values of aggregation types.
+        public let values: [String]?
+
+        public init(name: AggregationTypeName, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 12)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "[a-zA-Z0-9]+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case values
+        }
+    }
+
     public struct AlertTarget: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the notification target to which alerts are sent.
         public let alertTargetArn: String
@@ -918,7 +981,7 @@ extension IoT {
         public let comment: String?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// A list of thing group ARNs that define the targets of the job.
         public let targets: [String]
@@ -1475,7 +1538,7 @@ extension IoT {
         public let creationDate: Date?
         /// The UNIX timestamp of when the authorizer was last updated.
         public let lastModifiedDate: Date?
-        /// Specifies whether AWS IoT validates the token signature in an authorization request.
+        /// Specifies whether IoT validates the token signature in an authorization request.
         public let signingDisabled: Bool?
         /// The status of the authorizer.
         public let status: AuthorizerStatus?
@@ -1553,7 +1616,7 @@ extension IoT {
         public let failureType: AwsJobAbortCriteriaFailureType
         /// The minimum number of things which must receive job execution notifications before the job can be aborted.
         public let minNumberOfExecutedThings: Int
-        /// The minimum percentage of job execution failures that must occur to initiate the job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        /// The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
         public init(action: AwsJobAbortCriteriaAbortAction, failureType: AwsJobAbortCriteriaFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
@@ -1604,7 +1667,7 @@ extension IoT {
         public let baseRatePerMinute: Int
         /// The rate of increase for a job rollout. The number of things notified is multiplied by this factor.
         public let incrementFactor: Double
-        /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
+        /// The criteria to initiate the increase in rate of rollout for a job. Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55).
         public let rateIncreaseCriteria: AwsJobRateIncreaseCriteria
 
         public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: AwsJobRateIncreaseCriteria) {
@@ -1818,6 +1881,40 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case billingGroupDescription
+        }
+    }
+
+    public struct Bucket: AWSDecodableShape {
+        /// The number of documents that have the value counted for the particular bucket.
+        public let count: Int?
+        /// The value counted for the particular bucket.
+        public let keyValue: String?
+
+        public init(count: Int? = nil, keyValue: String? = nil) {
+            self.count = count
+            self.keyValue = keyValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count
+            case keyValue
+        }
+    }
+
+    public struct BucketsAggregationType: AWSEncodableShape {
+        /// Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value.
+        public let termsAggregation: TermsAggregation?
+
+        public init(termsAggregation: TermsAggregation? = nil) {
+            self.termsAggregation = termsAggregation
+        }
+
+        public func validate(name: String) throws {
+            try self.termsAggregation?.validate(name: "\(name).termsAggregation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case termsAggregation
         }
     }
 
@@ -2150,9 +2247,9 @@ extension IoT {
         public let generationId: String?
         /// The date and time the certificate was last modified.
         public let lastModifiedDate: Date?
-        /// The ID of the AWS account that owns the certificate.
+        /// The ID of the Amazon Web Services account that owns the certificate.
         public let ownedBy: String?
-        /// The ID of the AWS account of the previous owner of the certificate.
+        /// The ID of the Amazon Web Services account of the previous owner of the certificate.
         public let previousOwnedBy: String?
         /// The status of the certificate.
         public let status: CertificateStatus?
@@ -2441,7 +2538,7 @@ extension IoT {
         public let authorizerFunctionArn: String
         /// The authorizer name.
         public let authorizerName: String
-        /// Specifies whether AWS IoT validates the token signature in an authorization request.
+        /// Specifies whether IoT validates the token signature in an authorization request.
         public let signingDisabled: Bool?
         /// The status of the create authorizer request.
         public let status: AuthorizerStatus?
@@ -2613,7 +2710,7 @@ extension IoT {
             AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
         ]
 
-        /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
         ///  Field represents a friendly name in the console for the custom metric; it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated once defined.
         public let displayName: String?
@@ -2676,7 +2773,7 @@ extension IoT {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
         /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
         public let name: String
@@ -2749,13 +2846,13 @@ extension IoT {
         public let domainConfigurationName: String
         /// The name of the domain.
         public let domainName: String?
-        /// The ARNs of the certificates that AWS IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for AWS-managed domains.
+        /// The ARNs of the certificates that IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for Amazon Web Services-managed domains.
         public let serverCertificateArns: [String]?
-        /// The type of service delivered by the endpoint.  AWS IoT Core currently supports only the DATA service type.
+        /// The type of service delivered by the endpoint.  Amazon Web Services IoT Core currently supports only the DATA service type.
         public let serviceType: ServiceType?
         /// Metadata which can be used to manage the domain configuration.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
         public let tags: [Tag]?
-        /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for AWS-managed domains.
+        /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for Amazon Web Services-managed domains.
         public let validationCertificateArn: String?
 
         public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serviceType: ServiceType? = nil, tags: [Tag]? = nil, validationCertificateArn: String? = nil) {
@@ -2822,7 +2919,7 @@ extension IoT {
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
-        /// The dynamic thing group index name.  Currently one index is supported: "AWS_Things".
+        /// The dynamic thing group index name.  Currently one index is supported: AWS_Things.
         public let indexName: String?
         /// The dynamic thing group search query string. See Query Syntax for information about query string syntax.
         public let queryString: String
@@ -2900,6 +2997,94 @@ extension IoT {
         }
     }
 
+    public struct CreateFleetMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        /// The field to aggregate.
+        public let aggregationField: String
+        /// The type of the aggregation query.
+        public let aggregationType: AggregationType
+        /// The fleet metric description.
+        public let description: String?
+        /// The name of the index to search.
+        public let indexName: String?
+        /// The name of the fleet metric to create.
+        public let metricName: String
+        /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60.
+        public let period: Int
+        /// The search query string.
+        public let queryString: String
+        /// The query version.
+        public let queryVersion: String?
+        /// Metadata, which can be used to manage the fleet metric.
+        public let tags: [Tag]?
+        /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric. Default to null.
+        public let unit: FleetMetricUnit?
+
+        public init(aggregationField: String, aggregationType: AggregationType, description: String? = nil, indexName: String? = nil, metricName: String, period: Int, queryString: String, queryVersion: String? = nil, tags: [Tag]? = nil, unit: FleetMetricUnit? = nil) {
+            self.aggregationField = aggregationField
+            self.aggregationType = aggregationType
+            self.description = description
+            self.indexName = indexName
+            self.metricName = metricName
+            self.period = period
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+            self.tags = tags
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregationField, name: "aggregationField", parent: name, min: 1)
+            try self.aggregationType.validate(name: "\(name).aggregationType")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9_\\-\\.]+")
+            try self.validate(self.period, name: "period", parent: name, max: 86400)
+            try self.validate(self.period, name: "period", parent: name, min: 60)
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField
+            case aggregationType
+            case description
+            case indexName
+            case period
+            case queryString
+            case queryVersion
+            case tags
+            case unit
+        }
+    }
+
+    public struct CreateFleetMetricResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the new fleet metric.
+        public let metricArn: String?
+        /// The name of the fleet metric to create.
+        public let metricName: String?
+
+        public init(metricArn: String? = nil, metricName: String? = nil) {
+            self.metricArn = metricArn
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricArn
+            case metricName
+        }
+    }
+
     public struct CreateJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
@@ -2915,11 +3100,11 @@ extension IoT {
         public let documentSource: String?
         /// Allows you to create a staged rollout of the job.
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
-        /// A job identifier which must be unique for your AWS account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+        /// A job identifier which must be unique for your Amazon Web Services account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
         public let jobId: String
         /// The ARN of the job template used to create the job.
         public let jobTemplateArn: String?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
@@ -3112,7 +3297,7 @@ extension IoT {
     public struct CreateKeysAndCertificateResponse: AWSDecodableShape {
         /// The ARN of the certificate.
         public let certificateArn: String?
-        /// The ID of the certificate. AWS IoT issues a default subject name for the certificate (for example, AWS IoT Certificate).
+        /// The ID of the certificate. IoT issues a default subject name for the certificate (for example, IoT Certificate).
         public let certificateId: String?
         /// The certificate data, in PEM format.
         public let certificatePem: String?
@@ -3213,7 +3398,7 @@ extension IoT {
         public let otaUpdateId: String
         /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
         public let protocols: [Protocol]?
-        /// The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and AWS Code Signing resources to create an OTA update job.
+        /// The IAM role that grants Amazon Web Services IoT Core access to the Amazon S3, IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job.
         public let roleArn: String
         /// Metadata which can be used to manage updates.
         public let tags: [Tag]?
@@ -3278,9 +3463,9 @@ extension IoT {
     }
 
     public struct CreateOTAUpdateResponse: AWSDecodableShape {
-        /// The AWS IoT job ARN associated with the OTA update.
+        /// The IoT job ARN associated with the OTA update.
         public let awsIotJobArn: String?
-        /// The AWS IoT job ID associated with the OTA update.
+        /// The IoT job ID associated with the OTA update.
         public let awsIotJobId: String?
         /// The OTA update ARN.
         public let otaUpdateArn: String?
@@ -3598,7 +3783,7 @@ extension IoT {
             AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
 
-        /// How long (in seconds) the credentials will be valid.
+        /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds.
         public let credentialDurationSeconds: Int?
         /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
         public let roleAlias: String
@@ -4376,6 +4561,31 @@ extension IoT {
         public init() {}
     }
 
+    public struct DeleteFleetMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        /// The expected version of the fleet metric to delete.
+        public let expectedVersion: Int64?
+        /// The name of the fleet metric to delete.
+        public let metricName: String
+
+        public init(expectedVersion: Int64? = nil, metricName: String) {
+            self.expectedVersion = expectedVersion
+            self.metricName = metricName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9_\\-\\.]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "executionNumber", location: .uri(locationName: "executionNumber")),
@@ -4391,7 +4601,7 @@ extension IoT {
         public let force: Bool?
         /// The ID of the job whose execution on a particular device will be deleted.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// The name of the thing whose job execution will be deleted.
         public let thingName: String
@@ -4430,7 +4640,7 @@ extension IoT {
         public let force: Bool?
         /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
 
         public init(force: Bool? = nil, jobId: String, namespaceId: String? = nil) {
@@ -4505,7 +4715,7 @@ extension IoT {
 
         /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
         public let deleteStream: Bool?
-        /// When true, deletes the AWS job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
+        /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
         public let forceDeleteAWSJob: Bool?
         /// The ID of the OTA update to delete.
         public let otaUpdateId: String
@@ -4940,7 +5150,7 @@ extension IoT {
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
         /// Information about the targets to which audit notifications are sent for this account.
         public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates, and other items as required when performing an audit. On the first call to UpdateAccountAuditConfiguration, this parameter is required.
+        /// The ARN of the role that grants permission to IoT to access information about your devices, policies, certificates, and other items as required when performing an audit. On the first call to UpdateAccountAuditConfiguration, this parameter is required.
         public let roleArn: String?
 
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
@@ -5537,7 +5747,7 @@ extension IoT {
             AWSMemberEncoding(label: "endpointType", location: .querystring(locationName: "endpointType"))
         ]
 
-        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the widespread distrust of Symantec certificate authorities.
+        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs - Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the widespread distrust of Symantec certificate authorities.
         public let endpointType: String?
 
         public init(endpointType: String? = nil) {
@@ -5586,6 +5796,88 @@ extension IoT {
             case creationDate
             case eventConfigurations
             case lastModifiedDate
+        }
+    }
+
+    public struct DescribeFleetMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        /// The name of the fleet metric to describe.
+        public let metricName: String
+
+        public init(metricName: String) {
+            self.metricName = metricName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9_\\-\\.]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFleetMetricResponse: AWSDecodableShape {
+        /// The field to aggregate.
+        public let aggregationField: String?
+        /// The type of the aggregation query.
+        public let aggregationType: AggregationType?
+        /// The date when the fleet metric is created.
+        public let creationDate: Date?
+        /// The fleet metric description.
+        public let description: String?
+        /// The name of the index to search.
+        public let indexName: String?
+        /// The date when the fleet metric is last modified.
+        public let lastModifiedDate: Date?
+        /// The ARN of the fleet metric to describe.
+        public let metricArn: String?
+        /// The name of the fleet metric to describe.
+        public let metricName: String?
+        /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60.
+        public let period: Int?
+        /// The search query string.
+        public let queryString: String?
+        /// The query version.
+        public let queryVersion: String?
+        /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric.
+        public let unit: FleetMetricUnit?
+        /// The version of the fleet metric.
+        public let version: Int64?
+
+        public init(aggregationField: String? = nil, aggregationType: AggregationType? = nil, creationDate: Date? = nil, description: String? = nil, indexName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, period: Int? = nil, queryString: String? = nil, queryVersion: String? = nil, unit: FleetMetricUnit? = nil, version: Int64? = nil) {
+            self.aggregationField = aggregationField
+            self.aggregationType = aggregationType
+            self.creationDate = creationDate
+            self.description = description
+            self.indexName = indexName
+            self.lastModifiedDate = lastModifiedDate
+            self.metricArn = metricArn
+            self.metricName = metricName
+            self.period = period
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+            self.unit = unit
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField
+            case aggregationType
+            case creationDate
+            case description
+            case indexName
+            case lastModifiedDate
+            case metricArn
+            case metricName
+            case period
+            case queryString
+            case queryVersion
+            case unit
+            case version
         }
     }
 
@@ -5811,7 +6103,7 @@ extension IoT {
         public let actionParams: MitigationActionParams?
         /// The type of mitigation action.
         public let actionType: MitigationActionType?
-        /// The date and time when the mitigation action was added to your AWS account.
+        /// The date and time when the mitigation action was added to your Amazon Web Services accounts.
         public let creationDate: Date?
         /// The date and time when the mitigation action was last changed.
         public let lastModifiedDate: Date?
@@ -6321,7 +6613,7 @@ extension IoT {
         public let attributes: [String: String]?
         /// The name of the billing group the thing belongs to.
         public let billingGroupName: String?
-        /// The default MQTT client ID. For a typical device, the thing name is also used as the default MQTT client ID. Although we don’t require a mapping between a thing's registry name and its use of MQTT client IDs, certificates, or shadow state, we recommend that you choose a thing name and use it as the MQTT client ID for the registry and the Device Shadow service. This lets you better organize your AWS IoT fleet without removing the flexibility of the underlying device certificate model or shadows.
+        /// The default MQTT client ID. For a typical device, the thing name is also used as the default MQTT client ID. Although we don’t require a mapping between a thing's registry name and its use of MQTT client IDs, certificates, or shadow state, we recommend that you choose a thing name and use it as the MQTT client ID for the registry and the Device Shadow service. This lets you better organize your IoT fleet without removing the flexibility of the underlying device certificate model or shadows.
         public let defaultClientId: String?
         /// The ARN of the thing to describe.
         public let thingArn: String?
@@ -6923,7 +7215,7 @@ extension IoT {
     public struct ExponentialRolloutRate: AWSEncodableShape & AWSDecodableShape {
         /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
         public let baseRatePerMinute: Int
-        /// The exponential factor to increase the rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
+        /// The exponential factor to increase the rate of rollout for a job. Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55).
         public let incrementFactor: Double
         /// The criteria to initiate the increase in rate of rollout for a job.
         public let rateIncreaseCriteria: RateIncreaseCriteria
@@ -6952,7 +7244,7 @@ extension IoT {
     public struct Field: AWSEncodableShape & AWSDecodableShape {
         /// The name of the field.
         public let name: String?
-        /// The datatype of the field.
+        /// The data type of the field.
         public let type: FieldType?
 
         public init(name: String? = nil, type: FieldType? = nil) {
@@ -7017,6 +7309,23 @@ extension IoT {
         }
     }
 
+    public struct FleetMetricNameAndArn: AWSDecodableShape {
+        /// The fleet metric ARN.
+        public let metricArn: String?
+        /// The fleet metric name.
+        public let metricName: String?
+
+        public init(metricArn: String? = nil, metricName: String? = nil) {
+            self.metricArn = metricArn
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricArn
+            case metricName
+        }
+    }
+
     public struct GetBehaviorModelTrainingSummariesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
@@ -7065,12 +7374,67 @@ extension IoT {
         }
     }
 
+    public struct GetBucketsAggregationRequest: AWSEncodableShape {
+        /// The aggregation field.
+        public let aggregationField: String
+        /// The basic control of the response shape and the bucket aggregation type to perform.
+        public let bucketsAggregationType: BucketsAggregationType
+        /// The name of the index to search.
+        public let indexName: String?
+        /// The search query string.
+        public let queryString: String
+        /// The version of the query.
+        public let queryVersion: String?
+
+        public init(aggregationField: String, bucketsAggregationType: BucketsAggregationType, indexName: String? = nil, queryString: String, queryVersion: String? = nil) {
+            self.aggregationField = aggregationField
+            self.bucketsAggregationType = bucketsAggregationType
+            self.indexName = indexName
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregationField, name: "aggregationField", parent: name, min: 1)
+            try self.bucketsAggregationType.validate(name: "\(name).bucketsAggregationType")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField
+            case bucketsAggregationType
+            case indexName
+            case queryString
+            case queryVersion
+        }
+    }
+
+    public struct GetBucketsAggregationResponse: AWSDecodableShape {
+        /// The main part of the response with a list of buckets. Each bucket contains a keyValue and a count.  keyValue: The aggregation field value counted for the particular bucket.  count: The number of documents that have that value.
+        public let buckets: [Bucket]?
+        /// The total number of documents that fit the query string criteria and contain a value for the Aggregation field targeted in the request.
+        public let totalCount: Int?
+
+        public init(buckets: [Bucket]? = nil, totalCount: Int? = nil) {
+            self.buckets = buckets
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buckets
+            case totalCount
+        }
+    }
+
     public struct GetCardinalityRequest: AWSEncodableShape {
         /// The field to aggregate.
         public let aggregationField: String?
         /// The name of the index to search.
         public let indexName: String?
-        /// The search query.
+        /// The search query string.
         public let queryString: String
         /// The query version.
         public let queryVersion: String?
@@ -7271,7 +7635,7 @@ extension IoT {
         public let indexName: String?
         /// The percentile groups returned.
         public let percents: [Double]?
-        /// The query string.
+        /// The search query string.
         public let queryString: String
         /// The query version.
         public let queryVersion: String?
@@ -7465,7 +7829,7 @@ extension IoT {
         public let aggregationField: String?
         /// The name of the index to search. The default value is AWS_Things.
         public let indexName: String?
-        /// The query used to search. You can specify "*" for the query string to get the count of all indexed things in your AWS account.
+        /// The query used to search. You can specify "*" for the query string to get the count of all indexed things in your Amazon Web Services account.
         public let queryString: String
         /// The version of the query used to search.
         public let queryVersion: String?
@@ -7581,7 +7945,7 @@ extension IoT {
         public let defaultLogLevel: LogLevel?
         /// Disables all logs.
         public let disableAllLogs: Bool?
-        /// The IAM role ARN AWS IoT uses to write to your CloudWatch logs.
+        /// The IAM role ARN IoT uses to write to your CloudWatch logs.
         public let roleArn: String?
 
         public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
@@ -7617,7 +7981,7 @@ extension IoT {
     public struct HttpAction: AWSEncodableShape & AWSDecodableShape {
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public let auth: HttpAuthorization?
-        /// The URL to which AWS IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL AWS IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
+        /// The URL to which IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
         public let confirmationUrl: String?
         /// The HTTP headers to send with the message data.
         public let headers: [HttpActionHeader]?
@@ -7713,7 +8077,7 @@ extension IoT {
     }
 
     public struct HttpUrlDestinationConfiguration: AWSEncodableShape {
-        /// The URL AWS IoT uses to confirm ownership of or access to the topic rule destination URL.
+        /// The URL IoT uses to confirm ownership of or access to the topic rule destination URL.
         public let confirmationUrl: String
 
         public init(confirmationUrl: String) {
@@ -7769,7 +8133,7 @@ extension IoT {
     }
 
     public struct IotAnalyticsAction: AWSEncodableShape & AWSDecodableShape {
-        /// Whether to process the action as a batch. The default value is false. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is delivered as a separate message when passed by  BatchPutMessage  to the AWS IoT Analytics channel. The resulting array can't have more than 100 messages.
+        /// Whether to process the action as a batch. The default value is false. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is delivered as a separate message when passed by  BatchPutMessage  to the IoT Analytics channel. The resulting array can't have more than 100 messages.
         public let batchMode: Bool?
         /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
         public let channelArn: String?
@@ -7794,13 +8158,13 @@ extension IoT {
     }
 
     public struct IotEventsAction: AWSEncodableShape & AWSDecodableShape {
-        /// Whether to process the event actions as a batch. The default value is false. When batchMode is true, you can't specify a messageId.  When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is treated as a separate message when it's sent to AWS IoT Events by calling  BatchPutMessage . The resulting array can't have more than 10 messages.
+        /// Whether to process the event actions as a batch. The default value is false. When batchMode is true, you can't specify a messageId.  When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is treated as a separate message when it's sent to IoT Events by calling  BatchPutMessage . The resulting array can't have more than 10 messages.
         public let batchMode: Bool?
-        /// The name of the AWS IoT Events input.
+        /// The name of the IoT Events input.
         public let inputName: String
-        /// The ID of the message. The default messageId is a new UUID value. When batchMode is true, you can't specify a messageId--a new UUID value will be assigned. Assign a value to this property to ensure that only one input (message) with a given messageId will be processed by an AWS IoT Events detector.
+        /// The ID of the message. The default messageId is a new UUID value. When batchMode is true, you can't specify a messageId--a new UUID value will be assigned. Assign a value to this property to ensure that only one input (message) with a given messageId will be processed by an IoT Events detector.
         public let messageId: String?
-        /// The ARN of the role that grants AWS IoT permission to send an input to an AWS IoT Events detector. ("Action":"iotevents:BatchPutMessage").
+        /// The ARN of the role that grants IoT permission to send an input to an IoT Events detector. ("Action":"iotevents:BatchPutMessage").
         public let roleArn: String
 
         public init(batchMode: Bool? = nil, inputName: String, messageId: String? = nil, roleArn: String) {
@@ -7827,7 +8191,7 @@ extension IoT {
     public struct IotSiteWiseAction: AWSEncodableShape & AWSDecodableShape {
         /// A list of asset property value entries.
         public let putAssetPropertyValueEntries: [PutAssetPropertyValueEntry]
-        /// The ARN of the role that grants AWS IoT permission to send an asset property value to AWS IoTSiteWise. ("Action": "iotsitewise:BatchPutAssetPropertyValue"). The trust policy can restrict access to specific asset hierarchy paths.
+        /// The ARN of the role that grants IoT permission to send an asset property value to IoT SiteWise. ("Action": "iotsitewise:BatchPutAssetPropertyValue"). The trust policy can restrict access to specific asset hierarchy paths.
         public let roleArn: String
 
         public init(putAssetPropertyValueEntries: [PutAssetPropertyValueEntry], roleArn: String) {
@@ -7873,7 +8237,7 @@ extension IoT {
         public let jobTemplateArn: String?
         /// The time, in seconds since the epoch, when the job was last updated.
         public let lastUpdatedAt: Date?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// Configuration for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
@@ -8818,7 +9182,7 @@ extension IoT {
     }
 
     public struct ListCACertificatesResponse: AWSDecodableShape {
-        /// The CA certificates registered in your AWS account.
+        /// The CA certificates registered in your Amazon Web Services account.
         public let certificates: [CACertificate]?
         /// The current position within the list of CA certificates.
         public let nextMarker: String?
@@ -9182,6 +9546,47 @@ extension IoT {
         }
     }
 
+    public struct ListFleetMetricsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFleetMetricsResponse: AWSDecodableShape {
+        /// The list of fleet metrics objects.
+        public let fleetMetrics: [FleetMetricNameAndArn]?
+        /// The token for the next set of results. Will not be returned if the operation has returned all results.
+        public let nextToken: String?
+
+        public init(fleetMetrics: [FleetMetricNameAndArn]? = nil, nextToken: String? = nil) {
+            self.fleetMetrics = fleetMetrics
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetMetrics
+            case nextToken
+        }
+    }
+
     public struct ListIndicesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
@@ -9286,7 +9691,7 @@ extension IoT {
 
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
@@ -9388,7 +9793,7 @@ extension IoT {
 
         /// The maximum number of results to return per request.
         public let maxResults: Int?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
@@ -11147,7 +11552,7 @@ extension IoT {
     public struct MitigationActionParams: AWSEncodableShape & AWSDecodableShape {
         /// Parameters to define a mitigation action that moves devices associated with a certificate to one or more specified thing groups, typically for quarantine.
         public let addThingsToThingGroupParams: AddThingsToThingGroupParams?
-        /// Parameters to define a mitigation action that enables AWS IoT logging at a specified level of detail.
+        /// Parameters to define a mitigation action that enables Amazon Web Services IoT Core logging at a specified level of detail.
         public let enableIoTLoggingParams: EnableIoTLoggingParams?
         /// Parameters to define a mitigation action that publishes findings to Amazon Simple Notification Service (Amazon SNS. You can implement your own custom actions in response to the Amazon SNS messages.
         public let publishFindingToSnsParams: PublishFindingToSnsParams?
@@ -11277,9 +11682,9 @@ extension IoT {
     public struct OTAUpdateInfo: AWSDecodableShape {
         /// A collection of name/value pairs
         public let additionalParameters: [String: String]?
-        /// The AWS IoT job ARN associated with the OTA update.
+        /// The IoT job ARN associated with the OTA update.
         public let awsIotJobArn: String?
-        /// The AWS IoT job ID associated with the OTA update.
+        /// The IoT job ID associated with the OTA update.
         public let awsIotJobId: String?
         /// Configuration for the rollout of OTA updates.
         public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
@@ -11379,7 +11784,7 @@ extension IoT {
         public let transferDate: Date?
         /// The transfer message.
         public let transferMessage: String?
-        /// The AWS account to which the transfer was made.
+        /// The Amazon Web Services account to which the transfer was made.
         public let transferredTo: String?
 
         public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: Date? = nil, transferDate: Date? = nil, transferMessage: String? = nil, transferredTo: String? = nil) {
@@ -11600,7 +12005,7 @@ extension IoT {
     }
 
     public struct PutAssetPropertyValueEntry: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the AWS IoT SiteWise asset. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
+        /// The ID of the IoT SiteWise asset. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
         public let assetId: String?
         /// Optional. A unique identifier for this entry that you can define to better track which message caused an error in case of failure. Accepts substitution templates. Defaults to a new UUID.
         public let entryId: String?
@@ -12618,7 +13023,7 @@ extension IoT {
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
-        /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your AWS account.
+        /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts.
         public let auditCheckToActionsMapping: [String: [String]]
         /// Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically.
         public let clientRequestToken: String
@@ -12675,7 +13080,7 @@ extension IoT {
 
         ///  The actions to be performed when a device has unexpected behavior.
         public let actions: [String]
-        ///  Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        ///  Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
         ///  Specifies to list only active violations.
         public let includeOnlyActiveViolations: Bool?
@@ -12996,7 +13401,7 @@ extension IoT {
         public let files: [StreamFile]?
         /// The date when the stream was last updated.
         public let lastUpdatedAt: Date?
-        /// An IAM role AWS IoT assumes to access your S3 files.
+        /// An IAM role IoT assumes to access your S3 files.
         public let roleArn: String?
         /// The stream ARN.
         public let streamArn: String?
@@ -13168,6 +13573,24 @@ extension IoT {
             case skippedFindingsCount
             case succeededFindingsCount
             case totalFindingsCount
+        }
+    }
+
+    public struct TermsAggregation: AWSEncodableShape {
+        /// The number of buckets to return in the response. Default to 10.
+        public let maxBuckets: Int?
+
+        public init(maxBuckets: Int? = nil) {
+            self.maxBuckets = maxBuckets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, max: 10000)
+            try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBuckets
         }
     }
 
@@ -13347,18 +13770,22 @@ extension IoT {
     }
 
     public struct ThingConnectivity: AWSDecodableShape {
-        /// True if the thing is connected to the AWS IoT service; false if it is not connected.
+        /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
         public let connected: Bool?
-        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for more than a few weeks, the time value might be missing.
+        /// The reason why the client is disconnected.
+        public let disconnectReason: String?
+        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing.
         public let timestamp: Int64?
 
-        public init(connected: Bool? = nil, timestamp: Int64? = nil) {
+        public init(connected: Bool? = nil, disconnectReason: String? = nil, timestamp: Int64? = nil) {
             self.connected = connected
+            self.disconnectReason = disconnectReason
             self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
             case connected
+            case disconnectReason
             case timestamp
         }
     }
@@ -13366,7 +13793,7 @@ extension IoT {
     public struct ThingDocument: AWSDecodableShape {
         /// The attributes.
         public let attributes: [String: String]?
-        /// Indicates whether the thing is connected to the AWS IoT service.
+        /// Indicates whether the thing is connected to the Amazon Web Services IoT Core service.
         public let connectivity: ThingConnectivity?
         /// The shadow.
         public let shadow: String?
@@ -13866,7 +14293,7 @@ extension IoT {
         public let errorAction: Action?
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
-        /// The SQL statement used to query the topic. For more information, see AWS IoT SQL Reference in the AWS IoT Developer Guide.
+        /// The SQL statement used to query the topic. For more information, see IoT SQL Reference in the IoT Developer Guide.
         public let sql: String
 
         public init(actions: [Action], awsIotSqlVersion: String? = nil, description: String? = nil, errorAction: Action? = nil, ruleDisabled: Bool? = nil, sql: String) {
@@ -13905,7 +14332,7 @@ extension IoT {
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
-        /// The AWS account.
+        /// The Amazon Web Services account.
         public let targetAwsAccount: String
         /// The transfer message.
         public let transferMessage: String?
@@ -14007,7 +14434,7 @@ extension IoT {
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
         /// Information about the targets to which audit notifications are sent.
         public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-        /// The Amazon Resource Name (ARN) of the role that grants permission to AWS IoT to access information about your devices, policies, certificates, and other items as required when performing an audit.
+        /// The Amazon Resource Name (ARN) of the role that grants permission to IoT to access information about your devices, policies, certificates, and other items as required when performing an audit.
         public let roleArn: String?
 
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
@@ -14241,7 +14668,7 @@ extension IoT {
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
-        /// The new status.  Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+        /// The new status.  Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by IoT. They are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let newStatus: CertificateStatus
 
         public init(certificateId: String, newStatus: CertificateStatus) {
@@ -14456,7 +14883,7 @@ extension IoT {
 
         /// The expected version of the dynamic thing group to update.
         public let expectedVersion: Int64?
-        /// The dynamic thing group index to update.  Currently one index is supported: 'AWS_Things'.
+        /// The dynamic thing group index to update.  Currently one index is supported: AWS_Things.
         public let indexName: String?
         /// The dynamic thing group search query string to update.
         public let queryString: String?
@@ -14526,6 +14953,74 @@ extension IoT {
         public init() {}
     }
 
+    public struct UpdateFleetMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        /// The field to aggregate.
+        public let aggregationField: String?
+        /// The type of the aggregation query.
+        public let aggregationType: AggregationType?
+        /// The description of the fleet metric.
+        public let description: String?
+        /// The expected version of the fleet metric record in the registry.
+        public let expectedVersion: Int64?
+        /// The name of the index to search.
+        public let indexName: String
+        /// The name of the fleet metric to update.
+        public let metricName: String
+        /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60.
+        public let period: Int?
+        /// The search query string.
+        public let queryString: String?
+        /// The version of the query.
+        public let queryVersion: String?
+        /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric.
+        public let unit: FleetMetricUnit?
+
+        public init(aggregationField: String? = nil, aggregationType: AggregationType? = nil, description: String? = nil, expectedVersion: Int64? = nil, indexName: String, metricName: String, period: Int? = nil, queryString: String? = nil, queryVersion: String? = nil, unit: FleetMetricUnit? = nil) {
+            self.aggregationField = aggregationField
+            self.aggregationType = aggregationType
+            self.description = description
+            self.expectedVersion = expectedVersion
+            self.indexName = indexName
+            self.metricName = metricName
+            self.period = period
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregationField, name: "aggregationField", parent: name, min: 1)
+            try self.aggregationType?.validate(name: "\(name).aggregationType")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9_\\-\\.]+")
+            try self.validate(self.period, name: "period", parent: name, max: 86400)
+            try self.validate(self.period, name: "period", parent: name, min: 60)
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField
+            case aggregationType
+            case description
+            case expectedVersion
+            case indexName
+            case period
+            case queryString
+            case queryVersion
+            case unit
+        }
+    }
+
     public struct UpdateIndexingConfigurationRequest: AWSEncodableShape {
         /// Thing group indexing configuration.
         public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
@@ -14561,7 +15056,7 @@ extension IoT {
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// The ID of the job to be updated.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
