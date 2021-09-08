@@ -18,7 +18,7 @@ extension {{ name }} {
     @available(*, deprecated, message:"{{.}}")
 {{/deprecated}}
     public func {{funcName}}({{#inputShape}}_ input: {{.}}, {{/inputShape}}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws{{#outputShape}} -> {{.}}{{/outputShape}} {
-        return try await self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}{{#endpointDiscovery}}, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: {{required}}){{/endpointDiscovery}}{{#hostPrefix}}, hostPrefix: "{{{.}}}"{{/hostPrefix}}, logger: logger, on: eventLoop)
     }
 {{/operations}}
 {{#first(streamingOperations)}}
@@ -33,7 +33,7 @@ extension {{ name }} {
     @available(*, deprecated, message:"{{.}}")
 {{/deprecated}}
     public func {{funcName}}Streaming({{#inputShape}}_ input: {{.}}, {{/inputShape}}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping ({{streaming}}, EventLoop) -> EventLoopFuture<Void>) async throws{{#outputShape}} -> {{.}}{{/outputShape}} {
-        return try await self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}, logger: logger, on: eventLoop, stream: stream)
+        return try await self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}{{#endpointDiscovery}}, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: {{required}}){{/endpointDiscovery}}{{#hostPrefix}}, hostPrefix: "{{{.}}}"{{/hostPrefix}}, logger: logger, on: eventLoop, stream: stream)
     }
 {{/streamingOperations}}
 {{/first(streamingOperations)}}
