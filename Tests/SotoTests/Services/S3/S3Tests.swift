@@ -23,6 +23,7 @@ import XCTest
 @testable import SotoS3Control
 
 class S3Tests: XCTestCase {
+    static var eventLoopGroup: EventLoopGroup!
     static var client: AWSClient!
     static var s3: S3!
 
@@ -33,7 +34,12 @@ class S3Tests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
+        Self.client = AWSClient(
+            credentialProvider: TestEnvironment.credentialProvider,
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .createNewWithEventLoopGroup(Self.eventLoopGroup)
+        )
         Self.s3 = S3(
             client: S3Tests.client,
             region: .useast1,
@@ -43,6 +49,7 @@ class S3Tests: XCTestCase {
 
     override class func tearDown() {
         XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try Self.eventLoopGroup.syncShutdownGracefully())
     }
 
     static func createRandomBuffer(size: Int) -> Data {
@@ -296,10 +303,11 @@ class S3Tests: XCTestCase {
     }
 
     func testMultipleUpload() {
+        let s3 = Self.s3.with(timeout: .minutes(2))
         func putGet(body: String, bucket: String, key: String) -> EventLoopFuture<Void> {
-            return Self.s3.putObject(.init(body: .string(body), bucket: bucket, key: key))
+            return s3.putObject(.init(body: .string(body), bucket: bucket, key: key))
                 .flatMap { _ in
-                    return Self.s3.getObject(.init(bucket: bucket, key: key))
+                    return s3.getObject(.init(bucket: bucket, key: key))
                 }
                 .flatMapThrowing { response in
                     let getBody = try XCTUnwrap(response.body)
@@ -308,8 +316,8 @@ class S3Tests: XCTestCase {
         }
 
         let name = TestEnvironment.generateResourceName()
-        let eventLoop = Self.s3.client.eventLoopGroup.next()
-        let response = Self.createBucket(name: name, s3: Self.s3)
+        let eventLoop = s3.client.eventLoopGroup.next()
+        let response = Self.createBucket(name: name, s3: s3)
             .flatMap { (_) -> EventLoopFuture<Void> in
                 let futureResults = (1...16).map { index -> EventLoopFuture<Void> in
                     let body = "testMultipleUpload - " + index.description
@@ -319,7 +327,7 @@ class S3Tests: XCTestCase {
                 return EventLoopFuture.whenAllSucceed(futureResults, on: eventLoop).map { _ in }
             }
             .flatAlways { _ in
-                return Self.deleteBucket(name: name, s3: Self.s3)
+                return Self.deleteBucket(name: name, s3: s3)
             }
         XCTAssertNoThrow(try response.wait())
     }

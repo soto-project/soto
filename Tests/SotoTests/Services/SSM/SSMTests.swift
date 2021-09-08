@@ -77,7 +77,9 @@ class SSMTests: XCTestCase {
         let response = self.putParameter(name: fullname, value: "testdata2")
             .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
                 let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
-                return Self.ssm.getParametersByPath(request)
+                return Self.ssm.eventLoopGroup.next().flatScheduleTask(in: .milliseconds(500)) {
+                    Self.ssm.getParametersByPath(request)
+                }.futureResult
             }
             .flatMapThrowing { response in
                 let parameter = try XCTUnwrap(response.parameters?.first { $0.name == fullname })
