@@ -19,11 +19,12 @@ import NIOHTTP1
 import SotoCore
 import XCTest
 
-@testable import SotoS3
+import SotoS3
+import SotoS3Control
 
 #if compiler(>=5.4) && $AsyncAwait
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 class S3AsyncTests: XCTestCase {
     static var client: AWSClient!
     static var s3: S3!
@@ -98,9 +99,7 @@ class S3AsyncTests: XCTestCase {
 
     /// Runs test: construct bucket with supplied name, runs process and deletes bucket
     func s3Test(bucket name: String, s3: S3 = S3AsyncTests.s3, _ process: @escaping () async throws -> Void) {
-        let dg = DispatchGroup()
-        dg.enter()
-        Task.detached {
+        XCTRunAsyncAndBlock {
             do {
                 try await Self.createBucket(name: name, s3: s3)
                 do {
@@ -112,9 +111,7 @@ class S3AsyncTests: XCTestCase {
             } catch {
                 XCTFail("\(error)")
             }
-            dg.leave()
         }
-        dg.wait()
     }
 
     // MARK: TESTS
@@ -248,14 +245,15 @@ class S3AsyncTests: XCTestCase {
 
     func testMultipleUploadAsync() {
         let name = TestEnvironment.generateResourceName()
+        let s3 = Self.s3.with(timeout: .minutes(2))
         self.s3Test(bucket: name) {
             await withThrowingTaskGroup(of: String?.self) { group in
                 for index in 1...16 {
                     group.addTask {
                         let body = "testMultipleUpload - " + index.description
                         let filename = "file" + index.description
-                        _ = try await Self.s3.putObject(.init(body: .string(body), bucket: name, key: filename))
-                        let bodyOutput = try await Self.s3.getObject(.init(bucket: name, key: filename)).body
+                        _ = try await s3.putObject(.init(body: .string(body), bucket: name, key: filename))
+                        let bodyOutput = try await s3.getObject(.init(bucket: name, key: filename)).body
                         XCTAssertEqual(bodyOutput?.asString(), body)
                         return bodyOutput?.asString()
                     }
@@ -504,9 +502,7 @@ class S3AsyncTests: XCTestCase {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
 
-        let dg = DispatchGroup()
-        dg.enter()
-        Task.detached {
+        XCTRunAsyncAndBlock {
             do {
                 _ = try await Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
             } catch {
@@ -517,9 +513,27 @@ class S3AsyncTests: XCTestCase {
                     XCTFail("Wrong error: \(error)")
                 }
             }
-            dg.leave()
         }
-        dg.wait()
+    }
+
+    /// test S3 control host is prefixed with account id
+    func testS3ControlPrefix() throws {
+        // don't actually want to make this API call so once I've checked the host is correct
+        // I will throw an error in the request middleware
+        struct CancelError: Error {}
+        struct CheckHostMiddleware: AWSServiceMiddleware {
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                XCTAssertEqual(request.url.host, "123456780123.s3-control.eu-west-1.amazonaws.com")
+                throw CancelError()
+            }
+        }
+        XCTRunAsyncAndBlock {
+            let s3Control = S3Control(client: Self.client, region: .euwest1).with(middlewares: [CheckHostMiddleware()])
+            do {
+                let request = S3Control.ListJobsRequest(accountId: "123456780123")
+                _ = try await s3Control.listJobs(request)
+            } catch is CancelError {}
+        }
     }
 }
 
