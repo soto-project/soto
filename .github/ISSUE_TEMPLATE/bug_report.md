@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve the functionality of Soto!
+about: Create a report to help us improve the functionality of Soto. If want to know how to do something then ask a question in the discussions Q&A section.
 title: ''
 labels: ''
 assignees: ''
