@@ -12,6 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if compiler(>=5.5)
+
 @testable import SotoTimestreamWrite
 import XCTest
 
@@ -102,3 +104,5 @@ class TimestreamWriteAsyncTests: XCTestCase {
         }
     }
 }
+
+#endif // compiler(>=5.5)
