@@ -13,7 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import Logging
-import NIO
+import NIOCore
 
 /// Protocol providing a Cognito Identity id and token
 public protocol IdentityProvider {
