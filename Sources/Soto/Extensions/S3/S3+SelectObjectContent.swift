@@ -14,7 +14,7 @@
 
 import CSotoZlib
 import Foundation
-import NIO
+import NIOCore
 import SotoCrypto
 import SotoXML
 

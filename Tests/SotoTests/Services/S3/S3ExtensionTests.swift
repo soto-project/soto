@@ -14,7 +14,7 @@
 
 import AsyncHTTPClient
 import Foundation
-import NIO
+import NIOCore
 import NIOHTTP1
 @testable import SotoCore
 @testable import SotoS3
