@@ -12,7 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-import NIOCore
 import SotoCore
 import SotoCrypto
 

@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import NIOCore
+import SotoCore
 import SotoDynamoDB
 import XCTest
 

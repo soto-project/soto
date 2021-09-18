@@ -15,7 +15,8 @@
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
 import struct Foundation.UUID
-import NIO
+import NIOCore
+import NIOPosix
 import SotoCore
 
 /// Credential Provider that holds an AWSClient

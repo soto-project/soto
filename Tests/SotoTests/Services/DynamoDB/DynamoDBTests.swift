@@ -13,7 +13,6 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import NIOCore
 @testable import SotoDynamoDB
 import XCTest
 

@@ -13,7 +13,6 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import NIOCore
 import SotoCore
 import SotoCrypto
 import SotoXML
