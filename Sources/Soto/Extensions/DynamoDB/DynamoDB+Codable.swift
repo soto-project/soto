@@ -392,7 +392,7 @@ extension DynamoDB {
         }
     }
 
-    public struct QueryCodableOutput<T: Decodable> {
+    public struct QueryCodableOutput<T: Decodable>: AWSShape {
         /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you used a QueryFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count and ScannedCount are the same.
@@ -405,7 +405,7 @@ extension DynamoDB {
         public let scannedCount: Int?
     }
 
-    public struct ScanCodableOutput<T: Decodable> {
+    public struct ScanCodableOutput<T: Decodable>: AWSShape {
         /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.
