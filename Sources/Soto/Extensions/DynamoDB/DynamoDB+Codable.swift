@@ -74,42 +74,8 @@ extension DynamoDB {
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<UpdateItemOutput> {
         do {
-            var item = try DynamoDBEncoder().encode(input.updateItem)
-            // extract key from input object
-            var key: [String: AttributeValue] = [:]
-            input.key.forEach {
-                key[$0] = item[$0]!
-                item[$0] = nil
-            }
-            // construct expression attribute name and value arrays from name attribute value map.
-            // if names already provided along with a custom update expression then use the provided names
-            let expressionAttributeNames: [String: String]
-            if let names = input.expressionAttributeNames, input.updateExpression != nil {
-                expressionAttributeNames = names
-            } else {
-                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
-            }
-            let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
-            // construct update expression, if one if not already supplied
-            let updateExpression: String
-            if let inputUpdateExpression = input.updateExpression {
-                updateExpression = inputUpdateExpression
-            } else {
-                let expressions = item.keys.map { "#\($0) = :\($0)" }
-                updateExpression = "SET \(expressions.joined(separator: ","))"
-            }
-            let request = DynamoDB.UpdateItemInput(
-                conditionExpression: input.conditionExpression,
-                expressionAttributeNames: expressionAttributeNames,
-                expressionAttributeValues: expressionAttributeValues,
-                key: key,
-                returnConsumedCapacity: input.returnConsumedCapacity,
-                returnItemCollectionMetrics: input.returnItemCollectionMetrics,
-                returnValues: input.returnValues,
-                tableName: input.tableName,
-                updateExpression: updateExpression
-            )
-            return self.updateItem(request, logger: logger, on: eventLoop)
+            let updateInput = try input.createUpdateItemInput()
+            return self.updateItem(updateInput, logger: logger, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -389,6 +355,45 @@ extension DynamoDB {
             self.tableName = tableName
             self.updateExpression = updateExpression
             self.updateItem = updateItem
+        }
+
+        /// create `UpdateItemInput` from self
+        func createUpdateItemInput() throws -> UpdateItemInput {
+            var item = try DynamoDBEncoder().encode(self.updateItem)
+            // extract key from input object
+            var key: [String: AttributeValue] = [:]
+            self.key.forEach {
+                key[$0] = item[$0]!
+                item[$0] = nil
+            }
+            // construct expression attribute name and value arrays from name attribute value map.
+            // if names already provided along with a custom update expression then use the provided names
+            let expressionAttributeNames: [String: String]
+            if let names = self.expressionAttributeNames, self.updateExpression != nil {
+                expressionAttributeNames = names
+            } else {
+                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+            }
+            let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+            // construct update expression, if one if not already supplied
+            let updateExpression: String
+            if let inputUpdateExpression = self.updateExpression {
+                updateExpression = inputUpdateExpression
+            } else {
+                let expressions = item.keys.map { "#\($0) = :\($0)" }
+                updateExpression = "SET \(expressions.joined(separator: ","))"
+            }
+            return DynamoDB.UpdateItemInput(
+                conditionExpression: self.conditionExpression,
+                expressionAttributeNames: expressionAttributeNames,
+                expressionAttributeValues: expressionAttributeValues,
+                key: key,
+                returnConsumedCapacity: self.returnConsumedCapacity,
+                returnItemCollectionMetrics: self.returnItemCollectionMetrics,
+                returnValues: self.returnValues,
+                tableName: self.tableName,
+                updateExpression: updateExpression
+            )
         }
     }
 

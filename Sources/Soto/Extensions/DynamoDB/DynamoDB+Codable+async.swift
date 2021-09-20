@@ -73,42 +73,7 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
     ) async throws -> UpdateItemOutput {
-        var item = try DynamoDBEncoder().encode(input.updateItem)
-        // extract key from input object
-        var key: [String: AttributeValue] = [:]
-        input.key.forEach {
-            key[$0] = item[$0]!
-            item[$0] = nil
-        }
-        // construct expression attribute name and value arrays from name attribute value map.
-        // if names already provided along with a custom update expression then use the provided names
-        let expressionAttributeNames: [String: String]
-        if let names = input.expressionAttributeNames, input.updateExpression != nil {
-            expressionAttributeNames = names
-        } else {
-            expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
-        }
-        let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
-        // construct update expression, if one if not already supplied
-        let updateExpression: String
-        if let inputUpdateExpression = input.updateExpression {
-            updateExpression = inputUpdateExpression
-        } else {
-            let expressions = item.keys.map { "#\($0) = :\($0)" }
-            updateExpression = "SET \(expressions.joined(separator: ","))"
-        }
-        let request = DynamoDB.UpdateItemInput(
-            conditionExpression: input.conditionExpression,
-            expressionAttributeNames: expressionAttributeNames,
-            expressionAttributeValues: expressionAttributeValues,
-            key: key,
-            returnConsumedCapacity: input.returnConsumedCapacity,
-            returnItemCollectionMetrics: input.returnItemCollectionMetrics,
-            returnValues: input.returnValues,
-            tableName: input.tableName,
-            updateExpression: updateExpression
-        )
-        return try await self.updateItem(request, logger: logger, on: eventLoop)
+        return try await self.updateItem(input.createUpdateItemInput(), logger: logger, on: eventLoop)
     }
 
     /// The `Query` operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).
