@@ -32,7 +32,20 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
     ) async throws -> PutItemOutput {
-        try await self.putItem(input, logger: logger, on: eventLoop).get()
+        do {
+            let item = try DynamoDBEncoder().encode(input.item)
+            let request = DynamoDB.PutItemInput(
+                conditionExpression: input.conditionExpression,
+                expressionAttributeNames: input.expressionAttributeNames,
+                expressionAttributeValues: input.expressionAttributeValues,
+                item: item,
+                returnConsumedCapacity: input.returnConsumedCapacity,
+                returnItemCollectionMetrics: input.returnItemCollectionMetrics,
+                returnValues: input.returnValues,
+                tableName: input.tableName
+            )
+            return try await self.putItem(request, logger: logger, on: eventLoop)
+        }
     }
 
     /// The `GetItem` operation returns a set of attributes for the item with the given primary key. If there is no matching item, `GetItem` does not return any data and there will be no `Item` element in the response.
@@ -44,7 +57,12 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
     ) async throws -> GetItemCodableOutput<T> {
-        try await self.getItem(input, type: T.self, logger: logger, on: eventLoop).get()
+        let response = try await self.getItem(input, logger: logger, on: eventLoop)
+        let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
+        return GetItemCodableOutput(
+            consumedCapacity: response.consumedCapacity,
+            item: item
+        )
     }
 
     /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values).
@@ -55,7 +73,42 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
     ) async throws -> UpdateItemOutput {
-        try await self.updateItem(input, logger: logger, on: eventLoop).get()
+        var item = try DynamoDBEncoder().encode(input.updateItem)
+        // extract key from input object
+        var key: [String: AttributeValue] = [:]
+        input.key.forEach {
+            key[$0] = item[$0]!
+            item[$0] = nil
+        }
+        // construct expression attribute name and value arrays from name attribute value map.
+        // if names already provided along with a custom update expression then use the provided names
+        let expressionAttributeNames: [String: String]
+        if let names = input.expressionAttributeNames, input.updateExpression != nil {
+            expressionAttributeNames = names
+        } else {
+            expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+        }
+        let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+        // construct update expression, if one if not already supplied
+        let updateExpression: String
+        if let inputUpdateExpression = input.updateExpression {
+            updateExpression = inputUpdateExpression
+        } else {
+            let expressions = item.keys.map { "#\($0) = :\($0)" }
+            updateExpression = "SET \(expressions.joined(separator: ","))"
+        }
+        let request = DynamoDB.UpdateItemInput(
+            conditionExpression: input.conditionExpression,
+            expressionAttributeNames: expressionAttributeNames,
+            expressionAttributeValues: expressionAttributeValues,
+            key: key,
+            returnConsumedCapacity: input.returnConsumedCapacity,
+            returnItemCollectionMetrics: input.returnItemCollectionMetrics,
+            returnValues: input.returnValues,
+            tableName: input.tableName,
+            updateExpression: updateExpression
+        )
+        return try await self.updateItem(request, logger: logger, on: eventLoop)
     }
 
     /// The `Query` operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).
@@ -73,7 +126,15 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
     ) async throws -> QueryCodableOutput<T> {
-        try await self.query(input, type: T.self, logger: logger, on: eventLoop).get()
+        let response = try await self.query(input, logger: logger, on: eventLoop)
+        let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+        return QueryCodableOutput(
+            consumedCapacity: response.consumedCapacity,
+            count: response.count,
+            items: items,
+            lastEvaluatedKey: response.lastEvaluatedKey,
+            scannedCount: response.scannedCount
+        )
     }
 
     /// The `Scan` operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a `FilterExpression` operation.
@@ -91,7 +152,15 @@ extension DynamoDB {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
     ) async throws -> ScanCodableOutput<T> {
-        try await self.scan(input, type: T.self, logger: logger, on: eventLoop).get()
+        let response = try await self.scan(input, logger: logger, on: eventLoop)
+        let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+        return ScanCodableOutput(
+            consumedCapacity: response.consumedCapacity,
+            count: response.count,
+            items: items,
+            lastEvaluatedKey: response.lastEvaluatedKey,
+            scannedCount: response.scannedCount
+        )
     }
 
     // MARK: Codable Paginators
