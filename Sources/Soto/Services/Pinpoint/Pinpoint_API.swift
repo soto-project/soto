@@ -89,6 +89,11 @@ public struct Pinpoint: AWSService {
         return self.client.execute(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new message template for messages using the in-app message channel.
+    public func createInAppTemplate(_ input: CreateInAppTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInAppTemplateResponse> {
+        return self.client.execute(operation: "CreateInAppTemplate", path: "/v1/templates/{template-name}/inapp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a journey for an application.
     public func createJourney(_ input: CreateJourneyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJourneyResponse> {
         return self.client.execute(operation: "CreateJourney", path: "/v1/apps/{application-id}/journeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -182,6 +187,11 @@ public struct Pinpoint: AWSService {
     /// Disables the GCM channel for an application and deletes any existing settings for the channel.
     public func deleteGcmChannel(_ input: DeleteGcmChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGcmChannelResponse> {
         return self.client.execute(operation: "DeleteGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a message template for messages sent using the in-app message channel.
+    public func deleteInAppTemplate(_ input: DeleteInAppTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInAppTemplateResponse> {
+        return self.client.execute(operation: "DeleteInAppTemplate", path: "/v1/templates/{template-name}/inapp", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a journey from an application.
@@ -357,6 +367,16 @@ public struct Pinpoint: AWSService {
     /// Retrieves information about the status and settings of all the import jobs for an application.
     public func getImportJobs(_ input: GetImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportJobsResponse> {
         return self.client.execute(operation: "GetImportJobs", path: "/v1/apps/{application-id}/jobs/import", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the in-app messages targeted for the provided endpoint ID.
+    public func getInAppMessages(_ input: GetInAppMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInAppMessagesResponse> {
+        return self.client.execute(operation: "GetInAppMessages", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}/inappmessages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the content and settings of a message template for messages sent through the in-app channel.
+    public func getInAppTemplate(_ input: GetInAppTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInAppTemplateResponse> {
+        return self.client.execute(operation: "GetInAppTemplate", path: "/v1/templates/{template-name}/inapp", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about the status, configuration, and other settings for a journey.
@@ -572,6 +592,11 @@ public struct Pinpoint: AWSService {
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     public func updateGcmChannel(_ input: UpdateGcmChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGcmChannelResponse> {
         return self.client.execute(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing message template for messages sent through the in-app message channel.
+    public func updateInAppTemplate(_ input: UpdateInAppTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInAppTemplateResponse> {
+        return self.client.execute(operation: "UpdateInAppTemplate", path: "/v1/templates/{template-name}/inapp", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the configuration and other settings for a journey.

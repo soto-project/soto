@@ -154,7 +154,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about all the Amazon Macie membership invitations that were received by an account.
+    ///  Retrieves information about the Amazon Macie membership invitations that were received by an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

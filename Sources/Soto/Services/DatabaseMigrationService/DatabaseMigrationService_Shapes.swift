@@ -257,7 +257,7 @@ extension DatabaseMigrationService {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
-        /// The pending maintenance action to apply to this resource.
+        /// The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade
         public let applyAction: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String
@@ -416,7 +416,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", }
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", }
         public let dmsTransferSettings: DmsTransferSettings?
         public let docDbSettings: DocDbSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
@@ -1875,7 +1875,7 @@ extension DatabaseMigrationService {
     public struct DmsTransferSettings: AWSEncodableShape & AWSDecodableShape {
         ///  The name of the S3 bucket to use.
         public let bucketName: String?
-        ///  The IAM role that has permission to access the Amazon S3 bucket. When specified as part of request syntax, such as for the CreateEndpoint and ModifyEndpoint actions, the role must allow the iam:PassRole action.
+        /// The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.
         public let serviceAccessRoleArn: String?
 
         public init(bucketName: String? = nil, serviceAccessRoleArn: String? = nil) {
@@ -1985,7 +1985,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the database at the endpoint.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
         public let dmsTransferSettings: DmsTransferSettings?
         public let docDbSettings: DocDbSettings?
         /// The settings for the DynamoDB target endpoint. For more information, see the DynamoDBSettings structure.
@@ -2594,7 +2594,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The Identity and Access Management (IAM) role that has permission to access the Amazon S3 bucket. The role must allow the iam:PassRole action.   BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string ,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.   BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string ,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
         public let dmsTransferSettings: DmsTransferSettings?
         /// Settings in JSON format for the source DocumentDB endpoint. For more information about the available settings, see the configuration properties section in  Using DocumentDB as a Target for Database Migration Service  in the Database Migration Service User Guide.
         public let docDbSettings: DocDbSettings?
@@ -3464,18 +3464,22 @@ extension DatabaseMigrationService {
     }
 
     public struct RebootReplicationInstanceMessage: AWSEncodableShape {
-        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
+        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
         public let forceFailover: Bool?
+        /// If this parameter is true, the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
+        public let forcePlannedFailover: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
 
-        public init(forceFailover: Bool? = nil, replicationInstanceArn: String) {
+        public init(forceFailover: Bool? = nil, forcePlannedFailover: Bool? = nil, replicationInstanceArn: String) {
             self.forceFailover = forceFailover
+            self.forcePlannedFailover = forcePlannedFailover
             self.replicationInstanceArn = replicationInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case forceFailover = "ForceFailover"
+            case forcePlannedFailover = "ForcePlannedFailover"
             case replicationInstanceArn = "ReplicationInstanceArn"
         }
     }

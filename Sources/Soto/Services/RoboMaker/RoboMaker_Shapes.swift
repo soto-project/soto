@@ -633,16 +633,19 @@ extension RoboMaker {
     }
 
     public struct CreateRobotApplicationRequest: AWSEncodableShape {
+        /// The object that contains that URI of the Docker image that you use for your robot application.
+        public let environment: Environment?
         /// The name of the robot application.
         public let name: String
         /// The robot software suite (ROS distribuition) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
-        public let sources: [SourceConfig]
+        public let sources: [SourceConfig]?
         /// A map that contains tag keys and tag values that are attached to the robot application.
         public let tags: [String: String]?
 
-        public init(name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig], tags: [String: String]? = nil) {
+        public init(environment: Environment? = nil, name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]? = nil, tags: [String: String]? = nil) {
+            self.environment = environment
             self.name = name
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
@@ -650,10 +653,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.environment?.validate(name: "\(name).environment")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
-            try self.sources.forEach {
+            try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
             try self.tags?.forEach {
@@ -667,6 +671,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case environment
             case name
             case robotSoftwareSuite
             case sources
@@ -677,6 +682,8 @@ extension RoboMaker {
     public struct CreateRobotApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
+        /// An object that contains the Docker image URI used to a create your robot application.
+        public let environment: Environment?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the robot application.
@@ -692,8 +699,9 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.revisionId = revisionId
@@ -705,6 +713,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
             case lastUpdatedAt
             case name
             case revisionId
@@ -720,10 +729,16 @@ extension RoboMaker {
         public let application: String
         /// The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
         public let currentRevisionId: String?
+        /// A SHA256 identifier for the Docker image that you use for your robot application.
+        public let imageDigest: String?
+        /// The Amazon S3 identifier for the zip file bundle that you use for your robot application.
+        public let s3Etags: [String]?
 
-        public init(application: String, currentRevisionId: String? = nil) {
+        public init(application: String, currentRevisionId: String? = nil, imageDigest: String? = nil, s3Etags: [String]? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
+            self.imageDigest = imageDigest
+            self.s3Etags = s3Etags
         }
 
         public func validate(name: String) throws {
@@ -733,17 +748,24 @@ extension RoboMaker {
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try self.validate(self.imageDigest, name: "imageDigest", parent: name, max: 72)
+            try self.validate(self.imageDigest, name: "imageDigest", parent: name, min: 0)
+            try self.validate(self.imageDigest, name: "imageDigest", parent: name, pattern: "[Ss][Hh][Aa]256:[0-9a-fA-F]{64}")
         }
 
         private enum CodingKeys: String, CodingKey {
             case application
             case currentRevisionId
+            case imageDigest
+            case s3Etags
         }
     }
 
     public struct CreateRobotApplicationVersionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
+        /// The object that contains the Docker image URI used to create your robot application.
+        public let environment: Environment?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the robot application.
@@ -757,8 +779,9 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.revisionId = revisionId
@@ -769,6 +792,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
             case lastUpdatedAt
             case name
             case revisionId
@@ -854,6 +878,8 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationApplicationRequest: AWSEncodableShape {
+        /// The object that contains the Docker image URI used to create your simulation application.
+        public let environment: Environment?
         /// The name of the simulation application.
         public let name: String
         /// The rendering engine for the simulation application.
@@ -863,11 +889,12 @@ extension RoboMaker {
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite
         /// The sources of the simulation application.
-        public let sources: [SourceConfig]
+        public let sources: [SourceConfig]?
         /// A map that contains tag keys and tag values that are attached to the simulation application.
         public let tags: [String: String]?
 
-        public init(name: String, renderingEngine: RenderingEngine? = nil, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig], tags: [String: String]? = nil) {
+        public init(environment: Environment? = nil, name: String, renderingEngine: RenderingEngine? = nil, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]? = nil, tags: [String: String]? = nil) {
+            self.environment = environment
             self.name = name
             self.renderingEngine = renderingEngine
             self.robotSoftwareSuite = robotSoftwareSuite
@@ -877,12 +904,13 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.environment?.validate(name: "\(name).environment")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
             try self.renderingEngine?.validate(name: "\(name).renderingEngine")
             try self.simulationSoftwareSuite.validate(name: "\(name).simulationSoftwareSuite")
-            try self.sources.forEach {
+            try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
             try self.tags?.forEach {
@@ -896,6 +924,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case environment
             case name
             case renderingEngine
             case robotSoftwareSuite
@@ -908,6 +937,8 @@ extension RoboMaker {
     public struct CreateSimulationApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
+        /// The object that contains the Docker image URI that you used to create your simulation application.
+        public let environment: Environment?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the simulation application.
@@ -927,8 +958,9 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.renderingEngine = renderingEngine
@@ -942,6 +974,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
             case lastUpdatedAt
             case name
             case renderingEngine
@@ -959,10 +992,16 @@ extension RoboMaker {
         public let application: String
         /// The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
         public let currentRevisionId: String?
+        /// The SHA256 digest used to identify the Docker image URI used to created the simulation application.
+        public let imageDigest: String?
+        /// The Amazon S3 eTag identifier for the zip file bundle that you use to create the simulation application.
+        public let s3Etags: [String]?
 
-        public init(application: String, currentRevisionId: String? = nil) {
+        public init(application: String, currentRevisionId: String? = nil, imageDigest: String? = nil, s3Etags: [String]? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
+            self.imageDigest = imageDigest
+            self.s3Etags = s3Etags
         }
 
         public func validate(name: String) throws {
@@ -972,17 +1011,24 @@ extension RoboMaker {
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try self.validate(self.imageDigest, name: "imageDigest", parent: name, max: 72)
+            try self.validate(self.imageDigest, name: "imageDigest", parent: name, min: 0)
+            try self.validate(self.imageDigest, name: "imageDigest", parent: name, pattern: "[Ss][Hh][Aa]256:[0-9a-fA-F]{64}")
         }
 
         private enum CodingKeys: String, CodingKey {
             case application
             case currentRevisionId
+            case imageDigest
+            case s3Etags
         }
     }
 
     public struct CreateSimulationApplicationVersionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
+        /// The object that contains the Docker image URI used to create the simulation application.
+        public let environment: Environment?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the simulation application.
@@ -1000,8 +1046,9 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.renderingEngine = renderingEngine
@@ -1014,6 +1061,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
             case lastUpdatedAt
             case name
             case renderingEngine
@@ -2013,6 +2061,10 @@ extension RoboMaker {
     public struct DescribeRobotApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
+        /// The object that contains the Docker image URI used to create the robot application.
+        public let environment: Environment?
+        /// A SHA256 identifier for the Docker image that you use for your robot application.
+        public let imageDigest: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the robot application.
@@ -2028,8 +2080,10 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, imageDigest: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
+            self.imageDigest = imageDigest
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.revisionId = revisionId
@@ -2041,6 +2095,8 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
+            case imageDigest
             case lastUpdatedAt
             case name
             case revisionId
@@ -2148,6 +2204,10 @@ extension RoboMaker {
     public struct DescribeSimulationApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the robot simulation application.
         public let arn: String?
+        /// The object that contains the Docker image URI used to create the simulation application.
+        public let environment: Environment?
+        /// A SHA256 identifier for the Docker image that you use for your simulation application.
+        public let imageDigest: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the simulation application.
@@ -2167,8 +2227,10 @@ extension RoboMaker {
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, imageDigest: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
+            self.imageDigest = imageDigest
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.renderingEngine = renderingEngine
@@ -2182,6 +2244,8 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
+            case imageDigest
             case lastUpdatedAt
             case name
             case renderingEngine
@@ -2626,6 +2690,25 @@ extension RoboMaker {
             case name
             case tags
             case version
+        }
+    }
+
+    public struct Environment: AWSEncodableShape & AWSDecodableShape {
+        /// The Docker image URI for either your robot or simulation applications.
+        public let uri: String?
+
+        public init(uri: String? = nil) {
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uri, name: "uri", parent: name, max: 1024)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri
         }
     }
 
@@ -4638,14 +4721,17 @@ extension RoboMaker {
         public let application: String
         /// The revision id for the robot application.
         public let currentRevisionId: String?
+        /// The object that contains the Docker image URI for your robot application.
+        public let environment: Environment?
         /// The robot software suite (ROS distribution) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
-        public let sources: [SourceConfig]
+        public let sources: [SourceConfig]?
 
-        public init(application: String, currentRevisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
+        public init(application: String, currentRevisionId: String? = nil, environment: Environment? = nil, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
+            self.environment = environment
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
         }
@@ -4657,7 +4743,8 @@ extension RoboMaker {
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
-            try self.sources.forEach {
+            try self.environment?.validate(name: "\(name).environment")
+            try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
         }
@@ -4665,6 +4752,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case application
             case currentRevisionId
+            case environment
             case robotSoftwareSuite
             case sources
         }
@@ -4673,6 +4761,8 @@ extension RoboMaker {
     public struct UpdateRobotApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the updated robot application.
         public let arn: String?
+        /// The object that contains the Docker image URI for your robot application.
+        public let environment: Environment?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the robot application.
@@ -4686,8 +4776,9 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.revisionId = revisionId
@@ -4698,6 +4789,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
             case lastUpdatedAt
             case name
             case revisionId
@@ -4712,6 +4804,8 @@ extension RoboMaker {
         public let application: String
         /// The revision id for the robot application.
         public let currentRevisionId: String?
+        /// The object that contains the Docker image URI for your simulation application.
+        public let environment: Environment?
         /// The rendering engine for the simulation application.
         public let renderingEngine: RenderingEngine?
         /// Information about the robot software suite (ROS distribution).
@@ -4719,11 +4813,12 @@ extension RoboMaker {
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite
         /// The sources of the simulation application.
-        public let sources: [SourceConfig]
+        public let sources: [SourceConfig]?
 
-        public init(application: String, currentRevisionId: String? = nil, renderingEngine: RenderingEngine? = nil, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
+        public init(application: String, currentRevisionId: String? = nil, environment: Environment? = nil, renderingEngine: RenderingEngine? = nil, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
+            self.environment = environment
             self.renderingEngine = renderingEngine
             self.robotSoftwareSuite = robotSoftwareSuite
             self.simulationSoftwareSuite = simulationSoftwareSuite
@@ -4737,9 +4832,10 @@ extension RoboMaker {
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try self.environment?.validate(name: "\(name).environment")
             try self.renderingEngine?.validate(name: "\(name).renderingEngine")
             try self.simulationSoftwareSuite.validate(name: "\(name).simulationSoftwareSuite")
-            try self.sources.forEach {
+            try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
         }
@@ -4747,6 +4843,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case application
             case currentRevisionId
+            case environment
             case renderingEngine
             case robotSoftwareSuite
             case simulationSoftwareSuite
@@ -4757,6 +4854,8 @@ extension RoboMaker {
     public struct UpdateSimulationApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the updated simulation application.
         public let arn: String?
+        /// The object that contains the Docker image URI used for your simulation application.
+        public let environment: Environment?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
         public let lastUpdatedAt: Date?
         /// The name of the simulation application.
@@ -4774,8 +4873,9 @@ extension RoboMaker {
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, environment: Environment? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
+            self.environment = environment
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.renderingEngine = renderingEngine
@@ -4788,6 +4888,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case environment
             case lastUpdatedAt
             case name
             case renderingEngine

@@ -20,6 +20,12 @@ import SotoCore
 extension Comprehend {
     // MARK: Enums
 
+    public enum AugmentedManifestsDocumentTypeFormat: String, CustomStringConvertible, Codable {
+        case plainTextDocument = "PLAIN_TEXT_DOCUMENT"
+        case semiStructuredDocument = "SEMI_STRUCTURED_DOCUMENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
@@ -29,6 +35,24 @@ extension Comprehend {
     public enum DocumentClassifierMode: String, CustomStringConvertible, Codable {
         case multiClass = "MULTI_CLASS"
         case multiLabel = "MULTI_LABEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentReadAction: String, CustomStringConvertible, Codable {
+        case textractAnalyzeDocument = "TEXTRACT_ANALYZE_DOCUMENT"
+        case textractDetectDocumentText = "TEXTRACT_DETECT_DOCUMENT_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentReadFeatureTypes: String, CustomStringConvertible, Codable {
+        case forms = "FORMS"
+        case tables = "TABLES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentReadMode: String, CustomStringConvertible, Codable {
+        case forceDocumentReadAction = "FORCE_DOCUMENT_READ_ACTION"
+        case serviceDefault = "SERVICE_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
@@ -185,17 +209,28 @@ extension Comprehend {
     // MARK: Shapes
 
     public struct AugmentedManifestsListItem: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 prefix to the annotation files that are referred in the augmented manifest file.
+        public let annotationDataS3Uri: String?
         /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
         public let attributeNames: [String]
+        /// The type of augmented manifest. PlainTextDocument or SemiStructuredDocument. If you don't specify, the default is PlainTextDocument.     PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8.    SEMI_STRUCTURED_DOCUMENT A document type with positional and structural context, like a PDF. For training with Amazon Comprehend, only PDFs are supported. For inference, Amazon Comprehend support PDFs, DOCX and TXT.
+        public let documentType: AugmentedManifestsDocumentTypeFormat?
         /// The Amazon S3 location of the augmented manifest file.
         public let s3Uri: String
+        /// The S3 prefix to the source files (PDFs) that are referred to in the augmented manifest file.
+        public let sourceDocumentsS3Uri: String?
 
-        public init(attributeNames: [String], s3Uri: String) {
+        public init(annotationDataS3Uri: String? = nil, attributeNames: [String], documentType: AugmentedManifestsDocumentTypeFormat? = nil, s3Uri: String, sourceDocumentsS3Uri: String? = nil) {
+            self.annotationDataS3Uri = annotationDataS3Uri
             self.attributeNames = attributeNames
+            self.documentType = documentType
             self.s3Uri = s3Uri
+            self.sourceDocumentsS3Uri = sourceDocumentsS3Uri
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.annotationDataS3Uri, name: "annotationDataS3Uri", parent: name, max: 1024)
+            try self.validate(self.annotationDataS3Uri, name: "annotationDataS3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
             try self.attributeNames.forEach {
                 try validate($0, name: "attributeNames[]", parent: name, max: 63)
                 try validate($0, name: "attributeNames[]", parent: name, min: 1)
@@ -203,11 +238,16 @@ extension Comprehend {
             }
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+            try self.validate(self.sourceDocumentsS3Uri, name: "sourceDocumentsS3Uri", parent: name, max: 1024)
+            try self.validate(self.sourceDocumentsS3Uri, name: "sourceDocumentsS3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case annotationDataS3Uri = "AnnotationDataS3Uri"
             case attributeNames = "AttributeNames"
+            case documentType = "DocumentType"
             case s3Uri = "S3Uri"
+            case sourceDocumentsS3Uri = "SourceDocumentsS3Uri"
         }
     }
 
@@ -706,11 +746,13 @@ extension Comprehend {
             try self.validate(self.documentClassifierName, name: "documentClassifierName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: ".*")
             try self.outputDataConfig?.validate(name: "\(name).outputDataConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -846,12 +888,14 @@ extension Comprehend {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.recognizerName, name: "recognizerName", parent: name, max: 63)
             try self.validate(self.recognizerName, name: "recognizerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -891,7 +935,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, max: 256)
-            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -935,7 +979,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, max: 256)
-            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -989,7 +1033,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, max: 256)
-            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1115,7 +1159,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, max: 256)
-            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1684,6 +1728,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -1781,6 +1826,32 @@ extension Comprehend {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case score = "Score"
+        }
+    }
+
+    public struct DocumentReaderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// This enum field will start with two values which will apply to PDFs:    TEXTRACT_DETECT_DOCUMENT_TEXT - The service calls DetectDocumentText for PDF documents per page.    TEXTRACT_ANALYZE_DOCUMENT - The service calls AnalyzeDocument for PDF documents per page.
+        public let documentReadAction: DocumentReadAction
+        /// This enum field provides two values:    SERVICE_DEFAULT - use service defaults for Document reading. For Digital PDF it would mean using an internal parser instead of Textract APIs    FORCE_DOCUMENT_READ_ACTION - Always use specified action for DocumentReadAction, including Digital PDF.
+        public let documentReadMode: DocumentReadMode?
+        /// Specifies how the text in an input file should be processed:
+        public let featureTypes: [DocumentReadFeatureTypes]?
+
+        public init(documentReadAction: DocumentReadAction, documentReadMode: DocumentReadMode? = nil, featureTypes: [DocumentReadFeatureTypes]? = nil) {
+            self.documentReadAction = documentReadAction
+            self.documentReadMode = documentReadMode
+            self.featureTypes = featureTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureTypes, name: "featureTypes", parent: name, max: 2)
+            try self.validate(self.featureTypes, name: "featureTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentReadAction = "DocumentReadAction"
+            case documentReadMode = "DocumentReadMode"
+            case featureTypes = "FeatureTypes"
         }
     }
 
@@ -2486,22 +2557,27 @@ extension Comprehend {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The document reader config field applies only for InputDataConfig of StartEntitiesDetectionJob.  Use DocumentReaderConfig to provide specifications about how you want your inference documents read. Currently it applies for PDF documents in StartEntitiesDetectionJob custom inference.
+        public let documentReaderConfig: DocumentReaderConfig?
         /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public let inputFormat: InputFormat?
         /// The Amazon S3 URI for the input data. The URI must be in same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files.  For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
         public let s3Uri: String
 
-        public init(inputFormat: InputFormat? = nil, s3Uri: String) {
+        public init(documentReaderConfig: DocumentReaderConfig? = nil, inputFormat: InputFormat? = nil, s3Uri: String) {
+            self.documentReaderConfig = documentReaderConfig
             self.inputFormat = inputFormat
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
+            try self.documentReaderConfig?.validate(name: "\(name).documentReaderConfig")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case documentReaderConfig = "DocumentReaderConfig"
             case inputFormat = "InputFormat"
             case s3Uri = "S3Uri"
         }
@@ -3165,6 +3241,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -3510,7 +3587,7 @@ extension Comprehend {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, max: 256)
-            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
@@ -3520,6 +3597,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -3602,6 +3680,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -3681,7 +3760,7 @@ extension Comprehend {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, max: 256)
-            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
@@ -3691,6 +3770,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -3862,6 +3942,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4031,6 +4112,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4118,6 +4200,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4381,7 +4464,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, max: 256)
-            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.documentClassifierArn, name: "documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4403,7 +4486,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, max: 256)
-            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.entityRecognizerArn, name: "entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {

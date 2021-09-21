@@ -203,7 +203,7 @@ extension XRay {
         public let groupName: String
         /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.
         public let insightsConfiguration: InsightsConfiguration?
-        /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.
+        /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use.
         public let tags: [Tag]?
 
         public init(filterExpression: String? = nil, groupName: String, insightsConfiguration: InsightsConfiguration? = nil, tags: [Tag]? = nil) {
@@ -247,7 +247,7 @@ extension XRay {
     public struct CreateSamplingRuleRequest: AWSEncodableShape {
         /// The rule definition.
         public let samplingRule: SamplingRule
-        /// A map that contains one or more tag keys and tag values to attach to an X-Ray sampling rule. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.
+        /// A map that contains one or more tag keys and tag values to attach to an X-Ray sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use.
         public let tags: [Tag]?
 
         public init(samplingRule: SamplingRule, tags: [Tag]? = nil) {
@@ -404,11 +404,11 @@ extension XRay {
     }
 
     public struct EncryptionConfig: AWSDecodableShape {
-        /// The ID of the customer master key (CMK) used for encryption, if applicable.
+        /// The ID of the KMS key used for encryption, if applicable.
         public let keyId: String?
         /// The encryption status. While the status is UPDATING, X-Ray may encrypt data with a combination of the new and old settings.
         public let status: EncryptionStatus?
-        /// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE for default encryption.
+        /// The type of encryption. Set to KMS for encryption with KMS keys. Set to NONE for default encryption.
         public let type: EncryptionType?
 
         public init(keyId: String? = nil, status: EncryptionStatus? = nil, type: EncryptionType? = nil) {
@@ -798,7 +798,7 @@ extension XRay {
         public let serviceGraphEndTime: Date?
         /// The time, in Unix seconds, at which the service graph started.
         public let serviceGraphStartTime: Date?
-        /// The AWS instrumented services related to the insight.
+        /// The Amazon Web Services instrumented services related to the insight.
         public let services: [InsightImpactGraphService]?
         /// The provided start time.
         public let startTime: Date?
@@ -1268,7 +1268,7 @@ extension XRay {
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
-        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications through Amazon EventBridge for the group.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotificationsEnabled boolean can be set to true to enable insights notifications through Amazon EventBridge for the group.
         public let insightsConfiguration: InsightsConfiguration?
 
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
@@ -1456,7 +1456,7 @@ extension XRay {
     }
 
     public struct InsightImpactGraphService: AWSDecodableShape {
-        /// Identifier of the AWS account in which the service runs.
+        /// Identifier of the Amazon Web Services account in which the service runs.
         public let accountId: String?
         /// Connections to downstream services.
         public let edges: [InsightImpactGraphEdge]?
@@ -1466,7 +1466,7 @@ extension XRay {
         public let names: [String]?
         /// Identifier for the service. Unique within the service map.
         public let referenceId: Int?
-        /// Identifier for the service. Unique within the service map.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.    AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    remote - A downstream service of indeterminate type.
+        /// Identifier for the service. Unique within the service map.   Amazon Web Services Resource - The type of an Amazon Web Services resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.    Amazon Web Services Service - The type of an Amazon Web Services service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    Amazon Web Services Service - The type of an Amazon Web Services service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    remote - A downstream service of indeterminate type.
         public let type: String?
 
         public init(accountId: String? = nil, edges: [InsightImpactGraphEdge]? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, type: String? = nil) {
@@ -1618,7 +1618,7 @@ extension XRay {
     }
 
     public struct PutEncryptionConfigRequest: AWSEncodableShape {
-        /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. AWS X-Ray does not support asymmetric CMKs.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
+        /// An Amazon Web Services KMS key in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Amazon Web Services X-Ray does not support asymmetric KMS keys.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
         public let keyId: String?
         /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
         public let type: EncryptionType
@@ -1844,7 +1844,7 @@ extension XRay {
         public let priority: Int
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
         public let reservoirSize: Int
-        /// Matches the ARN of the AWS resource on which the service runs.
+        /// Matches the ARN of the Amazon Web Services resource on which the service runs.
         public let resourceARN: String
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleARN: String?
@@ -1949,7 +1949,7 @@ extension XRay {
         public let priority: Int?
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
         public let reservoirSize: Int?
-        /// Matches the ARN of the AWS resource on which the service runs.
+        /// Matches the ARN of the Amazon Web Services resource on which the service runs.
         public let resourceARN: String?
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleARN: String?
@@ -2146,7 +2146,7 @@ extension XRay {
     }
 
     public struct Service: AWSDecodableShape {
-        /// Identifier of the AWS account in which the service runs.
+        /// Identifier of the Amazon Web Services account in which the service runs.
         public let accountId: String?
         /// A histogram that maps the spread of service durations.
         public let durationHistogram: [HistogramEntry]?
@@ -2170,7 +2170,7 @@ extension XRay {
         public let state: String?
         /// Aggregated statistics for the service.
         public let summaryStatistics: ServiceStatistics?
-        /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.
+        /// The type of service.   Amazon Web Services Resource - The type of an Amazon Web Services resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   Amazon Web Services Service - The type of an Amazon Web Services service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.
         public let type: String?
 
         public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: Date? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: Date? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
@@ -2283,7 +2283,7 @@ extension XRay {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
         public let resourceARN: String
-        /// A map that contains one or more tag keys and tag values to attach to an X-Ray group or sampling rule. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use. You cannot edit or delete system tags.
+        /// A map that contains one or more tag keys and tag values to attach to an X-Ray group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags.
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
@@ -2370,7 +2370,7 @@ extension XRay {
         public let duration: Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
         public let id: String?
-        /// LimitExceeded is set to true when the trace has exceeded one of the defined quotas. For more information about quotas, see AWS X-Ray endpoints and quotas.
+        /// LimitExceeded is set to true when the trace has exceeded one of the defined quotas. For more information about quotas, see Amazon Web Services X-Ray endpoints and quotas.
         public let limitExceeded: Bool?
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?

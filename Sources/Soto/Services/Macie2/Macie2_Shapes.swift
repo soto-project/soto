@@ -192,6 +192,14 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedDataIdentifierSelector: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderBy: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
@@ -964,18 +972,22 @@ extension Macie2 {
         public let description: String?
         public let initialRun: Bool?
         public let jobType: JobType
+        public let managedDataIdentifierIds: [String]?
+        public let managedDataIdentifierSelector: ManagedDataIdentifierSelector?
         public let name: String
         public let s3JobDefinition: S3JobDefinition
         public let samplingPercentage: Int?
         public let scheduleFrequency: JobScheduleFrequency?
         public let tags: [String: String]?
 
-        public init(clientToken: String = CreateClassificationJobRequest.idempotencyToken(), customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobType: JobType, name: String, s3JobDefinition: S3JobDefinition, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateClassificationJobRequest.idempotencyToken(), customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobType: JobType, managedDataIdentifierIds: [String]? = nil, managedDataIdentifierSelector: ManagedDataIdentifierSelector? = nil, name: String, s3JobDefinition: S3JobDefinition, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.customDataIdentifierIds = customDataIdentifierIds
             self.description = description
             self.initialRun = initialRun
             self.jobType = jobType
+            self.managedDataIdentifierIds = managedDataIdentifierIds
+            self.managedDataIdentifierSelector = managedDataIdentifierSelector
             self.name = name
             self.s3JobDefinition = s3JobDefinition
             self.samplingPercentage = samplingPercentage
@@ -989,6 +1001,8 @@ extension Macie2 {
             case description
             case initialRun
             case jobType
+            case managedDataIdentifierIds
+            case managedDataIdentifierSelector
             case name
             case s3JobDefinition
             case samplingPercentage
@@ -1481,6 +1495,8 @@ extension Macie2 {
         public let lastRunErrorStatus: LastRunErrorStatus?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastRunTime: Date?
+        public let managedDataIdentifierIds: [String]?
+        public let managedDataIdentifierSelector: ManagedDataIdentifierSelector?
         public let name: String?
         public let s3JobDefinition: S3JobDefinition?
         public let samplingPercentage: Int?
@@ -1489,7 +1505,7 @@ extension Macie2 {
         public let tags: [String: String]?
         public let userPausedDetails: UserPausedDetails?
 
-        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: Date? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, lastRunTime: Date? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil, userPausedDetails: UserPausedDetails? = nil) {
+        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: Date? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, lastRunTime: Date? = nil, managedDataIdentifierIds: [String]? = nil, managedDataIdentifierSelector: ManagedDataIdentifierSelector? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.customDataIdentifierIds = customDataIdentifierIds
@@ -1501,6 +1517,8 @@ extension Macie2 {
             self.jobType = jobType
             self.lastRunErrorStatus = lastRunErrorStatus
             self.lastRunTime = lastRunTime
+            self.managedDataIdentifierIds = managedDataIdentifierIds
+            self.managedDataIdentifierSelector = managedDataIdentifierSelector
             self.name = name
             self.s3JobDefinition = s3JobDefinition
             self.samplingPercentage = samplingPercentage
@@ -1522,6 +1540,8 @@ extension Macie2 {
             case jobType
             case lastRunErrorStatus
             case lastRunTime
+            case managedDataIdentifierIds
+            case managedDataIdentifierSelector
             case name
             case s3JobDefinition
             case samplingPercentage
@@ -2795,6 +2815,33 @@ extension Macie2 {
         }
     }
 
+    public struct ListManagedDataIdentifiersRequest: AWSEncodableShape {
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+        }
+    }
+
+    public struct ListManagedDataIdentifiersResponse: AWSDecodableShape {
+        public let items: [ManagedDataIdentifierSummary]?
+        public let nextToken: String?
+
+        public init(items: [ManagedDataIdentifierSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
     public struct ListMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
@@ -2895,6 +2942,21 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct ManagedDataIdentifierSummary: AWSDecodableShape {
+        public let category: SensitiveDataItemCategory?
+        public let id: String?
+
+        public init(category: SensitiveDataItemCategory? = nil, id: String? = nil) {
+            self.category = category
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category
+            case id
         }
     }
 

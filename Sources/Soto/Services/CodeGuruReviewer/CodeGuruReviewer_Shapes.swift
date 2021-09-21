@@ -79,6 +79,15 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
+    public enum Severity: String, CustomStringConvertible, Codable {
+        case critical = "Critical"
+        case high = "High"
+        case info = "Info"
+        case low = "Low"
+        case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Type`: String, CustomStringConvertible, Codable {
         case pullrequest = "PullRequest"
         case repositoryanalysis = "RepositoryAnalysis"
@@ -97,7 +106,7 @@ extension CodeGuruReviewer {
     public struct AssociateRepositoryRequest: AWSEncodableShape {
         /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries.
         public let clientRequestToken: String?
-        /// A KMSKeyDetails object that contains:   The encryption option for this repository association. It is either owned by AWS Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the AWS KMS key that is associated with this respository association.
+        /// A KMSKeyDetails object that contains:   The encryption option for this repository association. It is either owned by Amazon Web Services Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the Amazon Web Services KMS key that is associated with this respository association.
         public let kMSKeyDetails: KMSKeyDetails?
         /// The repository to associate.
         public let repository: Repository
@@ -200,7 +209,7 @@ extension CodeGuruReviewer {
     }
 
     public struct CodeCommitRepository: AWSEncodableShape {
-        /// The name of the AWS CodeCommit repository. For more information, see repositoryName in the AWS CodeCommit API Reference.
+        /// The name of the Amazon Web Services CodeCommit repository. For more information, see repositoryName in the Amazon Web Services CodeCommit API Reference.
         public let name: String
 
         public init(name: String) {
@@ -233,7 +242,7 @@ extension CodeGuruReviewer {
         public let metrics: Metrics?
         ///  The name of the code review.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
+        /// The owner of the repository. For an Amazon Web Services CodeCommit repository, this is the Amazon Web Services account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or Amazon Web Services account ID.
         public let owner: String?
         ///  The type of repository that contains the reviewed code (for example, GitHub or Bitbucket).
         public let providerType: ProviderType?
@@ -298,7 +307,7 @@ extension CodeGuruReviewer {
         public let metricsSummary: MetricsSummary?
         ///  The name of the code review.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
+        /// The owner of the repository. For an Amazon Web Services CodeCommit repository, this is the Amazon Web Services account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or Amazon Web Services account ID.
         public let owner: String?
         ///  The provider type of the repository association.
         public let providerType: ProviderType?
@@ -397,7 +406,7 @@ extension CodeGuruReviewer {
     public struct CreateCodeReviewRequest: AWSEncodableShape {
         ///  Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate code reviews if there are failures and retries.
         public let clientRequestToken: String?
-        ///  The name of the code review. The name of each code review in your AWS account must be unique.
+        ///  The name of the code review. The name of each code review in your Amazon Web Services account must be unique.
         public let name: String
         ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .   A code review can only be created on an associated repository. This is the ARN of the associated repository.
         public let repositoryAssociationArn: String
@@ -489,7 +498,7 @@ extension CodeGuruReviewer {
         public let codeReviewArn: String
         ///  The recommendation ID that can be used to track the provided recommendations and then to collect the feedback.
         public let recommendationId: String
-        ///  Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide.
+        ///  Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request.   The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userId: String?
 
         public init(codeReviewArn: String, recommendationId: String, userId: String? = nil) {
@@ -627,9 +636,9 @@ extension CodeGuruReviewer {
     }
 
     public struct KMSKeyDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The encryption option for a repository association. It is either owned by AWS Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).
+        /// The encryption option for a repository association. It is either owned by Amazon Web Services Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).
         public let encryptionOption: EncryptionOption?
-        /// The ID of the AWS KMS key that is associated with a respository association.
+        /// The ID of the Amazon Web Services KMS key that is associated with a respository association.
         public let kMSKeyId: String?
 
         public init(encryptionOption: EncryptionOption? = nil, kMSKeyId: String? = nil) {
@@ -736,7 +745,7 @@ extension CodeGuruReviewer {
         public let nextToken: String?
         ///  Used to query the recommendation feedback for a given recommendation.
         public let recommendationIds: [String]?
-        ///  An AWS user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide.
+        ///  An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user.   The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userIds: [String]?
 
         public init(codeReviewArn: String, maxResults: Int? = nil, nextToken: String? = nil, recommendationIds: [String]? = nil, userIds: [String]? = nil) {
@@ -855,7 +864,7 @@ extension CodeGuruReviewer {
         public let names: [String]?
         /// The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   Treat this token as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
-        /// List of owners to use as a filter. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that was used to associate the repository.
+        /// List of owners to use as a filter. For Amazon Web Services CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that was used to associate the repository.
         public let owners: [String]?
         /// List of provider types to use as a filter.
         public let providerTypes: [ProviderType]?
@@ -953,7 +962,7 @@ extension CodeGuruReviewer {
     public struct Metrics: AWSDecodableShape {
         ///  Total number of recommendations found in the code review.
         public let findingsCount: Int64?
-        ///  Lines of code metered in the code review. For the initial code review pull request and all subsequent revisions, this includes all lines of code in the files added to the pull request. In subsequent revisions, for files that already existed in the pull request, this includes only the changed lines of code. In both cases, this does not include non-code lines such as comments and import statements. For example, if you submit a pull request containing 5 files, each with 500 lines of code, and in a subsequent revision you added a new file with 200 lines of code, and also modified a total of 25 lines across the initial 5 files, MeteredLinesOfCodeCount includes the first 5 files (5 * 500 = 2,500 lines), the new file (200 lines) and the 25 changed lines of code for a total of 2,725 lines of code.
+        ///  MeteredLinesOfCode is the number of lines of code in the repository where the code review happened. This does not include non-code lines such as comments and blank lines.
         public let meteredLinesOfCodeCount: Int64?
 
         public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil) {
@@ -1030,7 +1039,7 @@ extension CodeGuruReviewer {
         public let reactions: [Reaction]?
         ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
         public let recommendationId: String?
-        ///  The ID of the user that made the API call.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide.
+        ///  The ID of the user that made the API call.   The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userId: String?
 
         public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
@@ -1057,7 +1066,7 @@ extension CodeGuruReviewer {
         public let reactions: [Reaction]?
         ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
         public let recommendationId: String?
-        ///  The ID of the user that gave the feedback.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide.
+        ///  The ID of the user that gave the feedback.   The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userId: String?
 
         public init(reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
@@ -1084,15 +1093,21 @@ extension CodeGuruReviewer {
         public let recommendationCategory: RecommendationCategory?
         ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
         public let recommendationId: String?
+        /// Metadata about a rule. Rule metadata includes an ID, a name, a list of tags, and a short and long description. CodeGuru Reviewer uses rules to analyze code. A rule's recommendation is included in analysis results if code is detected that violates the rule.
+        public let ruleMetadata: RuleMetadata?
+        /// The severity of the issue in the code that generated this recommendation.
+        public let severity: Severity?
         ///  Start line from where the recommendation is applicable in the source commit or source branch.
         public let startLine: Int?
 
-        public init(description: String? = nil, endLine: Int? = nil, filePath: String? = nil, recommendationCategory: RecommendationCategory? = nil, recommendationId: String? = nil, startLine: Int? = nil) {
+        public init(description: String? = nil, endLine: Int? = nil, filePath: String? = nil, recommendationCategory: RecommendationCategory? = nil, recommendationId: String? = nil, ruleMetadata: RuleMetadata? = nil, severity: Severity? = nil, startLine: Int? = nil) {
             self.description = description
             self.endLine = endLine
             self.filePath = filePath
             self.recommendationCategory = recommendationCategory
             self.recommendationId = recommendationId
+            self.ruleMetadata = ruleMetadata
+            self.severity = severity
             self.startLine = startLine
         }
 
@@ -1102,6 +1117,8 @@ extension CodeGuruReviewer {
             case filePath = "FilePath"
             case recommendationCategory = "RecommendationCategory"
             case recommendationId = "RecommendationId"
+            case ruleMetadata = "RuleMetadata"
+            case severity = "Severity"
             case startLine = "StartLine"
         }
     }
@@ -1109,7 +1126,7 @@ extension CodeGuruReviewer {
     public struct Repository: AWSEncodableShape {
         ///  Information about a Bitbucket repository.
         public let bitbucket: ThirdPartySourceRepository?
-        /// Information about an AWS CodeCommit repository.
+        /// Information about an Amazon Web Services CodeCommit repository.
         public let codeCommit: CodeCommitRepository?
         ///  Information about a GitHub Enterprise Server repository.
         public let gitHubEnterpriseServer: ThirdPartySourceRepository?
@@ -1163,17 +1180,17 @@ extension CodeGuruReviewer {
         public let associationArn: String?
         /// The ID of the repository association.
         public let associationId: String?
-        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference.
+        ///  The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the Amazon Web Services CodeStar Connections API Reference.
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
         public let createdTimeStamp: Date?
-        /// A KMSKeyDetails object that contains:   The encryption option for this repository association. It is either owned by AWS Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the AWS KMS key that is associated with this respository association.
+        /// A KMSKeyDetails object that contains:   The encryption option for this repository association. It is either owned by Amazon Web Services Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the Amazon Web Services KMS key that is associated with this respository association.
         public let kMSKeyDetails: KMSKeyDetails?
         /// The time, in milliseconds since the epoch, when the repository association was last updated.
         public let lastUpdatedTimeStamp: Date?
         /// The name of the repository.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
+        /// The owner of the repository. For an Amazon Web Services CodeCommit repository, this is the Amazon Web Services account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or Amazon Web Services account ID.
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
@@ -1219,13 +1236,13 @@ extension CodeGuruReviewer {
         public let associationArn: String?
         ///  The repository association ID.
         public let associationId: String?
-        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference.
+        ///  The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the Amazon Web Services CodeStar Connections API Reference.
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, since the repository association was last updated.
         public let lastUpdatedTimeStamp: Date?
         /// The name of the repository association.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
+        /// The owner of the repository. For an Amazon Web Services CodeCommit repository, this is the Amazon Web Services account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or Amazon Web Services account ID.
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
@@ -1304,6 +1321,35 @@ extension CodeGuruReviewer {
             case requester = "Requester"
             case requestId = "RequestId"
             case vendorName = "VendorName"
+        }
+    }
+
+    public struct RuleMetadata: AWSDecodableShape {
+        /// A long description of the rule.
+        public let longDescription: String?
+        /// The ID of the rule.
+        public let ruleId: String?
+        /// The name of the rule.
+        public let ruleName: String?
+        /// Tags that are associated with the rule.
+        public let ruleTags: [String]?
+        /// A short description of the rule.
+        public let shortDescription: String?
+
+        public init(longDescription: String? = nil, ruleId: String? = nil, ruleName: String? = nil, ruleTags: [String]? = nil, shortDescription: String? = nil) {
+            self.longDescription = longDescription
+            self.ruleId = ruleId
+            self.ruleName = ruleName
+            self.ruleTags = ruleTags
+            self.shortDescription = shortDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case longDescription = "LongDescription"
+            case ruleId = "RuleId"
+            case ruleName = "RuleName"
+            case ruleTags = "RuleTags"
+            case shortDescription = "ShortDescription"
         }
     }
 
@@ -1453,11 +1499,11 @@ extension CodeGuruReviewer {
     }
 
     public struct ThirdPartySourceRepository: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference.
+        ///  The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the Amazon Web Services CodeStar Connections API Reference.
         public let connectionArn: String
         ///  The name of the third party source repository.
         public let name: String
-        ///  The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, this can be the username or AWS account ID.
+        ///  The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, this can be the username or Amazon Web Services account ID.
         public let owner: String
 
         public init(connectionArn: String, name: String, owner: String) {

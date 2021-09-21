@@ -47,11 +47,11 @@ public struct SSMContactsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don't have sufficient access to perform this action.
+    /// You don't have sufficient access to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Updating or deleting a resource causes an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The action failed to due an encryption key error.
+    /// The operation failed to due an encryption key error.
     public static var dataEncryptionException: Self { .init(.dataEncryptionException) }
     /// Unexpected error occurred while processing the request.
     public static var internalServerException: Self { .init(.internalServerException) }
@@ -61,7 +61,7 @@ public struct SSMContactsErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

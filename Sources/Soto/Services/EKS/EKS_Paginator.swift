@@ -415,6 +415,7 @@ extension EKS.ListAddonsRequest: AWSPaginateToken {
 extension EKS.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListClustersRequest {
         return .init(
+            include: self.include,
             maxResults: self.maxResults,
             nextToken: token
         )

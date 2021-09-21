@@ -89,7 +89,7 @@ extension LookoutEquipment {
         public let datasetName: String
         /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
         public let datasetSchema: DatasetSchema
-        /// Provides the identifier of the AWS KMS customer master key (CMK) used to encrypt dataset data by Amazon Lookout for Equipment.
+        /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         /// Any tags associated with the ingested data described in the dataset.
         public let tags: [Tag]?
@@ -153,7 +153,7 @@ extension LookoutEquipment {
     public struct CreateInferenceSchedulerRequest: AWSEncodableShape {
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
-        ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         /// Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration
@@ -167,7 +167,7 @@ extension LookoutEquipment {
         public let modelName: String
         /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used for the inference.
         public let roleArn: String
-        /// Provides the identifier of the AWS KMS customer master key (CMK) used to encrypt inference scheduler data by Amazon Lookout for Equipment.
+        /// Provides the identifier of the KMS key used to encrypt inference scheduler data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         /// Any tags associated with the inference scheduler.
         public let tags: [Tag]?
@@ -264,9 +264,11 @@ extension LookoutEquipment {
         public let labelsInputConfiguration: LabelsInputConfiguration?
         /// The name for the ML model to be created.
         public let modelName: String
+        /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
+        public let offCondition: String?
         ///  The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the ML model.
         public let roleArn: String?
-        /// Provides the identifier of the AWS KMS customer master key (CMK) used to encrypt model data by Amazon Lookout for Equipment.
+        /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         ///  Any tags associated with the ML model being created.
         public let tags: [Tag]?
@@ -275,7 +277,7 @@ extension LookoutEquipment {
         /// Indicates the time reference in the dataset that should be used to begin the subset of training data for the ML model.
         public let trainingDataStartTime: Date?
 
-        public init(clientToken: String = CreateModelRequest.idempotencyToken(), dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetName: String, datasetSchema: DatasetSchema? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, modelName: String, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil) {
+        public init(clientToken: String = CreateModelRequest.idempotencyToken(), dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetName: String, datasetSchema: DatasetSchema? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, modelName: String, offCondition: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil) {
             self.clientToken = clientToken
             self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
             self.datasetName = datasetName
@@ -284,6 +286,7 @@ extension LookoutEquipment {
             self.evaluationDataStartTime = evaluationDataStartTime
             self.labelsInputConfiguration = labelsInputConfiguration
             self.modelName = modelName
+            self.offCondition = offCondition
             self.roleArn = roleArn
             self.serverSideKmsKeyId = serverSideKmsKeyId
             self.tags = tags
@@ -303,6 +306,8 @@ extension LookoutEquipment {
             try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.offCondition, name: "offCondition", parent: name, max: 2048)
+            try self.validate(self.offCondition, name: "offCondition", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
@@ -325,6 +330,7 @@ extension LookoutEquipment {
             case evaluationDataStartTime = "EvaluationDataStartTime"
             case labelsInputConfiguration = "LabelsInputConfiguration"
             case modelName = "ModelName"
+            case offCondition = "OffCondition"
             case roleArn = "RoleArn"
             case serverSideKmsKeyId = "ServerSideKmsKeyId"
             case tags = "Tags"
@@ -578,7 +584,7 @@ extension LookoutEquipment {
         public let lastUpdatedAt: Date?
         /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
         public let schema: String?
-        /// Provides the identifier of the AWS KMS customer master key (CMK) used to encrypt dataset data by Amazon Lookout for Equipment.
+        /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         /// Indicates the status of the dataset.
         public let status: DatasetStatus?
@@ -646,7 +652,7 @@ extension LookoutEquipment {
         public let modelName: String?
         ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the inference scheduler being described.
         public let roleArn: String?
-        /// Provides the identifier of the AWS KMS customer master key (CMK) used to encrypt inference scheduler data by Amazon Lookout for Equipment.
+        /// Provides the identifier of the KMS key used to encrypt inference scheduler data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
@@ -730,11 +736,13 @@ extension LookoutEquipment {
         public let modelMetrics: String?
         /// The name of the ML model being described.
         public let modelName: String?
+        /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
+        public let offCondition: String?
         ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the ML model being described.
         public let roleArn: String?
         /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
         public let schema: String?
-        /// Provides the identifier of the AWS KMS customer master key (CMK) used to encrypt model data by Amazon Lookout for Equipment.
+        /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         /// Specifies the current status of the model being described. Status describes the status of the most recent action of the model.
         public let status: ModelStatus?
@@ -747,7 +755,7 @@ extension LookoutEquipment {
         /// Indicates the time at which the training of the ML model began.
         public let trainingExecutionStartTime: Date?
 
-        public init(createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, modelArn: String? = nil, modelMetrics: String? = nil, modelName: String? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, status: ModelStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
+        public init(createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, modelArn: String? = nil, modelMetrics: String? = nil, modelName: String? = nil, offCondition: String? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, status: ModelStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
             self.createdAt = createdAt
             self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
             self.datasetArn = datasetArn
@@ -760,6 +768,7 @@ extension LookoutEquipment {
             self.modelArn = modelArn
             self.modelMetrics = modelMetrics
             self.modelName = modelName
+            self.offCondition = offCondition
             self.roleArn = roleArn
             self.schema = schema
             self.serverSideKmsKeyId = serverSideKmsKeyId
@@ -783,6 +792,7 @@ extension LookoutEquipment {
             case modelArn = "ModelArn"
             case modelMetrics = "ModelMetrics"
             case modelName = "ModelName"
+            case offCondition = "OffCondition"
             case roleArn = "RoleArn"
             case schema = "Schema"
             case serverSideKmsKeyId = "ServerSideKmsKeyId"
@@ -851,7 +861,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceInputConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// &gt; Specifies configuration information for the input data for the inference, including timestamp format and delimiter.
+        /// Specifies configuration information for the input data for the inference, including timestamp format and delimiter.
         public let inferenceInputNameConfiguration: InferenceInputNameConfiguration?
         /// Indicates the difference between your time zone and Greenwich Mean Time (GMT).
         public let inputTimeZoneOffset: String?
@@ -978,7 +988,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceSchedulerSummary: AWSDecodableShape {
-        /// &gt; A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if an offset delay time of five minutes was selected, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if an offset delay time of five minutes was selected, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         /// How often data is uploaded to the source S3 bucket for the input data. This value is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this example, it starts once every 5 minutes.
         public let dataUploadFrequency: DataUploadFrequency?
@@ -1697,7 +1707,7 @@ extension LookoutEquipment {
     }
 
     public struct UpdateInferenceSchedulerRequest: AWSEncodableShape {
-        /// &gt; A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         ///  Specifies information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration?

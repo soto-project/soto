@@ -267,9 +267,14 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "ListFindingsFilters", path: "/findingsfilters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about all the Amazon Macie membership invitations that were received by an account.
+    /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
     public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvitationsResponse> {
         return self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
+    public func listManagedDataIdentifiers(_ input: ListManagedDataIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListManagedDataIdentifiersResponse> {
+        return self.client.execute(operation: "ListManagedDataIdentifiers", path: "/managed-data-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.

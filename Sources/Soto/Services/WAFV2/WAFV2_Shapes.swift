@@ -1491,7 +1491,7 @@ extension WAFV2 {
     public struct FirewallManagerStatement: AWSDecodableShape {
         /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
-        /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
+        /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You can only use a rule group reference statement at the top level inside a web ACL.
         public let ruleGroupReferenceStatement: RuleGroupReferenceStatement?
 
         public init(managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil) {
@@ -1708,7 +1708,9 @@ extension WAFV2 {
     }
 
     public struct GetRateBasedStatementManagedKeysRequest: AWSEncodableShape {
-        /// The name of the rate-based rule to get the keys for.
+        /// The name of the rule group reference statement in your web ACL. This is required only when you have the rate-based rule nested inside a rule group.
+        public let ruleGroupRuleName: String?
+        /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
         public let ruleName: String
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
@@ -1717,7 +1719,8 @@ extension WAFV2 {
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let webACLName: String
 
-        public init(ruleName: String, scope: Scope, webACLId: String, webACLName: String) {
+        public init(ruleGroupRuleName: String? = nil, ruleName: String, scope: Scope, webACLId: String, webACLName: String) {
+            self.ruleGroupRuleName = ruleGroupRuleName
             self.ruleName = ruleName
             self.scope = scope
             self.webACLId = webACLId
@@ -1725,6 +1728,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ruleGroupRuleName, name: "ruleGroupRuleName", parent: name, max: 128)
+            try self.validate(self.ruleGroupRuleName, name: "ruleGroupRuleName", parent: name, min: 1)
+            try self.validate(self.ruleGroupRuleName, name: "ruleGroupRuleName", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[\\w\\-]+$")
@@ -1737,6 +1743,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ruleGroupRuleName = "RuleGroupRuleName"
             case ruleName = "RuleName"
             case scope = "Scope"
             case webACLId = "WebACLId"
@@ -2757,7 +2764,7 @@ extension WAFV2 {
         public let loggingFilter: LoggingFilter?
         /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration.
         public let managedByFirewallManager: Bool?
-        /// The parts of the request that you want to keep out of the logs. For example, if you redact the HEADER field, the HEADER field in the firehose will be xxx.   You must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD.
+        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the firehose will be xxx.   You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, Method, and JsonBody.
         public let redactedFields: [FieldToMatch]?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         public let resourceArn: String
@@ -2867,7 +2874,7 @@ extension WAFV2 {
     }
 
     public struct ManagedRuleGroupSummary: AWSDecodableShape {
-        /// The description of the managed rule group, provided by Amazon Web Services Managed Rules or the Marketplace seller who manages it.
+        /// The description of the managed rule group, provided by Amazon Web Services Managed Rules or the Amazon Web Services Marketplace seller who manages it.
         public let description: String?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String?
@@ -3718,11 +3725,11 @@ extension WAFV2 {
         public let notStatement: NotStatement?
         /// A logical rule statement used to combine other rule statements with OR logic. You provide more than one Statement within the OrStatement.
         public let orStatement: OrStatement?
-        /// A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span. You can use this to put a temporary block on requests from an IP address that is sending excessive requests. When the rule action triggers, WAF blocks additional requests from the IP address until the request rate falls below the limit. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts requests that match the nested statement. For example, based on recent requests that you have seen from an attacker, you might create a rate-based rule with a nested AND rule statement that contains the following nested statements:   An IP match statement with an IP set that specified the address 192.0.2.44.   A string match statement that searches in the User-Agent header for the string BadBot.   In this rate-based rule, you also define a rate limit. For this example, the rate limit is 1,000. Requests that meet both of the conditions in the statements are counted. If the count exceeds 1,000 requests per five minutes, the rule action triggers. Requests that do not meet both conditions are not counted towards the rate limit and are not affected by this rule. You cannot nest a RateBasedStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
+        /// A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span. You can use this to put a temporary block on requests from an IP address that is sending excessive requests.  WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF.  When the rule action triggers, WAF blocks additional requests from the IP address until the request rate falls below the limit. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts requests that match the nested statement. For example, based on recent requests that you have seen from an attacker, you might create a rate-based rule with a nested AND rule statement that contains the following nested statements:   An IP match statement with an IP set that specified the address 192.0.2.44.   A string match statement that searches in the User-Agent header for the string BadBot.   In this rate-based rule, you also define a rate limit. For this example, the rate limit is 1,000. Requests that meet both of the conditions in the statements are counted. If the count exceeds 1,000 requests per five minutes, the rule action triggers. Requests that do not meet both conditions are not counted towards the rate limit and are not affected by this rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group.
         public let rateBasedStatement: RateBasedStatement?
         /// A rule statement used to search web request components for matches with regular expressions. To use this, create a RegexPatternSet that specifies the expressions that you want to detect, then use the ARN of that set in this statement. A web request matches the pattern set rule statement if the request component matches any of the patterns in the set. To create a regex pattern set, see CreateRegexPatternSet. Each regex pattern set rule statement references a regex pattern set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, WAF automatically updates all rules that reference it.
         public let regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement?
-        /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
+        /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You can only use a rule group reference statement at the top level inside a web ACL.
         public let ruleGroupReferenceStatement: RuleGroupReferenceStatement?
         /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (&gt;) or less than (&lt;). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes.  If you configure WAF to inspect the request body, WAF inspects only the first 8192 bytes (8 KB). If the request body for your web requests never exceeds 8192 bytes, you can create a size constraint condition and block requests that have a request body greater than 8192 bytes. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
         public let sizeConstraintStatement: SizeConstraintStatement?

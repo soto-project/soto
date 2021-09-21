@@ -2625,13 +2625,16 @@ extension Chime {
 
         /// The phone number that a user calls from. This is a phone number in your Amazon Chime phone number inventory.
         public let fromPhoneNumber: String
+        /// The SIP headers added to an outbound call leg.
+        public let sipHeaders: [String: String]?
         /// The ID of the SIP media application.
         public let sipMediaApplicationId: String
         /// The phone number that the service should call.
         public let toPhoneNumber: String
 
-        public init(fromPhoneNumber: String, sipMediaApplicationId: String, toPhoneNumber: String) {
+        public init(fromPhoneNumber: String, sipHeaders: [String: String]? = nil, sipMediaApplicationId: String, toPhoneNumber: String) {
             self.fromPhoneNumber = fromPhoneNumber
+            self.sipHeaders = sipHeaders
             self.sipMediaApplicationId = sipMediaApplicationId
             self.toPhoneNumber = toPhoneNumber
         }
@@ -2644,6 +2647,7 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case fromPhoneNumber = "FromPhoneNumber"
+            case sipHeaders = "SipHeaders"
             case toPhoneNumber = "ToPhoneNumber"
         }
     }
@@ -7097,9 +7101,9 @@ extension Chime {
     }
 
     public struct Origination: AWSEncodableShape & AWSDecodableShape {
-        /// When origination settings are disabled, inbound calls are not enabled for your Amazon Chime Voice Connector.
+        /// When origination settings are disabled, inbound calls are not enabled for your Amazon Chime Voice Connector. This parameter is not required, but you must specify this parameter or Routes.
         public let disabled: Bool?
-        /// The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20.
+        /// The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20. This parameter is not required, but you must specify this parameter or Disabled.
         public let routes: [OriginationRoute]?
 
         public init(disabled: Bool? = nil, routes: [OriginationRoute]? = nil) {
@@ -8852,7 +8856,7 @@ extension Chime {
     }
 
     public struct TranscriptionConfiguration: AWSEncodableShape {
-        /// The transcription configuration settings passed to Amazon Transcribe.
+        /// The transcription configuration settings passed to Amazon Transcribe Medical.
         public let engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings?
         /// The transcription configuration settings passed to Amazon Transcribe.
         public let engineTranscribeSettings: EngineTranscribeSettings?

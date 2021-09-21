@@ -198,8 +198,8 @@ public struct ElasticsearchService: AWSService {
     }
 
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
-    public func listDomainNames(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainNamesResponse> {
-        return self.client.execute(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
+    public func listDomainNames(_ input: ListDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainNamesResponse> {
+        return self.client.execute(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all Amazon ES domains associated with the package.

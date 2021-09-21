@@ -62,7 +62,21 @@ extension EKS {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case pending = "PENDING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorConfigProvider: String, CustomStringConvertible, Codable {
+        case aks = "AKS"
+        case anthos = "ANTHOS"
+        case ec2 = "EC2"
+        case eksAnywhere = "EKS_ANYWHERE"
+        case gke = "GKE"
+        case openshift = "OPENSHIFT"
+        case other = "OTHER"
+        case rancher = "RANCHER"
+        case tanzu = "TANZU"
         public var description: String { return self.rawValue }
     }
 
@@ -458,6 +472,8 @@ extension EKS {
         public let certificateAuthority: Certificate?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
+        /// The configuration used to connect to a cluster for registration.
+        public let connectorConfig: ConnectorConfigResponse?
         /// The Unix epoch timestamp in seconds for when the cluster was created.
         public let createdAt: Date?
         /// The encryption configuration for the cluster.
@@ -485,10 +501,11 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
+            self.connectorConfig = connectorConfig
             self.createdAt = createdAt
             self.encryptionConfig = encryptionConfig
             self.endpoint = endpoint
@@ -508,6 +525,7 @@ extension EKS {
             case arn
             case certificateAuthority
             case clientRequestToken
+            case connectorConfig
             case createdAt
             case encryptionConfig
             case endpoint
@@ -542,6 +560,52 @@ extension EKS {
             case clusterVersion
             case defaultVersion
             case platformVersions
+        }
+    }
+
+    public struct ConnectorConfigRequest: AWSEncodableShape {
+        /// The cloud provider for the target cluster to connect.
+        public let provider: ConnectorConfigProvider
+        /// The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration.
+        public let roleArn: String
+
+        public init(provider: ConnectorConfigProvider, roleArn: String) {
+            self.provider = provider
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provider
+            case roleArn
+        }
+    }
+
+    public struct ConnectorConfigResponse: AWSDecodableShape {
+        /// A unique code associated with the cluster for registration purposes.
+        public let activationCode: String?
+        /// The expiration time of the connected cluster. The cluster's YAML file must be applied through the native provider.
+        public let activationExpiry: Date?
+        /// A unique ID associated with the cluster for registration purposes.
+        public let activationId: String?
+        /// The cluster's cloud service provider.
+        public let provider: String?
+        /// The Amazon Resource Name (ARN) of the role that is used by the EKS connector to communicate with AWS services from the connected Kubernetes cluster.
+        public let roleArn: String?
+
+        public init(activationCode: String? = nil, activationExpiry: Date? = nil, activationId: String? = nil, provider: String? = nil, roleArn: String? = nil) {
+            self.activationCode = activationCode
+            self.activationExpiry = activationExpiry
+            self.activationId = activationId
+            self.provider = provider
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationCode
+            case activationExpiry
+            case activationId
+            case provider
+            case roleArn
         }
     }
 
@@ -987,6 +1051,33 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case nodegroup
+        }
+    }
+
+    public struct DeregisterClusterRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the connected cluster to deregister.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeregisterClusterResponse: AWSDecodableShape {
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster
         }
     }
 
@@ -1538,16 +1629,20 @@ extension EKS {
 
     public struct ListClustersRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// Indicates whether connected clusters are included in the returned list. Default value is 'ALL'.
+        public let include: [String]?
         /// The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(include: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.include = include
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2134,6 +2229,45 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case keyArn
+        }
+    }
+
+    public struct RegisterClusterRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The configuration settings required to connect the Kubernetes cluster to the Amazon EKS control plane.
+        public let connectorConfig: ConnectorConfigRequest
+        /// Define a unique name for this cluster within your AWS account.
+        public let name: String
+
+        public init(clientRequestToken: String? = RegisterClusterRequest.idempotencyToken(), connectorConfig: ConnectorConfigRequest, name: String) {
+            self.clientRequestToken = clientRequestToken
+            self.connectorConfig = connectorConfig
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken
+            case connectorConfig
+            case name
+        }
+    }
+
+    public struct RegisterClusterResponse: AWSDecodableShape {
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster
         }
     }
 

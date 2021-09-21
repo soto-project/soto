@@ -112,6 +112,7 @@ extension QuickSight {
     public enum DataSourceType: String, CustomStringConvertible, Codable {
         case adobeAnalytics = "ADOBE_ANALYTICS"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
+        case amazonOpensearch = "AMAZON_OPENSEARCH"
         case athena = "ATHENA"
         case aurora = "AURORA"
         case auroraPostgresql = "AURORA_POSTGRESQL"
@@ -446,6 +447,23 @@ extension QuickSight {
 
     public struct AmazonElasticsearchParameters: AWSEncodableShape & AWSDecodableShape {
         /// The Elasticsearch domain.
+        public let domain: String
+
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 64)
+            try self.validate(self.domain, name: "domain", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+        }
+    }
+
+    public struct AmazonOpenSearchParameters: AWSEncodableShape & AWSDecodableShape {
         public let domain: String
 
         public init(domain: String) {
@@ -3087,6 +3105,7 @@ extension QuickSight {
     public struct DataSourceParameters: AWSEncodableShape & AWSDecodableShape {
         /// The parameters for Elasticsearch.
         public let amazonElasticsearchParameters: AmazonElasticsearchParameters?
+        public let amazonOpenSearchParameters: AmazonOpenSearchParameters?
         /// The parameters for Amazon Athena.
         public let athenaParameters: AthenaParameters?
         /// The parameters for Amazon Aurora MySQL.
@@ -3126,8 +3145,9 @@ extension QuickSight {
         /// The parameters for Twitter.
         public let twitterParameters: TwitterParameters?
 
-        public init(amazonElasticsearchParameters: AmazonElasticsearchParameters? = nil, athenaParameters: AthenaParameters? = nil, auroraParameters: AuroraParameters? = nil, auroraPostgreSqlParameters: AuroraPostgreSqlParameters? = nil, awsIotAnalyticsParameters: AwsIotAnalyticsParameters? = nil, jiraParameters: JiraParameters? = nil, mariaDbParameters: MariaDbParameters? = nil, mySqlParameters: MySqlParameters? = nil, oracleParameters: OracleParameters? = nil, postgreSqlParameters: PostgreSqlParameters? = nil, prestoParameters: PrestoParameters? = nil, rdsParameters: RdsParameters? = nil, redshiftParameters: RedshiftParameters? = nil, s3Parameters: S3Parameters? = nil, serviceNowParameters: ServiceNowParameters? = nil, snowflakeParameters: SnowflakeParameters? = nil, sparkParameters: SparkParameters? = nil, sqlServerParameters: SqlServerParameters? = nil, teradataParameters: TeradataParameters? = nil, twitterParameters: TwitterParameters? = nil) {
+        public init(amazonElasticsearchParameters: AmazonElasticsearchParameters? = nil, amazonOpenSearchParameters: AmazonOpenSearchParameters? = nil, athenaParameters: AthenaParameters? = nil, auroraParameters: AuroraParameters? = nil, auroraPostgreSqlParameters: AuroraPostgreSqlParameters? = nil, awsIotAnalyticsParameters: AwsIotAnalyticsParameters? = nil, jiraParameters: JiraParameters? = nil, mariaDbParameters: MariaDbParameters? = nil, mySqlParameters: MySqlParameters? = nil, oracleParameters: OracleParameters? = nil, postgreSqlParameters: PostgreSqlParameters? = nil, prestoParameters: PrestoParameters? = nil, rdsParameters: RdsParameters? = nil, redshiftParameters: RedshiftParameters? = nil, s3Parameters: S3Parameters? = nil, serviceNowParameters: ServiceNowParameters? = nil, snowflakeParameters: SnowflakeParameters? = nil, sparkParameters: SparkParameters? = nil, sqlServerParameters: SqlServerParameters? = nil, teradataParameters: TeradataParameters? = nil, twitterParameters: TwitterParameters? = nil) {
             self.amazonElasticsearchParameters = amazonElasticsearchParameters
+            self.amazonOpenSearchParameters = amazonOpenSearchParameters
             self.athenaParameters = athenaParameters
             self.auroraParameters = auroraParameters
             self.auroraPostgreSqlParameters = auroraPostgreSqlParameters
@@ -3151,6 +3171,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.amazonElasticsearchParameters?.validate(name: "\(name).amazonElasticsearchParameters")
+            try self.amazonOpenSearchParameters?.validate(name: "\(name).amazonOpenSearchParameters")
             try self.athenaParameters?.validate(name: "\(name).athenaParameters")
             try self.auroraParameters?.validate(name: "\(name).auroraParameters")
             try self.auroraPostgreSqlParameters?.validate(name: "\(name).auroraPostgreSqlParameters")
@@ -3174,6 +3195,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case amazonElasticsearchParameters = "AmazonElasticsearchParameters"
+            case amazonOpenSearchParameters = "AmazonOpenSearchParameters"
             case athenaParameters = "AthenaParameters"
             case auroraParameters = "AuroraParameters"
             case auroraPostgreSqlParameters = "AuroraPostgreSqlParameters"

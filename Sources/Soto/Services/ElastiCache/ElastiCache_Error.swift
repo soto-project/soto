@@ -140,6 +140,7 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var cacheSubnetQuotaExceededFault: Self { .init(.cacheSubnetQuotaExceededFault) }
     /// The request cannot be processed because it would exceed the allowed number of clusters per customer.
     public static var clusterQuotaForCustomerExceededFault: Self { .init(.clusterQuotaForCustomerExceededFault) }
+    /// The default user assigned to the user group.
     public static var defaultUserAssociatedToUserGroupFault: Self { .init(.defaultUserAssociatedToUserGroupFault) }
     /// You must add default user to a user group.
     public static var defaultUserRequired: Self { .init(.defaultUserRequired) }

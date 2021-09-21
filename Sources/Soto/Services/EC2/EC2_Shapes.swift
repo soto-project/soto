@@ -98,6 +98,7 @@ extension EC2 {
         case arm64
         case i386
         case x8664 = "x86_64"
+        case x8664Mac = "x86_64_mac"
         public var description: String { return self.rawValue }
     }
 
@@ -1168,6 +1169,9 @@ extension EC2 {
         public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
         public static var u9Tb1112Xlarge: Self { .init(rawValue: "u-9tb1.112xlarge") }
         public static var u9Tb1Metal: Self { .init(rawValue: "u-9tb1.metal") }
+        public static var vt124Xlarge: Self { .init(rawValue: "vt1.24xlarge") }
+        public static var vt13Xlarge: Self { .init(rawValue: "vt1.3xlarge") }
+        public static var vt16Xlarge: Self { .init(rawValue: "vt1.6xlarge") }
         public static var x116Xlarge: Self { .init(rawValue: "x1.16xlarge") }
         public static var x132Xlarge: Self { .init(rawValue: "x1.32xlarge") }
         public static var x1e16Xlarge: Self { .init(rawValue: "x1e.16xlarge") }
@@ -1582,6 +1586,8 @@ extension EC2 {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
+        case capacityReservation = "capacity-reservation"
+        case carrierGateway = "carrier-gateway"
         case clientVpnEndpoint = "client-vpn-endpoint"
         case customerGateway = "customer-gateway"
         case dedicatedHost = "dedicated-host"
@@ -1600,15 +1606,24 @@ extension EC2 {
         case instance
         case instanceEventWindow = "instance-event-window"
         case internetGateway = "internet-gateway"
+        case ipv4poolEc2 = "ipv4pool-ec2"
+        case ipv6poolEc2 = "ipv6pool-ec2"
         case keyPair = "key-pair"
         case launchTemplate = "launch-template"
+        case localGateway = "local-gateway"
+        case localGatewayRouteTable = "local-gateway-route-table"
+        case localGatewayRouteTableVirtualInterfaceGroupAssociation = "local-gateway-route-table-virtual-interface-group-association"
         case localGatewayRouteTableVpcAssociation = "local-gateway-route-table-vpc-association"
+        case localGatewayVirtualInterface = "local-gateway-virtual-interface"
+        case localGatewayVirtualInterfaceGroup = "local-gateway-virtual-interface-group"
         case natgateway
         case networkAcl = "network-acl"
         case networkInsightsAnalysis = "network-insights-analysis"
         case networkInsightsPath = "network-insights-path"
         case networkInterface = "network-interface"
         case placementGroup = "placement-group"
+        case prefixList = "prefix-list"
+        case replaceRootVolumeTask = "replace-root-volume-task"
         case reservedInstances = "reserved-instances"
         case routeTable = "route-table"
         case securityGroup = "security-group"
@@ -1627,6 +1642,8 @@ extension EC2 {
         case transitGatewayRouteTable = "transit-gateway-route-table"
         case volume
         case vpc
+        case vpcEndpoint = "vpc-endpoint"
+        case vpcEndpointService = "vpc-endpoint-service"
         case vpcFlowLog = "vpc-flow-log"
         case vpcPeeringConnection = "vpc-peering-connection"
         case vpnConnection = "vpn-connection"
@@ -5736,13 +5753,13 @@ extension EC2 {
         public let clientToken: String?
         /// A description for the new AMI in the destination Region.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI. Only specify this parameter when copying an AMI from an AWS Region to an Outpost. The AMI must be in the Region of the destination Outpost. You cannot copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. For more information, see  Copying AMIs from an AWS Region to an Outpost in the Amazon Elastic Compute Cloud User Guide.
+        /// The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI. Only specify this parameter when copying an AMI from an Amazon Web Services Region to an Outpost. The AMI must be in the Region of the destination Outpost. You cannot copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. For more information, see  Copying AMIs from an Amazon Web Services Region to an Outpost in the Amazon Elastic Compute Cloud User Guide.
         public let destinationOutpostArn: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies whether the destination snapshots of the copied image should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default CMK for EBS is used unless you specify a non-default AWS Key Management Service (AWS KMS) CMK using KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        /// Specifies whether the destination snapshots of the copied image should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
-        /// The identifier of the symmetric AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating encrypted volumes. If this parameter is not specified, your AWS managed CMK for EBS is used. If you specify a CMK, you must also set the encrypted state to true. You can specify a CMK using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an identifier that is not valid, the action can appear to complete, but eventually fails. The specified CMK must exist in the destination Region. Amazon EBS does not support asymmetric CMKs.
+        /// The identifier of the symmetric Key Management Service (KMS) KMS key to use when creating encrypted volumes. If this parameter is not specified, your Amazon Web Services managed KMS key for Amazon EBS is used. If you specify a KMS key, you must also set the encrypted state to true. You can specify a KMS key using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an identifier that is not valid, the action can appear to complete, but eventually fails. The specified KMS key must exist in the destination Region. Amazon EBS does not support asymmetric KMS keys.
         public let kmsKeyId: String?
         /// The name of the new AMI in the destination Region.
         public let name: String
@@ -6687,9 +6704,9 @@ extension EC2 {
         public let instanceId: String
         /// A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
         public let name: String
-        /// By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the No Reboot option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
+        /// By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the No Reboot option is set, Amazon EC2 doesn't shut down the instance before creating the image. Without a reboot, the AMI will be crash consistent (all the volumes are snapshotted at the same time), but not application consistent (all the operating system buffers are not flushed to disk before the snapshots are created).
         public let noReboot: Bool?
-        /// The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
+        /// The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other Amazon EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
@@ -7640,7 +7657,7 @@ extension EC2 {
     public struct CreateRestoreImageTaskRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The name of the S3 bucket that contains the stored AMI object.
+        /// The name of the Amazon S3 bucket that contains the stored AMI object.
         public let bucket: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7974,13 +7991,13 @@ extension EC2 {
     public struct CreateStoreImageTaskRequest: AWSEncodableShape {
         public struct _S3ObjectTagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The name of the S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is being made. The AMI object appears in the bucket only after the upload task has completed.
+        /// The name of the Amazon S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is being made. The AMI object appears in the bucket only after the upload task has completed.
         public let bucket: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
         public let imageId: String
-        /// The tags to apply to the AMI object that will be stored in the S3 bucket.
+        /// The tags to apply to the AMI object that will be stored in the Amazon S3 bucket.
         @OptionalCustomCoding<ArrayCoder<_S3ObjectTagsEncoding, S3ObjectTag>>
         public var s3ObjectTags: [S3ObjectTag]?
 
@@ -13288,10 +13305,10 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Scopes the images by users with explicit launch permissions. Specify an AWS account ID, self (the sender of the request), or all (public AMIs).
+        /// Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).
         @OptionalCustomCoding<ArrayCoder<_ExecutableUsersEncoding, String>>
         public var executableUsers: [String]?
-        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | io2 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the AWS account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The image IDs. Default: Describes all images available to you.
@@ -13299,7 +13316,7 @@ extension EC2 {
         public var imageIds: [String]?
         /// If true, all deprecated AMIs are included in the response. If false, no deprecated AMIs are included in the response. If no value is specified, the default value is false.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of the value (true or false) that you set for this parameter.
         public let includeDeprecated: Bool?
-        /// Scopes the results to images with the specified owners. You can specify a combination of AWS account IDs, self, amazon, and aws-marketplace. If you omit this parameter, the results include all images for which you have launch permissions, regardless of ownership.
+        /// Scopes the results to images with the specified owners. You can specify a combination of Amazon Web Services account IDs, self, amazon, and aws-marketplace. If you omit this parameter, the results include all images for which you have launch permissions, regardless of ownership.
         @OptionalCustomCoding<ArrayCoder<_OwnersEncoding, String>>
         public var owners: [String]?
 
@@ -13731,7 +13748,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether it is a burstable performance instance type (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported) | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA) (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances.    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6 (true | false).    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether it is a burstable performance instance type (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported) | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA) (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6 (true | false).    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance types. For more information, see Instance types in the Amazon EC2 User Guide.
@@ -19925,7 +19942,7 @@ extension EC2 {
     public struct EventInformation: AWSDecodableShape {
         /// The description of the event.
         public let eventDescription: String?
-        /// The event. The following are the error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet did not have the required permissions either to launch or terminate an instance.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.   The following are the fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running Spot Instances.    cancelled - The EC2 Fleet or Spot Fleet request is canceled and has no running Spot Instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances were terminated.    cancelled_running - The EC2 Fleet or Spot Fleet request is canceled and does not launch additional Spot Instances. Existing Spot Instances continue to run until they are interrupted or terminated.    cancelled_terminating - The EC2 Fleet or Spot Fleet request is canceled and its Spot Instances are terminating.    expired - The EC2 Fleet or Spot Fleet request has expired. A subsequent event indicates that the instances were terminated, if the request was created with TerminateInstancesWithExpiration set.    modify_in_progress - A request to modify the EC2 Fleet or Spot Fleet request was accepted and is in progress.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    price_update - The price for a launch configuration was adjusted because it was too high. This change is permanent.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of Spot Instances.   The following are the instanceChange events:    launched - A request was fulfilled and a new instance was launched.    terminated - An instance was terminated by the user.   The following are the Information events:    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price or the Spot price is above the On-Demand price.    fleetProgressHalted - The price in every launch specification is not valid. A launch specification might become valid if the Spot price changes.
+        /// The event. The following are the error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet did not have the required permissions either to launch or terminate an instance.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.   The following are the fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running Spot Instances.    cancelled - The EC2 Fleet or Spot Fleet request is canceled and has no running Spot Instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances were terminated.    cancelled_running - The EC2 Fleet or Spot Fleet request is canceled and does not launch additional Spot Instances. Existing Spot Instances continue to run until they are interrupted or terminated.    cancelled_terminating - The EC2 Fleet or Spot Fleet request is canceled and its Spot Instances are terminating.    expired - The EC2 Fleet or Spot Fleet request has expired. A subsequent event indicates that the instances were terminated, if the request was created with TerminateInstancesWithExpiration set.    modify_in_progress - A request to modify the EC2 Fleet or Spot Fleet request was accepted and is in progress.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of Spot Instances.   The following are the instanceChange events:    launched - A request was fulfilled and a new instance was launched.    terminated - An instance was terminated by the user.   The following are the Information events:    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price or the Spot price is above the On-Demand price.    fleetProgressHalted - The price in every launch specification is not valid. A launch specification might become valid if the Spot price changes.
         public let eventSubType: String?
         /// The ID of the instance. This information is available only for instanceChange events.
         public let instanceId: String?
@@ -22842,7 +22859,7 @@ extension EC2 {
         public let imageId: String?
         /// The location of the AMI.
         public let imageLocation: String?
-        /// The AWS account alias (for example, amazon, self) or the AWS account ID of the AMI owner.
+        /// The Amazon Web Services account alias (for example, amazon, self) or the Amazon Web Services account ID of the AMI owner.
         public let imageOwnerAlias: String?
         /// The type of image.
         public let imageType: ImageTypeValues?
@@ -22850,11 +22867,11 @@ extension EC2 {
         public let kernelId: String?
         /// The name of the AMI that was provided during image creation.
         public let name: String?
-        /// The AWS account ID of the image owner.
+        /// The ID of the Amazon Web Services account that owns the image.
         public let ownerId: String?
         /// This value is set to windows for Windows AMIs; otherwise, it is blank.
         public let platform: PlatformValues?
-        /// The platform details associated with the billing code of the AMI. For more information, see Obtaining Billing Information in the Amazon Elastic Compute Cloud User Guide.
+        /// The platform details associated with the billing code of the AMI. For more information, see Understanding AMI billing in the Amazon Elastic Compute Cloud User Guide.
         public let platformDetails: String?
         /// Any product codes associated with the AMI.
         @OptionalCustomCoding<ArrayCoder<_ProductCodesEncoding, ProductCode>>
@@ -22865,7 +22882,7 @@ extension EC2 {
         public let ramdiskId: String?
         /// The device name of the root device volume (for example, /dev/sda1).
         public let rootDeviceName: String?
-        /// The type of root device used by the AMI. The AMI can use an EBS volume or an instance store volume.
+        /// The type of root device used by the AMI. The AMI can use an Amazon EBS volume or an instance store volume.
         public let rootDeviceType: DeviceType?
         /// Specifies whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
         public let sriovNetSupport: String?
@@ -22876,7 +22893,7 @@ extension EC2 {
         /// Any tags assigned to the image.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The operation of the Amazon EC2 instance and the billing code that is associated with the AMI. usageOperation corresponds to the lineitem/Operation column on your AWS Cost and Usage Report and in the AWS Price List API. For the list of UsageOperation codes, see Platform Details and Usage Operation Billing Codes in the Amazon Elastic Compute Cloud User Guide.
+        /// The operation of the Amazon EC2 instance and the billing code that is associated with the AMI. usageOperation corresponds to the lineitem/Operation column on your Amazon Web Services Cost and Usage Report and in the Amazon Web Services Price List API. You can view these fields on the Instances or AMIs pages in the Amazon EC2 console, or in the responses that are returned by the DescribeImages command in the Amazon EC2 API, or the describe-images command in the CLI.
         public let usageOperation: String?
         /// The type of virtualization of the AMI.
         public let virtualizationType: VirtualizationType?
@@ -24164,7 +24181,7 @@ extension EC2 {
     }
 
     public struct InstanceCreditSpecificationRequest: AWSEncodableShape {
-        /// The credit option for CPU usage of the instance. Valid values are standard and unlimited.
+        /// The credit option for CPU usage of the instance. Valid values are standard and unlimited. T3 instances with host tenancy do not support the unlimited CPU credit option.
         public let cpuCredits: String?
         /// The ID of the instance.
         public let instanceId: String?
@@ -25560,7 +25577,7 @@ extension EC2 {
     public struct LaunchPermission: AWSEncodableShape & AWSDecodableShape {
         /// The name of the group.
         public let group: PermissionGroup?
-        /// The AWS account ID. Constraints: Up to 10 000 account IDs can be specified in a single request.
+        /// The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request.
         public let userId: String?
 
         public init(group: PermissionGroup? = nil, userId: String? = nil) {
@@ -25578,10 +25595,10 @@ extension EC2 {
         public struct _AddEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The AWS account ID to add to the list of launch permissions for the AMI.
+        /// The Amazon Web Services account ID to add to the list of launch permissions for the AMI.
         @OptionalCustomCoding<ArrayCoder<_AddEncoding, LaunchPermission>>
         public var add: [LaunchPermission]?
-        /// The AWS account ID to remove from the list of launch permissions for the AMI.
+        /// The Amazon Web Services account ID to remove from the list of launch permissions for the AMI.
         @OptionalCustomCoding<ArrayCoder<_RemoveEncoding, LaunchPermission>>
         public var remove: [LaunchPermission]?
 
@@ -27081,7 +27098,7 @@ extension EC2 {
         public let prefixListId: String?
         /// The name of the prefix list.
         public let prefixListName: String?
-        /// The state of the prefix list.
+        /// The current state of the prefix list.
         public let state: PrefixListState?
         /// The state message.
         public let stateMessage: String?
@@ -27210,7 +27227,7 @@ extension EC2 {
         public let endDate: Date?
         /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types:    unlimited - The Capacity Reservation remains active until you explicitly cancel it. Do not provide an EndDate value if EndDateType is unlimited.    limited - The Capacity Reservation expires automatically at a specified date and time. You must provide an EndDate value if EndDateType is limited.
         public let endDateType: EndDateType?
-        /// The number of instances for which to reserve capacity. Valid range: 1 - 1000
+        /// The number of instances for which to reserve capacity. The number of instances can't be increased or decreased by more than 1000 in a single request.
         public let instanceCount: Int?
 
         public init(accept: Bool? = nil, capacityReservationId: String, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
@@ -27605,7 +27622,7 @@ extension EC2 {
         public struct _UserGroupsEncoding: ArrayCoderProperties { public static let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { public static let member = "UserId" }
 
-        /// The name of the attribute to modify. The valid values are description, launchPermission, and productCodes.
+        /// The name of the attribute to modify. The valid values are description and launchPermission.
         public let attribute: String?
         /// A new description for the AMI.
         public let description: AttributeValue?
@@ -27617,16 +27634,16 @@ extension EC2 {
         public let launchPermission: LaunchPermissionModifications?
         /// The operation type. This parameter can be used only when the Attribute parameter is launchPermission.
         public let operationType: OperationType?
-        /// The DevPay product codes. After you add a product code to an AMI, it can't be removed.
+        /// Not supported.
         @OptionalCustomCoding<ArrayCoder<_ProductCodesEncoding, String>>
         public var productCodes: [String]?
         /// The user groups. This parameter can be used only when the Attribute parameter is launchPermission.
         @OptionalCustomCoding<ArrayCoder<_UserGroupsEncoding, String>>
         public var userGroups: [String]?
-        /// The AWS account IDs. This parameter can be used only when the Attribute parameter is launchPermission.
+        /// The Amazon Web Services account IDs. This parameter can be used only when the Attribute parameter is launchPermission.
         @OptionalCustomCoding<ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
-        /// The value of the attribute being modified. This parameter can be used only when the Attribute parameter is description or productCodes.
+        /// The value of the attribute being modified. This parameter can be used only when the Attribute parameter is description.
         public let value: String?
 
         public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
@@ -27963,7 +27980,7 @@ extension EC2 {
         public let instanceId: String
         /// Reserved for future use.
         public let partitionNumber: Int?
-        /// The tenancy for the instance.
+        /// The tenancy for the instance. For T3 instances, you can't change the tenancy from dedicated to host, or from host to dedicated. Attempting to make one of these unsupported tenancy changes results in the InvalidTenancy error code.
         public let tenancy: HostTenancy?
 
         public init(affinity: Affinity? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
@@ -28056,7 +28073,7 @@ extension EC2 {
         public let currentVersion: Int64?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The maximum number of entries for the prefix list. You cannot modify the entries of a prefix list and modify the size of a prefix list at the same time.
+        /// The maximum number of entries for the prefix list. You cannot modify the entries of a prefix list and modify the size of a prefix list at the same time. If any of the resources that reference the prefix list cannot support the new maximum size, the modify operation fails. Check the state message for the IDs of the first ten resources that do not support the new maximum size.
         public let maxEntries: Int?
         /// The ID of the prefix list.
         public let prefixListId: String
@@ -30575,7 +30592,7 @@ extension EC2 {
         public let partitionNumber: Int?
         /// Reserved for future use. This parameter is not supported by CreateFleet.
         public let spreadDomain: String?
-        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by CreateFleet.
+        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by CreateFleet. T3 instances that use the unlimited CPU credit option do not support host tenancy.
         public let tenancy: Tenancy?
 
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
@@ -31439,10 +31456,10 @@ extension EC2 {
 
         /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
         public let architecture: ArchitectureValues?
-        /// The billing product codes. Your account must be authorized to specify billing product codes. Otherwise, you can use the AWS Marketplace to bill for the use of an AMI.
+        /// The billing product codes. Your account must be authorized to specify billing product codes. Otherwise, you can use the Amazon Web Services Marketplace to bill for the use of an AMI.
         @OptionalCustomCoding<ArrayCoder<_BillingProductsEncoding, String>>
         public var billingProducts: [String]?
-        /// The block device mapping entries. If you specify an EBS volume using the ID of an EBS snapshot, you can't specify the encryption state of the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used to launch instances on the same Outpost only. For more information,  Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.
+        /// The block device mapping entries. If you specify an Amazon EBS volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used to launch instances on the same Outpost only. For more information,  Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.
         @OptionalCustomCoding<ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
         /// The boot mode of the AMI. For more information, see Boot modes in the Amazon Elastic Compute Cloud User Guide.
@@ -33783,7 +33800,7 @@ extension EC2 {
         public let clientToken: String?
         /// The CPU options for the instance. For more information, see Optimizing CPU options in the Amazon EC2 User Guide.
         public let cpuOptions: CpuOptionsRequest?
-        /// The credit option for CPU usage of the burstable performance instance. Valid values are standard and unlimited. To change this attribute after launch, use  ModifyInstanceCreditSpecification. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited (T3/T3a instances)
+        /// The credit option for CPU usage of the burstable performance instance. Valid values are standard and unlimited. To change this attribute after launch, use  ModifyInstanceCreditSpecification. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited (T3/T3a instances) For T3 instances with host tenancy, only standard is supported.
         public let creditSpecification: CreditSpecificationRequest?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false
         public let disableApiTermination: Bool?
@@ -34006,7 +34023,7 @@ extension EC2 {
     }
 
     public struct S3Storage: AWSEncodableShape & AWSDecodableShape {
-        /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Managing AWS Access Keys.
+        /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Managing Amazon Web Services Access Keys.
         public let aWSAccessKeyId: String?
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public let bucket: String?
@@ -36271,7 +36288,7 @@ extension EC2 {
     public struct StoreImageTaskResult: AWSDecodableShape {
         /// The ID of the AMI that is being stored.
         public let amiId: String?
-        /// The name of the S3 bucket that contains the stored AMI object.
+        /// The name of the Amazon S3 bucket that contains the stored AMI object.
         public let bucket: String?
         /// The progress of the task as a percentage.
         public let progressPercentage: Int?
@@ -36553,7 +36570,7 @@ extension EC2 {
     public struct TagSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | carrier-gateway | client-vpn-endpoint | customer-gateway | dedicated-host | dhcp-options | egress-only-internet-gateway | elastic-ip | elastic-gpu | export-image-task | export-instance-task | fleet | fpga-image | host-reservation | image| import-image-task | import-snapshot-task | instance | instance-event-window | internet-gateway | ipv4pool-ec2 | ipv6pool-ec2 | key-pair | launch-template | local-gateway-route-table-vpc-association | placement-group | prefix-list | natgateway | network-acl | network-interface | reserved-instances |route-table | security-group| snapshot | spot-fleet-request | spot-instances-request | snapshot | subnet | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-multicast-domain | transit-gateway-route-table | volume |vpc |  vpc-peering-connection | vpc-endpoint (for interface and gateway endpoints) | vpc-endpoint-service (for Amazon Web Services PrivateLink) | vpc-flow-log | vpn-connection | vpn-gateway. To tag a resource after it has been created, see CreateTags.
+        /// The type of resource to tag on creation. The possible values are: capacity-reservation | carrier-gateway | client-vpn-endpoint | customer-gateway | dedicated-host | dhcp-options | egress-only-internet-gateway | elastic-gpu | elastic-ip | export-image-task | export-instance-task | fleet | fpga-image | host-reservation | image | import-image-task | import-snapshot-task | instance | instance-event-window | internet-gateway | ipv4pool-ec2 | ipv6pool-ec2 | key-pair | launch-template | local-gateway-route-table-vpc-association | natgateway | network-acl | network-insights-analysis | network-insights-path | network-interface | placement-group | prefix-list | reserved-instances | route-table | security-group | security-group-rule | snapshot | spot-fleet-request | spot-instances-request | subnet | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-multicast-domain | transit-gateway-route-table | volume | vpc | vpc-endpoint | vpc-endpoint-service | vpc-flow-log | vpc-peering-connection | vpn-connection | vpn-gateway. To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -36638,7 +36655,7 @@ extension EC2 {
     }
 
     public struct TargetConfigurationRequest: AWSEncodableShape {
-        /// The number of instances the Covertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
+        /// The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
         public let instanceCount: Int?
         /// The Convertible Reserved Instance offering ID.
         public let offeringId: String

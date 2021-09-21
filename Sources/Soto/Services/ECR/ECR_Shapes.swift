@@ -135,7 +135,7 @@ extension ECR {
     public struct BatchCheckLayerAvailabilityRequest: AWSEncodableShape {
         /// The digests of the image layers to check.
         public let layerDigests: [String]
-        /// The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository that is associated with the image layers to check.
         public let repositoryName: String
@@ -186,7 +186,7 @@ extension ECR {
     public struct BatchDeleteImageRequest: AWSEncodableShape {
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
         public let imageIds: [ImageIdentifier]
-        /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The repository that contains the image to delete.
         public let repositoryName: String
@@ -238,7 +238,7 @@ extension ECR {
         public let acceptedMediaTypes: [String]?
         /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
         public let imageIds: [ImageIdentifier]
-        /// The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The repository that contains the images to describe.
         public let repositoryName: String
@@ -292,7 +292,7 @@ extension ECR {
     public struct CompleteLayerUploadRequest: AWSEncodableShape {
         /// The sha256 digest of the image layer.
         public let layerDigests: [String]
-        /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to associate with the image layer.
         public let repositoryName: String
@@ -402,7 +402,7 @@ extension ECR {
     }
 
     public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository.
         public let repositoryName: String
@@ -472,7 +472,7 @@ extension ECR {
     }
 
     public struct DeleteRepositoryPolicyRequest: AWSEncodableShape {
-        /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository that is associated with the repository policy to delete.
         public let repositoryName: String
@@ -519,7 +519,7 @@ extension ECR {
     public struct DeleteRepositoryRequest: AWSEncodableShape {
         ///  If a repository contains images, forces the deletion.
         public let force: Bool?
-        /// The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to delete.
         public let repositoryName: String
@@ -563,7 +563,7 @@ extension ECR {
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeImageScanFindings request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The repository for the image for which to describe the scan findings.
         public let repositoryName: String
@@ -649,7 +649,7 @@ extension ECR {
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The repository that contains the images to describe.
         public let repositoryName: String
@@ -730,7 +730,7 @@ extension ECR {
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
         public let repositoryNames: [String]?
@@ -781,9 +781,9 @@ extension ECR {
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with customer master keys (CMKs) stored in AWS KMS. When you use AWS KMS to encrypt your data, you can either use the default AWS managed CMK for Amazon ECR, or specify your own CMK, which you already created. For more information, see Protecting Data Using Server-Side Encryption with CMKs Stored in AWS Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide.. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see Protecting Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide..
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide.. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide..
         public let encryptionType: EncryptionType
-        /// If you use the KMS encryption type, specify the CMK to use for encryption. The alias, key ID, or full ARN of the CMK can be specified. The key must exist in the same Region as the repository. If no key is specified, the default AWS managed CMK for Amazon ECR will be used.
+        /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
         public let kmsKey: String?
 
         public init(encryptionType: EncryptionType, kmsKey: String? = nil) {
@@ -822,7 +822,7 @@ extension ECR {
     public struct GetDownloadUrlForLayerRequest: AWSEncodableShape {
         /// The digest of the image layer to download.
         public let layerDigest: String
-        /// The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository that is associated with the image layer to download.
         public let repositoryName: String
@@ -874,7 +874,7 @@ extension ECR {
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated&#x2028; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#x2028; results exceeded the value of that parameter. Pagination continues from the end of the&#x2028; previous results that returned the nextToken value. This value is&#x2028; null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository.
         public let repositoryName: String
@@ -950,7 +950,7 @@ extension ECR {
     }
 
     public struct GetLifecyclePolicyRequest: AWSEncodableShape {
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository.
         public let repositoryName: String
@@ -1020,7 +1020,7 @@ extension ECR {
     }
 
     public struct GetRepositoryPolicyRequest: AWSEncodableShape {
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository with the policy to retrieve.
         public let repositoryName: String
@@ -1071,7 +1071,7 @@ extension ECR {
         public let imageManifest: String?
         /// The manifest media type of the image.
         public let imageManifestMediaType: String?
-        /// The AWS account ID associated with the registry containing the image.
+        /// The Amazon Web Services account ID associated with the registry containing the image.
         public let registryId: String?
         /// The name of the repository associated with the image.
         public let repositoryName: String?
@@ -1110,7 +1110,7 @@ extension ECR {
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
         public let imageTags: [String]?
-        /// The AWS account ID associated with the registry to which this image belongs.
+        /// The Amazon Web Services account ID associated with the registry to which this image belongs.
         public let registryId: String?
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
@@ -1278,7 +1278,7 @@ extension ECR {
     }
 
     public struct ImageScanningConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the StartImageScan API.
+        /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API.
         public let scanOnPush: Bool?
 
         public init(scanOnPush: Bool? = nil) {
@@ -1291,7 +1291,7 @@ extension ECR {
     }
 
     public struct InitiateLayerUploadRequest: AWSEncodableShape {
-        /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to which you intend to upload layers.
         public let repositoryName: String
@@ -1465,7 +1465,7 @@ extension ECR {
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
-        /// The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The repository with image IDs to be listed.
         public let repositoryName: String
@@ -1548,7 +1548,7 @@ extension ECR {
         public let imageManifestMediaType: String?
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
         public let imageTag: String?
-        /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository in which to put the image.
         public let repositoryName: String
@@ -1599,7 +1599,7 @@ extension ECR {
     public struct PutImageScanningConfigurationRequest: AWSEncodableShape {
         /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration
-        /// The AWS account ID associated with the registry that contains the repository in which to update the image scanning configuration setting. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image scanning configuration setting. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository in which to update the image scanning configuration setting.
         public let repositoryName: String
@@ -1648,7 +1648,7 @@ extension ECR {
     public struct PutImageTagMutabilityRequest: AWSEncodableShape {
         /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability
-        /// The AWS account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository in which to update the image tag mutability settings.
         public let repositoryName: String
@@ -1697,7 +1697,7 @@ extension ECR {
     public struct PutLifecyclePolicyRequest: AWSEncodableShape {
         /// The JSON repository policy text to apply to the repository.
         public let lifecyclePolicyText: String
-        /// The AWS account ID associated with the registry that contains the repository. If you do&#x2028; not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do&#x2028; not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to receive the policy.
         public let repositoryName: String
@@ -1884,9 +1884,9 @@ extension ECR {
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
-        /// The AWS account ID associated with the registry that contains the repository.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public let registryId: String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, AWS account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
         public let repositoryArn: String?
         /// The name of the repository.
         public let repositoryName: String?
@@ -1919,9 +1919,9 @@ extension ECR {
     public struct SetRepositoryPolicyRequest: AWSEncodableShape {
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
-        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
+        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR repository policies in the Amazon Elastic Container Registry User Guide.
         public let policyText: String
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to receive the policy.
         public let repositoryName: String
@@ -1973,7 +1973,7 @@ extension ECR {
 
     public struct StartImageScanRequest: AWSEncodableShape {
         public let imageId: ImageIdentifier
-        /// The AWS account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository that contains the images to scan.
         public let repositoryName: String
@@ -2026,7 +2026,7 @@ extension ECR {
     public struct StartLifecyclePolicyPreviewRequest: AWSEncodableShape {
         /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
         public let lifecyclePolicyText: String?
-        /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to be evaluated.
         public let repositoryName: String
@@ -2144,7 +2144,7 @@ extension ECR {
         public let partFirstByte: Int64
         /// The position of the last byte of the layer part within the overall image layer.
         public let partLastByte: Int64
-        /// The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to which you are uploading layer parts.
         public let repositoryName: String

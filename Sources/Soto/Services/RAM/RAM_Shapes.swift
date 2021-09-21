@@ -113,9 +113,9 @@ extension RAM {
     public struct AssociateResourceSharePermissionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS RAM permissions to associate with the resource share.
+        /// The Amazon Resource Name (ARN) of the RAM permission to associate with the resource share.
         public let permissionArn: String
-        /// The version of the AWS RAM permissions to associate with the resource share.
+        /// The version of the RAM permissions to associate with the resource share.
         public let permissionVersion: Int?
         /// Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission.
         public let replace: Bool?
@@ -159,9 +159,9 @@ extension RAM {
     public struct AssociateResourceShareRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The principals to associate with the resource share. The possible values are IDs of AWS accounts, and the ARNs of organizational units (OU) or organizations from AWS Organizations.
+        /// The principals to associate with the resource share. The possible values are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource Access Manager User Guide.
         public let principals: [String]?
-        /// The Amazon Resource Names (ARN) of the resources.
+        /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -199,17 +199,17 @@ extension RAM {
     }
 
     public struct CreateResourceShareRequest: AWSEncodableShape {
-        /// Indicates whether principals outside your AWS organization can be associated with a resource share.
+        /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// The name of the resource share.
         public let name: String
-        /// The ARNs of the permissions to associate with the resource share. If you do not specify an ARN for the permission, AWS RAM automatically attaches the default version of the permission for each resource type.
+        /// The Amazon Resource Names (ARNs) of the permissions to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. Only one permission can be associated with each resource type in a resource share.
         public let permissionArns: [String]?
-        /// The principals to associate with the resource share. The possible values are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
+        /// The principals to associate with the resource share. The possible values are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource Access Manager User Guide.
         public let principals: [String]?
-        /// The Amazon Resource Names (ARN) of the resources to associate with the resource share.
+        /// The ARNs of the resources to associate with the resource share.
         public let resourceArns: [String]?
         /// One or more tags.
         public let tags: [Tag]?
@@ -291,7 +291,7 @@ extension RAM {
     public struct DisassociateResourceSharePermissionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The ARN of the permission to disassociate from the resource share.
+        /// The Amazon Resource Name (ARN) of the permission to disassociate from the resource share.
         public let permissionArn: String
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -386,7 +386,7 @@ extension RAM {
     }
 
     public struct GetPermissionRequest: AWSEncodableShape {
-        /// The ARN of the permission.
+        /// The Amazon Resource Name (ARN) of the permission.
         public let permissionArn: String
         /// The identifier for the version of the permission.
         public let permissionVersion: Int?
@@ -422,7 +422,7 @@ extension RAM {
         public let nextToken: String?
         /// The principal.
         public let principal: String?
-        /// The Amazon Resource Names (ARN) of the resources.
+        /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
@@ -575,11 +575,11 @@ extension RAM {
         public let name: String?
         /// The token for the next page of results.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS RAM permission that is associated with the resource share.
+        /// The Amazon Resource Name (ARN) of the RAM permission that is associated with the resource share.
         public let permissionArn: String?
         /// The type of owner.
         public let resourceOwner: ResourceOwner
-        /// The ARNs of the resource shares.
+        /// The Amazon Resource Names (ARNs) of the resource shares.
         public let resourceShareArns: [String]?
         /// The status of the resource share.
         public let resourceShareStatus: ResourceShareStatus?
@@ -730,7 +730,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
+        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule | s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -844,7 +844,7 @@ extension RAM {
     public struct ListResourceTypesResponse: AWSDecodableShape {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// The shareable resource types supported by AWS RAM.
+        /// The shareable resource types supported by RAM.
         public let resourceTypes: [ServiceNameAndResourceType]?
 
         public init(nextToken: String? = nil, resourceTypes: [ServiceNameAndResourceType]? = nil) {
@@ -865,13 +865,13 @@ extension RAM {
         public let nextToken: String?
         /// The principal.
         public let principal: String?
-        /// The Amazon Resource Names (ARN) of the resources.
+        /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]?
         /// The type of owner.
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
+        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule | s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -920,7 +920,7 @@ extension RAM {
     public struct Principal: AWSDecodableShape {
         /// The time when the principal was associated with the resource share.
         public let creationTime: Date?
-        /// Indicates whether the principal belongs to the same AWS organization as the AWS account that owns the resource share.
+        /// Indicates whether the principal belongs to the same organization in Organizations as the Amazon Web Services account that owns the resource share.
         public let external: Bool?
         /// The ID of the principal.
         public let id: String?
@@ -951,7 +951,7 @@ extension RAM {
             AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
-        /// The ARN of the resource share to promote.
+        /// The Amazon Resource Name (ARN) of the resource share to promote.
         public let resourceShareArn: String
 
         public init(resourceShareArn: String) {
@@ -1015,7 +1015,7 @@ extension RAM {
         public let creationTime: Date?
         /// The time when the association was last updated.
         public let lastUpdatedTime: Date?
-        /// The ARN of the resource group. This value is returned only if the resource is a resource group.
+        /// The Amazon Resource Name (ARN) of the resource group. This value is returned only if the resource is a resource group.
         public let resourceGroupArn: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
@@ -1050,17 +1050,17 @@ extension RAM {
     }
 
     public struct ResourceShare: AWSDecodableShape {
-        /// Indicates whether principals outside your AWS organization can be associated with a resource share.
+        /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// The time when the resource share was created.
         public let creationTime: Date?
-        /// Indicates how the resource share was created. Possible values include:    CREATED_FROM_POLICY - Indicates that the resource share was created from an AWS Identity and Access Management (AWS IAM) policy attached to a resource. These resource shares are visible only to the AWS account that created it. They cannot be modified in AWS RAM.    PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see PromoteResourceShareCreatedFromPolicy.    STANDARD - Indicates that the resource share was created in AWS RAM using the console or APIs. These resource shares are visible to all principals. They can be modified in AWS RAM.
+        /// Indicates how the resource share was created. Possible values include:    CREATED_FROM_POLICY - Indicates that the resource share was created from an Amazon Web Services Identity and Access Management (Amazon Web Services IAM) policy attached to a resource. These resource shares are visible only to the Amazon Web Services account that created it. They cannot be modified in RAM.    PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see PromoteResourceShareCreatedFromPolicy.    STANDARD - Indicates that the resource share was created in RAM using the console or APIs. These resource shares are visible to all principals. They can be modified in RAM.
         public let featureSet: ResourceShareFeatureSet?
         /// The time when the resource share was last updated.
         public let lastUpdatedTime: Date?
         /// The name of the resource share.
         public let name: String?
-        /// The ID of the AWS account that owns the resource share.
+        /// The ID of the Amazon Web Services account that owns the resource share.
         public let owningAccountId: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
@@ -1099,13 +1099,13 @@ extension RAM {
     }
 
     public struct ResourceShareAssociation: AWSDecodableShape {
-        /// The associated entity. For resource associations, this is the ARN of the resource. For principal associations, this is the ID of an AWS account or the ARN of an OU or organization from AWS Organizations.
+        /// The associated entity. For resource associations, this is the Amazon Resource Name (ARN) of the resource. For principal associations, this is one of the following:   An Amazon Web Services account ID   An ARN of an organization in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an IAM role   An ARN of an IAM user
         public let associatedEntity: String?
         /// The association type.
         public let associationType: ResourceShareAssociationType?
         /// The time when the association was created.
         public let creationTime: Date?
-        /// Indicates whether the principal belongs to the same AWS organization as the AWS account that owns the resource share.
+        /// Indicates whether the principal belongs to the same organization in Organizations as the Amazon Web Services account that owns the resource share.
         public let external: Bool?
         /// The time when the association was last updated.
         public let lastUpdatedTime: Date?
@@ -1146,7 +1146,7 @@ extension RAM {
     public struct ResourceShareInvitation: AWSDecodableShape {
         /// The date and time when the invitation was sent.
         public let invitationTimestamp: Date?
-        /// The ID of the AWS account that received the invitation.
+        /// The ID of the Amazon Web Services account that received the invitation.
         public let receiverAccountId: String?
         /// The Amazon Resource Name (ARN) of the IAM user or IAM role that received the invitation.
         public let receiverArn: String?
@@ -1156,7 +1156,7 @@ extension RAM {
         public let resourceShareInvitationArn: String?
         /// The name of the resource share.
         public let resourceShareName: String?
-        /// The ID of the AWS account that sent the invitation.
+        /// The ID of the Amazon Web Services account that sent the invitation.
         public let senderAccountId: String?
         /// The status of the invitation.
         public let status: ResourceShareInvitationStatus?
@@ -1185,7 +1185,7 @@ extension RAM {
     }
 
     public struct ResourceSharePermissionDetail: AWSDecodableShape {
-        /// The ARN of the permission.
+        /// The Amazon Resource Name (ARN) of the permission.
         public let arn: String?
         /// The date and time when the permission was created.
         public let creationTime: Date?
@@ -1230,7 +1230,7 @@ extension RAM {
     }
 
     public struct ResourceSharePermissionSummary: AWSDecodableShape {
-        /// The ARN of the permission.
+        /// The Amazon Resource Name (ARN) of the permission.
         public let arn: String?
         /// The date and time when the permission was created.
         public let creationTime: Date?
@@ -1277,7 +1277,7 @@ extension RAM {
     public struct ServiceNameAndResourceType: AWSDecodableShape {
         /// The shareable resource types.
         public let resourceType: String?
-        /// The name of the AWS services to which the resources belong.
+        /// The name of the Amazon Web Services services to which the resources belong.
         public let serviceName: String?
 
         public init(resourceType: String? = nil, serviceName: String? = nil) {
@@ -1368,7 +1368,7 @@ extension RAM {
     }
 
     public struct UpdateResourceShareRequest: AWSEncodableShape {
-        /// Indicates whether principals outside your AWS organization can be associated with a resource share.
+        /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?

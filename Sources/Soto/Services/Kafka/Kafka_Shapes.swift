@@ -275,15 +275,19 @@ extension Kafka {
         public let sasl: Sasl?
         /// Details for ClientAuthentication using TLS.
         public let tls: Tls?
+        /// Contains information about unauthenticated traffic to the cluster.
+        public let unauthenticated: Unauthenticated?
 
-        public init(sasl: Sasl? = nil, tls: Tls? = nil) {
+        public init(sasl: Sasl? = nil, tls: Tls? = nil, unauthenticated: Unauthenticated? = nil) {
             self.sasl = sasl
             self.tls = tls
+            self.unauthenticated = unauthenticated
         }
 
         private enum CodingKeys: String, CodingKey {
             case sasl
             case tls
+            case unauthenticated
         }
     }
 
@@ -1470,8 +1474,12 @@ extension Kafka {
     public struct MutableClusterInfo: AWSDecodableShape {
         /// Specifies the size of the EBS volume and the ID of the associated broker.
         public let brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]?
+        /// Includes all client authentication related information.
+        public let clientAuthentication: ClientAuthentication?
         /// Information about the changes in the configuration of the brokers.
         public let configurationInfo: ConfigurationInfo?
+        /// Includes all encryption-related information.
+        public let encryptionInfo: EncryptionInfo?
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
         public let enhancedMonitoring: EnhancedMonitoring?
         /// The Amazon MSK broker type that you want all of the brokers in this cluster to be.
@@ -1484,9 +1492,11 @@ extension Kafka {
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
+            self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
+            self.encryptionInfo = encryptionInfo
             self.enhancedMonitoring = enhancedMonitoring
             self.instanceType = instanceType
             self.kafkaVersion = kafkaVersion
@@ -1497,7 +1507,9 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case brokerEBSVolumeInfo
+            case clientAuthentication
             case configurationInfo
+            case encryptionInfo
             case enhancedMonitoring
             case instanceType
             case kafkaVersion
@@ -1699,6 +1711,7 @@ extension Kafka {
     }
 
     public struct Scram: AWSEncodableShape & AWSDecodableShape {
+        /// SASL/SCRAM authentication is enabled or not.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -1749,13 +1762,30 @@ extension Kafka {
     public struct Tls: AWSEncodableShape & AWSDecodableShape {
         /// List of ACM Certificate Authority ARNs.
         public let certificateAuthorityArnList: [String]?
+        /// TLS authentication is enabled or not.
+        public let enabled: Bool?
 
-        public init(certificateAuthorityArnList: [String]? = nil) {
+        public init(certificateAuthorityArnList: [String]? = nil, enabled: Bool? = nil) {
             self.certificateAuthorityArnList = certificateAuthorityArnList
+            self.enabled = enabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArnList
+            case enabled
+        }
+    }
+
+    public struct Unauthenticated: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether you want to enable or disable unauthenticated traffic to your cluster.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
         }
     }
 
@@ -2074,6 +2104,50 @@ extension Kafka {
     }
 
     public struct UpdateMonitoringResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case clusterOperationArn
+        }
+    }
+
+    public struct UpdateSecurityRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        /// Includes all client authentication related information.
+        public let clientAuthentication: ClientAuthentication?
+        public let clusterArn: String
+        /// You can use the DescribeCluster operation to get the current version of the cluster. After the security update is complete, the cluster will have a new version.
+        public let currentVersion: String
+        /// Includes all encryption-related information.
+        public let encryptionInfo: EncryptionInfo?
+
+        public init(clientAuthentication: ClientAuthentication? = nil, clusterArn: String, currentVersion: String, encryptionInfo: EncryptionInfo? = nil) {
+            self.clientAuthentication = clientAuthentication
+            self.clusterArn = clusterArn
+            self.currentVersion = currentVersion
+            self.encryptionInfo = encryptionInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAuthentication
+            case currentVersion
+            case encryptionInfo
+        }
+    }
+
+    public struct UpdateSecurityResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
         /// The Amazon Resource Name (ARN) of the cluster operation.

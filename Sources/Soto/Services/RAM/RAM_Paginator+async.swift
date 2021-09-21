@@ -132,7 +132,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the AWS RAM permissions.
+    ///  Lists the RAM permissions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -176,7 +176,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the AWS RAM permissions that are associated with a resource share.
+    ///  Lists the RAM permissions that are associated with a resource share.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -198,7 +198,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the shareable resource types supported by AWS RAM.
+    ///  Lists the shareable resource types supported by RAM.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
