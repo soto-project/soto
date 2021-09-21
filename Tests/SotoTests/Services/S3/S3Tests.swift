@@ -15,7 +15,6 @@
 import AsyncHTTPClient
 import Foundation
 import NIOCore
-import NIOHTTP1
 import NIOPosix
 import SotoCore
 import XCTest
@@ -42,7 +41,7 @@ class S3Tests: XCTestCase {
             httpClientProvider: .createNewWithEventLoopGroup(Self.eventLoopGroup)
         )
         Self.s3 = S3(
-            client: S3Tests.client,
+            client: Self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )

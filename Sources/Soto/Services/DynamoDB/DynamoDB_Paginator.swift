@@ -19,57 +19,6 @@ import SotoCore
 // MARK: Paginators
 
 extension DynamoDB {
-    ///  The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key. A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem returns a partial result if the response size limit is exceeded, the table's provisioned throughput is exceeded, or an internal processing failure occurs. If a partial result is returned, the operation returns a value for UnprocessedKeys. You can use this value to retry the operation starting with the next item to get.  If you request more than 100 items, BatchGetItem returns a ValidationException with the message "Too many items requested for the BatchGetItem call."  For example, if you ask to retrieve 100 items, but each individual item is 300 KB in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns an appropriate UnprocessedKeys value so you can get the next page of results. If desired, your application can include its own logic to assemble the pages of results into one dataset. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchGetItem returns a ProvisionedThroughputExceededException. If at least one of the items is successfully processed, then BatchGetItem completes successfully, while returning the keys of the unread items in UnprocessedKeys.  If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see Batch Operations and Error Handling in the Amazon DynamoDB Developer Guide.  By default, BatchGetItem performs eventually consistent reads on every table in the request. If you want strongly consistent reads instead, you can set ConsistentRead to true for any or all tables. In order to minimize response latency, BatchGetItem retrieves items in parallel. When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the ProjectionExpression parameter. If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see Working with Tables in the Amazon DynamoDB Developer Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used for logging output
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func batchGetItemPaginator<Result>(
-        _ input: BatchGetItemInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, BatchGetItemOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: batchGetItem,
-            tokenKey: \BatchGetItemOutput.unprocessedKeys,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used for logging output
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    public func batchGetItemPaginator(
-        _ input: BatchGetItemInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (BatchGetItemOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return client.paginate(
-            input: input,
-            command: batchGetItem,
-            tokenKey: \BatchGetItemOutput.unprocessedKeys,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
     ///  Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -93,7 +42,8 @@ extension DynamoDB {
             input: input,
             initialValue: initialValue,
             command: listContributorInsights,
-            tokenKey: \ListContributorInsightsOutput.nextToken,
+            inputKey: \ListContributorInsightsInput.nextToken,
+            outputKey: \ListContributorInsightsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +65,8 @@ extension DynamoDB {
         return client.paginate(
             input: input,
             command: listContributorInsights,
-            tokenKey: \ListContributorInsightsOutput.nextToken,
+            inputKey: \ListContributorInsightsInput.nextToken,
+            outputKey: \ListContributorInsightsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +95,8 @@ extension DynamoDB {
             input: input,
             initialValue: initialValue,
             command: listExports,
-            tokenKey: \ListExportsOutput.nextToken,
+            inputKey: \ListExportsInput.nextToken,
+            outputKey: \ListExportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +118,8 @@ extension DynamoDB {
         return client.paginate(
             input: input,
             command: listExports,
-            tokenKey: \ListExportsOutput.nextToken,
+            inputKey: \ListExportsInput.nextToken,
+            outputKey: \ListExportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +148,8 @@ extension DynamoDB {
             input: input,
             initialValue: initialValue,
             command: listTables,
-            tokenKey: \ListTablesOutput.lastEvaluatedTableName,
+            inputKey: \ListTablesInput.exclusiveStartTableName,
+            outputKey: \ListTablesOutput.lastEvaluatedTableName,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +171,8 @@ extension DynamoDB {
         return client.paginate(
             input: input,
             command: listTables,
-            tokenKey: \ListTablesOutput.lastEvaluatedTableName,
+            inputKey: \ListTablesInput.exclusiveStartTableName,
+            outputKey: \ListTablesOutput.lastEvaluatedTableName,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +201,8 @@ extension DynamoDB {
             input: input,
             initialValue: initialValue,
             command: query,
-            tokenKey: \QueryOutput.lastEvaluatedKey,
+            inputKey: \QueryInput.exclusiveStartKey,
+            outputKey: \QueryOutput.lastEvaluatedKey,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +224,8 @@ extension DynamoDB {
         return client.paginate(
             input: input,
             command: query,
-            tokenKey: \QueryOutput.lastEvaluatedKey,
+            inputKey: \QueryInput.exclusiveStartKey,
+            outputKey: \QueryOutput.lastEvaluatedKey,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +254,8 @@ extension DynamoDB {
             input: input,
             initialValue: initialValue,
             command: scan,
-            tokenKey: \ScanOutput.lastEvaluatedKey,
+            inputKey: \ScanInput.exclusiveStartKey,
+            outputKey: \ScanOutput.lastEvaluatedKey,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,18 +277,10 @@ extension DynamoDB {
         return client.paginate(
             input: input,
             command: scan,
-            tokenKey: \ScanOutput.lastEvaluatedKey,
+            inputKey: \ScanInput.exclusiveStartKey,
+            outputKey: \ScanOutput.lastEvaluatedKey,
             on: eventLoop,
             onPage: onPage
-        )
-    }
-}
-
-extension DynamoDB.BatchGetItemInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: [String: DynamoDB.KeysAndAttributes]) -> DynamoDB.BatchGetItemInput {
-        return .init(
-            requestItems: token,
-            returnConsumedCapacity: self.returnConsumedCapacity
         )
     }
 }

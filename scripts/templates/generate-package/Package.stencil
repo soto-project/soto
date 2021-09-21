@@ -36,10 +36,13 @@ let package = Package(
 {%endfor %}
         .target(name: "CSotoZlib", linkerSettings: [.linkedLibrary("z")]),
 
-        .testTarget(name: "SotoTests", dependencies: [
+        .testTarget(
+            name: "SotoTests",
+            dependencies: [
 {%for target in testTargets %}
-            "Soto{{target}}"{%if not forloop.last %},{%endif +%}
+                "Soto{{target}}"{%if not forloop.last %},{%endif +%}
 {%endfor %}
-        ])
+            ]
+        )
     ]
 )

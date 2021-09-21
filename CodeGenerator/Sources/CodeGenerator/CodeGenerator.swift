@@ -108,6 +108,12 @@ struct CodeGenerator {
         ) {
             print("Wrote: \(service.api.serviceName)_API.swift")
         }
+        let apiAsync = self.library.render(apiContext, withTemplate: "api+async")!
+        if self.command.output, try self.format(apiAsync).writeIfChanged(
+            toFile: "\(basePath)/\(service.api.serviceName)_API+async.swift"
+        ) {
+            print("Wrote: \(service.api.serviceName)_API+async.swift")
+        }
 
         let shapesContext = service.generateShapesContext()
         let shapes = self.library.render(shapesContext, withTemplate: "shapes")!
@@ -135,6 +141,12 @@ struct CodeGenerator {
             ) {
                 print("Wrote: \(service.api.serviceName)_Paginator.swift")
             }
+            let paginatorsAsync = self.library.render(paginatorContext, withTemplate: "paginator+async")!
+            if self.command.output, try self.format(paginatorsAsync).writeIfChanged(
+                toFile: "\(basePath)/\(service.api.serviceName)_Paginator+async.swift"
+            ) {
+                print("Wrote: \(service.api.serviceName)_Paginator+async.swift")
+            }
         }
 
         let waiterContext = try service.generateWaiterContext()
@@ -144,6 +156,12 @@ struct CodeGenerator {
                 toFile: "\(basePath)/\(service.api.serviceName)_Waiter.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Waiter.swift")
+            }
+            let waitersAsync = self.library.render(waiterContext, withTemplate: "waiter+async")!
+            if self.command.output, try self.format(waitersAsync).writeIfChanged(
+                toFile: "\(basePath)/\(service.api.serviceName)_Waiter+async.swift"
+            ) {
+                print("Wrote: \(service.api.serviceName)_Waiter+async.swift")
             }
         }
         if self.command.verbose {

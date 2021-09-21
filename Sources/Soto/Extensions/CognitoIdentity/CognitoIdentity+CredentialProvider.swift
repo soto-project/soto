@@ -14,7 +14,6 @@
 
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
-import NIOCore
 import SotoCore
 
 extension CognitoIdentity {

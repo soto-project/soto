@@ -12,7 +12,7 @@ on:
     paths:
     - '**.swift'
   workflow_dispatch:
-  
+
 env:
   AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ['swift:5.2', 'swift:5.3', 'swift:5.4']
+        image: ['swift:5.2', 'swift:5.3', 'swift:5.4', 'swiftlang/swift:nightly-5.5-focal']
     services:
       localstack:
         image: localstack/localstack
@@ -48,14 +48,10 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Install dependencies
-      run: |
-        apt-get update -qq
-        apt-get install -q -y tzdata zlib1g-dev
     - name: Test Resource Prefix
       # set AWS_TEST_RESOURCE_PREFIX environment variable to a random series of 8 letters
       run: |
         echo AWS_TEST_RESOURCE_PREFIX=$(cat /dev/urandom | tr -dc 'a-z' | head -c 8) >> $GITHUB_ENV
     - name: Test
       run: |
-        swift test --enable-test-discovery --sanitize=thread
+        swift test --enable-test-discovery

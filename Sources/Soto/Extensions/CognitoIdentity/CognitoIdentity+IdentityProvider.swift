@@ -14,6 +14,7 @@
 
 import Logging
 import NIOCore
+import SotoCore
 
 /// Protocol providing a Cognito Identity id and token
 public protocol IdentityProvider {

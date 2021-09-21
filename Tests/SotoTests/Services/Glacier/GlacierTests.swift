@@ -13,7 +13,6 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import NIOCore
 import XCTest
 
 @testable import SotoGlacier

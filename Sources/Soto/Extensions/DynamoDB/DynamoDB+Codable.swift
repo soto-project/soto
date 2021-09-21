@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,42 +74,8 @@ extension DynamoDB {
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<UpdateItemOutput> {
         do {
-            var item = try DynamoDBEncoder().encode(input.updateItem)
-            // extract key from input object
-            var key: [String: AttributeValue] = [:]
-            input.key.forEach {
-                key[$0] = item[$0]!
-                item[$0] = nil
-            }
-            // construct expression attribute name and value arrays from name attribute value map.
-            // if names already provided along with a custom update expression then use the provided names
-            let expressionAttributeNames: [String: String]
-            if let names = input.expressionAttributeNames, input.updateExpression != nil {
-                expressionAttributeNames = names
-            } else {
-                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
-            }
-            let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
-            // construct update expression, if one if not already supplied
-            let updateExpression: String
-            if let inputUpdateExpression = input.updateExpression {
-                updateExpression = inputUpdateExpression
-            } else {
-                let expressions = item.keys.map { "#\($0) = :\($0)" }
-                updateExpression = "SET \(expressions.joined(separator: ","))"
-            }
-            let request = DynamoDB.UpdateItemInput(
-                conditionExpression: input.conditionExpression,
-                expressionAttributeNames: expressionAttributeNames,
-                expressionAttributeValues: expressionAttributeValues,
-                key: key,
-                returnConsumedCapacity: input.returnConsumedCapacity,
-                returnItemCollectionMetrics: input.returnItemCollectionMetrics,
-                returnValues: input.returnValues,
-                tableName: input.tableName,
-                updateExpression: updateExpression
-            )
-            return self.updateItem(request, logger: logger, on: eventLoop)
+            let updateInput = try input.createUpdateItemInput()
+            return self.updateItem(updateInput, logger: logger, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -390,9 +356,48 @@ extension DynamoDB {
             self.updateExpression = updateExpression
             self.updateItem = updateItem
         }
+
+        /// create `UpdateItemInput` from self
+        func createUpdateItemInput() throws -> UpdateItemInput {
+            var item = try DynamoDBEncoder().encode(self.updateItem)
+            // extract key from input object
+            var key: [String: AttributeValue] = [:]
+            self.key.forEach {
+                key[$0] = item[$0]!
+                item[$0] = nil
+            }
+            // construct expression attribute name and value arrays from name attribute value map.
+            // if names already provided along with a custom update expression then use the provided names
+            let expressionAttributeNames: [String: String]
+            if let names = self.expressionAttributeNames, self.updateExpression != nil {
+                expressionAttributeNames = names
+            } else {
+                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+            }
+            let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+            // construct update expression, if one if not already supplied
+            let updateExpression: String
+            if let inputUpdateExpression = self.updateExpression {
+                updateExpression = inputUpdateExpression
+            } else {
+                let expressions = item.keys.map { "#\($0) = :\($0)" }
+                updateExpression = "SET \(expressions.joined(separator: ","))"
+            }
+            return DynamoDB.UpdateItemInput(
+                conditionExpression: self.conditionExpression,
+                expressionAttributeNames: expressionAttributeNames,
+                expressionAttributeValues: expressionAttributeValues,
+                key: key,
+                returnConsumedCapacity: self.returnConsumedCapacity,
+                returnItemCollectionMetrics: self.returnItemCollectionMetrics,
+                returnValues: self.returnValues,
+                tableName: self.tableName,
+                updateExpression: updateExpression
+            )
+        }
     }
 
-    public struct QueryCodableOutput<T: Decodable> {
+    public struct QueryCodableOutput<T: Decodable>: AWSShape {
         /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you used a QueryFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count and ScannedCount are the same.
@@ -405,7 +410,7 @@ extension DynamoDB {
         public let scannedCount: Int?
     }
 
-    public struct ScanCodableOutput<T: Decodable> {
+    public struct ScanCodableOutput<T: Decodable>: AWSShape {
         /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.

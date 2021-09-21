@@ -447,9 +447,13 @@ extension AWSService {
             } else {
                 moreResultsKey = nil
             }
-            if self.api.serviceName == "DynamoDB" {
+            if self.api.serviceName == "DynamoDB", operation.name == "BatchGetItem" {
                 processedInputTokens = []
             }
+            if processedInputTokens.isEmpty, moreResultsKey == nil {
+                continue
+            }
+
             var initParams: [String: String] = [:]
             for member in inputStructure.members {
                 initParams[member.key.toSwiftLabelCase()] = "self.\(member.key.toSwiftLabelCase())"
