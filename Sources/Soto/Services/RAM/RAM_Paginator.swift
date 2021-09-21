@@ -284,7 +284,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the AWS RAM permissions.
+    ///  Lists the RAM permissions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +390,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the AWS RAM permissions that are associated with a resource share.
+    ///  Lists the RAM permissions that are associated with a resource share.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the shareable resource types supported by AWS RAM.
+    ///  Lists the shareable resource types supported by RAM.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

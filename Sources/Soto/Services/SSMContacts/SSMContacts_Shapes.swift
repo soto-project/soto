@@ -275,7 +275,7 @@ extension SSMContacts {
         public let deferActivation: Bool?
         /// The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats:   SMS - '+' followed by the country code and phone number   VOICE - '+' followed by the country code and phone number   EMAIL - any standard email format
         public let deliveryAddress: ContactChannelAddress
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let idempotencyToken: String?
         /// The name of the contact channel.
         public let name: String
@@ -314,7 +314,7 @@ extension SSMContacts {
     }
 
     public struct CreateContactChannelResult: AWSDecodableShape {
-        /// The ARN of the contact channel.
+        /// The Amazon Resource Name (ARN) of the contact channel.
         public let contactChannelArn: String
 
         public init(contactChannelArn: String) {
@@ -331,7 +331,7 @@ extension SSMContacts {
         public let alias: String
         /// The full name of the contact or escalation plan.
         public let displayName: String?
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let idempotencyToken: String?
         /// A list of stages. A contact has an engagement plan with stages that contact specified contact channels. An escalation plan uses stages that contact specified contacts.
         public let plan: Plan
@@ -1265,7 +1265,7 @@ extension SSMContacts {
         public let contactId: String
         /// The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL.
         public let content: String
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let idempotencyToken: String?
         /// The ARN of the incident that the engagement is part of.
         public let incidentId: String?
@@ -1501,7 +1501,7 @@ extension SSMContacts {
         public let contactChannelId: String
         /// The details that Incident Manager uses when trying to engage the contact channel.
         public let deliveryAddress: ContactChannelAddress?
-        /// The name of the contact channel
+        /// The name of the contact channel.
         public let name: String?
 
         public init(contactChannelId: String, deliveryAddress: ContactChannelAddress? = nil, name: String? = nil) {

@@ -146,6 +146,12 @@ extension TranscribeService {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubtitleFormat: String, CustomStringConvertible, Codable {
+        case srt
+        case vtt
+        public var description: String { return self.rawValue }
+    }
+
     public enum TranscriptFilterType: String, CustomStringConvertible, Codable {
         case exact = "EXACT"
         public var description: String { return self.rawValue }
@@ -1293,7 +1299,7 @@ extension TranscribeService {
     }
 
     public struct JobExecutionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
+        /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. Note that job queuing is enabled by default for call analytics jobs. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let allowDeferredExecution: Bool?
         /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket that contains the input files. Amazon Transcribe assumes this role to read queued media files. If you have specified an output S3 bucket for the transcription results, this role should have access to the output bucket as well. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let dataAccessRoleArn: String?
@@ -2306,6 +2312,8 @@ extension TranscribeService {
     public struct StartMedicalTranscriptionJobRequest: AWSEncodableShape {
         /// You can configure Amazon Transcribe Medical to label content in the transcription output. If you specify PHI, Amazon Transcribe Medical labels the personal health information (PHI) that it identifies in the transcription output.
         public let contentIdentificationType: MedicalContentIdentificationType?
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data.
+        public let kMSEncryptionContext: [String: String]?
         /// The language code for the language spoken in the input media file. US English (en-US) is the valid value for medical transcription jobs. Any other value you enter for language code results in a BadRequestException error.
         public let languageCode: LanguageCode
         public let media: Media
@@ -2330,8 +2338,9 @@ extension TranscribeService {
         /// The type of speech in the input audio. CONVERSATION refers to conversations between two or more speakers, e.g., a conversations between doctors and patients. DICTATION refers to single-speaker dictated speech, such as clinical notes.
         public let type: `Type`
 
-        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, tags: [Tag]? = nil, type: `Type`) {
+        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, kMSEncryptionContext: [String: String]? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, tags: [Tag]? = nil, type: `Type`) {
             self.contentIdentificationType = contentIdentificationType
+            self.kMSEncryptionContext = kMSEncryptionContext
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
@@ -2347,6 +2356,14 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
+            try self.kMSEncryptionContext?.forEach {
+                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
             try self.media.validate(name: "\(name).media")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
@@ -2371,6 +2388,7 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case contentIdentificationType = "ContentIdentificationType"
+            case kMSEncryptionContext = "KMSEncryptionContext"
             case languageCode = "LanguageCode"
             case media = "Media"
             case mediaFormat = "MediaFormat"
@@ -2406,6 +2424,8 @@ extension TranscribeService {
         public let identifyLanguage: Bool?
         /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run the job.
         public let jobExecutionSettings: JobExecutionSettings?
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data.
+        public let kMSEncryptionContext: [String: String]?
         /// The language code for the language used in the input media file. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageCode: LanguageCode?
         /// An object containing a list of languages that might be present in your collection of audio files. Automatic language identification chooses a language that best matches the source audio from that list. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be encoded at a sample rate of 16,000 Hz or higher.
@@ -2426,15 +2446,18 @@ extension TranscribeService {
         public let outputKey: String?
         /// A Settings object that provides optional settings for a transcription job.
         public let settings: Settings?
+        /// Add subtitles to your batch transcription job.
+        public let subtitles: Subtitles?
         /// Add tags to an Amazon Transcribe transcription job.
         public let tags: [Tag]?
         /// The name of the job. You can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you try to create a transcription job with the same name as a previous transcription job, you get a ConflictException error.
         public let transcriptionJobName: String
 
-        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kMSEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
             self.identifyLanguage = identifyLanguage
             self.jobExecutionSettings = jobExecutionSettings
+            self.kMSEncryptionContext = kMSEncryptionContext
             self.languageCode = languageCode
             self.languageOptions = languageOptions
             self.media = media
@@ -2445,12 +2468,21 @@ extension TranscribeService {
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
             self.outputKey = outputKey
             self.settings = settings
+            self.subtitles = subtitles
             self.tags = tags
             self.transcriptionJobName = transcriptionJobName
         }
 
         public func validate(name: String) throws {
             try self.jobExecutionSettings?.validate(name: "\(name).jobExecutionSettings")
+            try self.kMSEncryptionContext?.forEach {
+                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
             try self.validate(self.languageOptions, name: "languageOptions", parent: name, min: 1)
             try self.media.validate(name: "\(name).media")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
@@ -2479,6 +2511,7 @@ extension TranscribeService {
             case contentRedaction = "ContentRedaction"
             case identifyLanguage = "IdentifyLanguage"
             case jobExecutionSettings = "JobExecutionSettings"
+            case kMSEncryptionContext = "KMSEncryptionContext"
             case languageCode = "LanguageCode"
             case languageOptions = "LanguageOptions"
             case media = "Media"
@@ -2489,6 +2522,7 @@ extension TranscribeService {
             case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
             case outputKey = "OutputKey"
             case settings = "Settings"
+            case subtitles = "Subtitles"
             case tags = "Tags"
             case transcriptionJobName = "TranscriptionJobName"
         }
@@ -2504,6 +2538,36 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case transcriptionJob = "TranscriptionJob"
+        }
+    }
+
+    public struct Subtitles: AWSEncodableShape {
+        /// Specify the output format for your subtitle file.
+        public let formats: [SubtitleFormat]?
+
+        public init(formats: [SubtitleFormat]? = nil) {
+            self.formats = formats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formats = "Formats"
+        }
+    }
+
+    public struct SubtitlesOutput: AWSDecodableShape {
+        /// Specify the output format for your subtitle file; if you select both SRT and VTT formats, two output files are genereated.
+        public let formats: [SubtitleFormat]?
+        /// Choose the output location for your subtitle file. This location must be an S3 bucket.
+        public let subtitleFileUris: [String]?
+
+        public init(formats: [SubtitleFormat]? = nil, subtitleFileUris: [String]? = nil) {
+            self.formats = formats
+            self.subtitleFileUris = subtitleFileUris
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formats = "Formats"
+            case subtitleFileUris = "SubtitleFileUris"
         }
     }
 
@@ -2655,6 +2719,8 @@ extension TranscribeService {
         public let settings: Settings?
         /// A timestamp that shows when the job started processing.
         public let startTime: Date?
+        /// Generate subtitles for your batch transcription job.
+        public let subtitles: SubtitlesOutput?
         /// A key:value pair assigned to a given transcription job.
         public let tags: [Tag]?
         /// An object that describes the output of the transcription job.
@@ -2664,7 +2730,7 @@ extension TranscribeService {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -2680,6 +2746,7 @@ extension TranscribeService {
             self.modelSettings = modelSettings
             self.settings = settings
             self.startTime = startTime
+            self.subtitles = subtitles
             self.tags = tags
             self.transcript = transcript
             self.transcriptionJobName = transcriptionJobName
@@ -2702,6 +2769,7 @@ extension TranscribeService {
             case modelSettings = "ModelSettings"
             case settings = "Settings"
             case startTime = "StartTime"
+            case subtitles = "Subtitles"
             case tags = "Tags"
             case transcript = "Transcript"
             case transcriptionJobName = "TranscriptionJobName"

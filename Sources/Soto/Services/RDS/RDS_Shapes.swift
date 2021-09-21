@@ -6679,7 +6679,7 @@ extension RDS {
         public let capacity: Int?
         /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB cluster.
         public let dBClusterIdentifier: String
-        /// The amount of time, in seconds, that Aurora Serverless tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300.   Value must be from 10 through 600.
+        /// The amount of time, in seconds, that Aurora Serverless tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300. Specify a value between 10 and 600 seconds.
         public let secondsBeforeTimeout: Int?
         /// The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange, the default, sets the capacity to the specified value as soon as possible.  RollbackCapacityChange ignores the capacity change if a scaling point isn't found in the timeout period.
         public let timeoutAction: String?
@@ -9794,15 +9794,18 @@ extension RDS {
         public let maxCapacity: Int?
         /// The minimum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384. The minimum capacity must be less than or equal to the maximum capacity.
         public let minCapacity: Int?
+        /// The amount of time, in seconds, that Aurora Serverless tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300. Specify a value between 60 and 600 seconds.
+        public let secondsBeforeTimeout: Int?
         /// The time, in seconds, before an Aurora DB cluster in serverless mode is paused. Specify a value between 300 and 86,400 seconds.
         public let secondsUntilAutoPause: Int?
         /// The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange sets the capacity to the specified value as soon as possible.  RollbackCapacityChange, the default, ignores the capacity change if a scaling point isn't found in the timeout period.  If you specify ForceApplyCapacityChange, connections that prevent Aurora Serverless from finding a scaling point might be dropped.  For more information, see  Autoscaling for Aurora Serverless in the Amazon Aurora User Guide.
         public let timeoutAction: String?
 
-        public init(autoPause: Bool? = nil, maxCapacity: Int? = nil, minCapacity: Int? = nil, secondsUntilAutoPause: Int? = nil, timeoutAction: String? = nil) {
+        public init(autoPause: Bool? = nil, maxCapacity: Int? = nil, minCapacity: Int? = nil, secondsBeforeTimeout: Int? = nil, secondsUntilAutoPause: Int? = nil, timeoutAction: String? = nil) {
             self.autoPause = autoPause
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.secondsBeforeTimeout = secondsBeforeTimeout
             self.secondsUntilAutoPause = secondsUntilAutoPause
             self.timeoutAction = timeoutAction
         }
@@ -9811,6 +9814,7 @@ extension RDS {
             case autoPause = "AutoPause"
             case maxCapacity = "MaxCapacity"
             case minCapacity = "MinCapacity"
+            case secondsBeforeTimeout = "SecondsBeforeTimeout"
             case secondsUntilAutoPause = "SecondsUntilAutoPause"
             case timeoutAction = "TimeoutAction"
         }
@@ -9823,15 +9827,18 @@ extension RDS {
         public let maxCapacity: Int?
         /// The maximum capacity for the Aurora DB cluster in serverless DB engine mode.
         public let minCapacity: Int?
+        /// The number of seconds before scaling times out. What happens when an attempted scaling action times out is determined by the TimeoutAction setting.
+        public let secondsBeforeTimeout: Int?
         /// The remaining amount of time, in seconds, before the Aurora DB cluster in serverless mode is paused. A DB cluster can be paused only when it's idle (it has no connections).
         public let secondsUntilAutoPause: Int?
-        /// The timeout action of a call to ModifyCurrentDBClusterCapacity, either ForceApplyCapacityChange or RollbackCapacityChange.
+        /// The action that occurs when Aurora times out while attempting to change the capacity of an Aurora Serverless cluster. The value is either ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange, the default, sets the capacity to the specified value as soon as possible.  RollbackCapacityChange ignores the capacity change if a scaling point isn't found in the timeout period.
         public let timeoutAction: String?
 
-        public init(autoPause: Bool? = nil, maxCapacity: Int? = nil, minCapacity: Int? = nil, secondsUntilAutoPause: Int? = nil, timeoutAction: String? = nil) {
+        public init(autoPause: Bool? = nil, maxCapacity: Int? = nil, minCapacity: Int? = nil, secondsBeforeTimeout: Int? = nil, secondsUntilAutoPause: Int? = nil, timeoutAction: String? = nil) {
             self.autoPause = autoPause
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.secondsBeforeTimeout = secondsBeforeTimeout
             self.secondsUntilAutoPause = secondsUntilAutoPause
             self.timeoutAction = timeoutAction
         }
@@ -9840,6 +9847,7 @@ extension RDS {
             case autoPause = "AutoPause"
             case maxCapacity = "MaxCapacity"
             case minCapacity = "MinCapacity"
+            case secondsBeforeTimeout = "SecondsBeforeTimeout"
             case secondsUntilAutoPause = "SecondsUntilAutoPause"
             case timeoutAction = "TimeoutAction"
         }

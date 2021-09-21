@@ -171,6 +171,11 @@ extension Kafka {
     public func updateMonitoring(_ input: UpdateMonitoringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMonitoringResponse {
         return try await self.client.execute(operation: "UpdateMonitoring", path: "/v1/clusters/{clusterArn}/monitoring", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// You can use this operation to update the encrypting and authentication settings for an existing cluster.
+    public func updateSecurity(_ input: UpdateSecurityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSecurityResponse {
+        return try await self.client.execute(operation: "UpdateSecurity", path: "/v1/clusters/{clusterArn}/security", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 #endif // compiler(>=5.5)

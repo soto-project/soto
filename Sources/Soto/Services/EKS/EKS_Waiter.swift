@@ -112,6 +112,7 @@ extension EKS {
             acceptors: [
                 .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "ACTIVE")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "CREATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "PENDING")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(30),

@@ -137,6 +137,12 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum EngineType: String, CustomStringConvertible, Codable {
+        case elasticsearch = "Elasticsearch"
+        case opensearch = "OpenSearch"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable {
         case approved = "APPROVED"
         case deleted = "DELETED"
@@ -719,7 +725,7 @@ extension ElasticsearchService {
     }
 
     public struct ColdStorageOptions: AWSEncodableShape & AWSDecodableShape {
-        /// True to enable cold storage for an Elasticsearch domain.
+        /// Enable cold storage option. Accepted values true or false
         public let enabled: Bool
 
         public init(enabled: Bool) {
@@ -808,6 +814,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
@@ -1241,6 +1248,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1598,13 +1606,17 @@ extension ElasticsearchService {
     public struct DomainInfo: AWSDecodableShape {
         ///  Specifies the DomainName.
         public let domainName: String?
+        ///  Specifies the EngineType of the domain.
+        public let engineType: EngineType?
 
-        public init(domainName: String? = nil) {
+        public init(domainName: String? = nil, engineType: EngineType? = nil) {
             self.domainName = domainName
+            self.engineType = engineType
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
+            case engineType = "EngineType"
         }
     }
 
@@ -1743,7 +1755,7 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchClusterConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the ColdStorageOptions configuration for an Elasticsearch domain.
+        /// Specifies the ColdStorageOptions config for Elasticsearch Domain
         public let coldStorageOptions: ColdStorageOptions?
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int?
@@ -2330,8 +2342,23 @@ extension ElasticsearchService {
         }
     }
 
+    public struct ListDomainNamesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType"))
+        ]
+
+        ///  Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'.
+        public let engineType: EngineType?
+
+        public init(engineType: EngineType? = nil) {
+            self.engineType = engineType
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ListDomainNamesResponse: AWSDecodableShape {
-        /// List of Elasticsearch domain names.
+        /// List of domain names and respective engine types.
         public let domainNames: [DomainInfo]?
 
         public init(domainNames: [DomainInfo]? = nil) {
@@ -2414,6 +2441,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -3445,6 +3473,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.validate(self.targetVersion, name: "targetVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {

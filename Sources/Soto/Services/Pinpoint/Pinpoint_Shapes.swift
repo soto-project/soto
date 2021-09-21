@@ -27,6 +27,13 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public enum Alignment: String, CustomStringConvertible, Codable {
+        case center = "CENTER"
+        case left = "LEFT"
+        case right = "RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AttributeType: String, CustomStringConvertible, Codable {
         case after = "AFTER"
         case before = "BEFORE"
@@ -35,6 +42,13 @@ extension Pinpoint {
         case exclusive = "EXCLUSIVE"
         case inclusive = "INCLUSIVE"
         case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ButtonAction: String, CustomStringConvertible, Codable {
+        case close = "CLOSE"
+        case deepLink = "DEEP_LINK"
+        case link = "LINK"
         public var description: String { return self.rawValue }
     }
 
@@ -59,6 +73,7 @@ extension Pinpoint {
         case custom = "CUSTOM"
         case email = "EMAIL"
         case gcm = "GCM"
+        case inApp = "IN_APP"
         case push = "PUSH"
         case sms = "SMS"
         case voice = "VOICE"
@@ -106,6 +121,7 @@ extension Pinpoint {
         case daily = "DAILY"
         case event = "EVENT"
         case hourly = "HOURLY"
+        case inAppEvent = "IN_APP_EVENT"
         case monthly = "MONTHLY"
         case once = "ONCE"
         case weekly = "WEEKLY"
@@ -129,6 +145,16 @@ extension Pinpoint {
         case pendingJob = "PENDING_JOB"
         case preparingForInitialization = "PREPARING_FOR_INITIALIZATION"
         case processing = "PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Layout: String, CustomStringConvertible, Codable {
+        case bottomBanner = "BOTTOM_BANNER"
+        case carousel = "CAROUSEL"
+        case middleBanner = "MIDDLE_BANNER"
+        case mobileFeed = "MOBILE_FEED"
+        case overlays = "OVERLAYS"
+        case topBanner = "TOP_BANNER"
         public var description: String { return self.rawValue }
     }
 
@@ -181,6 +207,7 @@ extension Pinpoint {
 
     public enum TemplateType: String, CustomStringConvertible, Codable {
         case email = "EMAIL"
+        case inapp = "INAPP"
         case push = "PUSH"
         case sms = "SMS"
         case voice = "VOICE"
@@ -204,6 +231,7 @@ extension Pinpoint {
         case custom = "CUSTOM"
         case email = "EMAIL"
         case gcm = "GCM"
+        case inApp = "IN_APP"
         case push = "PUSH"
         case sms = "SMS"
         case voice = "VOICE"
@@ -1481,6 +1509,31 @@ extension Pinpoint {
         }
     }
 
+    public struct CampaignInAppMessage: AWSEncodableShape & AWSDecodableShape {
+        /// The message body of the notification, the email body or the text message.
+        public let body: String?
+        /// In-app message content.
+        public let content: [InAppMessageContent]?
+        /// Custom config to be sent to client.
+        public let customConfig: [String: String]?
+        /// In-app message layout.
+        public let layout: Layout?
+
+        public init(body: String? = nil, content: [InAppMessageContent]? = nil, customConfig: [String: String]? = nil, layout: Layout? = nil) {
+            self.body = body
+            self.content = content
+            self.customConfig = customConfig
+            self.layout = layout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case content = "Content"
+            case customConfig = "CustomConfig"
+            case layout = "Layout"
+        }
+    }
+
     public struct CampaignLimits: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. For an application, this value specifies the default limit for the number of messages that campaigns and journeys can send to a single endpoint during a 24-hour period. The maximum value is 100.
         public let daily: Int?
@@ -1488,13 +1541,16 @@ extension Pinpoint {
         public let maximumDuration: Int?
         /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 50. The maximum value is 20,000.
         public let messagesPerSecond: Int?
+        /// The maximum total number of messages that the campaign can send per user session.
+        public let session: Int?
         /// The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. If a campaign recurs, this setting applies to all runs of the campaign. The maximum value is 100.
         public let total: Int?
 
-        public init(daily: Int? = nil, maximumDuration: Int? = nil, messagesPerSecond: Int? = nil, total: Int? = nil) {
+        public init(daily: Int? = nil, maximumDuration: Int? = nil, messagesPerSecond: Int? = nil, session: Int? = nil, total: Int? = nil) {
             self.daily = daily
             self.maximumDuration = maximumDuration
             self.messagesPerSecond = messagesPerSecond
+            self.session = session
             self.total = total
         }
 
@@ -1502,6 +1558,7 @@ extension Pinpoint {
             case daily = "Daily"
             case maximumDuration = "MaximumDuration"
             case messagesPerSecond = "MessagesPerSecond"
+            case session = "Session"
             case total = "Total"
         }
     }
@@ -1537,6 +1594,8 @@ extension Pinpoint {
         public let messageConfiguration: MessageConfiguration?
         /// The name of the campaign.
         public let name: String?
+        /// Defines the priority of the campaign, used to decide the order of messages displayed to user if there are multiple messages scheduled to be displayed at the same moment
+        public let priority: Int?
         /// The schedule settings for the campaign.
         public let schedule: Schedule?
         /// The unique identifier for the segment that's associated with the campaign.
@@ -1556,7 +1615,7 @@ extension Pinpoint {
         /// The version number of the campaign.
         public let version: Int?
 
-        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int, state: CampaignState? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
+        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, priority: Int? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int, state: CampaignState? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
             self.arn = arn
@@ -1572,6 +1631,7 @@ extension Pinpoint {
             self.limits = limits
             self.messageConfiguration = messageConfiguration
             self.name = name
+            self.priority = priority
             self.schedule = schedule
             self.segmentId = segmentId
             self.segmentVersion = segmentVersion
@@ -1599,6 +1659,7 @@ extension Pinpoint {
             case limits = "Limits"
             case messageConfiguration = "MessageConfiguration"
             case name = "Name"
+            case priority = "Priority"
             case schedule = "Schedule"
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
@@ -1983,6 +2044,45 @@ extension Pinpoint {
         }
     }
 
+    public struct CreateInAppTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "inAppTemplateRequest"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body(locationName: "InAppTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
+        ]
+
+        public let inAppTemplateRequest: InAppTemplateRequest
+        public let templateName: String
+
+        public init(inAppTemplateRequest: InAppTemplateRequest, templateName: String) {
+            self.inAppTemplateRequest = inAppTemplateRequest
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inAppTemplateRequest = "InAppTemplateRequest"
+        }
+    }
+
+    public struct CreateInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "templateCreateMessageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateCreateMessageBody", location: .body(locationName: "TemplateCreateMessageBody"))
+        ]
+
+        public let templateCreateMessageBody: TemplateCreateMessageBody
+
+        public init(templateCreateMessageBody: TemplateCreateMessageBody) {
+            self.templateCreateMessageBody = templateCreateMessageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateCreateMessageBody = "TemplateCreateMessageBody"
+        }
+    }
+
     public struct CreateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "writeJourneyRequest"
@@ -2327,6 +2427,39 @@ extension Pinpoint {
             case nextActivity = "NextActivity"
             case templateName = "TemplateName"
             case templateVersion = "TemplateVersion"
+        }
+    }
+
+    public struct DefaultButtonConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The background color of the button.
+        public let backgroundColor: String?
+        /// The border radius of the button.
+        public let borderRadius: Int?
+        /// Action triggered by the button.
+        public let buttonAction: ButtonAction
+        /// Button destination.
+        public let link: String?
+        /// Button text.
+        public let text: String
+        /// The text color of the button.
+        public let textColor: String?
+
+        public init(backgroundColor: String? = nil, borderRadius: Int? = nil, buttonAction: ButtonAction, link: String? = nil, text: String, textColor: String? = nil) {
+            self.backgroundColor = backgroundColor
+            self.borderRadius = borderRadius
+            self.buttonAction = buttonAction
+            self.link = link
+            self.text = text
+            self.textColor = textColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case borderRadius = "BorderRadius"
+            case buttonAction = "ButtonAction"
+            case link = "Link"
+            case text = "Text"
+            case textColor = "TextColor"
         }
     }
 
@@ -2835,6 +2968,41 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case gCMChannelResponse = "GCMChannelResponse"
+        }
+    }
+
+    public struct DeleteInAppTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+        ]
+
+        public let templateName: String
+        public let version: String?
+
+        public init(templateName: String, version: String? = nil) {
+            self.templateName = templateName
+            self.version = version
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
+
+        public let messageBody: MessageBody
+
+        public init(messageBody: MessageBody) {
+            self.messageBody = messageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
         }
     }
 
@@ -5273,6 +5441,76 @@ extension Pinpoint {
         }
     }
 
+    public struct GetInAppMessagesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id"))
+        ]
+
+        public let applicationId: String
+        public let endpointId: String
+
+        public init(applicationId: String, endpointId: String) {
+            self.applicationId = applicationId
+            self.endpointId = endpointId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInAppMessagesResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "inAppMessagesResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inAppMessagesResponse", location: .body(locationName: "InAppMessagesResponse"))
+        ]
+
+        public let inAppMessagesResponse: InAppMessagesResponse
+
+        public init(inAppMessagesResponse: InAppMessagesResponse) {
+            self.inAppMessagesResponse = inAppMessagesResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inAppMessagesResponse = "InAppMessagesResponse"
+        }
+    }
+
+    public struct GetInAppTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+        ]
+
+        public let templateName: String
+        public let version: String?
+
+        public init(templateName: String, version: String? = nil) {
+            self.templateName = templateName
+            self.version = version
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "inAppTemplateResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inAppTemplateResponse", location: .body(locationName: "InAppTemplateResponse"))
+        ]
+
+        public let inAppTemplateResponse: InAppTemplateResponse
+
+        public init(inAppTemplateResponse: InAppTemplateResponse) {
+            self.inAppTemplateResponse = inAppTemplateResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inAppTemplateResponse = "InAppTemplateResponse"
+        }
+    }
+
     public struct GetJourneyDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
@@ -6127,6 +6365,284 @@ extension Pinpoint {
         }
     }
 
+    public struct InAppCampaignSchedule: AWSDecodableShape {
+        /// The scheduled time after which the in-app message should not be shown. Timestamp is in ISO 8601 format.
+        public let endDate: String?
+        /// The event filter the SDK has to use to show the in-app message in the application.
+        public let eventFilter: CampaignEventFilter?
+        /// Time during which the in-app message should not be shown to the user.
+        public let quietTime: QuietTime?
+
+        public init(endDate: String? = nil, eventFilter: CampaignEventFilter? = nil, quietTime: QuietTime? = nil) {
+            self.endDate = endDate
+            self.eventFilter = eventFilter
+            self.quietTime = quietTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case eventFilter = "EventFilter"
+            case quietTime = "QuietTime"
+        }
+    }
+
+    public struct InAppMessage: AWSDecodableShape {
+        /// In-app message content.
+        public let content: [InAppMessageContent]?
+        /// Custom config to be sent to SDK.
+        public let customConfig: [String: String]?
+        /// The layout of the message.
+        public let layout: Layout?
+
+        public init(content: [InAppMessageContent]? = nil, customConfig: [String: String]? = nil, layout: Layout? = nil) {
+            self.content = content
+            self.customConfig = customConfig
+            self.layout = layout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case customConfig = "CustomConfig"
+            case layout = "Layout"
+        }
+    }
+
+    public struct InAppMessageBodyConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
+        public let alignment: Alignment
+        /// Message Body.
+        public let body: String
+        /// The text color.
+        public let textColor: String
+
+        public init(alignment: Alignment, body: String, textColor: String) {
+            self.alignment = alignment
+            self.body = body
+            self.textColor = textColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alignment = "Alignment"
+            case body = "Body"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct InAppMessageButton: AWSEncodableShape & AWSDecodableShape {
+        /// Default button content.
+        public let android: OverrideButtonConfiguration?
+        /// Default button content.
+        public let defaultConfig: DefaultButtonConfiguration?
+        /// Default button content.
+        public let ios: OverrideButtonConfiguration?
+        /// Default button content.
+        public let web: OverrideButtonConfiguration?
+
+        public init(android: OverrideButtonConfiguration? = nil, defaultConfig: DefaultButtonConfiguration? = nil, ios: OverrideButtonConfiguration? = nil, web: OverrideButtonConfiguration? = nil) {
+            self.android = android
+            self.defaultConfig = defaultConfig
+            self.ios = ios
+            self.web = web
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case android = "Android"
+            case defaultConfig = "DefaultConfig"
+            case ios = "IOS"
+            case web = "Web"
+        }
+    }
+
+    public struct InAppMessageCampaign: AWSDecodableShape {
+        /// Campaign id of the corresponding campaign.
+        public let campaignId: String?
+        /// Daily cap which controls the number of times any in-app messages can be shown to the endpoint during a day.
+        public let dailyCap: Int?
+        /// In-app message content with all fields required for rendering an in-app message.
+        public let inAppMessage: InAppMessage?
+        /// Priority of the in-app message.
+        public let priority: Int?
+        /// Schedule of the campaign.
+        public let schedule: InAppCampaignSchedule?
+        /// Session cap which controls the number of times an in-app message can be shown to the endpoint during an application session.
+        public let sessionCap: Int?
+        /// Total cap which controls the number of times an in-app message can be shown to the endpoint.
+        public let totalCap: Int?
+        /// Treatment id of the campaign.
+        public let treatmentId: String?
+
+        public init(campaignId: String? = nil, dailyCap: Int? = nil, inAppMessage: InAppMessage? = nil, priority: Int? = nil, schedule: InAppCampaignSchedule? = nil, sessionCap: Int? = nil, totalCap: Int? = nil, treatmentId: String? = nil) {
+            self.campaignId = campaignId
+            self.dailyCap = dailyCap
+            self.inAppMessage = inAppMessage
+            self.priority = priority
+            self.schedule = schedule
+            self.sessionCap = sessionCap
+            self.totalCap = totalCap
+            self.treatmentId = treatmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case campaignId = "CampaignId"
+            case dailyCap = "DailyCap"
+            case inAppMessage = "InAppMessage"
+            case priority = "Priority"
+            case schedule = "Schedule"
+            case sessionCap = "SessionCap"
+            case totalCap = "TotalCap"
+            case treatmentId = "TreatmentId"
+        }
+    }
+
+    public struct InAppMessageContent: AWSEncodableShape & AWSDecodableShape {
+        /// The background color for the message.
+        public let backgroundColor: String?
+        /// The configuration for the message body.
+        public let bodyConfig: InAppMessageBodyConfig?
+        /// The configuration for the message header.
+        public let headerConfig: InAppMessageHeaderConfig?
+        /// The image url for the background of message.
+        public let imageUrl: String?
+        /// The first button inside the message.
+        public let primaryBtn: InAppMessageButton?
+        /// The second button inside message.
+        public let secondaryBtn: InAppMessageButton?
+
+        public init(backgroundColor: String? = nil, bodyConfig: InAppMessageBodyConfig? = nil, headerConfig: InAppMessageHeaderConfig? = nil, imageUrl: String? = nil, primaryBtn: InAppMessageButton? = nil, secondaryBtn: InAppMessageButton? = nil) {
+            self.backgroundColor = backgroundColor
+            self.bodyConfig = bodyConfig
+            self.headerConfig = headerConfig
+            self.imageUrl = imageUrl
+            self.primaryBtn = primaryBtn
+            self.secondaryBtn = secondaryBtn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case bodyConfig = "BodyConfig"
+            case headerConfig = "HeaderConfig"
+            case imageUrl = "ImageUrl"
+            case primaryBtn = "PrimaryBtn"
+            case secondaryBtn = "SecondaryBtn"
+        }
+    }
+
+    public struct InAppMessageHeaderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
+        public let alignment: Alignment
+        /// Message Header.
+        public let header: String
+        /// The text color.
+        public let textColor: String
+
+        public init(alignment: Alignment, header: String, textColor: String) {
+            self.alignment = alignment
+            self.header = header
+            self.textColor = textColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alignment = "Alignment"
+            case header = "Header"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct InAppMessagesResponse: AWSDecodableShape {
+        /// List of targeted in-app message campaigns.
+        public let inAppMessageCampaigns: [InAppMessageCampaign]?
+
+        public init(inAppMessageCampaigns: [InAppMessageCampaign]? = nil) {
+            self.inAppMessageCampaigns = inAppMessageCampaigns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inAppMessageCampaigns = "InAppMessageCampaigns"
+        }
+    }
+
+    public struct InAppTemplateRequest: AWSEncodableShape {
+        /// The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional.
+        public let content: [InAppMessageContent]?
+        /// Custom config to be sent to client.
+        public let customConfig: [String: String]?
+        /// The layout of the message.
+        public let layout: Layout?
+        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        public let tags: [String: String]?
+        /// The description of the template.
+        public let templateDescription: String?
+
+        public init(content: [InAppMessageContent]? = nil, customConfig: [String: String]? = nil, layout: Layout? = nil, tags: [String: String]? = nil, templateDescription: String? = nil) {
+            self.content = content
+            self.customConfig = customConfig
+            self.layout = layout
+            self.tags = tags
+            self.templateDescription = templateDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case customConfig = "CustomConfig"
+            case layout = "Layout"
+            case tags
+            case templateDescription = "TemplateDescription"
+        }
+    }
+
+    public struct InAppTemplateResponse: AWSDecodableShape {
+        /// The resource arn of the template.
+        public let arn: String?
+        /// The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional.
+        public let content: [InAppMessageContent]?
+        /// The creation date of the template.
+        public let creationDate: String
+        /// Custom config to be sent to client.
+        public let customConfig: [String: String]?
+        /// The last modified date of the template.
+        public let lastModifiedDate: String
+        /// The layout of the message.
+        public let layout: Layout?
+        /// Tags map that contains arn and InternalId for API GW.
+        public let tags: [String: String]?
+        /// The description of the template.
+        public let templateDescription: String?
+        /// The name of the template.
+        public let templateName: String
+        /// The type of the template.
+        public let templateType: TemplateType
+        /// The version id of the template.
+        public let version: String?
+
+        public init(arn: String? = nil, content: [InAppMessageContent]? = nil, creationDate: String, customConfig: [String: String]? = nil, lastModifiedDate: String, layout: Layout? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
+            self.arn = arn
+            self.content = content
+            self.creationDate = creationDate
+            self.customConfig = customConfig
+            self.lastModifiedDate = lastModifiedDate
+            self.layout = layout
+            self.tags = tags
+            self.templateDescription = templateDescription
+            self.templateName = templateName
+            self.templateType = templateType
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case content = "Content"
+            case creationDate = "CreationDate"
+            case customConfig = "CustomConfig"
+            case lastModifiedDate = "LastModifiedDate"
+            case layout = "Layout"
+            case tags
+            case templateDescription = "TemplateDescription"
+            case templateName = "TemplateName"
+            case templateType = "TemplateType"
+            case version = "Version"
+        }
+    }
+
     public struct ItemResponse: AWSDecodableShape {
         /// The response that was received after the endpoint data was accepted.
         public let endpointItemResponse: EndpointItemResponse?
@@ -6145,7 +6661,6 @@ extension Pinpoint {
     }
 
     public struct JourneyCustomMessage: AWSEncodableShape & AWSDecodableShape {
-        /// The message content that's passed to an AWS Lambda function or to a web hook.
         public let data: String?
 
         public init(data: String? = nil) {
@@ -6718,10 +7233,12 @@ extension Pinpoint {
         public let emailMessage: CampaignEmailMessage?
         /// The message that the campaign sends through the GCM channel, which enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. If specified, this message overrides the default message.
         public let gCMMessage: Message?
+        /// The in-app message configuration.
+        public let inAppMessage: CampaignInAppMessage?
         /// The message that the campaign sends through the SMS channel. If specified, this message overrides the default message.
         public let sMSMessage: CampaignSmsMessage?
 
-        public init(aDMMessage: Message? = nil, aPNSMessage: Message? = nil, baiduMessage: Message? = nil, customMessage: CampaignCustomMessage? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gCMMessage: Message? = nil, sMSMessage: CampaignSmsMessage? = nil) {
+        public init(aDMMessage: Message? = nil, aPNSMessage: Message? = nil, baiduMessage: Message? = nil, customMessage: CampaignCustomMessage? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gCMMessage: Message? = nil, inAppMessage: CampaignInAppMessage? = nil, sMSMessage: CampaignSmsMessage? = nil) {
             self.aDMMessage = aDMMessage
             self.aPNSMessage = aPNSMessage
             self.baiduMessage = baiduMessage
@@ -6729,6 +7246,7 @@ extension Pinpoint {
             self.defaultMessage = defaultMessage
             self.emailMessage = emailMessage
             self.gCMMessage = gCMMessage
+            self.inAppMessage = inAppMessage
             self.sMSMessage = sMSMessage
         }
 
@@ -6740,6 +7258,7 @@ extension Pinpoint {
             case defaultMessage = "DefaultMessage"
             case emailMessage = "EmailMessage"
             case gCMMessage = "GCMMessage"
+            case inAppMessage = "InAppMessage"
             case sMSMessage = "SMSMessage"
         }
     }
@@ -6966,6 +7485,23 @@ extension Pinpoint {
             case phoneTypeCode = "PhoneTypeCode"
             case timezone = "Timezone"
             case zipCode = "ZipCode"
+        }
+    }
+
+    public struct OverrideButtonConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Action triggered by the button.
+        public let buttonAction: ButtonAction
+        /// Button destination.
+        public let link: String?
+
+        public init(buttonAction: ButtonAction, link: String? = nil) {
+            self.buttonAction = buttonAction
+            self.link = link
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buttonAction = "ButtonAction"
+            case link = "Link"
         }
     }
 
@@ -8380,6 +8916,27 @@ extension Pinpoint {
         }
     }
 
+    public struct TemplateCreateMessageBody: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the message template that was created.
+        public let arn: String?
+        /// The message that's returned from the API for the request to create the message template.
+        public let message: String?
+        /// The unique identifier for the request to create the message template.
+        public let requestID: String?
+
+        public init(arn: String? = nil, message: String? = nil, requestID: String? = nil) {
+            self.arn = arn
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case message = "Message"
+            case requestID = "RequestID"
+        }
+    }
+
     public struct TemplateResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the message template. This value isn't included in a TemplateResponse object. To retrieve the ARN of a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the ARN for.
         public let arn: String?
@@ -9095,6 +9652,51 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case gCMChannelResponse = "GCMChannelResponse"
+        }
+    }
+
+    public struct UpdateInAppTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "inAppTemplateRequest"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
+            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body(locationName: "InAppTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+        ]
+
+        public let createNewVersion: Bool?
+        public let inAppTemplateRequest: InAppTemplateRequest
+        public let templateName: String
+        public let version: String?
+
+        public init(createNewVersion: Bool? = nil, inAppTemplateRequest: InAppTemplateRequest, templateName: String, version: String? = nil) {
+            self.createNewVersion = createNewVersion
+            self.inAppTemplateRequest = inAppTemplateRequest
+            self.templateName = templateName
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inAppTemplateRequest = "InAppTemplateRequest"
+        }
+    }
+
+    public struct UpdateInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
+
+        public let messageBody: MessageBody
+
+        public init(messageBody: MessageBody) {
+            self.messageBody = messageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
         }
     }
 
@@ -9822,6 +10424,8 @@ extension Pinpoint {
         public let messageConfiguration: MessageConfiguration?
         /// A custom name for the campaign.
         public let name: String?
+        /// Defines the priority of the campaign, used to decide the order of messages displayed to user if there are multiple messages scheduled to be displayed at the same moment.
+        public let priority: Int?
         /// The schedule settings for the campaign.
         public let schedule: Schedule?
         /// The unique identifier for the segment to associate with the campaign.
@@ -9837,7 +10441,7 @@ extension Pinpoint {
         /// A custom name of the default treatment for the campaign, if the campaign has multiple treatments. A treatment is a variation of a campaign that's used for A/B testing.
         public let treatmentName: String?
 
-        public init(additionalTreatments: [WriteTreatmentResource]? = nil, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(additionalTreatments: [WriteTreatmentResource]? = nil, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, priority: Int? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.additionalTreatments = additionalTreatments
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.description = description
@@ -9847,6 +10451,7 @@ extension Pinpoint {
             self.limits = limits
             self.messageConfiguration = messageConfiguration
             self.name = name
+            self.priority = priority
             self.schedule = schedule
             self.segmentId = segmentId
             self.segmentVersion = segmentVersion
@@ -9866,6 +10471,7 @@ extension Pinpoint {
             case limits = "Limits"
             case messageConfiguration = "MessageConfiguration"
             case name = "Name"
+            case priority = "Priority"
             case schedule = "Schedule"
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"

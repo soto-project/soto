@@ -486,9 +486,9 @@ extension EMR {
     }
 
     public struct AddTagsInput: AWSEncodableShape {
-        /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
+        /// The Amazon EMR resource identifier to which tags will be added. For example, a cluster identifier or an Amazon EMR Studio ID.
         public let resourceId: String
-        /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
+        /// A list of tags to associate with a resource. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -863,7 +863,7 @@ extension EMR {
         public let scaleDownBehavior: ScaleDownBehavior?
         /// The name of the security configuration applied to the cluster.
         public let securityConfiguration: String?
-        /// The IAM role that will be assumed by the Amazon EMR service to access Amazon Web Services resources on your behalf.
+        /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf.
         public let serviceRole: String?
         /// The current status details about the cluster.
         public let status: ClusterStatus?
@@ -1147,7 +1147,7 @@ extension EMR {
     }
 
     public struct CreateStudioInput: AWSEncodableShape {
-        /// Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM. Amazon EMR Studio currently only supports SSO authentication.
+        /// Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO.
         public let authMode: AuthMode
         /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String
@@ -1155,26 +1155,32 @@ extension EMR {
         public let description: String?
         /// The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by VpcId.
         public let engineSecurityGroupId: String
+        /// The authentication endpoint of your identity provider (IdP). Specify this value when you use IAM authentication and want to let federated users log in to a Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to this endpoint to enter credentials.
+        public let idpAuthUrl: String?
+        /// The name that your identity provider (IdP) uses for its RelayState parameter. For example, RelayState or TargetSource. Specify this value when you use IAM authentication and want to let federated users log in to a Studio using the Studio URL. The RelayState parameter differs by IdP.
+        public let idpRelayStateParameterName: String?
         /// A descriptive name for the Amazon EMR Studio.
         public let name: String
-        /// The IAM role that will be assumed by the Amazon EMR Studio. The service role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services services.
+        /// The IAM role that the Amazon EMR Studio assumes. The service role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services services.
         public let serviceRole: String
         /// A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId. Studio users can create a Workspace in any of the specified subnets.
         public let subnetIds: [String]
         /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
         public let tags: [Tag]?
-        /// The IAM user role that will be assumed by users and groups logged in to an Amazon EMR Studio. The permissions attached to this IAM role can be scoped down for each user or group using session policies.
-        public let userRole: String
+        /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use Amazon Web Services SSO authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
+        public let userRole: String?
         /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
         public let vpcId: String
         /// The ID of the Amazon EMR Studio Workspace security group. The Workspace security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by VpcId.
         public let workspaceSecurityGroupId: String
 
-        public init(authMode: AuthMode, defaultS3Location: String, description: String? = nil, engineSecurityGroupId: String, name: String, serviceRole: String, subnetIds: [String], tags: [Tag]? = nil, userRole: String, vpcId: String, workspaceSecurityGroupId: String) {
+        public init(authMode: AuthMode, defaultS3Location: String, description: String? = nil, engineSecurityGroupId: String, idpAuthUrl: String? = nil, idpRelayStateParameterName: String? = nil, name: String, serviceRole: String, subnetIds: [String], tags: [Tag]? = nil, userRole: String? = nil, vpcId: String, workspaceSecurityGroupId: String) {
             self.authMode = authMode
             self.defaultS3Location = defaultS3Location
             self.description = description
             self.engineSecurityGroupId = engineSecurityGroupId
+            self.idpAuthUrl = idpAuthUrl
+            self.idpRelayStateParameterName = idpRelayStateParameterName
             self.name = name
             self.serviceRole = serviceRole
             self.subnetIds = subnetIds
@@ -1194,6 +1200,12 @@ extension EMR {
             try self.validate(self.engineSecurityGroupId, name: "engineSecurityGroupId", parent: name, max: 256)
             try self.validate(self.engineSecurityGroupId, name: "engineSecurityGroupId", parent: name, min: 0)
             try self.validate(self.engineSecurityGroupId, name: "engineSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.idpAuthUrl, name: "idpAuthUrl", parent: name, max: 10280)
+            try self.validate(self.idpAuthUrl, name: "idpAuthUrl", parent: name, min: 0)
+            try self.validate(self.idpAuthUrl, name: "idpAuthUrl", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.idpRelayStateParameterName, name: "idpRelayStateParameterName", parent: name, max: 256)
+            try self.validate(self.idpRelayStateParameterName, name: "idpRelayStateParameterName", parent: name, min: 0)
+            try self.validate(self.idpRelayStateParameterName, name: "idpRelayStateParameterName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1216,6 +1228,8 @@ extension EMR {
             case defaultS3Location = "DefaultS3Location"
             case description = "Description"
             case engineSecurityGroupId = "EngineSecurityGroupId"
+            case idpAuthUrl = "IdpAuthUrl"
+            case idpRelayStateParameterName = "IdpRelayStateParameterName"
             case name = "Name"
             case serviceRole = "ServiceRole"
             case subnetIds = "SubnetIds"
@@ -4030,9 +4044,9 @@ extension EMR {
     }
 
     public struct RemoveTagsInput: AWSEncodableShape {
-        /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
+        /// The Amazon EMR resource identifier from which tags will be removed. For example, a cluster identifier or an Amazon EMR Studio ID.
         public let resourceId: String
-        /// A list of tag keys to remove from a resource.
+        /// A list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
@@ -4094,7 +4108,7 @@ extension EMR {
         public let scaleDownBehavior: ScaleDownBehavior?
         /// The name of a security configuration to apply to the cluster.
         public let securityConfiguration: String?
-        /// The IAM role that will be assumed by the Amazon EMR service to access Amazon Web Services resources on your behalf.
+        /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf.
         public let serviceRole: String?
         /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
         public let stepConcurrencyLevel: Int?
@@ -4860,7 +4874,7 @@ extension EMR {
     }
 
     public struct Studio: AWSDecodableShape {
-        /// Specifies whether the Amazon EMR Studio authenticates users using single sign-on (SSO) or IAM.
+        /// Specifies whether the Amazon EMR Studio authenticates users using IAM or Amazon Web Services SSO.
         public let authMode: AuthMode?
         /// The time the Amazon EMR Studio was created.
         public let creationTime: Date?
@@ -4870,6 +4884,10 @@ extension EMR {
         public let description: String?
         /// The ID of the Engine security group associated with the Amazon EMR Studio. The Engine security group allows inbound network traffic from resources in the Workspace security group.
         public let engineSecurityGroupId: String?
+        /// Your identity provider's authentication endpoint. Amazon EMR Studio redirects federated users to this endpoint for authentication when logging in to a Studio with the Studio URL.
+        public let idpAuthUrl: String?
+        /// The name of your identity provider's RelayState parameter.
+        public let idpRelayStateParameterName: String?
         /// The name of the Amazon EMR Studio.
         public let name: String?
         /// The name of the IAM role assumed by the Amazon EMR Studio.
@@ -4884,19 +4902,21 @@ extension EMR {
         public let tags: [Tag]?
         /// The unique access URL of the Amazon EMR Studio.
         public let url: String?
-        /// The name of the IAM role assumed by users logged in to the Amazon EMR Studio.
+        /// The name of the IAM role assumed by users logged in to the Amazon EMR Studio. A Studio only requires a UserRole when you use IAM authentication.
         public let userRole: String?
         /// The ID of the VPC associated with the Amazon EMR Studio.
         public let vpcId: String?
         /// The ID of the Workspace security group associated with the Amazon EMR Studio. The Workspace security group allows outbound network traffic to resources in the Engine security group and to the internet.
         public let workspaceSecurityGroupId: String?
 
-        public init(authMode: AuthMode? = nil, creationTime: Date? = nil, defaultS3Location: String? = nil, description: String? = nil, engineSecurityGroupId: String? = nil, name: String? = nil, serviceRole: String? = nil, studioArn: String? = nil, studioId: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, url: String? = nil, userRole: String? = nil, vpcId: String? = nil, workspaceSecurityGroupId: String? = nil) {
+        public init(authMode: AuthMode? = nil, creationTime: Date? = nil, defaultS3Location: String? = nil, description: String? = nil, engineSecurityGroupId: String? = nil, idpAuthUrl: String? = nil, idpRelayStateParameterName: String? = nil, name: String? = nil, serviceRole: String? = nil, studioArn: String? = nil, studioId: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, url: String? = nil, userRole: String? = nil, vpcId: String? = nil, workspaceSecurityGroupId: String? = nil) {
             self.authMode = authMode
             self.creationTime = creationTime
             self.defaultS3Location = defaultS3Location
             self.description = description
             self.engineSecurityGroupId = engineSecurityGroupId
+            self.idpAuthUrl = idpAuthUrl
+            self.idpRelayStateParameterName = idpRelayStateParameterName
             self.name = name
             self.serviceRole = serviceRole
             self.studioArn = studioArn
@@ -4915,6 +4935,8 @@ extension EMR {
             case defaultS3Location = "DefaultS3Location"
             case description = "Description"
             case engineSecurityGroupId = "EngineSecurityGroupId"
+            case idpAuthUrl = "IdpAuthUrl"
+            case idpRelayStateParameterName = "IdpRelayStateParameterName"
             case name = "Name"
             case serviceRole = "ServiceRole"
             case studioArn = "StudioArn"
@@ -4929,6 +4951,8 @@ extension EMR {
     }
 
     public struct StudioSummary: AWSDecodableShape {
+        /// Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO.
+        public let authMode: AuthMode?
         /// The time when the Amazon EMR Studio was created.
         public let creationTime: Date?
         /// The detailed description of the Amazon EMR Studio.
@@ -4942,7 +4966,8 @@ extension EMR {
         /// The ID of the Virtual Private Cloud (Amazon VPC) associated with the Amazon EMR Studio.
         public let vpcId: String?
 
-        public init(creationTime: Date? = nil, description: String? = nil, name: String? = nil, studioId: String? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(authMode: AuthMode? = nil, creationTime: Date? = nil, description: String? = nil, name: String? = nil, studioId: String? = nil, url: String? = nil, vpcId: String? = nil) {
+            self.authMode = authMode
             self.creationTime = creationTime
             self.description = description
             self.name = name
@@ -4952,6 +4977,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authMode = "AuthMode"
             case creationTime = "CreationTime"
             case description = "Description"
             case name = "Name"

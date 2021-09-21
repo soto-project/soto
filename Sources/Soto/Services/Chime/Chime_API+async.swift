@@ -827,7 +827,7 @@ extension Chime {
         return try await self.client.execute(operation: "SendChannelMessage", path: "/channels/{channelArn}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
-    /// Start transcription for the specified meetingId.
+    /// Starts transcription for the specified meetingId.
     public func startMeetingTranscription(_ input: StartMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartMeetingTranscriptionResponse {
         return try await self.client.execute(operation: "StartMeetingTranscription", path: "/meetings/{meetingId}/transcription?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

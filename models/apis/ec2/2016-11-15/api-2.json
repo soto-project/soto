@@ -4919,7 +4919,8 @@
       "enum":[
         "i386",
         "x86_64",
-        "arm64"
+        "arm64",
+        "x86_64_mac"
       ]
     },
     "ArnList":{
@@ -9559,6 +9560,7 @@
       "type":"structure",
       "required":["CidrBlock"],
       "members":{
+        "CidrBlock":{"shape":"String"},
         "AmazonProvidedIpv6CidrBlock":{
           "shape":"Boolean",
           "locationName":"amazonProvidedIpv6CidrBlock"
@@ -9577,8 +9579,7 @@
         "TagSpecifications":{
           "shape":"TagSpecificationList",
           "locationName":"TagSpecification"
-        },
-        "CidrBlock":{"shape":"String"}
+        }
       }
     },
     "CreateVpcResult":{
@@ -15787,7 +15788,7 @@
           "locationName":"iops"
         },
         "SnapshotId":{
-          "shape":"String",
+          "shape":"SnapshotId",
           "locationName":"snapshotId"
         },
         "VolumeSize":{
@@ -21428,7 +21429,10 @@
         "x2gd.8xlarge",
         "x2gd.12xlarge",
         "x2gd.16xlarge",
-        "x2gd.metal"
+        "x2gd.metal",
+        "vt1.3xlarge",
+        "vt1.6xlarge",
+        "vt1.24xlarge"
       ]
     },
     "InstanceTypeHypervisor":{
@@ -26147,7 +26151,7 @@
       "type":"structure",
       "members":{
         "GroupName":{
-          "shape":"String",
+          "shape":"PlacementGroupName",
           "locationName":"groupName"
         }
       }
@@ -28462,8 +28466,10 @@
     "ResourceType":{
       "type":"string",
       "enum":[
+        "capacity-reservation",
         "client-vpn-endpoint",
         "customer-gateway",
+        "carrier-gateway",
         "dedicated-host",
         "dhcp-options",
         "egress-only-internet-gateway",
@@ -28480,15 +28486,24 @@
         "instance",
         "instance-event-window",
         "internet-gateway",
+        "ipv4pool-ec2",
+        "ipv6pool-ec2",
         "key-pair",
         "launch-template",
+        "local-gateway",
+        "local-gateway-route-table",
+        "local-gateway-virtual-interface",
+        "local-gateway-virtual-interface-group",
         "local-gateway-route-table-vpc-association",
+        "local-gateway-route-table-virtual-interface-group-association",
         "natgateway",
         "network-acl",
         "network-interface",
         "network-insights-analysis",
         "network-insights-path",
         "placement-group",
+        "prefix-list",
+        "replace-root-volume-task",
         "reserved-instances",
         "route-table",
         "security-group",
@@ -28507,6 +28522,8 @@
         "transit-gateway-route-table",
         "volume",
         "vpc",
+        "vpc-endpoint",
+        "vpc-endpoint-service",
         "vpc-peering-connection",
         "vpn-connection",
         "vpn-gateway",
@@ -30360,7 +30377,7 @@
           "locationName":"iamInstanceProfile"
         },
         "ImageId":{
-          "shape":"String",
+          "shape":"ImageId",
           "locationName":"imageId"
         },
         "InstanceType":{
@@ -30372,7 +30389,7 @@
           "locationName":"kernelId"
         },
         "KeyName":{
-          "shape":"String",
+          "shape":"KeyPairName",
           "locationName":"keyName"
         },
         "Monitoring":{
@@ -30396,7 +30413,7 @@
           "locationName":"spotPrice"
         },
         "SubnetId":{
-          "shape":"String",
+          "shape":"SubnetId",
           "locationName":"subnetId"
         },
         "UserData":{
@@ -30823,7 +30840,7 @@
           "locationName":"availabilityZone"
         },
         "GroupName":{
-          "shape":"String",
+          "shape":"PlacementGroupName",
           "locationName":"groupName"
         },
         "Tenancy":{

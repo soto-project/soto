@@ -968,6 +968,28 @@ extension SageMaker {
         )
     }
 
+    ///  Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listStudioLifecycleConfigsPaginator(
+        _ input: ListStudioLifecycleConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListStudioLifecycleConfigsRequest, ListStudioLifecycleConfigsResponse> {
+        return .init(
+            input: input,
+            command: listStudioLifecycleConfigs,
+            inputKey: \ListStudioLifecycleConfigsRequest.nextToken,
+            outputKey: \ListStudioLifecycleConfigsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     /// Return PaginatorSequence for operation.
     ///

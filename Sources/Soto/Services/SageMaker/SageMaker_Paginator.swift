@@ -2298,6 +2298,59 @@ extension SageMaker {
         )
     }
 
+    ///  Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStudioLifecycleConfigsPaginator<Result>(
+        _ input: ListStudioLifecycleConfigsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStudioLifecycleConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listStudioLifecycleConfigs,
+            inputKey: \ListStudioLifecycleConfigsRequest.nextToken,
+            outputKey: \ListStudioLifecycleConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStudioLifecycleConfigsPaginator(
+        _ input: ListStudioLifecycleConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStudioLifecycleConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listStudioLifecycleConfigs,
+            inputKey: \ListStudioLifecycleConfigsRequest.nextToken,
+            outputKey: \ListStudioLifecycleConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3527,6 +3580,23 @@ extension SageMaker.ListProjectsInput: AWSPaginateToken {
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListStudioLifecycleConfigsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListStudioLifecycleConfigsRequest {
+        return .init(
+            appTypeEquals: self.appTypeEquals,
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            modifiedTimeAfter: self.modifiedTimeAfter,
+            modifiedTimeBefore: self.modifiedTimeBefore,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,

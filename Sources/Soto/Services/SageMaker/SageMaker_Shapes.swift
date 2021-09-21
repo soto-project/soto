@@ -1178,6 +1178,7 @@ extension SageMaker {
         case modelpackagegroup = "ModelPackageGroup"
         case pipeline = "Pipeline"
         case pipelineexecution = "PipelineExecution"
+        case project = "Project"
         case trainingjob = "TrainingJob"
         public var description: String { return self.rawValue }
     }
@@ -1344,12 +1345,26 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum StudioLifecycleConfigAppType: String, CustomStringConvertible, Codable {
+        case jupyterserver = "JupyterServer"
+        case kernelgateway = "KernelGateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StudioLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetDevice: String, CustomStringConvertible, Codable {
         case aisage
         case ambaCv22 = "amba_cv22"
         case ambaCv25 = "amba_cv25"
         case coreml
         case deeplens
+        case imx8mplus
         case imx8qm
         case jacintoTda4Vm = "jacinto_tda4vm"
         case jetsonNano = "jetson_nano"
@@ -4120,7 +4135,7 @@ extension SageMaker {
         public let defaultUserSettings: UserSettings
         /// A name for the domain.
         public let domainName: String
-        /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached to the domain with an Amazon Web Services managed customer master key (CMK) by default. For more control, specify a customer managed CMK.
+        /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
         public let kmsKeyId: String?
         /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]
@@ -4201,7 +4216,7 @@ extension SageMaker {
         public let modelVersion: String
         /// Provides information about the output location for the packaged model.
         public let outputConfig: EdgeOutputConfig
-        /// The CMK to use when encrypting the EBS volume the edge packaging job runs on.
+        /// The Amazon Web Services KMS key to use when encrypting the EBS volume the edge packaging job runs on.
         public let resourceKey: String?
         /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact SageMaker Neo.
         public let roleArn: String
@@ -5852,6 +5867,57 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case projectArn = "ProjectArn"
             case projectId = "ProjectId"
+        }
+    }
+
+    public struct CreateStudioLifecycleConfigRequest: AWSEncodableShape {
+        /// The App type that the Lifecycle Configuration is attached to.
+        public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType
+        /// The content of your Studio Lifecycle Configuration script. This content must be base64 encoded.
+        public let studioLifecycleConfigContent: String
+        /// The name of the Studio Lifecycle Configuration to create.
+        public let studioLifecycleConfigName: String
+        /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
+        public let tags: [Tag]?
+
+        public init(studioLifecycleConfigAppType: StudioLifecycleConfigAppType, studioLifecycleConfigContent: String, studioLifecycleConfigName: String, tags: [Tag]? = nil) {
+            self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
+            self.studioLifecycleConfigContent = studioLifecycleConfigContent
+            self.studioLifecycleConfigName = studioLifecycleConfigName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.studioLifecycleConfigContent, name: "studioLifecycleConfigContent", parent: name, max: 16384)
+            try self.validate(self.studioLifecycleConfigContent, name: "studioLifecycleConfigContent", parent: name, min: 1)
+            try self.validate(self.studioLifecycleConfigContent, name: "studioLifecycleConfigContent", parent: name, pattern: "[\\S\\s]+")
+            try self.validate(self.studioLifecycleConfigName, name: "studioLifecycleConfigName", parent: name, max: 63)
+            try self.validate(self.studioLifecycleConfigName, name: "studioLifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case studioLifecycleConfigAppType = "StudioLifecycleConfigAppType"
+            case studioLifecycleConfigContent = "StudioLifecycleConfigContent"
+            case studioLifecycleConfigName = "StudioLifecycleConfigName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateStudioLifecycleConfigResponse: AWSDecodableShape {
+        /// The ARN of your created Lifecycle Configuration.
+        public let studioLifecycleConfigArn: String?
+
+        public init(studioLifecycleConfigArn: String? = nil) {
+            self.studioLifecycleConfigArn = studioLifecycleConfigArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case studioLifecycleConfigArn = "StudioLifecycleConfigArn"
         }
     }
 
@@ -7608,6 +7674,24 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteStudioLifecycleConfigRequest: AWSEncodableShape {
+        /// The name of the Studio Lifecycle Configuration to delete.
+        public let studioLifecycleConfigName: String
+
+        public init(studioLifecycleConfigName: String) {
+            self.studioLifecycleConfigName = studioLifecycleConfigName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.studioLifecycleConfigName, name: "studioLifecycleConfigName", parent: name, max: 63)
+            try self.validate(self.studioLifecycleConfigName, name: "studioLifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case studioLifecycleConfigName = "StudioLifecycleConfigName"
+        }
+    }
+
     public struct DeleteTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete.
         public let resourceArn: String
@@ -8758,7 +8842,7 @@ extension SageMaker {
         public let failureReason: String?
         /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
         public let homeEfsFileSystemId: String?
-        /// The Amazon Web Services KMS customer managed CMK used to encrypt the EFS volume attached to the domain.
+        /// The Amazon Web Services KMS customer managed key used to encrypt the EFS volume attached to the domain.
         public let kmsKeyId: String?
         /// The last modified time.
         public let lastModifiedTime: Date?
@@ -8858,7 +8942,7 @@ extension SageMaker {
         public let outputConfig: EdgeOutputConfig?
         /// The output of a SageMaker Edge Manager deployable resource.
         public let presetDeploymentOutput: EdgePresetDeploymentOutput?
-        /// The CMK to use when encrypting the EBS volume the job run on.
+        /// The Amazon Web Services KMS key to use when encrypting the EBS volume the job run on.
         public let resourceKey: String?
         /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact Neo.
         public let roleArn: String?
@@ -10618,6 +10702,57 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeStudioLifecycleConfigRequest: AWSEncodableShape {
+        /// The name of the Studio Lifecycle Configuration to describe.
+        public let studioLifecycleConfigName: String
+
+        public init(studioLifecycleConfigName: String) {
+            self.studioLifecycleConfigName = studioLifecycleConfigName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.studioLifecycleConfigName, name: "studioLifecycleConfigName", parent: name, max: 63)
+            try self.validate(self.studioLifecycleConfigName, name: "studioLifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case studioLifecycleConfigName = "StudioLifecycleConfigName"
+        }
+    }
+
+    public struct DescribeStudioLifecycleConfigResponse: AWSDecodableShape {
+        /// The creation time of the Studio Lifecycle Configuration.
+        public let creationTime: Date?
+        /// This value is equivalent to CreationTime because Studio Lifecycle Configurations are immutable.
+        public let lastModifiedTime: Date?
+        /// The App type that the Lifecycle Configuration is attached to.
+        public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType?
+        /// The ARN of the Lifecycle Configuration to describe.
+        public let studioLifecycleConfigArn: String?
+        /// The content of your Studio Lifecycle Configuration script.
+        public let studioLifecycleConfigContent: String?
+        /// The name of the Studio Lifecycle Configuration that is described.
+        public let studioLifecycleConfigName: String?
+
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, studioLifecycleConfigAppType: StudioLifecycleConfigAppType? = nil, studioLifecycleConfigArn: String? = nil, studioLifecycleConfigContent: String? = nil, studioLifecycleConfigName: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
+            self.studioLifecycleConfigArn = studioLifecycleConfigArn
+            self.studioLifecycleConfigContent = studioLifecycleConfigContent
+            self.studioLifecycleConfigName = studioLifecycleConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case studioLifecycleConfigAppType = "StudioLifecycleConfigAppType"
+            case studioLifecycleConfigArn = "StudioLifecycleConfigArn"
+            case studioLifecycleConfigContent = "StudioLifecycleConfigContent"
+            case studioLifecycleConfigName = "StudioLifecycleConfigName"
+        }
+    }
+
     public struct DescribeSubscribedWorkteamRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
         public let workteamArn: String
@@ -10958,7 +11093,7 @@ extension SageMaker {
     }
 
     public struct DescribeTrialComponentResponse: AWSDecodableShape {
-        /// Who created the component.
+        /// Who created the trial component.
         public let createdBy: UserContext?
         /// When the component was created.
         public let creationTime: Date?
@@ -11813,6 +11948,7 @@ extension SageMaker {
     }
 
     public struct Experiment: AWSDecodableShape {
+        /// Who created the experiment.
         public let createdBy: UserContext?
         /// When the experiment was created.
         public let creationTime: Date?
@@ -13308,17 +13444,25 @@ extension SageMaker {
     public struct JupyterServerAppSettings: AWSEncodableShape & AWSDecodableShape {
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app.
         public let defaultResourceSpec: ResourceSpec?
+        ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp.
+        public let lifecycleConfigArns: [String]?
 
-        public init(defaultResourceSpec: ResourceSpec? = nil) {
+        public init(defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
             self.defaultResourceSpec = defaultResourceSpec
+            self.lifecycleConfigArns = lifecycleConfigArns
         }
 
         public func validate(name: String) throws {
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+            try self.lifecycleConfigArns?.forEach {
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultResourceSpec = "DefaultResourceSpec"
+            case lifecycleConfigArns = "LifecycleConfigArns"
         }
     }
 
@@ -13327,10 +13471,13 @@ extension SageMaker {
         public let customImages: [CustomImage]?
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app.
         public let defaultResourceSpec: ResourceSpec?
+        ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain.
+        public let lifecycleConfigArns: [String]?
 
-        public init(customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil) {
+        public init(customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
+            self.lifecycleConfigArns = lifecycleConfigArns
         }
 
         public func validate(name: String) throws {
@@ -13339,11 +13486,16 @@ extension SageMaker {
             }
             try self.validate(self.customImages, name: "customImages", parent: name, max: 30)
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+            try self.lifecycleConfigArns?.forEach {
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
+            case lifecycleConfigArns = "LifecycleConfigArns"
         }
     }
 
@@ -13617,7 +13769,7 @@ extension SageMaker {
     }
 
     public struct LabelingJobResourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training and inference jobs used for automated data labeling.  You can only specify a VolumeKmsKeyId when you create a labeling job with automated data labeling enabled using the API operation CreateLabelingJob. You cannot specify an Amazon Web Services KMS customer managed CMK to encrypt the storage volume used for automated data labeling model training and inference when you create a labeling job using the console. To learn more, see Output Data and Storage Volume Encryption. The VolumeKmsKeyId can be any of the following formats:   KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training and inference jobs used for automated data labeling.  You can only specify a VolumeKmsKeyId when you create a labeling job with automated data labeling enabled using the API operation CreateLabelingJob. You cannot specify an Amazon Web Services KMS key to encrypt the storage volume used for automated data labeling model training and inference when you create a labeling job using the console. To learn more, see Output Data and Storage Volume Encryption. The VolumeKmsKeyId can be any of the following formats:   KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
 
         public init(volumeKmsKeyId: String? = nil) {
@@ -15943,7 +16095,7 @@ extension SageMaker {
         public let creationTimeBefore: Date?
         /// The maximum number of models to return in the response.
         public let maxResults: Int?
-        /// A string in the training job name. This filter returns only models in the training job whose name contains the specified string.
+        /// A string in the model name. This filter returns only models whose name contains the specified string.
         public let nameContains: String?
         /// If the response to a previous ListModels request was truncated, the response includes a NextToken. To retrieve the next set of models, use the token in the next request.
         public let nextToken: String?
@@ -16717,6 +16869,81 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case projectSummaryList = "ProjectSummaryList"
+        }
+    }
+
+    public struct ListStudioLifecycleConfigsRequest: AWSEncodableShape {
+        /// A parameter to search for the App Type to which the Lifecycle Configuration is attached.
+        public let appTypeEquals: StudioLifecycleConfigAppType?
+        /// A filter that returns only Lifecycle Configurations created on or after the specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only Lifecycle Configurations created on or before the specified time.
+        public let creationTimeBefore: Date?
+        /// The maximum number of Studio Lifecycle Configurations to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// A filter that returns only Lifecycle Configurations modified after the specified time.
+        public let modifiedTimeAfter: Date?
+        /// A filter that returns only Lifecycle Configurations modified before the specified time.
+        public let modifiedTimeBefore: Date?
+        /// A string in the Lifecycle Configuration name. This filter returns only Lifecycle Configurations whose name contains the specified string.
+        public let nameContains: String?
+        /// If the previous call to ListStudioLifecycleConfigs didn't return the full set of Lifecycle Configurations, the call returns a token for getting the next set of Lifecycle Configurations.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: StudioLifecycleConfigSortKey?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(appTypeEquals: StudioLifecycleConfigAppType? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modifiedTimeAfter: Date? = nil, modifiedTimeBefore: Date? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: StudioLifecycleConfigSortKey? = nil, sortOrder: SortOrder? = nil) {
+            self.appTypeEquals = appTypeEquals
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.modifiedTimeAfter = modifiedTimeAfter
+            self.modifiedTimeBefore = modifiedTimeBefore
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appTypeEquals = "AppTypeEquals"
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case modifiedTimeAfter = "ModifiedTimeAfter"
+            case modifiedTimeBefore = "ModifiedTimeBefore"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListStudioLifecycleConfigsResponse: AWSDecodableShape {
+        /// A token for getting the next set of actions, if there are any.
+        public let nextToken: String?
+        /// A list of Lifecycle Configurations and their properties.
+        public let studioLifecycleConfigs: [StudioLifecycleConfigDetails]?
+
+        public init(nextToken: String? = nil, studioLifecycleConfigs: [StudioLifecycleConfigDetails]? = nil) {
+            self.nextToken = nextToken
+            self.studioLifecycleConfigs = studioLifecycleConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case studioLifecycleConfigs = "StudioLifecycleConfigs"
         }
     }
 
@@ -19334,7 +19561,7 @@ extension SageMaker {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputPath: String
@@ -20221,7 +20448,7 @@ extension SageMaker {
     public struct ProductionVariantCoreDumpConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket to send the core dump to.
         public let destinationS3Uri: String
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the core dump data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint and UpdateEndpoint requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the core dump data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint and UpdateEndpoint requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
 
         public init(destinationS3Uri: String, kmsKeyId: String? = nil) {
@@ -20428,6 +20655,53 @@ extension SageMaker {
             case ruleEvaluationJobArn = "RuleEvaluationJobArn"
             case ruleEvaluationStatus = "RuleEvaluationStatus"
             case statusDetails = "StatusDetails"
+        }
+    }
+
+    public struct Project: AWSDecodableShape {
+        /// Who created the project.
+        public let createdBy: UserContext?
+        /// A timestamp specifying when the project was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String?
+        /// The description of the project.
+        public let projectDescription: String?
+        /// The ID of the project.
+        public let projectId: String?
+        /// The name of the project.
+        public let projectName: String?
+        /// The status of the project.
+        public let projectStatus: ProjectStatus?
+        public let serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails?
+        public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails?
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
+        public let tags: [Tag]?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.projectArn = projectArn
+            self.projectDescription = projectDescription
+            self.projectId = projectId
+            self.projectName = projectName
+            self.projectStatus = projectStatus
+            self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
+            self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case projectArn = "ProjectArn"
+            case projectDescription = "ProjectDescription"
+            case projectId = "ProjectId"
+            case projectName = "ProjectName"
+            case projectStatus = "ProjectStatus"
+            case serviceCatalogProvisionedProductDetails = "ServiceCatalogProvisionedProductDetails"
+            case serviceCatalogProvisioningDetails = "ServiceCatalogProvisioningDetails"
+            case tags = "Tags"
         }
     }
 
@@ -20869,18 +21143,23 @@ extension SageMaker {
     public struct ResourceSpec: AWSEncodableShape & AWSDecodableShape {
         /// The instance type that the image version runs on.
         public let instanceType: AppInstanceType?
+        ///  The Amazon Resource Name (ARN) of the Lifecycle Configuration attached to the Resource.
+        public let lifecycleConfigArn: String?
         /// The ARN of the SageMaker image that the image version belongs to.
         public let sageMakerImageArn: String?
         /// The ARN of the image version created on the instance.
         public let sageMakerImageVersionArn: String?
 
-        public init(instanceType: AppInstanceType? = nil, sageMakerImageArn: String? = nil, sageMakerImageVersionArn: String? = nil) {
+        public init(instanceType: AppInstanceType? = nil, lifecycleConfigArn: String? = nil, sageMakerImageArn: String? = nil, sageMakerImageVersionArn: String? = nil) {
             self.instanceType = instanceType
+            self.lifecycleConfigArn = lifecycleConfigArn
             self.sageMakerImageArn = sageMakerImageArn
             self.sageMakerImageVersionArn = sageMakerImageVersionArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.lifecycleConfigArn, name: "lifecycleConfigArn", parent: name, max: 256)
+            try self.validate(self.lifecycleConfigArn, name: "lifecycleConfigArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*")
             try self.validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, max: 256)
             try self.validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-z0-9]([-.]?[a-z0-9])*$")
             try self.validate(self.sageMakerImageVersionArn, name: "sageMakerImageVersionArn", parent: name, max: 256)
@@ -20889,6 +21168,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case instanceType = "InstanceType"
+            case lifecycleConfigArn = "LifecycleConfigArn"
             case sageMakerImageArn = "SageMakerImageArn"
             case sageMakerImageVersionArn = "SageMakerImageVersionArn"
         }
@@ -20904,6 +21184,43 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case homeEfsFileSystem = "HomeEfsFileSystem"
+        }
+    }
+
+    public struct RetryPipelineExecutionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
+        public let clientRequestToken: String
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String
+
+        public init(clientRequestToken: String = RetryPipelineExecutionRequest.idempotencyToken(), pipelineExecutionArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct RetryPipelineExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+
+        public init(pipelineExecutionArn: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
         }
     }
 
@@ -21061,6 +21378,8 @@ extension SageMaker {
         public let modelPackageGroup: ModelPackageGroup?
         public let pipeline: Pipeline?
         public let pipelineExecution: PipelineExecution?
+        /// The properties of a project.
+        public let project: Project?
         /// The properties of a training job.
         public let trainingJob: TrainingJob?
         /// The properties of a trial.
@@ -21068,7 +21387,7 @@ extension SageMaker {
         /// The properties of a trial component.
         public let trialComponent: TrialComponent?
 
-        public init(endpoint: Endpoint? = nil, experiment: Experiment? = nil, featureGroup: FeatureGroup? = nil, modelPackage: ModelPackage? = nil, modelPackageGroup: ModelPackageGroup? = nil, pipeline: Pipeline? = nil, pipelineExecution: PipelineExecution? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
+        public init(endpoint: Endpoint? = nil, experiment: Experiment? = nil, featureGroup: FeatureGroup? = nil, modelPackage: ModelPackage? = nil, modelPackageGroup: ModelPackageGroup? = nil, pipeline: Pipeline? = nil, pipelineExecution: PipelineExecution? = nil, project: Project? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
             self.endpoint = endpoint
             self.experiment = experiment
             self.featureGroup = featureGroup
@@ -21076,6 +21395,7 @@ extension SageMaker {
             self.modelPackageGroup = modelPackageGroup
             self.pipeline = pipeline
             self.pipelineExecution = pipelineExecution
+            self.project = project
             self.trainingJob = trainingJob
             self.trial = trial
             self.trialComponent = trialComponent
@@ -21089,6 +21409,7 @@ extension SageMaker {
             case modelPackageGroup = "ModelPackageGroup"
             case pipeline = "Pipeline"
             case pipelineExecution = "PipelineExecution"
+            case project = "Project"
             case trainingJob = "TrainingJob"
             case trial = "Trial"
             case trialComponent = "TrialComponent"
@@ -21474,7 +21795,7 @@ extension SageMaker {
     }
 
     public struct StartPipelineExecutionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
         public let clientRequestToken: String
         /// The description of the pipeline execution.
         public let pipelineExecutionDescription: String?
@@ -21667,7 +21988,7 @@ extension SageMaker {
     }
 
     public struct StopPipelineExecutionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
         public let clientRequestToken: String
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String
@@ -21779,6 +22100,35 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
             case maxWaitTimeInSeconds = "MaxWaitTimeInSeconds"
+        }
+    }
+
+    public struct StudioLifecycleConfigDetails: AWSDecodableShape {
+        /// The creation time of the Studio Lifecycle Configuration.
+        public let creationTime: Date?
+        /// This value is equivalent to CreationTime because Studio Lifecycle Configurations are immutable.
+        public let lastModifiedTime: Date?
+        /// The App type to which the Lifecycle Configuration is attached.
+        public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType?
+        ///  The Amazon Resource Name (ARN) of the Lifecycle Configuration.
+        public let studioLifecycleConfigArn: String?
+        /// The name of the Studio Lifecycle Configuration.
+        public let studioLifecycleConfigName: String?
+
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, studioLifecycleConfigAppType: StudioLifecycleConfigAppType? = nil, studioLifecycleConfigArn: String? = nil, studioLifecycleConfigName: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
+            self.studioLifecycleConfigArn = studioLifecycleConfigArn
+            self.studioLifecycleConfigName = studioLifecycleConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case studioLifecycleConfigAppType = "StudioLifecycleConfigAppType"
+            case studioLifecycleConfigArn = "StudioLifecycleConfigArn"
+            case studioLifecycleConfigName = "StudioLifecycleConfigName"
         }
     }
 
@@ -22604,6 +22954,7 @@ extension SageMaker {
     }
 
     public struct Trial: AWSDecodableShape {
+        /// Who created the trial.
         public let createdBy: UserContext?
         /// When the trial was created.
         public let creationTime: Date?
@@ -22657,6 +23008,7 @@ extension SageMaker {
     }
 
     public struct TrialComponent: AWSDecodableShape {
+        /// Who created the trial component.
         public let createdBy: UserContext?
         /// When the component was created.
         public let creationTime: Date?
@@ -22920,7 +23272,7 @@ extension SageMaker {
     }
 
     public struct TrialComponentSummary: AWSDecodableShape {
-        /// Who created the component.
+        /// Who created the trial component.
         public let createdBy: UserContext?
         /// When the component was created.
         public let creationTime: Date?

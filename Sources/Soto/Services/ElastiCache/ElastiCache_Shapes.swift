@@ -3353,7 +3353,7 @@ extension ElastiCache {
         public let preferredMaintenanceWindow: String?
         /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
         public let primaryClusterId: String?
-        /// Removes the user groups that can access this replication group.
+        /// Removes the user group associated with this replication group.
         public let removeUserGroups: Bool?
         /// A description for the replication group. Maximum length is 255 characters.
         public let replicationGroupDescription: String?
@@ -3368,10 +3368,10 @@ extension ElastiCache {
         public let snapshottingClusterId: String?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
-        /// The user group you are associating with the replication group.
+        /// The ID of the user group you are associating with the replication group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToAdd: [String]?
-        /// The user group to remove, meaning the users in the group no longer can access the replication group.
+        /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToRemove: [String]?
 
@@ -4204,7 +4204,7 @@ extension ElastiCache {
         public let status: String?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
-        /// The list of user group IDs that have access to the replication group.
+        /// The ID of the user group associated to the replication group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
@@ -4297,7 +4297,7 @@ extension ElastiCache {
         public let primaryClusterId: String?
         /// The status of an online resharding operation.
         public let resharding: ReshardingStatus?
-        /// The user groups being modified.
+        /// The user group being modified.
         public let userGroups: UserGroupsUpdateStatus?
 
         public init(authTokenStatus: AuthTokenUpdateStatus? = nil, automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, logDeliveryConfigurations: [PendingLogDeliveryConfiguration]? = nil, primaryClusterId: String? = nil, resharding: ReshardingStatus? = nil, userGroups: UserGroupsUpdateStatus? = nil) {
@@ -5139,7 +5139,7 @@ extension ElastiCache {
         public let arn: String?
         /// The current supported value is Redis.
         public let engine: String?
-        /// A list of updates being applied to the user groups.
+        /// A list of updates being applied to the user group.
         public let pendingChanges: UserGroupPendingChanges?
         /// A list of replication groups that the user group can access.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -5193,10 +5193,10 @@ extension ElastiCache {
     }
 
     public struct UserGroupsUpdateStatus: AWSDecodableShape {
-        /// The list of user group IDs to add.
+        /// The ID of the user group to add.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToAdd: [String]?
-        /// The list of user group IDs to remove.
+        /// The ID of the user group to remove.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToRemove: [String]?
 

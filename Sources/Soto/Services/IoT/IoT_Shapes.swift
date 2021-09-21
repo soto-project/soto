@@ -598,7 +598,7 @@ extension IoT {
         public let dynamoDB: DynamoDBAction?
         /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
         public let dynamoDBv2: DynamoDBv2Action?
-        /// Write data to an Amazon Elasticsearch Service domain.
+        /// Write data to an Amazon Elasticsearch Service domain.  This action is deprecated. Use the OpenSearch action instead.
         public let elasticsearch: ElasticsearchAction?
         /// Write to an Amazon Kinesis Firehose stream.
         public let firehose: FirehoseAction?
@@ -616,6 +616,8 @@ extension IoT {
         public let kinesis: KinesisAction?
         /// Invoke a Lambda function.
         public let lambda: LambdaAction?
+        /// Write data to an Amazon OpenSearch Service domain.
+        public let openSearch: OpenSearchAction?
         /// Publish to another MQTT topic.
         public let republish: RepublishAction?
         /// Write to an Amazon S3 bucket.
@@ -631,7 +633,7 @@ extension IoT {
         /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the Timestream topic rule action documentation.
         public let timestream: TimestreamAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, openSearch: OpenSearchAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -646,6 +648,7 @@ extension IoT {
             self.kafka = kafka
             self.kinesis = kinesis
             self.lambda = lambda
+            self.openSearch = openSearch
             self.republish = republish
             self.s3 = s3
             self.salesforce = salesforce
@@ -661,6 +664,7 @@ extension IoT {
             try self.http?.validate(name: "\(name).http")
             try self.iotEvents?.validate(name: "\(name).iotEvents")
             try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
+            try self.openSearch?.validate(name: "\(name).openSearch")
             try self.republish?.validate(name: "\(name).republish")
             try self.salesforce?.validate(name: "\(name).salesforce")
             try self.timestream?.validate(name: "\(name).timestream")
@@ -681,6 +685,7 @@ extension IoT {
             case kafka
             case kinesis
             case lambda
+            case openSearch
             case republish
             case s3
             case salesforce
@@ -11773,6 +11778,39 @@ extension IoT {
         }
     }
 
+    public struct OpenSearchAction: AWSEncodableShape & AWSDecodableShape {
+        /// The endpoint of your OpenSearch domain.
+        public let endpoint: String
+        /// The unique identifier for the document you are storing.
+        public let id: String
+        /// The OpenSearch index where you want to store your data.
+        public let index: String
+        /// The IAM role ARN that has access to OpenSearch.
+        public let roleArn: String
+        /// The type of document you are storing.
+        public let type: String
+
+        public init(endpoint: String, id: String, index: String, roleArn: String, type: String) {
+            self.endpoint = endpoint
+            self.id = id
+            self.index = index
+            self.roleArn = roleArn
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpoint, name: "endpoint", parent: name, pattern: "https?://.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint
+            case id
+            case index
+            case roleArn
+            case type
+        }
+    }
+
     public struct OutgoingCertificate: AWSDecodableShape {
         /// The certificate ARN.
         public let certificateArn: String?
@@ -13772,7 +13810,7 @@ extension IoT {
     public struct ThingConnectivity: AWSDecodableShape {
         /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
         public let connected: Bool?
-        /// The reason why the client is disconnected.
+        /// The reason why the client is disconnected. If the thing has been disconnected for approximately an hour, the disconnectReason value might be missing.
         public let disconnectReason: String?
         /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing.
         public let timestamp: Int64?

@@ -162,6 +162,7 @@ let package = Package(
         .library(name: "SotoIoTWireless", targets: ["SotoIoTWireless"]),
         .library(name: "SotoKMS", targets: ["SotoKMS"]),
         .library(name: "SotoKafka", targets: ["SotoKafka"]),
+        .library(name: "SotoKafkaConnect", targets: ["SotoKafkaConnect"]),
         .library(name: "SotoKendra", targets: ["SotoKendra"]),
         .library(name: "SotoKinesis", targets: ["SotoKinesis"]),
         .library(name: "SotoKinesisAnalytics", targets: ["SotoKinesisAnalytics"]),
@@ -211,6 +212,7 @@ let package = Package(
         .library(name: "SotoNetworkFirewall", targets: ["SotoNetworkFirewall"]),
         .library(name: "SotoNetworkManager", targets: ["SotoNetworkManager"]),
         .library(name: "SotoNimbleStudio", targets: ["SotoNimbleStudio"]),
+        .library(name: "SotoOpenSearchService", targets: ["SotoOpenSearchService"]),
         .library(name: "SotoOpsWorks", targets: ["SotoOpsWorks"]),
         .library(name: "SotoOpsWorksCM", targets: ["SotoOpsWorksCM"]),
         .library(name: "SotoOrganizations", targets: ["SotoOrganizations"]),
@@ -300,7 +302,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main")),
+        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main"))
     ],
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM"),
@@ -446,6 +448,7 @@ let package = Package(
         .target(name: "SotoIoTWireless", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IoTWireless"),
         .target(name: "SotoKMS", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/KMS"),
         .target(name: "SotoKafka", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Kafka"),
+        .target(name: "SotoKafkaConnect", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/KafkaConnect"),
         .target(name: "SotoKendra", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Kendra"),
         .target(name: "SotoKinesis", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Kinesis"),
         .target(name: "SotoKinesisAnalytics", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/KinesisAnalytics"),
@@ -495,6 +498,7 @@ let package = Package(
         .target(name: "SotoNetworkFirewall", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/NetworkFirewall"),
         .target(name: "SotoNetworkManager", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/NetworkManager"),
         .target(name: "SotoNimbleStudio", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/NimbleStudio"),
+        .target(name: "SotoOpenSearchService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/OpenSearchService"),
         .target(name: "SotoOpsWorks", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/OpsWorks"),
         .target(name: "SotoOpsWorksCM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/OpsWorksCM"),
         .target(name: "SotoOrganizations", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Organizations"),
@@ -584,26 +588,29 @@ let package = Package(
         .target(name: "SotoXRay", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/XRay"),
         .target(name: "CSotoZlib", linkerSettings: [.linkedLibrary("z")]),
 
-        .testTarget(name: "SotoTests", dependencies: [
-            "SotoACM",
-            "SotoAPIGateway",
-            "SotoApiGatewayV2",
-            "SotoCloudFront",
-            "SotoCloudTrail",
-            "SotoDynamoDB",
-            "SotoEC2",
-            "SotoGlacier",
-            "SotoIAM",
-            "SotoLambda",
-            "SotoRoute53",
-            "SotoS3",
-            "SotoS3Control",
-            "SotoSES",
-            "SotoSNS",
-            "SotoSQS",
-            "SotoSSM",
-            "SotoSTS",
-            "SotoTimestreamWrite",
-        ])
+        .testTarget(
+            name: "SotoTests",
+            dependencies: [
+                "SotoACM",
+                "SotoAPIGateway",
+                "SotoApiGatewayV2",
+                "SotoCloudFront",
+                "SotoCloudTrail",
+                "SotoDynamoDB",
+                "SotoEC2",
+                "SotoGlacier",
+                "SotoIAM",
+                "SotoLambda",
+                "SotoRoute53",
+                "SotoS3",
+                "SotoS3Control",
+                "SotoSES",
+                "SotoSNS",
+                "SotoSQS",
+                "SotoSSM",
+                "SotoSTS",
+                "SotoTimestreamWrite"
+            ]
+        )
     ]
 )

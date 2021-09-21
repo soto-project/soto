@@ -36,10 +36,13 @@ extension PrometheusService {
         public let alias: String?
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
+        /// Optional, user-provided tags for this workspace.
+        public let tags: [String: String]?
 
-        public init(alias: String? = nil, clientToken: String? = CreateWorkspaceRequest.idempotencyToken()) {
+        public init(alias: String? = nil, clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.alias = alias
             self.clientToken = clientToken
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -48,11 +51,20 @@ extension PrometheusService {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case alias
             case clientToken
+            case tags
         }
     }
 
@@ -61,18 +73,22 @@ extension PrometheusService {
         public let arn: String
         /// The status of the workspace that was just created (usually CREATING).
         public let status: WorkspaceStatus
+        /// The tags of this workspace.
+        public let tags: [String: String]?
         /// The generated ID of the workspace that was just created.
         public let workspaceId: String
 
-        public init(arn: String, status: WorkspaceStatus, workspaceId: String) {
+        public init(arn: String, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceId: String) {
             self.arn = arn
             self.status = status
+            self.tags = tags
             self.workspaceId = workspaceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
             case status
+            case tags
             case workspaceId
         }
     }
@@ -139,6 +155,33 @@ extension PrometheusService {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct ListWorkspacesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alias", location: .querystring(locationName: "alias")),
@@ -184,6 +227,71 @@ extension PrometheusService {
             case nextToken
             case workspaces
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceArn: String
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceArn: String
+        /// One or more tag keys
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateWorkspaceAliasRequest: AWSEncodableShape {
@@ -232,15 +340,18 @@ extension PrometheusService {
         public let prometheusEndpoint: String?
         /// The status of this workspace.
         public let status: WorkspaceStatus
+        /// The tags of this workspace.
+        public let tags: [String: String]?
         /// Unique string identifying this workspace.
         public let workspaceId: String
 
-        public init(alias: String? = nil, arn: String, createdAt: Date, prometheusEndpoint: String? = nil, status: WorkspaceStatus, workspaceId: String) {
+        public init(alias: String? = nil, arn: String, createdAt: Date, prometheusEndpoint: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceId: String) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.prometheusEndpoint = prometheusEndpoint
             self.status = status
+            self.tags = tags
             self.workspaceId = workspaceId
         }
 
@@ -250,6 +361,7 @@ extension PrometheusService {
             case createdAt
             case prometheusEndpoint
             case status
+            case tags
             case workspaceId
         }
     }
@@ -276,14 +388,17 @@ extension PrometheusService {
         public let createdAt: Date
         /// The status of this workspace.
         public let status: WorkspaceStatus
+        /// The tags of this workspace.
+        public let tags: [String: String]?
         /// Unique string identifying this workspace.
         public let workspaceId: String
 
-        public init(alias: String? = nil, arn: String, createdAt: Date, status: WorkspaceStatus, workspaceId: String) {
+        public init(alias: String? = nil, arn: String, createdAt: Date, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceId: String) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.status = status
+            self.tags = tags
             self.workspaceId = workspaceId
         }
 
@@ -292,6 +407,7 @@ extension PrometheusService {
             case arn
             case createdAt
             case status
+            case tags
             case workspaceId
         }
     }

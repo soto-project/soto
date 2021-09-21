@@ -103,7 +103,7 @@ public struct ECRErrorType: AWSErrorType {
     public static var lifecyclePolicyPreviewInProgressException: Self { .init(.lifecyclePolicyPreviewInProgressException) }
     /// There is no dry run for this repository.
     public static var lifecyclePolicyPreviewNotFoundException: Self { .init(.lifecyclePolicyPreviewNotFoundException) }
-    /// The operation did not succeed because it would have exceeded a service limit for your account. For more information, see Amazon ECR Service Quotas in the Amazon Elastic Container Registry User Guide.
+    /// The operation did not succeed because it would have exceeded a service limit for your account. For more information, see Amazon ECR service quotas in the Amazon Elastic Container Registry User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The manifest list is referencing an image that does not exist.
     public static var referencedImagesNotFoundException: Self { .init(.referencedImagesNotFoundException) }

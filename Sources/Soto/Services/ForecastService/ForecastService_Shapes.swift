@@ -69,6 +69,15 @@ extension ForecastService {
         public var description: String { return self.rawValue }
     }
 
+    public enum OptimizationMetric: String, CustomStringConvertible, Codable {
+        case averageweightedquantileloss = "AverageWeightedQuantileLoss"
+        case mape = "MAPE"
+        case mase = "MASE"
+        case rmse = "RMSE"
+        case wape = "WAPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScalingType: String, CustomStringConvertible, Codable {
         case auto = "Auto"
         case linear = "Linear"
@@ -492,7 +501,7 @@ extension ForecastService {
     public struct CreatePredictorRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR     arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
         public let algorithmArn: String?
-        /// Used to overide the default AutoML strategy, which is to optimize predictor accuracy. To apply an AutoML strategy that minimizes training time, use LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
+        ///   The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges.   Used to overide the default AutoML strategy, which is to optimize predictor accuracy. To apply an AutoML strategy that minimizes training time, use LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
         public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
@@ -508,6 +517,8 @@ extension ForecastService {
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig
+        /// The accuracy metric used to optimize the predictor.
+        public let optimizationMetric: OptimizationMetric?
         /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it evaluates the algorithms it provides and chooses the best algorithm and configuration for your training dataset. The default value is false. In this case, you are required to specify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML. This is a good option if you aren't sure which algorithm is suitable for your training data. In this case, PerformHPO must be false.
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, optionally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters participate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and PerformAutoML must be false. The following algorithms support HPO:   DeepAR+   CNN-QR
@@ -519,7 +530,7 @@ extension ForecastService {
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
             self.encryptionConfig = encryptionConfig
@@ -529,6 +540,7 @@ extension ForecastService {
             self.forecastTypes = forecastTypes
             self.hPOConfig = hPOConfig
             self.inputDataConfig = inputDataConfig
+            self.optimizationMetric = optimizationMetric
             self.performAutoML = performAutoML
             self.performHPO = performHPO
             self.predictorName = predictorName
@@ -574,6 +586,7 @@ extension ForecastService {
             case forecastTypes = "ForecastTypes"
             case hPOConfig = "HPOConfig"
             case inputDataConfig = "InputDataConfig"
+            case optimizationMetric = "OptimizationMetric"
             case performAutoML = "PerformAutoML"
             case performHPO = "PerformHPO"
             case predictorName = "PredictorName"
@@ -1284,7 +1297,7 @@ extension ForecastService {
         public let algorithmArn: String?
         /// When PerformAutoML is specified, the ARN of the chosen algorithm.
         public let autoMLAlgorithmArns: [String]?
-        /// The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
+        ///   The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges.   The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
         public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
         /// When the model training task was created.
         public let creationTime: Date?
@@ -1310,6 +1323,8 @@ extension ForecastService {
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
+        /// The accuracy metric used to optimize the predictor.
+        public let optimizationMetric: OptimizationMetric?
         /// Whether the predictor is set to perform AutoML.
         public let performAutoML: Bool?
         /// Whether the predictor is set to perform hyperparameter optimization (HPO).
@@ -1325,7 +1340,7 @@ extension ForecastService {
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
@@ -1341,6 +1356,7 @@ extension ForecastService {
             self.inputDataConfig = inputDataConfig
             self.lastModificationTime = lastModificationTime
             self.message = message
+            self.optimizationMetric = optimizationMetric
             self.performAutoML = performAutoML
             self.performHPO = performHPO
             self.predictorArn = predictorArn
@@ -1366,6 +1382,7 @@ extension ForecastService {
             case inputDataConfig = "InputDataConfig"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
+            case optimizationMetric = "OptimizationMetric"
             case performAutoML = "PerformAutoML"
             case performHPO = "PerformHPO"
             case predictorArn = "PredictorArn"
@@ -1401,21 +1418,29 @@ extension ForecastService {
     }
 
     public struct ErrorMetric: AWSDecodableShape {
-        ///  The Forecast type used to compute WAPE and RMSE.
+        ///  The Forecast type used to compute WAPE, MAPE, MASE, and RMSE.
         public let forecastType: String?
+        /// The Mean Absolute Percentage Error (MAPE)
+        public let mape: Double?
+        /// The Mean Absolute Scaled Error (MASE)
+        public let mase: Double?
         ///  The root-mean-square error (RMSE).
         public let rmse: Double?
         ///  The weighted absolute percentage error (WAPE).
         public let wape: Double?
 
-        public init(forecastType: String? = nil, rmse: Double? = nil, wape: Double? = nil) {
+        public init(forecastType: String? = nil, mape: Double? = nil, mase: Double? = nil, rmse: Double? = nil, wape: Double? = nil) {
             self.forecastType = forecastType
+            self.mape = mape
+            self.mase = mase
             self.rmse = rmse
             self.wape = wape
         }
 
         private enum CodingKeys: String, CodingKey {
             case forecastType = "ForecastType"
+            case mape = "MAPE"
+            case mase = "MASE"
             case rmse = "RMSE"
             case wape = "WAPE"
         }
@@ -1671,18 +1696,22 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsResponse: AWSDecodableShape {
-        /// The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
+        ///   The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges.   The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
         public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
+        /// The accuracy metric used to optimize the predictor.
+        public let optimizationMetric: OptimizationMetric?
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
 
-        public init(autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, predictorEvaluationResults: [EvaluationResult]? = nil) {
+        public init(autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, optimizationMetric: OptimizationMetric? = nil, predictorEvaluationResults: [EvaluationResult]? = nil) {
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
+            self.optimizationMetric = optimizationMetric
             self.predictorEvaluationResults = predictorEvaluationResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoMLOverrideStrategy = "AutoMLOverrideStrategy"
+            case optimizationMetric = "OptimizationMetric"
             case predictorEvaluationResults = "PredictorEvaluationResults"
         }
     }
@@ -2116,17 +2145,21 @@ extension ForecastService {
     }
 
     public struct Metrics: AWSDecodableShape {
-        ///  Provides detailed error metrics on forecast type, root-mean square-error (RMSE), and weighted average percentage error (WAPE).
+        /// The average value of all weighted quantile losses.
+        public let averageWeightedQuantileLoss: Double?
+        ///  Provides detailed error metrics for each forecast type. Metrics include root-mean square-error (RMSE), mean absolute percentage error (MAPE), mean absolute scaled error (MASE), and weighted average percentage error (WAPE).
         public let errorMetrics: [ErrorMetric]?
         /// An array of weighted quantile losses. Quantiles divide a probability distribution into regions of equal probability. The distribution in this case is the loss function.
         public let weightedQuantileLosses: [WeightedQuantileLoss]?
 
-        public init(errorMetrics: [ErrorMetric]? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
+        public init(averageWeightedQuantileLoss: Double? = nil, errorMetrics: [ErrorMetric]? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
+            self.averageWeightedQuantileLoss = averageWeightedQuantileLoss
             self.errorMetrics = errorMetrics
             self.weightedQuantileLosses = weightedQuantileLosses
         }
 
         private enum CodingKeys: String, CodingKey {
+            case averageWeightedQuantileLoss = "AverageWeightedQuantileLoss"
             case errorMetrics = "ErrorMetrics"
             case weightedQuantileLosses = "WeightedQuantileLosses"
         }
