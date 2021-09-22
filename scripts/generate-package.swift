@@ -17,15 +17,13 @@ import Files // JohnSundell/Files
 import HummingbirdMustache // hummingbird-project/hummingbird-mustache
 
 struct GeneratePackage {
-
     struct Target {
         let name: String
         let hasExtension: Bool
         let dependencies: [String]
     }
 
-    init() {
-    }
+    init() {}
 
     func run() throws {
         let library = try HBMustacheLibrary(directory: "./scripts/templates/generate-package")
