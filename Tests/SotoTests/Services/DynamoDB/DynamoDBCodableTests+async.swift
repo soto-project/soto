@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5)
+#if compiler(>=5.5) && canImport(_Concurrency)
 
 import SotoCore
 import SotoDynamoDB
@@ -187,4 +187,4 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
     }
 }
 
-#endif // compiler(>=5.5)
+#endif // compiler(>=5.5) && canImport(_Concurrency)

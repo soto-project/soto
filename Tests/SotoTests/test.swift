@@ -73,7 +73,7 @@ enum TestEnvironment {
     }()
 }
 
-#if compiler(>=5.5)
+#if compiler(>=5.5) && canImport(_Concurrency)
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public func XCTRunAsyncAndBlock(_ closure: @escaping () async throws -> Void) {
@@ -90,4 +90,4 @@ public func XCTRunAsyncAndBlock(_ closure: @escaping () async throws -> Void) {
     dg.wait()
 }
 
-#endif // compiler(>=5.5)
+#endif // compiler(>=5.5) && canImport(_Concurrency)
