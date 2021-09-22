@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ['swift:5.2', 'swift:5.3', 'swift:5.4', 'swiftlang/swift:nightly-5.5-focal']
+        image: ['swift:5.2', 'swift:5.3', 'swift:5.4', 'swift:5.5']
     services:
       localstack:
         image: localstack/localstack
@@ -45,9 +45,7 @@ jobs:
         LOCALSTACK_ENDPOINT : "http://localstack:4566"
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
+      uses: actions/checkout@v2
     - name: Test Resource Prefix
       # set AWS_TEST_RESOURCE_PREFIX environment variable to a random series of 8 letters
       run: |
