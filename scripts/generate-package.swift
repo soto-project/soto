@@ -14,11 +14,9 @@
 //===----------------------------------------------------------------------===//
 
 import Files // JohnSundell/Files
-import Stencil // soto-project/Stencil
+import HummingbirdMustache // hummingbird-project/hummingbird-mustache
 
 struct GeneratePackage {
-    let environment: Environment
-    let fsLoader: FileSystemLoader
 
     struct Target {
         let name: String
@@ -27,11 +25,10 @@ struct GeneratePackage {
     }
 
     init() {
-        self.fsLoader = FileSystemLoader(paths: ["./scripts/templates/generate-package"])
-        self.environment = Environment(loader: self.fsLoader)
     }
 
     func run() throws {
+        let library = try HBMustacheLibrary(directory: "./scripts/templates/generate-package")
         let servicesFolder = try Folder(path: "./Sources/Soto/Services")
         let extensionsFolder = try Folder(path: "./Sources/Soto/Extensions")
         let testFolder = try Folder(path: "./Tests/SotoTests/Services")
@@ -57,9 +54,10 @@ struct GeneratePackage {
             "targets": srcFolders,
             "testTargets": testFolders.map { $0 }.sorted(),
         ]
-        let package = try environment.renderTemplate(name: "Package.stencil", context: context)
-        let packageFile = try currentFolder.createFile(named: "Package.swift")
-        try packageFile.write(package)
+        if let package = library.render(context, withTemplate: "Package") {
+            let packageFile = try currentFolder.createFile(named: "Package.swift")
+            try packageFile.write(package)
+        }
     }
 }
 
