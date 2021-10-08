@@ -16,7 +16,7 @@ import Logging
 import NIOCore
 import SotoCore
 
-/// Protocol providing a Cognito Identity id and token
+/// Protocol providing a Cognito Identity id and tokens
 public protocol IdentityProvider {
     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams>
     func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void>
@@ -95,6 +95,50 @@ extension CognitoIdentity {
             }.hop(to: eventLoop)
         }
     }
+
+    /// Protocol providing Cognito Identity id and tokens
+    public struct ExternalIdentityProvider: IdentityProvider {
+        /// The context passed to the logins provider closure
+        public struct Context {
+            public let client: AWSClient
+            public let region: Region
+            public let identityPoolId: String
+            public let eventLoop: EventLoop
+            public let logger: Logger
+        }
+
+        let loginsProvider: (Context) -> EventLoopFuture<[String: String]>
+        let identityProviderContext: IdentityProviderFactory.Context
+
+        init(
+            context: IdentityProviderFactory.Context,
+            _ loginsProvider: @escaping (Context) -> EventLoopFuture<[String: String]>
+        ) {
+            self.loginsProvider = loginsProvider
+            self.identityProviderContext = context
+        }
+
+        /// Get Identity from external identity provider and get Cognito Identity from this
+        public func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<IdentityParams> {
+            let context = Context(
+                client: self.identityProviderContext.cognitoIdentity.client,
+                region: self.identityProviderContext.cognitoIdentity.region,
+                identityPoolId: self.identityProviderContext.identityPoolId,
+                eventLoop: eventLoop,
+                logger: logger
+            )
+            return loginsProvider(context)
+                .flatMap { logins in
+                    let request = CognitoIdentity.GetIdInput(identityPoolId: context.identityPoolId, logins: logins)
+                    return identityProviderContext.cognitoIdentity.getId(request, logger: context.logger, on: eventLoop).map { (logins: logins, response: $0) }
+                }
+                .flatMapThrowing { (result: (logins: [String: String], response: GetIdResponse)) -> IdentityParams in
+                    guard let identityId = result.response.identityId else { throw CredentialProviderError.noProvider }
+                    return IdentityParams(id: identityId, logins: result.logins)
+                }
+                .hop(to: eventLoop)
+        }
+    }
 }
 
 extension IdentityProviderFactory {
@@ -107,6 +151,44 @@ extension IdentityProviderFactory {
     public static func `static`(logins: [String: String]?) -> Self {
         return Self { context in
             return CognitoIdentity.StaticIdentityProvider(logins: logins, context: context)
+        }
+    }
+
+    /// Create `IdentityProvider` which attempts to use an external identity provider for authentication.
+    ///
+    /// The token provider closure is used to return a set of name-value pairs that map provider names to provider tokens
+    /// See https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetId.html
+    /// and https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html
+    /// for details on what to return from the tokenProvider closure
+    /// 
+    /// Below is an example using a Cognito UserPool to authenticate.
+    /// ```
+    /// let credentialProvider: CredentialProviderFactory = .cognitoIdentity(
+    ///     identityPoolId: "my-identiy-pool-id",
+    ///     identityProvider: .externalIdentityProvider(tokenProvider: { context in
+    ///         let userPoolIdentityProvider = "cognito-idp.\(context.region).amazonaws.com/\(userPoolId)"
+    ///         let cognitoIdentityProvider = CognitoIdentityProvider(client: context.client, region: context.region)
+    ///         let request = CognitoIdentityProvider.InitiateAuthRequest(
+    ///             authFlow: .userPasswordAuth,
+    ///             authParameters: ["USERNAME": "my-username", "PASSWORD": "my-password"],
+    ///             clientId: "my-client-id"
+    ///         )
+    ///         return cognitoIdentityProvider.initiateAuth(request, logger: context.logger, on: context.eventLoop)
+    ///             .flatMapThrowing { response in
+    ///                 guard let idToken = response.authenticationResult?.idToken else { throw CredentialProviderError.noProvider }
+    ///                 return [userPoolIdentityProvider: idToken]
+    ///             }
+    ///     }),
+    ///     region: .euwest1
+    /// )
+    /// ```
+    public static func externalIdentityProvider(
+        tokenProvider: @escaping (CognitoIdentity.ExternalIdentityProvider.Context) -> EventLoopFuture<[String: String]>
+    ) -> Self {
+        return Self { context in
+            return CognitoIdentity.ExternalIdentityProvider(context: context) { context in
+                return tokenProvider(context)
+            }
         }
     }
 }
