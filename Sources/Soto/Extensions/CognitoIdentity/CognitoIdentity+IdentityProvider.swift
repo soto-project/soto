@@ -127,10 +127,10 @@ extension CognitoIdentity {
                 eventLoop: eventLoop,
                 logger: logger
             )
-            return loginsProvider(context)
+            return self.loginsProvider(context)
                 .flatMap { logins in
                     let request = CognitoIdentity.GetIdInput(identityPoolId: context.identityPoolId, logins: logins)
-                    return identityProviderContext.cognitoIdentity.getId(request, logger: context.logger, on: eventLoop).map { (logins: logins, response: $0) }
+                    return self.identityProviderContext.cognitoIdentity.getId(request, logger: context.logger, on: eventLoop).map { (logins: logins, response: $0) }
                 }
                 .flatMapThrowing { (result: (logins: [String: String], response: GetIdResponse)) -> IdentityParams in
                     guard let identityId = result.response.identityId else { throw CredentialProviderError.noProvider }
@@ -160,7 +160,7 @@ extension IdentityProviderFactory {
     /// See https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetId.html
     /// and https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html
     /// for details on what to return from the tokenProvider closure
-    /// 
+    ///
     /// Below is an example using a Cognito UserPool to authenticate.
     /// ```
     /// let credentialProvider: CredentialProviderFactory = .cognitoIdentity(
