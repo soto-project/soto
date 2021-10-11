@@ -38,6 +38,7 @@ extension SSM {
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "TimedOut")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Failed")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Cancelling")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvocationDoesNotExist")),
             ],
             minDelayTime: .seconds(5),
             command: getCommandInvocation

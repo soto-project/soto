@@ -85,7 +85,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var eC2ThrottledException: Self { .init(.eC2ThrottledException) }
     /// Lambda received an unexpected EC2 client exception while setting up for the Lambda function.
     public static var eC2UnexpectedException: Self { .init(.eC2UnexpectedException) }
-    /// An error occured when reading from or writing to a connected file system.
+    /// An error occurred when reading from or writing to a connected file system.
     public static var eFSIOException: Self { .init(.eFSIOException) }
     /// The function couldn't make a network connection to the configured file system.
     public static var eFSMountConnectivityException: Self { .init(.eFSMountConnectivityException) }

@@ -87,6 +87,11 @@ extension WorkMail {
         return try await self.client.execute(operation: "DeleteMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the mobile device access override for the given WorkMail organization, user, and device.
+    public func deleteMobileDeviceAccessOverride(_ input: DeleteMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteMobileDeviceAccessOverrideResponse {
+        return try await self.client.execute(operation: "DeleteMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a mobile device access rule for the specified Amazon WorkMail organization.
     public func deleteMobileDeviceAccessRule(_ input: DeleteMobileDeviceAccessRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteMobileDeviceAccessRuleResponse {
         return try await self.client.execute(operation: "DeleteMobileDeviceAccessRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -120,6 +125,11 @@ extension WorkMail {
     /// Returns the data available for the group.
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeGroupResponse {
         return try await self.client.execute(operation: "DescribeGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the settings in a DMARC policy for a specified organization.
+    public func describeInboundDmarcSettings(_ input: DescribeInboundDmarcSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeInboundDmarcSettingsResponse {
+        return try await self.client.execute(operation: "DescribeInboundDmarcSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the current status of a mailbox export job.
@@ -172,6 +182,11 @@ extension WorkMail {
         return try await self.client.execute(operation: "GetMobileDeviceAccessEffect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the mobile device access override for the given WorkMail organization, user, and device.
+    public func getMobileDeviceAccessOverride(_ input: GetMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMobileDeviceAccessOverrideResponse {
+        return try await self.client.execute(operation: "GetMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the access control rules for the specified organization.
     public func listAccessControlRules(_ input: ListAccessControlRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccessControlRulesResponse {
         return try await self.client.execute(operation: "ListAccessControlRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -200,6 +215,11 @@ extension WorkMail {
     /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     public func listMailboxPermissions(_ input: ListMailboxPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMailboxPermissionsResponse {
         return try await self.client.execute(operation: "ListMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
+    public func listMobileDeviceAccessOverrides(_ input: ListMobileDeviceAccessOverridesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMobileDeviceAccessOverridesResponse {
+        return try await self.client.execute(operation: "ListMobileDeviceAccessOverrides", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the mobile device access rules for the specified Amazon WorkMail organization.
@@ -237,9 +257,19 @@ extension WorkMail {
         return try await self.client.execute(operation: "PutAccessControlRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Enables or disables a DMARC policy for a given organization.
+    public func putInboundDmarcSettings(_ input: PutInboundDmarcSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutInboundDmarcSettingsResponse {
+        return try await self.client.execute(operation: "PutInboundDmarcSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
     public func putMailboxPermissions(_ input: PutMailboxPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutMailboxPermissionsResponse {
         return try await self.client.execute(operation: "PutMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
+    public func putMobileDeviceAccessOverride(_ input: PutMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutMobileDeviceAccessOverrideResponse {
+        return try await self.client.execute(operation: "PutMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Puts a retention policy to the specified organization.

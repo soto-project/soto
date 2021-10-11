@@ -20,6 +20,23 @@ import SotoCore
 extension LexModelsV2 {
     // MARK: Enums
 
+    public enum AggregatedUtterancesFilterName: String, CustomStringConvertible, Codable {
+        case utterance = "Utterance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AggregatedUtterancesFilterOperator: String, CustomStringConvertible, Codable {
+        case co = "CO"
+        case eq = "EQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AggregatedUtterancesSortAttribute: String, CustomStringConvertible, Codable {
+        case hitcount = "HitCount"
+        case missedcount = "MissedCount"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BotAliasStatus: String, CustomStringConvertible, Codable {
         case available = "Available"
         case creating = "Creating"
@@ -238,7 +255,95 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimeDimension: String, CustomStringConvertible, Codable {
+        case days = "Days"
+        case hours = "Hours"
+        case weeks = "Weeks"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AggregatedUtterancesFilter: AWSEncodableShape {
+        /// The name of the field to filter the utterance list.
+        public let name: AggregatedUtterancesFilterName
+        /// The operator to use for the filter. Specify EQ when the ListAggregatedUtterances operation should return only utterances that equal the specified value. Specify CO when the ListAggregatedUtterances operation should return utterances that contain the specified value.
+        public let `operator`: AggregatedUtterancesFilterOperator
+        /// The value to use for filtering the list of bots.
+        public let values: [String]
+
+        public init(name: AggregatedUtterancesFilterName, operator: AggregatedUtterancesFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_()\\s-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case `operator`
+            case values
+        }
+    }
+
+    public struct AggregatedUtterancesSortBy: AWSEncodableShape {
+        /// The utterance attribute to sort by.
+        public let attribute: AggregatedUtterancesSortAttribute
+        /// Specifies whether to sort the aggregated utterances in ascending or descending order.
+        public let order: SortOrder
+
+        public init(attribute: AggregatedUtterancesSortAttribute, order: SortOrder) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute
+            case order
+        }
+    }
+
+    public struct AggregatedUtterancesSummary: AWSDecodableShape {
+        /// Aggregated utterance data may contain utterances from versions of your bot that have since been deleted. When the aggregated contains this kind of data, this field is set to true.
+        public let containsDataFromDeletedResources: Bool?
+        /// The number of times that the utterance was detected by Amazon Lex during the time period. When an utterance is detected, it activates an intent or a slot.
+        public let hitCount: Int?
+        /// The number of times that the utterance was missed by Amazon Lex An utterance is missed when it doesn't activate an intent or slot.
+        public let missedCount: Int?
+        /// The text of the utterance. If the utterance was used with the RecognizeUtterance operation, the text is the transcription of the audio utterance.
+        public let utterance: String?
+        /// The date and time that the utterance was first recorded in the time window for aggregation. An utterance may have been sent to Amazon Lex before that time, but only utterances within the time window are counted.
+        public let utteranceFirstRecordedInAggregationDuration: Date?
+        /// The last date and time that an utterance was recorded in the time window for aggregation. An utterance may be sent to Amazon Lex after that time, but only utterances within the time window are counted.
+        public let utteranceLastRecordedInAggregationDuration: Date?
+
+        public init(containsDataFromDeletedResources: Bool? = nil, hitCount: Int? = nil, missedCount: Int? = nil, utterance: String? = nil, utteranceFirstRecordedInAggregationDuration: Date? = nil, utteranceLastRecordedInAggregationDuration: Date? = nil) {
+            self.containsDataFromDeletedResources = containsDataFromDeletedResources
+            self.hitCount = hitCount
+            self.missedCount = missedCount
+            self.utterance = utterance
+            self.utteranceFirstRecordedInAggregationDuration = utteranceFirstRecordedInAggregationDuration
+            self.utteranceLastRecordedInAggregationDuration = utteranceLastRecordedInAggregationDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containsDataFromDeletedResources
+            case hitCount
+            case missedCount
+            case utterance
+            case utteranceFirstRecordedInAggregationDuration
+            case utteranceLastRecordedInAggregationDuration
+        }
+    }
 
     public struct AudioLogDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the CreateBot operation must have permission to write to this bucket.
@@ -1106,7 +1211,7 @@ extension LexModelsV2 {
         public let description: String?
         /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
         public let localeId: String
-        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
+        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
         public let nluIntentConfidenceThreshold: Double
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
@@ -1483,6 +1588,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
@@ -2510,6 +2616,42 @@ extension LexModelsV2 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteUtterancesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "localeId", location: .querystring(locationName: "localeId")),
+            AWSMemberEncoding(label: "sessionId", location: .querystring(locationName: "sessionId"))
+        ]
+
+        /// The unique identifier of the bot that contains the utterances.
+        public let botId: String
+        /// The identifier of the language and locale where the utterances were collected. The string must match one of the supported locales. For more information, see Supported languages.
+        public let localeId: String?
+        /// The unique identifier of the session with the user. The ID is returned in the response from the and operations.
+        public let sessionId: String?
+
+        public init(botId: String, localeId: String? = nil, sessionId: String? = nil) {
+            self.botId = botId
+            self.localeId = localeId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteUtterancesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
@@ -2924,7 +3066,7 @@ extension LexModelsV2 {
     public struct DescribeImportResponse: AWSDecodableShape {
         /// The date and time that the import was created.
         public let creationDateTime: Date?
-        /// If the importStatus field is Failed, this provides one or more reasons for the failture.
+        /// If the importStatus field is Failed, this provides one or more reasons for the failure.
         public let failureReasons: [String]?
         /// The unique identifier that Amazon Lex assigned to the resource created by the import.
         public let importedResourceId: String?
@@ -3344,7 +3486,7 @@ extension LexModelsV2 {
         public let name: ExportFilterName
         /// The operator to use for the filter. Specify EQ when the ListExports operation should return only resource types that equal the specified value. Specify CO when the ListExports operation should return resource types that contain the specified value.
         public let `operator`: ExportFilterOperator
-        /// The values to use to fileter the response.
+        /// The values to use to filter the response.
         public let values: [String]
 
         public init(name: ExportFilterName, operator: ExportFilterOperator, values: [String]) {
@@ -3445,13 +3587,120 @@ extension LexModelsV2 {
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
         public let enabled: Bool
+        /// Provides settings for update messages sent to the user for long-running Lambda fulfillment functions. Fulfillment updates can be used only with streaming conversations.
+        public let fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification?
+        /// Provides settings for messages sent to the user for after the Lambda fulfillment function completes. Post-fulfillment messages can be sent for both streaming and non-streaming conversations.
+        public let postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification?
 
-        public init(enabled: Bool) {
+        public init(enabled: Bool, fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification? = nil, postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification? = nil) {
             self.enabled = enabled
+            self.fulfillmentUpdatesSpecification = fulfillmentUpdatesSpecification
+            self.postFulfillmentStatusSpecification = postFulfillmentStatusSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.fulfillmentUpdatesSpecification?.validate(name: "\(name).fulfillmentUpdatesSpecification")
+            try self.postFulfillmentStatusSpecification?.validate(name: "\(name).postFulfillmentStatusSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled
+            case fulfillmentUpdatesSpecification
+            case postFulfillmentStatusSpecification
+        }
+    }
+
+    public struct FulfillmentStartResponseSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the user can interrupt the start message while it is playing.
+        public let allowInterrupt: Bool?
+        /// The delay between when the Lambda fulfillment function starts running and the start message is played. If the Lambda function returns before the delay is over, the start message isn't played.
+        public let delayInSeconds: Int
+        /// One to 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
+        public let messageGroups: [MessageGroup]
+
+        public init(allowInterrupt: Bool? = nil, delayInSeconds: Int, messageGroups: [MessageGroup]) {
+            self.allowInterrupt = allowInterrupt
+            self.delayInSeconds = delayInSeconds
+            self.messageGroups = messageGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delayInSeconds, name: "delayInSeconds", parent: name, max: 900)
+            try self.validate(self.delayInSeconds, name: "delayInSeconds", parent: name, min: 1)
+            try self.messageGroups.forEach {
+                try $0.validate(name: "\(name).messageGroups[]")
+            }
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, max: 5)
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowInterrupt
+            case delayInSeconds
+            case messageGroups
+        }
+    }
+
+    public struct FulfillmentUpdateResponseSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the user can interrupt an update message while it is playing.
+        public let allowInterrupt: Bool?
+        /// The frequency that a message is sent to the user. When the period ends, Amazon Lex chooses a message from the message groups and plays it to the user. If the fulfillment Lambda returns before the first period ends, an update message is not played to the user.
+        public let frequencyInSeconds: Int
+        /// One to 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
+        public let messageGroups: [MessageGroup]
+
+        public init(allowInterrupt: Bool? = nil, frequencyInSeconds: Int, messageGroups: [MessageGroup]) {
+            self.allowInterrupt = allowInterrupt
+            self.frequencyInSeconds = frequencyInSeconds
+            self.messageGroups = messageGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.frequencyInSeconds, name: "frequencyInSeconds", parent: name, max: 900)
+            try self.validate(self.frequencyInSeconds, name: "frequencyInSeconds", parent: name, min: 1)
+            try self.messageGroups.forEach {
+                try $0.validate(name: "\(name).messageGroups[]")
+            }
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, max: 5)
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowInterrupt
+            case frequencyInSeconds
+            case messageGroups
+        }
+    }
+
+    public struct FulfillmentUpdatesSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether fulfillment updates are sent to the user. When this field is true, updates are sent. If the active field is set to true, the startResponse, updateResponse, and timeoutInSeconds fields are required.
+        public let active: Bool
+        /// Provides configuration information for the message sent to users when the fulfillment Lambda functions starts running.
+        public let startResponse: FulfillmentStartResponseSpecification?
+        /// The length of time that the fulfillment Lambda function should run before it times out.
+        public let timeoutInSeconds: Int?
+        /// Provides configuration information for messages sent periodically to the user while the fulfillment Lambda function is running.
+        public let updateResponse: FulfillmentUpdateResponseSpecification?
+
+        public init(active: Bool, startResponse: FulfillmentStartResponseSpecification? = nil, timeoutInSeconds: Int? = nil, updateResponse: FulfillmentUpdateResponseSpecification? = nil) {
+            self.active = active
+            self.startResponse = startResponse
+            self.timeoutInSeconds = timeoutInSeconds
+            self.updateResponse = updateResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.startResponse?.validate(name: "\(name).startResponse")
+            try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 900)
+            try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 1)
+            try self.updateResponse?.validate(name: "\(name).updateResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active
+            case startResponse
+            case timeoutInSeconds
+            case updateResponse
         }
     }
 
@@ -3621,7 +3870,7 @@ extension LexModelsV2 {
     }
 
     public struct IntentClosingSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user and no closing input from the user is used. If the active field isn't specified, the default is true.
+        /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// The response that Amazon Lex sends to the user when the intent is complete.
         public let closingResponse: ResponseSpecification
@@ -3642,7 +3891,7 @@ extension LexModelsV2 {
     }
 
     public struct IntentConfirmationSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent and processing continues as if the responses aren't present. If the active field isn't specified, the default is true.
+        /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// When the user answers "no" to the question defined in promptSpecification, Amazon Lex responds with this response to acknowledge that the intent was canceled.
         public let declinationResponse: ResponseSpecification
@@ -3803,6 +4052,123 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case codeHookInterfaceVersion
             case lambdaARN
+        }
+    }
+
+    public struct ListAggregatedUtterancesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+        ]
+
+        /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks.
+        public let aggregationDuration: UtteranceAggregationDuration
+        /// The identifier of the bot alias associated with this request. If you specify the bot alias, you can't specify the bot version.
+        public let botAliasId: String?
+        /// The unique identifier of the bot associated with this request.
+        public let botId: String
+        /// The identifier of the bot version associated with this request. If you specify the bot version, you can't specify the bot alias.
+        public let botVersion: String?
+        /// Provides the specification of a filter used to limit the utterances in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
+        public let filters: [AggregatedUtterancesFilter]?
+        /// The identifier of the language and locale where the utterances were collected. For more information, see Supported languages.
+        public let localeId: String
+        /// The maximum number of utterances to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned. If you don't specify the maxResults parameter, 1,000 results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListAggregatedUtterances operation contains more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+        /// Specifies sorting parameters for the list of utterances. You can sort by the hit count, the missed count, or the number of distinct sessions the utterance appeared in.
+        public let sortBy: AggregatedUtterancesSortBy?
+
+        public init(aggregationDuration: UtteranceAggregationDuration, botAliasId: String? = nil, botId: String, botVersion: String? = nil, filters: [AggregatedUtterancesFilter]? = nil, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: AggregatedUtterancesSortBy? = nil) {
+            self.aggregationDuration = aggregationDuration
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.botVersion = botVersion
+            self.filters = filters
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationDuration.validate(name: "\(name).aggregationDuration")
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, max: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, min: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, pattern: "^(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationDuration
+            case botAliasId
+            case botVersion
+            case filters
+            case localeId
+            case maxResults
+            case nextToken
+            case sortBy
+        }
+    }
+
+    public struct ListAggregatedUtterancesResponse: AWSDecodableShape {
+        /// Summaries of the aggregated utterance data. Each response contains information about the number of times that the utterance was seen during the time period, whether it was detected or missed, and when it was seen during the time period.
+        public let aggregatedUtterancesSummaries: [AggregatedUtterancesSummary]?
+        /// The time period used to aggregate the utterance data.
+        public let aggregationDuration: UtteranceAggregationDuration?
+        /// The last date and time that the aggregated data was collected. The time period depends on the length of the aggregation window.    Hours - for 1 hour time window, every half hour; otherwise every hour.    Days - every 6 hours    Weeks - for a one week time window, every 12 hours; otherwise, every day
+        public let aggregationLastRefreshedDateTime: Date?
+        /// The date and time that the aggregation window ends. Only data collected between the start time and the end time are returned in the results.
+        public let aggregationWindowEndTime: Date?
+        /// The date and time that the aggregation window begins. Only data collected after this time is returned in the results.
+        public let aggregationWindowStartTime: Date?
+        /// The identifier of the bot alias that contains the utterances. If you specified the bot version, the bot alias ID isn't returned.
+        public let botAliasId: String?
+        /// The identifier of the bot that contains the utterances.
+        public let botId: String?
+        /// The identifier of the bot version that contains the utterances. If you specified the bot alias, the bot version isn't returned.
+        public let botVersion: String?
+        /// The identifier of the language and locale that the utterances are in.
+        public let localeId: String?
+        /// A token that indicates whether there are more results to return in a response to the ListAggregatedUtterances operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListAggregatedUtterances operation request to get the next page of results.
+        public let nextToken: String?
+
+        public init(aggregatedUtterancesSummaries: [AggregatedUtterancesSummary]? = nil, aggregationDuration: UtteranceAggregationDuration? = nil, aggregationLastRefreshedDateTime: Date? = nil, aggregationWindowEndTime: Date? = nil, aggregationWindowStartTime: Date? = nil, botAliasId: String? = nil, botId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil) {
+            self.aggregatedUtterancesSummaries = aggregatedUtterancesSummaries
+            self.aggregationDuration = aggregationDuration
+            self.aggregationLastRefreshedDateTime = aggregationLastRefreshedDateTime
+            self.aggregationWindowEndTime = aggregationWindowEndTime
+            self.aggregationWindowStartTime = aggregationWindowStartTime
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedUtterancesSummaries
+            case aggregationDuration
+            case aggregationLastRefreshedDateTime
+            case aggregationWindowEndTime
+            case aggregationWindowStartTime
+            case botAliasId
+            case botId
+            case botVersion
+            case localeId
+            case nextToken
         }
     }
 
@@ -4162,7 +4528,7 @@ extension LexModelsV2 {
         public let filters: [ExportFilter]?
         /// The maximum number of exports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
-        /// If the response from the ListExports operation contans more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        /// If the response from the ListExports operation contains more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
         public let nextToken: String?
         /// Determines the field that the list of exports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
         public let sortBy: ExportSortBy?
@@ -4733,6 +5099,30 @@ extension LexModelsV2 {
         }
     }
 
+    public struct PostFulfillmentStatusSpecification: AWSEncodableShape & AWSDecodableShape {
+        public let failureResponse: ResponseSpecification?
+        public let successResponse: ResponseSpecification?
+        public let timeoutResponse: ResponseSpecification?
+
+        public init(failureResponse: ResponseSpecification? = nil, successResponse: ResponseSpecification? = nil, timeoutResponse: ResponseSpecification? = nil) {
+            self.failureResponse = failureResponse
+            self.successResponse = successResponse
+            self.timeoutResponse = timeoutResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.failureResponse?.validate(name: "\(name).failureResponse")
+            try self.successResponse?.validate(name: "\(name).successResponse")
+            try self.timeoutResponse?.validate(name: "\(name).timeoutResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureResponse
+            case successResponse
+            case timeoutResponse
+        }
+    }
+
     public struct Principal: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the principal.
         public let arn: String?
@@ -4762,7 +5152,7 @@ extension LexModelsV2 {
     public struct PromptSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the user can interrupt a speech prompt from the bot.
         public let allowInterrupt: Bool?
-        /// The maximum number of times the bot tries to elicit a resonse from the user using this prompt.
+        /// The maximum number of times the bot tries to elicit a response from the user using this prompt.
         public let maxRetries: Int
         /// A collection of messages that Amazon Lex can send to the user. Amazon Lex chooses the actual message to send at runtime.
         public let messageGroups: [MessageGroup]
@@ -4787,6 +5177,28 @@ extension LexModelsV2 {
             case allowInterrupt
             case maxRetries
             case messageGroups
+        }
+    }
+
+    public struct RelativeAggregationDuration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of time period that the timeValue field represents.
+        public let timeDimension: TimeDimension
+        /// The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field.    Hours - 1/3/6/12/24    Days - 3    Weeks - 1/2
+        public let timeValue: Int
+
+        public init(timeDimension: TimeDimension, timeValue: Int) {
+            self.timeDimension = timeDimension
+            self.timeValue = timeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeValue, name: "timeValue", parent: name, max: 24)
+            try self.validate(self.timeValue, name: "timeValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeDimension
+            case timeValue
         }
     }
 
@@ -5137,7 +5549,7 @@ extension LexModelsV2 {
     public struct SlotTypeValue: AWSEncodableShape & AWSDecodableShape {
         /// The value of the slot type entry.
         public let sampleValue: SampleValue?
-        /// Additional values releated to the slot type entry.
+        /// Additional values related to the slot type entry.
         public let synonyms: [SampleValue]?
 
         public init(sampleValue: SampleValue? = nil, synonyms: [SampleValue]? = nil) {
@@ -5161,7 +5573,7 @@ extension LexModelsV2 {
     }
 
     public struct SlotValueElicitationSetting: AWSEncodableShape & AWSDecodableShape {
-        /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, sesion attributes, and defined values.
+        /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public let defaultValueSpecification: SlotDefaultValueSpecification?
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let promptSpecification: PromptSpecification?
@@ -5203,7 +5615,7 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pattern, name: "pattern", parent: name, max: 100)
+            try self.validate(self.pattern, name: "pattern", parent: name, max: 300)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
         }
 
@@ -5884,6 +6296,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
@@ -6320,6 +6733,23 @@ extension LexModelsV2 {
         }
     }
 
+    public struct UtteranceAggregationDuration: AWSEncodableShape & AWSDecodableShape {
+        /// The desired time window for aggregating utterances.
+        public let relativeAggregationDuration: RelativeAggregationDuration
+
+        public init(relativeAggregationDuration: RelativeAggregationDuration) {
+            self.relativeAggregationDuration = relativeAggregationDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.relativeAggregationDuration.validate(name: "\(name).relativeAggregationDuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relativeAggregationDuration
+        }
+    }
+
     public struct VoiceSettings: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the Amazon Polly voice to use.
         public let voiceId: String
@@ -6334,7 +6764,7 @@ extension LexModelsV2 {
     }
 
     public struct WaitAndContinueSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used and the bot expects an appropriate response within the configured timeout. If the active field isn't specified, the default is true.
+        /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.
         public let continueResponse: ResponseSpecification

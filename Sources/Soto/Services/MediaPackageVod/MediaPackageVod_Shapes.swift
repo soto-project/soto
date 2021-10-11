@@ -667,16 +667,20 @@ extension MediaPackageVod {
     public struct EgressEndpoint: AWSDecodableShape {
         /// The ID of the PackagingConfiguration being applied to the Asset.
         public let packagingConfigurationId: String?
+        /// The current processing status of the asset used for the packaging configuration. The status can be either QUEUED, PROCESSING, PLAYABLE, or FAILED. Status information won't be available for most assets ingested before 2021-09-30.
+        public let status: String?
         /// The URL of the parent manifest for the repackaged Asset.
         public let url: String?
 
-        public init(packagingConfigurationId: String? = nil, url: String? = nil) {
+        public init(packagingConfigurationId: String? = nil, status: String? = nil, url: String? = nil) {
             self.packagingConfigurationId = packagingConfigurationId
+            self.status = status
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
             case packagingConfigurationId
+            case status
             case url
         }
     }

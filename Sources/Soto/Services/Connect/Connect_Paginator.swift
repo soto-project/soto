@@ -549,7 +549,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.
+    ///  Provides summary information about the AWS resource associations for the specified Amazon Connect instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1185,7 +1185,7 @@ extension Connect {
         )
     }
 
-    ///  Lists the use cases.
+    ///  Lists the use cases for the integration association.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1460,6 +1460,7 @@ extension Connect.ListIntegrationAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListIntegrationAssociationsRequest {
         return .init(
             instanceId: self.instanceId,
+            integrationType: self.integrationType,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -498,6 +498,7 @@ extension EC2 {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("snapshots[].state", expected: "completed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("snapshots[].state", expected: "error")),
             ],
             minDelayTime: .seconds(15),
             command: describeSnapshots

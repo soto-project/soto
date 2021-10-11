@@ -131,6 +131,13 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum LicenseConversionTaskStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LicenseCountingType: String, CustomStringConvertible, Codable {
         case core = "Core"
         case instance = "Instance"
@@ -426,6 +433,8 @@ extension LicenseManager {
         public let expiration: String?
         /// Date and time at which the license checkout is issued.
         public let issuedAt: String?
+        /// Amazon Resource Name (ARN) of the checkout license.
+        public let licenseArn: String?
         /// License consumption token.
         public let licenseConsumptionToken: String?
         /// Node ID.
@@ -433,11 +442,12 @@ extension LicenseManager {
         /// Signed token.
         public let signedToken: String?
 
-        public init(checkoutType: CheckoutType? = nil, entitlementsAllowed: [EntitlementData]? = nil, expiration: String? = nil, issuedAt: String? = nil, licenseConsumptionToken: String? = nil, nodeId: String? = nil, signedToken: String? = nil) {
+        public init(checkoutType: CheckoutType? = nil, entitlementsAllowed: [EntitlementData]? = nil, expiration: String? = nil, issuedAt: String? = nil, licenseArn: String? = nil, licenseConsumptionToken: String? = nil, nodeId: String? = nil, signedToken: String? = nil) {
             self.checkoutType = checkoutType
             self.entitlementsAllowed = entitlementsAllowed
             self.expiration = expiration
             self.issuedAt = issuedAt
+            self.licenseArn = licenseArn
             self.licenseConsumptionToken = licenseConsumptionToken
             self.nodeId = nodeId
             self.signedToken = signedToken
@@ -448,6 +458,7 @@ extension LicenseManager {
             case entitlementsAllowed = "EntitlementsAllowed"
             case expiration = "Expiration"
             case issuedAt = "IssuedAt"
+            case licenseArn = "LicenseArn"
             case licenseConsumptionToken = "LicenseConsumptionToken"
             case nodeId = "NodeId"
             case signedToken = "SignedToken"
@@ -574,6 +585,7 @@ extension LicenseManager {
         public let sourceVersion: String?
         /// Grant status.
         public let status: GrantStatus?
+        /// Grant status reason.
         public let statusReason: String?
 
         public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil, statusReason: String? = nil) {
@@ -687,6 +699,47 @@ extension LicenseManager {
         }
     }
 
+    public struct CreateLicenseConversionTaskForResourceRequest: AWSEncodableShape {
+        /// Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the AWS CLI in the License Manager User Guide.
+        public let destinationLicenseContext: LicenseConversionContext
+        /// Amazon Resource Name (ARN) of the resource you are converting the license type for.
+        public let resourceArn: String
+        /// Information that identifies the license type you are converting from. For the structure of the source license, see Convert a license type using the AWS CLI in the License Manager User Guide.
+        public let sourceLicenseContext: LicenseConversionContext
+
+        public init(destinationLicenseContext: LicenseConversionContext, resourceArn: String, sourceLicenseContext: LicenseConversionContext) {
+            self.destinationLicenseContext = destinationLicenseContext
+            self.resourceArn = resourceArn
+            self.sourceLicenseContext = sourceLicenseContext
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationLicenseContext.validate(name: "\(name).destinationLicenseContext")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.sourceLicenseContext.validate(name: "\(name).sourceLicenseContext")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationLicenseContext = "DestinationLicenseContext"
+            case resourceArn = "ResourceArn"
+            case sourceLicenseContext = "SourceLicenseContext"
+        }
+    }
+
+    public struct CreateLicenseConversionTaskForResourceResponse: AWSDecodableShape {
+        /// The ID of the created license type conversion task.
+        public let licenseConversionTaskId: String?
+
+        public init(licenseConversionTaskId: String? = nil) {
+            self.licenseConversionTaskId = licenseConversionTaskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConversionTaskId = "LicenseConversionTaskId"
+        }
+    }
+
     public struct CreateLicenseManagerReportGeneratorRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String
@@ -700,7 +753,7 @@ extension LicenseManager {
         public let reportGeneratorName: String
         /// Tags to add to the report generator.
         public let tags: [Tag]?
-        /// Type of reports to generate. The following report types an be generated:   License configuration report - Reports on the number and details of consumed licenses for a license configuration.   Resource report - Reports on the tracked licenses and resource consumption for a license configuration.
+        /// Type of reports to generate. The following report types an be generated:   License configuration report - Reports the number and details of consumed licenses for a license configuration.   Resource report - Reports the tracked licenses and resource consumption for a license configuration.
         public let type: [ReportType]
 
         public init(clientToken: String, description: String? = nil, reportContext: ReportContext, reportFrequency: ReportFrequency, reportGeneratorName: String, tags: [Tag]? = nil, type: [ReportType]) {
@@ -733,7 +786,7 @@ extension LicenseManager {
     }
 
     public struct CreateLicenseManagerReportGeneratorResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the new report generator.
+        /// The Amazon Resource Name (ARN) of the new report generator.
         public let licenseManagerReportGeneratorArn: String?
 
         public init(licenseManagerReportGeneratorArn: String? = nil) {
@@ -1000,6 +1053,7 @@ extension LicenseManager {
     public struct DeleteGrantRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
+        /// The Status reason for the delete request.
         public let statusReason: String?
         /// Current version of the grant.
         public let version: String
@@ -1063,7 +1117,7 @@ extension LicenseManager {
     }
 
     public struct DeleteLicenseManagerReportGeneratorRequest: AWSEncodableShape {
-        /// Amazon Resource Number (ARN) of the report generator that will be deleted.
+        /// Amazon Resource Name (ARN) of the report generator to be deleted.
         public let licenseManagerReportGeneratorArn: String
 
         public init(licenseManagerReportGeneratorArn: String) {
@@ -1102,7 +1156,7 @@ extension LicenseManager {
     }
 
     public struct DeleteLicenseResponse: AWSDecodableShape {
-        /// Date on which the license is deleted.
+        /// Date when the license is deleted.
         public let deletionDate: String?
         /// License status.
         public let status: LicenseDeletionStatus?
@@ -1368,7 +1422,7 @@ extension LicenseManager {
         public let licenseCount: Int64?
         /// Sets the number of available licenses as a hard limit.
         public let licenseCountHardLimit: Bool?
-        /// Dimension on which the licenses are counted.
+        /// Dimension for which the licenses are counted.
         public let licenseCountingType: LicenseCountingType?
         /// License rules.
         public let licenseRules: [String]?
@@ -1426,8 +1480,71 @@ extension LicenseManager {
         }
     }
 
+    public struct GetLicenseConversionTaskRequest: AWSEncodableShape {
+        /// ID of the license type conversion task to retrieve information on.
+        public let licenseConversionTaskId: String
+
+        public init(licenseConversionTaskId: String) {
+            self.licenseConversionTaskId = licenseConversionTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseConversionTaskId, name: "licenseConversionTaskId", parent: name, max: 50)
+            try self.validate(self.licenseConversionTaskId, name: "licenseConversionTaskId", parent: name, pattern: "^lct-[a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConversionTaskId = "LicenseConversionTaskId"
+        }
+    }
+
+    public struct GetLicenseConversionTaskResponse: AWSDecodableShape {
+        /// Information about the license type converted to.
+        public let destinationLicenseContext: LicenseConversionContext?
+        /// Time at which the license type conversion task was completed.
+        public let endTime: Date?
+        /// ID of the license type conversion task.
+        public let licenseConversionTaskId: String?
+        /// Amount of time to complete the license type conversion.
+        public let licenseConversionTime: Date?
+        /// Amazon Resource Names (ARN) of the resources the license conversion task is associated with.
+        public let resourceArn: String?
+        /// Information about the license type converted from.
+        public let sourceLicenseContext: LicenseConversionContext?
+        /// Time at which the license type conversion task was started .
+        public let startTime: Date?
+        /// Status of the license type conversion task.
+        public let status: LicenseConversionTaskStatus?
+        /// The status message for the conversion task.
+        public let statusMessage: String?
+
+        public init(destinationLicenseContext: LicenseConversionContext? = nil, endTime: Date? = nil, licenseConversionTaskId: String? = nil, licenseConversionTime: Date? = nil, resourceArn: String? = nil, sourceLicenseContext: LicenseConversionContext? = nil, startTime: Date? = nil, status: LicenseConversionTaskStatus? = nil, statusMessage: String? = nil) {
+            self.destinationLicenseContext = destinationLicenseContext
+            self.endTime = endTime
+            self.licenseConversionTaskId = licenseConversionTaskId
+            self.licenseConversionTime = licenseConversionTime
+            self.resourceArn = resourceArn
+            self.sourceLicenseContext = sourceLicenseContext
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationLicenseContext = "DestinationLicenseContext"
+            case endTime = "EndTime"
+            case licenseConversionTaskId = "LicenseConversionTaskId"
+            case licenseConversionTime = "LicenseConversionTime"
+            case resourceArn = "ResourceArn"
+            case sourceLicenseContext = "SourceLicenseContext"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct GetLicenseManagerReportGeneratorRequest: AWSEncodableShape {
-        /// mazon Resource Number (ARN) of the report generator to retrieve information on.
+        /// Amazon Resource Name (ARN) of the report generator.
         public let licenseManagerReportGeneratorArn: String
 
         public init(licenseManagerReportGeneratorArn: String) {
@@ -1440,7 +1557,7 @@ extension LicenseManager {
     }
 
     public struct GetLicenseManagerReportGeneratorResponse: AWSDecodableShape {
-        /// A report generator that creates periodic reports on your license configurations.
+        /// A report generator that creates periodic reports about your license configurations.
         public let reportGenerator: ReportGenerator?
 
         public init(reportGenerator: ReportGenerator? = nil) {
@@ -1525,9 +1642,9 @@ extension LicenseManager {
     public struct GetServiceSettingsResponse: AWSDecodableShape {
         /// Indicates whether cross-account discovery is enabled.
         public let enableCrossAccountsDiscovery: Bool?
-        /// Amazon Resource Name (ARN) of the AWS resource share. The License Manager management account provides member accounts with access to this share.
+        /// Amazon Resource Name (ARN) of the resource share. The License Manager management account provides member accounts with access to this share.
         public let licenseManagerResourceShareArn: String?
-        /// Indicates whether AWS Organizations is integrated with License Manager for cross-account discovery.
+        /// Indicates whether Organizations is integrated with License Manager for cross-account discovery.
         public let organizationConfiguration: OrganizationConfiguration?
         /// Regional S3 bucket path for storing reports, license trail event data, discovery data, and so on.
         public let s3BucketArn: String?
@@ -1693,7 +1810,7 @@ extension LicenseManager {
     public struct Issuer: AWSEncodableShape {
         /// Issuer name.
         public let name: String
-        /// Asymmetric CMK from AWS Key Management Service. The CMK must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.
+        /// Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.
         public let signKey: String?
 
         public init(name: String, signKey: String? = nil) {
@@ -1712,7 +1829,7 @@ extension LicenseManager {
         public let keyFingerprint: String?
         /// Issuer name.
         public let name: String?
-        /// Asymmetric CMK from AWS Key Management Service. The CMK must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.
+        /// Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm.
         public let signKey: String?
 
         public init(keyFingerprint: String? = nil, name: String? = nil, signKey: String? = nil) {
@@ -1873,7 +1990,7 @@ extension LicenseManager {
         public let associationTime: Date?
         /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
-        /// ID of the AWS account that owns the resource consuming licenses.
+        /// ID of the Amazon Web Services account that owns the resource consuming licenses.
         public let resourceOwnerId: String?
         /// Type of server resource.
         public let resourceType: ResourceType?
@@ -1928,6 +2045,68 @@ extension LicenseManager {
         }
     }
 
+    public struct LicenseConversionContext: AWSEncodableShape & AWSDecodableShape {
+        /// The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform
+        public let usageOperation: String?
+
+        public init(usageOperation: String? = nil) {
+            self.usageOperation = usageOperation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.usageOperation, name: "usageOperation", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usageOperation = "UsageOperation"
+        }
+    }
+
+    public struct LicenseConversionTask: AWSDecodableShape {
+        /// Information about the license type this conversion task converted to.
+        public let destinationLicenseContext: LicenseConversionContext?
+        /// The time the conversion task was completed.
+        public let endTime: Date?
+        /// The ID of the license type conversion task.
+        public let licenseConversionTaskId: String?
+        /// The time the usage operation value of the resource was changed.
+        public let licenseConversionTime: Date?
+        /// The Amazon Resource Name (ARN) of the resource associated with the license type conversion task.
+        public let resourceArn: String?
+        /// Information about the license type this conversion task converted from.
+        public let sourceLicenseContext: LicenseConversionContext?
+        /// The time the conversion task was started at.
+        public let startTime: Date?
+        /// The status of the conversion task.
+        public let status: LicenseConversionTaskStatus?
+        /// The status message for the conversion task.
+        public let statusMessage: String?
+
+        public init(destinationLicenseContext: LicenseConversionContext? = nil, endTime: Date? = nil, licenseConversionTaskId: String? = nil, licenseConversionTime: Date? = nil, resourceArn: String? = nil, sourceLicenseContext: LicenseConversionContext? = nil, startTime: Date? = nil, status: LicenseConversionTaskStatus? = nil, statusMessage: String? = nil) {
+            self.destinationLicenseContext = destinationLicenseContext
+            self.endTime = endTime
+            self.licenseConversionTaskId = licenseConversionTaskId
+            self.licenseConversionTime = licenseConversionTime
+            self.resourceArn = resourceArn
+            self.sourceLicenseContext = sourceLicenseContext
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationLicenseContext = "DestinationLicenseContext"
+            case endTime = "EndTime"
+            case licenseConversionTaskId = "LicenseConversionTaskId"
+            case licenseConversionTime = "LicenseConversionTime"
+            case resourceArn = "ResourceArn"
+            case sourceLicenseContext = "SourceLicenseContext"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct LicenseOperationFailure: AWSDecodableShape {
         /// Error message.
         public let errorMessage: String?
@@ -1941,7 +2120,7 @@ extension LicenseManager {
         public let operationRequestedBy: String?
         /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
-        /// ID of the AWS account that owns the resource.
+        /// ID of the Amazon Web Services account that owns the resource.
         public let resourceOwnerId: String?
         /// Resource type.
         public let resourceType: ResourceType?
@@ -2127,7 +2306,7 @@ extension LicenseManager {
     }
 
     public struct ListLicenseConfigurationsRequest: AWSEncodableShape {
-        /// Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension on which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded. Logical operators are EQUALS | NOT_EQUALS.
+        /// Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded. Logical operators are EQUALS | NOT_EQUALS.
         public let filters: [Filter]?
         /// Amazon Resource Names (ARN) of the license configurations.
         public let licenseConfigurationArns: [String]?
@@ -2168,6 +2347,44 @@ extension LicenseManager {
         }
     }
 
+    public struct ListLicenseConversionTasksRequest: AWSEncodableShape {
+        ///  Filters to scope the results. Valid filters are ResourceArns and Status.
+        public let filters: [Filter]?
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseConversionTasksResponse: AWSDecodableShape {
+        /// Information about the license configuration tasks for your account.
+        public let licenseConversionTasks: [LicenseConversionTask]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(licenseConversionTasks: [LicenseConversionTask]? = nil, nextToken: String? = nil) {
+            self.licenseConversionTasks = licenseConversionTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConversionTasks = "LicenseConversionTasks"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListLicenseManagerReportGeneratorsRequest: AWSEncodableShape {
         /// Filters to scope the results. The following filters are supported:     LicenseConfigurationArn
         public let filters: [Filter]?
@@ -2197,7 +2414,7 @@ extension LicenseManager {
     public struct ListLicenseManagerReportGeneratorsResponse: AWSDecodableShape {
         /// Token for the next set of results.
         public let nextToken: String?
-        /// A report generator that creates periodic reports on your license configurations.
+        /// A report generator that creates periodic reports about your license configurations.
         public let reportGenerators: [ReportGenerator]?
 
         public init(nextToken: String? = nil, reportGenerators: [ReportGenerator]? = nil) {
@@ -2448,7 +2665,7 @@ extension LicenseManager {
     }
 
     public struct ListResourceInventoryRequest: AWSEncodableShape {
-        /// Filters to scope the results. The following filters and logical operators are supported:    account_id - The ID of the AWS account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.    platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.    resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account).
+        /// Filters to scope the results. The following filters and logical operators are supported:    account_id - The ID of the Amazon Web Services account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.    platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.    resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account).
         public let filters: [InventoryFilter]?
         /// Maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2635,7 +2852,7 @@ extension LicenseManager {
     }
 
     public struct OrganizationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Enables AWS Organization integration.
+        /// Enables Organizations integration.
         public let enableIntegration: Bool
 
         public init(enableIntegration: Bool) {
@@ -2648,7 +2865,7 @@ extension LicenseManager {
     }
 
     public struct ProductInformation: AWSEncodableShape & AWSDecodableShape {
-        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an AWS resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS. The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an AWS account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard | diagnostic pack sqlt | tuning pack sqlt | ols | olap.
+        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an Amazon Web Services resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS. The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an Amazon Web Services account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard | diagnostic pack sqlt | tuning pack sqlt | ols | olap.
         public let productInformationFilterList: [ProductInformationFilter]
         /// Resource type. The possible values are SSM_MANAGED | RDS.
         public let resourceType: String
@@ -2703,6 +2920,7 @@ extension LicenseManager {
         public let allowedOperations: [AllowedOperation]?
         /// Received status.
         public let receivedStatus: ReceivedStatus?
+        /// Received status reason.
         public let receivedStatusReason: String?
 
         public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil, receivedStatusReason: String? = nil) {
@@ -2758,7 +2976,7 @@ extension LicenseManager {
     }
 
     public struct ReportContext: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Resource Number (ARN) of the license configuration that this generator reports on.
+        /// Amazon Resource Name (ARN) of the license configuration that this generator reports on.
         public let licenseConfigurationArns: [String]
 
         public init(licenseConfigurationArns: [String]) {
@@ -2780,7 +2998,7 @@ extension LicenseManager {
     public struct ReportFrequency: AWSEncodableShape & AWSDecodableShape {
         /// Time period between each report. The period can be daily, weekly, or monthly.
         public let period: ReportFrequencyType?
-        /// Number of times within the frequency period that a report will be generated. Currently only 1 is supported.
+        /// Number of times within the frequency period that a report is generated. The only supported value is 1.
         public let value: Int?
 
         public init(period: ReportFrequencyType? = nil, value: Int? = nil) {
@@ -2805,13 +3023,13 @@ extension LicenseManager {
         public let lastRunFailureReason: String?
         /// Status of the last report generation attempt.
         public let lastRunStatus: String?
-        /// Amazon Resource Number (ARN) of the report generator.
+        /// Amazon Resource Name (ARN) of the report generator.
         public let licenseManagerReportGeneratorArn: String?
-        /// License configuration type this generator reports on.
+        /// License configuration type for this generator.
         public let reportContext: ReportContext?
-        /// The AWS account ID used to create the report generator.
+        /// The Amazon Web Services account ID used to create the report generator.
         public let reportCreatorAccount: String?
-        /// Details on how frequently reports are generated.
+        /// Details about how frequently reports are generated.
         public let reportFrequency: ReportFrequency?
         /// Name of the report generator.
         public let reportGeneratorName: String?
@@ -3055,15 +3273,15 @@ extension LicenseManager {
         public let clientToken: String
         /// Description of the report generator.
         public let description: String?
-        /// Amazon Resource Number (ARN) of the report generator to update.
+        /// Amazon Resource Name (ARN) of the report generator to update.
         public let licenseManagerReportGeneratorArn: String
-        /// ?
+        /// The report context.
         public let reportContext: ReportContext
-        /// Frequency by which reports are generated. The following options are avaiable: ??? What are the APi value options?
+        /// Frequency by which reports are generated.
         public let reportFrequency: ReportFrequency
         /// Name of the report generator.
         public let reportGeneratorName: String
-        /// Type of reports to generate. The following report types an be generated:   License configuration report - Reports on the number and details of consumed licenses for a license configuration.   Resource report - Reports on the tracked licenses and resource consumption for a license configuration.
+        /// Type of reports to generate. The following report types are supported:   License configuration report - Reports the number and details of consumed licenses for a license configuration.   Resource report - Reports the tracked licenses and resource consumption for a license configuration.
         public let type: [ReportType]
 
         public init(clientToken: String, description: String? = nil, licenseManagerReportGeneratorArn: String, reportContext: ReportContext, reportFrequency: ReportFrequency, reportGeneratorName: String, type: [ReportType]) {
@@ -3104,7 +3322,7 @@ extension LicenseManager {
         public let addLicenseSpecifications: [LicenseSpecification]?
         /// ARNs of the license configurations to remove.
         public let removeLicenseSpecifications: [LicenseSpecification]?
-        /// Amazon Resource Name (ARN) of the AWS resource.
+        /// Amazon Resource Name (ARN) of the Amazon Web Services resource.
         public let resourceArn: String
 
         public init(addLicenseSpecifications: [LicenseSpecification]? = nil, removeLicenseSpecifications: [LicenseSpecification]? = nil, resourceArn: String) {
@@ -3127,7 +3345,7 @@ extension LicenseManager {
     public struct UpdateServiceSettingsRequest: AWSEncodableShape {
         /// Activates cross-account discovery.
         public let enableCrossAccountsDiscovery: Bool?
-        /// Enables integration with AWS Organizations for cross-account discovery.
+        /// Enables integration with Organizations for cross-account discovery.
         public let organizationConfiguration: OrganizationConfiguration?
         /// Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager information is stored.
         public let s3BucketArn: String?

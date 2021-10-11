@@ -57,6 +57,11 @@ extension MediaConvert {
         return try await self.client.execute(operation: "DeleteJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Permanently delete a policy that you created.
+    public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePolicyResponse {
+        return try await self.client.execute(operation: "DeletePolicy", path: "/2017-08-29/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Permanently delete a preset you have created.
     public func deletePreset(_ input: DeletePresetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePresetResponse {
         return try await self.client.execute(operation: "DeletePreset", path: "/2017-08-29/presets/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -85,6 +90,11 @@ extension MediaConvert {
     /// Retrieve the JSON for a specific job template.
     public func getJobTemplate(_ input: GetJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetJobTemplateResponse {
         return try await self.client.execute(operation: "GetJobTemplate", path: "/2017-08-29/jobTemplates/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve the JSON for your policy.
+    public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPolicyResponse {
+        return try await self.client.execute(operation: "GetPolicy", path: "/2017-08-29/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieve the JSON for a specific preset.
@@ -120,6 +130,11 @@ extension MediaConvert {
     /// Retrieve the tags for a MediaConvert resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/2017-08-29/tags/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+    public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutPolicyResponse {
+        return try await self.client.execute(operation: "PutPolicy", path: "/2017-08-29/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html

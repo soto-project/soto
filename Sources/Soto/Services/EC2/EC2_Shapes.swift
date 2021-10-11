@@ -221,6 +221,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationFleetState: String, CustomStringConvertible, Codable {
+        case active
+        case cancelled
+        case cancelling
+        case expired
+        case expiring
+        case failed
+        case modifying
+        case partiallyFulfilled = "partially_fulfilled"
+        case submitted
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable {
         case linuxUnix = "Linux/UNIX"
         case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
@@ -540,6 +553,11 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FleetCapacityReservationTenancy: String, CustomStringConvertible, Codable {
+        case `default`
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable {
         case useCapacityReservationsFirst = "use-capacity-reservations-first"
         public var description: String { return self.rawValue }
@@ -555,6 +573,11 @@ extension EC2 {
     public enum FleetExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
         case noTermination = "no-termination"
         case termination
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetInstanceMatchCriteria: String, CustomStringConvertible, Codable {
+        case open
         public var description: String { return self.rawValue }
     }
 
@@ -3206,7 +3229,7 @@ extension EC2 {
     }
 
     public struct AssociateClientVpnTargetNetworkRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
@@ -3934,7 +3957,7 @@ extension EC2 {
         public let accessGroupId: String?
         /// Indicates whether to grant access to all clients. Specify true to grant all clients who successfully establish a VPN connection access to the network. Must be set to true if AccessGroupId is not specified.
         public let authorizeAllGroups: Bool?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
@@ -4404,6 +4427,65 @@ extension EC2 {
         }
     }
 
+    public struct CancelCapacityReservationFleetError: AWSDecodableShape {
+        /// The error code.
+        public let code: String?
+        /// The error message.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
+    }
+
+    public struct CancelCapacityReservationFleetsRequest: AWSEncodableShape {
+        public struct _CapacityReservationFleetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IDs of the Capacity Reservation Fleets to cancel.
+        @CustomCoding<ArrayCoder<_CapacityReservationFleetIdsEncoding, String>>
+        public var capacityReservationFleetIds: [String]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(capacityReservationFleetIds: [String], dryRun: Bool? = nil) {
+            self.capacityReservationFleetIds = capacityReservationFleetIds
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetIds = "CapacityReservationFleetId"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct CancelCapacityReservationFleetsResult: AWSDecodableShape {
+        public struct _FailedFleetCancellationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SuccessfulFleetCancellationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the Capacity Reservation Fleets that could not be cancelled.
+        @OptionalCustomCoding<ArrayCoder<_FailedFleetCancellationsEncoding, FailedCapacityReservationFleetCancellationResult>>
+        public var failedFleetCancellations: [FailedCapacityReservationFleetCancellationResult]?
+        /// Information about the Capacity Reservation Fleets that were successfully cancelled.
+        @OptionalCustomCoding<ArrayCoder<_SuccessfulFleetCancellationsEncoding, CapacityReservationFleetCancellationState>>
+        public var successfulFleetCancellations: [CapacityReservationFleetCancellationState]?
+
+        public init(failedFleetCancellations: [FailedCapacityReservationFleetCancellationResult]? = nil, successfulFleetCancellations: [CapacityReservationFleetCancellationState]? = nil) {
+            self.failedFleetCancellations = failedFleetCancellations
+            self.successfulFleetCancellations = successfulFleetCancellations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedFleetCancellations = "failedFleetCancellationSet"
+            case successfulFleetCancellations = "successfulFleetCancellationSet"
+        }
+    }
+
     public struct CancelCapacityReservationRequest: AWSEncodableShape {
         /// The ID of the Capacity Reservation to be cancelled.
         public let capacityReservationId: String
@@ -4704,6 +4786,8 @@ extension EC2 {
         public let availableInstanceCount: Int?
         /// The Amazon Resource Name (ARN) of the Capacity Reservation.
         public let capacityReservationArn: String?
+        /// The ID of the Capacity Reservation Fleet to which the Capacity Reservation belongs. Only valid for Capacity Reservations that were created by a Capacity Reservation Fleet.
+        public let capacityReservationFleetId: String?
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
         /// The date and time at which the Capacity Reservation was created.
@@ -4738,11 +4822,12 @@ extension EC2 {
         /// The total number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
             self.capacityReservationArn = capacityReservationArn
+            self.capacityReservationFleetId = capacityReservationFleetId
             self.capacityReservationId = capacityReservationId
             self.createDate = createDate
             self.ebsOptimized = ebsOptimized
@@ -4766,6 +4851,7 @@ extension EC2 {
             case availabilityZoneId
             case availableInstanceCount
             case capacityReservationArn
+            case capacityReservationFleetId
             case capacityReservationId
             case createDate
             case ebsOptimized
@@ -4782,6 +4868,89 @@ extension EC2 {
             case tags = "tagSet"
             case tenancy
             case totalInstanceCount
+        }
+    }
+
+    public struct CapacityReservationFleet: AWSDecodableShape {
+        public struct _InstanceTypeSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. For more information, see For more information, see  Allocation strategy in the Amazon EC2 User Guide.
+        public let allocationStrategy: String?
+        /// The ARN of the Capacity Reservation Fleet.
+        public let capacityReservationFleetArn: String?
+        /// The ID of the Capacity Reservation Fleet.
+        public let capacityReservationFleetId: String?
+        /// The date and time at which the Capacity Reservation Fleet was created.
+        public let createTime: Date?
+        /// The date and time at which the Capacity Reservation Fleet expires.
+        public let endDate: Date?
+        /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
+        public let instanceMatchCriteria: FleetInstanceMatchCriteria?
+        /// Information about the instance types for which to reserve the capacity.
+        @OptionalCustomCoding<ArrayCoder<_InstanceTypeSpecificationsEncoding, FleetCapacityReservation>>
+        public var instanceTypeSpecifications: [FleetCapacityReservation]?
+        /// The state of the Capacity Reservation Fleet. Possible states include:    submitted - The Capacity Reservation Fleet request has been submitted and Amazon Elastic Compute Cloud is preparing to create the Capacity Reservations.    modifying - The Capacity Reservation Fleet is being modified. The Fleet remains in this state until the modification is complete.    active - The Capacity Reservation Fleet has fulfilled its total target capacity and it is attempting to maintain this capacity. The Fleet remains in this state until it is modified or deleted.    partially_fulfilled - The Capacity Reservation Fleet has partially fulfilled its total target capacity. There is insufficient Amazon EC2 to fulfill the total target capacity. The Fleet is attempting to asynchronously fulfill its total target capacity.    expiring - The Capacity Reservation Fleet has reach its end date and it is in the process of expiring. One or more of its Capacity reservations might still be active.    expired - The Capacity Reservation Fleet has reach its end date. The Fleet and its Capacity Reservations are expired. The Fleet can't create new Capacity Reservations.    cancelling - The Capacity Reservation Fleet is in the process of being cancelled. One or more of its Capacity reservations might still be active.    cancelled - The Capacity Reservation Fleet has been manually cancelled. The Fleet and its Capacity Reservations are cancelled and the Fleet can't create new Capacity Reservations.    failed - The Capacity Reservation Fleet failed to reserve capacity for the specified instance types.
+        public let state: CapacityReservationFleetState?
+        /// The tags assigned to the Capacity Reservation Fleet.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The tenancy of the Capacity Reservation Fleet. Tenancies include:    default - The Capacity Reservation Fleet is created on hardware that is shared with other Amazon Web Services accounts.    dedicated - The Capacity Reservation Fleet is created on single-tenant hardware that is dedicated to a single Amazon Web Services account.
+        public let tenancy: FleetCapacityReservationTenancy?
+        /// The capacity units that have been fulfilled.
+        public let totalFulfilledCapacity: Double?
+        /// The total number of capacity units for which the Capacity Reservation Fleet reserves capacity. For more information, see Total target capacity in the Amazon EC2 User Guide.
+        public let totalTargetCapacity: Int?
+
+        public init(allocationStrategy: String? = nil, capacityReservationFleetArn: String? = nil, capacityReservationFleetId: String? = nil, createTime: Date? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [FleetCapacityReservation]? = nil, state: CapacityReservationFleetState? = nil, tags: [Tag]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalFulfilledCapacity: Double? = nil, totalTargetCapacity: Int? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationFleetArn = capacityReservationFleetArn
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.createTime = createTime
+            self.endDate = endDate
+            self.instanceMatchCriteria = instanceMatchCriteria
+            self.instanceTypeSpecifications = instanceTypeSpecifications
+            self.state = state
+            self.tags = tags
+            self.tenancy = tenancy
+            self.totalFulfilledCapacity = totalFulfilledCapacity
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy
+            case capacityReservationFleetArn
+            case capacityReservationFleetId
+            case createTime
+            case endDate
+            case instanceMatchCriteria
+            case instanceTypeSpecifications = "instanceTypeSpecificationSet"
+            case state
+            case tags = "tagSet"
+            case tenancy
+            case totalFulfilledCapacity
+            case totalTargetCapacity
+        }
+    }
+
+    public struct CapacityReservationFleetCancellationState: AWSDecodableShape {
+        /// The ID of the Capacity Reservation Fleet that was successfully cancelled.
+        public let capacityReservationFleetId: String?
+        /// The current state of the Capacity Reservation Fleet.
+        public let currentFleetState: CapacityReservationFleetState?
+        /// The previous state of the Capacity Reservation Fleet.
+        public let previousFleetState: CapacityReservationFleetState?
+
+        public init(capacityReservationFleetId: String? = nil, currentFleetState: CapacityReservationFleetState? = nil, previousFleetState: CapacityReservationFleetState? = nil) {
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.currentFleetState = currentFleetState
+            self.previousFleetState = previousFleetState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetId
+            case currentFleetState
+            case previousFleetState
         }
     }
 
@@ -4942,7 +5111,7 @@ extension EC2 {
     }
 
     public struct CertificateAuthenticationRequest: AWSEncodableShape {
-        /// The ARN of the client certificate. The certificate must be signed by a certificate authority (CA) and it must be provisioned in AWS Certificate Manager (ACM).
+        /// The ARN of the client certificate. The certificate must be signed by a certificate authority (CA) and it must be provisioned in Certificate Manager (ACM).
         public let clientRootCertificateChainArn: String?
 
         public init(clientRootCertificateChainArn: String? = nil) {
@@ -5085,7 +5254,7 @@ extension EC2 {
     public struct ClientConnectOptions: AWSEncodableShape {
         /// Indicates whether client connect options are enabled. The default is false (not enabled).
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS Lambda function used for connection authorization.
+        /// The Amazon Resource Name (ARN) of the Lambda function used for connection authorization.
         public let lambdaFunctionArn: String?
 
         public init(enabled: Bool? = nil, lambdaFunctionArn: String? = nil) {
@@ -5102,7 +5271,7 @@ extension EC2 {
     public struct ClientConnectResponseOptions: AWSDecodableShape {
         /// Indicates whether client connect options are enabled.
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS Lambda function used for connection authorization.
+        /// The Amazon Resource Name (ARN) of the Lambda function used for connection authorization.
         public let lambdaFunctionArn: String?
         /// The status of any updates to the client connect options.
         public let status: ClientVpnEndpointAttributeStatus?
@@ -5332,7 +5501,7 @@ extension EC2 {
         public let selfServicePortalUrl: String?
         /// The ARN of the server certificate.
         public let serverCertificateArn: String?
-        /// Indicates whether split-tunnel is enabled in the AWS Client VPN endpoint. For information about split-tunnel VPN endpoints, see Split-Tunnel AWS Client VPN Endpoint in the AWS Client VPN Administrator Guide.
+        /// Indicates whether split-tunnel is enabled in the Client VPN endpoint. For information about split-tunnel VPN endpoints, see Split-Tunnel Client VPN endpoint in the Client VPN Administrator Guide.
         public let splitTunnel: Bool?
         /// The current state of the Client VPN endpoint.
         public let status: ClientVpnEndpointStatus?
@@ -5912,6 +6081,119 @@ extension EC2 {
         }
     }
 
+    public struct CreateCapacityReservationFleetRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. Currently, only the prioritized allocation strategy is supported. For more information, see  Allocation strategy in the Amazon EC2 User Guide. Valid values: prioritized
+        public let allocationStrategy: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The date and time at which the Capacity Reservation Fleet expires. When the Capacity Reservation Fleet expires, its state changes to expired and all of the Capacity Reservations in the Fleet expire. The Capacity Reservation Fleet expires within an hour after the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity Reservation Fleet is guaranteed to expire between 13:30:55 and 14:30:55 on 5/31/2019.
+        public let endDate: Date?
+        /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
+        public let instanceMatchCriteria: FleetInstanceMatchCriteria?
+        /// Information about the instance types for which to reserve the capacity.
+        @CustomCoding<StandardArrayCoder>
+        public var instanceTypeSpecifications: [ReservationFleetInstanceSpecification]
+        /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned to the Capacity Reservations in the Fleet.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// Indicates the tenancy of the Capacity Reservation Fleet. All Capacity Reservations in the Fleet inherit this tenancy. The Capacity Reservation Fleet can have one of the following tenancy settings:    default - The Capacity Reservation Fleet is created on hardware that is shared with other Amazon Web Services accounts.    dedicated - The Capacity Reservations are created on single-tenant hardware that is dedicated to a single Amazon Web Services account.
+        public let tenancy: FleetCapacityReservationTenancy?
+        /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value, together with the instance type weights that you assign to each instance type used by the Fleet determine the number of instances for which the Fleet reserves capacity. Both values are based on units that make sense for your workload. For more information, see  Total target capacity in the Amazon EC2 User Guide.
+        public let totalTargetCapacity: Int
+
+        public init(allocationStrategy: String? = nil, clientToken: String? = CreateCapacityReservationFleetRequest.idempotencyToken(), dryRun: Bool? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [ReservationFleetInstanceSpecification], tagSpecifications: [TagSpecification]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalTargetCapacity: Int) {
+            self.allocationStrategy = allocationStrategy
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.endDate = endDate
+            self.instanceMatchCriteria = instanceMatchCriteria
+            self.instanceTypeSpecifications = instanceTypeSpecifications
+            self.tagSpecifications = tagSpecifications
+            self.tenancy = tenancy
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceTypeSpecifications.forEach {
+                try $0.validate(name: "\(name).instanceTypeSpecifications[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case endDate = "EndDate"
+            case instanceMatchCriteria = "InstanceMatchCriteria"
+            case instanceTypeSpecifications = "InstanceTypeSpecification"
+            case tagSpecifications = "TagSpecification"
+            case tenancy = "Tenancy"
+            case totalTargetCapacity = "TotalTargetCapacity"
+        }
+    }
+
+    public struct CreateCapacityReservationFleetResult: AWSDecodableShape {
+        public struct _FleetCapacityReservationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The allocation strategy used by the Capacity Reservation Fleet.
+        public let allocationStrategy: String?
+        /// The ID of the Capacity Reservation Fleet.
+        public let capacityReservationFleetId: String?
+        /// The date and time at which the Capacity Reservation Fleet was created.
+        public let createTime: Date?
+        /// The date and time at which the Capacity Reservation Fleet expires.
+        public let endDate: Date?
+        /// Information about the individual Capacity Reservations in the Capacity Reservation Fleet.
+        @OptionalCustomCoding<ArrayCoder<_FleetCapacityReservationsEncoding, FleetCapacityReservation>>
+        public var fleetCapacityReservations: [FleetCapacityReservation]?
+        /// The instance matching criteria for the Capacity Reservation Fleet.
+        public let instanceMatchCriteria: FleetInstanceMatchCriteria?
+        /// The status of the Capacity Reservation Fleet.
+        public let state: CapacityReservationFleetState?
+        /// The tags assigned to the Capacity Reservation Fleet.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// Indicates the tenancy of Capacity Reservation Fleet.
+        public let tenancy: FleetCapacityReservationTenancy?
+        /// The requested capacity units that have been successfully reserved.
+        public let totalFulfilledCapacity: Double?
+        /// The total number of capacity units for which the Capacity Reservation Fleet reserves capacity.
+        public let totalTargetCapacity: Int?
+
+        public init(allocationStrategy: String? = nil, capacityReservationFleetId: String? = nil, createTime: Date? = nil, endDate: Date? = nil, fleetCapacityReservations: [FleetCapacityReservation]? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, state: CapacityReservationFleetState? = nil, tags: [Tag]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalFulfilledCapacity: Double? = nil, totalTargetCapacity: Int? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.createTime = createTime
+            self.endDate = endDate
+            self.fleetCapacityReservations = fleetCapacityReservations
+            self.instanceMatchCriteria = instanceMatchCriteria
+            self.state = state
+            self.tags = tags
+            self.tenancy = tenancy
+            self.totalFulfilledCapacity = totalFulfilledCapacity
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy
+            case capacityReservationFleetId
+            case createTime
+            case endDate
+            case fleetCapacityReservations = "fleetCapacityReservationSet"
+            case instanceMatchCriteria
+            case state
+            case tags = "tagSet"
+            case tenancy
+            case totalFulfilledCapacity
+            case totalTargetCapacity
+        }
+    }
+
     public struct CreateCapacityReservationRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -6054,7 +6336,7 @@ extension EC2 {
         public let clientCidrBlock: String
         /// The options for managing connection authorization for new client connections.
         public let clientConnectOptions: ClientConnectOptions?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a Cloudwatch Logs log stream. The following information is logged:   Client connection requests   Client connection results (successful and unsuccessful)   Reasons for unsuccessful client connection requests   Client connection termination time
         public let connectionLogOptions: ConnectionLogOptions
@@ -6070,9 +6352,9 @@ extension EC2 {
         public var securityGroupIds: [String]?
         /// Specify whether to enable the self-service portal for the Client VPN endpoint. Default Value: enabled
         public let selfServicePortal: SelfServicePortal?
-        /// The ARN of the server certificate. For more information, see the AWS Certificate Manager User Guide.
+        /// The ARN of the server certificate. For more information, see the Certificate Manager User Guide.
         public let serverCertificateArn: String
-        /// Indicates whether split-tunnel is enabled on the AWS Client VPN endpoint. By default, split-tunnel on a VPN endpoint is disabled. For information about split-tunnel VPN endpoints, see Split-Tunnel AWS Client VPN Endpoint in the AWS Client VPN Administrator Guide.
+        /// Indicates whether split-tunnel is enabled on the Client VPN endpoint. By default, split-tunnel on a VPN endpoint is disabled. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the Client VPN Administrator Guide.
         public let splitTunnel: Bool?
         /// The tags to apply to the Client VPN endpoint during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -6145,13 +6427,13 @@ extension EC2 {
     }
 
     public struct CreateClientVpnRouteRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The ID of the Client VPN endpoint to which to add the route.
         public let clientVpnEndpointId: String
         /// A brief description of the route.
         public let description: String?
-        /// The IPv4 address range, in CIDR notation, of the route destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the AWS Site-to-Site VPN connection's IPv4 CIDR range   To add a route for the local network, enter the client CIDR range
+        /// The IPv4 address range, in CIDR notation, of the route destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range   To add a route for the local network, enter the client CIDR range
         public let destinationCidrBlock: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11620,6 +11902,65 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case byoipCidrs = "byoipCidrSet"
+            case nextToken
+        }
+    }
+
+    public struct DescribeCapacityReservationFleetsRequest: AWSEncodableShape {
+        public struct _CapacityReservationFleetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The IDs of the Capacity Reservation Fleets to describe.
+        @OptionalCustomCoding<ArrayCoder<_CapacityReservationFleetIdsEncoding, String>>
+        public var capacityReservationFleetIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters.    state - The state of the Fleet (submitted | modifying | active | partially_fulfilled | expiring | expired | cancelling | cancelled | failed).    instance-match-criteria - The instance matching criteria for the Fleet. Only open is supported.    tenancy - The tenancy of the Fleet (default | dedicated).    allocation-strategy - The allocation strategy used by the Fleet. Only prioritized is supported.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(capacityReservationFleetIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.capacityReservationFleetIds = capacityReservationFleetIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetIds = "CapacityReservationFleetId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeCapacityReservationFleetsResult: AWSDecodableShape {
+        public struct _CapacityReservationFleetsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the Capacity Reservation Fleets.
+        @OptionalCustomCoding<ArrayCoder<_CapacityReservationFleetsEncoding, CapacityReservationFleet>>
+        public var capacityReservationFleets: [CapacityReservationFleet]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(capacityReservationFleets: [CapacityReservationFleet]? = nil, nextToken: String? = nil) {
+            self.capacityReservationFleets = capacityReservationFleets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleets = "capacityReservationFleetSet"
             case nextToken
         }
     }
@@ -20533,6 +20874,23 @@ extension EC2 {
         }
     }
 
+    public struct FailedCapacityReservationFleetCancellationResult: AWSDecodableShape {
+        /// Information about the Capacity Reservation Fleet cancellation error.
+        public let cancelCapacityReservationFleetError: CancelCapacityReservationFleetError?
+        /// The ID of the Capacity Reservation Fleet that could not be cancelled.
+        public let capacityReservationFleetId: String?
+
+        public init(cancelCapacityReservationFleetError: CancelCapacityReservationFleetError? = nil, capacityReservationFleetId: String? = nil) {
+            self.cancelCapacityReservationFleetError = cancelCapacityReservationFleetError
+            self.capacityReservationFleetId = capacityReservationFleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancelCapacityReservationFleetError
+            case capacityReservationFleetId
+        }
+    }
+
     public struct FailedQueuedPurchaseDeletion: AWSDecodableShape {
         /// The error.
         public let error: DeleteQueuedReservedInstancesError?
@@ -20601,6 +20959,59 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Value"
+        }
+    }
+
+    public struct FleetCapacityReservation: AWSDecodableShape {
+        /// The Availability Zone in which the Capacity Reservation reserves capacity.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the Capacity Reservation reserves capacity.
+        public let availabilityZoneId: String?
+        /// The ID of the Capacity Reservation.
+        public let capacityReservationId: String?
+        /// The date and time at which the Capacity Reservation was created.
+        public let createDate: Date?
+        /// Indicates whether the Capacity Reservation reserves capacity for EBS-optimized instance types.
+        public let ebsOptimized: Bool?
+        /// The number of capacity units fulfilled by the Capacity Reservation. For more information, see  Total target capacity in the Amazon EC2 User Guide.
+        public let fulfilledCapacity: Double?
+        /// The type of operating system for which the Capacity Reservation reserves capacity.
+        public let instancePlatform: CapacityReservationInstancePlatform?
+        /// The instance type for which the Capacity Reservation reserves capacity.
+        public let instanceType: InstanceType?
+        /// The priority of the instance type in the Capacity Reservation Fleet. For more information, see  Instance type priority in the Amazon EC2 User Guide.
+        public let priority: Int?
+        /// The total number of instances for which the Capacity Reservation reserves capacity.
+        public let totalInstanceCount: Int?
+        /// The weight of the instance type in the Capacity Reservation Fleet. For more information, see  Instance type weight in the Amazon EC2 User Guide.
+        public let weight: Double?
+
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, fulfilledCapacity: Double? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: InstanceType? = nil, priority: Int? = nil, totalInstanceCount: Int? = nil, weight: Double? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityReservationId = capacityReservationId
+            self.createDate = createDate
+            self.ebsOptimized = ebsOptimized
+            self.fulfilledCapacity = fulfilledCapacity
+            self.instancePlatform = instancePlatform
+            self.instanceType = instanceType
+            self.priority = priority
+            self.totalInstanceCount = totalInstanceCount
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone
+            case availabilityZoneId
+            case capacityReservationId
+            case createDate
+            case ebsOptimized
+            case fulfilledCapacity
+            case instancePlatform
+            case instanceType
+            case priority
+            case totalInstanceCount
+            case weight
         }
     }
 
@@ -22324,6 +22735,90 @@ extension EC2 {
         }
     }
 
+    public struct GetVpnConnectionDeviceSampleConfigurationRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IKE version to be used in the sample configuration file for your customer gateway device. You can specify one of the following versions: ikev1 or ikev2.
+        public let internetKeyExchangeVersion: String?
+        /// Device identifier provided by the GetVpnConnectionDeviceTypes API.
+        public let vpnConnectionDeviceTypeId: String
+        /// The VpnConnectionId specifies the Site-to-Site VPN connection used for the sample configuration.
+        public let vpnConnectionId: String
+
+        public init(dryRun: Bool? = nil, internetKeyExchangeVersion: String? = nil, vpnConnectionDeviceTypeId: String, vpnConnectionId: String) {
+            self.dryRun = dryRun
+            self.internetKeyExchangeVersion = internetKeyExchangeVersion
+            self.vpnConnectionDeviceTypeId = vpnConnectionDeviceTypeId
+            self.vpnConnectionId = vpnConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case internetKeyExchangeVersion = "InternetKeyExchangeVersion"
+            case vpnConnectionDeviceTypeId = "VpnConnectionDeviceTypeId"
+            case vpnConnectionId = "VpnConnectionId"
+        }
+    }
+
+    public struct GetVpnConnectionDeviceSampleConfigurationResult: AWSDecodableShape {
+        /// Sample configuration file for the specified customer gateway device.
+        public let vpnConnectionDeviceSampleConfiguration: String?
+
+        public init(vpnConnectionDeviceSampleConfiguration: String? = nil) {
+            self.vpnConnectionDeviceSampleConfiguration = vpnConnectionDeviceSampleConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpnConnectionDeviceSampleConfiguration
+        }
+    }
+
+    public struct GetVpnConnectionDeviceTypesRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum number of results returned by GetVpnConnectionDeviceTypes in paginated output. When this parameter is used, GetVpnConnectionDeviceTypes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another GetVpnConnectionDeviceTypes request with the returned NextToken value. This value can be between 200 and 1000. If this parameter is not used, then GetVpnConnectionDeviceTypes returns all results.
+        public let maxResults: Int?
+        /// The NextToken value returned from a previous paginated GetVpnConnectionDeviceTypes request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetVpnConnectionDeviceTypesResult: AWSDecodableShape {
+        public struct _VpnConnectionDeviceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The NextToken value to include in a future GetVpnConnectionDeviceTypes request. When the results of a GetVpnConnectionDeviceTypes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// List of customer gateway devices that have a sample configuration file available for use.
+        @OptionalCustomCoding<ArrayCoder<_VpnConnectionDeviceTypesEncoding, VpnConnectionDeviceType>>
+        public var vpnConnectionDeviceTypes: [VpnConnectionDeviceType]?
+
+        public init(nextToken: String? = nil, vpnConnectionDeviceTypes: [VpnConnectionDeviceType]? = nil) {
+            self.nextToken = nextToken
+            self.vpnConnectionDeviceTypes = vpnConnectionDeviceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case vpnConnectionDeviceTypes = "vpnConnectionDeviceTypeSet"
+        }
+    }
+
     public struct GpuDeviceInfo: AWSDecodableShape {
         /// The number of GPUs for the instance type.
         public let count: Int?
@@ -23046,7 +23541,7 @@ extension EC2 {
     }
 
     public struct ImportClientVpnClientCertificateRevocationListRequest: AWSEncodableShape {
-        /// The client certificate revocation list file. For more information, see Generate a Client Certificate Revocation List in the AWS Client VPN Administrator Guide.
+        /// The client certificate revocation list file. For more information, see Generate a Client Certificate Revocation List in the Client VPN Administrator Guide.
         public let certificateRevocationList: String
         /// The ID of the Client VPN endpoint to which the client certificate revocation list applies.
         public let clientVpnEndpointId: String
@@ -23840,7 +24335,7 @@ extension EC2 {
         public let keyName: String?
         /// The time the instance was launched.
         public let launchTime: Date?
-        /// The license configurations.
+        /// The license configurations for the instance.
         @OptionalCustomCoding<ArrayCoder<_LicensesEncoding, LicenseConfiguration>>
         public var licenses: [LicenseConfiguration]?
         /// The metadata options for the instance.
@@ -23856,6 +24351,8 @@ extension EC2 {
         public let placement: Placement?
         /// The value is Windows for Windows instances; otherwise blank.
         public let platform: PlatformValues?
+        /// The platform details value for the instance. For more information, see AMI billing information fields in the Amazon EC2 User Guide.
+        public let platformDetails: String?
         /// (IPv4 only) The private DNS hostname name assigned to the instance. This DNS hostname can only be used inside the Amazon EC2 network. This name is not available until the instance enters the running state.  [EC2-VPC] The Amazon-provided DNS server resolves Amazon-provided private DNS hostnames if you've enabled DNS resolution and DNS hostnames in your VPC. If you are not using the Amazon-provided DNS server in your VPC, your custom domain name servers must resolve the hostname as appropriate.
         public let privateDnsName: String?
         /// The private IPv4 address assigned to the instance.
@@ -23893,12 +24390,16 @@ extension EC2 {
         /// Any tags assigned to the instance.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// The usage operation value for the instance. For more information, see AMI billing information fields in the Amazon EC2 User Guide.
+        public let usageOperation: String?
+        /// The time that the usage operation was last updated.
+        public let usageOperationUpdateTime: Date?
         /// The virtualization type of the instance.
         public let virtualizationType: VirtualizationType?
         /// [EC2-VPC] The ID of the VPC in which the instance is running.
         public let vpcId: String?
 
-        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
+        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
@@ -23929,6 +24430,7 @@ extension EC2 {
             self.outpostArn = outpostArn
             self.placement = placement
             self.platform = platform
+            self.platformDetails = platformDetails
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
             self.productCodes = productCodes
@@ -23946,6 +24448,8 @@ extension EC2 {
             self.stateTransitionReason = stateTransitionReason
             self.subnetId = subnetId
             self.tags = tags
+            self.usageOperation = usageOperation
+            self.usageOperationUpdateTime = usageOperationUpdateTime
             self.virtualizationType = virtualizationType
             self.vpcId = vpcId
         }
@@ -23981,6 +24485,7 @@ extension EC2 {
             case outpostArn
             case placement
             case platform
+            case platformDetails
             case privateDnsName
             case privateIpAddress
             case productCodes
@@ -23998,6 +24503,8 @@ extension EC2 {
             case stateTransitionReason = "reason"
             case subnetId
             case tags = "tagSet"
+            case usageOperation
+            case usageOperationUpdateTime
             case virtualizationType
             case vpcId
         }
@@ -27216,6 +27723,48 @@ extension EC2 {
         }
     }
 
+    public struct ModifyCapacityReservationFleetRequest: AWSEncodableShape {
+        /// The ID of the Capacity Reservation Fleet to modify.
+        public let capacityReservationFleetId: String
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The date and time at which the Capacity Reservation Fleet expires. When the Capacity Reservation Fleet expires, its state changes to expired and all of the Capacity Reservations in the Fleet expire. The Capacity Reservation Fleet expires within an hour after the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity Reservation Fleet is guaranteed to expire between 13:30:55 and 14:30:55 on 5/31/2019. You can't specify EndDate and  RemoveEndDate in the same request.
+        public let endDate: Date?
+        /// Indicates whether to remove the end date from the Capacity Reservation Fleet. If you remove the end date, the Capacity Reservation Fleet does not expire and it remains active until you explicitly cancel it using the CancelCapacityReservationFleet action. You can't specify RemoveEndDate and  EndDate in the same request.
+        public let removeEndDate: Bool?
+        /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value, together with the instance type weights that you assign to each instance type used by the Fleet determine the number of instances for which the Fleet reserves capacity. Both values are based on units that make sense for your workload. For more information, see Total target capacity in the Amazon EC2 User Guide.
+        public let totalTargetCapacity: Int?
+
+        public init(capacityReservationFleetId: String, dryRun: Bool? = nil, endDate: Date? = nil, removeEndDate: Bool? = nil, totalTargetCapacity: Int? = nil) {
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.dryRun = dryRun
+            self.endDate = endDate
+            self.removeEndDate = removeEndDate
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetId = "CapacityReservationFleetId"
+            case dryRun = "DryRun"
+            case endDate = "EndDate"
+            case removeEndDate = "RemoveEndDate"
+            case totalTargetCapacity = "TotalTargetCapacity"
+        }
+    }
+
+    public struct ModifyCapacityReservationFleetResult: AWSDecodableShape {
+        /// Returns true if the request succeeds; otherwise, it returns an error.
+        public let `return`: Bool?
+
+        public init(return: Bool? = nil) {
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return`
+        }
+    }
+
     public struct ModifyCapacityReservationRequest: AWSEncodableShape {
         /// Reserved. Capacity Reservations you have created are accepted by default.
         public let accept: Bool?
@@ -27282,9 +27831,9 @@ extension EC2 {
         public var securityGroupIds: [String]?
         /// Specify whether to enable the self-service portal for the Client VPN endpoint.
         public let selfServicePortal: SelfServicePortal?
-        /// The ARN of the server certificate to be used. The server certificate must be provisioned in AWS Certificate Manager (ACM).
+        /// The ARN of the server certificate to be used. The server certificate must be provisioned in Certificate Manager (ACM).
         public let serverCertificateArn: String?
-        /// Indicates whether the VPN is split-tunnel. For information about split-tunnel VPN endpoints, see Split-Tunnel AWS Client VPN Endpoint in the AWS Client VPN Administrator Guide.
+        /// Indicates whether the VPN is split-tunnel. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the Client VPN Administrator Guide.
         public let splitTunnel: Bool?
         /// The ID of the VPC to associate with the Client VPN endpoint.
         public let vpcId: String?
@@ -27980,7 +28529,7 @@ extension EC2 {
         public let instanceId: String
         /// Reserved for future use.
         public let partitionNumber: Int?
-        /// The tenancy for the instance. For T3 instances, you can't change the tenancy from dedicated to host, or from host to dedicated. Attempting to make one of these unsupported tenancy changes results in the InvalidTenancy error code.
+        /// The tenancy for the instance.  For T3 instances, you can't change the tenancy from dedicated to host, or from host to dedicated. Attempting to make one of these unsupported tenancy changes results in the InvalidTenancy error code.
         public let tenancy: HostTenancy?
 
         public init(affinity: Affinity? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
@@ -29137,9 +29686,9 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0
         public let localIpv6NetworkCidr: String?
-        /// The IPv4 CIDR on the AWS side of the VPN connection. Default: 0.0.0.0/0
+        /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection. Default: 0.0.0.0/0
         public let remoteIpv4NetworkCidr: String?
-        /// The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0
+        /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection. Default: ::/0
         public let remoteIpv6NetworkCidr: String?
         /// The ID of the Site-to-Site VPN connection.
         public let vpnConnectionId: String
@@ -29184,7 +29733,7 @@ extension EC2 {
         public let transitGatewayId: String?
         /// The ID of the VPN connection.
         public let vpnConnectionId: String
-        /// The ID of the virtual private gateway at the AWS side of the VPN connection.
+        /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
         public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, transitGatewayId: String? = nil, vpnConnectionId: String, vpnGatewayId: String? = nil) {
@@ -29219,7 +29768,7 @@ extension EC2 {
     public struct ModifyVpnTunnelCertificateRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the AWS Site-to-Site VPN connection.
+        /// The ID of the Amazon Web Services Site-to-Site VPN connection.
         public let vpnConnectionId: String
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String
@@ -29254,7 +29803,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The tunnel options to modify.
         public let tunnelOptions: ModifyVpnTunnelOptionsSpecification
-        /// The ID of the AWS Site-to-Site VPN connection.
+        /// The ID of the Amazon Web Services Site-to-Site VPN connection.
         public let vpnConnectionId: String
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String
@@ -29328,11 +29877,11 @@ extension EC2 {
         public let preSharedKey: String?
         /// The percentage of the rekey window (determined by RekeyMarginTimeSeconds) during which the rekey time is randomly selected. Constraints: A value between 0 and 100. Default: 100
         public let rekeyFuzzPercentage: Int?
-        /// The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the VPN connection performs an IKE rekey. The exact time of the rekey is randomly selected based on the value for RekeyFuzzPercentage. Constraints: A value between 60 and half of Phase2LifetimeSeconds. Default: 540
+        /// The margin time, in seconds, before the phase 2 lifetime expires, during which the Amazon Web Services side of the VPN connection performs an IKE rekey. The exact time of the rekey is randomly selected based on the value for RekeyFuzzPercentage. Constraints: A value between 60 and half of Phase2LifetimeSeconds. Default: 540
         public let rekeyMarginTimeSeconds: Int?
         /// The number of packets in an IKE replay window. Constraints: A value between 64 and 2048. Default: 1024
         public let replayWindowSize: Int?
-        /// The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid Values: add | start  Default: add
+        /// The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for Amazon Web Services to initiate the IKE negotiation. Valid Values: add | start  Default: add
         public let startupAction: String?
         /// The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same virtual private gateway.  Constraints: A size /30 CIDR block from the 169.254.0.0/16 range. The following CIDR blocks are reserved and cannot be used:    169.254.0.0/30     169.254.1.0/30     169.254.2.0/30     169.254.3.0/30     169.254.4.0/30     169.254.5.0/30     169.254.169.252/30
         public let tunnelInsideCidr: String?
@@ -32625,6 +33174,49 @@ extension EC2 {
         }
     }
 
+    public struct ReservationFleetInstanceSpecification: AWSEncodableShape {
+        /// The Availability Zone in which the Capacity Reservation Fleet reserves the capacity. A Capacity Reservation Fleet can't span Availability Zones. All instance type specifications that you specify for the Fleet must use the same Availability Zone.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the Capacity Reservation Fleet reserves the capacity. A Capacity Reservation Fleet can't span Availability Zones. All instance type specifications that you specify for the Fleet must use the same Availability Zone.
+        public let availabilityZoneId: String?
+        /// Indicates whether the Capacity Reservation Fleet supports EBS-optimized instances types. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using EBS-optimized instance types.
+        public let ebsOptimized: Bool?
+        /// The type of operating system for which the Capacity Reservation Fleet reserves capacity.
+        public let instancePlatform: CapacityReservationInstancePlatform?
+        /// The instance type for which the Capacity Reservation Fleet reserves capacity.
+        public let instanceType: InstanceType?
+        /// The priority to assign to the instance type. This value is used to determine which of the instance types specified for the Fleet should be prioritized for use. A lower value indicates a high priority. For more information, see Instance type priority in the Amazon EC2 User Guide.
+        public let priority: Int?
+        /// The number of capacity units provided by the specified instance type. This value, together with the total target capacity that you specify for the Fleet determine the number of instances for which the Fleet reserves capacity. Both values are based on units that make sense for your workload. For more information, see Total target capacity in the Amazon EC2 User Guide.
+        public let weight: Double?
+
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, ebsOptimized: Bool? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: InstanceType? = nil, priority: Int? = nil, weight: Double? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.ebsOptimized = ebsOptimized
+            self.instancePlatform = instancePlatform
+            self.instanceType = instanceType
+            self.priority = priority
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.priority, name: "priority", parent: name, min: 0)
+            try self.validate(self.weight, name: "weight", parent: name, max: 99)
+            try self.validate(self.weight, name: "weight", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case ebsOptimized = "EbsOptimized"
+            case instancePlatform = "InstancePlatform"
+            case instanceType = "InstanceType"
+            case priority = "Priority"
+            case weight = "Weight"
+        }
+    }
+
     public struct ReservationValue: AWSDecodableShape {
         /// The hourly rate of the reservation.
         public let hourlyPrice: String?
@@ -34522,8 +35114,8 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
-        @CustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
-        public var filters: [Filter]
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -34531,7 +35123,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter], localGatewayRouteTableId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -38205,7 +38797,7 @@ extension EC2 {
         public let preSharedKey: String?
         /// The percentage of the rekey window determined by RekeyMarginTimeSeconds during which the rekey time is randomly selected.
         public let rekeyFuzzPercentage: Int?
-        /// The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the VPN connection performs an IKE rekey.
+        /// The margin time, in seconds, before the phase 2 lifetime expires, during which the Amazon Web Services side of the VPN connection performs an IKE rekey.
         public let rekeyMarginTimeSeconds: Int?
         /// The number of packets in an IKE replay window.
         public let replayWindowSize: Int?
@@ -39497,7 +40089,7 @@ extension EC2 {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _VgwTelemetryEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The category of the VPN connection. A value of VPN indicates an AWS VPN connection. A value of VPN-Classic indicates an AWS Classic VPN connection.
+        /// The category of the VPN connection. A value of VPN indicates an Amazon Web Services VPN connection. A value of VPN-Classic indicates an Amazon Web Services Classic VPN connection.
         public let category: String?
         /// The configuration information for the VPN connection's customer gateway (in the native XML format). This element is always present in the CreateVpnConnection response; however, it's present in the DescribeVpnConnections response only if the VPN connection is in the pending or available state.
         public let customerGatewayConfiguration: String?
@@ -39522,7 +40114,7 @@ extension EC2 {
         public var vgwTelemetry: [VgwTelemetry]?
         /// The ID of the VPN connection.
         public let vpnConnectionId: String?
-        /// The ID of the virtual private gateway at the AWS side of the VPN connection.
+        /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
         public init(category: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, options: VpnConnectionOptions? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
@@ -39556,6 +40148,31 @@ extension EC2 {
         }
     }
 
+    public struct VpnConnectionDeviceType: AWSDecodableShape {
+        /// Customer gateway device platform.
+        public let platform: String?
+        /// Customer gateway device software version.
+        public let software: String?
+        /// Customer gateway device vendor.
+        public let vendor: String?
+        /// Customer gateway device identifier.
+        public let vpnConnectionDeviceTypeId: String?
+
+        public init(platform: String? = nil, software: String? = nil, vendor: String? = nil, vpnConnectionDeviceTypeId: String? = nil) {
+            self.platform = platform
+            self.software = software
+            self.vendor = vendor
+            self.vpnConnectionDeviceTypeId = vpnConnectionDeviceTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platform
+            case software
+            case vendor
+            case vpnConnectionDeviceTypeId
+        }
+    }
+
     public struct VpnConnectionOptions: AWSDecodableShape {
         public struct _TunnelOptionsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -39565,9 +40182,9 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
         public let localIpv6NetworkCidr: String?
-        /// The IPv4 CIDR on the AWS side of the VPN connection.
+        /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
         public let remoteIpv4NetworkCidr: String?
-        /// The IPv6 CIDR on the AWS side of the VPN connection.
+        /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
         public let remoteIpv6NetworkCidr: String?
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public let staticRoutesOnly: Bool?
@@ -39607,9 +40224,9 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0
         public let localIpv6NetworkCidr: String?
-        /// The IPv4 CIDR on the AWS side of the VPN connection. Default: 0.0.0.0/0
+        /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection. Default: 0.0.0.0/0
         public let remoteIpv4NetworkCidr: String?
-        /// The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0
+        /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection. Default: ::/0
         public let remoteIpv6NetworkCidr: String?
         /// Indicate whether the VPN connection uses static routes only. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Use CreateVpnConnectionRoute to create a static route. Default: false
         public let staticRoutesOnly: Bool?
@@ -39747,11 +40364,11 @@ extension EC2 {
         public let preSharedKey: String?
         /// The percentage of the rekey window (determined by RekeyMarginTimeSeconds) during which the rekey time is randomly selected. Constraints: A value between 0 and 100. Default: 100
         public let rekeyFuzzPercentage: Int?
-        /// The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the VPN connection performs an IKE rekey. The exact time of the rekey is randomly selected based on the value for RekeyFuzzPercentage. Constraints: A value between 60 and half of Phase2LifetimeSeconds. Default: 540
+        /// The margin time, in seconds, before the phase 2 lifetime expires, during which the Amazon Web Services side of the VPN connection performs an IKE rekey. The exact time of the rekey is randomly selected based on the value for RekeyFuzzPercentage. Constraints: A value between 60 and half of Phase2LifetimeSeconds. Default: 540
         public let rekeyMarginTimeSeconds: Int?
         /// The number of packets in an IKE replay window. Constraints: A value between 64 and 2048. Default: 1024
         public let replayWindowSize: Int?
-        /// The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid Values: add | start  Default: add
+        /// The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for Amazon Web Services to initiate the IKE negotiation. Valid Values: add | start  Default: add
         public let startupAction: String?
         /// The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same virtual private gateway.  Constraints: A size /30 CIDR block from the 169.254.0.0/16 range. The following CIDR blocks are reserved and cannot be used:    169.254.0.0/30     169.254.1.0/30     169.254.2.0/30     169.254.3.0/30     169.254.4.0/30     169.254.5.0/30     169.254.169.252/30
         public let tunnelInsideCidr: String?

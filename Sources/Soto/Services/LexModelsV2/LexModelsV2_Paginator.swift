@@ -19,6 +19,59 @@ import SotoCore
 // MARK: Paginators
 
 extension LexModelsV2 {
+    ///  Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:   The childDirected field was set to true when the bot was created.   You are using slot obfuscation with one or more slots.   You opted out of participating in improving Amazon Lex.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAggregatedUtterancesPaginator<Result>(
+        _ input: ListAggregatedUtterancesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAggregatedUtterancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAggregatedUtterances,
+            inputKey: \ListAggregatedUtterancesRequest.nextToken,
+            outputKey: \ListAggregatedUtterancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAggregatedUtterancesPaginator(
+        _ input: ListAggregatedUtterancesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAggregatedUtterancesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAggregatedUtterances,
+            inputKey: \ListAggregatedUtterancesRequest.nextToken,
+            outputKey: \ListAggregatedUtterancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of aliases for the specified bot.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -599,6 +652,22 @@ extension LexModelsV2 {
             outputKey: \ListSlotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension LexModelsV2.ListAggregatedUtterancesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListAggregatedUtterancesRequest {
+        return .init(
+            aggregationDuration: self.aggregationDuration,
+            botAliasId: self.botAliasId,
+            botId: self.botId,
+            botVersion: self.botVersion,
+            filters: self.filters,
+            localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
         )
     }
 }

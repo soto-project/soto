@@ -154,7 +154,7 @@ extension Lambda {
         )
     }
 
-    ///  Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
+    ///  Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -176,7 +176,7 @@ extension Lambda {
         )
     }
 
-    ///  Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
+    ///  Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -44,6 +44,7 @@ extension DataExchange {
 
     public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable {
         case asset = "ASSET"
+        case dataSet = "DATA_SET"
         case revision = "REVISION"
         public var description: String { return self.rawValue }
     }
@@ -80,6 +81,18 @@ extension DataExchange {
     }
 
     // MARK: Shapes
+
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
+        public let exportRevisionToS3: AutoExportRevisionToS3RequestDetails?
+
+        public init(exportRevisionToS3: AutoExportRevisionToS3RequestDetails? = nil) {
+            self.exportRevisionToS3 = exportRevisionToS3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportRevisionToS3 = "ExportRevisionToS3"
+        }
+    }
 
     public struct AssetDestinationEntry: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier for the asset.
@@ -182,6 +195,38 @@ extension DataExchange {
         }
     }
 
+    public struct AutoExportRevisionDestinationEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket that is the destination for the event action.
+        public let bucket: String
+        /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see Key patterns when exporting revisions.
+        public let keyPattern: String?
+
+        public init(bucket: String, keyPattern: String? = nil) {
+            self.bucket = bucket
+            self.keyPattern = keyPattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case keyPattern = "KeyPattern"
+        }
+    }
+
+    public struct AutoExportRevisionToS3RequestDetails: AWSEncodableShape & AWSDecodableShape {
+        public let encryption: ExportServerSideEncryption?
+        public let revisionDestination: AutoExportRevisionDestinationEntry
+
+        public init(encryption: ExportServerSideEncryption? = nil, revisionDestination: AutoExportRevisionDestinationEntry) {
+            self.encryption = encryption
+            self.revisionDestination = revisionDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryption = "Encryption"
+            case revisionDestination = "RevisionDestination"
+        }
+    }
+
     public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
@@ -261,6 +306,52 @@ extension DataExchange {
             case originDetails = "OriginDetails"
             case sourceId = "SourceId"
             case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct CreateEventActionRequest: AWSEncodableShape {
+        /// What occurs after a certain event.
+        public let action: Action
+        /// What occurs to start an action.
+        public let event: Event
+
+        public init(action: Action, event: Event) {
+            self.action = action
+            self.event = event
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case event = "Event"
+        }
+    }
+
+    public struct CreateEventActionResponse: AWSDecodableShape {
+        public let action: Action?
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        public let event: Event?
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
+            self.action = action
+            self.arn = arn
+            self.createdAt = createdAt
+            self.event = event
+            self.id = id
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case event = "Event"
+            case id = "Id"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -472,6 +563,20 @@ extension DataExchange {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteEventActionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventActionId", location: .uri(locationName: "EventActionId"))
+        ]
+
+        public let eventActionId: String
+
+        public init(eventActionId: String) {
+            self.eventActionId = eventActionId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
@@ -501,6 +606,53 @@ extension DataExchange {
         private enum CodingKeys: String, CodingKey {
             case importAssetFromSignedUrlJobErrorDetails = "ImportAssetFromSignedUrlJobErrorDetails"
             case importAssetsFromS3JobErrorDetails = "ImportAssetsFromS3JobErrorDetails"
+        }
+    }
+
+    public struct Event: AWSEncodableShape & AWSDecodableShape {
+        public let revisionPublished: RevisionPublished?
+
+        public init(revisionPublished: RevisionPublished? = nil) {
+            self.revisionPublished = revisionPublished
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revisionPublished = "RevisionPublished"
+        }
+    }
+
+    public struct EventActionEntry: AWSDecodableShape {
+        /// What occurs after a certain event.
+        public let action: Action
+        /// The ARN for the event action.
+        public let arn: String
+        /// The date and time that the event action was created, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// What occurs to start an action.
+        public let event: Event
+        /// The unique identifier for the event action.
+        public let id: String
+        /// The date and time that the event action was last updated, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(action: Action, arn: String, createdAt: Date, event: Event, id: String, updatedAt: Date) {
+            self.action = action
+            self.arn = arn
+            self.createdAt = createdAt
+            self.event = event
+            self.id = id
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case event = "Event"
+            case id = "Id"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -631,24 +783,28 @@ extension DataExchange {
         public let dataSetId: String
         /// Encryption configuration of the export job.
         public let encryption: ExportServerSideEncryption?
+        /// The ARN for the event action.
+        public let eventActionArn: String?
         /// The destination in Amazon S3 where the revision is exported.
         public let revisionDestinations: [RevisionDestinationEntry]
 
-        public init(dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionDestinations: [RevisionDestinationEntry]) {
+        public init(dataSetId: String, encryption: ExportServerSideEncryption? = nil, eventActionArn: String? = nil, revisionDestinations: [RevisionDestinationEntry]) {
             self.dataSetId = dataSetId
             self.encryption = encryption
+            self.eventActionArn = eventActionArn
             self.revisionDestinations = revisionDestinations
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSetId = "DataSetId"
             case encryption = "Encryption"
+            case eventActionArn = "EventActionArn"
             case revisionDestinations = "RevisionDestinations"
         }
     }
 
     public struct ExportServerSideEncryption: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
+        /// The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
         public let kmsKeyArn: String?
         /// The type of server side encryption used for encrypting the objects in Amazon S3.
         public let type: ServerSideEncryptionTypes
@@ -779,6 +935,49 @@ extension DataExchange {
             case originDetails = "OriginDetails"
             case sourceId = "SourceId"
             case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetEventActionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventActionId", location: .uri(locationName: "EventActionId"))
+        ]
+
+        public let eventActionId: String
+
+        public init(eventActionId: String) {
+            self.eventActionId = eventActionId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEventActionResponse: AWSDecodableShape {
+        public let action: Action?
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        public let event: Event?
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
+            self.action = action
+            self.arn = arn
+            self.createdAt = createdAt
+            self.event = event
+            self.id = id
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case event = "Event"
+            case id = "Id"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -1165,6 +1364,46 @@ extension DataExchange {
         }
     }
 
+    public struct ListEventActionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventSourceId", location: .querystring(locationName: "eventSourceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let eventSourceId: String?
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(eventSourceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.eventSourceId = eventSourceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEventActionsResponse: AWSDecodableShape {
+        public let eventActions: [EventActionEntry]?
+        public let nextToken: String?
+
+        public init(eventActions: [EventActionEntry]? = nil, nextToken: String? = nil) {
+            self.eventActions = eventActions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventActions = "EventActions"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .querystring(locationName: "dataSetId")),
@@ -1415,6 +1654,18 @@ extension DataExchange {
         }
     }
 
+    public struct RevisionPublished: AWSEncodableShape & AWSDecodableShape {
+        public let dataSetId: String
+
+        public init(dataSetId: String) {
+            self.dataSetId = dataSetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetId = "DataSetId"
+        }
+    }
+
     public struct S3SnapshotAsset: AWSDecodableShape {
         /// The size of the S3 object that is the object.
         public let size: Double
@@ -1607,6 +1858,54 @@ extension DataExchange {
             case origin = "Origin"
             case originDetails = "OriginDetails"
             case sourceId = "SourceId"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct UpdateEventActionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventActionId", location: .uri(locationName: "EventActionId"))
+        ]
+
+        /// What occurs after a certain event.
+        public let action: Action?
+        public let eventActionId: String
+
+        public init(action: Action? = nil, eventActionId: String) {
+            self.action = action
+            self.eventActionId = eventActionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
+    public struct UpdateEventActionResponse: AWSDecodableShape {
+        public let action: Action?
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        public let event: Event?
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
+            self.action = action
+            self.arn = arn
+            self.createdAt = createdAt
+            self.event = event
+            self.id = id
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case event = "Event"
+            case id = "Id"
             case updatedAt = "UpdatedAt"
         }
     }

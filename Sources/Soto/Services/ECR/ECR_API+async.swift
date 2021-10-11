@@ -67,6 +67,11 @@ extension ECR {
         return try await self.client.execute(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the replication status for a specified image.
+    public func describeImageReplicationStatus(_ input: DescribeImageReplicationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeImageReplicationStatusResponse {
+        return try await self.client.execute(operation: "DescribeImageReplicationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the scan findings for the specified image.
     public func describeImageScanFindings(_ input: DescribeImageScanFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeImageScanFindingsResponse {
         return try await self.client.execute(operation: "DescribeImageScanFindings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -503,6 +503,14 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum VerificationState: String, CustomStringConvertible, Codable {
+        case benignPositive = "BENIGN_POSITIVE"
+        case falsePositive = "FALSE_POSITIVE"
+        case truePositive = "TRUE_POSITIVE"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ViolationEventType: String, CustomStringConvertible, Codable {
         case alarmCleared = "alarm-cleared"
         case alarmInvalidated = "alarm-invalidated"
@@ -598,7 +606,7 @@ extension IoT {
         public let dynamoDB: DynamoDBAction?
         /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
         public let dynamoDBv2: DynamoDBv2Action?
-        /// Write data to an Amazon Elasticsearch Service domain.  This action is deprecated. Use the OpenSearch action instead.
+        /// Write data to an Amazon OpenSearch Service domain.  The Elasticsearch action can only be used by existing rule actions. To create a new rule action or to update an existing rule action, use the OpenSearch rule action instead. For more information, see OpenSearchAction.
         public let elasticsearch: ElasticsearchAction?
         /// Write to an Amazon Kinesis Firehose stream.
         public let firehose: FirehoseAction?
@@ -707,6 +715,10 @@ extension IoT {
         public let securityProfileName: String?
         /// The name of the thing responsible for the active violation.
         public let thingName: String?
+        /// The verification state of the violation (detect alarm).
+        public let verificationState: VerificationState?
+        /// The description of the verification state of the violation.
+        public let verificationStateDescription: String?
         ///  The details of a violation event.
         public let violationEventAdditionalInfo: ViolationEventAdditionalInfo?
         /// The ID of the active violation.
@@ -714,12 +726,14 @@ extension IoT {
         /// The time the violation started.
         public let violationStartTime: Date?
 
-        public init(behavior: Behavior? = nil, lastViolationTime: Date? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationId: String? = nil, violationStartTime: Date? = nil) {
+        public init(behavior: Behavior? = nil, lastViolationTime: Date? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, verificationState: VerificationState? = nil, verificationStateDescription: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationId: String? = nil, violationStartTime: Date? = nil) {
             self.behavior = behavior
             self.lastViolationTime = lastViolationTime
             self.lastViolationValue = lastViolationValue
             self.securityProfileName = securityProfileName
             self.thingName = thingName
+            self.verificationState = verificationState
+            self.verificationStateDescription = verificationStateDescription
             self.violationEventAdditionalInfo = violationEventAdditionalInfo
             self.violationId = violationId
             self.violationStartTime = violationStartTime
@@ -731,6 +745,8 @@ extension IoT {
             case lastViolationValue
             case securityProfileName
             case thingName
+            case verificationState
+            case verificationStateDescription
             case violationEventAdditionalInfo
             case violationId
             case violationStartTime
@@ -2492,7 +2508,7 @@ extension IoT {
 
     public struct CreateAuditSuppressionRequest: AWSEncodableShape {
         public let checkName: String
-        ///  The epoch timestamp in seconds at which this suppression expires.
+        ///  Each audit supression must have a unique client request token. If you try to create a new audit suppression with the same token as one that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
         ///  The description of the audit suppression.
         public let description: String?
@@ -7112,13 +7128,13 @@ extension IoT {
     }
 
     public struct ElasticsearchAction: AWSEncodableShape & AWSDecodableShape {
-        /// The endpoint of your Elasticsearch domain.
+        /// The endpoint of your OpenSearch domain.
         public let endpoint: String
         /// The unique identifier for the document you are storing.
         public let id: String
-        /// The Elasticsearch index where you want to store your data.
+        /// The index where you want to store your data.
         public let index: String
-        /// The IAM role ARN that has access to Elasticsearch.
+        /// The IAM role ARN that has access to OpenSearch.
         public let roleArn: String
         /// The type of document you are storing.
         public let type: String
@@ -8651,7 +8667,8 @@ extension IoT {
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")),
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName")),
+            AWSMemberEncoding(label: "verificationState", location: .querystring(locationName: "verificationState"))
         ]
 
         ///  The criteria for a behavior.
@@ -8666,14 +8683,17 @@ extension IoT {
         public let securityProfileName: String?
         /// The name of the thing whose active violations are listed.
         public let thingName: String?
+        /// The verification state of the violation (detect alarm).
+        public let verificationState: VerificationState?
 
-        public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil) {
+        public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil, verificationState: VerificationState? = nil) {
             self.behaviorCriteriaType = behaviorCriteriaType
             self.listSuppressedAlerts = listSuppressedAlerts
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
             self.thingName = thingName
+            self.verificationState = verificationState
         }
 
         public func validate(name: String) throws {
@@ -11293,7 +11313,8 @@ extension IoT {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")),
             AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName")),
+            AWSMemberEncoding(label: "verificationState", location: .querystring(locationName: "verificationState"))
         ]
 
         ///  The criteria for a behavior.
@@ -11312,8 +11333,10 @@ extension IoT {
         public let startTime: Date
         /// A filter to limit results to those alerts caused by the specified thing.
         public let thingName: String?
+        /// The verification state of the violation (detect alarm).
+        public let verificationState: VerificationState?
 
-        public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, endTime: Date, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: Date, thingName: String? = nil) {
+        public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, endTime: Date, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: Date, thingName: String? = nil, verificationState: VerificationState? = nil) {
             self.behaviorCriteriaType = behaviorCriteriaType
             self.endTime = endTime
             self.listSuppressedAlerts = listSuppressedAlerts
@@ -11322,6 +11345,7 @@ extension IoT {
             self.securityProfileName = securityProfileName
             self.startTime = startTime
             self.thingName = thingName
+            self.verificationState = verificationState
         }
 
         public func validate(name: String) throws {
@@ -12090,6 +12114,42 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case tableName
         }
+    }
+
+    public struct PutVerificationStateOnViolationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "violationId", location: .uri(locationName: "violationId"))
+        ]
+
+        /// The verification state of the violation.
+        public let verificationState: VerificationState
+        /// The description of the verification state of the violation (detect alarm).
+        public let verificationStateDescription: String?
+        /// The violation ID.
+        public let violationId: String
+
+        public init(verificationState: VerificationState, verificationStateDescription: String? = nil, violationId: String) {
+            self.verificationState = verificationState
+            self.verificationStateDescription = verificationStateDescription
+            self.violationId = violationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.verificationStateDescription, name: "verificationStateDescription", parent: name, max: 1000)
+            try self.validate(self.verificationStateDescription, name: "verificationStateDescription", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.validate(self.violationId, name: "violationId", parent: name, max: 128)
+            try self.validate(self.violationId, name: "violationId", parent: name, min: 1)
+            try self.validate(self.violationId, name: "violationId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case verificationState
+            case verificationStateDescription
+        }
+    }
+
+    public struct PutVerificationStateOnViolationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct RateIncreaseCriteria: AWSEncodableShape & AWSDecodableShape {
@@ -15736,6 +15796,10 @@ extension IoT {
         public let securityProfileName: String?
         /// The name of the thing responsible for the violation event.
         public let thingName: String?
+        /// The verification state of the violation (detect alarm).
+        public let verificationState: VerificationState?
+        /// The description of the verification state of the violation.
+        public let verificationStateDescription: String?
         ///  The details of a violation event.
         public let violationEventAdditionalInfo: ViolationEventAdditionalInfo?
         /// The time the violation event occurred.
@@ -15745,11 +15809,13 @@ extension IoT {
         /// The ID of the violation event.
         public let violationId: String?
 
-        public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationEventTime: Date? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
+        public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, verificationState: VerificationState? = nil, verificationStateDescription: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationEventTime: Date? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
             self.behavior = behavior
             self.metricValue = metricValue
             self.securityProfileName = securityProfileName
             self.thingName = thingName
+            self.verificationState = verificationState
+            self.verificationStateDescription = verificationStateDescription
             self.violationEventAdditionalInfo = violationEventAdditionalInfo
             self.violationEventTime = violationEventTime
             self.violationEventType = violationEventType
@@ -15761,6 +15827,8 @@ extension IoT {
             case metricValue
             case securityProfileName
             case thingName
+            case verificationState
+            case verificationStateDescription
             case violationEventAdditionalInfo
             case violationEventTime
             case violationEventType

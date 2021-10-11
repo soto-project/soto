@@ -163,6 +163,10 @@ extension Connect {
 
     public enum IntegrationType: String, CustomStringConvertible, Codable {
         case event = "EVENT"
+        case pinpointApp = "PINPOINT_APP"
+        case voiceId = "VOICE_ID"
+        case wisdomAssistant = "WISDOM_ASSISTANT"
+        case wisdomKnowledgeBase = "WISDOM_KNOWLEDGE_BASE"
         public var description: String { return self.rawValue }
     }
 
@@ -470,6 +474,12 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum TrafficType: String, CustomStringConvertible, Codable {
+        case campaign = "CAMPAIGN"
+        case general = "GENERAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Unit: String, CustomStringConvertible, Codable {
         case count = "COUNT"
         case percent = "PERCENT"
@@ -478,6 +488,7 @@ extension Connect {
     }
 
     public enum UseCaseType: String, CustomStringConvertible, Codable {
+        case connectCampaigns = "CONNECT_CAMPAIGNS"
         case rulesEvaluation = "RULES_EVALUATION"
         public var description: String { return self.rawValue }
     }
@@ -554,6 +565,23 @@ extension Connect {
             case id = "Id"
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct AnswerMachineDetectionConfig: AWSEncodableShape {
+        /// Wait for the answering machine prompt.
+        public let awaitAnswerMachinePrompt: Bool?
+        /// The flag to indicate if answer machine detection analysis needs to be performed for a voice call. If set to true, TrafficType must be set as CAMPAIGN.
+        public let enableAnswerMachineDetection: Bool?
+
+        public init(awaitAnswerMachinePrompt: Bool? = nil, enableAnswerMachineDetection: Bool? = nil) {
+            self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
+            self.enableAnswerMachineDetection = enableAnswerMachineDetection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awaitAnswerMachinePrompt = "AwaitAnswerMachinePrompt"
+            case enableAnswerMachineDetection = "EnableAnswerMachineDetection"
         }
     }
 
@@ -1196,16 +1224,16 @@ extension Connect {
         public let integrationArn: String
         /// The type of information to be ingested.
         public let integrationType: IntegrationType
-        /// The name of the external application.
-        public let sourceApplicationName: String
-        /// The URL for the external application.
-        public let sourceApplicationUrl: String
-        /// The type of the data source.
-        public let sourceType: SourceType
+        /// The name of the external application. This field is only required for the EVENT integration type.
+        public let sourceApplicationName: String?
+        /// The URL for the external application. This field is only required for the EVENT integration type.
+        public let sourceApplicationUrl: String?
+        /// The type of the data source. This field is only required for the EVENT integration type.
+        public let sourceType: SourceType?
         /// One or more tags.
         public let tags: [String: String]?
 
-        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String, sourceApplicationUrl: String, sourceType: SourceType, tags: [String: String]? = nil) {
+        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String? = nil, sourceApplicationUrl: String? = nil, sourceType: SourceType? = nil, tags: [String: String]? = nil) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
             self.integrationType = integrationType
@@ -1244,7 +1272,7 @@ extension Connect {
     public struct CreateIntegrationAssociationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the association.
         public let integrationAssociationArn: String?
-        /// The identifier for the association.
+        /// The identifier for the integration association.
         public let integrationAssociationId: String?
 
         public init(integrationAssociationArn: String? = nil, integrationAssociationId: String? = nil) {
@@ -1491,11 +1519,11 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The identifier for the AppIntegration association.
+        /// The identifier for the integration association.
         public let integrationAssociationId: String
         /// One or more tags.
         public let tags: [String: String]?
-        /// The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
+        /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
         public let useCaseType: UseCaseType
 
         public init(instanceId: String, integrationAssociationId: String, tags: [String: String]? = nil, useCaseType: UseCaseType) {
@@ -1802,7 +1830,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The identifier for the AppIntegration association.
+        /// The identifier for the integration association.
         public let integrationAssociationId: String
 
         public init(instanceId: String, integrationAssociationId: String) {
@@ -1853,7 +1881,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The identifier for the AppIntegration association.
+        /// The identifier for the integration association.
         public let integrationAssociationId: String
         /// The identifier for the use case.
         public let useCaseId: String
@@ -2614,7 +2642,7 @@ extension Connect {
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The type of encryption.
         public let encryptionType: EncryptionType
-        /// The identifier of the encryption key.
+        /// The full ARN of the encryption key.   Be sure to provide the full ARN of the encryption key, not just the ID.
         public let keyId: String
 
         public init(encryptionType: EncryptionType, keyId: String) {
@@ -2700,7 +2728,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
         public let filters: Filters
@@ -3892,19 +3920,22 @@ extension Connect {
     public struct ListIntegrationAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "integrationType", location: .querystring(locationName: "integrationType")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
+        public let integrationType: IntegrationType?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, integrationType: IntegrationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
+            self.integrationType = integrationType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3920,7 +3951,7 @@ extension Connect {
     }
 
     public struct ListIntegrationAssociationsResponse: AWSDecodableShape {
-        /// The AppIntegration associations.
+        /// The associations.
         public let integrationAssociationSummaryList: [IntegrationAssociationSummary]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -5357,8 +5388,12 @@ extension Connect {
     }
 
     public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
+        /// Configuration of the answering machine detection for this outbound call.
+        public let answerMachineDetectionConfig: AnswerMachineDetectionConfig?
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
+        /// The campaign identifier of the outbound communication.
+        public let campaignId: String?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
         /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
@@ -5371,15 +5406,20 @@ extension Connect {
         public let queueId: String?
         /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         public let sourcePhoneNumber: String?
+        /// Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
+        public let trafficType: TrafficType?
 
-        public init(attributes: [String: String]? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, destinationPhoneNumber: String, instanceId: String, queueId: String? = nil, sourcePhoneNumber: String? = nil) {
+        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, attributes: [String: String]? = nil, campaignId: String? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, destinationPhoneNumber: String, instanceId: String, queueId: String? = nil, sourcePhoneNumber: String? = nil, trafficType: TrafficType? = nil) {
+            self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
+            self.campaignId = campaignId
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
             self.destinationPhoneNumber = destinationPhoneNumber
             self.instanceId = instanceId
             self.queueId = queueId
             self.sourcePhoneNumber = sourcePhoneNumber
+            self.trafficType = trafficType
         }
 
         public func validate(name: String) throws {
@@ -5389,6 +5429,8 @@ extension Connect {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.validate(self.campaignId, name: "campaignId", parent: name, max: 100)
+            try self.validate(self.campaignId, name: "campaignId", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
@@ -5396,13 +5438,16 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case answerMachineDetectionConfig = "AnswerMachineDetectionConfig"
             case attributes = "Attributes"
+            case campaignId = "CampaignId"
             case clientToken = "ClientToken"
             case contactFlowId = "ContactFlowId"
             case destinationPhoneNumber = "DestinationPhoneNumber"
             case instanceId = "InstanceId"
             case queueId = "QueueId"
             case sourcePhoneNumber = "SourcePhoneNumber"
+            case trafficType = "TrafficType"
         }
     }
 
@@ -5878,7 +5923,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The type of attribute.
+        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.
         public let attributeType: InstanceAttributeType
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
@@ -6500,7 +6545,7 @@ extension Connect {
         public let useCaseArn: String?
         /// The identifier for the use case.
         public let useCaseId: String?
-        /// The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
+        /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
         public let useCaseType: UseCaseType?
 
         public init(useCaseArn: String? = nil, useCaseId: String? = nil, useCaseType: UseCaseType? = nil) {

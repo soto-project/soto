@@ -42,7 +42,7 @@ extension LicenseManager {
         return try await self.client.execute(operation: "CheckoutLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific AWS accounts.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific Amazon Web Services accounts.
     public func createGrant(_ input: CreateGrantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateGrantResponse {
         return try await self.client.execute(operation: "CreateGrant", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -62,7 +62,12 @@ extension LicenseManager {
         return try await self.client.execute(operation: "CreateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new report generator.
+    /// Creates a new license conversion task.
+    public func createLicenseConversionTaskForResource(_ input: CreateLicenseConversionTaskForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLicenseConversionTaskForResourceResponse {
+        return try await self.client.execute(operation: "CreateLicenseConversionTaskForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a report generator.
     public func createLicenseManagerReportGenerator(_ input: CreateLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLicenseManagerReportGeneratorResponse {
         return try await self.client.execute(operation: "CreateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -92,7 +97,7 @@ extension LicenseManager {
         return try await self.client.execute(operation: "DeleteLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete an existing report generator. This action deletes the report generator, which stops it from generating future reports and cannot be reversed. However, the previous reports from this generator will remain in your S3 bucket.
+    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
     public func deleteLicenseManagerReportGenerator(_ input: DeleteLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLicenseManagerReportGeneratorResponse {
         return try await self.client.execute(operation: "DeleteLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -127,7 +132,12 @@ extension LicenseManager {
         return try await self.client.execute(operation: "GetLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information on the specified report generator.
+    /// Gets information about the specified license type conversion task.
+    public func getLicenseConversionTask(_ input: GetLicenseConversionTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLicenseConversionTaskResponse {
+        return try await self.client.execute(operation: "GetLicenseConversionTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about the specified report generator.
     public func getLicenseManagerReportGenerator(_ input: GetLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLicenseManagerReportGeneratorResponse {
         return try await self.client.execute(operation: "GetLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -160,6 +170,11 @@ extension LicenseManager {
     /// Lists the license configurations for your account.
     public func listLicenseConfigurations(_ input: ListLicenseConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLicenseConfigurationsResponse {
         return try await self.client.execute(operation: "ListLicenseConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the license type conversion tasks for your account.
+    public func listLicenseConversionTasks(_ input: ListLicenseConversionTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLicenseConversionTasksResponse {
+        return try await self.client.execute(operation: "ListLicenseConversionTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the report generators for your account.
@@ -232,12 +247,12 @@ extension LicenseManager {
         return try await self.client.execute(operation: "UpdateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a report generator. After you make changes to a report generator, it will start generating new reports within 60 minutes of being updated.
+    /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
     public func updateLicenseManagerReportGenerator(_ input: UpdateLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLicenseManagerReportGeneratorResponse {
         return try await self.client.execute(operation: "UpdateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or removes the specified license configurations for the specified AWS resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and AWS CloudFormation templates, as they send license configurations to the operation that creates the resource.
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
     public func updateLicenseSpecificationsForResource(_ input: UpdateLicenseSpecificationsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLicenseSpecificationsForResourceResponse {
         return try await self.client.execute(operation: "UpdateLicenseSpecificationsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

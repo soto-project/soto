@@ -337,7 +337,7 @@ extension Lambda {
         )
     }
 
-    ///  Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
+    ///  Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +390,7 @@ extension Lambda {
         )
     }
 
-    ///  Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
+    ///  Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -615,6 +615,7 @@ extension Lambda.ListFunctionsByCodeSigningConfigRequest: AWSPaginateToken {
 extension Lambda.ListLayerVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Lambda.ListLayerVersionsRequest {
         return .init(
+            compatibleArchitecture: self.compatibleArchitecture,
             compatibleRuntime: self.compatibleRuntime,
             layerName: self.layerName,
             marker: token,
@@ -626,6 +627,7 @@ extension Lambda.ListLayerVersionsRequest: AWSPaginateToken {
 extension Lambda.ListLayersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Lambda.ListLayersRequest {
         return .init(
+            compatibleArchitecture: self.compatibleArchitecture,
             compatibleRuntime: self.compatibleRuntime,
             marker: token,
             maxItems: self.maxItems

@@ -338,6 +338,8 @@ extension Kafka {
         public let openMonitoring: OpenMonitoring?
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
+        /// Contains information about the state of the Amazon MSK cluster.
+        public let stateInfo: StateInfo?
         /// Tags attached to the cluster.
         public let tags: [String: String]?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
@@ -345,7 +347,7 @@ extension Kafka {
         /// The connection string to use to connect to zookeeper cluster on Tls port.
         public let zookeeperConnectStringTls: String?
 
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -360,6 +362,7 @@ extension Kafka {
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
             self.state = state
+            self.stateInfo = stateInfo
             self.tags = tags
             self.zookeeperConnectString = zookeeperConnectString
             self.zookeeperConnectStringTls = zookeeperConnectStringTls
@@ -380,6 +383,7 @@ extension Kafka {
             case numberOfBrokerNodes
             case openMonitoring
             case state
+            case stateInfo
             case tags
             case zookeeperConnectString
             case zookeeperConnectStringTls
@@ -1720,6 +1724,23 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case enabled
+        }
+    }
+
+    public struct StateInfo: AWSDecodableShape {
+        /// If the cluster is in an unusable state, this field contains the code that describes the issue.
+        public let code: String?
+        /// If the cluster is in an unusable state, this field contains a message that describes the issue.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
         }
     }
 

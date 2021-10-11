@@ -1193,6 +1193,7 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendResponse: AWSDecodableShape {
+        public let amplifyFeatureFlags: String?
         public let amplifyMetaConfig: String?
         public let appId: String?
         public let appName: String?
@@ -1200,7 +1201,8 @@ extension AmplifyBackend {
         public let backendEnvironmentName: String?
         public let error: String?
 
-        public init(amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
+        public init(amplifyFeatureFlags: String? = nil, amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
+            self.amplifyFeatureFlags = amplifyFeatureFlags
             self.amplifyMetaConfig = amplifyMetaConfig
             self.appId = appId
             self.appName = appName
@@ -1210,6 +1212,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amplifyFeatureFlags
             case amplifyMetaConfig
             case appId
             case appName

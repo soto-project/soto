@@ -22,6 +22,113 @@ extension AppIntegrationsService {
 
     // MARK: Shapes
 
+    public struct CreateDataIntegrationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// A description of the DataIntegration.
+        public let description: String?
+        /// The KMS key for the DataIntegration.
+        public let kmsKey: String?
+        /// The name of the DataIntegration.
+        public let name: String
+        /// The name of the data and how often it should be pulled from the source.
+        public let scheduleConfig: ScheduleConfiguration?
+        /// The URI of the data source.
+        public let sourceURI: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreateDataIntegrationRequest.idempotencyToken(), description: String? = nil, kmsKey: String? = nil, name: String, scheduleConfig: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.kmsKey = kmsKey
+            self.name = name
+            self.scheduleConfig = scheduleConfig
+            self.sourceURI = sourceURI
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 255)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
+            try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
+            try self.validate(self.sourceURI, name: "sourceURI", parent: name, max: 255)
+            try self.validate(self.sourceURI, name: "sourceURI", parent: name, min: 1)
+            try self.validate(self.sourceURI, name: "sourceURI", parent: name, pattern: ".*\\S.*")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case kmsKey = "KmsKey"
+            case name = "Name"
+            case scheduleConfig = "ScheduleConfig"
+            case sourceURI = "SourceURI"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDataIntegrationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN)
+        public let arn: String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// A description of the DataIntegration.
+        public let description: String?
+        /// A unique identifier.
+        public let id: String?
+        /// The KMS key for the DataIntegration.
+        public let kmsKey: String?
+        /// The name of the DataIntegration.
+        public let name: String?
+        /// The name of the data and how often it should be pulled from the source.
+        public let scheduleConfiguration: ScheduleConfiguration?
+        /// The URI of the data source.
+        public let sourceURI: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, clientToken: String? = nil, description: String? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.clientToken = clientToken
+            self.description = description
+            self.id = id
+            self.kmsKey = kmsKey
+            self.name = name
+            self.scheduleConfiguration = scheduleConfiguration
+            self.sourceURI = sourceURI
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case id = "Id"
+            case kmsKey = "KmsKey"
+            case name = "Name"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case sourceURI = "SourceURI"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateEventIntegrationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -88,6 +195,73 @@ extension AppIntegrationsService {
         private enum CodingKeys: String, CodingKey {
             case eventIntegrationArn = "EventIntegrationArn"
         }
+    }
+
+    public struct DataIntegrationAssociationSummary: AWSDecodableShape {
+        /// The identifier for teh client that is associated with the DataIntegration association.
+        public let clientId: String?
+        /// The Amazon Resource Name (ARN)of the DataIntegration.
+        public let dataIntegrationArn: String?
+        /// The Amazon Resource Name (ARN) of the DataIntegration association.
+        public let dataIntegrationAssociationArn: String?
+
+        public init(clientId: String? = nil, dataIntegrationArn: String? = nil, dataIntegrationAssociationArn: String? = nil) {
+            self.clientId = clientId
+            self.dataIntegrationArn = dataIntegrationArn
+            self.dataIntegrationAssociationArn = dataIntegrationAssociationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case dataIntegrationArn = "DataIntegrationArn"
+            case dataIntegrationAssociationArn = "DataIntegrationAssociationArn"
+        }
+    }
+
+    public struct DataIntegrationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the DataIntegration.
+        public let arn: String?
+        /// The name of the DataIntegration.
+        public let name: String?
+        /// The URI of the data source.
+        public let sourceURI: String?
+
+        public init(arn: String? = nil, name: String? = nil, sourceURI: String? = nil) {
+            self.arn = arn
+            self.name = name
+            self.sourceURI = sourceURI
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+            case sourceURI = "SourceURI"
+        }
+    }
+
+    public struct DeleteDataIntegrationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri(locationName: "Identifier"))
+        ]
+
+        /// A unique identifier for the DataIntegration.
+        public let dataIntegrationIdentifier: String
+
+        public init(dataIntegrationIdentifier: String) {
+            self.dataIntegrationIdentifier = dataIntegrationIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, max: 255)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, min: 1)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataIntegrationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteEventIntegrationRequest: AWSEncodableShape {
@@ -200,6 +374,68 @@ extension AppIntegrationsService {
         }
     }
 
+    public struct GetDataIntegrationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri(locationName: "Identifier"))
+        ]
+
+        /// A unique identifier.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataIntegrationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the DataIntegration.
+        public let arn: String?
+        /// The KMS key for the DataIntegration.
+        public let description: String?
+        /// A unique identifier.
+        public let id: String?
+        /// The KMS key for the DataIntegration.
+        public let kmsKey: String?
+        /// The name of the DataIntegration.
+        public let name: String?
+        /// The name of the data and how often it should be pulled from the source.
+        public let scheduleConfiguration: ScheduleConfiguration?
+        /// The URI of the data source.
+        public let sourceURI: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.kmsKey = kmsKey
+            self.name = name
+            self.scheduleConfiguration = scheduleConfiguration
+            self.sourceURI = sourceURI
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case kmsKey = "KmsKey"
+            case name = "Name"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case sourceURI = "SourceURI"
+            case tags = "Tags"
+        }
+    }
+
     public struct GetEventIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
@@ -251,6 +487,101 @@ extension AppIntegrationsService {
             case eventIntegrationArn = "EventIntegrationArn"
             case name = "Name"
             case tags = "Tags"
+        }
+    }
+
+    public struct ListDataIntegrationAssociationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri(locationName: "Identifier")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// A unique identifier for the DataIntegration.
+        public let dataIntegrationIdentifier: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(dataIntegrationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dataIntegrationIdentifier = dataIntegrationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, max: 255)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, min: 1)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataIntegrationAssociationsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) and unique ID of the DataIntegration association.
+        public let dataIntegrationAssociations: [DataIntegrationAssociationSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(dataIntegrationAssociations: [DataIntegrationAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.dataIntegrationAssociations = dataIntegrationAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataIntegrationAssociations = "DataIntegrationAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataIntegrationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataIntegrationsResponse: AWSDecodableShape {
+        /// The DataIntegrations associated with this account.
+        public let dataIntegrations: [DataIntegrationSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(dataIntegrations: [DataIntegrationSummary]? = nil, nextToken: String? = nil) {
+            self.dataIntegrations = dataIntegrations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataIntegrations = "DataIntegrations"
+            case nextToken = "NextToken"
         }
     }
 
@@ -383,6 +714,39 @@ extension AppIntegrationsService {
         }
     }
 
+    public struct ScheduleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The start date for objects to import in the first flow run.
+        public let firstExecutionFrom: String?
+        /// The name of the object to pull from the data source.
+        public let object: String?
+        /// How often the data should be pulled from data source.
+        public let scheduleExpression: String?
+
+        public init(firstExecutionFrom: String? = nil, object: String? = nil, scheduleExpression: String? = nil) {
+            self.firstExecutionFrom = firstExecutionFrom
+            self.object = object
+            self.scheduleExpression = scheduleExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firstExecutionFrom, name: "firstExecutionFrom", parent: name, max: 255)
+            try self.validate(self.firstExecutionFrom, name: "firstExecutionFrom", parent: name, min: 1)
+            try self.validate(self.firstExecutionFrom, name: "firstExecutionFrom", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.object, name: "object", parent: name, max: 255)
+            try self.validate(self.object, name: "object", parent: name, min: 1)
+            try self.validate(self.object, name: "object", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 255)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstExecutionFrom = "FirstExecutionFrom"
+            case object = "Object"
+            case scheduleExpression = "ScheduleExpression"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -452,6 +816,46 @@ extension AppIntegrationsService {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateDataIntegrationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri(locationName: "Identifier"))
+        ]
+
+        /// A description of the DataIntegration.
+        public let description: String?
+        /// A unique identifier for the DataIntegration.
+        public let identifier: String
+        /// The name of the DataIntegration.
+        public let name: String?
+
+        public init(description: String? = nil, identifier: String, name: String? = nil) {
+            self.description = description
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateDataIntegrationResponse: AWSDecodableShape {
         public init() {}
     }
 

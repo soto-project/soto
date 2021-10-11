@@ -913,6 +913,8 @@ extension Pinpoint {
     public struct Activity: AWSEncodableShape & AWSDecodableShape {
         /// The settings for a yes/no split activity. This type of activity sends participants down one of two paths in a journey, based on conditions that you specify.
         public let conditionalSplit: ConditionalSplitActivity?
+        /// The settings for a connect activity. This type of activity initiates a contact center call to participants.
+        public let contactCenter: ContactCenterActivity?
         /// The settings for a custom message activity. This type of activity calls an AWS Lambda function or web hook that sends messages to participants.
         public let custom: CustomMessageActivity?
         /// The custom description of the activity.
@@ -932,8 +934,9 @@ extension Pinpoint {
         /// The settings for a wait activity. This type of activity waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
         public let wait: WaitActivity?
 
-        public init(conditionalSplit: ConditionalSplitActivity? = nil, custom: CustomMessageActivity? = nil, description: String? = nil, email: EmailMessageActivity? = nil, holdout: HoldoutActivity? = nil, multiCondition: MultiConditionalSplitActivity? = nil, push: PushMessageActivity? = nil, randomSplit: RandomSplitActivity? = nil, sms: SMSMessageActivity? = nil, wait: WaitActivity? = nil) {
+        public init(conditionalSplit: ConditionalSplitActivity? = nil, contactCenter: ContactCenterActivity? = nil, custom: CustomMessageActivity? = nil, description: String? = nil, email: EmailMessageActivity? = nil, holdout: HoldoutActivity? = nil, multiCondition: MultiConditionalSplitActivity? = nil, push: PushMessageActivity? = nil, randomSplit: RandomSplitActivity? = nil, sms: SMSMessageActivity? = nil, wait: WaitActivity? = nil) {
             self.conditionalSplit = conditionalSplit
+            self.contactCenter = contactCenter
             self.custom = custom
             self.description = description
             self.email = email
@@ -947,6 +950,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case conditionalSplit = "ConditionalSplit"
+            case contactCenter = "ContactCenter"
             case custom = "CUSTOM"
             case description = "Description"
             case email = "EMAIL"
@@ -1832,6 +1836,19 @@ extension Pinpoint {
             case evaluationWaitTime = "EvaluationWaitTime"
             case falseActivity = "FalseActivity"
             case trueActivity = "TrueActivity"
+        }
+    }
+
+    public struct ContactCenterActivity: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier for the next activity to perform after the this activity.
+        public let nextActivity: String?
+
+        public init(nextActivity: String? = nil) {
+            self.nextActivity = nextActivity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextActivity = "NextActivity"
         }
     }
 
@@ -6660,7 +6677,25 @@ extension Pinpoint {
         }
     }
 
+    public struct JourneyChannelSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the Connect Campaign.
+        public let connectCampaignArn: String?
+        /// IAM role ARN to be assumed when invoking Connect campaign execution APIs for dialing.
+        public let connectCampaignExecutionRoleArn: String?
+
+        public init(connectCampaignArn: String? = nil, connectCampaignExecutionRoleArn: String? = nil) {
+            self.connectCampaignArn = connectCampaignArn
+            self.connectCampaignExecutionRoleArn = connectCampaignExecutionRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectCampaignArn = "ConnectCampaignArn"
+            case connectCampaignExecutionRoleArn = "ConnectCampaignExecutionRoleArn"
+        }
+    }
+
     public struct JourneyCustomMessage: AWSEncodableShape & AWSDecodableShape {
+        /// The message content that's passed to an AWS Lambda function or to a web hook.
         public let data: String?
 
         public init(data: String? = nil) {
@@ -6828,6 +6863,8 @@ extension Pinpoint {
         public let creationDate: String?
         /// The unique identifier for the journey.
         public let id: String
+        /// Amazon Resource Name (ARN) of the Connect Campaign.
+        public let journeyChannelSettings: JourneyChannelSettings?
         /// The date, in ISO 8601 format, when the journey was last modified.
         public let lastModifiedDate: String?
         /// The messaging and entry limits for the journey.
@@ -6851,11 +6888,12 @@ extension Pinpoint {
         /// This object is not used or supported.
         public let tags: [String: String]?
 
-        public init(activities: [String: Activity]? = nil, applicationId: String, creationDate: String? = nil, id: String, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil) {
+        public init(activities: [String: Activity]? = nil, applicationId: String, creationDate: String? = nil, id: String, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil) {
             self.activities = activities
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.id = id
+            self.journeyChannelSettings = journeyChannelSettings
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.localTime = localTime
@@ -6874,6 +6912,7 @@ extension Pinpoint {
             case applicationId = "ApplicationId"
             case creationDate = "CreationDate"
             case id = "Id"
+            case journeyChannelSettings = "JourneyChannelSettings"
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
             case localTime = "LocalTime"
@@ -10505,6 +10544,8 @@ extension Pinpoint {
         public let activities: [String: Activity]?
         /// The date, in ISO 8601 format, when the journey was created.
         public let creationDate: String?
+        /// IAM role ARN to be assumed when invoking Connect campaign execution APIs for dialing.
+        public let journeyChannelSettings: JourneyChannelSettings?
         /// The date, in ISO 8601 format, when the journey was last modified.
         public let lastModifiedDate: String?
         /// The messaging and entry limits for the journey.
@@ -10528,9 +10569,10 @@ extension Pinpoint {
         public let state: State?
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.creationDate = creationDate
+            self.journeyChannelSettings = journeyChannelSettings
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.localTime = localTime
@@ -10548,6 +10590,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case activities = "Activities"
             case creationDate = "CreationDate"
+            case journeyChannelSettings = "JourneyChannelSettings"
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
             case localTime = "LocalTime"

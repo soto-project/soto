@@ -218,6 +218,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "ListDocumentClassificationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of summaries of the document classifiers that you have created
+    public func listDocumentClassifierSummaries(_ input: ListDocumentClassifierSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentClassifierSummariesResponse> {
+        return self.client.execute(operation: "ListDocumentClassifierSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a list of the document classifiers that you have created.
     public func listDocumentClassifiers(_ input: ListDocumentClassifiersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentClassifiersResponse> {
         return self.client.execute(operation: "ListDocumentClassifiers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -236,6 +241,11 @@ public struct Comprehend: AWSService {
     /// Gets a list of the entity detection jobs that you have submitted.
     public func listEntitiesDetectionJobs(_ input: ListEntitiesDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntitiesDetectionJobsResponse> {
         return self.client.execute(operation: "ListEntitiesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of summaries for the entity recognizers that you have created.
+    public func listEntityRecognizerSummaries(_ input: ListEntityRecognizerSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntityRecognizerSummariesResponse> {
+        return self.client.execute(operation: "ListEntityRecognizerSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.

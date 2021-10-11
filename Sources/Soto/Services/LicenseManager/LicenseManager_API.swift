@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS LicenseManager service.
 ///
-///  AWS License Manager  AWS License Manager makes it easier to manage licenses from software vendors across multiple AWS accounts and on-premises servers.
+/// License Manager makes it easier to manage licenses from software vendors across multiple Amazon Web Services accounts and on-premises servers.
 public struct LicenseManager: AWSService {
     // MARK: Member variables
 
@@ -83,7 +83,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "CheckoutLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific AWS accounts.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific Amazon Web Services accounts.
     public func createGrant(_ input: CreateGrantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGrantResponse> {
         return self.client.execute(operation: "CreateGrant", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -103,7 +103,12 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "CreateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new report generator.
+    /// Creates a new license conversion task.
+    public func createLicenseConversionTaskForResource(_ input: CreateLicenseConversionTaskForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLicenseConversionTaskForResourceResponse> {
+        return self.client.execute(operation: "CreateLicenseConversionTaskForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a report generator.
     public func createLicenseManagerReportGenerator(_ input: CreateLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLicenseManagerReportGeneratorResponse> {
         return self.client.execute(operation: "CreateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -133,7 +138,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "DeleteLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete an existing report generator. This action deletes the report generator, which stops it from generating future reports and cannot be reversed. However, the previous reports from this generator will remain in your S3 bucket.
+    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
     public func deleteLicenseManagerReportGenerator(_ input: DeleteLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLicenseManagerReportGeneratorResponse> {
         return self.client.execute(operation: "DeleteLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -168,7 +173,12 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "GetLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information on the specified report generator.
+    /// Gets information about the specified license type conversion task.
+    public func getLicenseConversionTask(_ input: GetLicenseConversionTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLicenseConversionTaskResponse> {
+        return self.client.execute(operation: "GetLicenseConversionTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about the specified report generator.
     public func getLicenseManagerReportGenerator(_ input: GetLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLicenseManagerReportGeneratorResponse> {
         return self.client.execute(operation: "GetLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -201,6 +211,11 @@ public struct LicenseManager: AWSService {
     /// Lists the license configurations for your account.
     public func listLicenseConfigurations(_ input: ListLicenseConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLicenseConfigurationsResponse> {
         return self.client.execute(operation: "ListLicenseConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the license type conversion tasks for your account.
+    public func listLicenseConversionTasks(_ input: ListLicenseConversionTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLicenseConversionTasksResponse> {
+        return self.client.execute(operation: "ListLicenseConversionTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the report generators for your account.
@@ -273,12 +288,12 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "UpdateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a report generator. After you make changes to a report generator, it will start generating new reports within 60 minutes of being updated.
+    /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
     public func updateLicenseManagerReportGenerator(_ input: UpdateLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLicenseManagerReportGeneratorResponse> {
         return self.client.execute(operation: "UpdateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or removes the specified license configurations for the specified AWS resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and AWS CloudFormation templates, as they send license configurations to the operation that creates the resource.
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
     public func updateLicenseSpecificationsForResource(_ input: UpdateLicenseSpecificationsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLicenseSpecificationsForResourceResponse> {
         return self.client.execute(operation: "UpdateLicenseSpecificationsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

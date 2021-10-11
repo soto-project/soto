@@ -19,6 +19,59 @@ import SotoCore
 // MARK: Paginators
 
 extension PrometheusService {
+    ///  Lists rule groups namespaces.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRuleGroupsNamespacesPaginator<Result>(
+        _ input: ListRuleGroupsNamespacesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRuleGroupsNamespacesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRuleGroupsNamespaces,
+            inputKey: \ListRuleGroupsNamespacesRequest.nextToken,
+            outputKey: \ListRuleGroupsNamespacesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRuleGroupsNamespacesPaginator(
+        _ input: ListRuleGroupsNamespacesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRuleGroupsNamespacesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRuleGroupsNamespaces,
+            inputKey: \ListRuleGroupsNamespacesRequest.nextToken,
+            outputKey: \ListRuleGroupsNamespacesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists all AMP workspaces, including workspaces being created or deleted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -69,6 +122,17 @@ extension PrometheusService {
             outputKey: \ListWorkspacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension PrometheusService.ListRuleGroupsNamespacesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> PrometheusService.ListRuleGroupsNamespacesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            workspaceId: self.workspaceId
         )
     }
 }

@@ -309,6 +309,7 @@ extension Kendra {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
+        case notAvailable = "NOT_AVAILABLE"
         case veryHigh = "VERY_HIGH"
         public var description: String { return self.rawValue }
     }
@@ -351,6 +352,12 @@ extension Kendra {
     public enum UserContextPolicy: String, CustomStringConvertible, Codable {
         case attributeFilter = "ATTRIBUTE_FILTER"
         case userToken = "USER_TOKEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserGroupResolutionMode: String, CustomStringConvertible, Codable {
+        case awsSso = "AWS_SSO"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -443,13 +450,13 @@ extension Kendra {
         public let containsAny: DocumentAttribute?
         /// Performs an equals operation on two document attributes.
         public let equalsTo: DocumentAttribute?
-        /// Performs a greater than operation on two document attributes. Use with a document attribute of type Integer or Long.
+        /// Performs a greater than operation on two document attributes. Use with a document attribute of type Date or Long.
         public let greaterThan: DocumentAttribute?
-        /// Performs a greater or equals than operation on two document attributes. Use with a document attribute of type Integer or Long.
+        /// Performs a greater or equals than operation on two document attributes. Use with a document attribute of type Date or Long.
         public let greaterThanOrEquals: DocumentAttribute?
-        /// Performs a less than operation on two document attributes. Use with a document attribute of type Integer or Long.
+        /// Performs a less than operation on two document attributes. Use with a document attribute of type Date or Long.
         public let lessThan: DocumentAttribute?
-        /// Performs a less than or equals operation on two document attributes. Use with a document attribute of type Integer or Long.
+        /// Performs a less than or equals operation on two document attributes. Use with a document attribute of type Date or Long.
         public let lessThanOrEquals: DocumentAttribute?
         /// Performs a logical NOT operation on all supplied filters.
         public let notFilter: AttributeFilter?
@@ -1236,6 +1243,8 @@ extension Kendra {
         public let description: String?
         /// The identifier of the index that should be associated with this data source.
         public let indexId: String
+        /// The code for a language. This allows you to support a language for all documents when creating the data source. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// A unique name for the data source. A data source name can't be changed without deleting and recreating the data source.
         public let name: String
         /// The Amazon Resource Name (ARN) of a role with permission to access the data source. For more information, see IAM Roles for Amazon Kendra. You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
@@ -1247,11 +1256,12 @@ extension Kendra {
         /// The type of repository that contains the data source.
         public let type: DataSourceType
 
-        public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, description: String? = nil, indexId: String, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
+        public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, description: String? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
             self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
             self.indexId = indexId
+            self.languageCode = languageCode
             self.name = name
             self.roleArn = roleArn
             self.schedule = schedule
@@ -1269,6 +1279,9 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 10)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 2)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, pattern: "[a-zA-Z-]*")
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -1287,6 +1300,7 @@ extension Kendra {
             case configuration = "Configuration"
             case description = "Description"
             case indexId = "IndexId"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case roleArn = "RoleArn"
             case schedule = "Schedule"
@@ -1317,6 +1331,8 @@ extension Kendra {
         public let fileFormat: FaqFileFormat?
         /// The identifier of the index that contains the FAQ.
         public let indexId: String
+        /// The code for a language. This allows you to support a language for the FAQ document. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// The name that should be associated with the FAQ.
         public let name: String
         /// The Amazon Resource Name (ARN) of a role with permission to access the S3 bucket that contains the FAQs. For more information, see IAM Roles for Amazon Kendra.
@@ -1326,11 +1342,12 @@ extension Kendra {
         /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateFaqRequest.idempotencyToken(), description: String? = nil, fileFormat: FaqFileFormat? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateFaqRequest.idempotencyToken(), description: String? = nil, fileFormat: FaqFileFormat? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.fileFormat = fileFormat
             self.indexId = indexId
+            self.languageCode = languageCode
             self.name = name
             self.roleArn = roleArn
             self.s3Path = s3Path
@@ -1346,6 +1363,9 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 10)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 2)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, pattern: "[a-zA-Z-]*")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -1365,6 +1385,7 @@ extension Kendra {
             case description = "Description"
             case fileFormat = "FileFormat"
             case indexId = "IndexId"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case roleArn = "RoleArn"
             case s3Path = "S3Path"
@@ -1400,12 +1421,14 @@ extension Kendra {
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
-        /// The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If there is an access control list, it is ignored. You can filter on user and group attributes.   USER_TOKEN  Enables SSO and token-based user access control. All documents with no access control and all documents accessible to the user will be searchable and displayable.
+        /// The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext.   USER_TOKEN  Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
         public let userContextPolicy: UserContextPolicy?
+        /// Enables fetching access levels of groups and users from an AWS Single Sign-On identity source. To configure this, see UserGroupResolutionConfiguration.
+        public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
+        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.edition = edition
@@ -1414,6 +1437,7 @@ extension Kendra {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.tags = tags
             self.userContextPolicy = userContextPolicy
+            self.userGroupResolutionConfiguration = userGroupResolutionConfiguration
             self.userTokenConfigurations = userTokenConfigurations
         }
 
@@ -1450,6 +1474,7 @@ extension Kendra {
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
             case tags = "Tags"
             case userContextPolicy = "UserContextPolicy"
+            case userGroupResolutionConfiguration = "UserGroupResolutionConfiguration"
             case userTokenConfigurations = "UserTokenConfigurations"
         }
     }
@@ -1541,7 +1566,7 @@ extension Kendra {
     }
 
     public struct CreateThesaurusRequest: AWSEncodableShape {
-        /// A token that you provide to identify the request to create a thesaurus. Multiple calls to the CreateThesaurus operation with the same client token will create only one index.
+        /// A token that you provide to identify the request to create a thesaurus. Multiple calls to the CreateThesaurus operation with the same client token will create only one thesaurus.
         public let clientToken: String?
         /// The description for the new thesaurus.
         public let description: String?
@@ -1705,6 +1730,8 @@ extension Kendra {
         public let createdAt: Date?
         /// The unique identifier for the data source.
         public let id: String?
+        /// The code for a language. This shows a supported language for all documents in the data source. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// The name of the data source.
         public let name: String?
         /// The status of the data source. When the status is ACTIVE the data source is ready to use.
@@ -1714,9 +1741,10 @@ extension Kendra {
         /// The UNIX datetime that the data source was lasted updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, id: String? = nil, languageCode: String? = nil, name: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
+            self.languageCode = languageCode
             self.name = name
             self.status = status
             self.type = type
@@ -1726,6 +1754,7 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case id = "Id"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case status = "Status"
             case type = "Type"
@@ -2136,6 +2165,8 @@ extension Kendra {
         public let id: String?
         /// The identifier of the index that contains the data source.
         public let indexId: String?
+        /// The code for a language. This shows a supported language for all documents in the data source. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// The name that you gave the data source when it was created.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role that enables the data source to access its resources.
@@ -2149,13 +2180,14 @@ extension Kendra {
         /// The Unix timestamp of when the data source was last updated.
         public let updatedAt: Date?
 
-        public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
+        public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
             self.description = description
             self.errorMessage = errorMessage
             self.id = id
             self.indexId = indexId
+            self.languageCode = languageCode
             self.name = name
             self.roleArn = roleArn
             self.schedule = schedule
@@ -2171,6 +2203,7 @@ extension Kendra {
             case errorMessage = "ErrorMessage"
             case id = "Id"
             case indexId = "IndexId"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case roleArn = "RoleArn"
             case schedule = "Schedule"
@@ -2219,6 +2252,8 @@ extension Kendra {
         public let id: String?
         /// The identifier of the index that contains the FAQ.
         public let indexId: String?
+        /// The code for a language. This shows a supported language for the FAQ document. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// The name that you gave the FAQ when it was created.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role that provides access to the S3 bucket containing the input files for the FAQ.
@@ -2229,13 +2264,14 @@ extension Kendra {
         /// The date and time that the FAQ was last updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.errorMessage = errorMessage
             self.fileFormat = fileFormat
             self.id = id
             self.indexId = indexId
+            self.languageCode = languageCode
             self.name = name
             self.roleArn = roleArn
             self.s3Path = s3Path
@@ -2250,6 +2286,7 @@ extension Kendra {
             case fileFormat = "FileFormat"
             case id = "Id"
             case indexId = "IndexId"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case roleArn = "RoleArn"
             case s3Path = "S3Path"
@@ -2306,10 +2343,12 @@ extension Kendra {
         public let updatedAt: Date?
         /// The user context policy for the Amazon Kendra index.
         public let userContextPolicy: UserContextPolicy?
+        /// Shows whether you have enabled the configuration for fetching access levels of groups and users from an AWS Single Sign-On identity source.
+        public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration for the Amazon Kendra index.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil, userContextPolicy: UserContextPolicy? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.capacityUnits = capacityUnits
             self.createdAt = createdAt
             self.description = description
@@ -2324,6 +2363,7 @@ extension Kendra {
             self.status = status
             self.updatedAt = updatedAt
             self.userContextPolicy = userContextPolicy
+            self.userGroupResolutionConfiguration = userGroupResolutionConfiguration
             self.userTokenConfigurations = userTokenConfigurations
         }
 
@@ -2342,6 +2382,7 @@ extension Kendra {
             case status = "Status"
             case updatedAt = "UpdatedAt"
             case userContextPolicy = "UserContextPolicy"
+            case userGroupResolutionConfiguration = "UserGroupResolutionConfiguration"
             case userTokenConfigurations = "UserTokenConfigurations"
         }
     }
@@ -2431,7 +2472,7 @@ extension Kendra {
     }
 
     public struct DescribeQuerySuggestionsBlockListResponse: AWSDecodableShape {
-        /// Shows the date-time a block list for query suggestions was last created.
+        /// Shows the date-time a block list for query suggestions was created.
         public let createdAt: Date?
         /// Shows the description for the block list.
         public let description: String?
@@ -2925,6 +2966,8 @@ extension Kendra {
         public let fileFormat: FaqFileFormat?
         /// The unique identifier of the FAQ.
         public let id: String?
+        /// The code for a language. This shows a supported language for the FAQ document as part of the summary information for FAQs. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// The name that you assigned the FAQ when you created or updated the FAQ.
         public let name: String?
         /// The current status of the FAQ. When the status is ACTIVE the FAQ is ready for use.
@@ -2932,10 +2975,11 @@ extension Kendra {
         /// The UNIX datetime that the FAQ was last updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, languageCode: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.fileFormat = fileFormat
             self.id = id
+            self.languageCode = languageCode
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -2945,6 +2989,7 @@ extension Kendra {
             case createdAt = "CreatedAt"
             case fileFormat = "FileFormat"
             case id = "Id"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case status = "Status"
             case updatedAt = "UpdatedAt"
@@ -3082,7 +3127,7 @@ extension Kendra {
         public let memberGroups: [MemberGroup]?
         /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
         public let memberUsers: [MemberUser]?
-        /// If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+        /// If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000. You can download this example S3 file that uses the correct format for listing group members. Note, dataSourceId is optional. The value of type for a group is always GROUP and for a user it is always USER.
         public let s3PathforGroupMembers: S3Path?
 
         public init(memberGroups: [MemberGroup]? = nil, memberUsers: [MemberUser]? = nil, s3PathforGroupMembers: S3Path? = nil) {
@@ -3341,7 +3386,7 @@ extension Kendra {
         public let indexId: String
         /// The maximum number of synchronization jobs to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
-        /// If the result of the previous request to GetDataSourceSyncJobHistory was truncated, include the NextToken to fetch the next set of jobs.
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of jobs.
         public let nextToken: String?
         /// When specified, the synchronization jobs returned in the list are limited to jobs between the specified dates.
         public let startTimeFilter: TimeRange?
@@ -3383,7 +3428,7 @@ extension Kendra {
     public struct ListDataSourceSyncJobsResponse: AWSDecodableShape {
         /// A history of synchronization jobs for the data source.
         public let history: [DataSourceSyncJob]?
-        /// The GetDataSourceSyncJobHistory operation returns a page of vocabularies at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Kendra returns the NextPage token. Include the token in the next request to the GetDataSourceSyncJobHistory operation to return in the next page of jobs.
+        /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of jobs.
         public let nextToken: String?
 
         public init(history: [DataSourceSyncJob]? = nil, nextToken: String? = nil) {
@@ -3450,7 +3495,7 @@ extension Kendra {
         public let indexId: String
         /// The maximum number of FAQs to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
-        /// If the result of the previous request to ListFaqs was truncated, include the NextToken to fetch the next set of FAQs.
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of FAQs.
         public let nextToken: String?
 
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3479,7 +3524,7 @@ extension Kendra {
     public struct ListFaqsResponse: AWSDecodableShape {
         /// information about the FAQs associated with the specified index.
         public let faqSummaryItems: [FaqSummary]?
-        /// The ListFaqs operation returns a page of FAQs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Kendra returns the NextPage token. Include the token in the next request to the ListFaqs operation to return the next page of FAQs.
+        /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of FAQs.
         public let nextToken: String?
 
         public init(faqSummaryItems: [FaqSummary]? = nil, nextToken: String? = nil) {
@@ -3498,9 +3543,9 @@ extension Kendra {
         public let dataSourceId: String?
         /// The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier.
         public let indexId: String
-        ///  The maximum results shown for a list of groups that are mapped to users before a given ordering or timestamp identifier.
+        ///  The maximum number of returned groups that are mapped to users before a given ordering or timestamp identifier.
         public let maxResults: Int?
-        ///  The next items in the list of groups that go beyond the maximum.
+        ///  If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of groups that are mapped to users before a given ordering or timestamp identifier.
         public let nextToken: String?
         /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups.
         public let orderingId: Int64
@@ -3540,7 +3585,7 @@ extension Kendra {
     public struct ListGroupsOlderThanOrderingIdResponse: AWSDecodableShape {
         ///  Summary information for list of groups that are mapped to users before a given ordering or timestamp identifier.
         public let groupsSummaries: [GroupSummary]?
-        ///  The next items in the list of groups that go beyond the maximum.
+        ///  If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of groups that are mapped to users before a given ordering or timestamp identifier.
         public let nextToken: String?
 
         public init(groupsSummaries: [GroupSummary]? = nil, nextToken: String? = nil) {
@@ -3708,7 +3753,7 @@ extension Kendra {
     public struct ListThesauriResponse: AWSDecodableShape {
         /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of thesauri.
         public let nextToken: String?
-        /// An array of summary information for one or more thesauruses.
+        /// An array of summary information for a thesaurus or multiple thesauri.
         public let thesaurusSummaryItems: [ThesaurusSummary]?
 
         public init(nextToken: String? = nil, thesaurusSummaryItems: [ThesaurusSummary]? = nil) {
@@ -3997,7 +4042,7 @@ extension Kendra {
         public let requestedDocumentAttributes: [String]?
         /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
         public let sortingConfiguration: SortingConfiguration?
-        /// The user context token.
+        /// The user context token or user and group information.
         public let userContext: UserContext?
         /// Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
         public let visitorId: String?
@@ -5379,6 +5424,8 @@ extension Kendra {
         public let id: String
         /// The identifier of the index that contains the data source to update.
         public let indexId: String
+        /// The code for a language. This allows you to support a language for all documents when updating the data source. English is supported by default. For more information on supported languages, including their codes, see Adding documents in languages other than English.
+        public let languageCode: String?
         /// The name of the data source to update. The name of the data source can't be updated. To rename a data source you must delete the data source and re-create it.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the new role to use when the data source is accessing resources on your behalf.
@@ -5386,11 +5433,12 @@ extension Kendra {
         /// The new update schedule for the data source.
         public let schedule: String?
 
-        public init(configuration: DataSourceConfiguration? = nil, description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil, schedule: String? = nil) {
+        public init(configuration: DataSourceConfiguration? = nil, description: String? = nil, id: String, indexId: String, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil) {
             self.configuration = configuration
             self.description = description
             self.id = id
             self.indexId = indexId
+            self.languageCode = languageCode
             self.name = name
             self.roleArn = roleArn
             self.schedule = schedule
@@ -5407,6 +5455,9 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 10)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 2)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, pattern: "[a-zA-Z-]*")
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -5420,6 +5471,7 @@ extension Kendra {
             case description = "Description"
             case id = "Id"
             case indexId = "IndexId"
+            case languageCode = "LanguageCode"
             case name = "Name"
             case roleArn = "RoleArn"
             case schedule = "Schedule"
@@ -5439,12 +5491,14 @@ extension Kendra {
         public let name: String?
         /// A new IAM role that gives Amazon Kendra permission to access your Amazon CloudWatch logs.
         public let roleArn: String?
-        /// The user user token context policy.
+        /// The user context policy.
         public let userContextPolicy: UserContextPolicy?
+        /// Enables fetching access levels of groups and users from an AWS Single Sign-On identity source. To configure this, see UserGroupResolutionConfiguration.
+        public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil, userContextPolicy: UserContextPolicy? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.capacityUnits = capacityUnits
             self.description = description
             self.documentMetadataConfigurationUpdates = documentMetadataConfigurationUpdates
@@ -5452,6 +5506,7 @@ extension Kendra {
             self.name = name
             self.roleArn = roleArn
             self.userContextPolicy = userContextPolicy
+            self.userGroupResolutionConfiguration = userGroupResolutionConfiguration
             self.userTokenConfigurations = userTokenConfigurations
         }
 
@@ -5488,6 +5543,7 @@ extension Kendra {
             case name = "Name"
             case roleArn = "RoleArn"
             case userContextPolicy = "UserContextPolicy"
+            case userGroupResolutionConfiguration = "UserGroupResolutionConfiguration"
             case userTokenConfigurations = "UserTokenConfigurations"
         }
     }
@@ -5706,6 +5762,19 @@ extension Kendra {
         }
     }
 
+    public struct UserGroupResolutionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The identity store provider (mode) you want to use to fetch access levels of groups and users. AWS Single Sign-On is currently the only available mode. Your users and groups must exist in an AWS SSO identity source in order to use this mode.
+        public let userGroupResolutionMode: UserGroupResolutionMode
+
+        public init(userGroupResolutionMode: UserGroupResolutionMode) {
+            self.userGroupResolutionMode = userGroupResolutionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userGroupResolutionMode = "UserGroupResolutionMode"
+        }
+    }
+
     public struct UserTokenConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Information about the JSON token type configuration.
         public let jsonTokenTypeConfiguration: JsonTokenTypeConfiguration?
@@ -5745,7 +5814,7 @@ extension Kendra {
         public let urlExclusionPatterns: [String]?
         /// The regular expression pattern to include certain URLs to crawl. If there is a regular expression pattern to exclude certain URLs that conflicts with the include pattern, the exclude pattern takes precedence.
         public let urlInclusionPatterns: [String]?
-        /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs.  When selecting websites to index, you must adhere to the Amazon Acceptable Use Policy and all other Amazon terms. Remember that you must only use the Amazon Kendra web crawler to index your own webpages, or webpages that you have authorization to index.
+        /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling.  When selecting websites to index, you must adhere to the Amazon Acceptable Use Policy and all other Amazon terms. Remember that you must only use the Amazon Kendra web crawler to index your own webpages, or webpages that you have authorization to index.
         public let urls: Urls
 
         public init(authenticationConfiguration: AuthenticationConfiguration? = nil, crawlDepth: Int? = nil, maxContentSizePerPageInMegaBytes: Float? = nil, maxLinksPerPage: Int? = nil, maxUrlsPerMinuteCrawlRate: Int? = nil, proxyConfiguration: ProxyConfiguration? = nil, urlExclusionPatterns: [String]? = nil, urlInclusionPatterns: [String]? = nil, urls: Urls) {

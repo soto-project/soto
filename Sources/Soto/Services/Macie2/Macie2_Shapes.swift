@@ -33,6 +33,11 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BucketMetadataErrorCode: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Currency: String, CustomStringConvertible, Codable {
         case usd = "USD"
         public var description: String { return self.rawValue }
@@ -727,6 +732,8 @@ extension Macie2 {
         public let bucketName: String?
         public let classifiableObjectCount: Int64?
         public let classifiableSizeInBytes: Int64?
+        public let errorCode: BucketMetadataErrorCode?
+        public let errorMessage: String?
         public let jobDetails: JobDetails?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdated: Date?
@@ -744,7 +751,7 @@ extension Macie2 {
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.bucketArn = bucketArn
@@ -752,6 +759,8 @@ extension Macie2 {
             self.bucketName = bucketName
             self.classifiableObjectCount = classifiableObjectCount
             self.classifiableSizeInBytes = classifiableSizeInBytes
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
             self.jobDetails = jobDetails
             self.lastUpdated = lastUpdated
             self.objectCount = objectCount
@@ -777,6 +786,8 @@ extension Macie2 {
             case bucketName
             case classifiableObjectCount
             case classifiableSizeInBytes
+            case errorCode
+            case errorMessage
             case jobDetails
             case lastUpdated
             case objectCount
@@ -2965,6 +2976,8 @@ extension Macie2 {
         public let bucketName: String?
         public let classifiableObjectCount: Int64?
         public let classifiableSizeInBytes: Int64?
+        public let errorCode: BucketMetadataErrorCode?
+        public let errorMessage: String?
         public let jobDetails: JobDetails?
         public let objectCount: Int64?
         public let objectCountByEncryptionType: ObjectCountByEncryptionType?
@@ -2973,11 +2986,13 @@ extension Macie2 {
         public let unclassifiableObjectCount: ObjectLevelStatistics?
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
-        public init(accountId: String? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
+        public init(accountId: String? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.accountId = accountId
             self.bucketName = bucketName
             self.classifiableObjectCount = classifiableObjectCount
             self.classifiableSizeInBytes = classifiableSizeInBytes
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
             self.jobDetails = jobDetails
             self.objectCount = objectCount
             self.objectCountByEncryptionType = objectCountByEncryptionType
@@ -2992,6 +3007,8 @@ extension Macie2 {
             case bucketName
             case classifiableObjectCount
             case classifiableSizeInBytes
+            case errorCode
+            case errorMessage
             case jobDetails
             case objectCount
             case objectCountByEncryptionType

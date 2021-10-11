@@ -125,6 +125,59 @@ extension EC2 {
         )
     }
 
+    ///  Describes one or more Capacity Reservation Fleets.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeCapacityReservationFleetsPaginator<Result>(
+        _ input: DescribeCapacityReservationFleetsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeCapacityReservationFleetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeCapacityReservationFleets,
+            inputKey: \DescribeCapacityReservationFleetsRequest.nextToken,
+            outputKey: \DescribeCapacityReservationFleetsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeCapacityReservationFleetsPaginator(
+        _ input: DescribeCapacityReservationFleetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeCapacityReservationFleetsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeCapacityReservationFleets,
+            inputKey: \DescribeCapacityReservationFleetsRequest.nextToken,
+            outputKey: \DescribeCapacityReservationFleetsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Amazon Web Services Region that you're currently using.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -5266,6 +5319,59 @@ extension EC2 {
         )
     }
 
+    ///  Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getVpnConnectionDeviceTypesPaginator<Result>(
+        _ input: GetVpnConnectionDeviceTypesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetVpnConnectionDeviceTypesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getVpnConnectionDeviceTypes,
+            inputKey: \GetVpnConnectionDeviceTypesRequest.nextToken,
+            outputKey: \GetVpnConnectionDeviceTypesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getVpnConnectionDeviceTypesPaginator(
+        _ input: GetVpnConnectionDeviceTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetVpnConnectionDeviceTypesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getVpnConnectionDeviceTypes,
+            inputKey: \GetVpnConnectionDeviceTypesRequest.nextToken,
+            outputKey: \GetVpnConnectionDeviceTypesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Searches for routes in the specified local gateway route table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -5389,6 +5495,18 @@ extension EC2.DescribeByoipCidrsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeByoipCidrsRequest {
         return .init(
             dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeCapacityReservationFleetsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityReservationFleetsRequest {
+        return .init(
+            capacityReservationFleetIds: self.capacityReservationFleetIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -6570,6 +6688,16 @@ extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             transitGatewayRouteTableId: self.transitGatewayRouteTableId
+        )
+    }
+}
+
+extension EC2.GetVpnConnectionDeviceTypesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetVpnConnectionDeviceTypesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -88,6 +88,12 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DkimSigningKeyLength: String, CustomStringConvertible, Codable {
+        case rsa1024Bit = "RSA_1024_BIT"
+        case rsa2048Bit = "RSA_2048_BIT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DkimStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
@@ -338,7 +344,7 @@ extension SESV2 {
         public let defaultDimensionValue: String
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
         public let dimensionName: String
-        /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. If you want to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. If you want to use your own email headers, choose emailHeader. If you want to use link tags, choose linkTags.
+        /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. To use your own email headers, choose emailHeader. To use link tags, choose linkTags.
         public let dimensionValueSource: DimensionValueSource
 
         public init(defaultDimensionValue: String, dimensionName: String, dimensionValueSource: DimensionValueSource) {
@@ -401,7 +407,7 @@ extension SESV2 {
     }
 
     public struct ContactListDestination: AWSEncodableShape & AWSDecodableShape {
-        /// &gt;The type of action that you want to perform on the addresses. Acceptable values:   PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the contact list.
+        /// &gt;The type of action to perform on the addresses. The following are the possible values:   PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the contact list.
         public let contactListImportAction: ContactListImportAction
         /// The name of the contact list.
         public let contactListName: String
@@ -439,7 +445,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to add an event destination to.
+        /// The name of the configuration set .
         public let configurationSetName: String
         /// An object that defines the event destination.
         public let eventDestination: EventDestinationDefinition
@@ -463,7 +469,7 @@ extension SESV2 {
     }
 
     public struct CreateConfigurationSetRequest: AWSEncodableShape {
-        /// The name of the configuration set.
+        /// The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
         public let configurationSetName: String
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
         public let deliveryOptions: DeliveryOptions?
@@ -472,7 +478,7 @@ extension SESV2 {
         /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
         public let sendingOptions: SendingOptions?
         public let suppressionOptions: SuppressionOptions?
-        /// An array of objects that define the tags (keys and values) that you want to associate with the configuration set.
+        /// An array of objects that define the tags (keys and values) to associate with the configuration set.
         public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
@@ -681,7 +687,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "PolicyName"))
         ]
 
-        /// The email identity for which you want to create a policy.
+        /// The email identity.
         public let emailIdentity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
         public let policy: String
@@ -713,11 +719,11 @@ extension SESV2 {
     public struct CreateEmailIdentityRequest: AWSEncodableShape {
         /// The configuration set to use by default when sending from this identity. Note that any configuration set defined in the email sending request takes precedence.
         public let configurationSetName: String?
-        /// If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
+        /// If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or, configures the key length to be used for Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
         public let dkimSigningAttributes: DkimSigningAttributes?
-        /// The email address or domain that you want to verify.
+        /// The email address or domain to verify.
         public let emailIdentity: String
-        /// An array of objects that define the tags (keys and values) that you want to associate with the email identity.
+        /// An array of objects that define the tags (keys and values) to associate with the email identity.
         public let tags: [Tag]?
 
         public init(configurationSetName: String? = nil, dkimSigningAttributes: DkimSigningAttributes? = nil, emailIdentity: String, tags: [Tag]? = nil) {
@@ -743,7 +749,7 @@ extension SESV2 {
     public struct CreateEmailIdentityResponse: AWSDecodableShape {
         /// An object that contains information about the DKIM attributes for the identity.
         public let dkimAttributes: DkimAttributes?
-        /// The email identity type.
+        /// The email identity type. Note: the MANAGED_DOMAIN identity type is not supported.
         public let identityType: IdentityType?
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
@@ -764,7 +770,7 @@ extension SESV2 {
     public struct CreateEmailTemplateRequest: AWSEncodableShape {
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
         public let templateContent: EmailTemplateContent
-        /// The name of the template you want to create.
+        /// The name of the template.
         public let templateName: String
 
         public init(templateContent: EmailTemplateContent, templateName: String) {
@@ -901,9 +907,9 @@ extension SESV2 {
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
-        /// The name of the configuration set that contains the event destination that you want to delete.
+        /// The name of the configuration set that contains the event destination to delete.
         public let configurationSetName: String
-        /// The name of the event destination that you want to delete.
+        /// The name of the event destination to delete.
         public let eventDestinationName: String
 
         public init(configurationSetName: String, eventDestinationName: String) {
@@ -923,7 +929,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to delete.
+        /// The name of the configuration set.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
@@ -1027,7 +1033,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "PolicyName"))
         ]
 
-        /// The email identity for which you want to delete a policy.
+        /// The email identity.
         public let emailIdentity: String
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
@@ -1055,7 +1061,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The identity (that is, the email address or domain) that you want to delete.
+        /// The identity (that is, the email address or domain) to delete.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
@@ -1149,7 +1155,7 @@ extension SESV2 {
     }
 
     public struct DeliveryOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the dedicated IP pool that you want to associate with the configuration set.
+        /// The name of the dedicated IP pool to associate with the configuration set.
         public let sendingPoolName: String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
@@ -1187,7 +1193,13 @@ extension SESV2 {
     }
 
     public struct DkimAttributes: AWSDecodableShape {
-        /// A string that indicates how DKIM was configured for the identity. There are two possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).
+        /// [Easy DKIM] The key length of the DKIM key pair in use.
+        public let currentSigningKeyLength: DkimSigningKeyLength?
+        /// [Easy DKIM] The last time a key pair was generated for this identity.
+        public let lastKeyGenerationTimestamp: Date?
+        /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
+        public let nextSigningKeyLength: DkimSigningKeyLength?
+        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).
         public let signingAttributesOrigin: DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public let signingEnabled: Bool?
@@ -1196,7 +1208,10 @@ extension SESV2 {
         /// If you used Easy DKIM to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector for the public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
         public let tokens: [String]?
 
-        public init(signingAttributesOrigin: DkimSigningAttributesOrigin? = nil, signingEnabled: Bool? = nil, status: DkimStatus? = nil, tokens: [String]? = nil) {
+        public init(currentSigningKeyLength: DkimSigningKeyLength? = nil, lastKeyGenerationTimestamp: Date? = nil, nextSigningKeyLength: DkimSigningKeyLength? = nil, signingAttributesOrigin: DkimSigningAttributesOrigin? = nil, signingEnabled: Bool? = nil, status: DkimStatus? = nil, tokens: [String]? = nil) {
+            self.currentSigningKeyLength = currentSigningKeyLength
+            self.lastKeyGenerationTimestamp = lastKeyGenerationTimestamp
+            self.nextSigningKeyLength = nextSigningKeyLength
             self.signingAttributesOrigin = signingAttributesOrigin
             self.signingEnabled = signingEnabled
             self.status = status
@@ -1204,6 +1219,9 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case currentSigningKeyLength = "CurrentSigningKeyLength"
+            case lastKeyGenerationTimestamp = "LastKeyGenerationTimestamp"
+            case nextSigningKeyLength = "NextSigningKeyLength"
             case signingAttributesOrigin = "SigningAttributesOrigin"
             case signingEnabled = "SigningEnabled"
             case status = "Status"
@@ -1212,14 +1230,17 @@ extension SESV2 {
     }
 
     public struct DkimSigningAttributes: AWSEncodableShape {
-        /// A private key that's used to generate a DKIM signature. The private key must use 1024-bit RSA encryption, and must be encoded using base64 encoding.
-        public let domainSigningPrivateKey: String
-        /// A string that's used to identify a public key in the DNS configuration for a domain.
-        public let domainSigningSelector: String
+        /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
+        public let domainSigningPrivateKey: String?
+        /// [Bring Your Own DKIM] A string that's used to identify a public key in the DNS configuration for a domain.
+        public let domainSigningSelector: String?
+        /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
+        public let nextSigningKeyLength: DkimSigningKeyLength?
 
-        public init(domainSigningPrivateKey: String, domainSigningSelector: String) {
+        public init(domainSigningPrivateKey: String? = nil, domainSigningSelector: String? = nil, nextSigningKeyLength: DkimSigningKeyLength? = nil) {
             self.domainSigningPrivateKey = domainSigningPrivateKey
             self.domainSigningSelector = domainSigningSelector
+            self.nextSigningKeyLength = nextSigningKeyLength
         }
 
         public func validate(name: String) throws {
@@ -1234,6 +1255,7 @@ extension SESV2 {
         private enum CodingKeys: String, CodingKey {
             case domainSigningPrivateKey = "DomainSigningPrivateKey"
             case domainSigningSelector = "DomainSigningSelector"
+            case nextSigningKeyLength = "NextSigningKeyLength"
         }
     }
 
@@ -1303,7 +1325,7 @@ extension SESV2 {
     }
 
     public struct DomainDeliverabilityTrackingOption: AWSEncodableShape & AWSDecodableShape {
-        /// A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.
+        /// A verified domain that’s associated with your Amazon Web Services account and currently has an active Deliverability dashboard subscription.
         public let domain: String?
         /// An object that contains information about the inbox placement data settings for the domain.
         public let inboxPlacementTrackingOption: InboxPlacementTrackingOption?
@@ -1513,13 +1535,13 @@ extension SESV2 {
         public let details: AccountDetails?
         /// The reputation status of your Amazon SES account. The status can be one of the following:    HEALTHY – There are no reputation-related issues that currently impact your account.    PROBATION – We've identified potential issues with your Amazon SES account. We're placing your account under review while you work on correcting these issues.    SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.
         public let enforcementStatus: String?
-        /// Indicates whether or not your account has production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+        /// Indicates whether or not your account has production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
         public let productionAccessEnabled: Bool?
-        /// Indicates whether or not email sending is enabled for your Amazon SES account in the current AWS Region.
+        /// Indicates whether or not email sending is enabled for your Amazon SES account in the current Amazon Web Services Region.
         public let sendingEnabled: Bool?
-        /// An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current AWS Region.
+        /// An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.
         public let sendQuota: SendQuota?
-        /// An object that contains information about the email address suppression preferences for your account in the current AWS Region.
+        /// An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.
         public let suppressionAttributes: SuppressionAttributes?
 
         public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil) {
@@ -1604,7 +1626,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to obtain more information about.
+        /// The name of the configuration set.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
@@ -1816,7 +1838,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "ip", location: .uri(locationName: "IP"))
         ]
 
-        /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your AWS account.
+        /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Web Services account.
         public let ip: String
 
         public init(ip: String) {
@@ -1863,7 +1885,7 @@ extension SESV2 {
     }
 
     public struct GetDedicatedIpsResponse: AWSDecodableShape {
-        /// A list of dedicated IP addresses that are associated with your AWS account.
+        /// A list of dedicated IP addresses that are associated with your Amazon Web Services account.
         public let dedicatedIps: [DedicatedIp]?
         /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
         public let nextToken: String?
@@ -2033,7 +2055,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The email identity that you want to retrieve policies for.
+        /// The email identity.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
@@ -2065,7 +2087,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The email identity that you want to retrieve details for.
+        /// The email identity.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
@@ -2086,7 +2108,7 @@ extension SESV2 {
         public let dkimAttributes: DkimAttributes?
         /// The feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
         public let feedbackForwardingStatus: Bool?
-        /// The email identity type.
+        /// The email identity type. Note: the MANAGED_DOMAIN identity type is not supported.
         public let identityType: IdentityType?
         /// An object that contains information about the Mail-From attributes for the email identity.
         public let mailFromAttributes: MailFromAttributes?
@@ -2125,7 +2147,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
         ]
 
-        /// The name of the template you want to retrieve.
+        /// The name of the template.
         public let templateName: String
 
         public init(templateName: String) {
@@ -2142,7 +2164,7 @@ extension SESV2 {
     public struct GetEmailTemplateResponse: AWSDecodableShape {
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
         public let templateContent: EmailTemplateContent
-        /// The name of the template you want to retrieve.
+        /// The name of the template.
         public let templateName: String
 
         public init(templateContent: EmailTemplateContent, templateName: String) {
@@ -2251,7 +2273,7 @@ extension SESV2 {
     public struct IdentityInfo: AWSDecodableShape {
         /// The address or domain of the identity.
         public let identityName: String?
-        /// The email identity type. The identity type can be one of the following:    EMAIL_ADDRESS – The identity is an email address.    DOMAIN – The identity is a domain.    MANAGED_DOMAIN – The identity is a domain that is managed by AWS.
+        /// The email identity type. Note: the MANAGED_DOMAIN type is not supported for email identity types.
         public let identityType: IdentityType?
         /// Indicates whether or not you can send email from the identity. An identity is an email address or domain that you send email from. Before you can send email from an identity, you have to demostrate that you own the identity, and that you authorize Amazon SES to send email from that identity.
         public let sendingEnabled: Bool?
@@ -2400,7 +2422,7 @@ extension SESV2 {
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
-        /// An array that contains all of the configuration sets in your Amazon SES account in the current AWS Region.
+        /// An array that contains all of the configuration sets in your Amazon SES account in the current Amazon Web Services Region.
         public let configurationSets: [String]?
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
         public let nextToken: String?
@@ -2570,7 +2592,7 @@ extension SESV2 {
     }
 
     public struct ListDedicatedIpPoolsResponse: AWSDecodableShape {
-        /// A list of all of the dedicated IP pools that are associated with your AWS account in the current Region.
+        /// A list of all of the dedicated IP pools that are associated with your Amazon Web Services account in the current Region.
         public let dedicatedIpPools: [String]?
         /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
         public let nextToken: String?
@@ -2690,7 +2712,7 @@ extension SESV2 {
     }
 
     public struct ListEmailIdentitiesResponse: AWSDecodableShape {
-        /// An array that includes all of the email identities associated with your AWS account.
+        /// An array that includes all of the email identities associated with your Amazon Web Services account.
         public let emailIdentities: [IdentityInfo]?
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
         public let nextToken: String?
@@ -2877,7 +2899,7 @@ extension SESV2 {
     }
 
     public struct MailFromAttributes: AWSDecodableShape {
-        /// The action that you want to take if the required MX record can't be found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+        /// The action to take if the required MX record can't be found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure
         /// The name of a domain that an email identity uses as a custom MAIL FROM domain.
         public let mailFromDomain: String
@@ -2953,7 +2975,7 @@ extension SESV2 {
     }
 
     public struct PinpointDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
+        /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email events to.
         public let applicationArn: String?
 
         public init(applicationArn: String? = nil) {
@@ -2995,7 +3017,7 @@ extension SESV2 {
     }
 
     public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
-        /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
+        /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
 
         public init(autoWarmupEnabled: Bool? = nil) {
@@ -3018,7 +3040,7 @@ extension SESV2 {
         public let contactLanguage: ContactLanguage?
         /// The type of email your account will send.
         public let mailType: MailType
-        /// Indicates whether or not your account should have production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+        /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
         public let productionAccessEnabled: Bool?
         /// A description of the types of email that you plan to send.
         public let useCaseDescription: String
@@ -3064,7 +3086,7 @@ extension SESV2 {
     }
 
     public struct PutAccountSendingAttributesRequest: AWSEncodableShape {
-        /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
+        /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
         public let sendingEnabled: Bool?
 
         public init(sendingEnabled: Bool? = nil) {
@@ -3102,9 +3124,9 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to associate with a dedicated IP pool.
+        /// The name of the configuration set to associate with a dedicated IP pool.
         public let configurationSetName: String
-        /// The name of the dedicated IP pool that you want to associate with the configuration set.
+        /// The name of the dedicated IP pool to associate with the configuration set.
         public let sendingPoolName: String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
@@ -3130,7 +3152,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
+        /// The name of the configuration set.
         public let configurationSetName: String
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
@@ -3154,7 +3176,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to enable or disable email sending for.
+        /// The name of the configuration set to enable or disable email sending for.
         public let configurationSetName: String
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
@@ -3178,7 +3200,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to change the suppression list preferences for.
+        /// The name of the configuration set to change the suppression list preferences for.
         public let configurationSetName: String
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
@@ -3202,9 +3224,9 @@ extension SESV2 {
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
-        /// The name of the configuration set that you want to add a custom tracking domain to.
+        /// The name of the configuration set.
         public let configurationSetName: String
-        /// The domain that you want to use to track open and click events.
+        /// The domain to use to track open and click events.
         public let customRedirectDomain: String?
 
         public init(configurationSetName: String, customRedirectDomain: String? = nil) {
@@ -3228,7 +3250,7 @@ extension SESV2 {
 
         /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
         public let destinationPoolName: String
-        /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your AWS account.
+        /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Web Services account.
         public let ip: String
 
         public init(destinationPoolName: String, ip: String) {
@@ -3295,9 +3317,9 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The configuration set that you want to associate with an email identity.
+        /// The configuration set to associate with an email identity.
         public let configurationSetName: String?
-        /// The email address or domain that you want to associate with a configuration set.
+        /// The email address or domain to associate with a configuration set.
         public let emailIdentity: String
 
         public init(configurationSetName: String? = nil, emailIdentity: String) {
@@ -3323,7 +3345,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The email identity that you want to change the DKIM settings for.
+        /// The email identity.
         public let emailIdentity: String
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
         public let signingEnabled: Bool?
@@ -3351,11 +3373,11 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The email identity that you want to configure DKIM for.
+        /// The email identity.
         public let emailIdentity: String
-        /// An object that contains information about the private key and selector that you want to use to configure DKIM for the identity. This object is only required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity.
+        /// An object that contains information about the private key and selector that you want to use to configure DKIM for the identity for Bring Your Own DKIM (BYODKIM) for the identity, or, configures the key length to be used for Easy DKIM.
         public let signingAttributes: DkimSigningAttributes?
-        /// The method that you want to use to configure DKIM for the identity. There are two possible values:    AWS_SES – Configure DKIM for the identity by using Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).
+        /// The method to use to configure DKIM for the identity. There are the following possible values:    AWS_SES – Configure DKIM for the identity by using Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).
         public let signingAttributesOrigin: DkimSigningAttributesOrigin
 
         public init(emailIdentity: String, signingAttributes: DkimSigningAttributes? = nil, signingAttributesOrigin: DkimSigningAttributesOrigin) {
@@ -3399,7 +3421,7 @@ extension SESV2 {
 
         /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
         public let emailForwardingEnabled: Bool?
-        /// The email identity that you want to configure bounce and complaint feedback forwarding for.
+        /// The email identity.
         public let emailIdentity: String
 
         public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
@@ -3425,9 +3447,9 @@ extension SESV2 {
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
-        /// The action that you want to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+        /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure?
-        /// The verified email identity that you want to set up the custom MAIL FROM domain for.
+        /// The verified email identity.
         public let emailIdentity: String
         ///  The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
         public let mailFromDomain: String?
@@ -3557,7 +3579,7 @@ extension SESV2 {
     public struct SendBulkEmailRequest: AWSEncodableShape {
         /// The list of bulk email entry objects.
         public let bulkEmailEntries: [BulkEmailEntry]
-        /// The name of the configuration set that you want to use when sending the email.
+        /// The name of the configuration set to use when sending the email.
         public let configurationSetName: String?
         /// An object that contains the body of the message. You can specify a template message.
         public let defaultContent: BulkEmailContent
@@ -3567,7 +3589,7 @@ extension SESV2 {
         public let feedbackForwardingEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let feedbackForwardingEmailAddressIdentityArn: String?
-        /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified.
+        /// The email address to use as the "From" address for the email. The address that you specify has to be verified.
         public let fromEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let fromEmailAddressIdentityArn: String?
@@ -3607,6 +3629,7 @@ extension SESV2 {
     }
 
     public struct SendBulkEmailResponse: AWSDecodableShape {
+        /// One object per intended recipient. Check each response object and retry any messages with a failure status.
         public let bulkEmailEntryResults: [BulkEmailEntryResult]
 
         public init(bulkEmailEntryResults: [BulkEmailEntryResult]) {
@@ -3657,7 +3680,7 @@ extension SESV2 {
     }
 
     public struct SendEmailRequest: AWSEncodableShape {
-        /// The name of the configuration set that you want to use when sending the email.
+        /// The name of the configuration set to use when sending the email.
         public let configurationSetName: String?
         /// An object that contains the body of the message. You can send either a Simple message Raw message or a template Message.
         public let content: EmailContent
@@ -3669,7 +3692,7 @@ extension SESV2 {
         public let feedbackForwardingEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let feedbackForwardingEmailAddressIdentityArn: String?
-        /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified.
+        /// The email address to use as the "From" address for the email. The address that you specify has to be verified.
         public let fromEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. For Raw emails, the FromEmailAddressIdentityArn value overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers specified in raw email message content.
         public let fromEmailAddressIdentityArn: String?
@@ -3723,11 +3746,11 @@ extension SESV2 {
     }
 
     public struct SendQuota: AWSDecodableShape {
-        /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
+        /// The maximum number of emails that you can send in the current Amazon Web Services Region over a 24-hour period. This value is also called your sending quota.
         public let max24HourSend: Double?
-        /// The maximum number of emails that you can send per second in the current AWS Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
+        /// The maximum number of emails that you can send per second in the current Amazon Web Services Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
         public let maxSendRate: Double?
-        /// The number of emails sent from your Amazon SES account in the current AWS Region over the past 24 hours.
+        /// The number of emails sent from your Amazon SES account in the current Amazon Web Services Region over the past 24 hours.
         public let sentLast24Hours: Double?
 
         public init(max24HourSend: Double? = nil, maxSendRate: Double? = nil, sentLast24Hours: Double? = nil) {
@@ -3757,7 +3780,7 @@ extension SESV2 {
     }
 
     public struct SnsDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
 
         public init(topicArn: String) {
@@ -3846,7 +3869,7 @@ extension SESV2 {
     }
 
     public struct SuppressionListDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The type of action that you want to perform on the address. Acceptable values:   PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the suppression list.
+        /// The type of action to perform on the address. The following are possible values:   PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the suppression list.
         public let suppressionListImportAction: SuppressionListImportAction
 
         public init(suppressionListImportAction: SuppressionListImportAction) {
@@ -3942,7 +3965,7 @@ extension SESV2 {
 
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let templateData: String
-        /// The name of the template that you want to render.
+        /// The name of the template.
         public let templateName: String
 
         public init(templateData: String, templateName: String) {
@@ -4033,7 +4056,7 @@ extension SESV2 {
     }
 
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The domain that you want to use for tracking open and click events.
+        /// The domain to use for tracking open and click events.
         public let customRedirectDomain: String
 
         public init(customRedirectDomain: String) {
@@ -4074,11 +4097,11 @@ extension SESV2 {
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
-        /// The name of the configuration set that contains the event destination that you want to modify.
+        /// The name of the configuration set that contains the event destination to modify.
         public let configurationSetName: String
         /// An object that defines the event destination.
         public let eventDestination: EventDestinationDefinition
-        /// The name of the event destination that you want to modify.
+        /// The name of the event destination.
         public let eventDestinationName: String
 
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
@@ -4210,7 +4233,7 @@ extension SESV2 {
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "PolicyName"))
         ]
 
-        /// The email identity for which you want to update policy.
+        /// The email identity.
         public let emailIdentity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB.  For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
         public let policy: String
@@ -4246,7 +4269,7 @@ extension SESV2 {
 
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
         public let templateContent: EmailTemplateContent
-        /// The name of the template you want to update.
+        /// The name of the template.
         public let templateName: String
 
         public init(templateContent: EmailTemplateContent, templateName: String) {
