@@ -354,23 +354,48 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum BurnInSubtitleStylePassthrough: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BurninSubtitleAlignment: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case centered = "CENTERED"
         case left = "LEFT"
         public var description: String { return self.rawValue }
     }
 
+    public enum BurninSubtitleApplyFontColor: String, CustomStringConvertible, Codable {
+        case allText = "ALL_TEXT"
+        case whiteTextOnly = "WHITE_TEXT_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BurninSubtitleBackgroundColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
         public var description: String { return self.rawValue }
     }
 
+    public enum BurninSubtitleFallbackFont: String, CustomStringConvertible, Codable {
+        case bestMatch = "BEST_MATCH"
+        case monospacedSansserif = "MONOSPACED_SANSSERIF"
+        case monospacedSerif = "MONOSPACED_SERIF"
+        case proportionalSansserif = "PROPORTIONAL_SANSSERIF"
+        case proportionalSerif = "PROPORTIONAL_SERIF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BurninSubtitleFontColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
+        case hex = "HEX"
         case red = "RED"
         case white = "WHITE"
         case yellow = "YELLOW"
@@ -378,6 +403,7 @@ extension MediaConvert {
     }
 
     public enum BurninSubtitleOutlineColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
@@ -388,6 +414,7 @@ extension MediaConvert {
     }
 
     public enum BurninSubtitleShadowColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
@@ -395,6 +422,7 @@ extension MediaConvert {
     }
 
     public enum BurninSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case fixedGrid = "FIXED_GRID"
         case proportional = "PROPORTIONAL"
         public var description: String { return self.rawValue }
@@ -453,6 +481,7 @@ extension MediaConvert {
     }
 
     public enum CmafImageBasedTrickPlay: String, CustomStringConvertible, Codable {
+        case advanced = "ADVANCED"
         case none = "NONE"
         case thumbnail = "THUMBNAIL"
         case thumbnailAndFullframe = "THUMBNAIL_AND_FULLFRAME"
@@ -462,6 +491,12 @@ extension MediaConvert {
     public enum CmafInitializationVectorInManifest: String, CustomStringConvertible, Codable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafIntervalCadence: String, CustomStringConvertible, Codable {
+        case followCustom = "FOLLOW_CUSTOM"
+        case followIframe = "FOLLOW_IFRAME"
         public var description: String { return self.rawValue }
     }
 
@@ -643,9 +678,16 @@ extension MediaConvert {
     }
 
     public enum DashIsoImageBasedTrickPlay: String, CustomStringConvertible, Codable {
+        case advanced = "ADVANCED"
         case none = "NONE"
         case thumbnail = "THUMBNAIL"
         case thumbnailAndFullframe = "THUMBNAIL_AND_FULLFRAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoIntervalCadence: String, CustomStringConvertible, Codable {
+        case followCustom = "FOLLOW_CUSTOM"
+        case followIframe = "FOLLOW_IFRAME"
         public var description: String { return self.rawValue }
     }
 
@@ -737,13 +779,30 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum DvbSubSubtitleFallbackFont: String, CustomStringConvertible, Codable {
+        case bestMatch = "BEST_MATCH"
+        case monospacedSansserif = "MONOSPACED_SANSSERIF"
+        case monospacedSerif = "MONOSPACED_SERIF"
+        case proportionalSansserif = "PROPORTIONAL_SANSSERIF"
+        case proportionalSerif = "PROPORTIONAL_SERIF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DvbSubtitleAlignment: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case centered = "CENTERED"
         case left = "LEFT"
         public var description: String { return self.rawValue }
     }
 
+    public enum DvbSubtitleApplyFontColor: String, CustomStringConvertible, Codable {
+        case allText = "ALL_TEXT"
+        case whiteTextOnly = "WHITE_TEXT_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DvbSubtitleBackgroundColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
@@ -751,9 +810,11 @@ extension MediaConvert {
     }
 
     public enum DvbSubtitleFontColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
+        case hex = "HEX"
         case red = "RED"
         case white = "WHITE"
         case yellow = "YELLOW"
@@ -761,6 +822,7 @@ extension MediaConvert {
     }
 
     public enum DvbSubtitleOutlineColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
@@ -771,13 +833,21 @@ extension MediaConvert {
     }
 
     public enum DvbSubtitleShadowColor: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
         public var description: String { return self.rawValue }
     }
 
+    public enum DvbSubtitleStylePassthrough: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case fixedGrid = "FIXED_GRID"
         case proportional = "PROPORTIONAL"
         public var description: String { return self.rawValue }
@@ -1430,6 +1500,7 @@ extension MediaConvert {
     }
 
     public enum HlsImageBasedTrickPlay: String, CustomStringConvertible, Codable {
+        case advanced = "ADVANCED"
         case none = "NONE"
         case thumbnail = "THUMBNAIL"
         case thumbnailAndFullframe = "THUMBNAIL_AND_FULLFRAME"
@@ -1439,6 +1510,12 @@ extension MediaConvert {
     public enum HlsInitializationVectorInManifest: String, CustomStringConvertible, Codable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsIntervalCadence: String, CustomStringConvertible, Codable {
+        case followCustom = "FOLLOW_CUSTOM"
+        case followIframe = "FOLLOW_IFRAME"
         public var description: String { return self.rawValue }
     }
 
@@ -1531,6 +1608,12 @@ extension MediaConvert {
         case auto = "AUTO"
         case disable = "DISABLE"
         case force = "FORCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputPolicy: String, CustomStringConvertible, Codable {
+        case allowed = "ALLOWED"
+        case disallowed = "DISALLOWED"
         public var description: String { return self.rawValue }
     }
 
@@ -3438,11 +3521,15 @@ extension MediaConvert {
     public struct BurninDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let alignment: BurninSubtitleAlignment?
+        /// Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are burned in. Specify how the service applies the color specified in the setting Font color (BurninSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.
+        public let applyFontColor: BurninSubtitleApplyFontColor?
         /// Specifies the color of the rectangle behind the captions.
         /// All burn-in and DVB-Sub font settings must match.
         public let backgroundColor: BurninSubtitleBackgroundColor?
         /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.
         public let backgroundOpacity: Int?
+        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
+        public let fallbackFont: BurninSubtitleFallbackFont?
         /// Specifies the color of the burned-in captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let fontColor: BurninSubtitleFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
@@ -3455,6 +3542,8 @@ extension MediaConvert {
         public let fontScript: FontScript?
         /// A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.
         public let fontSize: Int?
+        /// Ignore this setting unless your BurninSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
+        public let hexFontColor: String?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: BurninSubtitleOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -3468,6 +3557,8 @@ extension MediaConvert {
         public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
         public let shadowYOffset: Int?
+        /// Ignore this setting unless your output captions are burned in. Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.
+        public let stylePassthrough: BurnInSubtitleStylePassthrough?
         /// Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.
         public let teletextSpacing: BurninSubtitleTeletextSpacing?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -3475,21 +3566,25 @@ extension MediaConvert {
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int?
 
-        public init(alignment: BurninSubtitleAlignment? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fontColor: BurninSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: BurninSubtitleAlignment? = nil, applyFontColor: BurninSubtitleApplyFontColor? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fallbackFont: BurninSubtitleFallbackFont? = nil, fontColor: BurninSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, hexFontColor: String? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: BurnInSubtitleStylePassthrough? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
+            self.applyFontColor = applyFontColor
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
+            self.fallbackFont = fallbackFont
             self.fontColor = fontColor
             self.fontOpacity = fontOpacity
             self.fontResolution = fontResolution
             self.fontScript = fontScript
             self.fontSize = fontSize
+            self.hexFontColor = hexFontColor
             self.outlineColor = outlineColor
             self.outlineSize = outlineSize
             self.shadowColor = shadowColor
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.stylePassthrough = stylePassthrough
             self.teletextSpacing = teletextSpacing
             self.xPosition = xPosition
             self.yPosition = yPosition
@@ -3504,6 +3599,9 @@ extension MediaConvert {
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
             try self.validate(self.fontSize, name: "fontSize", parent: name, max: 96)
             try self.validate(self.fontSize, name: "fontSize", parent: name, min: 0)
+            try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, max: 8)
+            try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, min: 6)
+            try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, pattern: "^[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$")
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
@@ -3520,19 +3618,23 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case alignment
+            case applyFontColor
             case backgroundColor
             case backgroundOpacity
+            case fallbackFont
             case fontColor
             case fontOpacity
             case fontResolution
             case fontScript
             case fontSize
+            case hexFontColor
             case outlineColor
             case outlineSize
             case shadowColor
             case shadowOpacity
             case shadowXOffset
             case shadowYOffset
+            case stylePassthrough
             case teletextSpacing
             case xPosition
             case yPosition
@@ -3884,6 +3986,8 @@ extension MediaConvert {
         public let fragmentLength: Int?
         /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest (WriteHlsManifest), MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest (WriteDashManifest), MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: CmafImageBasedTrickPlay?
+        /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+        public let imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings?
         /// When set to GZIP, compresses HLS playlist.
         public let manifestCompression: CmafManifestCompression?
         /// Indicates whether the output manifest should use floating point values for segment duration.
@@ -3913,7 +4017,7 @@ extension MediaConvert {
         /// When you enable Precise segment duration in DASH manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
@@ -3923,6 +4027,7 @@ extension MediaConvert {
             self.encryption = encryption
             self.fragmentLength = fragmentLength
             self.imageBasedTrickPlay = imageBasedTrickPlay
+            self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
             self.manifestCompression = manifestCompression
             self.manifestDurationFormat = manifestDurationFormat
             self.minBufferTime = minBufferTime
@@ -3948,6 +4053,7 @@ extension MediaConvert {
             try self.encryption?.validate(name: "\(name).encryption")
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
+            try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2_147_483_647)
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, min: 0)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
@@ -3964,6 +4070,7 @@ extension MediaConvert {
             case encryption
             case fragmentLength
             case imageBasedTrickPlay
+            case imageBasedTrickPlaySettings
             case manifestCompression
             case manifestDurationFormat
             case minBufferTime
@@ -3978,6 +4085,50 @@ extension MediaConvert {
             case writeDashManifest
             case writeHlsManifest
             case writeSegmentTimelineInRepresentation
+        }
+    }
+
+    public struct CmafImageBasedTrickPlaySettings: AWSEncodableShape & AWSDecodableShape {
+        /// The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        public let intervalCadence: CmafIntervalCadence?
+        /// Height of each thumbnail within each tile image, in pixels.  Leave blank to maintain aspect ratio with thumbnail width.  If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected.  Must be divisible by 2.
+        public let thumbnailHeight: Int?
+        /// Enter the interval, in seconds, that MediaConvert uses to generate thumbnails.  If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate.  For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.
+        public let thumbnailInterval: Double?
+        /// Width of each thumbnail within each tile image, in pixels.  Default is 312.  Must be divisible by 8.
+        public let thumbnailWidth: Int?
+        /// Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.
+        public let tileHeight: Int?
+        /// Number of thumbnails in each row of a tile image.  Set a value between 1 and 512.
+        public let tileWidth: Int?
+
+        public init(intervalCadence: CmafIntervalCadence? = nil, thumbnailHeight: Int? = nil, thumbnailInterval: Double? = nil, thumbnailWidth: Int? = nil, tileHeight: Int? = nil, tileWidth: Int? = nil) {
+            self.intervalCadence = intervalCadence
+            self.thumbnailHeight = thumbnailHeight
+            self.thumbnailInterval = thumbnailInterval
+            self.thumbnailWidth = thumbnailWidth
+            self.tileHeight = tileHeight
+            self.tileWidth = tileWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thumbnailHeight, name: "thumbnailHeight", parent: name, max: 4096)
+            try self.validate(self.thumbnailHeight, name: "thumbnailHeight", parent: name, min: 2)
+            try self.validate(self.thumbnailWidth, name: "thumbnailWidth", parent: name, max: 4096)
+            try self.validate(self.thumbnailWidth, name: "thumbnailWidth", parent: name, min: 8)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2048)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 1)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 512)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalCadence
+            case thumbnailHeight
+            case thumbnailInterval
+            case thumbnailWidth
+            case tileHeight
+            case tileWidth
         }
     }
 
@@ -4433,6 +4584,8 @@ extension MediaConvert {
         public let hbbtvCompliance: DashIsoHbbtvCompliance?
         /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: DashIsoImageBasedTrickPlay?
+        /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+        public let imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings?
         /// Minimum time of initially buffered media that is needed to ensure smooth playout.
         public let minBufferTime: Int?
         /// Keep this setting at the default value of 0, unless you are troubleshooting a problem with how devices play back the end of your video asset. If you know that player devices are hanging on the final segment of your video because the length of your final segment is too short, use this setting to specify a minimum final segment length, in seconds. Choose a value that is greater than or equal to 1 and less than your segment length. When you specify a value for this setting, the encoder will combine any final segment that is shorter than the length that you specify with the previous segment. For example, your segment length is 3 seconds and your final segment is .5 seconds without a minimum final segment length; when you set the minimum final segment length to 1, your final segment is 3.5 seconds.
@@ -4450,7 +4603,7 @@ extension MediaConvert {
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
@@ -4460,6 +4613,7 @@ extension MediaConvert {
             self.fragmentLength = fragmentLength
             self.hbbtvCompliance = hbbtvCompliance
             self.imageBasedTrickPlay = imageBasedTrickPlay
+            self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
             self.mpdProfile = mpdProfile
@@ -4479,6 +4633,7 @@ extension MediaConvert {
             try self.encryption?.validate(name: "\(name).encryption")
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
+            try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2_147_483_647)
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, min: 0)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
@@ -4495,6 +4650,7 @@ extension MediaConvert {
             case fragmentLength
             case hbbtvCompliance
             case imageBasedTrickPlay
+            case imageBasedTrickPlaySettings
             case minBufferTime
             case minFinalSegmentLength
             case mpdProfile
@@ -4503,6 +4659,50 @@ extension MediaConvert {
             case segmentLength
             case segmentLengthControl
             case writeSegmentTimelineInRepresentation
+        }
+    }
+
+    public struct DashIsoImageBasedTrickPlaySettings: AWSEncodableShape & AWSDecodableShape {
+        /// The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        public let intervalCadence: DashIsoIntervalCadence?
+        /// Height of each thumbnail within each tile image, in pixels.  Leave blank to maintain aspect ratio with thumbnail width.  If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected.  Must be divisible by 2.
+        public let thumbnailHeight: Int?
+        /// Enter the interval, in seconds, that MediaConvert uses to generate thumbnails.  If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate.  For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.
+        public let thumbnailInterval: Double?
+        /// Width of each thumbnail within each tile image, in pixels.  Default is 312.  Must be divisible by 8.
+        public let thumbnailWidth: Int?
+        /// Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.
+        public let tileHeight: Int?
+        /// Number of thumbnails in each row of a tile image.  Set a value between 1 and 512.
+        public let tileWidth: Int?
+
+        public init(intervalCadence: DashIsoIntervalCadence? = nil, thumbnailHeight: Int? = nil, thumbnailInterval: Double? = nil, thumbnailWidth: Int? = nil, tileHeight: Int? = nil, tileWidth: Int? = nil) {
+            self.intervalCadence = intervalCadence
+            self.thumbnailHeight = thumbnailHeight
+            self.thumbnailInterval = thumbnailInterval
+            self.thumbnailWidth = thumbnailWidth
+            self.tileHeight = tileHeight
+            self.tileWidth = tileWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thumbnailHeight, name: "thumbnailHeight", parent: name, max: 4096)
+            try self.validate(self.thumbnailHeight, name: "thumbnailHeight", parent: name, min: 1)
+            try self.validate(self.thumbnailWidth, name: "thumbnailWidth", parent: name, max: 4096)
+            try self.validate(self.thumbnailWidth, name: "thumbnailWidth", parent: name, min: 8)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2048)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 1)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 512)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalCadence
+            case thumbnailHeight
+            case thumbnailInterval
+            case thumbnailWidth
+            case tileHeight
+            case tileWidth
         }
     }
 
@@ -4543,6 +4743,14 @@ extension MediaConvert {
     }
 
     public struct DeleteJobTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeletePolicyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -4774,6 +4982,8 @@ extension MediaConvert {
     public struct DvbSubDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let alignment: DvbSubtitleAlignment?
+        /// Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are DVB-SUB. Specify how the service applies the color specified in the setting Font color (DvbSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.
+        public let applyFontColor: DvbSubtitleApplyFontColor?
         /// Specifies the color of the rectangle behind the captions.
         /// All burn-in and DVB-Sub font settings must match.
         public let backgroundColor: DvbSubtitleBackgroundColor?
@@ -4785,6 +4995,8 @@ extension MediaConvert {
         public let ddsXCoordinate: Int?
         /// Use this setting, along with DDS x-coordinate (ddsXCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the top of the frame and the top of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
         public let ddsYCoordinate: Int?
+        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
+        public let fallbackFont: DvbSubSubtitleFallbackFont?
         /// Specifies the color of the DVB-SUB captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let fontColor: DvbSubtitleFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
@@ -4799,6 +5011,8 @@ extension MediaConvert {
         public let fontSize: Int?
         /// Specify the height, in pixels, of this set of DVB-Sub captions. The default value is 576 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
         public let height: Int?
+        /// Ignore this setting unless your DvbSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
+        public let hexFontColor: String?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: DvbSubtitleOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -4812,6 +5026,8 @@ extension MediaConvert {
         public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
         public let shadowYOffset: Int?
+        /// Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.
+        public let stylePassthrough: DvbSubtitleStylePassthrough?
         /// Specify whether your DVB subtitles are standard or for hearing impaired. Choose hearing impaired if your subtitles include audio descriptions and dialogue. Choose standard if your subtitles include only dialogue.
         public let subtitlingType: DvbSubtitlingType?
         /// Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.
@@ -4823,25 +5039,29 @@ extension MediaConvert {
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int?
 
-        public init(alignment: DvbSubtitleAlignment? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, ddsHandling: DvbddsHandling? = nil, ddsXCoordinate: Int? = nil, ddsYCoordinate: Int? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, height: Int? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: DvbSubtitleAlignment? = nil, applyFontColor: DvbSubtitleApplyFontColor? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, ddsHandling: DvbddsHandling? = nil, ddsXCoordinate: Int? = nil, ddsYCoordinate: Int? = nil, fallbackFont: DvbSubSubtitleFallbackFont? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, height: Int? = nil, hexFontColor: String? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: DvbSubtitleStylePassthrough? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
+            self.applyFontColor = applyFontColor
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
             self.ddsHandling = ddsHandling
             self.ddsXCoordinate = ddsXCoordinate
             self.ddsYCoordinate = ddsYCoordinate
+            self.fallbackFont = fallbackFont
             self.fontColor = fontColor
             self.fontOpacity = fontOpacity
             self.fontResolution = fontResolution
             self.fontScript = fontScript
             self.fontSize = fontSize
             self.height = height
+            self.hexFontColor = hexFontColor
             self.outlineColor = outlineColor
             self.outlineSize = outlineSize
             self.shadowColor = shadowColor
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.stylePassthrough = stylePassthrough
             self.subtitlingType = subtitlingType
             self.teletextSpacing = teletextSpacing
             self.width = width
@@ -4864,6 +5084,9 @@ extension MediaConvert {
             try self.validate(self.fontSize, name: "fontSize", parent: name, min: 0)
             try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
             try self.validate(self.height, name: "height", parent: name, min: 1)
+            try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, max: 8)
+            try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, min: 6)
+            try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, pattern: "^[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$")
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
@@ -4882,23 +5105,27 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case alignment
+            case applyFontColor
             case backgroundColor
             case backgroundOpacity
             case ddsHandling
             case ddsXCoordinate
             case ddsYCoordinate
+            case fallbackFont
             case fontColor
             case fontOpacity
             case fontResolution
             case fontScript
             case fontSize
             case height
+            case hexFontColor
             case outlineColor
             case outlineSize
             case shadowColor
             case shadowOpacity
             case shadowXOffset
             case shadowYOffset
+            case stylePassthrough
             case subtitlingType
             case teletextSpacing
             case width
@@ -5436,6 +5663,23 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case jobTemplate
+        }
+    }
+
+    public struct GetPolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetPolicyResponse: AWSDecodableShape {
+        /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
         }
     }
 
@@ -6188,6 +6432,8 @@ extension MediaConvert {
         public let encryption: HlsEncryptionSettings?
         /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: HlsImageBasedTrickPlay?
+        /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+        public let imageBasedTrickPlaySettings: HlsImageBasedTrickPlaySettings?
         /// When set to GZIP, compresses HLS playlist.
         public let manifestCompression: HlsManifestCompression?
         /// Indicates whether the output manifest should use floating point values for segment duration.
@@ -6221,7 +6467,7 @@ extension MediaConvert {
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
         public let timestampDeltaMilliseconds: Int?
 
-        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, audioOnlyHeader: HlsAudioOnlyHeader? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, imageBasedTrickPlay: HlsImageBasedTrickPlay? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: HlsSegmentLengthControl? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
+        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, audioOnlyHeader: HlsAudioOnlyHeader? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, imageBasedTrickPlay: HlsImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: HlsImageBasedTrickPlaySettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: HlsSegmentLengthControl? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
             self.additionalManifests = additionalManifests
             self.adMarkers = adMarkers
             self.audioOnlyHeader = audioOnlyHeader
@@ -6235,6 +6481,7 @@ extension MediaConvert {
             self.directoryStructure = directoryStructure
             self.encryption = encryption
             self.imageBasedTrickPlay = imageBasedTrickPlay
+            self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
             self.manifestCompression = manifestCompression
             self.manifestDurationFormat = manifestDurationFormat
             self.minFinalSegmentLength = minFinalSegmentLength
@@ -6263,6 +6510,7 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
+            try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
             try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, max: 2_147_483_647)
             try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, min: 0)
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, max: 3600)
@@ -6291,6 +6539,7 @@ extension MediaConvert {
             case directoryStructure
             case encryption
             case imageBasedTrickPlay
+            case imageBasedTrickPlaySettings
             case manifestCompression
             case manifestDurationFormat
             case minFinalSegmentLength
@@ -6307,6 +6556,50 @@ extension MediaConvert {
             case timedMetadataId3Frame
             case timedMetadataId3Period
             case timestampDeltaMilliseconds
+        }
+    }
+
+    public struct HlsImageBasedTrickPlaySettings: AWSEncodableShape & AWSDecodableShape {
+        /// The cadence MediaConvert follows for generating thumbnails.  If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        public let intervalCadence: HlsIntervalCadence?
+        /// Height of each thumbnail within each tile image, in pixels.  Leave blank to maintain aspect ratio with thumbnail width.  If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected.  Must be divisible by 2.
+        public let thumbnailHeight: Int?
+        /// Enter the interval, in seconds, that MediaConvert uses to generate thumbnails.  If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate.  For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.
+        public let thumbnailInterval: Double?
+        /// Width of each thumbnail within each tile image, in pixels.  Default is 312.  Must be divisible by 8.
+        public let thumbnailWidth: Int?
+        /// Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.
+        public let tileHeight: Int?
+        /// Number of thumbnails in each row of a tile image.  Set a value between 1 and 512.
+        public let tileWidth: Int?
+
+        public init(intervalCadence: HlsIntervalCadence? = nil, thumbnailHeight: Int? = nil, thumbnailInterval: Double? = nil, thumbnailWidth: Int? = nil, tileHeight: Int? = nil, tileWidth: Int? = nil) {
+            self.intervalCadence = intervalCadence
+            self.thumbnailHeight = thumbnailHeight
+            self.thumbnailInterval = thumbnailInterval
+            self.thumbnailWidth = thumbnailWidth
+            self.tileHeight = tileHeight
+            self.tileWidth = tileWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thumbnailHeight, name: "thumbnailHeight", parent: name, max: 4096)
+            try self.validate(self.thumbnailHeight, name: "thumbnailHeight", parent: name, min: 2)
+            try self.validate(self.thumbnailWidth, name: "thumbnailWidth", parent: name, max: 4096)
+            try self.validate(self.thumbnailWidth, name: "thumbnailWidth", parent: name, min: 8)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2048)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 1)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 512)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalCadence
+            case thumbnailHeight
+            case thumbnailInterval
+            case thumbnailWidth
+            case tileHeight
+            case tileWidth
         }
     }
 
@@ -6941,7 +7234,7 @@ extension MediaConvert {
         public let availBlanking: AvailBlanking?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public let esam: EsamSettings?
-        /// Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory.
+        /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
         /// Use Inputs (inputs) to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
@@ -7080,7 +7373,7 @@ extension MediaConvert {
         public let availBlanking: AvailBlanking?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public let esam: EsamSettings?
-        /// Hexadecimal value as per EIA-608 Line 21 Data Services, section 9.5.1.5 05h Content Advisory.
+        /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
         /// Use Inputs (inputs) to define the source file used in the transcode job. There can only be one input in a job template.  Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
@@ -8857,6 +9150,27 @@ extension MediaConvert {
         }
     }
 
+    public struct Policy: AWSEncodableShape & AWSDecodableShape {
+        /// Allow or disallow jobs that specify HTTP inputs.
+        public let httpInputs: InputPolicy?
+        /// Allow or disallow jobs that specify HTTPS inputs.
+        public let httpsInputs: InputPolicy?
+        /// Allow or disallow jobs that specify Amazon S3 inputs.
+        public let s3Inputs: InputPolicy?
+
+        public init(httpInputs: InputPolicy? = nil, httpsInputs: InputPolicy? = nil, s3Inputs: InputPolicy? = nil) {
+            self.httpInputs = httpInputs
+            self.httpsInputs = httpsInputs
+            self.s3Inputs = s3Inputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpInputs
+            case httpsInputs
+            case s3Inputs
+        }
+    }
+
     public struct Preset: AWSDecodableShape {
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -9005,6 +9319,32 @@ extension MediaConvert {
             case scanTypeConversionMode
             case slowPal
             case telecine
+        }
+    }
+
+    public struct PutPolicyRequest: AWSEncodableShape {
+        /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        public let policy: Policy
+
+        public init(policy: Policy) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
+        }
+    }
+
+    public struct PutPolicyResponse: AWSDecodableShape {
+        /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
         }
     }
 

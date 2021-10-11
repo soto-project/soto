@@ -44,6 +44,28 @@ extension Comprehend {
         )
     }
 
+    ///  Gets a list of summaries of the document classifiers that you have created
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDocumentClassifierSummariesPaginator(
+        _ input: ListDocumentClassifierSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDocumentClassifierSummariesRequest, ListDocumentClassifierSummariesResponse> {
+        return .init(
+            input: input,
+            command: listDocumentClassifierSummaries,
+            inputKey: \ListDocumentClassifierSummariesRequest.nextToken,
+            outputKey: \ListDocumentClassifierSummariesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets a list of the document classifiers that you have created.
     /// Return PaginatorSequence for operation.
     ///
@@ -105,6 +127,28 @@ extension Comprehend {
             command: listEntitiesDetectionJobs,
             inputKey: \ListEntitiesDetectionJobsRequest.nextToken,
             outputKey: \ListEntitiesDetectionJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets a list of summaries for the entity recognizers that you have created.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEntityRecognizerSummariesPaginator(
+        _ input: ListEntityRecognizerSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEntityRecognizerSummariesRequest, ListEntityRecognizerSummariesResponse> {
+        return .init(
+            input: input,
+            command: listEntityRecognizerSummaries,
+            inputKey: \ListEntityRecognizerSummariesRequest.nextToken,
+            outputKey: \ListEntityRecognizerSummariesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

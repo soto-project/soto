@@ -59,6 +59,7 @@ public struct NetworkFirewallErrorType: AWSErrorType {
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// The operation failed because of a problem with your request. Examples include:    You specified an unsupported parameter name or value.   You tried to update a property with a value that isn't among the available types.   Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The policy statement failed validation.
     public static var invalidResourcePolicyException: Self { .init(.invalidResourcePolicyException) }
     /// The token you provided is stale or isn't valid for the operation.
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
@@ -68,6 +69,7 @@ public struct NetworkFirewallErrorType: AWSErrorType {
     public static var logDestinationPermissionException: Self { .init(.logDestinationPermissionException) }
     /// Unable to locate a resource using the parameters that you provided.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Unable to change the resource because your account doesn't own it.
     public static var resourceOwnerCheckException: Self { .init(.resourceOwnerCheckException) }
     /// Unable to process the request due to throttling limitations.
     public static var throttlingException: Self { .init(.throttlingException) }

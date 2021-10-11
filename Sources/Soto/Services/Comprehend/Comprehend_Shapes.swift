@@ -196,6 +196,12 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
+    public enum Split: String, CustomStringConvertible, Codable {
+        case test = "TEST"
+        case train = "TRAIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
         case de
         case en
@@ -219,13 +225,16 @@ extension Comprehend {
         public let s3Uri: String
         /// The S3 prefix to the source files (PDFs) that are referred to in the augmented manifest file.
         public let sourceDocumentsS3Uri: String?
+        /// The purpose of the data you've provided in the augmented manifest. You can either train or test this data. If you don't specify, the default is train. TRAIN - all of the documents in the manifest will be used for training. If no test documents are provided, Amazon Comprehend will automatically reserve a portion of the training documents for testing.  TEST - all of the documents in the manifest will be used for testing.
+        public let split: Split?
 
-        public init(annotationDataS3Uri: String? = nil, attributeNames: [String], documentType: AugmentedManifestsDocumentTypeFormat? = nil, s3Uri: String, sourceDocumentsS3Uri: String? = nil) {
+        public init(annotationDataS3Uri: String? = nil, attributeNames: [String], documentType: AugmentedManifestsDocumentTypeFormat? = nil, s3Uri: String, sourceDocumentsS3Uri: String? = nil, split: Split? = nil) {
             self.annotationDataS3Uri = annotationDataS3Uri
             self.attributeNames = attributeNames
             self.documentType = documentType
             self.s3Uri = s3Uri
             self.sourceDocumentsS3Uri = sourceDocumentsS3Uri
+            self.split = split
         }
 
         public func validate(name: String) throws {
@@ -248,6 +257,7 @@ extension Comprehend {
             case documentType = "DocumentType"
             case s3Uri = "S3Uri"
             case sourceDocumentsS3Uri = "SourceDocumentsS3Uri"
+            case split = "Split"
         }
     }
 
@@ -716,12 +726,14 @@ extension Comprehend {
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
         /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
+        /// The version name given to the newly created classifier. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
+        public let versionName: String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierName = documentClassifierName
@@ -731,6 +743,7 @@ extension Comprehend {
             self.modelKmsKeyId = modelKmsKeyId
             self.outputDataConfig = outputDataConfig
             self.tags = tags
+            self.versionName = versionName
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -751,6 +764,8 @@ extension Comprehend {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 63)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
@@ -766,6 +781,7 @@ extension Comprehend {
             case modelKmsKeyId = "ModelKmsKeyId"
             case outputDataConfig = "OutputDataConfig"
             case tags = "Tags"
+            case versionName = "VersionName"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
@@ -818,7 +834,7 @@ extension Comprehend {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 40)
             try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 256)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -862,12 +878,14 @@ extension Comprehend {
         public let recognizerName: String
         /// Tags to be associated with the entity recognizer being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
+        /// The version name given to the newly created recognizer. Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same recognizer name in the account/ AWS Region.
+        public let versionName: String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, modelKmsKeyId: String? = nil, recognizerName: String, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, modelKmsKeyId: String? = nil, recognizerName: String, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
@@ -875,6 +893,7 @@ extension Comprehend {
             self.modelKmsKeyId = modelKmsKeyId
             self.recognizerName = recognizerName
             self.tags = tags
+            self.versionName = versionName
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -894,6 +913,8 @@ extension Comprehend {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 63)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
@@ -907,6 +928,7 @@ extension Comprehend {
             case modelKmsKeyId = "ModelKmsKeyId"
             case recognizerName = "RecognizerName"
             case tags = "Tags"
+            case versionName = "VersionName"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
@@ -1659,6 +1681,8 @@ extension Comprehend {
     }
 
     public struct DocumentClassifierFilter: AWSEncodableShape {
+        /// The name that you assigned to the document classifier
+        public let documentClassifierName: String?
         /// Filters the list of classifiers based on status.
         public let status: ModelStatus?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
@@ -1666,13 +1690,20 @@ extension Comprehend {
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted before the specified time. Classifiers are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
-        public init(status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+        public init(documentClassifierName: String? = nil, status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+            self.documentClassifierName = documentClassifierName
             self.status = status
             self.submitTimeAfter = submitTimeAfter
             self.submitTimeBefore = submitTimeBefore
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.documentClassifierName, name: "documentClassifierName", parent: name, max: 63)
+            try self.validate(self.documentClassifierName, name: "documentClassifierName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case documentClassifierName = "DocumentClassifierName"
             case status = "Status"
             case submitTimeAfter = "SubmitTimeAfter"
             case submitTimeBefore = "SubmitTimeBefore"
@@ -1688,12 +1719,15 @@ extension Comprehend {
         public let labelDelimiter: String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public let s3Uri: String?
+        /// The Amazon S3 URI for the input data. The Amazon S3 bucket must be in the same AWS Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files.
+        public let testS3Uri: String?
 
-        public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil) {
+        public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil, testS3Uri: String? = nil) {
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
             self.labelDelimiter = labelDelimiter
             self.s3Uri = s3Uri
+            self.testS3Uri = testS3Uri
         }
 
         public func validate(name: String) throws {
@@ -1705,6 +1739,8 @@ extension Comprehend {
             try self.validate(self.labelDelimiter, name: "labelDelimiter", parent: name, pattern: "^[ ~!@#$%^*\\-_+=|\\\\:;\\t>?/]$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+            try self.validate(self.testS3Uri, name: "testS3Uri", parent: name, max: 1024)
+            try self.validate(self.testS3Uri, name: "testS3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1712,6 +1748,7 @@ extension Comprehend {
             case dataFormat = "DataFormat"
             case labelDelimiter = "LabelDelimiter"
             case s3Uri = "S3Uri"
+            case testS3Uri = "TestS3Uri"
         }
     }
 
@@ -1768,12 +1805,14 @@ extension Comprehend {
         public let trainingEndTime: Date?
         /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime.
         public let trainingStartTime: Date?
+        /// The version name that you assigned to the document classifier.
+        public let versionName: String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -1788,6 +1827,7 @@ extension Comprehend {
             self.submitTime = submitTime
             self.trainingEndTime = trainingEndTime
             self.trainingStartTime = trainingStartTime
+            self.versionName = versionName
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -1807,8 +1847,38 @@ extension Comprehend {
             case submitTime = "SubmitTime"
             case trainingEndTime = "TrainingEndTime"
             case trainingStartTime = "TrainingStartTime"
+            case versionName = "VersionName"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct DocumentClassifierSummary: AWSDecodableShape {
+        /// The name that you assigned the document classifier.
+        public let documentClassifierName: String?
+        /// The time that the latest document classifier version was submitted for processing.
+        public let latestVersionCreatedAt: Date?
+        /// The version name you assigned to the latest document classifier version.
+        public let latestVersionName: String?
+        /// Provides the status of the latest document classifier version.
+        public let latestVersionStatus: ModelStatus?
+        /// The number of versions you created.
+        public let numberOfVersions: Int?
+
+        public init(documentClassifierName: String? = nil, latestVersionCreatedAt: Date? = nil, latestVersionName: String? = nil, latestVersionStatus: ModelStatus? = nil, numberOfVersions: Int? = nil) {
+            self.documentClassifierName = documentClassifierName
+            self.latestVersionCreatedAt = latestVersionCreatedAt
+            self.latestVersionName = latestVersionName
+            self.latestVersionStatus = latestVersionStatus
+            self.numberOfVersions = numberOfVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassifierName = "DocumentClassifierName"
+            case latestVersionCreatedAt = "LatestVersionCreatedAt"
+            case latestVersionName = "LatestVersionName"
+            case latestVersionStatus = "LatestVersionStatus"
+            case numberOfVersions = "NumberOfVersions"
         }
     }
 
@@ -1979,7 +2049,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 256)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1997,8 +2067,12 @@ extension Comprehend {
         public let currentInferenceUnits: Int?
         /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
         public let dataAccessRoleArn: String?
+        /// Data access role ARN to use in case the new model is encrypted with a customer KMS key.
+        public let desiredDataAccessRoleArn: String?
         /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
         public let desiredInferenceUnits: Int?
+        /// ARN of the new model to use for updating an existing endpoint. This ARN is going to be different from the model ARN when the update is in progress
+        public let desiredModelArn: String?
         /// The Amazon Resource Number (ARN) of the endpoint.
         public let endpointArn: String?
         /// The date and time that the endpoint was last modified.
@@ -2010,11 +2084,13 @@ extension Comprehend {
         /// Specifies the status of the endpoint. Because the endpoint updates and creation are asynchronous, so customers will need to wait for the endpoint to be Ready status before making inference requests.
         public let status: EndpointStatus?
 
-        public init(creationTime: Date? = nil, currentInferenceUnits: Int? = nil, dataAccessRoleArn: String? = nil, desiredInferenceUnits: Int? = nil, endpointArn: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
+        public init(creationTime: Date? = nil, currentInferenceUnits: Int? = nil, dataAccessRoleArn: String? = nil, desiredDataAccessRoleArn: String? = nil, desiredInferenceUnits: Int? = nil, desiredModelArn: String? = nil, endpointArn: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
             self.creationTime = creationTime
             self.currentInferenceUnits = currentInferenceUnits
             self.dataAccessRoleArn = dataAccessRoleArn
+            self.desiredDataAccessRoleArn = desiredDataAccessRoleArn
             self.desiredInferenceUnits = desiredInferenceUnits
+            self.desiredModelArn = desiredModelArn
             self.endpointArn = endpointArn
             self.lastModifiedTime = lastModifiedTime
             self.message = message
@@ -2026,7 +2102,9 @@ extension Comprehend {
             case creationTime = "CreationTime"
             case currentInferenceUnits = "CurrentInferenceUnits"
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case desiredDataAccessRoleArn = "DesiredDataAccessRoleArn"
             case desiredInferenceUnits = "DesiredInferenceUnits"
+            case desiredModelArn = "DesiredModelArn"
             case endpointArn = "EndpointArn"
             case lastModifiedTime = "LastModifiedTime"
             case message = "Message"
@@ -2180,36 +2258,52 @@ extension Comprehend {
     public struct EntityRecognizerAnnotations: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
+        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
+        public let testS3Uri: String?
 
-        public init(s3Uri: String) {
+        public init(s3Uri: String, testS3Uri: String? = nil) {
             self.s3Uri = s3Uri
+            self.testS3Uri = testS3Uri
         }
 
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+            try self.validate(self.testS3Uri, name: "testS3Uri", parent: name, max: 1024)
+            try self.validate(self.testS3Uri, name: "testS3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "S3Uri"
+            case testS3Uri = "TestS3Uri"
         }
     }
 
     public struct EntityRecognizerDocuments: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
+        public let inputFormat: InputFormat?
         ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
+        ///  Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
+        public let testS3Uri: String?
 
-        public init(s3Uri: String) {
+        public init(inputFormat: InputFormat? = nil, s3Uri: String, testS3Uri: String? = nil) {
+            self.inputFormat = inputFormat
             self.s3Uri = s3Uri
+            self.testS3Uri = testS3Uri
         }
 
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+            try self.validate(self.testS3Uri, name: "testS3Uri", parent: name, max: 1024)
+            try self.validate(self.testS3Uri, name: "testS3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputFormat = "InputFormat"
             case s3Uri = "S3Uri"
+            case testS3Uri = "TestS3Uri"
         }
     }
 
@@ -2253,6 +2347,8 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerFilter: AWSEncodableShape {
+        /// The name that you assigned the entity recognizer.
+        public let recognizerName: String?
         /// The status of an entity recognizer.
         public let status: ModelStatus?
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
@@ -2260,13 +2356,20 @@ extension Comprehend {
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
         public let submitTimeBefore: Date?
 
-        public init(status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+        public init(recognizerName: String? = nil, status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+            self.recognizerName = recognizerName
             self.status = status
             self.submitTimeAfter = submitTimeAfter
             self.submitTimeBefore = submitTimeBefore
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.recognizerName, name: "recognizerName", parent: name, max: 63)
+            try self.validate(self.recognizerName, name: "recognizerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case recognizerName = "RecognizerName"
             case status = "Status"
             case submitTimeAfter = "SubmitTimeAfter"
             case submitTimeBefore = "SubmitTimeBefore"
@@ -2389,12 +2492,14 @@ extension Comprehend {
         public let trainingEndTime: Date?
         /// The time that training of the entity recognizer started.
         public let trainingStartTime: Date?
+        /// The version name you assigned to the entity recognizer.
+        public let versionName: String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, modelKmsKeyId: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, modelKmsKeyId: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -2407,6 +2512,7 @@ extension Comprehend {
             self.submitTime = submitTime
             self.trainingEndTime = trainingEndTime
             self.trainingStartTime = trainingStartTime
+            self.versionName = versionName
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -2424,8 +2530,38 @@ extension Comprehend {
             case submitTime = "SubmitTime"
             case trainingEndTime = "TrainingEndTime"
             case trainingStartTime = "TrainingStartTime"
+            case versionName = "VersionName"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct EntityRecognizerSummary: AWSDecodableShape {
+        ///  The time that the latest entity recognizer version was submitted for processing.
+        public let latestVersionCreatedAt: Date?
+        ///  The version name you assigned to the latest entity recognizer version.
+        public let latestVersionName: String?
+        ///  Provides the status of the latest entity recognizer version.
+        public let latestVersionStatus: ModelStatus?
+        ///  The number of versions you created.
+        public let numberOfVersions: Int?
+        ///  The name that you assigned the entity recognizer.
+        public let recognizerName: String?
+
+        public init(latestVersionCreatedAt: Date? = nil, latestVersionName: String? = nil, latestVersionStatus: ModelStatus? = nil, numberOfVersions: Int? = nil, recognizerName: String? = nil) {
+            self.latestVersionCreatedAt = latestVersionCreatedAt
+            self.latestVersionName = latestVersionName
+            self.latestVersionStatus = latestVersionStatus
+            self.numberOfVersions = numberOfVersions
+            self.recognizerName = recognizerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestVersionCreatedAt = "LatestVersionCreatedAt"
+            case latestVersionName = "LatestVersionName"
+            case latestVersionStatus = "LatestVersionStatus"
+            case numberOfVersions = "NumberOfVersions"
+            case recognizerName = "RecognizerName"
         }
     }
 
@@ -2745,6 +2881,46 @@ extension Comprehend {
         }
     }
 
+    public struct ListDocumentClassifierSummariesRequest: AWSEncodableShape {
+        /// The maximum number of results to return on each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDocumentClassifierSummariesResponse: AWSDecodableShape {
+        /// The list of summaries of document classifiers.
+        public let documentClassifierSummariesList: [DocumentClassifierSummary]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(documentClassifierSummariesList: [DocumentClassifierSummary]? = nil, nextToken: String? = nil) {
+            self.documentClassifierSummariesList = documentClassifierSummariesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassifierSummariesList = "DocumentClassifierSummariesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDocumentClassifiersRequest: AWSEncodableShape {
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DocumentClassifierFilter?
@@ -2760,6 +2936,7 @@ extension Comprehend {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -2924,6 +3101,46 @@ extension Comprehend {
         }
     }
 
+    public struct ListEntityRecognizerSummariesRequest: AWSEncodableShape {
+        /// The maximum number of results to return on each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEntityRecognizerSummariesResponse: AWSDecodableShape {
+        /// The list entity recognizer summaries.
+        public let entityRecognizerSummariesList: [EntityRecognizerSummary]?
+        /// The list entity recognizer summaries.
+        public let nextToken: String?
+
+        public init(entityRecognizerSummariesList: [EntityRecognizerSummary]? = nil, nextToken: String? = nil) {
+            self.entityRecognizerSummariesList = entityRecognizerSummariesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityRecognizerSummariesList = "EntityRecognizerSummariesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEntityRecognizersRequest: AWSEncodableShape {
         /// Filters the list of entities returned. You can filter on Status, SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
         public let filter: EntityRecognizerFilter?
@@ -2939,6 +3156,7 @@ extension Comprehend {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3158,7 +3376,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4564,7 +4782,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4684,7 +4902,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -4702,24 +4920,37 @@ extension Comprehend {
     }
 
     public struct UpdateEndpointRequest: AWSEncodableShape {
+        /// Data access role ARN to use in case the new model is encrypted with a customer CMK.
+        public let desiredDataAccessRoleArn: String?
         ///  The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
-        public let desiredInferenceUnits: Int
+        public let desiredInferenceUnits: Int?
+        /// The ARN of the new model to use when updating an existing endpoint.
+        public let desiredModelArn: String?
         /// The Amazon Resource Number (ARN) of the endpoint being updated.
         public let endpointArn: String
 
-        public init(desiredInferenceUnits: Int, endpointArn: String) {
+        public init(desiredDataAccessRoleArn: String? = nil, desiredInferenceUnits: Int? = nil, desiredModelArn: String? = nil, endpointArn: String) {
+            self.desiredDataAccessRoleArn = desiredDataAccessRoleArn
             self.desiredInferenceUnits = desiredInferenceUnits
+            self.desiredModelArn = desiredModelArn
             self.endpointArn = endpointArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.desiredDataAccessRoleArn, name: "desiredDataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.desiredDataAccessRoleArn, name: "desiredDataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.desiredDataAccessRoleArn, name: "desiredDataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.validate(self.desiredInferenceUnits, name: "desiredInferenceUnits", parent: name, min: 1)
+            try self.validate(self.desiredModelArn, name: "desiredModelArn", parent: name, max: 256)
+            try self.validate(self.desiredModelArn, name: "desiredModelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?")
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case desiredDataAccessRoleArn = "DesiredDataAccessRoleArn"
             case desiredInferenceUnits = "DesiredInferenceUnits"
+            case desiredModelArn = "DesiredModelArn"
             case endpointArn = "EndpointArn"
         }
     }

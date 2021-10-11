@@ -20,6 +20,21 @@ import SotoCore
 extension Firehose {
     // MARK: Enums
 
+    public enum AmazonopensearchserviceIndexRotationPeriod: String, CustomStringConvertible, Codable {
+        case norotation = "NoRotation"
+        case oneday = "OneDay"
+        case onehour = "OneHour"
+        case onemonth = "OneMonth"
+        case oneweek = "OneWeek"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AmazonopensearchserviceS3BackupMode: String, CustomStringConvertible, Codable {
+        case alldocuments = "AllDocuments"
+        case faileddocumentsonly = "FailedDocumentsOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CompressionFormat: String, CustomStringConvertible, Codable {
         case gzip = "GZIP"
         case hadoopSnappy = "HADOOP_SNAPPY"
@@ -184,6 +199,230 @@ extension Firehose {
 
     // MARK: Shapes
 
+    public struct AmazonopensearchserviceBufferingHints: AWSEncodableShape & AWSDecodableShape {
+        public let intervalInSeconds: Int?
+        public let sizeInMBs: Int?
+
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 900)
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, min: 60)
+            try self.validate(self.sizeInMBs, name: "sizeInMBs", parent: name, max: 100)
+            try self.validate(self.sizeInMBs, name: "sizeInMBs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalInSeconds = "IntervalInSeconds"
+            case sizeInMBs = "SizeInMBs"
+        }
+    }
+
+    public struct AmazonopensearchserviceDestinationConfiguration: AWSEncodableShape {
+        public let bufferingHints: AmazonopensearchserviceBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        public let clusterEndpoint: String?
+        public let domainARN: String?
+        public let indexName: String
+        public let indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod?
+        public let processingConfiguration: ProcessingConfiguration?
+        public let retryOptions: AmazonopensearchserviceRetryOptions?
+        public let roleARN: String
+        public let s3BackupMode: AmazonopensearchserviceS3BackupMode?
+        public let s3Configuration: S3DestinationConfiguration
+        public let typeName: String?
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String, s3BackupMode: AmazonopensearchserviceS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.clusterEndpoint = clusterEndpoint
+            self.domainARN = domainARN
+            self.indexName = indexName
+            self.indexRotationPeriod = indexRotationPeriod
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+            self.typeName = typeName
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, max: 512)
+            try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, min: 1)
+            try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "https:.*")
+            try self.validate(self.domainARN, name: "domainARN", parent: name, max: 512)
+            try self.validate(self.domainARN, name: "domainARN", parent: name, min: 1)
+            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "arn:.*")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 0)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case clusterEndpoint = "ClusterEndpoint"
+            case domainARN = "DomainARN"
+            case indexName = "IndexName"
+            case indexRotationPeriod = "IndexRotationPeriod"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3Configuration = "S3Configuration"
+            case typeName = "TypeName"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct AmazonopensearchserviceDestinationDescription: AWSDecodableShape {
+        public let bufferingHints: AmazonopensearchserviceBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        public let clusterEndpoint: String?
+        public let domainARN: String?
+        public let indexName: String?
+        public let indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod?
+        public let processingConfiguration: ProcessingConfiguration?
+        public let retryOptions: AmazonopensearchserviceRetryOptions?
+        public let roleARN: String?
+        public let s3BackupMode: AmazonopensearchserviceS3BackupMode?
+        public let s3DestinationDescription: S3DestinationDescription?
+        public let typeName: String?
+        public let vpcConfigurationDescription: VpcConfigurationDescription?
+
+        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: AmazonopensearchserviceS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.clusterEndpoint = clusterEndpoint
+            self.domainARN = domainARN
+            self.indexName = indexName
+            self.indexRotationPeriod = indexRotationPeriod
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3DestinationDescription = s3DestinationDescription
+            self.typeName = typeName
+            self.vpcConfigurationDescription = vpcConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case clusterEndpoint = "ClusterEndpoint"
+            case domainARN = "DomainARN"
+            case indexName = "IndexName"
+            case indexRotationPeriod = "IndexRotationPeriod"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3DestinationDescription = "S3DestinationDescription"
+            case typeName = "TypeName"
+            case vpcConfigurationDescription = "VpcConfigurationDescription"
+        }
+    }
+
+    public struct AmazonopensearchserviceDestinationUpdate: AWSEncodableShape {
+        public let bufferingHints: AmazonopensearchserviceBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        public let clusterEndpoint: String?
+        public let domainARN: String?
+        public let indexName: String?
+        public let indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod?
+        public let processingConfiguration: ProcessingConfiguration?
+        public let retryOptions: AmazonopensearchserviceRetryOptions?
+        public let roleARN: String?
+        public let s3Update: S3DestinationUpdate?
+        public let typeName: String?
+
+        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.clusterEndpoint = clusterEndpoint
+            self.domainARN = domainARN
+            self.indexName = indexName
+            self.indexRotationPeriod = indexRotationPeriod
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3Update = s3Update
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, max: 512)
+            try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, min: 1)
+            try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "https:.*")
+            try self.validate(self.domainARN, name: "domainARN", parent: name, max: 512)
+            try self.validate(self.domainARN, name: "domainARN", parent: name, min: 1)
+            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "arn:.*")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:.*")
+            try self.s3Update?.validate(name: "\(name).s3Update")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 0)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case clusterEndpoint = "ClusterEndpoint"
+            case domainARN = "DomainARN"
+            case indexName = "IndexName"
+            case indexRotationPeriod = "IndexRotationPeriod"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3Update = "S3Update"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct AmazonopensearchserviceRetryOptions: AWSEncodableShape & AWSDecodableShape {
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
+            self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 7200)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
     public struct BufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs, and vice versa.
         public let intervalInSeconds: Int?
@@ -272,6 +511,7 @@ extension Firehose {
     }
 
     public struct CreateDeliveryStreamInput: AWSEncodableShape {
+        public let amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration?
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
         /// The name of the delivery stream. This name must be unique per AWS account in the same AWS Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
@@ -293,7 +533,8 @@ extension Firehose {
         /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to AWS resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
 
-        public init(deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+            self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
@@ -307,6 +548,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.amazonopensearchserviceDestinationConfiguration?.validate(name: "\(name).amazonopensearchserviceDestinationConfiguration")
             try self.deliveryStreamEncryptionConfigurationInput?.validate(name: "\(name).deliveryStreamEncryptionConfigurationInput")
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, max: 64)
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, min: 1)
@@ -325,6 +567,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonopensearchserviceDestinationConfiguration = "AmazonopensearchserviceDestinationConfiguration"
             case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
             case deliveryStreamName = "DeliveryStreamName"
             case deliveryStreamType = "DeliveryStreamType"
@@ -582,6 +825,7 @@ extension Firehose {
     }
 
     public struct DestinationDescription: AWSDecodableShape {
+        public let amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription?
         /// The ID of the destination.
         public let destinationId: String
         /// The destination in Amazon ES.
@@ -597,7 +841,8 @@ extension Firehose {
         /// The destination in Splunk.
         public let splunkDestinationDescription: SplunkDestinationDescription?
 
-        public init(destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
+        public init(amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription? = nil, destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
+            self.amazonopensearchserviceDestinationDescription = amazonopensearchserviceDestinationDescription
             self.destinationId = destinationId
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
             self.extendedS3DestinationDescription = extendedS3DestinationDescription
@@ -608,6 +853,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonopensearchserviceDestinationDescription = "AmazonopensearchserviceDestinationDescription"
             case destinationId = "DestinationId"
             case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
             case extendedS3DestinationDescription = "ExtendedS3DestinationDescription"
@@ -2822,6 +3068,7 @@ extension Firehose {
     }
 
     public struct UpdateDestinationInput: AWSEncodableShape {
+        public let amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate?
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String
         /// The name of the delivery stream.
@@ -2839,7 +3086,8 @@ extension Firehose {
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?
 
-        public init(currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+        public init(amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+            self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
             self.deliveryStreamName = deliveryStreamName
             self.destinationId = destinationId
@@ -2851,6 +3099,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.amazonopensearchserviceDestinationUpdate?.validate(name: "\(name).amazonopensearchserviceDestinationUpdate")
             try self.validate(self.currentDeliveryStreamVersionId, name: "currentDeliveryStreamVersionId", parent: name, max: 50)
             try self.validate(self.currentDeliveryStreamVersionId, name: "currentDeliveryStreamVersionId", parent: name, min: 1)
             try self.validate(self.currentDeliveryStreamVersionId, name: "currentDeliveryStreamVersionId", parent: name, pattern: "[0-9]+")
@@ -2868,6 +3117,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonopensearchserviceDestinationUpdate = "AmazonopensearchserviceDestinationUpdate"
             case currentDeliveryStreamVersionId = "CurrentDeliveryStreamVersionId"
             case deliveryStreamName = "DeliveryStreamName"
             case destinationId = "DestinationId"

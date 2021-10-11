@@ -72,6 +72,59 @@ extension Comprehend {
         )
     }
 
+    ///  Gets a list of summaries of the document classifiers that you have created
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDocumentClassifierSummariesPaginator<Result>(
+        _ input: ListDocumentClassifierSummariesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDocumentClassifierSummariesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDocumentClassifierSummaries,
+            inputKey: \ListDocumentClassifierSummariesRequest.nextToken,
+            outputKey: \ListDocumentClassifierSummariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDocumentClassifierSummariesPaginator(
+        _ input: ListDocumentClassifierSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDocumentClassifierSummariesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDocumentClassifierSummaries,
+            inputKey: \ListDocumentClassifierSummariesRequest.nextToken,
+            outputKey: \ListDocumentClassifierSummariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of the document classifiers that you have created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -226,6 +279,59 @@ extension Comprehend {
             command: listEntitiesDetectionJobs,
             inputKey: \ListEntitiesDetectionJobsRequest.nextToken,
             outputKey: \ListEntitiesDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of summaries for the entity recognizers that you have created.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEntityRecognizerSummariesPaginator<Result>(
+        _ input: ListEntityRecognizerSummariesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEntityRecognizerSummariesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEntityRecognizerSummaries,
+            inputKey: \ListEntityRecognizerSummariesRequest.nextToken,
+            outputKey: \ListEntityRecognizerSummariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEntityRecognizerSummariesPaginator(
+        _ input: ListEntityRecognizerSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEntityRecognizerSummariesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEntityRecognizerSummaries,
+            inputKey: \ListEntityRecognizerSummariesRequest.nextToken,
+            outputKey: \ListEntityRecognizerSummariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -507,6 +613,15 @@ extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateToken {
     }
 }
 
+extension Comprehend.ListDocumentClassifierSummariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListDocumentClassifierSummariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListDocumentClassifiersRequest {
         return .init(
@@ -531,6 +646,15 @@ extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListEntitiesDetectionJobsRequest {
         return .init(
             filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Comprehend.ListEntityRecognizerSummariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListEntityRecognizerSummariesRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

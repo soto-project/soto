@@ -946,6 +946,11 @@ extension IoT {
         return try await self.client.execute(operation: "ListViolationEvents", path: "/violation-events", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
+    public func putVerificationStateOnViolation(_ input: PutVerificationStateOnViolationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutVerificationStateOnViolationResponse {
+        return try await self.client.execute(operation: "PutVerificationStateOnViolation", path: "/violations/verification-state/{violationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Registers a CA certificate with IoT. This CA certificate can then be used to sign device certificates, which can be then registered with IoT. You can register up to 10 CA certificates per Amazon Web Services account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate action. Requires permission to access the RegisterCACertificate action.
     public func registerCACertificate(_ input: RegisterCACertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterCACertificateResponse {
         return try await self.client.execute(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -242,7 +242,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.
+    ///  Provides summary information about the AWS resource associations for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -506,7 +506,7 @@ extension Connect {
         )
     }
 
-    ///  Lists the use cases.
+    ///  Lists the use cases for the integration association.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

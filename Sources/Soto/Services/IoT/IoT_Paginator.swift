@@ -2904,7 +2904,8 @@ extension IoT.ListActiveViolationsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             securityProfileName: self.securityProfileName,
-            thingName: self.thingName
+            thingName: self.thingName,
+            verificationState: self.verificationState
         )
     }
 }
@@ -3463,7 +3464,8 @@ extension IoT.ListViolationEventsRequest: AWSPaginateToken {
             nextToken: token,
             securityProfileName: self.securityProfileName,
             startTime: self.startTime,
-            thingName: self.thingName
+            thingName: self.thingName,
+            verificationState: self.verificationState
         )
     }
 }

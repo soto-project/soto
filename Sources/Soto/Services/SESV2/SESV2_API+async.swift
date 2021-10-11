@@ -47,7 +47,7 @@ extension SESV2 {
         return try await self.client.execute(operation: "CreateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your AWS account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
+    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
     public func createDedicatedIpPool(_ input: CreateDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDedicatedIpPoolResponse {
         return try await self.client.execute(operation: "CreateDedicatedIpPool", path: "/v2/email/dedicated-ip-pools", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -57,7 +57,7 @@ extension SESV2 {
         return try await self.client.execute(operation: "CreateDeliverabilityTestReport", path: "/v2/email/deliverability-dashboard/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email.  When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as Easy DKIM. Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key that you want to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
+    /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email.  When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as Easy DKIM. Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
     public func createEmailIdentity(_ input: CreateEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEmailIdentityResponse {
         return try await self.client.execute(operation: "CreateEmailIdentity", path: "/v2/email/identities", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -127,7 +127,7 @@ extension SESV2 {
         return try await self.client.execute(operation: "DeleteSuppressedDestination", path: "/v2/email/suppression/addresses/{EmailAddress}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current AWS Region.
+    /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
     public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAccountResponse {
         return try await self.client.execute(operation: "GetAccount", path: "/v2/email/account", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -167,12 +167,12 @@ extension SESV2 {
         return try await self.client.execute(operation: "GetDedicatedIp", path: "/v2/email/dedicated-ips/{IP}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the dedicated IP addresses that are associated with your AWS account.
+    /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
     public func getDedicatedIps(_ input: GetDedicatedIpsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDedicatedIpsResponse {
         return try await self.client.execute(operation: "GetDedicatedIps", path: "/v2/email/dedicated-ips", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+    /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
     public func getDeliverabilityDashboardOptions(_ input: GetDeliverabilityDashboardOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDeliverabilityDashboardOptionsResponse {
         return try await self.client.execute(operation: "GetDeliverabilityDashboardOptions", path: "/v2/email/deliverability-dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -232,12 +232,12 @@ extension SESV2 {
         return try await self.client.execute(operation: "ListContacts", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCustomVerificationEmailTemplatesResponse {
         return try await self.client.execute(operation: "ListCustomVerificationEmailTemplates", path: "/v2/email/custom-verification-email-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List all of the dedicated IP pools that exist in your AWS account in the current Region.
+    /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
     public func listDedicatedIpPools(_ input: ListDedicatedIpPoolsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDedicatedIpPoolsResponse {
         return try await self.client.execute(operation: "ListDedicatedIpPools", path: "/v2/email/dedicated-ip-pools", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -252,12 +252,12 @@ extension SESV2 {
         return try await self.client.execute(operation: "ListDomainDeliverabilityCampaigns", path: "/v2/email/deliverability-dashboard/domains/{SubscribedDomain}/campaigns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of all of the email identities that are associated with your AWS account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
+    /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     public func listEmailIdentities(_ input: ListEmailIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEmailIdentitiesResponse {
         return try await self.client.execute(operation: "ListEmailIdentities", path: "/v2/email/identities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
+    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     public func listEmailTemplates(_ input: ListEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEmailTemplatesResponse {
         return try await self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -302,12 +302,12 @@ extension SESV2 {
         return try await self.client.execute(operation: "PutConfigurationSetDeliveryOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/delivery-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific AWS Region.
+    /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.
     public func putConfigurationSetReputationOptions(_ input: PutConfigurationSetReputationOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConfigurationSetReputationOptionsResponse {
         return try await self.client.execute(operation: "PutConfigurationSetReputationOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/reputation-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region.
+    /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.
     public func putConfigurationSetSendingOptions(_ input: PutConfigurationSetSendingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConfigurationSetSendingOptionsResponse {
         return try await self.client.execute(operation: "PutConfigurationSetSendingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/sending", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -322,7 +322,7 @@ extension SESV2 {
         return try await self.client.execute(operation: "PutConfigurationSetTrackingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/tracking-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address that you specify must already exist, and must be associated with your AWS account.  The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
+    /// Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account.  The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     public func putDedicatedIpInPool(_ input: PutDedicatedIpInPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDedicatedIpInPoolResponse {
         return try await self.client.execute(operation: "PutDedicatedIpInPool", path: "/v2/email/dedicated-ips/{IP}/pool", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -331,7 +331,7 @@ extension SESV2 {
         return try await self.client.execute(operation: "PutDedicatedIpWarmupAttributes", path: "/v2/email/dedicated-ips/{IP}/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+    /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
     public func putDeliverabilityDashboardOption(_ input: PutDeliverabilityDashboardOptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDeliverabilityDashboardOptionResponse {
         return try await self.client.execute(operation: "PutDeliverabilityDashboardOption", path: "/v2/email/deliverability-dashboard", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -346,7 +346,7 @@ extension SESV2 {
         return try await self.client.execute(operation: "PutEmailIdentityDkimAttributes", path: "/v2/email/identities/{EmailIdentity}/dkim", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:   Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).   Change from using no DKIM authentication to using Easy DKIM.   Change from using no DKIM authentication to using BYODKIM.   Change from using Easy DKIM to using BYODKIM.   Change from using BYODKIM to using Easy DKIM.
+    /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:   Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).   Update the key length that should be used for Easy DKIM.   Change from using no DKIM authentication to using Easy DKIM.   Change from using no DKIM authentication to using BYODKIM.   Change from using Easy DKIM to using BYODKIM.   Change from using BYODKIM to using Easy DKIM.
     public func putEmailIdentityDkimSigningAttributes(_ input: PutEmailIdentityDkimSigningAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutEmailIdentityDkimSigningAttributesResponse {
         return try await self.client.execute(operation: "PutEmailIdentityDkimSigningAttributes", path: "/v1/email/identities/{EmailIdentity}/dkim/signing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -371,12 +371,12 @@ extension SESV2 {
         return try await self.client.execute(operation: "SendBulkEmail", path: "/v2/email/outbound-bulk-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendCustomVerificationEmailResponse {
         return try await self.client.execute(operation: "SendCustomVerificationEmail", path: "/v2/email/outbound-custom-verification-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sends an email message. You can use the Amazon SES API v2 to send two types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.    Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.
+    /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.    Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.
     public func sendEmail(_ input: SendEmailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendEmailResponse {
         return try await self.client.execute(operation: "SendEmail", path: "/v2/email/outbound-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

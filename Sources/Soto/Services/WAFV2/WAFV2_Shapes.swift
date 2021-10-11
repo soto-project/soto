@@ -3276,6 +3276,38 @@ extension WAFV2 {
         }
     }
 
+    public struct RegexMatchStatement: AWSEncodableShape & AWSDecodableShape {
+        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        public let fieldToMatch: FieldToMatch
+        /// The string representing the regular expression.
+        public let regexString: String
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        public let textTransformations: [TextTransformation]
+
+        public init(fieldToMatch: FieldToMatch, regexString: String, textTransformations: [TextTransformation]) {
+            self.fieldToMatch = fieldToMatch
+            self.regexString = regexString
+            self.textTransformations = textTransformations
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.validate(self.regexString, name: "regexString", parent: name, max: 512)
+            try self.validate(self.regexString, name: "regexString", parent: name, min: 1)
+            try self.validate(self.regexString, name: "regexString", parent: name, pattern: ".*")
+            try self.textTransformations.forEach {
+                try $0.validate(name: "\(name).textTransformations[]")
+            }
+            try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldToMatch = "FieldToMatch"
+            case regexString = "RegexString"
+            case textTransformations = "TextTransformations"
+        }
+    }
+
     public struct RegexPatternSet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -3727,6 +3759,8 @@ extension WAFV2 {
         public let orStatement: OrStatement?
         /// A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span. You can use this to put a temporary block on requests from an IP address that is sending excessive requests.  WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF.  When the rule action triggers, WAF blocks additional requests from the IP address until the request rate falls below the limit. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts requests that match the nested statement. For example, based on recent requests that you have seen from an attacker, you might create a rate-based rule with a nested AND rule statement that contains the following nested statements:   An IP match statement with an IP set that specified the address 192.0.2.44.   A string match statement that searches in the User-Agent header for the string BadBot.   In this rate-based rule, you also define a rate limit. For this example, the rate limit is 1,000. Requests that meet both of the conditions in the statements are counted. If the count exceeds 1,000 requests per five minutes, the rule action triggers. Requests that do not meet both conditions are not counted towards the rate limit and are not affected by this rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group.
         public let rateBasedStatement: RateBasedStatement?
+        /// A rule statement used to search web request components for a match against a single regular expression.
+        public let regexMatchStatement: RegexMatchStatement?
         /// A rule statement used to search web request components for matches with regular expressions. To use this, create a RegexPatternSet that specifies the expressions that you want to detect, then use the ARN of that set in this statement. A web request matches the pattern set rule statement if the request component matches any of the patterns in the set. To create a regex pattern set, see CreateRegexPatternSet. Each regex pattern set rule statement references a regex pattern set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, WAF automatically updates all rules that reference it.
         public let regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement?
         /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You can only use a rule group reference statement at the top level inside a web ACL.
@@ -3738,7 +3772,7 @@ extension WAFV2 {
         /// A rule statement that defines a cross-site scripting (XSS) match search for WAF to apply to web requests. XSS attacks are those where the attacker uses vulnerabilities in a benign website as a vehicle to inject malicious client-site scripts into other legitimate web browsers. The XSS match statement provides the location in requests that you want WAF to search and text transformations to use on the search area before WAF searches for character sequences that are likely to be malicious strings.
         public let xssMatchStatement: XssMatchStatement?
 
-        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, iPSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
+        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, iPSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
             self.andStatement = andStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
@@ -3748,6 +3782,7 @@ extension WAFV2 {
             self.notStatement = notStatement
             self.orStatement = orStatement
             self.rateBasedStatement = rateBasedStatement
+            self.regexMatchStatement = regexMatchStatement
             self.regexPatternSetReferenceStatement = regexPatternSetReferenceStatement
             self.ruleGroupReferenceStatement = ruleGroupReferenceStatement
             self.sizeConstraintStatement = sizeConstraintStatement
@@ -3765,6 +3800,7 @@ extension WAFV2 {
             try self.notStatement?.validate(name: "\(name).notStatement")
             try self.orStatement?.validate(name: "\(name).orStatement")
             try self.rateBasedStatement?.validate(name: "\(name).rateBasedStatement")
+            try self.regexMatchStatement?.validate(name: "\(name).regexMatchStatement")
             try self.regexPatternSetReferenceStatement?.validate(name: "\(name).regexPatternSetReferenceStatement")
             try self.ruleGroupReferenceStatement?.validate(name: "\(name).ruleGroupReferenceStatement")
             try self.sizeConstraintStatement?.validate(name: "\(name).sizeConstraintStatement")
@@ -3782,6 +3818,7 @@ extension WAFV2 {
             case notStatement = "NotStatement"
             case orStatement = "OrStatement"
             case rateBasedStatement = "RateBasedStatement"
+            case regexMatchStatement = "RegexMatchStatement"
             case regexPatternSetReferenceStatement = "RegexPatternSetReferenceStatement"
             case ruleGroupReferenceStatement = "RuleGroupReferenceStatement"
             case sizeConstraintStatement = "SizeConstraintStatement"

@@ -389,6 +389,12 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaintenanceWindowTaskCutoffBehavior: String, CustomStringConvertible, Codable {
+        case cancelTask = "CANCEL_TASK"
+        case continueTask = "CONTINUE_TASK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MaintenanceWindowTaskType: String, CustomStringConvertible, Codable {
         case automation = "AUTOMATION"
         case lambda = "LAMBDA"
@@ -834,7 +840,7 @@ extension SSM {
         public let associationType: String
         /// The ID of the OpsItem to which you want to associate a resource as a related item.
         public let opsItemId: String
-        /// The type of resource that you want to associate with an OpsItem. OpsCenter supports the following types:  AWS::SSMIncidents::IncidentRecord: an Incident Manager incident. Incident Manager is a capability of Amazon Web Services Systems Manager.  AWS::SSM::Document: a Systems Manager (SSM) document.
+        /// The type of resource that you want to associate with an OpsItem. OpsCenter supports the following types:  AWS::SSMIncidents::IncidentRecord: an Incident Manager incident.   AWS::SSM::Document: a Systems Manager (SSM) document.
         public let resourceType: String
         /// The Amazon Resource Name (ARN) of the Amazon Web Services resource that you want to associate with the OpsItem.
         public let resourceUri: String
@@ -890,7 +896,7 @@ extension SSM {
         public let overview: AssociationOverview?
         /// A cron expression that specifies a schedule when the association runs. The schedule runs in Coordinated Universal Time (UTC).
         public let scheduleExpression: String?
-        /// The instances targeted by the request to create an association.
+        /// The instances targeted by the request to create an association. You can target all instances in an Amazon Web Services account by specifying the InstanceIds key with a value of *.
         public let targets: [Target]?
 
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, name: String? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
@@ -1918,7 +1924,7 @@ extension SSM {
     public struct CommandFilter: AWSEncodableShape {
         /// The name of the filter.
         public let key: CommandFilterKey
-        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. Status values you can specify include:    Pending     InProgress     Success     Cancelled     Failed     TimedOut     Cancelling       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on instances.     ExecutionStage: Specify one of the following values:    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
+        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on instances.     ExecutionStage: Specify one of the following values:    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
         public let value: String
 
         public init(key: CommandFilterKey, value: String) {
@@ -1952,7 +1958,7 @@ extension SSM {
         public let documentVersion: String?
         /// The instance ID in which this invocation was requested.
         public let instanceId: String?
-        /// The name of the invocation target. For EC2 instances this is the value for the aws:Name tag. For on-premises instances, this is the name of the instance.
+        /// The fully qualified host name of the managed instance.
         public let instanceName: String?
         /// Configurations for sending notifications about command status changes on a per instance basis.
         public let notificationConfig: NotificationConfig?
@@ -2477,7 +2483,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
-        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an Amazon Web Services account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
+        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an Amazon Web Services account, or individual instance IDs. You can target all instances in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
         public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
@@ -5183,9 +5189,9 @@ extension SSM {
     }
 
     public struct DisassociateOpsItemRelatedItemRequest: AWSEncodableShape {
-        /// The ID of the association for which you want to delete an association between the OpsItem and a related resource.
+        /// The ID of the association for which you want to delete an association between the OpsItem and a related item.
         public let associationId: String
-        /// The ID of the OpsItem for which you want to delete an association between the OpsItem and a related resource.
+        /// The ID of the OpsItem for which you want to delete an association between the OpsItem and a related item.
         public let opsItemId: String
 
         public init(associationId: String, opsItemId: String) {
@@ -6558,6 +6564,8 @@ extension SSM {
     }
 
     public struct GetMaintenanceWindowTaskResult: AWSDecodableShape {
+        /// The action to take on tasks when the maintenance window cutoff time is reached. CONTINUE_TASK means that tasks continue to run. For Automation, Lambda, Step Functions tasks, CANCEL_TASK means that currently running task invocations continue, but no new task invocations are started. For Run Command tasks, CANCEL_TASK means the system attempts to stop the task by sending a CancelCommand operation.
+        public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// The retrieved task description.
         public let description: String?
         /// The location in Amazon Simple Storage Service (Amazon S3) where the task results are logged.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
@@ -6587,7 +6595,8 @@ extension SSM {
         /// The retrieved maintenance window task ID.
         public let windowTaskId: String?
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+            self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -6605,6 +6614,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
             case maxConcurrency = "MaxConcurrency"
@@ -6862,7 +6872,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
-        /// Filters to limit the request results.  For GetParametersByPath, the following filter Key names are supported: Type, KeyId, Label, and DataType. The following Key values are not supported for GetParametersByPath: tag, Name, Path, and Tier.
+        /// Filters to limit the request results.  The following Key values are supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierachy is the parameter name except the last part of the parameter. For the API call to succeeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
         public let path: String
@@ -9138,6 +9148,8 @@ extension SSM {
     }
 
     public struct MaintenanceWindowTask: AWSDecodableShape {
+        /// The specification for whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
+        public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// A description of the task.
         public let description: String?
         /// Information about an S3 bucket to write task-level logs to.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
@@ -9165,7 +9177,8 @@ extension SSM {
         /// The task ID.
         public let windowTaskId: String?
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+            self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -9182,6 +9195,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
             case maxConcurrency = "MaxConcurrency"
@@ -10122,7 +10136,7 @@ extension SSM {
     }
 
     public struct ParameterStringFilter: AWSEncodableShape {
-        /// The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeActions, all of the listed patterns are valid, with the exception of Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeActions, all of the listed patterns are valid except Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, DataType, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
         public let key: String
         /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using Label as the Key name, the only valid option is Equals.)
         public let option: String?
@@ -10915,6 +10929,8 @@ extension SSM {
     public struct RegisterTaskWithMaintenanceWindowRequest: AWSEncodableShape {
         /// User-provided idempotency token.
         public let clientToken: String?
+        /// Indicates whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task invocations that are already running continue, but no new task invocations are started.   For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand operation that attempts to cancel the command associated with the task. However, there is no guarantee that the command will be terminated and the underlying process stopped.   The status for tasks that are not completed is TIMED_OUT.
+        public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// An optional description for the task.
         public let description: String?
         /// A structure containing information about an Amazon Simple Storage Service (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
@@ -10942,8 +10958,9 @@ extension SSM {
         /// The ID of the maintenance window the task should be added to.
         public let windowId: String
 
-        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
+        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
             self.clientToken = clientToken
+            self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -10995,6 +11012,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
             case maxConcurrency = "MaxConcurrency"
@@ -11544,7 +11562,7 @@ extension SSM {
         public let outputS3BucketName: String?
         /// The S3 bucket subfolder.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Amazon Web Services Systems Manager automatically determines the Region of the S3 bucket.
+        /// The Amazon Web Services Region of the S3 bucket.
         public let outputS3Region: String?
 
         public init(outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil) {
@@ -11647,7 +11665,7 @@ extension SSM {
         public let documentHash: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated.
         public let documentHashType: DocumentHashType?
-        /// The name of the Amazon Web Services Systems Manager document (SSM document) to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see Using shared SSM documents in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the Amazon Web Services Systems Manager document (SSM document) to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document Amazon Resource Name (ARN). For more information about how to use shared documents, see Using shared SSM documents in the Amazon Web Services Systems Manager User Guide.  If you specify a document name or ARN that hasn't been shared with your account, you receive an InvalidDocument error.
         public let documentName: String
         /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the Command Line Interface (Amazon Web Services CLI), then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
@@ -12043,6 +12061,8 @@ extension SSM {
     }
 
     public struct StartChangeRequestExecutionRequest: AWSEncodableShape {
+        /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review.  Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
+        public let autoApprove: Bool?
         /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
         public let changeDetails: String?
         /// The name of the change request associated with the runbook workflow to be run.
@@ -12064,7 +12084,8 @@ extension SSM {
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
-        public init(changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+        public init(autoApprove: Bool? = nil, changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+            self.autoApprove = autoApprove
             self.changeDetails = changeDetails
             self.changeRequestName = changeRequestName
             self.clientToken = clientToken
@@ -12105,6 +12126,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoApprove = "AutoApprove"
             case changeDetails = "ChangeDetails"
             case changeRequestName = "ChangeRequestName"
             case clientToken = "ClientToken"
@@ -13032,6 +13054,8 @@ extension SSM {
     }
 
     public struct UpdateMaintenanceWindowTaskRequest: AWSEncodableShape {
+        /// Indicates whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task invocations that are already running continue, but no new task invocations are started.   For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand operation that attempts to cancel the command associated with the task. However, there is no guarantee that the command will be terminated and the underlying process stopped.   The status for tasks that are not completed is TIMED_OUT.
+        public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// The new task description to specify.
         public let description: String?
         /// The new logging location in Amazon S3 to specify.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
@@ -13061,7 +13085,8 @@ extension SSM {
         /// The task ID to modify.
         public let windowTaskId: String
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
+        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
+            self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -13114,6 +13139,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
             case maxConcurrency = "MaxConcurrency"
@@ -13132,6 +13158,8 @@ extension SSM {
     }
 
     public struct UpdateMaintenanceWindowTaskResult: AWSDecodableShape {
+        /// The specification for whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
+        public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// The updated task description.
         public let description: String?
         /// The updated logging information in Amazon S3.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
@@ -13159,7 +13187,8 @@ extension SSM {
         /// The task ID of the maintenance window that was updated.
         public let windowTaskId: String?
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+            self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -13176,6 +13205,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
             case maxConcurrency = "MaxConcurrency"
@@ -13556,7 +13586,7 @@ extension SSM {
     public struct UpdateServiceSettingRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
         public let settingId: String
-        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false. For the /ssm/automation/customer-script-log-destination setting ID, the setting value can be CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting value can be the name of an Amazon CloudWatch Logs log group. For the /ssm/documents/console/public-sharing-permission setting ID, the setting value can be Enable or Disable.
+        /// The new value to specify for the service setting. The following list specifies the available values for each setting.    /ssm/parameter-store/default-parameter-tier: Standard, Advanced, Intelligent-Tiering     /ssm/parameter-store/high-throughput-enabled: true or false     /ssm/managed-instance/activation-tier: true or false     /ssm/automation/customer-script-log-destination: CloudWatch     /ssm/automation/customer-script-log-group-name: the name of an Amazon CloudWatch Logs log group    /ssm/documents/console/public-sharing-permission: Enable or Disable     /ssm/managed-instance/activation-tier: standard or advanced
         public let settingValue: String
 
         public init(settingId: String, settingValue: String) {

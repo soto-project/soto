@@ -284,6 +284,59 @@ extension WorkMail {
         )
     }
 
+    ///  Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMobileDeviceAccessOverridesPaginator<Result>(
+        _ input: ListMobileDeviceAccessOverridesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMobileDeviceAccessOverridesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMobileDeviceAccessOverrides,
+            inputKey: \ListMobileDeviceAccessOverridesRequest.nextToken,
+            outputKey: \ListMobileDeviceAccessOverridesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMobileDeviceAccessOverridesPaginator(
+        _ input: ListMobileDeviceAccessOverridesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMobileDeviceAccessOverridesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMobileDeviceAccessOverrides,
+            inputKey: \ListMobileDeviceAccessOverridesRequest.nextToken,
+            outputKey: \ListMobileDeviceAccessOverridesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns summaries of the customer's organizations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -546,6 +599,18 @@ extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
+        )
+    }
+}
+
+extension WorkMail.ListMobileDeviceAccessOverridesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListMobileDeviceAccessOverridesRequest {
+        return .init(
+            deviceId: self.deviceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId,
+            userId: self.userId
         )
     }
 }

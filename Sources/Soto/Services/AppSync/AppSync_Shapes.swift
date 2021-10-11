@@ -85,6 +85,7 @@ extension AppSync {
     public enum DataSourceType: String, CustomStringConvertible, Codable {
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
+        case amazonOpensearchService = "AMAZON_OPENSEARCH_SERVICE"
         case awsLambda = "AWS_LAMBDA"
         case http = "HTTP"
         case none = "NONE"
@@ -141,9 +142,9 @@ extension AppSync {
     // MARK: Shapes
 
     public struct AdditionalAuthenticationProvider: AWSEncodableShape & AWSDecodableShape {
-        /// The authentication type: API key, Identity and Access Management, OIDC, or Amazon Cognito user pools.
+        /// The authentication type: API key, Identity and Access Management, OIDC, Amazon Cognito user pools, or Amazon Web Services Lambda.
         public let authenticationType: AuthenticationType?
-        /// Configuration for AWS Lambda function authorization.
+        /// Configuration for Amazon Web Services Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The OpenID Connect configuration.
         public let openIDConnectConfig: OpenIDConnectConfig?
@@ -396,7 +397,7 @@ extension AppSync {
         public let description: String?
         /// Amazon DynamoDB settings.
         public let dynamodbConfig: DynamodbDataSourceConfig?
-        /// Amazon Elasticsearch Service settings.
+        /// Amazon OpenSearch Service settings. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. For new data sources, use CreateDataSourceRequest$openSearchServiceConfig to create an OpenSearch data source.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
@@ -404,6 +405,8 @@ extension AppSync {
         public let lambdaConfig: LambdaDataSourceConfig?
         /// A user-supplied name for the DataSource.
         public let name: String
+        /// Amazon OpenSearch Service settings.
+        public let openSearchServiceConfig: OpenSearchServiceDataSourceConfig?
         /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
         /// The Identity and Access Management service role ARN for the data source. The system assumes this role when accessing the data source.
@@ -411,7 +414,7 @@ extension AppSync {
         /// The type of the DataSource.
         public let type: DataSourceType
 
-        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
+        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
             self.description = description
             self.dynamodbConfig = dynamodbConfig
@@ -419,6 +422,7 @@ extension AppSync {
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
+            self.openSearchServiceConfig = openSearchServiceConfig
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
             self.type = type
@@ -437,6 +441,7 @@ extension AppSync {
             case httpConfig
             case lambdaConfig
             case name
+            case openSearchServiceConfig
             case relationalDatabaseConfig
             case serviceRoleArn
             case type
@@ -528,9 +533,9 @@ extension AppSync {
     public struct CreateGraphqlApiRequest: AWSEncodableShape {
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
-        /// The authentication type: API key, Identity and Access Management, OIDC, or Amazon Cognito user pools.
+        /// The authentication type: API key, Identity and Access Management, OIDC, Amazon Cognito user pools, or Amazon Web Services Lambda.
         public let authenticationType: AuthenticationType
-        /// Configuration for AWS Lambda function authorization.
+        /// Configuration for Amazon Web Services Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
@@ -721,7 +726,7 @@ extension AppSync {
         public let description: String?
         /// Amazon DynamoDB settings.
         public let dynamodbConfig: DynamodbDataSourceConfig?
-        /// Amazon Elasticsearch Service settings.
+        /// Amazon OpenSearch Service settings.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
@@ -729,14 +734,16 @@ extension AppSync {
         public let lambdaConfig: LambdaDataSourceConfig?
         /// The name of the data source.
         public let name: String?
+        /// Amazon OpenSearch Service settings.
+        public let openSearchServiceConfig: OpenSearchServiceDataSourceConfig?
         /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
         /// The Identity and Access Management service role ARN for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
-        /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an Amazon Web Services Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
+        /// The type of the data source.    AWS_LAMBDA: The data source is an Amazon Web Services Lambda function.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon OpenSearch Service domain.    AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
         public let type: DataSourceType?
 
-        public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
+        public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
             self.dataSourceArn = dataSourceArn
             self.description = description
             self.dynamodbConfig = dynamodbConfig
@@ -744,6 +751,7 @@ extension AppSync {
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
+            self.openSearchServiceConfig = openSearchServiceConfig
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
             self.type = type
@@ -757,6 +765,7 @@ extension AppSync {
             case httpConfig
             case lambdaConfig
             case name
+            case openSearchServiceConfig
             case relationalDatabaseConfig
             case serviceRoleArn
             case type
@@ -1377,7 +1386,7 @@ extension AppSync {
         public let arn: String?
         /// The authentication type.
         public let authenticationType: AuthenticationType?
-        ///  Configuration for AWS Lambda function authorization.
+        /// Configuration for Amazon Web Services Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
@@ -1449,9 +1458,9 @@ extension AppSync {
     public struct LambdaAuthorizerConfig: AWSEncodableShape & AWSDecodableShape {
         /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds). The Lambda function can override this by returning a ttlOverride key in its response. A value of 0 disables caching of responses.
         public let authorizerResultTtlInSeconds: Int?
-        /// The ARN of the lambda function to be called for authorization. This may be a standard Lambda ARN, a version ARN (.../v3) or alias ARN.   Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the Console, this is done for you. To do so with the AWS CLI, run the following:  aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
+        /// The ARN of the Lambda function to be called for authorization. This may be a standard Lambda ARN, a version ARN (.../v3) or alias ARN.   Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the Console, this is done for you. To do so with the Amazon Web Services CLI, run the following:  aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
         public let authorizerUri: String
-        /// A regular expression for validation of tokens before the Lambda Function is called.
+        /// A regular expression for validation of tokens before the Lambda function is called.
         public let identityValidationExpression: String?
 
         public init(authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String, identityValidationExpression: String? = nil) {
@@ -1922,6 +1931,23 @@ extension AppSync {
         }
     }
 
+    public struct OpenSearchServiceDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services Region.
+        public let awsRegion: String
+        /// The endpoint.
+        public let endpoint: String
+
+        public init(awsRegion: String, endpoint: String) {
+            self.awsRegion = awsRegion
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsRegion
+            case endpoint
+        }
+    }
+
     public struct PipelineConfig: AWSEncodableShape & AWSDecodableShape {
         /// A list of Function objects.
         public let functions: [String]?
@@ -2279,7 +2305,7 @@ extension AppSync {
         public let description: String?
         /// The new Amazon DynamoDB configuration.
         public let dynamodbConfig: DynamodbDataSourceConfig?
-        /// The new Elasticsearch Service configuration.
+        /// The new OpenSearch configuration. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. Instead, use UpdateDataSourceRequest$openSearchServiceConfig to update an OpenSearch data source.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// The new HTTP endpoint configuration.
         public let httpConfig: HttpDataSourceConfig?
@@ -2287,6 +2313,8 @@ extension AppSync {
         public let lambdaConfig: LambdaDataSourceConfig?
         /// The new name for the data source.
         public let name: String
+        /// The new OpenSearch configuration.
+        public let openSearchServiceConfig: OpenSearchServiceDataSourceConfig?
         /// The new relational database configuration.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
         /// The new service role ARN for the data source.
@@ -2294,7 +2322,7 @@ extension AppSync {
         /// The new data source type.
         public let type: DataSourceType
 
-        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
+        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
             self.description = description
             self.dynamodbConfig = dynamodbConfig
@@ -2302,6 +2330,7 @@ extension AppSync {
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
+            self.openSearchServiceConfig = openSearchServiceConfig
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
             self.type = type
@@ -2319,6 +2348,7 @@ extension AppSync {
             case elasticsearchConfig
             case httpConfig
             case lambdaConfig
+            case openSearchServiceConfig
             case relationalDatabaseConfig
             case serviceRoleArn
             case type
@@ -2425,7 +2455,7 @@ extension AppSync {
         public let apiId: String
         /// The new authentication type for the GraphqlApi object.
         public let authenticationType: AuthenticationType?
-        /// Configuration for AWS Lambda function authorization.
+        /// Configuration for Amazon Web Services Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration for the GraphqlApi object.
         public let logConfig: LogConfig?

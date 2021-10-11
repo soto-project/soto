@@ -799,6 +799,43 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct DeleteMobileDeviceAccessOverrideRequest: AWSEncodableShape {
+        /// The mobile device for which you delete the override. DeviceId is case insensitive.
+        public let deviceId: String
+        /// The Amazon WorkMail organization for which the access override will be deleted.
+        public let organizationId: String
+        /// The WorkMail user for which you want to delete the override. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
+        public let userId: String
+
+        public init(deviceId: String, organizationId: String, userId: String) {
+            self.deviceId = deviceId
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 32)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[A-Za-z0-9]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z0-9._%+@-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct DeleteMobileDeviceAccessOverrideResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteMobileDeviceAccessRuleRequest: AWSEncodableShape {
         /// The identifier of the rule to be deleted.
         public let mobileDeviceAccessRuleId: String
@@ -1049,6 +1086,38 @@ extension WorkMail {
             case groupId = "GroupId"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct DescribeInboundDmarcSettingsRequest: AWSEncodableShape {
+        /// Lists the ID of the given organization.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeInboundDmarcSettingsResponse: AWSDecodableShape {
+        /// Lists the enforcement setting of the applied policy.
+        public let enforced: Bool?
+
+        public init(enforced: Bool? = nil) {
+            self.enforced = enforced
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforced = "Enforced"
         }
     }
 
@@ -1661,6 +1730,72 @@ extension WorkMail {
         }
     }
 
+    public struct GetMobileDeviceAccessOverrideRequest: AWSEncodableShape {
+        /// The mobile device to which the override applies. DeviceId is case insensitive.
+        public let deviceId: String
+        /// The Amazon WorkMail organization to which you want to apply the override.
+        public let organizationId: String
+        /// Identifies the WorkMail user for the override. Accepts the following types of user identities:    User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
+        public let userId: String
+
+        public init(deviceId: String, organizationId: String, userId: String) {
+            self.deviceId = deviceId
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 32)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[A-Za-z0-9]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z0-9._%+@-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct GetMobileDeviceAccessOverrideResponse: AWSDecodableShape {
+        /// The date the override was first created.
+        public let dateCreated: Date?
+        /// The date the description was last modified.
+        public let dateModified: Date?
+        /// A description of the override.
+        public let description: String?
+        /// The device to which the access override applies.
+        public let deviceId: String?
+        /// The effect of the override, ALLOW or DENY.
+        public let effect: MobileDeviceAccessRuleEffect?
+        /// The WorkMail user to which the access override applies.
+        public let userId: String?
+
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, deviceId: String? = nil, effect: MobileDeviceAccessRuleEffect? = nil, userId: String? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.description = description
+            self.deviceId = deviceId
+            self.effect = effect
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case description = "Description"
+            case deviceId = "DeviceId"
+            case effect = "Effect"
+            case userId = "UserId"
+        }
+    }
+
     public struct Group: AWSDecodableShape {
         /// The date indicating when the group was disabled from Amazon WorkMail use.
         public let disabledDate: Date?
@@ -1986,6 +2121,69 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case permissions = "Permissions"
+        }
+    }
+
+    public struct ListMobileDeviceAccessOverridesRequest: AWSEncodableShape {
+        /// The mobile device to which the access override applies.
+        public let deviceId: String?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results. The first call does not require a token.
+        public let nextToken: String?
+        /// The Amazon WorkMail organization under which to list mobile device access overrides.
+        public let organizationId: String
+        /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
+        public let userId: String?
+
+        public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, userId: String? = nil) {
+            self.deviceId = deviceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 32)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[A-Za-z0-9]+")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z0-9._%+@-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct ListMobileDeviceAccessOverridesResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. The value is “null” when there are no more results to return.
+        public let nextToken: String?
+        /// The list of mobile device access overrides that exist for the specified Amazon WorkMail organization and user.
+        public let overrides: [MobileDeviceAccessOverride]?
+
+        public init(nextToken: String? = nil, overrides: [MobileDeviceAccessOverride]? = nil) {
+            self.nextToken = nextToken
+            self.overrides = overrides
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case overrides = "Overrides"
         }
     }
 
@@ -2342,6 +2540,39 @@ extension WorkMail {
         }
     }
 
+    public struct MobileDeviceAccessOverride: AWSDecodableShape {
+        /// The date the override was first created.
+        public let dateCreated: Date?
+        /// The date the override was last modified.
+        public let dateModified: Date?
+        /// A description of the override.
+        public let description: String?
+        /// The device to which the override applies.
+        public let deviceId: String?
+        /// The effect of the override, ALLOW or DENY.
+        public let effect: MobileDeviceAccessRuleEffect?
+        /// The WorkMail user to which the access override applies.
+        public let userId: String?
+
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, deviceId: String? = nil, effect: MobileDeviceAccessRuleEffect? = nil, userId: String? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.description = description
+            self.deviceId = deviceId
+            self.effect = effect
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case description = "Description"
+            case deviceId = "DeviceId"
+            case effect = "Effect"
+            case userId = "UserId"
+        }
+    }
+
     public struct MobileDeviceAccessRule: AWSDecodableShape {
         /// The date and time at which an access rule was created.
         public let dateCreated: Date?
@@ -2562,6 +2793,33 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct PutInboundDmarcSettingsRequest: AWSEncodableShape {
+        /// Enforces or suspends a policy after it's applied.
+        public let enforced: Bool
+        /// The ID of the organization that you are applying the DMARC policy to.
+        public let organizationId: String
+
+        public init(enforced: Bool, organizationId: String) {
+            self.enforced = enforced
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforced = "Enforced"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct PutInboundDmarcSettingsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutMailboxPermissionsRequest: AWSEncodableShape {
         /// The identifier of the user, group, or resource for which to update mailbox permissions.
         public let entityId: String
@@ -2598,6 +2856,54 @@ extension WorkMail {
     }
 
     public struct PutMailboxPermissionsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutMobileDeviceAccessOverrideRequest: AWSEncodableShape {
+        /// A description of the override.
+        public let description: String?
+        /// The mobile device for which you create the override. DeviceId is case insensitive.
+        public let deviceId: String
+        /// The effect of the override, ALLOW or DENY.
+        public let effect: MobileDeviceAccessRuleEffect
+        /// Identifies the Amazon WorkMail organization for which you create the override.
+        public let organizationId: String
+        /// The WorkMail user for which you create the override. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
+        public let userId: String
+
+        public init(description: String? = nil, deviceId: String, effect: MobileDeviceAccessRuleEffect, organizationId: String, userId: String) {
+            self.description = description
+            self.deviceId = deviceId
+            self.effect = effect
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]+")
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 32)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[A-Za-z0-9]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z0-9._%+@-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceId = "DeviceId"
+            case effect = "Effect"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct PutMobileDeviceAccessOverrideResponse: AWSDecodableShape {
         public init() {}
     }
 

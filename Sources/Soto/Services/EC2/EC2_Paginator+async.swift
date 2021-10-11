@@ -66,6 +66,28 @@ extension EC2 {
         )
     }
 
+    ///  Describes one or more Capacity Reservation Fleets.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeCapacityReservationFleetsPaginator(
+        _ input: DescribeCapacityReservationFleetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityReservationFleetsRequest, DescribeCapacityReservationFleetsResult> {
+        return .init(
+            input: input,
+            command: describeCapacityReservationFleets,
+            inputKey: \DescribeCapacityReservationFleetsRequest.nextToken,
+            outputKey: \DescribeCapacityReservationFleetsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Amazon Web Services Region that you're currently using.
     /// Return PaginatorSequence for operation.
     ///
@@ -2195,6 +2217,28 @@ extension EC2 {
             command: getTransitGatewayRouteTablePropagations,
             inputKey: \GetTransitGatewayRouteTablePropagationsRequest.nextToken,
             outputKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getVpnConnectionDeviceTypesPaginator(
+        _ input: GetVpnConnectionDeviceTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetVpnConnectionDeviceTypesRequest, GetVpnConnectionDeviceTypesResult> {
+        return .init(
+            input: input,
+            command: getVpnConnectionDeviceTypes,
+            inputKey: \GetVpnConnectionDeviceTypesRequest.nextToken,
+            outputKey: \GetVpnConnectionDeviceTypesResult.nextToken,
             logger: logger,
             on: eventLoop
         )

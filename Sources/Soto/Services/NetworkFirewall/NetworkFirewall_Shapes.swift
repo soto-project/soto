@@ -78,6 +78,12 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuleOrder: String, CustomStringConvertible, Codable {
+        case defaultActionOrder = "DEFAULT_ACTION_ORDER"
+        case strictOrder = "STRICT_ORDER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StatefulAction: String, CustomStringConvertible, Codable {
         case alert = "ALERT"
         case drop = "DROP"
@@ -162,7 +168,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, max: 255)
             try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, min: 1)
-            try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, pattern: "^([a-fA-F\\d:\\.]+/\\d{1,3})$")
+            try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, pattern: "^([a-fA-F\\d:\\.]+($|/\\d{1,3}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,7 +501,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.rules, name: "rules", parent: name, max: 1_000_000)
+            try self.validate(self.rules, name: "rules", parent: name, max: 2_000_000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1078,7 +1084,11 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// References to the stateless rule groups that are used in the policy. These define the inspection criteria in stateful rules.
+        /// The default actions to take on a packet that doesn't match any stateful rules.
+        public let statefulDefaultActions: [String]?
+        /// Additional options governing how Network Firewall handles stateful rules. The stateful rule groups that you use in your policy must have stateful rule options settings that are compatible with these settings.
+        public let statefulEngineOptions: StatefulEngineOptions?
+        /// References to the stateful rule groups that are used in the policy. These define the inspection criteria in stateful rules.
         public let statefulRuleGroupReferences: [StatefulRuleGroupReference]?
         /// The custom action definitions that are available for use in the firewall policy's StatelessDefaultActions setting. You name each custom action that you define, and then you can use it by name in your default actions specifications.
         public let statelessCustomActions: [CustomAction]?
@@ -1089,7 +1099,9 @@ extension NetworkFirewall {
         /// References to the stateless rule groups that are used in the policy. These define the matching criteria in stateless rules.
         public let statelessRuleGroupReferences: [StatelessRuleGroupReference]?
 
-        public init(statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil) {
+        public init(statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil) {
+            self.statefulDefaultActions = statefulDefaultActions
+            self.statefulEngineOptions = statefulEngineOptions
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
             self.statelessCustomActions = statelessCustomActions
             self.statelessDefaultActions = statelessDefaultActions
@@ -1110,6 +1122,8 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case statefulDefaultActions = "StatefulDefaultActions"
+            case statefulEngineOptions = "StatefulEngineOptions"
             case statefulRuleGroupReferences = "StatefulRuleGroupReferences"
             case statelessCustomActions = "StatelessCustomActions"
             case statelessDefaultActions = "StatelessDefaultActions"
@@ -1136,6 +1150,10 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicyResponse: AWSDecodableShape {
+        /// The number of capacity units currently consumed by the policy's stateful rules.
+        public let consumedStatefulRuleCapacity: Int?
+        /// The number of capacity units currently consumed by the policy's stateless rules.
+        public let consumedStatelessRuleCapacity: Int?
         /// A description of the firewall policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the firewall policy.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
@@ -1146,24 +1164,32 @@ extension NetworkFirewall {
         public let firewallPolicyName: String
         /// The current status of the firewall policy. You can retrieve this for a firewall policy by calling DescribeFirewallPolicy and providing the firewall policy's name or ARN.
         public let firewallPolicyStatus: ResourceStatus?
+        /// The number of firewalls that are associated with this firewall policy.
+        public let numberOfAssociations: Int?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, tags: [Tag]? = nil) {
+        public init(consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
+            self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
+            self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyId = firewallPolicyId
             self.firewallPolicyName = firewallPolicyName
             self.firewallPolicyStatus = firewallPolicyStatus
+            self.numberOfAssociations = numberOfAssociations
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedStatefulRuleCapacity = "ConsumedStatefulRuleCapacity"
+            case consumedStatelessRuleCapacity = "ConsumedStatelessRuleCapacity"
             case description = "Description"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyId = "FirewallPolicyId"
             case firewallPolicyName = "FirewallPolicyName"
             case firewallPolicyStatus = "FirewallPolicyStatus"
+            case numberOfAssociations = "NumberOfAssociations"
             case tags = "Tags"
         }
     }
@@ -1192,7 +1218,7 @@ extension NetworkFirewall {
     public struct Header: AWSEncodableShape & AWSDecodableShape {
         /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let destination: String
-        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990-1994. To match with any port, specify ANY.
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
         public let destinationPort: String
         /// The direction of traffic flow to inspect. If set to ANY, the inspection matches bidirectional traffic, both from the source to the destination and from the destination to the source. If set to FORWARD, the inspection only matches traffic going from the source to the destination.
         public let direction: StatefulRuleDirection
@@ -1200,7 +1226,7 @@ extension NetworkFirewall {
         public let `protocol`: StatefulRuleProtocol
         /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let source: String
-        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990-1994. To match with any port, specify ANY.
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
         public let sourcePort: String
 
         public init(destination: String, destinationPort: String, direction: StatefulRuleDirection, protocol: StatefulRuleProtocol, source: String, sourcePort: String) {
@@ -1493,13 +1519,13 @@ extension NetworkFirewall {
     }
 
     public struct MatchAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// The destination ports to inspect for. If not specified, this matches with any destination port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990-1994.
+        /// The destination ports to inspect for. If not specified, this matches with any destination port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
         public let destinationPorts: [PortRange]?
         /// The destination IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any destination address.
         public let destinations: [Address]?
         /// The protocols to inspect for, specified using each protocol's assigned internet protocol number (IANA). If not specified, this matches with any protocol.
         public let protocols: [Int]?
-        /// The source ports to inspect for. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990-1994.
+        /// The source ports to inspect for. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
         public let sourcePorts: [PortRange]?
         /// The source IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any source address.
         public let sources: [Address]?
@@ -1681,10 +1707,13 @@ extension NetworkFirewall {
         public let rulesSource: RulesSource
         /// Settings that are available for use in the rules in the rule group. You can only use these for stateful rule groups.
         public let ruleVariables: RuleVariables?
+        /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings.
+        public let statefulRuleOptions: StatefulRuleOptions?
 
-        public init(rulesSource: RulesSource, ruleVariables: RuleVariables? = nil) {
+        public init(rulesSource: RulesSource, ruleVariables: RuleVariables? = nil, statefulRuleOptions: StatefulRuleOptions? = nil) {
             self.rulesSource = rulesSource
             self.ruleVariables = ruleVariables
+            self.statefulRuleOptions = statefulRuleOptions
         }
 
         public func validate(name: String) throws {
@@ -1695,6 +1724,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case rulesSource = "RulesSource"
             case ruleVariables = "RuleVariables"
+            case statefulRuleOptions = "StatefulRuleOptions"
         }
     }
 
@@ -1718,8 +1748,12 @@ extension NetworkFirewall {
     public struct RuleGroupResponse: AWSDecodableShape {
         /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.
         public let capacity: Int?
+        /// The number of capacity units currently consumed by the rule group rules.
+        public let consumedCapacity: Int?
         /// A description of the rule group.
         public let description: String?
+        /// The number of firewall policies that use this rule group.
+        public let numberOfAssociations: Int?
         /// The Amazon Resource Name (ARN) of the rule group.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
         public let ruleGroupArn: String
         /// The unique identifier for the rule group.
@@ -1733,9 +1767,11 @@ extension NetworkFirewall {
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType?
 
-        public init(capacity: Int? = nil, description: String? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
+        public init(capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
             self.capacity = capacity
+            self.consumedCapacity = consumedCapacity
             self.description = description
+            self.numberOfAssociations = numberOfAssociations
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupId = ruleGroupId
             self.ruleGroupName = ruleGroupName
@@ -1746,7 +1782,9 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
+            case consumedCapacity = "ConsumedCapacity"
             case description = "Description"
+            case numberOfAssociations = "NumberOfAssociations"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupId = "RuleGroupId"
             case ruleGroupName = "RuleGroupName"
@@ -1819,7 +1857,7 @@ extension NetworkFirewall {
         public let rulesSourceList: RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
         public let rulesString: String?
-        /// The 5-tuple stateful inspection criteria. This contains an array of individual 5-tuple stateful rules to be used together in a stateful rule group.
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see Rules Format.
         public let statefulRules: [StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public let statelessRulesAndCustomActions: StatelessRulesAndCustomActions?
@@ -1832,7 +1870,7 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 1_000_000)
+            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 2_000_000)
             try self.validate(self.rulesString, name: "rulesString", parent: name, min: 0)
             try self.statefulRules?.forEach {
                 try $0.validate(name: "\(name).statefulRules[]")
@@ -1853,7 +1891,7 @@ extension NetworkFirewall {
         public let generatedRulesType: GeneratedRulesType
         /// The domains that you want to inspect for in your traffic flows. To provide multiple domains, separate them with commas. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
         public let targets: [String]
-        /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specity HTTP_HOST for HTTP. You can specify either or both.
+        /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
         public let targetTypes: [TargetType]
 
         public init(generatedRulesType: GeneratedRulesType, targets: [String], targetTypes: [TargetType]) {
@@ -1869,11 +1907,25 @@ extension NetworkFirewall {
         }
     }
 
+    public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. By default, Network Firewall leaves the rule evaluation order up to the Suricata rule processing engine. If you set this to STRICT_ORDER, your rules are evaluated in the exact order that you provide them in the policy. With strict ordering, the rule groups are evaluated by order of priority, starting from the lowest number, and the rules in each rule group are processed in the order that they're defined.
+        public let ruleOrder: RuleOrder?
+
+        public init(ruleOrder: RuleOrder? = nil) {
+            self.ruleOrder = ruleOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleOrder = "RuleOrder"
+        }
+    }
+
     public struct StatefulRule: AWSEncodableShape & AWSDecodableShape {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
         public let action: StatefulAction
-        /// The stateful 5-tuple inspection criteria for this rule, used to inspect traffic flows.
+        /// The stateful inspection criteria for this rule, used to inspect traffic flows.
         public let header: Header
+        /// Additional options for the rule. These are the Suricata RuleOptions settings.
         public let ruleOptions: [RuleOption]
 
         public init(action: StatefulAction, header: Header, ruleOptions: [RuleOption]) {
@@ -1897,26 +1949,45 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRuleGroupReference: AWSEncodableShape & AWSDecodableShape {
+        /// An integer setting that indicates the order in which to run the stateful rule groups in a single FirewallPolicy. This setting only applies to firewall policies that specify the STRICT_ORDER rule order in the stateful engine options settings. Network Firewall evalutes each stateful rule group against a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy. You can change the priority settings of your rule groups at any time. To make it easier to insert rule groups later, number them so there's a wide range in between, for example use 100, 200, and so on.
+        public let priority: Int?
         /// The Amazon Resource Name (ARN) of the stateful rule group.
         public let resourceArn: String
 
-        public init(resourceArn: String) {
+        public init(priority: Int? = nil, resourceArn: String) {
+            self.priority = priority
             self.resourceArn = resourceArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.priority, name: "priority", parent: name, max: 65535)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
             case resourceArn = "ResourceArn"
         }
     }
 
+    public struct StatefulRuleOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates how to manage the order of the rule evaluation for the rule group. By default, Network Firewall leaves the rule evaluation order up to the Suricata rule processing engine. If you set this to STRICT_ORDER, your rules are evaluated in the exact order that they're listed in your Suricata rules string.
+        public let ruleOrder: RuleOrder?
+
+        public init(ruleOrder: RuleOrder? = nil) {
+            self.ruleOrder = ruleOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleOrder = "RuleOrder"
+        }
+    }
+
     public struct StatelessRule: AWSEncodableShape & AWSDecodableShape {
-        /// A setting that indicates the order in which to run this rule relative to all of the rules that are defined for a stateless rule group. Network Firewall evaluates the rules in a rule group starting with the lowest priority setting. You must ensure that the priority settings are unique for the rule group.  Each stateless rule group uses exactly one StatelessRulesAndCustomActions object, and each StatelessRulesAndCustomActions contains exactly one StatelessRules object. To ensure unique priority settings for your rule groups, set unique priorities for the stateless rules that you define inside any single StatelessRules object. You can change the priority settings of your rules at any time. To make it easier to insert rules later, number them so there's a wide range in between, for example use 100, 200, and so on.
+        /// Indicates the order in which to run this rule relative to all of the rules that are defined for a stateless rule group. Network Firewall evaluates the rules in a rule group starting with the lowest priority setting. You must ensure that the priority settings are unique for the rule group.  Each stateless rule group uses exactly one StatelessRulesAndCustomActions object, and each StatelessRulesAndCustomActions contains exactly one StatelessRules object. To ensure unique priority settings for your rule groups, set unique priorities for the stateless rules that you define inside any single StatelessRules object. You can change the priority settings of your rules at any time. To make it easier to insert rules later, number them so there's a wide range in between, for example use 100, 200, and so on.
         public let priority: Int
         /// Defines the stateless 5-tuple packet inspection criteria and the action to take on a packet that matches the criteria.
         public let ruleDefinition: RuleDefinition
@@ -2468,7 +2539,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.rules, name: "rules", parent: name, max: 1_000_000)
+            try self.validate(self.rules, name: "rules", parent: name, max: 2_000_000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)

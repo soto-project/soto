@@ -20,6 +20,12 @@ import SotoCore
 extension Lambda {
     // MARK: Enums
 
+    public enum Architecture: String, CustomStringConvertible, Codable {
+        case arm64
+        case x8664 = "x86_64"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CodeSigningPolicy: String, CustomStringConvertible, Codable {
         case enforce = "Enforce"
         case warn = "Warn"
@@ -304,7 +310,7 @@ extension Lambda {
         public let revisionId: String?
         /// For Amazon S3, the ID of the account that owns the resource. Use this together with SourceArn to ensure that the resource is owned by the specified account. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
         public let sourceAccount: String?
-        /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
+        /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
         public let sourceArn: String?
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
@@ -589,13 +595,13 @@ extension Lambda {
     }
 
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
         /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
-        /// If true, the event source mapping is active. Set to false to pause polling and invocation.
+        /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
         public let eventSourceArn: String?
@@ -603,7 +609,7 @@ extension Lambda {
         public let functionName: String
         /// (Streams only) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -712,6 +718,8 @@ extension Lambda {
     }
 
     public struct CreateFunctionRequest: AWSEncodableShape {
+        /// The instruction set architecture that the function supports. Enter a string array with one of the valid values. The default value is x86_64.
+        public let architectures: [Architecture]?
         /// The code for the function.
         public let code: FunctionCode
         /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
@@ -753,7 +761,8 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+            self.architectures = architectures
             self.code = code
             self.codeSigningConfigArn = codeSigningConfigArn
             self.deadLetterConfig = deadLetterConfig
@@ -777,6 +786,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.architectures, name: "architectures", parent: name, max: 1)
+            try self.validate(self.architectures, name: "architectures", parent: name, min: 1)
             try self.code.validate(name: "\(name).code")
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
@@ -808,6 +819,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architectures = "Architectures"
             case code = "Code"
             case codeSigningConfigArn = "CodeSigningConfigArn"
             case deadLetterConfig = "DeadLetterConfig"
@@ -1142,7 +1154,7 @@ extension Lambda {
     }
 
     public struct EventSourceMappingConfiguration: AWSDecodableShape {
-        /// The maximum number of items to retrieve in a single batch.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
         public let bisectBatchOnFunctionError: Bool?
@@ -1158,7 +1170,7 @@ extension Lambda {
         public let lastModified: Date?
         /// The result of the last Lambda invocation of your function.
         public let lastProcessingResult: String?
-        /// (Streams and Amazon SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds. The default value is zero.
+        /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
         public let maximumRecordAgeInSeconds: Int?
@@ -1327,6 +1339,8 @@ extension Lambda {
     }
 
     public struct FunctionConfiguration: AWSDecodableShape {
+        /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
+        public let architectures: [Architecture]?
         /// The SHA256 hash of the function's deployment package.
         public let codeSha256: String?
         /// The size of the function's deployment package, in bytes.
@@ -1390,7 +1404,8 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+            self.architectures = architectures
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
@@ -1425,6 +1440,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architectures = "Architectures"
             case codeSha256 = "CodeSha256"
             case codeSize = "CodeSize"
             case deadLetterConfig = "DeadLetterConfig"
@@ -1855,6 +1871,8 @@ extension Lambda {
     }
 
     public struct GetLayerVersionResponse: AWSDecodableShape {
+        /// A list of compatible instruction set architectures.
+        public let compatibleArchitectures: [Architecture]?
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
@@ -1872,7 +1890,8 @@ extension Lambda {
         /// The version number.
         public let version: Int64?
 
-        public init(compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
+        public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
+            self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
             self.content = content
             self.createdDate = createdDate
@@ -1884,6 +1903,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compatibleArchitectures = "CompatibleArchitectures"
             case compatibleRuntimes = "CompatibleRuntimes"
             case content = "Content"
             case createdDate = "CreatedDate"
@@ -2081,7 +2101,7 @@ extension Lambda {
         public let functionName: String
         /// Choose from the following options.    RequestResponse (default) - Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event - Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if it's configured). The API response only includes a status code.    DryRun - Validate parameter values and verify that the user or role has permission to invoke the function.
         public let invocationType: InvocationType?
-        /// Set to Tail to include the execution log in the response.
+        /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
         /// The JSON that you want to provide to your Lambda function as input.
         public let payload: AWSPayload?
@@ -2284,6 +2304,8 @@ extension Lambda {
     }
 
     public struct LayerVersionsListItem: AWSDecodableShape {
+        /// A list of compatible instruction set architectures.
+        public let compatibleArchitectures: [Architecture]?
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
@@ -2297,7 +2319,8 @@ extension Lambda {
         /// The version number.
         public let version: Int64?
 
-        public init(compatibleRuntimes: [Runtime]? = nil, createdDate: String? = nil, description: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
+        public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, createdDate: String? = nil, description: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
+            self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
             self.createdDate = createdDate
             self.description = description
@@ -2307,6 +2330,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compatibleArchitectures = "CompatibleArchitectures"
             case compatibleRuntimes = "CompatibleRuntimes"
             case createdDate = "CreatedDate"
             case description = "Description"
@@ -2632,12 +2656,15 @@ extension Lambda {
 
     public struct ListLayerVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "compatibleArchitecture", location: .querystring(locationName: "CompatibleArchitecture")),
             AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")),
             AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
+        /// The compatible instruction set architecture.
+        public let compatibleArchitecture: Architecture?
         /// A runtime identifier. For example, go1.x.
         public let compatibleRuntime: Runtime?
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -2647,7 +2674,8 @@ extension Lambda {
         /// The maximum number of versions to return.
         public let maxItems: Int?
 
-        public init(compatibleRuntime: Runtime? = nil, layerName: String, marker: String? = nil, maxItems: Int? = nil) {
+        public init(compatibleArchitecture: Architecture? = nil, compatibleRuntime: Runtime? = nil, layerName: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.compatibleArchitecture = compatibleArchitecture
             self.compatibleRuntime = compatibleRuntime
             self.layerName = layerName
             self.marker = marker
@@ -2684,11 +2712,14 @@ extension Lambda {
 
     public struct ListLayersRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "compatibleArchitecture", location: .querystring(locationName: "CompatibleArchitecture")),
             AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
+        /// The compatible instruction set architecture.
+        public let compatibleArchitecture: Architecture?
         /// A runtime identifier. For example, go1.x.
         public let compatibleRuntime: Runtime?
         /// A pagination token returned by a previous call.
@@ -2696,7 +2727,8 @@ extension Lambda {
         /// The maximum number of layers to return.
         public let maxItems: Int?
 
-        public init(compatibleRuntime: Runtime? = nil, marker: String? = nil, maxItems: Int? = nil) {
+        public init(compatibleArchitecture: Architecture? = nil, compatibleRuntime: Runtime? = nil, marker: String? = nil, maxItems: Int? = nil) {
+            self.compatibleArchitecture = compatibleArchitecture
             self.compatibleRuntime = compatibleRuntime
             self.marker = marker
             self.maxItems = maxItems
@@ -2780,7 +2812,7 @@ extension Lambda {
             AWSMemberEncoding(label: "resource", location: .uri(locationName: "ARN"))
         ]
 
-        /// The function's Amazon Resource Name (ARN).
+        /// The function's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to aliases or versions.
         public let resource: String
 
         public init(resource: String) {
@@ -2935,6 +2967,8 @@ extension Lambda {
             AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName"))
         ]
 
+        /// A list of compatible instruction set architectures.
+        public let compatibleArchitectures: [Architecture]?
         /// A list of compatible function runtimes. Used for filtering with ListLayers and ListLayerVersions.
         public let compatibleRuntimes: [Runtime]?
         /// The function layer archive.
@@ -2946,7 +2980,8 @@ extension Lambda {
         /// The layer's software license. It can be any of the following:   An SPDX license identifier. For example, MIT.   The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.   The full text of the license.
         public let licenseInfo: String?
 
-        public init(compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentInput, description: String? = nil, layerName: String, licenseInfo: String? = nil) {
+        public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentInput, description: String? = nil, layerName: String, licenseInfo: String? = nil) {
+            self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
             self.content = content
             self.description = description
@@ -2955,6 +2990,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.compatibleArchitectures, name: "compatibleArchitectures", parent: name, max: 2)
             try self.validate(self.compatibleRuntimes, name: "compatibleRuntimes", parent: name, max: 15)
             try self.content.validate(name: "\(name).content")
             try self.validate(self.description, name: "description", parent: name, max: 256)
@@ -2966,6 +3002,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compatibleArchitectures = "CompatibleArchitectures"
             case compatibleRuntimes = "CompatibleRuntimes"
             case content = "Content"
             case description = "Description"
@@ -2974,6 +3011,8 @@ extension Lambda {
     }
 
     public struct PublishLayerVersionResponse: AWSDecodableShape {
+        /// A list of compatible instruction set architectures.
+        public let compatibleArchitectures: [Architecture]?
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
@@ -2991,7 +3030,8 @@ extension Lambda {
         /// The version number.
         public let version: Int64?
 
-        public init(compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
+        public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
+            self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
             self.content = content
             self.createdDate = createdDate
@@ -3003,6 +3043,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compatibleArchitectures = "CompatibleArchitectures"
             case compatibleRuntimes = "CompatibleRuntimes"
             case content = "Content"
             case createdDate = "CreatedDate"
@@ -3531,19 +3572,19 @@ extension Lambda {
             AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
         /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
-        /// If true, the event source mapping is active. Set to false to pause polling and invocation.
+        /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
         /// (Streams only) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -3621,6 +3662,8 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
+        /// The instruction set architecture that the function supports. Enter a string array with one of the valid values. The default value is x86_64.
+        public let architectures: [Architecture]?
         /// Set to true to validate the request parameters and access permissions without modifying the function code.
         public let dryRun: Bool?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -3640,7 +3683,8 @@ extension Lambda {
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: Data?
 
-        public init(dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
+        public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
+            self.architectures = architectures
             self.dryRun = dryRun
             self.functionName = functionName
             self.imageUri = imageUri
@@ -3653,6 +3697,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.architectures, name: "architectures", parent: name, max: 1)
+            try self.validate(self.architectures, name: "architectures", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -3666,6 +3712,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architectures = "Architectures"
             case dryRun = "DryRun"
             case imageUri = "ImageUri"
             case publish = "Publish"
@@ -3694,7 +3741,7 @@ extension Lambda {
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
-        ///  Container image configuration values that override the values in the container image Dockerfile.
+        ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
         /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
         public let kMSKeyArn: String?

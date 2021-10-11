@@ -20,6 +20,26 @@ import SotoCore
 extension PrometheusService {
     // MARK: Enums
 
+    public enum AlertManagerDefinitionStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case creationFailed = "CREATION_FAILED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case creationFailed = "CREATION_FAILED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -30,6 +50,171 @@ extension PrometheusService {
     }
 
     // MARK: Shapes
+
+    public struct AlertManagerDefinitionDescription: AWSDecodableShape {
+        /// The time when the alert manager definition was created.
+        public let createdAt: Date
+        /// The alert manager definition.
+        public let data: Data
+        /// The time when the alert manager definition was modified.
+        public let modifiedAt: Date
+        /// The status of alert manager definition.
+        public let status: AlertManagerDefinitionStatus
+
+        public init(createdAt: Date, data: Data, modifiedAt: Date, status: AlertManagerDefinitionStatus) {
+            self.createdAt = createdAt
+            self.data = data
+            self.modifiedAt = modifiedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case data
+            case modifiedAt
+            case status
+        }
+    }
+
+    public struct AlertManagerDefinitionStatus: AWSDecodableShape {
+        /// Status code of this definition.
+        public let statusCode: AlertManagerDefinitionStatusCode
+        /// The reason for failure if any.
+        public let statusReason: String?
+
+        public init(statusCode: AlertManagerDefinitionStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode
+            case statusReason
+        }
+    }
+
+    public struct CreateAlertManagerDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The alert manager definition data.
+        public let data: Data
+        /// The ID of the workspace in which to create the alert manager definition.
+        public let workspaceId: String
+
+        public init(clientToken: String? = CreateAlertManagerDefinitionRequest.idempotencyToken(), data: Data, workspaceId: String) {
+            self.clientToken = clientToken
+            self.data = data
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case data
+        }
+    }
+
+    public struct CreateAlertManagerDefinitionResponse: AWSDecodableShape {
+        /// The status of alert manager definition.
+        public let status: AlertManagerDefinitionStatus
+
+        public init(status: AlertManagerDefinitionStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
+    }
+
+    public struct CreateRuleGroupsNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The namespace data that define the rule groups.
+        public let data: Data
+        /// The rule groups namespace name.
+        public let name: String
+        /// Optional, user-provided tags for this rule groups namespace.
+        public let tags: [String: String]?
+        /// The ID of the workspace in which to create the rule group namespace.
+        public let workspaceId: String
+
+        public init(clientToken: String? = CreateRuleGroupsNamespaceRequest.idempotencyToken(), data: Data, name: String, tags: [String: String]? = nil, workspaceId: String) {
+            self.clientToken = clientToken
+            self.data = data
+            self.name = name
+            self.tags = tags
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case data
+            case name
+            case tags
+        }
+    }
+
+    public struct CreateRuleGroupsNamespaceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of this rule groups namespace.
+        public let arn: String
+        /// The rule groups namespace name.
+        public let name: String
+        /// The status of rule groups namespace.
+        public let status: RuleGroupsNamespaceStatus
+        /// The tags of this rule groups namespace.
+        public let tags: [String: String]?
+
+        public init(arn: String, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case name
+            case status
+            case tags
+        }
+    }
 
     public struct CreateWorkspaceRequest: AWSEncodableShape {
         /// An optional user-assigned alias for this workspace. This alias is for user reference and does not need to be unique.
@@ -93,6 +278,69 @@ extension PrometheusService {
         }
     }
 
+    public struct DeleteAlertManagerDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the workspace in which to delete the alert manager definition.
+        public let workspaceId: String
+
+        public init(clientToken: String? = DeleteAlertManagerDefinitionRequest.idempotencyToken(), workspaceId: String) {
+            self.clientToken = clientToken
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRuleGroupsNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The rule groups namespace name.
+        public let name: String
+        /// The ID of the workspace to delete rule group definition.
+        public let workspaceId: String
+
+        public init(clientToken: String? = DeleteRuleGroupsNamespaceRequest.idempotencyToken(), name: String, workspaceId: String) {
+            self.clientToken = clientToken
+            self.name = name
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
@@ -119,6 +367,81 @@ extension PrometheusService {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAlertManagerDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// The ID of the workspace to describe.
+        public let workspaceId: String
+
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAlertManagerDefinitionResponse: AWSDecodableShape {
+        /// The properties of the selected workspace's alert manager definition.
+        public let alertManagerDefinition: AlertManagerDefinitionDescription
+
+        public init(alertManagerDefinition: AlertManagerDefinitionDescription) {
+            self.alertManagerDefinition = alertManagerDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertManagerDefinition
+        }
+    }
+
+    public struct DescribeRuleGroupsNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// The rule groups namespace.
+        public let name: String
+        /// The ID of the workspace to describe.
+        public let workspaceId: String
+
+        public init(name: String, workspaceId: String) {
+            self.name = name
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeRuleGroupsNamespaceResponse: AWSDecodableShape {
+        /// The selected rule groups namespace.
+        public let ruleGroupsNamespace: RuleGroupsNamespaceDescription
+
+        public init(ruleGroupsNamespace: RuleGroupsNamespaceDescription) {
+            self.ruleGroupsNamespace = ruleGroupsNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleGroupsNamespace
+        }
     }
 
     public struct DescribeWorkspaceRequest: AWSEncodableShape {
@@ -152,6 +475,61 @@ extension PrometheusService {
 
         private enum CodingKeys: String, CodingKey {
             case workspace
+        }
+    }
+
+    public struct ListRuleGroupsNamespacesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Maximum results to return in response (default=100, maximum=1000).
+        public let maxResults: Int?
+        /// Optional filter for rule groups namespace name. Only the rule groups namespace that begin with this value will be returned.
+        public let name: String?
+        /// Pagination token to request the next page in a paginated list. This token is obtained from the output of the previous ListRuleGroupsNamespaces request.
+        public let nextToken: String?
+        /// The ID of the workspace.
+        public let workspaceId: String
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRuleGroupsNamespacesResponse: AWSDecodableShape {
+        /// Pagination token to use when requesting the next page in this list.
+        public let nextToken: String?
+        /// The list of the selected rule groups namespaces.
+        public let ruleGroupsNamespaces: [RuleGroupsNamespaceSummary]
+
+        public init(nextToken: String? = nil, ruleGroupsNamespaces: [RuleGroupsNamespaceSummary]) {
+            self.nextToken = nextToken
+            self.ruleGroupsNamespaces = ruleGroupsNamespaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case ruleGroupsNamespaces
         }
     }
 
@@ -226,6 +604,204 @@ extension PrometheusService {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case workspaces
+        }
+    }
+
+    public struct PutAlertManagerDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The alert manager definition data.
+        public let data: Data
+        /// The ID of the workspace in which to update the alert manager definition.
+        public let workspaceId: String
+
+        public init(clientToken: String? = PutAlertManagerDefinitionRequest.idempotencyToken(), data: Data, workspaceId: String) {
+            self.clientToken = clientToken
+            self.data = data
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case data
+        }
+    }
+
+    public struct PutAlertManagerDefinitionResponse: AWSDecodableShape {
+        /// The status of alert manager definition.
+        public let status: AlertManagerDefinitionStatus
+
+        public init(status: AlertManagerDefinitionStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
+    }
+
+    public struct PutRuleGroupsNamespaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The namespace data that define the rule groups.
+        public let data: Data
+        /// The rule groups namespace name.
+        public let name: String
+        /// The ID of the workspace in which to update the rule group namespace.
+        public let workspaceId: String
+
+        public init(clientToken: String? = PutRuleGroupsNamespaceRequest.idempotencyToken(), data: Data, name: String, workspaceId: String) {
+            self.clientToken = clientToken
+            self.data = data
+            self.name = name
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case data
+        }
+    }
+
+    public struct PutRuleGroupsNamespaceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of this rule groups namespace.
+        public let arn: String
+        /// The rule groups namespace name.
+        public let name: String
+        /// The status of rule groups namespace.
+        public let status: RuleGroupsNamespaceStatus
+        /// The tags of this rule groups namespace.
+        public let tags: [String: String]?
+
+        public init(arn: String, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case name
+            case status
+            case tags
+        }
+    }
+
+    public struct RuleGroupsNamespaceDescription: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of this rule groups namespace.
+        public let arn: String
+        /// The time when the rule groups namespace was created.
+        public let createdAt: Date
+        /// The rule groups namespace data.
+        public let data: Data
+        /// The time when the rule groups namespace was modified.
+        public let modifiedAt: Date
+        /// The rule groups namespace name.
+        public let name: String
+        /// The status of rule groups namespace.
+        public let status: RuleGroupsNamespaceStatus
+        /// The tags of this rule groups namespace.
+        public let tags: [String: String]?
+
+        public init(arn: String, createdAt: Date, data: Data, modifiedAt: Date, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.data = data
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case data
+            case modifiedAt
+            case name
+            case status
+            case tags
+        }
+    }
+
+    public struct RuleGroupsNamespaceStatus: AWSDecodableShape {
+        /// Status code of this namespace.
+        public let statusCode: RuleGroupsNamespaceStatusCode
+        /// The reason for failure if any.
+        public let statusReason: String?
+
+        public init(statusCode: RuleGroupsNamespaceStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode
+            case statusReason
+        }
+    }
+
+    public struct RuleGroupsNamespaceSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of this rule groups namespace.
+        public let arn: String
+        /// The time when the rule groups namespace was created.
+        public let createdAt: Date
+        /// The time when the rule groups namespace was modified.
+        public let modifiedAt: Date
+        /// The rule groups namespace name.
+        public let name: String
+        /// The status of rule groups namespace.
+        public let status: RuleGroupsNamespaceStatus
+        /// The tags of this rule groups namespace.
+        public let tags: [String: String]?
+
+        public init(arn: String, createdAt: Date, modifiedAt: Date, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case modifiedAt
+            case name
+            case status
+            case tags
         }
     }
 

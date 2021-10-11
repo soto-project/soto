@@ -51,7 +51,43 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionMode: String, CustomStringConvertible, Codable {
+        case sseKms = "SSE_KMS"
+        case sseS3 = "SSE_S3"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct ArtifactConfigInput: AWSEncodableShape {
+        /// A structure that contains the configuration of the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3. Artifact encryption functionality is available only for canaries that use Synthetics runtime version syn-nodejs-puppeteer-3.3 or later. For more information, see Encrypting canary artifacts
+        public let s3Encryption: S3EncryptionConfig?
+
+        public init(s3Encryption: S3EncryptionConfig? = nil) {
+            self.s3Encryption = s3Encryption
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Encryption?.validate(name: "\(name).s3Encryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Encryption = "S3Encryption"
+        }
+    }
+
+    public struct ArtifactConfigOutput: AWSDecodableShape {
+        /// A structure that contains the configuration of encryption settings for canary artifacts that are stored in Amazon S3.
+        public let s3Encryption: S3EncryptionConfig?
+
+        public init(s3Encryption: S3EncryptionConfig? = nil) {
+            self.s3Encryption = s3Encryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Encryption = "S3Encryption"
+        }
+    }
 
     public struct BaseScreenshot: AWSEncodableShape & AWSDecodableShape {
         /// Coordinates that define the part of a screen to ignore during screenshot comparisons. To obtain the coordinates to use here, use the CloudWatch Logs console to draw the boundaries on the screen. For more information, see {LINK}
@@ -81,6 +117,8 @@ extension Synthetics {
     }
 
     public struct Canary: AWSDecodableShape {
+        /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
+        public let artifactConfig: ArtifactConfigOutput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
         public let code: CanaryCodeOutput?
@@ -111,7 +149,8 @@ extension Synthetics {
         public let visualReference: VisualReferenceOutput?
         public let vpcConfig: VpcConfigOutput?
 
-        public init(artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
+        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
+            self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
             self.engineArn = engineArn
@@ -131,6 +170,7 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
             case code = "Code"
             case engineArn = "EngineArn"
@@ -437,6 +477,8 @@ extension Synthetics {
     }
 
     public struct CreateCanaryRequest: AWSEncodableShape {
+        /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
+        public let artifactConfig: ArtifactConfigInput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
         public let artifactS3Location: String
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
@@ -460,7 +502,8 @@ extension Synthetics {
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
-        public init(artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+            self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
             self.executionRoleArn = executionRoleArn
@@ -475,6 +518,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.artifactConfig?.validate(name: "\(name).artifactConfig")
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
             try self.code.validate(name: "\(name).code")
@@ -502,6 +546,7 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
             case code = "Code"
             case executionRoleArn = "ExecutionRoleArn"
@@ -821,6 +866,29 @@ extension Synthetics {
         }
     }
 
+    public struct S3EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The encryption method to use for artifacts created by this canary. Specify SSE_S3 to use server-side encryption (SSE) with an Amazon S3-managed key. Specify SSE-KMS to use server-side encryption with a customer-managed KMS key. If you omit this parameter, an Amazon Web Services-managed KMS key is used.
+        public let encryptionMode: EncryptionMode?
+        /// The ARN of the customer-managed KMS key to use, if you specify SSE-KMS for EncryptionMode
+        public let kmsKeyArn: String?
+
+        public init(encryptionMode: EncryptionMode? = nil, kmsKeyArn: String? = nil) {
+            self.encryptionMode = encryptionMode
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:key/[\\w\\-\\/]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionMode = "EncryptionMode"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
     public struct StartCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -948,6 +1016,10 @@ extension Synthetics {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
+        /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
+        public let artifactConfig: ArtifactConfigInput?
+        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
+        public let artifactS3Location: String?
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput?
         /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
@@ -969,7 +1041,9 @@ extension Synthetics {
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
-        public init(code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+            self.artifactConfig = artifactConfig
+            self.artifactS3Location = artifactS3Location
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -983,6 +1057,9 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.artifactConfig?.validate(name: "\(name).artifactConfig")
+            try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
+            try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
             try self.code?.validate(name: "\(name).code")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
@@ -1003,6 +1080,8 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifactConfig = "ArtifactConfig"
+            case artifactS3Location = "ArtifactS3Location"
             case code = "Code"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"

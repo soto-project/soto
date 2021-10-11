@@ -132,6 +132,28 @@ extension WorkMail {
         )
     }
 
+    ///  Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMobileDeviceAccessOverridesPaginator(
+        _ input: ListMobileDeviceAccessOverridesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMobileDeviceAccessOverridesRequest, ListMobileDeviceAccessOverridesResponse> {
+        return .init(
+            input: input,
+            command: listMobileDeviceAccessOverrides,
+            inputKey: \ListMobileDeviceAccessOverridesRequest.nextToken,
+            outputKey: \ListMobileDeviceAccessOverridesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns summaries of the customer's organizations.
     /// Return PaginatorSequence for operation.
     ///

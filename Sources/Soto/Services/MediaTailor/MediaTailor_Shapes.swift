@@ -258,13 +258,47 @@ extension MediaTailor {
         }
     }
 
+    public struct ConfigureLogsForPlaybackConfigurationRequest: AWSEncodableShape {
+        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
+        public let percentEnabled: Int
+        /// The name of the playback configuration.
+        public let playbackConfigurationName: String
+
+        public init(percentEnabled: Int, playbackConfigurationName: String) {
+            self.percentEnabled = percentEnabled
+            self.playbackConfigurationName = playbackConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentEnabled = "PercentEnabled"
+            case playbackConfigurationName = "PlaybackConfigurationName"
+        }
+    }
+
+    public struct ConfigureLogsForPlaybackConfigurationResponse: AWSDecodableShape {
+        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
+        public let percentEnabled: Int?
+        /// The name of the playback configuration.
+        public let playbackConfigurationName: String?
+
+        public init(percentEnabled: Int? = nil, playbackConfigurationName: String? = nil) {
+            self.percentEnabled = percentEnabled
+            self.playbackConfigurationName = playbackConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentEnabled = "PercentEnabled"
+            case playbackConfigurationName = "PlaybackConfigurationName"
+        }
+    }
+
     public struct CreateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
         ]
 
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses an LINEAR PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses a LINEAR PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
@@ -1047,6 +1081,8 @@ extension MediaTailor {
         public let hlsConfiguration: HlsConfiguration?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
+        /// The Amazon CloudWatch log settings for a playback configuration.
+        public let logConfiguration: LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public let manifestProcessingRules: ManifestProcessingRules?
         /// The identifier for the playback configuration.
@@ -1068,7 +1104,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1077,6 +1113,7 @@ extension MediaTailor {
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
+            self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
             self.name = name
             self.personalizationThresholdSeconds = personalizationThresholdSeconds
@@ -1098,6 +1135,7 @@ extension MediaTailor {
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
+            case logConfiguration = "LogConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
             case name = "Name"
             case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
@@ -1415,6 +1453,19 @@ extension MediaTailor {
         }
     }
 
+    public struct LogConfiguration: AWSDecodableShape {
+        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
+        public let percentEnabled: Int
+
+        public init(percentEnabled: Int) {
+            self.percentEnabled = percentEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentEnabled = "PercentEnabled"
+        }
+    }
+
     public struct ManifestProcessingRules: AWSEncodableShape & AWSDecodableShape {
         /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN, EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin manifest to the MediaTailor personalized manifest. No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a value of 60, but no ads are filled for that ad break, MediaTailor will not set the value to 0.
         public let adMarkerPassthrough: AdMarkerPassthrough?
@@ -1445,6 +1496,8 @@ extension MediaTailor {
         public let hlsConfiguration: HlsConfiguration?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
+        /// The Amazon CloudWatch log settings for a playback configuration.
+        public let logConfiguration: LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public let manifestProcessingRules: ManifestProcessingRules?
         /// The identifier for the playback configuration.
@@ -1466,7 +1519,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1475,6 +1528,7 @@ extension MediaTailor {
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
+            self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
             self.name = name
             self.personalizationThresholdSeconds = personalizationThresholdSeconds
@@ -1496,6 +1550,7 @@ extension MediaTailor {
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
+            case logConfiguration = "LogConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
             case name = "Name"
             case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
@@ -1610,6 +1665,7 @@ extension MediaTailor {
         public let dashConfiguration: DashConfiguration?
         public let hlsConfiguration: HlsConfiguration?
         public let livePreRollConfiguration: LivePreRollConfiguration?
+        public let logConfiguration: LogConfiguration?
         public let manifestProcessingRules: ManifestProcessingRules?
         public let name: String?
         public let personalizationThresholdSeconds: Int?
@@ -1621,7 +1677,7 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1630,6 +1686,7 @@ extension MediaTailor {
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
+            self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
             self.name = name
             self.personalizationThresholdSeconds = personalizationThresholdSeconds
@@ -1651,6 +1708,7 @@ extension MediaTailor {
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
+            case logConfiguration = "LogConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
             case name = "Name"
             case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"

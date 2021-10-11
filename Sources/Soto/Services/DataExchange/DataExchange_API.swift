@@ -72,6 +72,11 @@ public struct DataExchange: AWSService {
         return self.client.execute(operation: "CreateDataSet", path: "/v1/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This operation creates an event action.
+    public func createEventAction(_ input: CreateEventActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEventActionResponse> {
+        return self.client.execute(operation: "CreateEventAction", path: "/v1/event-actions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This operation creates a job.
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResponse> {
         return self.client.execute(operation: "CreateJob", path: "/v1/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -92,6 +97,11 @@ public struct DataExchange: AWSService {
         return self.client.execute(operation: "DeleteDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This operation deletes the event action.
+    @discardableResult public func deleteEventAction(_ input: DeleteEventActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteEventAction", path: "/v1/event-actions/{EventActionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This operation deletes a revision.
     @discardableResult public func deleteRevision(_ input: DeleteRevisionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -105,6 +115,11 @@ public struct DataExchange: AWSService {
     /// This operation returns information about a data set.
     public func getDataSet(_ input: GetDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataSetResponse> {
         return self.client.execute(operation: "GetDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This operation retrieves information about an event action.
+    public func getEventAction(_ input: GetEventActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventActionResponse> {
+        return self.client.execute(operation: "GetEventAction", path: "/v1/event-actions/{EventActionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This operation returns information about a job.
@@ -125,6 +140,11 @@ public struct DataExchange: AWSService {
     /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataSetsResponse> {
         return self.client.execute(operation: "ListDataSets", path: "/v1/data-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This operation lists your event actions.
+    public func listEventActions(_ input: ListEventActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventActionsResponse> {
+        return self.client.execute(operation: "ListEventActions", path: "/v1/event-actions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This operation lists your jobs sorted by CreatedAt in descending order.
@@ -165,6 +185,11 @@ public struct DataExchange: AWSService {
     /// This operation updates a data set.
     public func updateDataSet(_ input: UpdateDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSetResponse> {
         return self.client.execute(operation: "UpdateDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This operation updates the event action.
+    public func updateEventAction(_ input: UpdateEventActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventActionResponse> {
+        return self.client.execute(operation: "UpdateEventAction", path: "/v1/event-actions/{EventActionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This operation updates a revision.

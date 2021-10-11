@@ -48,6 +48,12 @@ extension LocationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum PositionFiltering: String, CustomStringConvertible, Codable {
+        case distancebased = "DistanceBased"
+        case timebased = "TimeBased"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PricingPlan: String, CustomStringConvertible, Codable {
         case mobileassetmanagement = "MobileAssetManagement"
         case mobileassettracking = "MobileAssetTracking"
@@ -583,7 +589,7 @@ extension LocationService {
         public let carModeOptions: CalculateRouteCarModeOptions?
         /// Sets the time of departure as the current time. Uses the current time to calculate a route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. Default Value: false  Valid Values: false | true
         public let departNow: Bool?
-        /// The start position for the route. Defined in WGS 84 format: [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road.  Valid Values: [-180 to 180,-90 to 90]
+        /// The start position for the route. Defined in WGS 84 format: [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
         public let departurePosition: [Double]
         /// Specifies the desired time of departure. Uses the given time to calculate a route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.  Setting a departure time in the past returns a 400 ValidationException error.    In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -598,7 +604,7 @@ extension LocationService {
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
-        /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position.    For example, from the DeparturePosition [-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road.  Specifying more than 23 waypoints returns a 400 ValidationException error.  Valid Values: [-180 to 180,-90 to 90]
+        /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position.    For example, from the DeparturePosition [-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road.  Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
         public let waypointPositions: [[Double]]?
 
         public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePosition: [Double], departureTime: Date? = nil, destinationPosition: [Double], distanceUnit: DistanceUnit? = nil, includeLegGeometry: Bool? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil, waypointPositions: [[Double]]? = nil) {
@@ -666,13 +672,13 @@ extension LocationService {
     public struct CalculateRouteSummary: AWSDecodableShape {
         /// The data provider of traffic and road network data used to calculate the route. Indicates one of the available providers:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
-        /// The total distance covered by the route. The sum of the distance travelled between every stop on the route.  The route distance can't be greater than 250 km. If the route exceeds 250 km, the response returns a 400 RoutesValidationException error.
+        /// The total distance covered by the route. The sum of the distance travelled between every stop on the route.  If Esri is the data source for the route calculator, the route distance can’t be greater than 400 km. If the route exceeds 400 km, the response is a 400 RoutesValidationException error.
         public let distance: Double
         /// The unit of measurement for the distance.
         public let distanceUnit: DistanceUnit
         /// The total travel time for the route measured in seconds. The sum of the travel time between every stop on the route.
         public let durationSeconds: Double
-        /// Specifies a geographical box surrounding a route. Used to zoom into a route when displaying it in a map. For example, [min x, min y, max x, max y]. The first 2 bbox parameters describe the lower southwest corner:    The first bbox position is the X coordinate or longitude of the lower southwest corner.    The second bbox position is the Y coordinate or latitude of the lower southwest corner.    The next 2 bbox parameters describe the upper northeast corner:    The third bbox position is the X coordinate, or longitude of the upper northeast corner.    The fourth bbox position is the Y coordinate, or longitude of the upper northeast corner.
+        /// Specifies a geographical box surrounding a route. Used to zoom into a route when displaying it in a map. For example, [min x, min y, max x, max y]. The first 2 bbox parameters describe the lower southwest corner:    The first bbox position is the X coordinate or longitude of the lower southwest corner.    The second bbox position is the Y coordinate or latitude of the lower southwest corner.    The next 2 bbox parameters describe the upper northeast corner:    The third bbox position is the X coordinate, or longitude of the upper northeast corner.    The fourth bbox position is the Y coordinate, or latitude of the upper northeast corner.
         public let routeBBox: [Double]
 
         public init(dataSource: String, distance: Double, distanceUnit: DistanceUnit, durationSeconds: Double, routeBBox: [Double]) {
@@ -802,7 +808,7 @@ extension LocationService {
         public let description: String?
         /// The name for the map resource. Requirements:   Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be a unique map resource name.    No spaces allowed. For example, ExampleMap.
         public let mapName: String
-        /// Specifies the pricing plan for your map resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the pricing plan for your map resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
         public let tags: [String: String]?
@@ -864,7 +870,7 @@ extension LocationService {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the data provider of geospatial data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here – For additional information about HERE Technologies's coverage in your region of interest, see HERE details on goecoding coverage.  Place index resources using HERE Technologies as a data provider can't store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the data provider of geospatial data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  Place index resources using HERE Technologies as a data provider can't store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// Specifies the data storage option requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
@@ -872,7 +878,7 @@ extension LocationService {
         public let description: String?
         /// The name of the place index resource.  Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).   Must be a unique place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
         public let indexName: String
-        /// Specifies the pricing plan for your place index resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the pricing plan for your place index resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// Applies one or more tags to the place index resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
         public let tags: [String: String]?
@@ -937,7 +943,7 @@ extension LocationService {
     public struct CreateRouteCalculatorRequest: AWSEncodableShape {
         /// The name of the route calculator resource.  Requirements:   Can use alphanumeric characters (A–Z, a–z, 0–9) , hyphens (-), periods (.), and underscores (_).   Must be a unique Route calculator resource name.   No spaces allowed. For example, ExampleRouteCalculator.
         public let calculatorName: String
-        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage.    Here – For additional information about HERE Technologies's coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// The optional description for the route calculator resource.
         public let description: String?
@@ -1006,18 +1012,21 @@ extension LocationService {
         public let description: String?
         /// A key identifier for an AWS KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         public let kmsKeyId: String?
-        /// Specifies the pricing plan for the tracker resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and device positions to retrieve. Distance-based filtering can also reduce the jitter effect when displaying device trajectory on a map.    This field is optional. If not specified, the default value is TimeBased.
+        public let positionFiltering: PositionFiltering?
+        /// Specifies the pricing plan for the tracker resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
-        /// Specifies the data provider for the tracker resource.   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement    For more information about Data Providers, and Pricing plans, see the Amazon Location Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate billing for your tracker resource. Your data will not be shared with the data provider, and will remain in your AWS account or Region unless you move it.  Valid Values: Esri | Here
+        /// Specifies the data provider for the tracker resource.   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement    For more information about Data Providers, and Pricing plans, see the Amazon Location Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate billing for your tracker resource. Your data will not be shared with the data provider, and will remain in your AWS account or Region unless you move it.  Valid values: Esri | Here
         public let pricingPlanDataSource: String?
         /// Applies one or more tags to the tracker resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
         public let tags: [String: String]?
         /// The name for the tracker resource. Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
         public let trackerName: String
 
-        public init(description: String? = nil, kmsKeyId: String? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
+        public init(description: String? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
             self.description = description
             self.kmsKeyId = kmsKeyId
+            self.positionFiltering = positionFiltering
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
             self.tags = tags
@@ -1045,6 +1054,7 @@ extension LocationService {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case kmsKeyId = "KmsKeyId"
+            case positionFiltering = "PositionFiltering"
             case pricingPlan = "PricingPlan"
             case pricingPlanDataSource = "PricingPlanDataSource"
             case tags = "Tags"
@@ -1315,7 +1325,7 @@ extension LocationService {
         public let mapArn: String
         /// The map style selected from an available provider.
         public let mapName: String
-        /// The pricing plan selected for the specified map resource.  &lt;p&gt;For additional details and restrictions on each pricing plan option, see the &lt;a href=&quot;https://aws.amazon.com/location/pricing/&quot;&gt;Amazon Location Service pricing page&lt;/a&gt;.&lt;/p&gt;
+        /// The pricing plan selected for the specified map resource.  &lt;p&gt;For additional details and restrictions on each pricing plan option, see &lt;a href=&quot;https://aws.amazon.com/location/pricing/&quot;&gt;Amazon Location Service pricing&lt;/a&gt;.&lt;/p&gt;
         public let pricingPlan: PricingPlan
         /// Tags associated with the map resource.
         public let tags: [String: String]?
@@ -1373,7 +1383,7 @@ extension LocationService {
         /// The timestamp for when the place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of geospatial data. Indicates one of the available providers:    Esri     Here    For additional details on data providers, see the Amazon Location Service data providers page.
+        /// The data provider of geospatial data. Indicates one of the available providers:    Esri     Here    For additional details on data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The specified data storage option for requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration
@@ -1383,7 +1393,7 @@ extension LocationService {
         public let indexArn: String
         /// The name of the place index resource being described.
         public let indexName: String
-        /// The pricing plan selected for the specified place index resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// The pricing plan selected for the specified place index resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// Tags associated with place index resource.
         public let tags: [String: String]?
@@ -1509,7 +1519,9 @@ extension LocationService {
         public let description: String
         /// A key identifier for an AWS KMS customer managed key assigned to the Amazon Location resource.
         public let kmsKeyId: String?
-        /// The pricing plan selected for the specified tracker resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// The position filtering method of the tracker resource.
+        public let positionFiltering: PositionFiltering?
+        /// The pricing plan selected for the specified tracker resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// The specified data provider for the tracker resource.
         public let pricingPlanDataSource: String?
@@ -1523,10 +1535,11 @@ extension LocationService {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, description: String, kmsKeyId: String? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
+        public init(createTime: Date, description: String, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
             self.kmsKeyId = kmsKeyId
+            self.positionFiltering = positionFiltering
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
             self.tags = tags
@@ -1539,6 +1552,7 @@ extension LocationService {
             case createTime = "CreateTime"
             case description = "Description"
             case kmsKeyId = "KmsKeyId"
+            case positionFiltering = "PositionFiltering"
             case pricingPlan = "PricingPlan"
             case pricingPlanDataSource = "PricingPlanDataSource"
             case tags = "Tags"
@@ -1840,7 +1854,7 @@ extension LocationService {
             AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
         ]
 
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid fonts for HERE Technologies styles:     VectorHereBerlin – Fira GO Regular | Fira GO Bold
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:    VectorHereBerlin – Fira GO Regular | Fira GO Bold
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -2368,7 +2382,7 @@ extension LocationService {
         public let description: String
         /// The name of the associated map resource.
         public let mapName: String
-        /// The pricing plan for the specified map resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// The pricing plan for the specified map resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// The timestamp for when the map resource was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
@@ -2438,13 +2452,13 @@ extension LocationService {
         /// The timestamp for when the place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of geospatial data. Indicates one of the available providers:    Esri     Here    For additional details on data providers, see the Amazon Location Service data providers page.
+        /// The data provider of geospatial data. Indicates one of the available providers:    Esri     Here    For additional details on data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The optional description for the place index resource.
         public let description: String
         /// The name of the place index resource.
         public let indexName: String
-        /// The pricing plan for the specified place index resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// The pricing plan for the specified place index resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// The timestamp for when the place index resource was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
@@ -2677,7 +2691,7 @@ extension LocationService {
         public var createTime: Date
         /// The description for the tracker resource.
         public let description: String
-        /// The pricing plan for the specified tracker resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// The pricing plan for the specified tracker resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan
         /// The specified data provider for the tracker resource.
         public let pricingPlanDataSource: String?
@@ -2707,7 +2721,7 @@ extension LocationService {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. For additional information on each map style and to preview each map style, see Esri map styles and HERE map styles. Valid Esri styles:     VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies styles:     VectorHereBerlin – The HERE Berlin map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.  When using HERE as your data provider, and selecting the Style VectorHereBerlin, you may not use HERE Technologies maps for Asset Management. See the AWS Service Terms for Amazon Location Service.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereBerlin – The HERE Berlin map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.  When using HERE as your data provider, and selecting the Style VectorHereBerlin, you may not use HERE Technologies maps for Asset Management. See the AWS Service Terms for Amazon Location Service.
         public let style: String
 
         public init(style: String) {
@@ -2921,7 +2935,7 @@ extension LocationService {
     }
 
     public struct SearchPlaceIndexForPositionSummary: AWSDecodableShape {
-        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see the Amazon Location Service data providers page.
+        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// An optional parameter. The maximum number of results returned per request.  Default value: 50
         public let maxResults: Int?
@@ -3016,7 +3030,7 @@ extension LocationService {
     public struct SearchPlaceIndexForTextSummary: AWSDecodableShape {
         /// Contains the coordinates for the bias position entered in the geocoding request.
         public let biasPosition: [Double]?
-        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see the Amazon Location Service data providers page.
+        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box coordinated entered in the geocoding request.
         public let filterBBox: [Double]?
@@ -3431,6 +3445,8 @@ extension LocationService {
 
         /// Updates the description for the tracker resource.
         public let description: String?
+        /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and device positions to retrieve. Distance-based filtering can also reduce the jitter effect when displaying device trajectory on a map.
+        public let positionFiltering: PositionFiltering?
         /// Updates the pricing plan for the tracker resource. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan?
         /// Updates the data provider for the tracker resource.  A required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement  For more information about data providers and pricing plans, see the Amazon Location Service product page  This can only be updated when updating the PricingPlan in the same request. Amazon Location Service uses PricingPlanDataSource to calculate billing for your tracker resource. Your data won't be shared with the data provider, and will remain in your AWS account and Region unless you move it.
@@ -3438,8 +3454,9 @@ extension LocationService {
         /// The name of the tracker resource to update.
         public let trackerName: String
 
-        public init(description: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String) {
+        public init(description: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String) {
             self.description = description
+            self.positionFiltering = positionFiltering
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
             self.trackerName = trackerName
@@ -3455,6 +3472,7 @@ extension LocationService {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case positionFiltering = "PositionFiltering"
             case pricingPlan = "PricingPlan"
             case pricingPlanDataSource = "PricingPlanDataSource"
         }

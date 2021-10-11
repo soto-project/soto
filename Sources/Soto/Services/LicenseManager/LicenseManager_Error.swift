@@ -58,7 +58,7 @@ public struct LicenseManagerErrorType: AWSErrorType {
 
     /// Access to resource denied.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The AWS user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
     public static var authorizationException: Self { .init(.authorizationException) }
     /// There was a conflict processing the request. Try your request again.
     public static var conflictException: Self { .init(.conflictException) }

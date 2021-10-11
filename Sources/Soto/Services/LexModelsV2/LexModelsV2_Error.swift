@@ -46,12 +46,19 @@ public struct LexModelsV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The service encountered an unexpected condition. Try your request again.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    /// You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You have reached a quota for your bot.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Your request rate is too high. Reduce the frequency of requests.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public static var validationException: Self { .init(.validationException) }
 }
 

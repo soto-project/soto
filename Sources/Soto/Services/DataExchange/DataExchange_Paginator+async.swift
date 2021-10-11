@@ -66,6 +66,28 @@ extension DataExchange {
         )
     }
 
+    ///  This operation lists your event actions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEventActionsPaginator(
+        _ input: ListEventActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEventActionsRequest, ListEventActionsResponse> {
+        return .init(
+            input: input,
+            command: listEventActions,
+            inputKey: \ListEventActionsRequest.nextToken,
+            outputKey: \ListEventActionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  This operation lists your jobs sorted by CreatedAt in descending order.
     /// Return PaginatorSequence for operation.
     ///

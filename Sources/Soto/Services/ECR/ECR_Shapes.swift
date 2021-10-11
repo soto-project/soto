@@ -78,6 +78,18 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositoryFilterType: String, CustomStringConvertible, Codable {
+        case prefixMatch = "PREFIX_MATCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScanStatus: String, CustomStringConvertible, Codable {
         case complete = "COMPLETE"
         case failed = "FAILED"
@@ -359,21 +371,25 @@ extension ECR {
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
+        /// The AWS account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
         /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, repositoryName: String, tags: [Tag]? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryName: String, tags: [Tag]? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
+            self.registryId = registryId
             self.repositoryName = repositoryName
             self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -383,6 +399,7 @@ extension ECR {
             case encryptionConfiguration
             case imageScanningConfiguration
             case imageTagMutability
+            case registryId
             case repositoryName
             case tags
         }
@@ -554,6 +571,54 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case repository
+        }
+    }
+
+    public struct DescribeImageReplicationStatusRequest: AWSEncodableShape {
+        public let imageId: ImageIdentifier
+        /// The Amazon Web Services account ID associated with the registry. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository that the image is in.
+        public let repositoryName: String
+
+        public init(imageId: ImageIdentifier, registryId: String? = nil, repositoryName: String) {
+            self.imageId = imageId
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try self.imageId.validate(name: "\(name).imageId")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId
+            case registryId
+            case repositoryName
+        }
+    }
+
+    public struct DescribeImageReplicationStatusResponse: AWSDecodableShape {
+        public let imageId: ImageIdentifier?
+        /// The replication status details for the images in the specified repository.
+        public let replicationStatuses: [ImageReplicationStatus]?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+
+        public init(imageId: ImageIdentifier? = nil, replicationStatuses: [ImageReplicationStatus]? = nil, repositoryName: String? = nil) {
+            self.imageId = imageId
+            self.replicationStatuses = replicationStatuses
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId
+            case replicationStatuses
+            case repositoryName
         }
     }
 
@@ -1185,6 +1250,31 @@ extension ECR {
         }
     }
 
+    public struct ImageReplicationStatus: AWSDecodableShape {
+        /// The failure code for a replication that has failed.
+        public let failureCode: String?
+        /// The destination Region for the image replication.
+        public let region: String?
+        /// The AWS account ID associated with the registry to which the image belongs.
+        public let registryId: String?
+        /// The image replication status.
+        public let status: ReplicationStatus?
+
+        public init(failureCode: String? = nil, region: String? = nil, registryId: String? = nil, status: ReplicationStatus? = nil) {
+            self.failureCode = failureCode
+            self.region = region
+            self.registryId = registryId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode
+            case region
+            case registryId
+            case status
+        }
+    }
+
     public struct ImageScanFinding: AWSDecodableShape {
         /// A collection of attributes of the host from which the finding is generated.
         public let attributes: [Attribute]?
@@ -1811,7 +1901,7 @@ extension ECR {
     }
 
     public struct ReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// An array of objects representing the replication rules for a replication configuration. A replication configuration may contain only one replication rule but the rule may contain one or more replication destinations.
+        /// An array of objects representing the replication destinations and repository filters for a replication configuration.
         public let rules: [ReplicationRule]
 
         public init(rules: [ReplicationRule]) {
@@ -1822,7 +1912,7 @@ extension ECR {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.validate(self.rules, name: "rules", parent: name, max: 1)
+            try self.validate(self.rules, name: "rules", parent: name, max: 10)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
         }
 
@@ -1832,9 +1922,9 @@ extension ECR {
     }
 
     public struct ReplicationDestination: AWSEncodableShape & AWSDecodableShape {
-        /// A Region to replicate to.
+        /// The Region to replicate to.
         public let region: String
-        /// The account ID of the destination registry to replicate to.
+        /// The Amazon Web Services account ID of the Amazon ECR private registry to replicate to. When configuring cross-Region replication within your own registry, specify your own account ID.
         public let registryId: String
 
         public init(region: String, registryId: String) {
@@ -1856,11 +1946,14 @@ extension ECR {
     }
 
     public struct ReplicationRule: AWSEncodableShape & AWSDecodableShape {
-        /// An array of objects representing the details of a replication destination.
+        /// An array of objects representing the destination for a replication rule.
         public let destinations: [ReplicationDestination]
+        /// An array of objects representing the filters for a replication rule. Specifying a repository filter for a replication rule provides a method for controlling which repositories in a private registry are replicated.
+        public let repositoryFilters: [RepositoryFilter]?
 
-        public init(destinations: [ReplicationDestination]) {
+        public init(destinations: [ReplicationDestination], repositoryFilters: [RepositoryFilter]? = nil) {
             self.destinations = destinations
+            self.repositoryFilters = repositoryFilters
         }
 
         public func validate(name: String) throws {
@@ -1869,10 +1962,16 @@ extension ECR {
             }
             try self.validate(self.destinations, name: "destinations", parent: name, max: 25)
             try self.validate(self.destinations, name: "destinations", parent: name, min: 0)
+            try self.repositoryFilters?.forEach {
+                try $0.validate(name: "\(name).repositoryFilters[]")
+            }
+            try self.validate(self.repositoryFilters, name: "repositoryFilters", parent: name, max: 100)
+            try self.validate(self.repositoryFilters, name: "repositoryFilters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinations
+            case repositoryFilters
         }
     }
 
@@ -1913,6 +2012,29 @@ extension ECR {
             case repositoryArn
             case repositoryName
             case repositoryUri
+        }
+    }
+
+    public struct RepositoryFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The repository filter details. When the PREFIX_MATCH filter type is specified, this value is required and should be the repository name prefix to configure replication for.
+        public let filter: String
+        /// The repository filter type. The only supported value is PREFIX_MATCH, which is a repository name prefix specified with the filter parameter.
+        public let filterType: RepositoryFilterType
+
+        public init(filter: String, filterType: RepositoryFilterType) {
+            self.filter = filter
+            self.filterType = filterType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 256)
+            try self.validate(self.filter, name: "filter", parent: name, min: 2)
+            try self.validate(self.filter, name: "filter", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]*)*/)*[a-z0-9]*(?:[._-][a-z0-9]*)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter
+            case filterType
         }
     }
 

@@ -367,7 +367,7 @@ extension WorkSpaces {
         public let associations: [ConnectionAliasAssociation]?
         /// The connection string specified for the connection alias. The connection string must be in the form of a fully qualified domain name (FQDN), such as www.example.com.
         public let connectionString: String?
-        /// The identifier of the AWS account that owns the connection alias.
+        /// The identifier of the Amazon Web Services account that owns the connection alias.
         public let ownerAccountId: String?
         /// The current state of the connection alias.
         public let state: ConnectionAliasState?
@@ -390,7 +390,7 @@ extension WorkSpaces {
     }
 
     public struct ConnectionAliasAssociation: AWSDecodableShape {
-        /// The identifier of the AWS account that associated the connection alias with a directory.
+        /// The identifier of the Amazon Web Services account that associated the connection alias with a directory.
         public let associatedAccountId: String?
         /// The association status of the connection alias.
         public let associationStatus: AssociationStatus?
@@ -415,9 +415,9 @@ extension WorkSpaces {
     }
 
     public struct ConnectionAliasPermission: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the specified AWS account is allowed to associate the connection alias with a directory.
+        /// Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory.
         public let allowAssociation: Bool
-        /// The identifier of the AWS account that the connection alias is shared with.
+        /// The identifier of the Amazon Web Services account that the connection alias is shared with.
         public let sharedAccountId: String
 
         public init(allowAssociation: Bool, sharedAccountId: String) {
@@ -494,7 +494,7 @@ extension WorkSpaces {
     }
 
     public struct CreateConnectionAliasRequest: AWSEncodableShape {
-        /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.  After you create a connection string, it is always associated to your AWS account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account.
+        /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.  After you create a connection string, it is always associated to your Amazon Web Services account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account.
         public let connectionString: String
         /// The tags to associate with the connection alias.
         public let tags: [Tag]?
@@ -602,6 +602,57 @@ extension WorkSpaces {
 
     public struct CreateTagsResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CreateUpdatedWorkspaceImageRequest: AWSEncodableShape {
+        /// A description of whether updates for the WorkSpace image are available.
+        public let description: String
+        /// The name of the new updated WorkSpace image.
+        public let name: String
+        /// The identifier of the source WorkSpace image.
+        public let sourceImageId: String
+        /// The tags that you want to add to the new updated WorkSpace image.  To add tags at the same time when you're creating the updated image, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
+        public let tags: [Tag]?
+
+        public init(description: String, name: String, sourceImageId: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.name = name
+            self.sourceImageId = sourceImageId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
+            try self.validate(self.sourceImageId, name: "sourceImageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case sourceImageId = "SourceImageId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateUpdatedWorkspaceImageResult: AWSDecodableShape {
+        /// The identifier of the new updated WorkSpace image.
+        public let imageId: String?
+
+        public init(imageId: String? = nil) {
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+        }
     }
 
     public struct CreateWorkspaceBundleRequest: AWSEncodableShape {
@@ -1155,7 +1206,7 @@ extension WorkSpaces {
         public let bundleIds: [String]?
         /// The token for the next set of results. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The owner of the bundles. You cannot combine this parameter with any other filter. To describe the bundles provided by AWS, specify AMAZON. To describe the bundles that belong to your account, don't specify a value.
+        /// The owner of the bundles. You cannot combine this parameter with any other filter. To describe the bundles provided by Amazon Web Services, specify AMAZON. To describe the bundles that belong to your account, don't specify a value.
         public let owner: String?
 
         public init(bundleIds: [String]? = nil, nextToken: String? = nil, owner: String? = nil) {
@@ -1282,7 +1333,7 @@ extension WorkSpaces {
     public struct DescribeWorkspaceImagePermissionsResult: AWSDecodableShape {
         /// The identifier of the image.
         public let imageId: String?
-        /// The identifiers of the AWS accounts that the image has been shared with.
+        /// The identifiers of the Amazon Web Services accounts that the image has been shared with.
         public let imagePermissions: [ImagePermission]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1596,7 +1647,7 @@ extension WorkSpaces {
     }
 
     public struct ImagePermission: AWSDecodableShape {
-        /// The identifier of the AWS account that an image has been shared with.
+        /// The identifier of the Amazon Web Services account that an image has been shared with.
         public let sharedAccountId: String?
 
         public init(sharedAccountId: String? = nil) {
@@ -2096,7 +2147,7 @@ extension WorkSpaces {
         public let subnetIds: [String]?
         /// The tags associated with the directory.
         public let tags: [Tag]?
-        /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your AWS account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
+        /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
         public let tenancy: Tenancy?
 
         public init(directoryId: String, enableSelfService: Bool? = nil, enableWorkDocs: Bool, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil) {
@@ -2421,7 +2472,7 @@ extension WorkSpaces {
     public struct UpdateConnectionAliasPermissionRequest: AWSEncodableShape {
         /// The identifier of the connection alias that you want to update permissions for.
         public let aliasId: String
-        /// Indicates whether to share or unshare the connection alias with the specified AWS account.
+        /// Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account.
         public let connectionAliasPermission: ConnectionAliasPermission
 
         public init(aliasId: String, connectionAliasPermission: ConnectionAliasPermission) {
@@ -2444,6 +2495,23 @@ extension WorkSpaces {
 
     public struct UpdateConnectionAliasPermissionResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateResult: AWSDecodableShape {
+        /// A description of whether updates for the WorkSpace image are pending or available.
+        public let description: String?
+        /// Indicates whether updated drivers or other components are available for the specified WorkSpace image.
+        public let updateAvailable: Bool?
+
+        public init(description: String? = nil, updateAvailable: Bool? = nil) {
+            self.description = description
+            self.updateAvailable = updateAvailable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case updateAvailable = "UpdateAvailable"
+        }
     }
 
     public struct UpdateRulesOfIpGroupRequest: AWSEncodableShape {
@@ -2502,7 +2570,7 @@ extension WorkSpaces {
         public let allowCopyImage: Bool
         /// The identifier of the image.
         public let imageId: String
-        /// The identifier of the AWS account to share or unshare the image with.  Before sharing the image, confirm that you are sharing to the correct AWS account ID.
+        /// The identifier of the Amazon Web Services account to share or unshare the image with.  Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID.
         public let sharedAccountId: String
 
         public init(allowCopyImage: Bool, imageId: String, sharedAccountId: String) {
@@ -2549,7 +2617,7 @@ extension WorkSpaces {
         public let bundleId: String?
         /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see  Launch a WorkSpace.
         public let computerName: String?
-        /// The identifier of the AWS Directory Service directory for the WorkSpace.
+        /// The identifier of the Directory Service directory for the WorkSpace.
         public let directoryId: String?
         /// The error code that is returned if the WorkSpace cannot be created.
         public let errorCode: String?
@@ -2569,7 +2637,7 @@ extension WorkSpaces {
         public let userName: String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
+        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
@@ -2614,7 +2682,7 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceAccessProperties: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether users can use Android devices to access their WorkSpaces.
+        /// Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces.
         public let deviceTypeAndroid: AccessPropertyValue?
         /// Indicates whether users can use Chromebooks to access their WorkSpaces.
         public let deviceTypeChromeOs: AccessPropertyValue?
@@ -2622,11 +2690,11 @@ extension WorkSpaces {
         public let deviceTypeIos: AccessPropertyValue?
         /// Indicates whether users can use Linux clients to access their WorkSpaces.
         public let deviceTypeLinux: AccessPropertyValue?
-        /// Indicates whether users can use macOS clients to access their WorkSpaces. To restrict WorkSpaces access to trusted devices (also known as managed devices) with valid certificates, specify a value of TRUST. For more information, see Restrict WorkSpaces Access to Trusted Devices.
+        /// Indicates whether users can use macOS clients to access their WorkSpaces.
         public let deviceTypeOsx: AccessPropertyValue?
         /// Indicates whether users can access their WorkSpaces through a web browser.
         public let deviceTypeWeb: AccessPropertyValue?
-        /// Indicates whether users can use Windows clients to access their WorkSpaces. To restrict WorkSpaces access to trusted devices (also known as managed devices) with valid certificates, specify a value of TRUST. For more information, see Restrict WorkSpaces Access to Trusted Devices.
+        /// Indicates whether users can use Windows clients to access their WorkSpaces.
         public let deviceTypeWindows: AccessPropertyValue?
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public let deviceTypeZeroClient: AccessPropertyValue?
@@ -2669,7 +2737,7 @@ extension WorkSpaces {
         public let lastUpdatedTime: Date?
         /// The name of the bundle.
         public let name: String?
-        /// The owner of the bundle. This is the account identifier of the owner, or AMAZON if the bundle is provided by AWS.
+        /// The owner of the bundle. This is the account identifier of the owner, or AMAZON if the bundle is provided by Amazon Web Services.
         public let owner: String?
         /// The size of the root volume.
         public let rootStorage: RootStorage?
@@ -2841,7 +2909,7 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceImage: AWSDecodableShape {
-        /// The date when the image was created. If the image has been shared, the AWS account that the image has been shared with sees the original creation date of the image.
+        /// The date when the image was created. If the image has been shared, the Amazon Web Services account that the image has been shared with sees the original creation date of the image.
         public let created: Date?
         /// The description of the image.
         public let description: String?
@@ -2855,14 +2923,16 @@ extension WorkSpaces {
         public let name: String?
         /// The operating system that the image is running.
         public let operatingSystem: OperatingSystem?
-        /// The identifier of the AWS account that owns the image.
+        /// The identifier of the Amazon Web Services account that owns the image.
         public let ownerAccountId: String?
         /// Specifies whether the image is running on dedicated hardware. When Bring Your Own License (BYOL) is enabled, this value is set to DEDICATED. For more information, see Bring Your Own Windows Desktop Images.
         public let requiredTenancy: WorkspaceImageRequiredTenancy?
         /// The status of the image.
         public let state: WorkspaceImageState?
+        /// The updates (if any) that are available for the specified image.
+        public let updates: UpdateResult?
 
-        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil, updates: UpdateResult? = nil) {
             self.created = created
             self.description = description
             self.errorCode = errorCode
@@ -2873,6 +2943,7 @@ extension WorkSpaces {
             self.ownerAccountId = ownerAccountId
             self.requiredTenancy = requiredTenancy
             self.state = state
+            self.updates = updates
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2886,6 +2957,7 @@ extension WorkSpaces {
             case ownerAccountId = "OwnerAccountId"
             case requiredTenancy = "RequiredTenancy"
             case state = "State"
+            case updates = "Updates"
         }
     }
 
@@ -2921,17 +2993,17 @@ extension WorkSpaces {
     public struct WorkspaceRequest: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the bundle for the WorkSpace. You can use DescribeWorkspaceBundles to list the available bundles.
         public let bundleId: String
-        /// The identifier of the AWS Directory Service directory for the WorkSpace. You can use DescribeWorkspaceDirectories to list the available directories.
+        /// The identifier of the Directory Service directory for the WorkSpace. You can use DescribeWorkspaceDirectories to list the available directories.
         public let directoryId: String
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
         /// The tags for the WorkSpace.
         public let tags: [Tag]?
-        /// The user name of the user for the WorkSpace. This user name must exist in the AWS Directory Service directory for the WorkSpace.
+        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace.
         public let userName: String
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
+        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?
