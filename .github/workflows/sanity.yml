@@ -2,8 +2,6 @@ name: Sanity Check
 
 on:
   pull_request:
-    branches:
-    - main
 
 jobs:
   sanity-check:

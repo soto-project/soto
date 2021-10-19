@@ -126,8 +126,7 @@ class S3ExtensionTests: XCTestCase {
             }
             .flatMapErrorThrowing { error in
                 switch error {
-                case let error as AWSRawError:
-                    XCTAssertEqual(error.context.responseCode, .notFound)
+                case let error as S3ErrorType where error == .notFound:
                     return
                 default:
                     XCTFail("Unexpected error: \(error)")
@@ -377,10 +376,30 @@ class S3ExtensionTests: XCTestCase {
                     outputSerialization: output,
                     requestProgress: S3.RequestProgress(enabled: true)
                 )
+                let size = file10.utf8.count
+                var returnedSize = 0
                 return s3.selectObjectContentEventStream(request, logger: TestEnvironment.logger, on: runOnEventLoop) { eventStream, eventLoop in
                     XCTAssertTrue(eventLoop === runOnEventLoop)
-                    if let records = eventStream.records?.payload {
-                        print("Record size: \(records.count)")
+                    switch eventStream {
+                    case .records(let records):
+                        if let payload = records.payload {
+                            returnedSize += payload.count
+                            print("Record size: \(payload.count)")
+                        }
+                    case .stats(let stats):
+                        if let details = stats.details {
+                            print("Stats: ")
+                            print("  processed: \(details.bytesProcessed ?? 0)")
+                            print("  returned: \(details.bytesReturned ?? 0)")
+                            print("  scanned: \(details.bytesScanned ?? 0)")
+
+                            XCTAssertEqual(Int64(size), details.bytesProcessed)
+                            XCTAssertEqual(Int64(returnedSize), details.bytesReturned)
+                        }
+                    case .end:
+                        print("End")
+                    default:
+                        break
                     }
                     return eventLoop.makeSucceededFuture(())
                 }

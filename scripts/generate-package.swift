@@ -1,4 +1,4 @@
-#!/usr/bin/env swift sh
+#!/usr/bin/env swift-sh
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
