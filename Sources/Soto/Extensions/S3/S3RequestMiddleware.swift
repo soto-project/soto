@@ -35,8 +35,8 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     public func chain(response: AWSResponse, context: AWSMiddlewareContext) throws -> AWSResponse {
         var response = response
 
-        self.metadataFixup(response: &response)
         self.getLocationResponseFixup(response: &response)
+        self.fixupHeadErrors(response: &response)
 
         return response
     }
@@ -149,22 +149,14 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         }
     }
 
-    func metadataFixup(response: inout AWSResponse) {
-        // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
-        switch response.body {
-        case .raw(_), .empty:
-            var metadata: [String: String] = [:]
-            for (key, value) in response.headers {
-                if key.hasPrefix("x-amz-meta-"), let value = value as? String {
-                    let keyWithoutPrefix = key.dropFirst("x-amz-meta-".count)
-                    metadata[String(keyWithoutPrefix)] = value
-                }
-            }
-            if !metadata.isEmpty {
-                response.headers["x-amz-meta-"] = metadata
-            }
-        default:
-            break
+    func fixupHeadErrors(response: inout AWSResponse) {
+        if response.status == .notFound, response.body.isEmpty {
+            let errorNode = XML.Element(name: "Error")
+            let codeNode = XML.Element(name: "Code", stringValue: "NotFound")
+            let messageNode = XML.Element(name: "Message", stringValue: "Not Found")
+            errorNode.addChild(codeNode)
+            errorNode.addChild(messageNode)
+            response.body = .xml(errorNode)
         }
     }
 }
