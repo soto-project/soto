@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Signer {
     ///  Lists all your signing jobs. You can use the maxResults parameter to
     ///  			limit the number of signing jobs that are returned in the response. If additional jobs

@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension MediaConvert {
     ///  Send an request with an empty body to the regional API endpoint to get your account API endpoint.
     /// Return PaginatorSequence for operation.
