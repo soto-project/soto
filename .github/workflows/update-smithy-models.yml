@@ -18,7 +18,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: smithy
+        ref: 6.x.x
         fetch-depth: 1
     - name: Install Dependencies
       run: |
