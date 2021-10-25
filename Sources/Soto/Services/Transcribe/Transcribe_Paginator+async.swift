@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Transcribe {
     ///  Provides more information about the call analytics categories that you've created. You  can use the information in this list to find a specific category. You can then use the operation to get more information about it.
     /// Return PaginatorSequence for operation.

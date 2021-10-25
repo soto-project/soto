@@ -63,8 +63,10 @@ class S3Tests: XCTestCase {
 
     static func createBucket(name: String, s3: S3) -> EventLoopFuture<Void> {
         let bucketRequest = S3.CreateBucketRequest(bucket: name)
-        return s3.createBucket(bucketRequest)
-            .map { _ in }
+        return s3.createBucket(bucketRequest, logger: TestEnvironment.logger)
+            .flatMap { _ in
+                s3.waitUntilBucketExists(.init(bucket: name), logger: TestEnvironment.logger)
+            }
             .flatMapErrorThrowing { error in
                 switch error {
                 case let error as S3ErrorType:
@@ -87,16 +89,16 @@ class S3Tests: XCTestCase {
 
     static func deleteBucket(name: String, s3: S3) -> EventLoopFuture<Void> {
         let request = S3.ListObjectsV2Request(bucket: name)
-        return s3.listObjectsV2(request)
+        return s3.listObjectsV2(request, logger: TestEnvironment.logger)
             .flatMap { response -> EventLoopFuture<Void> in
                 let eventLoop = s3.client.eventLoopGroup.next()
                 guard let objects = response.contents else { return eventLoop.makeSucceededFuture(()) }
-                let deleteFutureResults = objects.compactMap { $0.key.map { s3.deleteObject(.init(bucket: name, key: $0)) } }
+                let deleteFutureResults = objects.compactMap { $0.key.map { s3.deleteObject(.init(bucket: name, key: $0), logger: TestEnvironment.logger) } }
                 return EventLoopFuture.andAllSucceed(deleteFutureResults, on: eventLoop)
             }
             .flatMap { _ in
                 let request = S3.DeleteBucketRequest(bucket: name)
-                return s3.deleteBucket(request).map { _ in }
+                return s3.deleteBucket(request, logger: TestEnvironment.logger).map { _ in }
             }
             .flatMapErrorThrowing { error in
                 // when using LocalStack ignore errors from deleting buckets
@@ -106,18 +108,6 @@ class S3Tests: XCTestCase {
     }
 
     // MARK: TESTS
-
-    func testHeadBucket() {
-        let name = TestEnvironment.generateResourceName()
-        let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap {
-                Self.s3.headBucket(.init(bucket: name))
-            }
-            .flatAlways { _ in
-                return Self.deleteBucket(name: name, s3: Self.s3)
-            }
-        XCTAssertNoThrow(try response.wait())
-    }
 
     func testPutGetObject() {
         let name = TestEnvironment.generateResourceName()
