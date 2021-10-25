@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension ACMPCA {
     ///  Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
     /// Return PaginatorSequence for operation.

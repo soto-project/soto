@@ -20,14 +20,14 @@ import SotoCore
 /// Error enum for Transfer
 public struct TransferErrorType: AWSErrorType {
     enum Code: String {
-        case accessDeniedException = "AccessDenied"
+        case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServiceError = "InternalServiceError"
         case invalidNextTokenException = "InvalidNextTokenException"
         case invalidRequestException = "InvalidRequestException"
         case resourceExistsException = "ResourceExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
-        case serviceUnavailableException = "ServiceUnavailable"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
     }
 

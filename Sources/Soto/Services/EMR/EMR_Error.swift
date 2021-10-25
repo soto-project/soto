@@ -20,7 +20,7 @@ import SotoCore
 /// Error enum for EMR
 public struct EMRErrorType: AWSErrorType {
     enum Code: String {
-        case internalServerError = "InternalFailure"
+        case internalServerError = "InternalServerError"
         case internalServerException = "InternalServerException"
         case invalidRequestException = "InvalidRequestException"
     }
