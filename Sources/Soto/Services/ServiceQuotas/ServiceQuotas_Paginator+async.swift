@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension ServiceQuotas {
     ///  Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
     /// Return PaginatorSequence for operation.

@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension FraudDetector {
     ///  Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
     /// Return PaginatorSequence for operation.

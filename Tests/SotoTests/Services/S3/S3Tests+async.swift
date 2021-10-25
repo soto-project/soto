@@ -60,6 +60,7 @@ class S3AsyncTests: XCTestCase {
     static func createBucket(name: String, s3: S3) async throws {
         do {
             _ = try await s3.createBucket(.init(bucket: name))
+            try await s3.waitUntilBucketExists(.init(bucket: name))
         } catch {
             switch error {
             case let error as S3ErrorType:

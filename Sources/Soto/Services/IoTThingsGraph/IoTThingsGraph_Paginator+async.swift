@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 9999, iOS 9999, watchOS 9999, tvOS 9999, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension IoTThingsGraph {
     ///  Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,  this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
     /// Return PaginatorSequence for operation.
