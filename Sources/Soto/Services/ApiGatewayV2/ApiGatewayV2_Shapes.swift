@@ -328,7 +328,7 @@ extension ApiGatewayV2 {
 
     public struct CreateApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The API identifier.
@@ -520,7 +520,7 @@ extension ApiGatewayV2 {
 
     public struct CreateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -634,7 +634,7 @@ extension ApiGatewayV2 {
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -746,7 +746,7 @@ extension ApiGatewayV2 {
 
     public struct CreateIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -835,8 +835,8 @@ extension ApiGatewayV2 {
 
     public struct CreateIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
         ]
 
         /// The API identifier.
@@ -997,7 +997,7 @@ extension ApiGatewayV2 {
 
     public struct CreateModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -1058,7 +1058,7 @@ extension ApiGatewayV2 {
 
     public struct CreateRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -1118,8 +1118,8 @@ extension ApiGatewayV2 {
 
     public struct CreateRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
         ]
 
         /// The API identifier.
@@ -1244,7 +1244,7 @@ extension ApiGatewayV2 {
 
     public struct CreateStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// Settings for logging access in this stage.
@@ -1438,8 +1438,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteAccessLogSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "StageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
         ]
 
         /// The API identifier.
@@ -1457,8 +1457,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "ApiMappingId")),
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "apiMappingId", location: .uri("ApiMappingId")),
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The API mapping identifier.
@@ -1476,7 +1476,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -1491,8 +1491,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "AuthorizerId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "authorizerId", location: .uri("AuthorizerId"))
         ]
 
         /// The API identifier.
@@ -1510,7 +1510,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteCorsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -1525,8 +1525,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId"))
         ]
 
         /// The API identifier.
@@ -1544,7 +1544,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteDomainNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The domain name.
@@ -1559,8 +1559,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
         ]
 
         /// The API identifier.
@@ -1578,9 +1578,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId")),
-            AWSMemberEncoding(label: "integrationResponseId", location: .uri(locationName: "IntegrationResponseId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
+            AWSMemberEncoding(label: "integrationResponseId", location: .uri("IntegrationResponseId"))
         ]
 
         /// The API identifier.
@@ -1601,8 +1601,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri(locationName: "ModelId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
         ]
 
         /// The API identifier.
@@ -1620,8 +1620,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
         ]
 
         /// The API identifier.
@@ -1639,9 +1639,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteRequestParameterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "requestParameterKey", location: .uri(locationName: "RequestParameterKey")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "requestParameterKey", location: .uri("RequestParameterKey")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
         ]
 
         /// The API identifier.
@@ -1662,9 +1662,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId")),
-            AWSMemberEncoding(label: "routeResponseId", location: .uri(locationName: "RouteResponseId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId")),
+            AWSMemberEncoding(label: "routeResponseId", location: .uri("RouteResponseId"))
         ]
 
         /// The API identifier.
@@ -1685,9 +1685,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeKey", location: .uri(locationName: "RouteKey")),
-            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "StageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeKey", location: .uri("RouteKey")),
+            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
         ]
 
         /// The API identifier.
@@ -1708,8 +1708,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "StageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
         ]
 
         /// The API identifier.
@@ -1727,7 +1727,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteVpcLinkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "VpcLinkId"))
+            AWSMemberEncoding(label: "vpcLinkId", location: .uri("VpcLinkId"))
         ]
 
         /// The ID of the VPC link.
@@ -1859,12 +1859,12 @@ extension ApiGatewayV2 {
 
     public struct ExportApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "exportVersion", location: .querystring(locationName: "exportVersion")),
-            AWSMemberEncoding(label: "includeExtensions", location: .querystring(locationName: "includeExtensions")),
-            AWSMemberEncoding(label: "outputType", location: .querystring(locationName: "outputType")),
-            AWSMemberEncoding(label: "specification", location: .uri(locationName: "Specification")),
-            AWSMemberEncoding(label: "stageName", location: .querystring(locationName: "stageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "exportVersion", location: .querystring("exportVersion")),
+            AWSMemberEncoding(label: "includeExtensions", location: .querystring("includeExtensions")),
+            AWSMemberEncoding(label: "outputType", location: .querystring("outputType")),
+            AWSMemberEncoding(label: "specification", location: .uri("Specification")),
+            AWSMemberEncoding(label: "stageName", location: .querystring("stageName"))
         ]
 
         /// The API identifier.
@@ -1910,8 +1910,8 @@ extension ApiGatewayV2 {
 
     public struct GetApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "ApiMappingId")),
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "apiMappingId", location: .uri("ApiMappingId")),
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The API mapping identifier.
@@ -1954,9 +1954,9 @@ extension ApiGatewayV2 {
 
     public struct GetApiMappingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The domain name.
@@ -1994,7 +1994,7 @@ extension ApiGatewayV2 {
 
     public struct GetApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -2083,8 +2083,8 @@ extension ApiGatewayV2 {
 
     public struct GetApisRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of elements to be returned for this resource.
@@ -2119,8 +2119,8 @@ extension ApiGatewayV2 {
 
     public struct GetAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "AuthorizerId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "authorizerId", location: .uri("AuthorizerId"))
         ]
 
         /// The API identifier.
@@ -2191,9 +2191,9 @@ extension ApiGatewayV2 {
 
     public struct GetAuthorizersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -2231,8 +2231,8 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId"))
         ]
 
         /// The API identifier.
@@ -2284,9 +2284,9 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -2324,7 +2324,7 @@ extension ApiGatewayV2 {
 
     public struct GetDomainNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The domain name.
@@ -2368,8 +2368,8 @@ extension ApiGatewayV2 {
 
     public struct GetDomainNamesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of elements to be returned for this resource.
@@ -2404,8 +2404,8 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
         ]
 
         /// The API identifier.
@@ -2423,9 +2423,9 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId")),
-            AWSMemberEncoding(label: "integrationResponseId", location: .uri(locationName: "IntegrationResponseId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
+            AWSMemberEncoding(label: "integrationResponseId", location: .uri("IntegrationResponseId"))
         ]
 
         /// The API identifier.
@@ -2479,10 +2479,10 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponsesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -2612,9 +2612,9 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -2652,8 +2652,8 @@ extension ApiGatewayV2 {
 
     public struct GetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri(locationName: "ModelId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
         ]
 
         /// The API identifier.
@@ -2700,8 +2700,8 @@ extension ApiGatewayV2 {
 
     public struct GetModelTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri(locationName: "ModelId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
         ]
 
         /// The API identifier.
@@ -2732,9 +2732,9 @@ extension ApiGatewayV2 {
 
     public struct GetModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -2772,8 +2772,8 @@ extension ApiGatewayV2 {
 
     public struct GetRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
         ]
 
         /// The API identifier.
@@ -2791,9 +2791,9 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId")),
-            AWSMemberEncoding(label: "routeResponseId", location: .uri(locationName: "RouteResponseId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId")),
+            AWSMemberEncoding(label: "routeResponseId", location: .uri("RouteResponseId"))
         ]
 
         /// The API identifier.
@@ -2843,10 +2843,10 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponsesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
         ]
 
         /// The API identifier.
@@ -2948,9 +2948,9 @@ extension ApiGatewayV2 {
 
     public struct GetRoutesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -2988,8 +2988,8 @@ extension ApiGatewayV2 {
 
     public struct GetStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "StageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
         ]
 
         /// The API identifier.
@@ -3074,9 +3074,9 @@ extension ApiGatewayV2 {
 
     public struct GetStagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API identifier.
@@ -3114,7 +3114,7 @@ extension ApiGatewayV2 {
 
     public struct GetTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The resource ARN for the tag.
@@ -3141,7 +3141,7 @@ extension ApiGatewayV2 {
 
     public struct GetVpcLinkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "VpcLinkId"))
+            AWSMemberEncoding(label: "vpcLinkId", location: .uri("VpcLinkId"))
         ]
 
         /// The ID of the VPC link.
@@ -3202,8 +3202,8 @@ extension ApiGatewayV2 {
 
     public struct GetVpcLinksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of elements to be returned for this resource.
@@ -3238,8 +3238,8 @@ extension ApiGatewayV2 {
 
     public struct ImportApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")),
-            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failOnWarnings"))
+            AWSMemberEncoding(label: "basepath", location: .querystring("basepath")),
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failOnWarnings"))
         ]
 
         /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
@@ -3555,9 +3555,9 @@ extension ApiGatewayV2 {
 
     public struct ReimportApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")),
-            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failOnWarnings"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "basepath", location: .querystring("basepath")),
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failOnWarnings"))
         ]
 
         /// The API identifier.
@@ -3657,8 +3657,8 @@ extension ApiGatewayV2 {
 
     public struct ResetAuthorizersCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "StageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
         ]
 
         /// The API identifier.
@@ -3862,7 +3862,7 @@ extension ApiGatewayV2 {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The resource ARN for the tag.
@@ -3912,8 +3912,8 @@ extension ApiGatewayV2 {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The resource ARN for the tag.
@@ -3931,8 +3931,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "ApiMappingId")),
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "apiMappingId", location: .uri("ApiMappingId")),
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The API identifier.
@@ -3988,7 +3988,7 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
         ]
 
         /// The API identifier.
@@ -4126,8 +4126,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "AuthorizerId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "authorizerId", location: .uri("AuthorizerId"))
         ]
 
         /// The API identifier.
@@ -4244,8 +4244,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId"))
         ]
 
         /// The API identifier.
@@ -4302,7 +4302,7 @@ extension ApiGatewayV2 {
 
     public struct UpdateDomainNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The domain name.
@@ -4355,8 +4355,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
         ]
 
         /// The API identifier.
@@ -4448,9 +4448,9 @@ extension ApiGatewayV2 {
 
     public struct UpdateIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "IntegrationId")),
-            AWSMemberEncoding(label: "integrationResponseId", location: .uri(locationName: "IntegrationResponseId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
+            AWSMemberEncoding(label: "integrationResponseId", location: .uri("IntegrationResponseId"))
         ]
 
         /// The API identifier.
@@ -4614,8 +4614,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri(locationName: "ModelId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
         ]
 
         /// The API identifier.
@@ -4679,8 +4679,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
         ]
 
         /// The API identifier.
@@ -4743,9 +4743,9 @@ extension ApiGatewayV2 {
 
     public struct UpdateRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "RouteId")),
-            AWSMemberEncoding(label: "routeResponseId", location: .uri(locationName: "RouteResponseId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "routeId", location: .uri("RouteId")),
+            AWSMemberEncoding(label: "routeResponseId", location: .uri("RouteResponseId"))
         ]
 
         /// The API identifier.
@@ -4873,8 +4873,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "StageName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
+            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
         ]
 
         /// Settings for logging access in this stage.
@@ -4992,7 +4992,7 @@ extension ApiGatewayV2 {
 
     public struct UpdateVpcLinkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "VpcLinkId"))
+            AWSMemberEncoding(label: "vpcLinkId", location: .uri("VpcLinkId"))
         ]
 
         /// The name of the VPC link.

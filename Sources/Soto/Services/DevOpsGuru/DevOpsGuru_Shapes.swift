@@ -487,7 +487,7 @@ extension DevOpsGuru {
 
     public struct DescribeAnomalyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         ///  		The ID of the anomaly.
@@ -559,7 +559,7 @@ extension DevOpsGuru {
 
     public struct DescribeInsightRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         ///  		The ID of the insight.
@@ -599,8 +599,8 @@ extension DevOpsGuru {
 
     public struct DescribeResourceCollectionHealthRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "resourceCollectionType", location: .uri(locationName: "ResourceCollectionType"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "resourceCollectionType", location: .uri("ResourceCollectionType"))
         ]
 
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -768,7 +768,7 @@ extension DevOpsGuru {
 
     public struct GetCostEstimationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -826,8 +826,8 @@ extension DevOpsGuru {
 
     public struct GetResourceCollectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "resourceCollectionType", location: .uri(locationName: "ResourceCollectionType"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "resourceCollectionType", location: .uri("ResourceCollectionType"))
         ]
 
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -931,7 +931,7 @@ extension DevOpsGuru {
 
     public struct ListAnomaliesForInsightRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "insightId", location: .uri(locationName: "InsightId"))
+            AWSMemberEncoding(label: "insightId", location: .uri("InsightId"))
         ]
 
         /// 			The ID of the insight. The returned anomalies belong to this insight.
@@ -1919,7 +1919,7 @@ extension DevOpsGuru {
 
     public struct RemoveNotificationChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         ///  		The ID of the notification channel to be removed.

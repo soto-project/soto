@@ -37,8 +37,8 @@ extension IoTSecureTunneling {
 
     public struct CloseTunnelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "delete", location: .querystring(locationName: "delete")),
-            AWSMemberEncoding(label: "tunnelId", location: .uri(locationName: "tunnelId"))
+            AWSMemberEncoding(label: "delete", location: .querystring("delete")),
+            AWSMemberEncoding(label: "tunnelId", location: .uri("tunnelId"))
         ]
 
         /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data
@@ -83,7 +83,7 @@ extension IoTSecureTunneling {
 
     public struct DescribeTunnelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tunnelId", location: .uri(locationName: "tunnelId"))
+            AWSMemberEncoding(label: "tunnelId", location: .uri("tunnelId"))
         ]
 
         /// The tunnel to describe.
@@ -147,7 +147,7 @@ extension IoTSecureTunneling {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The resource ARN.
@@ -180,9 +180,9 @@ extension IoTSecureTunneling {
 
     public struct ListTunnelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "thingName", location: .querystring("thingName"))
         ]
 
         /// The maximum number of results to return at once.

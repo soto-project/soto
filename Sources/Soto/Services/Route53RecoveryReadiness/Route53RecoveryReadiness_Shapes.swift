@@ -307,7 +307,7 @@ extension Route53RecoveryReadiness {
 
     public struct DeleteCellRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri(locationName: "CellName"))
+            AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
         ]
 
         /// The Cell to delete
@@ -322,7 +322,7 @@ extension Route53RecoveryReadiness {
 
     public struct DeleteCrossAccountAuthorizationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "crossAccountAuthorization", location: .uri(locationName: "CrossAccountAuthorization"))
+            AWSMemberEncoding(label: "crossAccountAuthorization", location: .uri("CrossAccountAuthorization"))
         ]
 
         /// The cross account authorization
@@ -341,7 +341,7 @@ extension Route53RecoveryReadiness {
 
     public struct DeleteReadinessCheckRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri(locationName: "ReadinessCheckName"))
+            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
         /// The ReadinessCheck to delete
@@ -356,7 +356,7 @@ extension Route53RecoveryReadiness {
 
     public struct DeleteRecoveryGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri(locationName: "RecoveryGroupName"))
+            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
         /// The RecoveryGroup to delete
@@ -371,7 +371,7 @@ extension Route53RecoveryReadiness {
 
     public struct DeleteResourceSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceSetName", location: .uri(locationName: "ResourceSetName"))
+            AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
         ]
 
         /// The ResourceSet to delete
@@ -386,9 +386,9 @@ extension Route53RecoveryReadiness {
 
     public struct GetArchitectureRecommendationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri(locationName: "RecoveryGroupName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
         /// Upper bound on number of records to return.
@@ -436,9 +436,9 @@ extension Route53RecoveryReadiness {
 
     public struct GetCellReadinessSummaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri(locationName: "CellName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "cellName", location: .uri("CellName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the Cell
@@ -485,7 +485,7 @@ extension Route53RecoveryReadiness {
 
     public struct GetCellRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri(locationName: "CellName"))
+            AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
         ]
 
         /// The Cell to get
@@ -528,7 +528,7 @@ extension Route53RecoveryReadiness {
 
     public struct GetReadinessCheckRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri(locationName: "ReadinessCheckName"))
+            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
         /// The ReadinessCheck to get
@@ -543,10 +543,10 @@ extension Route53RecoveryReadiness {
 
     public struct GetReadinessCheckResourceStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri(locationName: "ReadinessCheckName")),
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName")),
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier"))
         ]
 
         /// Upper bound on number of records to return.
@@ -620,9 +620,9 @@ extension Route53RecoveryReadiness {
 
     public struct GetReadinessCheckStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri(locationName: "ReadinessCheckName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
         /// Upper bound on number of records to return.
@@ -673,9 +673,9 @@ extension Route53RecoveryReadiness {
 
     public struct GetRecoveryGroupReadinessSummaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri(locationName: "RecoveryGroupName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
         /// Upper bound on number of records to return.
@@ -722,7 +722,7 @@ extension Route53RecoveryReadiness {
 
     public struct GetRecoveryGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri(locationName: "RecoveryGroupName"))
+            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
         /// The RecoveryGroup to get
@@ -761,7 +761,7 @@ extension Route53RecoveryReadiness {
 
     public struct GetResourceSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceSetName", location: .uri(locationName: "ResourceSetName"))
+            AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
         ]
 
         /// The ResourceSet to get
@@ -804,8 +804,8 @@ extension Route53RecoveryReadiness {
 
     public struct ListCellsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -845,8 +845,8 @@ extension Route53RecoveryReadiness {
 
     public struct ListCrossAccountAuthorizationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -886,8 +886,8 @@ extension Route53RecoveryReadiness {
 
     public struct ListReadinessChecksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -927,8 +927,8 @@ extension Route53RecoveryReadiness {
 
     public struct ListRecoveryGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -968,8 +968,8 @@ extension Route53RecoveryReadiness {
 
     public struct ListResourceSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -1030,9 +1030,9 @@ extension Route53RecoveryReadiness {
 
     public struct ListRulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         /// Upper bound on number of records to return.
@@ -1075,7 +1075,7 @@ extension Route53RecoveryReadiness {
 
     public struct ListTagsForResourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
@@ -1327,7 +1327,7 @@ extension Route53RecoveryReadiness {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
@@ -1365,8 +1365,8 @@ extension Route53RecoveryReadiness {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
@@ -1384,7 +1384,7 @@ extension Route53RecoveryReadiness {
 
     public struct UpdateCellRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri(locationName: "CellName"))
+            AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
         ]
 
         /// The Cell to update
@@ -1432,7 +1432,7 @@ extension Route53RecoveryReadiness {
 
     public struct UpdateReadinessCheckRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri(locationName: "ReadinessCheckName"))
+            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
         /// The ReadinessCheck to update
@@ -1476,7 +1476,7 @@ extension Route53RecoveryReadiness {
 
     public struct UpdateRecoveryGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri(locationName: "RecoveryGroupName"))
+            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
         /// A list of Cell arns, completely replaces previous list
@@ -1520,7 +1520,7 @@ extension Route53RecoveryReadiness {
 
     public struct UpdateResourceSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceSetName", location: .uri(locationName: "ResourceSetName"))
+            AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
         ]
 
         /// A list of Resource objects

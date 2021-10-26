@@ -147,9 +147,9 @@ extension LexRuntimeService {
 
     public struct DeleteSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
         ]
 
         /// The alias in use for the bot that contains the session data.
@@ -272,10 +272,10 @@ extension LexRuntimeService {
 
     public struct GetSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "checkpointLabelFilter", location: .querystring(locationName: "checkpointLabelFilter")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "checkpointLabelFilter", location: .querystring("checkpointLabelFilter")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
         ]
 
         /// The alias in use for the bot that contains the session data.
@@ -396,14 +396,14 @@ extension LexRuntimeService {
         public static let _payloadPath: String = "inputStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
+            AWSMemberEncoding(label: "accept", location: .header("Accept")),
+            AWSMemberEncoding(label: "activeContexts", location: .header("x-amz-lex-active-contexts")),
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "requestAttributes", location: .header("x-amz-lex-request-attributes")),
+            AWSMemberEncoding(label: "sessionAttributes", location: .header("x-amz-lex-session-attributes")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
         ]
 
         ///  You pass this value as the Accept HTTP header.  The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.    If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.    If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little endian format.    The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)
@@ -451,23 +451,23 @@ extension LexRuntimeService {
         public static let _payloadPath: String = "audioStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
-            AWSMemberEncoding(label: "alternativeIntents", location: .header(locationName: "x-amz-lex-alternative-intents")),
-            AWSMemberEncoding(label: "botVersion", location: .header(locationName: "x-amz-lex-bot-version")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")),
-            AWSMemberEncoding(label: "encodedInputTranscript", location: .header(locationName: "x-amz-lex-encoded-input-transcript")),
-            AWSMemberEncoding(label: "encodedMessage", location: .header(locationName: "x-amz-lex-encoded-message")),
-            AWSMemberEncoding(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")),
-            AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")),
-            AWSMemberEncoding(label: "message", location: .header(locationName: "x-amz-lex-message")),
-            AWSMemberEncoding(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")),
-            AWSMemberEncoding(label: "nluIntentConfidence", location: .header(locationName: "x-amz-lex-nlu-intent-confidence")),
-            AWSMemberEncoding(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment")),
-            AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
-            AWSMemberEncoding(label: "slots", location: .header(locationName: "x-amz-lex-slots")),
-            AWSMemberEncoding(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
+            AWSMemberEncoding(label: "activeContexts", location: .header("x-amz-lex-active-contexts")),
+            AWSMemberEncoding(label: "alternativeIntents", location: .header("x-amz-lex-alternative-intents")),
+            AWSMemberEncoding(label: "botVersion", location: .header("x-amz-lex-bot-version")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "dialogState", location: .header("x-amz-lex-dialog-state")),
+            AWSMemberEncoding(label: "encodedInputTranscript", location: .header("x-amz-lex-encoded-input-transcript")),
+            AWSMemberEncoding(label: "encodedMessage", location: .header("x-amz-lex-encoded-message")),
+            AWSMemberEncoding(label: "inputTranscript", location: .header("x-amz-lex-input-transcript")),
+            AWSMemberEncoding(label: "intentName", location: .header("x-amz-lex-intent-name")),
+            AWSMemberEncoding(label: "message", location: .header("x-amz-lex-message")),
+            AWSMemberEncoding(label: "messageFormat", location: .header("x-amz-lex-message-format")),
+            AWSMemberEncoding(label: "nluIntentConfidence", location: .header("x-amz-lex-nlu-intent-confidence")),
+            AWSMemberEncoding(label: "sentimentResponse", location: .header("x-amz-lex-sentiment")),
+            AWSMemberEncoding(label: "sessionAttributes", location: .header("x-amz-lex-session-attributes")),
+            AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
+            AWSMemberEncoding(label: "slots", location: .header("x-amz-lex-slots")),
+            AWSMemberEncoding(label: "slotToElicit", location: .header("x-amz-lex-slot-to-elicit"))
         ]
 
         /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
@@ -552,9 +552,9 @@ extension LexRuntimeService {
 
     public struct PostTextRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
         ]
 
         /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
@@ -691,10 +691,10 @@ extension LexRuntimeService {
 
     public struct PutSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
+            AWSMemberEncoding(label: "accept", location: .header("Accept")),
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
         ]
 
         /// The message that Amazon Lex returns in the response can be either text or speech based depending on the value of this field.   If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech in the configuration that you specify. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech is returned as audio/pcm in 16-bit, little endian format.   The following are the accepted values:    audio/mpeg     audio/ogg     audio/pcm     audio/* (defaults to mpeg)    text/plain; charset=utf-8
@@ -753,17 +753,17 @@ extension LexRuntimeService {
         public static let _payloadPath: String = "audioStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")),
-            AWSMemberEncoding(label: "encodedMessage", location: .header(locationName: "x-amz-lex-encoded-message")),
-            AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")),
-            AWSMemberEncoding(label: "message", location: .header(locationName: "x-amz-lex-message")),
-            AWSMemberEncoding(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")),
-            AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
-            AWSMemberEncoding(label: "slots", location: .header(locationName: "x-amz-lex-slots")),
-            AWSMemberEncoding(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
+            AWSMemberEncoding(label: "activeContexts", location: .header("x-amz-lex-active-contexts")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "dialogState", location: .header("x-amz-lex-dialog-state")),
+            AWSMemberEncoding(label: "encodedMessage", location: .header("x-amz-lex-encoded-message")),
+            AWSMemberEncoding(label: "intentName", location: .header("x-amz-lex-intent-name")),
+            AWSMemberEncoding(label: "message", location: .header("x-amz-lex-message")),
+            AWSMemberEncoding(label: "messageFormat", location: .header("x-amz-lex-message-format")),
+            AWSMemberEncoding(label: "sessionAttributes", location: .header("x-amz-lex-session-attributes")),
+            AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
+            AWSMemberEncoding(label: "slots", location: .header("x-amz-lex-slots")),
+            AWSMemberEncoding(label: "slotToElicit", location: .header("x-amz-lex-slot-to-elicit"))
         ]
 
         /// A list of active contexts for the session.

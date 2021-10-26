@@ -246,7 +246,7 @@ extension AppIntegrations {
 
     public struct DeleteDataIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri(locationName: "DataIntegrationIdentifier"))
+            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri("DataIntegrationIdentifier"))
         ]
 
         /// A unique identifier for the DataIntegration.
@@ -271,7 +271,7 @@ extension AppIntegrations {
 
     public struct DeleteEventIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the event integration.
@@ -381,7 +381,7 @@ extension AppIntegrations {
 
     public struct GetDataIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri(locationName: "Identifier"))
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
         ]
 
         /// A unique identifier.
@@ -443,7 +443,7 @@ extension AppIntegrations {
 
     public struct GetEventIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the event integration.
@@ -497,9 +497,9 @@ extension AppIntegrations {
 
     public struct ListDataIntegrationAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri(locationName: "DataIntegrationIdentifier")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "dataIntegrationIdentifier", location: .uri("DataIntegrationIdentifier")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A unique identifier for the DataIntegration.
@@ -549,8 +549,8 @@ extension AppIntegrations {
 
     public struct ListDataIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per page.
@@ -594,9 +594,9 @@ extension AppIntegrations {
 
     public struct ListEventIntegrationAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventIntegrationName", location: .uri(locationName: "EventIntegrationName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "eventIntegrationName", location: .uri("EventIntegrationName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the event integration.
@@ -646,8 +646,8 @@ extension AppIntegrations {
 
     public struct ListEventIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per page.
@@ -691,7 +691,7 @@ extension AppIntegrations {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -758,7 +758,7 @@ extension AppIntegrations {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -796,8 +796,8 @@ extension AppIntegrations {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -832,7 +832,7 @@ extension AppIntegrations {
 
     public struct UpdateDataIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri(locationName: "Identifier"))
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
         ]
 
         /// A description of the DataIntegration.
@@ -872,7 +872,7 @@ extension AppIntegrations {
 
     public struct UpdateEventIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The description of the event inegration.

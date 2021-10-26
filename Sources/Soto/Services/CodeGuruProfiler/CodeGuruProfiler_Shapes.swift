@@ -113,7 +113,7 @@ extension CodeGuruProfiler {
 
     public struct AddNotificationChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         /// One or 2 channels to report to when anomalies are detected.
@@ -257,11 +257,11 @@ extension CodeGuruProfiler {
 
     public struct BatchGetFrameMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "targetResolution", location: .querystring(locationName: "targetResolution"))
+            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "period", location: .querystring("period")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "targetResolution", location: .querystring("targetResolution"))
         ]
 
         ///  The end time of the time period for the returned time series values.  This is specified  using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1  millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -365,7 +365,7 @@ extension CodeGuruProfiler {
 
     public struct ConfigureAgentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         ///  A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the container's task ID.
@@ -413,7 +413,7 @@ extension CodeGuruProfiler {
 
     public struct CreateProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
         ]
 
         ///  Specifies whether profiling is enabled or disabled for the created profiling group.
@@ -470,7 +470,7 @@ extension CodeGuruProfiler {
 
     public struct DeleteProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         /// The name of the profiling group to delete.
@@ -495,7 +495,7 @@ extension CodeGuruProfiler {
 
     public struct DescribeProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         ///  The name of the profiling group to get information about.
@@ -600,9 +600,9 @@ extension CodeGuruProfiler {
 
     public struct GetFindingsReportAccountSummaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring("dailyReportsOnly")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A Boolean value indicating whether to only return reports from daily profiles. If set  to True, only analysis data from daily profiles is returned. If set to False,  analysis data is returned from smaller time windows (for example, one hour).
@@ -648,7 +648,7 @@ extension CodeGuruProfiler {
 
     public struct GetNotificationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         /// The name of the profiling group we want to get the notification configuration for.
@@ -682,7 +682,7 @@ extension CodeGuruProfiler {
 
     public struct GetPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         /// The name of the profiling group.
@@ -720,12 +720,12 @@ extension CodeGuruProfiler {
 
     public struct GetProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxDepth", location: .querystring(locationName: "maxDepth")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "accept", location: .header("Accept")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxDepth", location: .querystring("maxDepth")),
+            AWSMemberEncoding(label: "period", location: .querystring("period")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
         ]
 
         ///  The format of the returned profiling data. The format maps to the  Accept and Content-Type headers of the  HTTP request. You can specify one of the following:  or the default .      application/json — standard JSON format      application/x-amzn-ion — the Amazon Ion data format. For more information,  see Amazon Ion.
@@ -770,8 +770,8 @@ extension CodeGuruProfiler {
         public static let _payloadPath: String = "profile"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// The content encoding of the profile.
@@ -796,10 +796,10 @@ extension CodeGuruProfiler {
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "locale", location: .querystring("locale")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
         ]
 
         ///  The start time of the profile to get analysis data about. You must specify startTime and endTime.  This is specified  using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1  millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -862,12 +862,12 @@ extension CodeGuruProfiler {
 
     public struct ListFindingsReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring("dailyReportsOnly")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
         ]
 
         /// A Boolean value indicating whether to only return reports from daily profiles. If set  to True, only analysis data from daily profiles is returned. If set to False,  analysis data is returned from smaller time windows (for example, one hour).
@@ -927,13 +927,13 @@ extension CodeGuruProfiler {
 
     public struct ListProfileTimesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "orderBy", location: .querystring(locationName: "orderBy")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "_endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "orderBy", location: .querystring("orderBy")),
+            AWSMemberEncoding(label: "period", location: .querystring("period")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("startTime"))
         ]
 
         /// The end time of the time range from which to list the profiles.
@@ -996,9 +996,9 @@ extension CodeGuruProfiler {
 
     public struct ListProfilingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeDescription", location: .querystring(locationName: "includeDescription")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "includeDescription", location: .querystring("includeDescription")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A Boolean value indicating whether to include a description. If true,  then a list of   ProfilingGroupDescription objects  that contain detailed information about profiling groups is returned. If false, then  a list of profiling group names is returned.
@@ -1048,7 +1048,7 @@ extension CodeGuruProfiler {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that contains the tags to return.
@@ -1171,9 +1171,9 @@ extension CodeGuruProfiler {
         public static let _payloadPath: String = "agentProfile"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "profileToken", location: .querystring(locationName: "profileToken")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "profileToken", location: .querystring("profileToken")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         ///  The submitted profiling data.
@@ -1290,8 +1290,8 @@ extension CodeGuruProfiler {
 
     public struct PutPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "actionGroup", location: .uri("actionGroup")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         ///  Specifies an action group that contains permissions to add to  a profiling group resource. One action group is supported, agentPermissions, which  grants permission to perform actions required by the profiling agent, ConfigureAgent  and PostAgentProfile permissions.
@@ -1379,8 +1379,8 @@ extension CodeGuruProfiler {
 
     public struct RemoveNotificationChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "channelId", location: .uri("channelId")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         /// The id of the channel that we want to stop receiving notifications.
@@ -1418,9 +1418,9 @@ extension CodeGuruProfiler {
 
     public struct RemovePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "revisionId"))
+            AWSMemberEncoding(label: "actionGroup", location: .uri("actionGroup")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName")),
+            AWSMemberEncoding(label: "revisionId", location: .querystring("revisionId"))
         ]
 
         ///  Specifies an action group that contains the permissions to remove from  a profiling group's resource-based policy. One action group is supported, agentPermissions, which  grants ConfigureAgent and PostAgentProfile permissions.
@@ -1465,8 +1465,8 @@ extension CodeGuruProfiler {
 
     public struct SubmitFeedbackRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "anomalyInstanceId", location: .uri(locationName: "anomalyInstanceId")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "anomalyInstanceId", location: .uri("anomalyInstanceId")),
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         /// The universally unique identifier (UUID) of the   AnomalyInstance object  that is included in the analysis data.
@@ -1504,7 +1504,7 @@ extension CodeGuruProfiler {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that the tags are added to.
@@ -1542,8 +1542,8 @@ extension CodeGuruProfiler {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that contains the tags to remove.
@@ -1565,7 +1565,7 @@ extension CodeGuruProfiler {
 
     public struct UpdateProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri("profilingGroupName"))
         ]
 
         ///  Specifies whether profiling is enabled or disabled for a profiling group.

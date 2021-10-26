@@ -144,7 +144,7 @@ extension DataBrew {
 
     public struct BatchDeleteRecipeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the recipe whose versions are to be deleted.
@@ -1042,7 +1042,7 @@ extension DataBrew {
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the dataset to be deleted.
@@ -1075,7 +1075,7 @@ extension DataBrew {
 
     public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the job to be deleted.
@@ -1108,7 +1108,7 @@ extension DataBrew {
 
     public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the project to be deleted.
@@ -1141,8 +1141,8 @@ extension DataBrew {
 
     public struct DeleteRecipeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
-            AWSMemberEncoding(label: "recipeVersion", location: .uri(locationName: "RecipeVersion"))
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "recipeVersion", location: .uri("RecipeVersion"))
         ]
 
         /// The name of the recipe.
@@ -1184,7 +1184,7 @@ extension DataBrew {
 
     public struct DeleteScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the schedule to be deleted.
@@ -1217,7 +1217,7 @@ extension DataBrew {
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the dataset to be described.
@@ -1292,7 +1292,7 @@ extension DataBrew {
 
     public struct DescribeJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the job to be described.
@@ -1412,8 +1412,8 @@ extension DataBrew {
 
     public struct DescribeJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
-            AWSMemberEncoding(label: "runId", location: .uri(locationName: "RunId"))
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "runId", location: .uri("RunId"))
         ]
 
         /// The name of the job being processed during this run.
@@ -1518,7 +1518,7 @@ extension DataBrew {
 
     public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the project to be described.
@@ -1602,8 +1602,8 @@ extension DataBrew {
 
     public struct DescribeRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
-            AWSMemberEncoding(label: "recipeVersion", location: .querystring(locationName: "recipeVersion"))
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "recipeVersion", location: .querystring("recipeVersion"))
         ]
 
         /// The name of the recipe to be described.
@@ -1689,7 +1689,7 @@ extension DataBrew {
 
     public struct DescribeScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the schedule to be described.
@@ -2105,8 +2105,8 @@ extension DataBrew {
 
     public struct ListDatasetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request.
@@ -2148,9 +2148,9 @@ extension DataBrew {
 
     public struct ListJobRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request.
@@ -2197,10 +2197,10 @@ extension DataBrew {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .querystring(locationName: "datasetName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .querystring(locationName: "projectName"))
+            AWSMemberEncoding(label: "datasetName", location: .querystring("datasetName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "projectName", location: .querystring("projectName"))
         ]
 
         /// The name of a dataset. Using this parameter indicates to return only those jobs that act on the specified dataset.
@@ -2252,8 +2252,8 @@ extension DataBrew {
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request.
@@ -2295,9 +2295,9 @@ extension DataBrew {
 
     public struct ListRecipeVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request.
@@ -2344,9 +2344,9 @@ extension DataBrew {
 
     public struct ListRecipesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "recipeVersion", location: .querystring(locationName: "recipeVersion"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "recipeVersion", location: .querystring("recipeVersion"))
         ]
 
         /// The maximum number of results to return in this request.
@@ -2393,9 +2393,9 @@ extension DataBrew {
 
     public struct ListSchedulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobName", location: .querystring(locationName: "jobName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "jobName", location: .querystring("jobName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the job that these schedules apply to.
@@ -2442,7 +2442,7 @@ extension DataBrew {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource.
@@ -2666,7 +2666,7 @@ extension DataBrew {
 
     public struct PublishRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A description of the recipe to be published, for this version of the recipe.
@@ -2977,7 +2977,7 @@ extension DataBrew {
 
     public struct SendProjectSessionActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A unique identifier for an interactive session that's currently open and ready for work. The action will be performed on this session.
@@ -3043,7 +3043,7 @@ extension DataBrew {
 
     public struct StartJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the job to be run.
@@ -3076,7 +3076,7 @@ extension DataBrew {
 
     public struct StartProjectSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A value that, if true, enables you to take control of a session, even if a different client is currently accessing the project.
@@ -3178,8 +3178,8 @@ extension DataBrew {
 
     public struct StopJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
-            AWSMemberEncoding(label: "runId", location: .uri(locationName: "RunId"))
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "runId", location: .uri("RunId"))
         ]
 
         /// The name of the job to be stopped.
@@ -3217,7 +3217,7 @@ extension DataBrew {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The DataBrew resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For DataBrew, you can tag a dataset, a job, a project, or a recipe.
@@ -3253,8 +3253,8 @@ extension DataBrew {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// A DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
@@ -3287,7 +3287,7 @@ extension DataBrew {
 
     public struct UpdateDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The file format of a dataset that is created from an Amazon S3 file or folder.
@@ -3338,7 +3338,7 @@ extension DataBrew {
 
     public struct UpdateProfileJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// Configuration for profile jobs. Used to select columns, do evaluations,  and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
@@ -3419,7 +3419,7 @@ extension DataBrew {
 
     public struct UpdateProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the project to be updated.
@@ -3467,7 +3467,7 @@ extension DataBrew {
 
     public struct UpdateRecipeJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// Represents a list of JDBC database output objects which defines the output destination for a  DataBrew recipe job to write into.
@@ -3559,7 +3559,7 @@ extension DataBrew {
 
     public struct UpdateRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A description of the recipe.
@@ -3605,7 +3605,7 @@ extension DataBrew {
 
     public struct UpdateScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.

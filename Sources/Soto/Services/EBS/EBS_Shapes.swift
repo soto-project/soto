@@ -80,11 +80,11 @@ extension EBS {
 
     public struct CompleteSnapshotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "changedBlocksCount", location: .header(locationName: "x-amz-ChangedBlocksCount")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAggregationMethod", location: .header(locationName: "x-amz-Checksum-Aggregation-Method")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "SnapshotId"))
+            AWSMemberEncoding(label: "changedBlocksCount", location: .header("x-amz-ChangedBlocksCount")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),
+            AWSMemberEncoding(label: "checksumAggregationMethod", location: .header("x-amz-Checksum-Aggregation-Method")),
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-Checksum-Algorithm")),
+            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
         ]
 
         /// The number of blocks that were written to the snapshot.
@@ -133,9 +133,9 @@ extension EBS {
 
     public struct GetSnapshotBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "BlockIndex")),
-            AWSMemberEncoding(label: "blockToken", location: .querystring(locationName: "blockToken")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "SnapshotId"))
+            AWSMemberEncoding(label: "blockIndex", location: .uri("BlockIndex")),
+            AWSMemberEncoding(label: "blockToken", location: .querystring("blockToken")),
+            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
         ]
 
         /// The block index of the block from which to get data.
@@ -170,10 +170,10 @@ extension EBS {
         public static let _payloadPath: String = "blockData"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")),
-            AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length"))
+            AWSMemberEncoding(label: "blockData", location: .body("BlockData")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-Checksum-Algorithm")),
+            AWSMemberEncoding(label: "dataLength", location: .header("x-amz-Data-Length"))
         ]
 
         /// The data content of the block.
@@ -202,11 +202,11 @@ extension EBS {
 
     public struct ListChangedBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "firstSnapshotId", location: .querystring(locationName: "firstSnapshotId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")),
-            AWSMemberEncoding(label: "secondSnapshotId", location: .uri(locationName: "SecondSnapshotId")),
-            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
+            AWSMemberEncoding(label: "firstSnapshotId", location: .querystring("firstSnapshotId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("pageToken")),
+            AWSMemberEncoding(label: "secondSnapshotId", location: .uri("SecondSnapshotId")),
+            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring("startingBlockIndex"))
         ]
 
         /// The ID of the first snapshot to use for the comparison.  The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs.
@@ -276,10 +276,10 @@ extension EBS {
 
     public struct ListSnapshotBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "SnapshotId")),
-            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("pageToken")),
+            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId")),
+            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring("startingBlockIndex"))
         ]
 
         /// The number of results to return.
@@ -346,12 +346,12 @@ extension EBS {
         public static let _payloadPath: String = "blockData"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "BlockIndex")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")),
-            AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length")),
-            AWSMemberEncoding(label: "progress", location: .header(locationName: "x-amz-Progress")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "SnapshotId"))
+            AWSMemberEncoding(label: "blockIndex", location: .uri("BlockIndex")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-Checksum-Algorithm")),
+            AWSMemberEncoding(label: "dataLength", location: .header("x-amz-Data-Length")),
+            AWSMemberEncoding(label: "progress", location: .header("x-amz-Progress")),
+            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
         ]
 
         /// The data to write to the block. The block data is not signed as part of the Signature Version 4 signing process. As a result, you must generate and provide a Base64-encoded SHA256 checksum for the block data using the x-amz-Checksum header. Also, you  	must specify the checksum algorithm using the x-amz-Checksum-Algorithm  	header. The checksum that you provide is part of the Signature Version 4 signing process.  	It is validated against a checksum generated by Amazon EBS to ensure the validity and authenticity  	of the data. If the checksums do not correspond, the request fails. For more information,  	see  Using checksums with the EBS direct APIs in the Amazon Elastic Compute Cloud User Guide.
@@ -395,8 +395,8 @@ extension EBS {
 
     public struct PutSnapshotBlockResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm"))
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-Checksum-Algorithm"))
         ]
 
         /// The SHA256 checksum generated for the block data by Amazon EBS.

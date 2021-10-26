@@ -1544,7 +1544,7 @@ extension Macie2 {
 
     public struct DeleteCustomDataIdentifierRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -1563,7 +1563,7 @@ extension Macie2 {
 
     public struct DeleteFindingsFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -1608,7 +1608,7 @@ extension Macie2 {
 
     public struct DeleteMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -1669,7 +1669,7 @@ extension Macie2 {
 
     public struct DescribeClassificationJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The unique identifier for the classification job.
@@ -1804,7 +1804,7 @@ extension Macie2 {
 
     public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "adminAccountId", location: .querystring(locationName: "adminAccountId"))
+            AWSMemberEncoding(label: "adminAccountId", location: .querystring("adminAccountId"))
         ]
 
         /// The Amazon Web Services account ID of the delegated Amazon Macie administrator account.
@@ -1839,7 +1839,7 @@ extension Macie2 {
 
     public struct DisassociateMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -2235,7 +2235,7 @@ extension Macie2 {
 
     public struct GetCustomDataIdentifierRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -2342,7 +2342,7 @@ extension Macie2 {
 
     public struct GetFindingsFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -2514,7 +2514,7 @@ extension Macie2 {
 
     public struct GetMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
@@ -2626,7 +2626,7 @@ extension Macie2 {
 
     public struct GetUsageTotalsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "timeRange", location: .querystring(locationName: "timeRange"))
+            AWSMemberEncoding(label: "timeRange", location: .querystring("timeRange"))
         ]
 
         /// The inclusive time period to retrieve the data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides aggregated usage data for the preceding 30 days.
@@ -3056,8 +3056,8 @@ extension Macie2 {
 
     public struct ListFindingsFiltersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of items to include in each page of a paginated response.
@@ -3139,8 +3139,8 @@ extension Macie2 {
 
     public struct ListInvitationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of items to include in each page of a paginated response.
@@ -3265,9 +3265,9 @@ extension Macie2 {
 
     public struct ListMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "onlyAssociated", location: .querystring(locationName: "onlyAssociated"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "onlyAssociated", location: .querystring("onlyAssociated"))
         ]
 
         /// The maximum number of items to include in each page of a paginated response.
@@ -3310,8 +3310,8 @@ extension Macie2 {
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of items to include in each page of a paginated response.
@@ -3351,7 +3351,7 @@ extension Macie2 {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
@@ -4408,7 +4408,7 @@ extension Macie2 {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
@@ -4537,8 +4537,8 @@ extension Macie2 {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
@@ -4560,7 +4560,7 @@ extension Macie2 {
 
     public struct UpdateClassificationJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The unique identifier for the classification job.
@@ -4584,7 +4584,7 @@ extension Macie2 {
 
     public struct UpdateFindingsFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
@@ -4662,7 +4662,7 @@ extension Macie2 {
 
     public struct UpdateMemberSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.

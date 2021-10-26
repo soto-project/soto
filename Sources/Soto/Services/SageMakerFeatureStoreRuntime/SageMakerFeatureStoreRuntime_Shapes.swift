@@ -152,9 +152,9 @@ extension SageMakerFeatureStoreRuntime {
 
     public struct DeleteRecordRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventTime", location: .querystring(locationName: "EventTime")),
-            AWSMemberEncoding(label: "featureGroupName", location: .uri(locationName: "FeatureGroupName")),
-            AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring(locationName: "RecordIdentifierValueAsString"))
+            AWSMemberEncoding(label: "eventTime", location: .querystring("EventTime")),
+            AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName")),
+            AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring("RecordIdentifierValueAsString"))
         ]
 
         /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
@@ -210,9 +210,9 @@ extension SageMakerFeatureStoreRuntime {
 
     public struct GetRecordRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "featureGroupName", location: .uri(locationName: "FeatureGroupName")),
-            AWSMemberEncoding(label: "featureNames", location: .querystring(locationName: "FeatureName")),
-            AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring(locationName: "RecordIdentifierValueAsString"))
+            AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName")),
+            AWSMemberEncoding(label: "featureNames", location: .querystring("FeatureName")),
+            AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring("RecordIdentifierValueAsString"))
         ]
 
         /// The name of the feature group in which you want to put the records.
@@ -260,7 +260,7 @@ extension SageMakerFeatureStoreRuntime {
 
     public struct PutRecordRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "featureGroupName", location: .uri(locationName: "FeatureGroupName"))
+            AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName"))
         ]
 
         /// The name of the feature group that you want to insert the record into.

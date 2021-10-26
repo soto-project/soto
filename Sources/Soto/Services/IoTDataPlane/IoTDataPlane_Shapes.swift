@@ -25,8 +25,8 @@ extension IoTDataPlane {
 
     public struct DeleteThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The name of the shadow.
@@ -70,7 +70,7 @@ extension IoTDataPlane {
 
     public struct GetRetainedMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "topic", location: .uri(locationName: "topic"))
+            AWSMemberEncoding(label: "topic", location: .uri("topic"))
         ]
 
         /// The topic name of the retained message to retrieve.
@@ -110,8 +110,8 @@ extension IoTDataPlane {
 
     public struct GetThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The name of the shadow.
@@ -155,9 +155,9 @@ extension IoTDataPlane {
 
     public struct ListNamedShadowsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The token to retrieve the next set of results.
@@ -207,8 +207,8 @@ extension IoTDataPlane {
 
     public struct ListRetainedMessagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -251,9 +251,9 @@ extension IoTDataPlane {
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "qos", location: .querystring(locationName: "qos")),
-            AWSMemberEncoding(label: "retain", location: .querystring(locationName: "retain")),
-            AWSMemberEncoding(label: "topic", location: .uri(locationName: "topic"))
+            AWSMemberEncoding(label: "qos", location: .querystring("qos")),
+            AWSMemberEncoding(label: "retain", location: .querystring("retain")),
+            AWSMemberEncoding(label: "topic", location: .uri("topic"))
         ]
 
         /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from IoT Core.
@@ -310,8 +310,8 @@ extension IoTDataPlane {
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The state information, in JSON format.

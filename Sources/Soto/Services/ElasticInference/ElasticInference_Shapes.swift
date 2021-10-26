@@ -277,7 +277,7 @@ extension ElasticInference {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The ARN of the Elastic Inference Accelerator to list the tags for.
@@ -324,7 +324,7 @@ extension ElasticInference {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The ARN of the Elastic Inference Accelerator to tag.
@@ -362,8 +362,8 @@ extension ElasticInference {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         ///  The ARN of the Elastic Inference Accelerator to untag.

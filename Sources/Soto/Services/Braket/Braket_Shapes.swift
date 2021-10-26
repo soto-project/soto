@@ -65,7 +65,7 @@ extension Braket {
 
     public struct CancelQuantumTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "quantumTaskArn", location: .uri(locationName: "quantumTaskArn"))
+            AWSMemberEncoding(label: "quantumTaskArn", location: .uri("quantumTaskArn"))
         ]
 
         /// The client token associated with the request.
@@ -199,7 +199,7 @@ extension Braket {
 
     public struct GetDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceArn", location: .uri(locationName: "deviceArn"))
+            AWSMemberEncoding(label: "deviceArn", location: .uri("deviceArn"))
         ]
 
         /// The ARN of the device to retrieve.
@@ -252,7 +252,7 @@ extension Braket {
 
     public struct GetQuantumTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "quantumTaskArn", location: .uri(locationName: "quantumTaskArn"))
+            AWSMemberEncoding(label: "quantumTaskArn", location: .uri("quantumTaskArn"))
         ]
 
         /// the ARN of the task to retrieve.
@@ -325,7 +325,7 @@ extension Braket {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// Specify the resourceArn for the resource whose tags to display.
@@ -540,7 +540,7 @@ extension Braket {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// Specify the resourceArn of the resource to which a tag will be added.
@@ -564,8 +564,8 @@ extension Braket {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// Specify the resourceArn for the resource from which to remove the tags.

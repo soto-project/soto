@@ -240,8 +240,8 @@ extension IoTAnalytics {
 
     public struct CancelPipelineReprocessingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName")),
-            AWSMemberEncoding(label: "reprocessingId", location: .uri(locationName: "reprocessingId"))
+            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName")),
+            AWSMemberEncoding(label: "reprocessingId", location: .uri("reprocessingId"))
         ]
 
         /// The name of pipeline for which data reprocessing is canceled.
@@ -569,7 +569,7 @@ extension IoTAnalytics {
 
     public struct CreateDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
         ]
 
         /// The name of the dataset.
@@ -1431,7 +1431,7 @@ extension IoTAnalytics {
 
     public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("channelName"))
         ]
 
         /// The name of the channel to delete.
@@ -1452,8 +1452,8 @@ extension IoTAnalytics {
 
     public struct DeleteDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")),
-            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName")),
+            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
         ]
 
         /// The name of the dataset whose content is deleted.
@@ -1479,7 +1479,7 @@ extension IoTAnalytics {
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
         ]
 
         /// The name of the dataset to delete.
@@ -1500,7 +1500,7 @@ extension IoTAnalytics {
 
     public struct DeleteDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName"))
+            AWSMemberEncoding(label: "datastoreName", location: .uri("datastoreName"))
         ]
 
         /// The name of the data store to delete.
@@ -1521,7 +1521,7 @@ extension IoTAnalytics {
 
     public struct DeletePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
         ]
 
         /// The name of the pipeline to delete.
@@ -1577,8 +1577,8 @@ extension IoTAnalytics {
 
     public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
-            AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
+            AWSMemberEncoding(label: "channelName", location: .uri("channelName")),
+            AWSMemberEncoding(label: "includeStatistics", location: .querystring("includeStatistics"))
         ]
 
         /// The name of the channel whose information is retrieved.
@@ -1619,7 +1619,7 @@ extension IoTAnalytics {
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
         ]
 
         /// The name of the dataset whose information is retrieved.
@@ -1653,8 +1653,8 @@ extension IoTAnalytics {
 
     public struct DescribeDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName")),
-            AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
+            AWSMemberEncoding(label: "datastoreName", location: .uri("datastoreName")),
+            AWSMemberEncoding(label: "includeStatistics", location: .querystring("includeStatistics"))
         ]
 
         /// The name of the data store
@@ -1712,7 +1712,7 @@ extension IoTAnalytics {
 
     public struct DescribePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
         ]
 
         /// The name of the pipeline whose information is retrieved.
@@ -1898,8 +1898,8 @@ extension IoTAnalytics {
 
     public struct GetDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")),
-            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName")),
+            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
         ]
 
         /// The name of the dataset whose contents are retrieved.
@@ -2122,8 +2122,8 @@ extension IoTAnalytics {
 
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2163,11 +2163,11 @@ extension IoTAnalytics {
 
     public struct ListDatasetContentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore")),
-            AWSMemberEncoding(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "scheduledBefore", location: .querystring("scheduledBefore")),
+            AWSMemberEncoding(label: "scheduledOnOrAfter", location: .querystring("scheduledOnOrAfter"))
         ]
 
         /// The name of the dataset whose contents information you want to list.
@@ -2219,8 +2219,8 @@ extension IoTAnalytics {
 
     public struct ListDatasetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2260,8 +2260,8 @@ extension IoTAnalytics {
 
     public struct ListDatastoresRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2301,8 +2301,8 @@ extension IoTAnalytics {
 
     public struct ListPipelinesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2342,7 +2342,7 @@ extension IoTAnalytics {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to list.
@@ -2838,10 +2838,10 @@ extension IoTAnalytics {
 
     public struct SampleChannelDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxMessages", location: .querystring(locationName: "maxMessages")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "channelName", location: .uri("channelName")),
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxMessages", location: .querystring("maxMessages")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime"))
         ]
 
         /// The name of the channel whose message samples are retrieved.
@@ -2989,7 +2989,7 @@ extension IoTAnalytics {
 
     public struct StartPipelineReprocessingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
         ]
 
         /// Specifies one or more sets of channel messages that you want to reprocess. If you use the channelMessages object, you must not specify a value for startTime and endTime.
@@ -3061,7 +3061,7 @@ extension IoTAnalytics {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to modify.
@@ -3140,8 +3140,8 @@ extension IoTAnalytics {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource whose tags you want to remove.
@@ -3174,7 +3174,7 @@ extension IoTAnalytics {
 
     public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("channelName"))
         ]
 
         /// The name of the channel to be updated.
@@ -3206,7 +3206,7 @@ extension IoTAnalytics {
 
     public struct UpdateDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("datasetName"))
         ]
 
         /// A list of DatasetAction objects.
@@ -3272,7 +3272,7 @@ extension IoTAnalytics {
 
     public struct UpdateDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName"))
+            AWSMemberEncoding(label: "datastoreName", location: .uri("datastoreName"))
         ]
 
         /// The name of the data store to be updated.
@@ -3309,7 +3309,7 @@ extension IoTAnalytics {
 
     public struct UpdatePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+            AWSMemberEncoding(label: "pipelineName", location: .uri("pipelineName"))
         ]
 
         /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]

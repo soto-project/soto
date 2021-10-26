@@ -113,7 +113,7 @@ extension Amp {
 
     public struct CreateAlertManagerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -159,7 +159,7 @@ extension Amp {
 
     public struct CreateRuleGroupsNamespaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -298,8 +298,8 @@ extension Amp {
 
     public struct DeleteAlertManagerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -326,9 +326,9 @@ extension Amp {
 
     public struct DeleteRuleGroupsNamespaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -361,8 +361,8 @@ extension Amp {
 
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -389,7 +389,7 @@ extension Amp {
 
     public struct DescribeAlertManagerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// The ID of the workspace to describe.
@@ -423,8 +423,8 @@ extension Amp {
 
     public struct DescribeRuleGroupsNamespaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// The rule groups namespace.
@@ -464,7 +464,7 @@ extension Amp {
 
     public struct DescribeWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// The ID of the workspace to describe.
@@ -498,10 +498,10 @@ extension Amp {
 
     public struct ListRuleGroupsNamespacesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Maximum results to return in response (default=100, maximum=1000).
@@ -551,7 +551,7 @@ extension Amp {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -578,9 +578,9 @@ extension Amp {
 
     public struct ListWorkspacesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring(locationName: "alias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Optional filter for workspace alias. Only the workspaces with aliases that begin with this value will be returned.
@@ -623,7 +623,7 @@ extension Amp {
 
     public struct PutAlertManagerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -669,8 +669,8 @@ extension Amp {
 
     public struct PutRuleGroupsNamespaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
@@ -821,7 +821,7 @@ extension Amp {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -855,8 +855,8 @@ extension Amp {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -886,7 +886,7 @@ extension Amp {
 
     public struct UpdateWorkspaceAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri(locationName: "workspaceId"))
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
         /// The new alias of the workspace.

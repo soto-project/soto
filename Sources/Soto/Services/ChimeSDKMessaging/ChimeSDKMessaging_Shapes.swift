@@ -143,8 +143,8 @@ extension ChimeSDKMessaging {
 
     public struct BatchCreateChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel to which you're adding users.
@@ -532,8 +532,8 @@ extension ChimeSDKMessaging {
 
     public struct CreateChannelBanRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the ban request.
@@ -585,8 +585,8 @@ extension ChimeSDKMessaging {
 
     public struct CreateChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel to which you're adding users.
@@ -642,8 +642,8 @@ extension ChimeSDKMessaging {
 
     public struct CreateChannelModeratorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
@@ -695,7 +695,7 @@ extension ChimeSDKMessaging {
 
     public struct CreateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel request.
@@ -774,9 +774,9 @@ extension ChimeSDKMessaging {
 
     public struct DeleteChannelBanRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "MemberArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
         ]
 
         /// The ARN of the channel from which the AppInstanceUser was banned.
@@ -809,9 +809,9 @@ extension ChimeSDKMessaging {
 
     public struct DeleteChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "MemberArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
         ]
 
         /// The ARN of the channel from which you want to remove the user.
@@ -844,9 +844,9 @@ extension ChimeSDKMessaging {
 
     public struct DeleteChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "MessageId"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
         ]
 
         /// The ARN of the channel.
@@ -879,9 +879,9 @@ extension ChimeSDKMessaging {
 
     public struct DeleteChannelModeratorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "channelModeratorArn", location: .uri(locationName: "ChannelModeratorArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "channelModeratorArn", location: .uri("ChannelModeratorArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
@@ -914,8 +914,8 @@ extension ChimeSDKMessaging {
 
     public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel being deleted.
@@ -942,9 +942,9 @@ extension ChimeSDKMessaging {
 
     public struct DescribeChannelBanRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "MemberArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
         ]
 
         /// The ARN of the channel from which the user is banned.
@@ -990,9 +990,9 @@ extension ChimeSDKMessaging {
 
     public struct DescribeChannelMembershipForAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the user in a channel.
@@ -1038,9 +1038,9 @@ extension ChimeSDKMessaging {
 
     public struct DescribeChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "MemberArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
         ]
 
         /// The ARN of the channel.
@@ -1086,9 +1086,9 @@ extension ChimeSDKMessaging {
 
     public struct DescribeChannelModeratedByAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the AppInstanceUser in the moderated channel.
@@ -1134,9 +1134,9 @@ extension ChimeSDKMessaging {
 
     public struct DescribeChannelModeratorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "channelModeratorArn", location: .uri(locationName: "ChannelModeratorArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "channelModeratorArn", location: .uri("ChannelModeratorArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
@@ -1182,8 +1182,8 @@ extension ChimeSDKMessaging {
 
     public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
@@ -1223,9 +1223,9 @@ extension ChimeSDKMessaging {
 
     public struct GetChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "MessageId"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
         ]
 
         /// The ARN of the channel.
@@ -1305,10 +1305,10 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelBansRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The ARN of the channel.
@@ -1366,10 +1366,10 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelMembershipsForAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The ARN of the AppInstanceUsers
@@ -1423,11 +1423,11 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelMembershipsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
         /// The maximum number of channel memberships that you want returned.
@@ -1488,13 +1488,13 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelMessagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "notAfter", location: .querystring(locationName: "not-after")),
-            AWSMemberEncoding(label: "notBefore", location: .querystring(locationName: "not-before")),
-            AWSMemberEncoding(label: "sortOrder", location: .querystring(locationName: "sort-order"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "notAfter", location: .querystring("not-after")),
+            AWSMemberEncoding(label: "notBefore", location: .querystring("not-before")),
+            AWSMemberEncoding(label: "sortOrder", location: .querystring("sort-order"))
         ]
 
         /// The ARN of the channel.
@@ -1561,10 +1561,10 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelModeratorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The ARN of the channel.
@@ -1622,10 +1622,10 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelsModeratedByAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The ARN of the user in the moderated channel.
@@ -1679,11 +1679,11 @@ extension ChimeSDKMessaging {
 
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .querystring(locationName: "app-instance-arn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "privacy", location: .querystring(locationName: "privacy"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "privacy", location: .querystring("privacy"))
         ]
 
         /// The ARN of the AppInstance.
@@ -1753,9 +1753,9 @@ extension ChimeSDKMessaging {
 
     public struct RedactChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "MessageId"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
         ]
 
         /// The ARN of the channel containing the messages that you want to redact.
@@ -1805,8 +1805,8 @@ extension ChimeSDKMessaging {
 
     public struct SendChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
@@ -1902,9 +1902,9 @@ extension ChimeSDKMessaging {
 
     public struct UpdateChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "MessageId"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
         ]
 
         /// The ARN of the channel.
@@ -1967,8 +1967,8 @@ extension ChimeSDKMessaging {
 
     public struct UpdateChannelReadMarkerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
@@ -2008,8 +2008,8 @@ extension ChimeSDKMessaging {
 
     public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.

@@ -87,8 +87,8 @@ extension S3Outposts {
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointId", location: .querystring(locationName: "endpointId")),
-            AWSMemberEncoding(label: "outpostId", location: .querystring(locationName: "outpostId"))
+            AWSMemberEncoding(label: "endpointId", location: .querystring("endpointId")),
+            AWSMemberEncoding(label: "outpostId", location: .querystring("outpostId"))
         ]
 
         /// The ID of the endpoint.
@@ -163,8 +163,8 @@ extension S3Outposts {
 
     public struct ListEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The max number of endpoints that can be returned on the request.

@@ -349,7 +349,7 @@ extension EKS {
 
     public struct AssociateEncryptionConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// The client request token you are using with the encryption configuration.
@@ -389,7 +389,7 @@ extension EKS {
 
     public struct AssociateIdentityProviderConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -614,7 +614,7 @@ extension EKS {
 
     public struct CreateAddonRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  DescribeAddonVersions .
@@ -753,7 +753,7 @@ extension EKS {
 
     public struct CreateFargateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -816,7 +816,7 @@ extension EKS {
 
     public struct CreateNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
@@ -934,9 +934,9 @@ extension EKS {
 
     public struct DeleteAddonRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "preserve", location: .querystring(locationName: "preserve"))
+            AWSMemberEncoding(label: "addonName", location: .uri("addonName")),
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "preserve", location: .querystring("preserve"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
@@ -975,7 +975,7 @@ extension EKS {
 
     public struct DeleteClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the cluster to delete.
@@ -1003,8 +1003,8 @@ extension EKS {
 
     public struct DeleteFargateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "fargateProfileName", location: .uri("fargateProfileName"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the Fargate profile to delete.
@@ -1035,8 +1035,8 @@ extension EKS {
 
     public struct DeleteNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
         ]
 
         /// The name of the Amazon EKS cluster that is associated with your node group.
@@ -1067,7 +1067,7 @@ extension EKS {
 
     public struct DeregisterClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the connected cluster to deregister.
@@ -1094,8 +1094,8 @@ extension EKS {
 
     public struct DescribeAddonRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "addonName", location: .uri("addonName")),
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
@@ -1131,10 +1131,10 @@ extension EKS {
 
     public struct DescribeAddonVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring(locationName: "addonName")),
-            AWSMemberEncoding(label: "kubernetesVersion", location: .querystring(locationName: "kubernetesVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
+            AWSMemberEncoding(label: "kubernetesVersion", location: .querystring("kubernetesVersion")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
@@ -1180,7 +1180,7 @@ extension EKS {
 
     public struct DescribeClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the cluster to describe.
@@ -1208,8 +1208,8 @@ extension EKS {
 
     public struct DescribeFargateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "fargateProfileName", location: .uri("fargateProfileName"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the Fargate profile.
@@ -1240,7 +1240,7 @@ extension EKS {
 
     public struct DescribeIdentityProviderConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// The cluster name that the identity provider configuration is associated to.
@@ -1273,8 +1273,8 @@ extension EKS {
 
     public struct DescribeNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the node group.
@@ -1305,10 +1305,10 @@ extension EKS {
 
     public struct DescribeUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring(locationName: "addonName")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName")),
-            AWSMemberEncoding(label: "updateId", location: .uri(locationName: "updateId"))
+            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "nodegroupName", location: .querystring("nodegroupName")),
+            AWSMemberEncoding(label: "updateId", location: .uri("updateId"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
@@ -1345,7 +1345,7 @@ extension EKS {
 
     public struct DisassociateIdentityProviderConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1592,9 +1592,9 @@ extension EKS {
 
     public struct ListAddonsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the cluster.
@@ -1640,9 +1640,9 @@ extension EKS {
 
     public struct ListClustersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "include", location: .querystring("include")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Indicates whether connected clusters are included in the returned list. Default value is 'ALL'.
@@ -1685,9 +1685,9 @@ extension EKS {
 
     public struct ListFargateProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the Amazon EKS cluster that you would like to list Fargate profiles in.
@@ -1730,9 +1730,9 @@ extension EKS {
 
     public struct ListIdentityProviderConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The cluster name that you want to list identity provider configurations for.
@@ -1775,9 +1775,9 @@ extension EKS {
 
     public struct ListNodegroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the Amazon EKS cluster that you would like to list node groups in.
@@ -1820,7 +1820,7 @@ extension EKS {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
@@ -1848,11 +1848,11 @@ extension EKS {
 
     public struct ListUpdatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring(locationName: "addonName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName"))
+            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "nodegroupName", location: .querystring("nodegroupName"))
         ]
 
         /// The names of the installed add-ons that have available updates.
@@ -2301,7 +2301,7 @@ extension EKS {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
@@ -2362,8 +2362,8 @@ extension EKS {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
@@ -2427,8 +2427,8 @@ extension EKS {
 
     public struct UpdateAddonRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName"))
+            AWSMemberEncoding(label: "addonName", location: .uri("addonName")),
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
         ]
 
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
@@ -2483,7 +2483,7 @@ extension EKS {
 
     public struct UpdateClusterConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -2522,7 +2522,7 @@ extension EKS {
 
     public struct UpdateClusterVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -2585,8 +2585,8 @@ extension EKS {
 
     public struct UpdateNodegroupConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -2644,8 +2644,8 @@ extension EKS {
 
     public struct UpdateNodegroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
+            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.

@@ -173,20 +173,20 @@ extension CloudSearchDomain {
 
     public struct SearchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")),
-            AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")),
-            AWSMemberEncoding(label: "facet", location: .querystring(locationName: "facet")),
-            AWSMemberEncoding(label: "filterQuery", location: .querystring(locationName: "fq")),
-            AWSMemberEncoding(label: "highlight", location: .querystring(locationName: "highlight")),
-            AWSMemberEncoding(label: "partial", location: .querystring(locationName: "partial")),
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")),
-            AWSMemberEncoding(label: "queryOptions", location: .querystring(locationName: "q.options")),
-            AWSMemberEncoding(label: "queryParser", location: .querystring(locationName: "q.parser")),
-            AWSMemberEncoding(label: "return", location: .querystring(locationName: "return")),
-            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")),
-            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")),
-            AWSMemberEncoding(label: "start", location: .querystring(locationName: "start")),
-            AWSMemberEncoding(label: "stats", location: .querystring(locationName: "stats"))
+            AWSMemberEncoding(label: "cursor", location: .querystring("cursor")),
+            AWSMemberEncoding(label: "expr", location: .querystring("expr")),
+            AWSMemberEncoding(label: "facet", location: .querystring("facet")),
+            AWSMemberEncoding(label: "filterQuery", location: .querystring("fq")),
+            AWSMemberEncoding(label: "highlight", location: .querystring("highlight")),
+            AWSMemberEncoding(label: "partial", location: .querystring("partial")),
+            AWSMemberEncoding(label: "query", location: .querystring("q")),
+            AWSMemberEncoding(label: "queryOptions", location: .querystring("q.options")),
+            AWSMemberEncoding(label: "queryParser", location: .querystring("q.parser")),
+            AWSMemberEncoding(label: "return", location: .querystring("return")),
+            AWSMemberEncoding(label: "size", location: .querystring("size")),
+            AWSMemberEncoding(label: "sort", location: .querystring("sort")),
+            AWSMemberEncoding(label: "start", location: .querystring("start")),
+            AWSMemberEncoding(label: "stats", location: .querystring("stats"))
         ]
 
         /// Retrieves a cursor value you can use to page through large result sets. Use the size parameter to control the number of hits to include in each response. You can specify either the cursor or start parameter in a request; they are mutually exclusive. To get the first cursor, set the cursor value to initial. In subsequent requests, specify the cursor value returned in the hits section of the response.  For more information, see Paginating Results in the Amazon CloudSearch Developer Guide.
@@ -309,9 +309,9 @@ extension CloudSearchDomain {
 
     public struct SuggestRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")),
-            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")),
-            AWSMemberEncoding(label: "suggester", location: .querystring(locationName: "suggester"))
+            AWSMemberEncoding(label: "query", location: .querystring("q")),
+            AWSMemberEncoding(label: "size", location: .querystring("size")),
+            AWSMemberEncoding(label: "suggester", location: .querystring("suggester"))
         ]
 
         /// Specifies the string for which you want to get suggestions.
@@ -390,7 +390,7 @@ extension CloudSearchDomain {
         public static let _payloadPath: String = "documents"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml

@@ -708,7 +708,7 @@ extension AccessAnalyzer {
 
     public struct CancelPolicyGenerationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
@@ -876,7 +876,7 @@ extension AccessAnalyzer {
 
     public struct CreateArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName"))
         ]
 
         /// The name of the created analyzer.
@@ -950,8 +950,8 @@ extension AccessAnalyzer {
 
     public struct DeleteAnalyzerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
         ]
 
         /// The name of the analyzer to delete.
@@ -975,9 +975,9 @@ extension AccessAnalyzer {
 
     public struct DeleteArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the analyzer that associated with the archive rule to delete.
@@ -1224,8 +1224,8 @@ extension AccessAnalyzer {
 
     public struct GetAccessPreviewRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPreviewId", location: .uri(locationName: "accessPreviewId")),
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn"))
+            AWSMemberEncoding(label: "accessPreviewId", location: .uri("accessPreviewId")),
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn"))
         ]
 
         /// The unique ID for the access preview.
@@ -1261,8 +1261,8 @@ extension AccessAnalyzer {
 
     public struct GetAnalyzedResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the analyzer to retrieve information from.
@@ -1298,7 +1298,7 @@ extension AccessAnalyzer {
 
     public struct GetAnalyzerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName"))
         ]
 
         /// The name of the analyzer retrieved.
@@ -1332,8 +1332,8 @@ extension AccessAnalyzer {
 
     public struct GetArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the analyzer to retrieve rules from.
@@ -1372,8 +1372,8 @@ extension AccessAnalyzer {
 
     public struct GetFindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ARN of the analyzer that generated the finding.
@@ -1408,9 +1408,9 @@ extension AccessAnalyzer {
 
     public struct GetGeneratedPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeResourcePlaceholders", location: .querystring(locationName: "includeResourcePlaceholders")),
-            AWSMemberEncoding(label: "includeServiceLevelTemplate", location: .querystring(locationName: "includeServiceLevelTemplate")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "includeResourcePlaceholders", location: .querystring("includeResourcePlaceholders")),
+            AWSMemberEncoding(label: "includeServiceLevelTemplate", location: .querystring("includeServiceLevelTemplate")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The level of detail that you want to generate. You can specify whether to generate policies with placeholders for resource ARNs for actions that support resource level granularity in policies. For example, in the resource section of a policy, you can receive a placeholder such as "Resource":"arn:aws:s3:::${BucketName}" instead of "*".
@@ -1602,7 +1602,7 @@ extension AccessAnalyzer {
 
     public struct ListAccessPreviewFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPreviewId", location: .uri(locationName: "accessPreviewId"))
+            AWSMemberEncoding(label: "accessPreviewId", location: .uri("accessPreviewId"))
         ]
 
         /// The unique ID for the access preview.
@@ -1659,9 +1659,9 @@ extension AccessAnalyzer {
 
     public struct ListAccessPreviewsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ARN of the analyzer used to generate the access preview.
@@ -1749,9 +1749,9 @@ extension AccessAnalyzer {
 
     public struct ListAnalyzersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
         /// The maximum number of results to return in the response.
@@ -1789,9 +1789,9 @@ extension AccessAnalyzer {
 
     public struct ListArchiveRulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the analyzer to retrieve rules from.
@@ -1888,9 +1888,9 @@ extension AccessAnalyzer {
 
     public struct ListPolicyGenerationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "principalArn", location: .querystring(locationName: "principalArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "principalArn", location: .querystring("principalArn"))
         ]
 
         /// The maximum number of results to return in the response.
@@ -1932,7 +1932,7 @@ extension AccessAnalyzer {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource to retrieve tags from.
@@ -2292,7 +2292,7 @@ extension AccessAnalyzer {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource to add the tag to.
@@ -2362,8 +2362,8 @@ extension AccessAnalyzer {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource to remove the tag from.
@@ -2385,8 +2385,8 @@ extension AccessAnalyzer {
 
     public struct UpdateArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the analyzer to update the archive rules for.
@@ -2488,8 +2488,8 @@ extension AccessAnalyzer {
 
     public struct ValidatePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The locale to use for localizing the findings.

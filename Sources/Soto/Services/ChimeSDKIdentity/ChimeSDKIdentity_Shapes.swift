@@ -194,7 +194,7 @@ extension ChimeSDKIdentity {
 
     public struct CreateAppInstanceAdminRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the administrator of the current AppInstance.
@@ -362,8 +362,8 @@ extension ChimeSDKIdentity {
 
     public struct DeleteAppInstanceAdminRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri(locationName: "AppInstanceAdminArn")),
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri("AppInstanceAdminArn")),
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstance's administrator.
@@ -390,7 +390,7 @@ extension ChimeSDKIdentity {
 
     public struct DeleteAppInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstance.
@@ -411,7 +411,7 @@ extension ChimeSDKIdentity {
 
     public struct DeleteAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "AppInstanceUserArn"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
         ]
 
         /// The ARN of the user request being deleted.
@@ -432,8 +432,8 @@ extension ChimeSDKIdentity {
 
     public struct DescribeAppInstanceAdminRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri(locationName: "AppInstanceAdminArn")),
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri("AppInstanceAdminArn")),
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstanceAdmin.
@@ -473,7 +473,7 @@ extension ChimeSDKIdentity {
 
     public struct DescribeAppInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstance.
@@ -507,7 +507,7 @@ extension ChimeSDKIdentity {
 
     public struct DescribeAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "AppInstanceUserArn"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
         ]
 
         /// The ARN of the AppInstanceUser.
@@ -541,7 +541,7 @@ extension ChimeSDKIdentity {
 
     public struct GetAppInstanceRetentionSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstance.
@@ -596,9 +596,9 @@ extension ChimeSDKIdentity {
 
     public struct ListAppInstanceAdminsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The ARN of the AppInstance.
@@ -650,9 +650,9 @@ extension ChimeSDKIdentity {
 
     public struct ListAppInstanceUsersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .querystring(locationName: "app-instance-arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The ARN of the AppInstance.
@@ -704,8 +704,8 @@ extension ChimeSDKIdentity {
 
     public struct ListAppInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The maximum number of AppInstances that you want to return.
@@ -747,7 +747,7 @@ extension ChimeSDKIdentity {
 
     public struct PutAppInstanceRetentionSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstance.
@@ -815,7 +815,7 @@ extension ChimeSDKIdentity {
 
     public struct UpdateAppInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "AppInstanceArn"))
+            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
         ]
 
         /// The ARN of the AppInstance.
@@ -863,7 +863,7 @@ extension ChimeSDKIdentity {
 
     public struct UpdateAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "AppInstanceUserArn"))
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
         ]
 
         /// The ARN of the AppInstanceUser.

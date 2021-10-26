@@ -485,7 +485,7 @@ extension CodeGuruReviewer {
 
     public struct DescribeCodeReviewRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri(locationName: "CodeReviewArn"))
+            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the  CodeReview object.
@@ -519,9 +519,9 @@ extension CodeGuruReviewer {
 
     public struct DescribeRecommendationFeedbackRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri(locationName: "CodeReviewArn")),
-            AWSMemberEncoding(label: "recommendationId", location: .querystring(locationName: "RecommendationId")),
-            AWSMemberEncoding(label: "userId", location: .querystring(locationName: "UserId"))
+            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn")),
+            AWSMemberEncoding(label: "recommendationId", location: .querystring("RecommendationId")),
+            AWSMemberEncoding(label: "userId", location: .querystring("UserId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the  CodeReview object.
@@ -565,7 +565,7 @@ extension CodeGuruReviewer {
 
     public struct DescribeRepositoryAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
+            AWSMemberEncoding(label: "associationArn", location: .uri("AssociationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the    RepositoryAssociation object.  You can retrieve this ARN by calling   ListRepositoryAssociations .
@@ -614,7 +614,7 @@ extension CodeGuruReviewer {
 
     public struct DisassociateRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
+            AWSMemberEncoding(label: "associationArn", location: .uri("AssociationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the    RepositoryAssociation object.  You can retrieve this ARN by calling   ListRepositoryAssociations .
@@ -712,12 +712,12 @@ extension CodeGuruReviewer {
 
     public struct ListCodeReviewsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "providerTypes", location: .querystring(locationName: "ProviderTypes")),
-            AWSMemberEncoding(label: "repositoryNames", location: .querystring(locationName: "RepositoryNames")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "States")),
-            AWSMemberEncoding(label: "type", location: .querystring(locationName: "Type"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "providerTypes", location: .querystring("ProviderTypes")),
+            AWSMemberEncoding(label: "repositoryNames", location: .querystring("RepositoryNames")),
+            AWSMemberEncoding(label: "states", location: .querystring("States")),
+            AWSMemberEncoding(label: "type", location: .querystring("Type"))
         ]
 
         ///  The maximum number of results that are returned per call. The default is 100.
@@ -782,11 +782,11 @@ extension CodeGuruReviewer {
 
     public struct ListRecommendationFeedbackRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri(locationName: "CodeReviewArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "recommendationIds", location: .querystring(locationName: "RecommendationIds")),
-            AWSMemberEncoding(label: "userIds", location: .querystring(locationName: "UserIds"))
+            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "recommendationIds", location: .querystring("RecommendationIds")),
+            AWSMemberEncoding(label: "userIds", location: .querystring("UserIds"))
         ]
 
         /// The Amazon Resource Name (ARN) of the  CodeReview object.
@@ -852,9 +852,9 @@ extension CodeGuruReviewer {
 
     public struct ListRecommendationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri(locationName: "CodeReviewArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) of the  CodeReview object.
@@ -902,12 +902,12 @@ extension CodeGuruReviewer {
 
     public struct ListRepositoryAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "names", location: .querystring(locationName: "Name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "owners", location: .querystring(locationName: "Owner")),
-            AWSMemberEncoding(label: "providerTypes", location: .querystring(locationName: "ProviderType")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "State"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "names", location: .querystring("Name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "owners", location: .querystring("Owner")),
+            AWSMemberEncoding(label: "providerTypes", location: .querystring("ProviderType")),
+            AWSMemberEncoding(label: "states", location: .querystring("State"))
         ]
 
         /// The maximum number of repository association results returned by ListRepositoryAssociations  in paginated output. When this parameter is used, ListRepositoryAssociations only returns  maxResults results in a single page with a nextToken response  element. The remaining results of the initial request  can be seen by sending another ListRepositoryAssociations request with the returned  nextToken value.  This value can be between 1 and 100. If this parameter is not used, ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable.
@@ -979,7 +979,7 @@ extension CodeGuruReviewer {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the    RepositoryAssociation object.  You can retrieve this ARN by calling   ListRepositoryAssociations .
@@ -1533,7 +1533,7 @@ extension CodeGuruReviewer {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the    RepositoryAssociation object.  You can retrieve this ARN by calling   ListRepositoryAssociations .
@@ -1613,8 +1613,8 @@ extension CodeGuruReviewer {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the    RepositoryAssociation object.  You can retrieve this ARN by calling   ListRepositoryAssociations .

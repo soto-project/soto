@@ -97,9 +97,9 @@ extension Glacier {
 
     public struct AbortMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -120,8 +120,8 @@ extension Glacier {
 
     public struct AbortVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -139,8 +139,8 @@ extension Glacier {
 
     public struct AddTagsToVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -163,9 +163,9 @@ extension Glacier {
 
     public struct ArchiveCreationOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "archiveId", location: .header(locationName: "x-amz-archive-id")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "archiveId", location: .header("x-amz-archive-id")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// The ID of the archive. This value is also included as part of the location.
@@ -252,11 +252,11 @@ extension Glacier {
 
     public struct CompleteMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "archiveSize", location: .header(locationName: "x-amz-archive-size")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "archiveSize", location: .header("x-amz-archive-size")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -283,9 +283,9 @@ extension Glacier {
 
     public struct CompleteVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "lockId", location: .uri(locationName: "lockId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "lockId", location: .uri("lockId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -306,8 +306,8 @@ extension Glacier {
 
     public struct CreateVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -325,7 +325,7 @@ extension Glacier {
 
     public struct CreateVaultOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// The URI of the vault that was created.
@@ -372,9 +372,9 @@ extension Glacier {
 
     public struct DeleteArchiveInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "archiveId", location: .uri(locationName: "archiveId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "archiveId", location: .uri("archiveId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -395,8 +395,8 @@ extension Glacier {
 
     public struct DeleteVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -414,8 +414,8 @@ extension Glacier {
 
     public struct DeleteVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -433,8 +433,8 @@ extension Glacier {
 
     public struct DeleteVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -452,9 +452,9 @@ extension Glacier {
 
     public struct DescribeJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -475,8 +475,8 @@ extension Glacier {
 
     public struct DescribeVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -548,7 +548,7 @@ extension Glacier {
 
     public struct GetDataRetrievalPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -576,10 +576,10 @@ extension Glacier {
 
     public struct GetJobOutputInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "range", location: .header("Range")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -606,11 +606,11 @@ extension Glacier {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "Accept-Ranges")),
-            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "acceptRanges", location: .header("Accept-Ranges")),
+            AWSMemberEncoding(label: "archiveDescription", location: .header("x-amz-archive-description")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "contentRange", location: .header("Content-Range")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
@@ -652,8 +652,8 @@ extension Glacier {
 
     public struct GetVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -687,8 +687,8 @@ extension Glacier {
 
     public struct GetVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -731,8 +731,8 @@ extension Glacier {
 
     public struct GetVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -907,8 +907,8 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "jobParameters"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -931,9 +931,9 @@ extension Glacier {
 
     public struct InitiateJobOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .header(locationName: "x-amz-job-id")),
-            AWSMemberEncoding(label: "jobOutputPath", location: .header(locationName: "x-amz-job-output-path")),
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "jobId", location: .header("x-amz-job-id")),
+            AWSMemberEncoding(label: "jobOutputPath", location: .header("x-amz-job-output-path")),
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// The ID of the job.
@@ -958,10 +958,10 @@ extension Glacier {
 
     public struct InitiateMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")),
-            AWSMemberEncoding(label: "partSize", location: .header(locationName: "x-amz-part-size")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "archiveDescription", location: .header("x-amz-archive-description")),
+            AWSMemberEncoding(label: "partSize", location: .header("x-amz-part-size")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -985,8 +985,8 @@ extension Glacier {
 
     public struct InitiateMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")),
-            AWSMemberEncoding(label: "uploadId", location: .header(locationName: "x-amz-multipart-upload-id"))
+            AWSMemberEncoding(label: "location", location: .header("Location")),
+            AWSMemberEncoding(label: "uploadId", location: .header("x-amz-multipart-upload-id"))
         ]
 
         /// The relative URI path of the multipart upload ID Amazon S3 Glacier created.
@@ -1009,8 +1009,8 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -1033,7 +1033,7 @@ extension Glacier {
 
     public struct InitiateVaultLockOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lockId", location: .header(locationName: "x-amz-lock-id"))
+            AWSMemberEncoding(label: "lockId", location: .header("x-amz-lock-id"))
         ]
 
         /// The lock ID, which is used to complete the vault locking process.
@@ -1166,12 +1166,12 @@ extension Glacier {
 
     public struct ListJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "completed", location: .querystring(locationName: "completed")),
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "statuscode", location: .querystring(locationName: "statuscode")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "completed", location: .querystring("completed")),
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "statuscode", location: .querystring("statuscode")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1218,10 +1218,10 @@ extension Glacier {
 
     public struct ListMultipartUploadsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1262,11 +1262,11 @@ extension Glacier {
 
     public struct ListPartsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1330,7 +1330,7 @@ extension Glacier {
 
     public struct ListProvisionedCapacityInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId"))
         ]
 
         /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
@@ -1358,8 +1358,8 @@ extension Glacier {
 
     public struct ListTagsForVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1390,9 +1390,9 @@ extension Glacier {
 
     public struct ListVaultsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -1494,7 +1494,7 @@ extension Glacier {
 
     public struct PurchaseProvisionedCapacityInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId"))
         ]
 
         /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
@@ -1509,7 +1509,7 @@ extension Glacier {
 
     public struct PurchaseProvisionedCapacityOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "capacityId", location: .header(locationName: "x-amz-capacity-id"))
+            AWSMemberEncoding(label: "capacityId", location: .header("x-amz-capacity-id"))
         ]
 
         /// The ID that identifies the provisioned capacity unit.
@@ -1526,8 +1526,8 @@ extension Glacier {
 
     public struct RemoveTagsFromVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1616,7 +1616,7 @@ extension Glacier {
 
     public struct SetDataRetrievalPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId"))
         ]
 
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -1638,8 +1638,8 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1664,8 +1664,8 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "vaultNotificationConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1691,10 +1691,10 @@ extension Glacier {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "archiveDescription", location: .header("x-amz-archive-description")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1753,11 +1753,11 @@ extension Glacier {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "range", location: .header(locationName: "Content-Range")),
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
-            AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
+            AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "range", location: .header("Content-Range")),
+            AWSMemberEncoding(label: "uploadId", location: .uri("uploadId")),
+            AWSMemberEncoding(label: "vaultName", location: .uri("vaultName"))
         ]
 
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1787,7 +1787,7 @@ extension Glacier {
 
     public struct UploadMultipartPartOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"))
+            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash"))
         ]
 
         /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.

@@ -75,7 +75,7 @@ extension Kafka {
 
     public struct BatchAssociateScramSecretRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
@@ -112,7 +112,7 @@ extension Kafka {
 
     public struct BatchDisassociateScramSecretRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
@@ -707,8 +707,8 @@ extension Kafka {
 
     public struct DeleteClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn")),
-            AWSMemberEncoding(label: "currentVersion", location: .querystring(locationName: "currentVersion"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
+            AWSMemberEncoding(label: "currentVersion", location: .querystring("currentVersion"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -743,7 +743,7 @@ extension Kafka {
 
     public struct DeleteConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration.
@@ -775,7 +775,7 @@ extension Kafka {
 
     public struct DescribeClusterOperationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterOperationArn", location: .uri(locationName: "ClusterOperationArn"))
+            AWSMemberEncoding(label: "clusterOperationArn", location: .uri("ClusterOperationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the MSK cluster operation.
@@ -803,7 +803,7 @@ extension Kafka {
 
     public struct DescribeClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -831,7 +831,7 @@ extension Kafka {
 
     public struct DescribeConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
@@ -884,8 +884,8 @@ extension Kafka {
 
     public struct DescribeConfigurationRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn")),
-            AWSMemberEncoding(label: "revision", location: .uri(locationName: "Revision"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn")),
+            AWSMemberEncoding(label: "revision", location: .uri("Revision"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
@@ -1030,7 +1030,7 @@ extension Kafka {
 
     public struct GetBootstrapBrokersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -1070,7 +1070,7 @@ extension Kafka {
 
     public struct GetCompatibleKafkaVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .querystring(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .querystring("clusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the cluster check.
@@ -1152,9 +1152,9 @@ extension Kafka {
 
     public struct ListClusterOperationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -1197,9 +1197,9 @@ extension Kafka {
 
     public struct ListClustersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterNameFilter", location: .querystring(locationName: "clusterNameFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterNameFilter", location: .querystring("clusterNameFilter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Specify a prefix of the name of the clusters that you want to list. The service lists all the clusters whose names start with this prefix.
@@ -1242,9 +1242,9 @@ extension Kafka {
 
     public struct ListConfigurationRevisionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
@@ -1287,8 +1287,8 @@ extension Kafka {
 
     public struct ListConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1328,8 +1328,8 @@ extension Kafka {
 
     public struct ListKafkaVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1367,9 +1367,9 @@ extension Kafka {
 
     public struct ListNodesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -1412,9 +1412,9 @@ extension Kafka {
 
     public struct ListScramSecretsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The arn of the cluster.
@@ -1457,7 +1457,7 @@ extension Kafka {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
@@ -1665,7 +1665,7 @@ extension Kafka {
 
     public struct RebootBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The list of broker IDs to be rebooted. The reboot-broker operation supports rebooting one broker at a time.
@@ -1782,7 +1782,7 @@ extension Kafka {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
@@ -1853,8 +1853,8 @@ extension Kafka {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
@@ -1872,7 +1872,7 @@ extension Kafka {
 
     public struct UpdateBrokerCountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -1918,7 +1918,7 @@ extension Kafka {
 
     public struct UpdateBrokerStorageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -1959,7 +1959,7 @@ extension Kafka {
 
     public struct UpdateBrokerTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -2000,7 +2000,7 @@ extension Kafka {
 
     public struct UpdateClusterConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -2041,7 +2041,7 @@ extension Kafka {
 
     public struct UpdateClusterKafkaVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
@@ -2086,7 +2086,7 @@ extension Kafka {
 
     public struct UpdateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the configuration.
@@ -2127,7 +2127,7 @@ extension Kafka {
 
     public struct UpdateMonitoringRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -2175,7 +2175,7 @@ extension Kafka {
 
     public struct UpdateSecurityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// Includes all client authentication related information.

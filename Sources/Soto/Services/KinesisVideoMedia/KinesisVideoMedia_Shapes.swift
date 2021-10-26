@@ -69,8 +69,8 @@ extension KinesisVideoMedia {
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"))
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "payload", location: .body("Payload"))
         ]
 
         /// The content type of the requested media.

@@ -302,7 +302,7 @@ extension GroundStation {
 
     public struct CancelContactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "contactId"))
+            AWSMemberEncoding(label: "contactId", location: .uri("contactId"))
         ]
 
         /// UUID of a contact.
@@ -657,8 +657,8 @@ extension GroundStation {
 
     public struct DeleteConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")),
-            AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
+            AWSMemberEncoding(label: "configId", location: .uri("configId")),
+            AWSMemberEncoding(label: "configType", location: .uri("configType"))
         ]
 
         /// UUID of a Config.
@@ -676,7 +676,7 @@ extension GroundStation {
 
     public struct DeleteDataflowEndpointGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
+            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri("dataflowEndpointGroupId"))
         ]
 
         /// UUID of a dataflow endpoint group.
@@ -691,7 +691,7 @@ extension GroundStation {
 
     public struct DeleteMissionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
+            AWSMemberEncoding(label: "missionProfileId", location: .uri("missionProfileId"))
         ]
 
         /// UUID of a mission profile.
@@ -725,7 +725,7 @@ extension GroundStation {
 
     public struct DescribeContactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "contactId"))
+            AWSMemberEncoding(label: "contactId", location: .uri("contactId"))
         ]
 
         /// UUID of a contact.
@@ -919,8 +919,8 @@ extension GroundStation {
 
     public struct GetConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")),
-            AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
+            AWSMemberEncoding(label: "configId", location: .uri("configId")),
+            AWSMemberEncoding(label: "configType", location: .uri("configType"))
         ]
 
         /// UUID of a Config.
@@ -971,7 +971,7 @@ extension GroundStation {
 
     public struct GetDataflowEndpointGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
+            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri("dataflowEndpointGroupId"))
         ]
 
         /// UUID of a dataflow endpoint group.
@@ -1057,7 +1057,7 @@ extension GroundStation {
 
     public struct GetMissionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
+            AWSMemberEncoding(label: "missionProfileId", location: .uri("missionProfileId"))
         ]
 
         /// UUID of a mission profile.
@@ -1121,7 +1121,7 @@ extension GroundStation {
 
     public struct GetSatelliteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "satelliteId", location: .uri(locationName: "satelliteId"))
+            AWSMemberEncoding(label: "satelliteId", location: .uri("satelliteId"))
         ]
 
         /// UUID of a satellite.
@@ -1182,8 +1182,8 @@ extension GroundStation {
 
     public struct ListConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Maximum number of Configs returned.
@@ -1276,8 +1276,8 @@ extension GroundStation {
 
     public struct ListDataflowEndpointGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Maximum number of dataflow endpoint groups returned.
@@ -1312,9 +1312,9 @@ extension GroundStation {
 
     public struct ListGroundStationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "satelliteId", location: .querystring(locationName: "satelliteId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "satelliteId", location: .querystring("satelliteId"))
         ]
 
         /// Maximum number of ground stations returned.
@@ -1352,8 +1352,8 @@ extension GroundStation {
 
     public struct ListMissionProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Maximum number of mission profiles returned.
@@ -1388,8 +1388,8 @@ extension GroundStation {
 
     public struct ListSatellitesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Maximum number of satellites returned.
@@ -1424,7 +1424,7 @@ extension GroundStation {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// ARN of a resource.
@@ -1676,7 +1676,7 @@ extension GroundStation {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// ARN of a resource tag.
@@ -1713,8 +1713,8 @@ extension GroundStation {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// ARN of a resource.
@@ -1736,8 +1736,8 @@ extension GroundStation {
 
     public struct UpdateConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")),
-            AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
+            AWSMemberEncoding(label: "configId", location: .uri("configId")),
+            AWSMemberEncoding(label: "configType", location: .uri("configType"))
         ]
 
         /// Parameters of a Config.
@@ -1771,7 +1771,7 @@ extension GroundStation {
 
     public struct UpdateMissionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
+            AWSMemberEncoding(label: "missionProfileId", location: .uri("missionProfileId"))
         ]
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.

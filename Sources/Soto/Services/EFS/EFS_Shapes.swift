@@ -300,7 +300,7 @@ extension EFS {
 
     public struct CreateTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
@@ -359,7 +359,7 @@ extension EFS {
 
     public struct DeleteAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .uri(locationName: "AccessPointId"))
+            AWSMemberEncoding(label: "accessPointId", location: .uri("AccessPointId"))
         ]
 
         /// The ID of the access point that you want to delete.
@@ -379,7 +379,7 @@ extension EFS {
 
     public struct DeleteFileSystemPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// Specifies the EFS file system for which to delete the FileSystemPolicy.
@@ -399,7 +399,7 @@ extension EFS {
 
     public struct DeleteFileSystemRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The ID of the file system you want to delete.
@@ -419,7 +419,7 @@ extension EFS {
 
     public struct DeleteMountTargetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mountTargetId", location: .uri(locationName: "MountTargetId"))
+            AWSMemberEncoding(label: "mountTargetId", location: .uri("MountTargetId"))
         ]
 
         /// The ID of the mount target to delete (String).
@@ -440,7 +440,7 @@ extension EFS {
 
     public struct DeleteTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The ID of the file system whose tags you want to delete (String).
@@ -472,10 +472,10 @@ extension EFS {
 
     public struct DescribeAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "accessPointId", location: .querystring("AccessPointId")),
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// (Optional) Specifies an EFS access point to describe in the response; mutually exclusive with FileSystemId.
@@ -568,7 +568,7 @@ extension EFS {
 
     public struct DescribeBackupPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// Specifies which EFS file system to retrieve the BackupPolicy for.
@@ -588,7 +588,7 @@ extension EFS {
 
     public struct DescribeFileSystemPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// Specifies which EFS file system to retrieve the FileSystemPolicy for.
@@ -608,10 +608,10 @@ extension EFS {
 
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "creationToken", location: .querystring(locationName: "CreationToken")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "creationToken", location: .querystring("CreationToken")),
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
+            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
         /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
@@ -668,7 +668,7 @@ extension EFS {
 
     public struct DescribeLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
@@ -688,7 +688,7 @@ extension EFS {
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mountTargetId", location: .uri(locationName: "MountTargetId"))
+            AWSMemberEncoding(label: "mountTargetId", location: .uri("MountTargetId"))
         ]
 
         /// The ID of the mount target whose security groups you want to retrieve.
@@ -722,11 +722,11 @@ extension EFS {
 
     public struct DescribeMountTargetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")),
-            AWSMemberEncoding(label: "mountTargetId", location: .querystring(locationName: "MountTargetId"))
+            AWSMemberEncoding(label: "accessPointId", location: .querystring("AccessPointId")),
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
+            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
+            AWSMemberEncoding(label: "mountTargetId", location: .querystring("MountTargetId"))
         ]
 
         /// (Optional) The ID of the access point whose mount targets that you want to list. It must be included in your request if a FileSystemId or MountTargetId is not included in your request. Accepts either an access point ID or ARN as input.
@@ -788,9 +788,9 @@ extension EFS {
 
     public struct DescribeTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId")),
+            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
         /// The ID of the file system whose tag set you want to retrieve.
@@ -990,9 +990,9 @@ extension EFS {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
         /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100.
@@ -1039,7 +1039,7 @@ extension EFS {
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mountTargetId", location: .uri(locationName: "MountTargetId"))
+            AWSMemberEncoding(label: "mountTargetId", location: .uri("MountTargetId"))
         ]
 
         /// The ID of the mount target whose security groups you want to modify.
@@ -1178,7 +1178,7 @@ extension EFS {
 
     public struct PutBackupPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The backup policy included in the PutBackupPolicy request.
@@ -1203,7 +1203,7 @@ extension EFS {
 
     public struct PutFileSystemPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check  determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent  the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system.  The default value is False.
@@ -1235,7 +1235,7 @@ extension EFS {
 
     public struct PutLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
@@ -1327,7 +1327,7 @@ extension EFS {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
         /// The ID specifying the EFS resource that you want to create a tag for.
@@ -1355,8 +1355,8 @@ extension EFS {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// Specifies the EFS resource that you want to remove tags from.
@@ -1386,7 +1386,7 @@ extension EFS {
 
     public struct UpdateFileSystemRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
+            AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
         /// The ID of the file system that you want to update.

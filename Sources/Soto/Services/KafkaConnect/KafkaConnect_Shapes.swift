@@ -718,8 +718,8 @@ extension KafkaConnect {
 
     public struct DeleteConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorArn", location: .uri(locationName: "connectorArn")),
-            AWSMemberEncoding(label: "currentVersion", location: .querystring(locationName: "currentVersion"))
+            AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn")),
+            AWSMemberEncoding(label: "currentVersion", location: .querystring("currentVersion"))
         ]
 
         /// The Amazon Resource Name (ARN) of the connector that you want to delete.
@@ -754,7 +754,7 @@ extension KafkaConnect {
 
     public struct DescribeConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorArn", location: .uri(locationName: "connectorArn"))
+            AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the connector that you want to describe.
@@ -843,7 +843,7 @@ extension KafkaConnect {
 
     public struct DescribeCustomPluginRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "customPluginArn", location: .uri(locationName: "customPluginArn"))
+            AWSMemberEncoding(label: "customPluginArn", location: .uri("customPluginArn"))
         ]
 
         /// Returns information about a custom plugin.
@@ -892,7 +892,7 @@ extension KafkaConnect {
 
     public struct DescribeWorkerConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workerConfigurationArn", location: .uri(locationName: "workerConfigurationArn"))
+            AWSMemberEncoding(label: "workerConfigurationArn", location: .uri("workerConfigurationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the worker configuration that you want to get information about.
@@ -1049,9 +1049,9 @@ extension KafkaConnect {
 
     public struct ListConnectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorNamePrefix", location: .querystring(locationName: "connectorNamePrefix")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "connectorNamePrefix", location: .querystring("connectorNamePrefix")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name prefix that you want to use to search for and list connectors.
@@ -1094,8 +1094,8 @@ extension KafkaConnect {
 
     public struct ListCustomPluginsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of custom plugins to list in one response.
@@ -1135,8 +1135,8 @@ extension KafkaConnect {
 
     public struct ListWorkerConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of worker configurations to list in one response.
@@ -1479,8 +1479,8 @@ extension KafkaConnect {
 
     public struct UpdateConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorArn", location: .uri(locationName: "connectorArn")),
-            AWSMemberEncoding(label: "currentVersion", location: .querystring(locationName: "currentVersion"))
+            AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn")),
+            AWSMemberEncoding(label: "currentVersion", location: .querystring("currentVersion"))
         ]
 
         /// The target capacity.

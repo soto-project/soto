@@ -162,7 +162,7 @@ extension Outposts {
 
     public struct DeleteOutpostInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
+            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
         ///  The ID of the Outpost.
@@ -187,7 +187,7 @@ extension Outposts {
 
     public struct DeleteSiteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "siteId", location: .uri(locationName: "SiteId"))
+            AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
         public let siteId: String
@@ -211,7 +211,7 @@ extension Outposts {
 
     public struct GetOutpostInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
+            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
         ///  The ID of the Outpost.
@@ -232,9 +232,9 @@ extension Outposts {
 
     public struct GetOutpostInstanceTypesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
         public let maxResults: Int?
@@ -360,11 +360,11 @@ extension Outposts {
 
     public struct ListOutpostsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZoneFilter", location: .querystring(locationName: "AvailabilityZoneFilter")),
-            AWSMemberEncoding(label: "availabilityZoneIdFilter", location: .querystring(locationName: "AvailabilityZoneIdFilter")),
-            AWSMemberEncoding(label: "lifeCycleStatusFilter", location: .querystring(locationName: "LifeCycleStatusFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "availabilityZoneFilter", location: .querystring("AvailabilityZoneFilter")),
+            AWSMemberEncoding(label: "availabilityZoneIdFilter", location: .querystring("AvailabilityZoneIdFilter")),
+            AWSMemberEncoding(label: "lifeCycleStatusFilter", location: .querystring("LifeCycleStatusFilter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         ///  A filter for the Availibility Zone (us-east-1a) of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
@@ -433,8 +433,8 @@ extension Outposts {
 
     public struct ListSitesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         public let maxResults: Int?
@@ -473,7 +473,7 @@ extension Outposts {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -615,7 +615,7 @@ extension Outposts {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -653,8 +653,8 @@ extension Outposts {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.

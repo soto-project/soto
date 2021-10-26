@@ -2371,7 +2371,7 @@ extension Lightsail {
 
     public struct CreateContainerServiceDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// An object that describes the settings of the containers that will be launched on the container service.
@@ -3517,8 +3517,8 @@ extension Lightsail {
 
     public struct DeleteContainerImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "image", location: .uri(locationName: "image")),
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "image", location: .uri("image")),
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// The name of the container image to delete from the container service.
@@ -3548,7 +3548,7 @@ extension Lightsail {
 
     public struct DeleteContainerServiceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// The name of the container service to delete.
@@ -5145,7 +5145,7 @@ extension Lightsail {
 
     public struct GetContainerImagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// The name of the container service for which to return registered container images.
@@ -5179,12 +5179,12 @@ extension Lightsail {
 
     public struct GetContainerLogRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "containerName", location: .uri(locationName: "containerName")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "filterPattern", location: .querystring(locationName: "filterPattern")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring(locationName: "pageToken")),
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "containerName", location: .uri("containerName")),
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "filterPattern", location: .querystring("filterPattern")),
+            AWSMemberEncoding(label: "pageToken", location: .querystring("pageToken")),
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime"))
         ]
 
         /// The name of the container that is either running or previously ran on the container service for which to return a log.
@@ -5249,7 +5249,7 @@ extension Lightsail {
 
     public struct GetContainerServiceDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// The name of the container service for which to return deployments.
@@ -5283,12 +5283,12 @@ extension Lightsail {
 
     public struct GetContainerServiceMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "metricName", location: .querystring(locationName: "metricName")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "statistics", location: .querystring(locationName: "statistics"))
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "metricName", location: .querystring("metricName")),
+            AWSMemberEncoding(label: "period", location: .querystring("period")),
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "statistics", location: .querystring("statistics"))
         ]
 
         /// The end time of the time period.
@@ -5365,7 +5365,7 @@ extension Lightsail {
 
     public struct GetContainerServicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .querystring(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .querystring("serviceName"))
         ]
 
         /// The name of the container service for which to return information.
@@ -8365,7 +8365,7 @@ extension Lightsail {
 
     public struct RegisterContainerImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// The digest of the container image to be registered.
@@ -9447,7 +9447,7 @@ extension Lightsail {
 
     public struct UpdateContainerServiceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceName", location: .uri(locationName: "serviceName"))
+            AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
         /// A Boolean value to indicate whether the container service is disabled.

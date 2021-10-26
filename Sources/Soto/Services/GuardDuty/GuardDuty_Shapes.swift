@@ -144,7 +144,7 @@ extension GuardDuty {
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -302,7 +302,7 @@ extension GuardDuty {
 
     public struct ArchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
@@ -586,7 +586,7 @@ extension GuardDuty {
 
     public struct CreateFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
@@ -662,7 +662,7 @@ extension GuardDuty {
 
     public struct CreateIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
@@ -733,7 +733,7 @@ extension GuardDuty {
 
     public struct CreateMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
@@ -776,7 +776,7 @@ extension GuardDuty {
 
     public struct CreatePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The idempotency token for the request.
@@ -823,7 +823,7 @@ extension GuardDuty {
 
     public struct CreateSampleFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector to create sample findings for.
@@ -857,7 +857,7 @@ extension GuardDuty {
 
     public struct CreateThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
@@ -1031,7 +1031,7 @@ extension GuardDuty {
 
     public struct DeleteDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The unique ID of the detector that you want to delete.
@@ -1055,8 +1055,8 @@ extension GuardDuty {
 
     public struct DeleteFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "filterName", location: .uri("filterName"))
         ]
 
         /// The unique ID of the detector that the filter is associated with.
@@ -1083,8 +1083,8 @@ extension GuardDuty {
 
     public struct DeleteIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "ipSetId", location: .uri("ipSetId"))
         ]
 
         /// The unique ID of the detector associated with the IPSet.
@@ -1146,7 +1146,7 @@ extension GuardDuty {
 
     public struct DeleteMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts that you want to delete.
@@ -1190,8 +1190,8 @@ extension GuardDuty {
 
     public struct DeletePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")),
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "destinationId", location: .uri("destinationId")),
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the publishing destination to delete.
@@ -1218,8 +1218,8 @@ extension GuardDuty {
 
     public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "threatIntelSetId", location: .uri("threatIntelSetId"))
         ]
 
         /// The unique ID of the detector that the threatIntelSet is associated with.
@@ -1246,7 +1246,7 @@ extension GuardDuty {
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector to retrieve information about the delegated administrator from.
@@ -1287,8 +1287,8 @@ extension GuardDuty {
 
     public struct DescribePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")),
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "destinationId", location: .uri("destinationId")),
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the publishing destination to retrieve.
@@ -1395,7 +1395,7 @@ extension GuardDuty {
 
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -1419,7 +1419,7 @@ extension GuardDuty {
 
     public struct DisassociateMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account.
@@ -1642,7 +1642,7 @@ extension GuardDuty {
 
     public struct GetDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The unique ID of the detector that you want to get.
@@ -1699,8 +1699,8 @@ extension GuardDuty {
 
     public struct GetFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "filterName", location: .uri("filterName"))
         ]
 
         /// The unique ID of the detector that the filter is associated with.
@@ -1756,7 +1756,7 @@ extension GuardDuty {
 
     public struct GetFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
@@ -1803,7 +1803,7 @@ extension GuardDuty {
 
     public struct GetFindingsStatisticsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
@@ -1846,8 +1846,8 @@ extension GuardDuty {
 
     public struct GetIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "ipSetId", location: .uri("ipSetId"))
         ]
 
         /// The unique ID of the detector that the IPSet is associated with.
@@ -1916,7 +1916,7 @@ extension GuardDuty {
 
     public struct GetMasterAccountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -1949,7 +1949,7 @@ extension GuardDuty {
 
     public struct GetMemberDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The account ID of the member account.
@@ -1997,7 +1997,7 @@ extension GuardDuty {
 
     public struct GetMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts that you want to describe.
@@ -2045,8 +2045,8 @@ extension GuardDuty {
 
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "threatIntelSetId", location: .uri("threatIntelSetId"))
         ]
 
         /// The unique ID of the detector that the threatIntelSet is associated with.
@@ -2098,7 +2098,7 @@ extension GuardDuty {
 
     public struct GetUsageStatisticsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
@@ -2262,7 +2262,7 @@ extension GuardDuty {
 
     public struct InviteMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
@@ -2314,8 +2314,8 @@ extension GuardDuty {
 
     public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
@@ -2355,9 +2355,9 @@ extension GuardDuty {
 
     public struct ListFiltersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID of the detector that the filter is associated with.
@@ -2402,7 +2402,7 @@ extension GuardDuty {
 
     public struct ListFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
@@ -2458,9 +2458,9 @@ extension GuardDuty {
 
     public struct ListIPSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID of the detector that the IPSet is associated with.
@@ -2505,8 +2505,8 @@ extension GuardDuty {
 
     public struct ListInvitationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
@@ -2546,10 +2546,10 @@ extension GuardDuty {
 
     public struct ListMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "onlyAssociated", location: .querystring(locationName: "onlyAssociated"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "onlyAssociated", location: .querystring("onlyAssociated"))
         ]
 
         /// The unique ID of the detector the member is associated with.
@@ -2597,8 +2597,8 @@ extension GuardDuty {
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in the response.
@@ -2638,9 +2638,9 @@ extension GuardDuty {
 
     public struct ListPublishingDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ID of the detector to retrieve publishing destinations for.
@@ -2685,7 +2685,7 @@ extension GuardDuty {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the given GuardDuty resource.
@@ -2717,9 +2717,9 @@ extension GuardDuty {
 
     public struct ListThreatIntelSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID of the detector that the threatIntelSet is associated with.
@@ -3376,7 +3376,7 @@ extension GuardDuty {
 
     public struct StartMonitoringMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts to start monitoring.
@@ -3420,7 +3420,7 @@ extension GuardDuty {
 
     public struct StopMonitoringMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of account IDs for the member accounts to stop monitoring.
@@ -3481,7 +3481,7 @@ extension GuardDuty {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
@@ -3551,7 +3551,7 @@ extension GuardDuty {
 
     public struct UnarchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the detector associated with the findings to unarchive.
@@ -3602,8 +3602,8 @@ extension GuardDuty {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource to remove tags from.
@@ -3636,7 +3636,7 @@ extension GuardDuty {
 
     public struct UpdateDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// Describes which data sources will be updated.
@@ -3673,8 +3673,8 @@ extension GuardDuty {
 
     public struct UpdateFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "filterName", location: .uri("filterName"))
         ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
@@ -3730,7 +3730,7 @@ extension GuardDuty {
 
     public struct UpdateFindingsFeedbackRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// Additional feedback about the GuardDuty findings.
@@ -3772,8 +3772,8 @@ extension GuardDuty {
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "ipSetId", location: .uri("ipSetId"))
         ]
 
         /// The updated Boolean value that specifies whether the IPSet is active or not.
@@ -3817,7 +3817,7 @@ extension GuardDuty {
 
     public struct UpdateMemberDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// A list of member account IDs to be updated.
@@ -3865,7 +3865,7 @@ extension GuardDuty {
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// Indicates whether to automatically enable member accounts in the organization.
@@ -3898,8 +3898,8 @@ extension GuardDuty {
 
     public struct UpdatePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")),
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
+            AWSMemberEncoding(label: "destinationId", location: .uri("destinationId")),
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
         /// The ID of the publishing destination to update.
@@ -3931,8 +3931,8 @@ extension GuardDuty {
 
     public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")),
-            AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "threatIntelSetId", location: .uri("threatIntelSetId"))
         ]
 
         /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.

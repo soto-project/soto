@@ -303,7 +303,7 @@ extension AppSync {
 
     public struct CreateApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
@@ -352,7 +352,7 @@ extension AppSync {
 
     public struct CreateApiKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The ID for your GraphQL API.
@@ -389,7 +389,7 @@ extension AppSync {
 
     public struct CreateDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID for the GraphQL API for the DataSource.
@@ -464,7 +464,7 @@ extension AppSync {
 
     public struct CreateFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The GraphQL API ID.
@@ -606,8 +606,8 @@ extension AppSync {
 
     public struct CreateResolverRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The ID for the GraphQL API for which the resolver is being created.
@@ -687,7 +687,7 @@ extension AppSync {
 
     public struct CreateTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -777,7 +777,7 @@ extension AppSync {
 
     public struct DeleteApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -796,8 +796,8 @@ extension AppSync {
 
     public struct DeleteApiKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The API ID.
@@ -819,8 +819,8 @@ extension AppSync {
 
     public struct DeleteDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The API ID.
@@ -848,8 +848,8 @@ extension AppSync {
 
     public struct DeleteFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "functionId", location: .uri("functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -877,7 +877,7 @@ extension AppSync {
 
     public struct DeleteGraphqlApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -896,9 +896,9 @@ extension AppSync {
 
     public struct DeleteResolverRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "fieldName", location: .uri("fieldName")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.
@@ -932,8 +932,8 @@ extension AppSync {
 
     public struct DeleteTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.
@@ -1028,7 +1028,7 @@ extension AppSync {
 
     public struct FlushApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -1091,7 +1091,7 @@ extension AppSync {
 
     public struct GetApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -1119,8 +1119,8 @@ extension AppSync {
 
     public struct GetDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The API ID.
@@ -1157,8 +1157,8 @@ extension AppSync {
 
     public struct GetFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "functionId", location: .uri("functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -1195,7 +1195,7 @@ extension AppSync {
 
     public struct GetGraphqlApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID for the GraphQL API.
@@ -1223,9 +1223,9 @@ extension AppSync {
 
     public struct GetIntrospectionSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "includeDirectives", location: .querystring("includeDirectives"))
         ]
 
         /// The API ID.
@@ -1263,9 +1263,9 @@ extension AppSync {
 
     public struct GetResolverRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "fieldName", location: .uri("fieldName")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.
@@ -1308,7 +1308,7 @@ extension AppSync {
 
     public struct GetSchemaCreationStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -1340,9 +1340,9 @@ extension AppSync {
 
     public struct GetTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.
@@ -1512,9 +1512,9 @@ extension AppSync {
 
     public struct ListApiKeysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API ID.
@@ -1560,9 +1560,9 @@ extension AppSync {
 
     public struct ListDataSourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API ID.
@@ -1608,9 +1608,9 @@ extension AppSync {
 
     public struct ListFunctionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The GraphQL API ID.
@@ -1656,8 +1656,8 @@ extension AppSync {
 
     public struct ListGraphqlApisRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results you want the request to return.
@@ -1700,10 +1700,10 @@ extension AppSync {
 
     public struct ListResolversByFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "functionId", location: .uri("functionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API ID.
@@ -1752,10 +1752,10 @@ extension AppSync {
 
     public struct ListResolversRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.
@@ -1804,7 +1804,7 @@ extension AppSync {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The GraphqlApi ARN.
@@ -1838,10 +1838,10 @@ extension AppSync {
 
     public struct ListTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The API ID.
@@ -2061,7 +2061,7 @@ extension AppSync {
 
     public struct StartSchemaCreationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// The API ID.
@@ -2115,7 +2115,7 @@ extension AppSync {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2182,8 +2182,8 @@ extension AppSync {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2218,7 +2218,7 @@ extension AppSync {
 
     public struct UpdateApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
@@ -2259,8 +2259,8 @@ extension AppSync {
 
     public struct UpdateApiKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID for the GraphQL API.
@@ -2300,8 +2300,8 @@ extension AppSync {
 
     public struct UpdateDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The API ID.
@@ -2375,8 +2375,8 @@ extension AppSync {
 
     public struct UpdateFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "functionId", location: .uri("functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -2451,7 +2451,7 @@ extension AppSync {
 
     public struct UpdateGraphqlApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
         ]
 
         /// A list of additional authentication providers for the GraphqlApi API.
@@ -2519,9 +2519,9 @@ extension AppSync {
 
     public struct UpdateResolverRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "fieldName", location: .uri("fieldName")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.
@@ -2600,8 +2600,8 @@ extension AppSync {
 
     public struct UpdateTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
+            AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
+            AWSMemberEncoding(label: "typeName", location: .uri("typeName"))
         ]
 
         /// The API ID.

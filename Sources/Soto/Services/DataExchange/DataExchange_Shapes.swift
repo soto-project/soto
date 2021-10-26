@@ -230,7 +230,7 @@ extension DataExchange {
 
     public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The unique identifier for a job.
@@ -441,7 +441,7 @@ extension DataExchange {
 
     public struct CreateRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
         ]
 
         /// An optional comment about the revision.
@@ -567,9 +567,9 @@ extension DataExchange {
 
     public struct DeleteAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("AssetId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// The unique identifier for an asset.
@@ -590,7 +590,7 @@ extension DataExchange {
 
     public struct DeleteDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
         ]
 
         /// The unique identifier for a data set.
@@ -605,7 +605,7 @@ extension DataExchange {
 
     public struct DeleteEventActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventActionId", location: .uri(locationName: "EventActionId"))
+            AWSMemberEncoding(label: "eventActionId", location: .uri("EventActionId"))
         ]
 
         /// The unique identifier for the event action.
@@ -620,8 +620,8 @@ extension DataExchange {
 
     public struct DeleteRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// The unique identifier for a data set.
@@ -861,9 +861,9 @@ extension DataExchange {
 
     public struct GetAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("AssetId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// The unique identifier for an asset.
@@ -935,7 +935,7 @@ extension DataExchange {
 
     public struct GetDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
         ]
 
         /// The unique identifier for a data set.
@@ -1005,7 +1005,7 @@ extension DataExchange {
 
     public struct GetEventActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventActionId", location: .uri(locationName: "EventActionId"))
+            AWSMemberEncoding(label: "eventActionId", location: .uri("EventActionId"))
         ]
 
         /// The unique identifier for the event action.
@@ -1055,7 +1055,7 @@ extension DataExchange {
 
     public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The unique identifier for a job.
@@ -1113,8 +1113,8 @@ extension DataExchange {
 
     public struct GetRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// The unique identifier for a data set.
@@ -1377,9 +1377,9 @@ extension DataExchange {
 
     public struct ListDataSetRevisionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique identifier for a data set.
@@ -1422,9 +1422,9 @@ extension DataExchange {
 
     public struct ListDataSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "origin", location: .querystring(locationName: "origin"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "origin", location: .querystring("origin"))
         ]
 
         /// The maximum number of results returned by a single call.
@@ -1467,9 +1467,9 @@ extension DataExchange {
 
     public struct ListEventActionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventSourceId", location: .querystring(locationName: "eventSourceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "eventSourceId", location: .querystring("eventSourceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique identifier for the event source.
@@ -1512,10 +1512,10 @@ extension DataExchange {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .querystring(locationName: "dataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "revisionId"))
+            AWSMemberEncoding(label: "dataSetId", location: .querystring("dataSetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "revisionId", location: .querystring("revisionId"))
         ]
 
         /// The unique identifier for a data set.
@@ -1561,10 +1561,10 @@ extension DataExchange {
 
     public struct ListRevisionAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// The unique identifier for a data set.
@@ -1610,7 +1610,7 @@ extension DataExchange {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
@@ -1801,7 +1801,7 @@ extension DataExchange {
 
     public struct StartJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The unique identifier for a job.
@@ -1820,7 +1820,7 @@ extension DataExchange {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
@@ -1840,8 +1840,8 @@ extension DataExchange {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
@@ -1859,9 +1859,9 @@ extension DataExchange {
 
     public struct UpdateAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("AssetId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// The unique identifier for an asset.
@@ -1938,7 +1938,7 @@ extension DataExchange {
 
     public struct UpdateDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
         ]
 
         /// The unique identifier for a data set.
@@ -2013,7 +2013,7 @@ extension DataExchange {
 
     public struct UpdateEventActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventActionId", location: .uri(locationName: "EventActionId"))
+            AWSMemberEncoding(label: "eventActionId", location: .uri("EventActionId"))
         ]
 
         /// What occurs after a certain event.
@@ -2068,8 +2068,8 @@ extension DataExchange {
 
     public struct UpdateRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
         ]
 
         /// An optional comment about the revision.
