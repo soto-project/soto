@@ -358,7 +358,7 @@ extension DLM {
 
     public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyId", location: .uri(locationName: "PolicyId"))
+            AWSMemberEncoding(label: "policyId", location: .uri("PolicyId"))
         ]
 
         /// The identifier of the lifecycle policy.
@@ -536,11 +536,11 @@ extension DLM {
 
     public struct GetLifecyclePoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyIds", location: .querystring(locationName: "policyIds")),
-            AWSMemberEncoding(label: "resourceTypes", location: .querystring(locationName: "resourceTypes")),
-            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "tagsToAdd", location: .querystring(locationName: "tagsToAdd")),
-            AWSMemberEncoding(label: "targetTags", location: .querystring(locationName: "targetTags"))
+            AWSMemberEncoding(label: "policyIds", location: .querystring("policyIds")),
+            AWSMemberEncoding(label: "resourceTypes", location: .querystring("resourceTypes")),
+            AWSMemberEncoding(label: "state", location: .querystring("state")),
+            AWSMemberEncoding(label: "tagsToAdd", location: .querystring("tagsToAdd")),
+            AWSMemberEncoding(label: "targetTags", location: .querystring("targetTags"))
         ]
 
         /// The identifiers of the data lifecycle policies.
@@ -603,7 +603,7 @@ extension DLM {
 
     public struct GetLifecyclePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyId", location: .uri(locationName: "PolicyId"))
+            AWSMemberEncoding(label: "policyId", location: .uri("PolicyId"))
         ]
 
         /// The identifier of the lifecycle policy.
@@ -717,7 +717,7 @@ extension DLM {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1020,7 +1020,7 @@ extension DLM {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1058,8 +1058,8 @@ extension DLM {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1093,7 +1093,7 @@ extension DLM {
 
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyId", location: .uri(locationName: "PolicyId"))
+            AWSMemberEncoding(label: "policyId", location: .uri("PolicyId"))
         ]
 
         /// A description of the lifecycle policy.

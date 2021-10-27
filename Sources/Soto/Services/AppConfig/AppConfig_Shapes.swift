@@ -120,9 +120,9 @@ extension AppConfig {
         public static let _payloadPath: String = "content"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationVersion", location: .header(locationName: "Configuration-Version")),
-            AWSMemberEncoding(label: "content", location: .body(locationName: "Content")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "configurationVersion", location: .header("Configuration-Version")),
+            AWSMemberEncoding(label: "content", location: .body("Content")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// The configuration version.
@@ -263,7 +263,7 @@ extension AppConfig {
 
     public struct CreateConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The application ID.
@@ -385,7 +385,7 @@ extension AppConfig {
 
     public struct CreateEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The application ID.
@@ -437,11 +437,11 @@ extension AppConfig {
         public static let _payloadPath: String = "content"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "description", location: .header(locationName: "Description")),
-            AWSMemberEncoding(label: "latestVersionNumber", location: .header(locationName: "Latest-Version-Number"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "description", location: .header("Description")),
+            AWSMemberEncoding(label: "latestVersionNumber", location: .header("Latest-Version-Number"))
         ]
 
         /// The application ID.
@@ -479,7 +479,7 @@ extension AppConfig {
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The ID of the application to delete.
@@ -498,8 +498,8 @@ extension AppConfig {
 
     public struct DeleteConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId"))
         ]
 
         /// The application ID that includes the configuration profile you want to delete.
@@ -522,7 +522,7 @@ extension AppConfig {
 
     public struct DeleteDeploymentStrategyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
+            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri("DeploymentStrategyId"))
         ]
 
         /// The ID of the deployment strategy you want to delete.
@@ -541,8 +541,8 @@ extension AppConfig {
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
         ]
 
         /// The application ID that includes the environment you want to delete.
@@ -565,9 +565,9 @@ extension AppConfig {
 
     public struct DeleteHostedConfigurationVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
+            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
         ]
 
         /// The application ID.
@@ -882,7 +882,7 @@ extension AppConfig {
 
     public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The ID of the application you want to get.
@@ -901,8 +901,8 @@ extension AppConfig {
 
     public struct GetConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId"))
         ]
 
         /// The ID of the application that includes the configuration profile you want to get.
@@ -925,11 +925,11 @@ extension AppConfig {
 
     public struct GetConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "Application")),
-            AWSMemberEncoding(label: "clientConfigurationVersion", location: .querystring(locationName: "client_configuration_version")),
-            AWSMemberEncoding(label: "clientId", location: .querystring(locationName: "client_id")),
-            AWSMemberEncoding(label: "configuration", location: .uri(locationName: "Configuration")),
-            AWSMemberEncoding(label: "environment", location: .uri(locationName: "Environment"))
+            AWSMemberEncoding(label: "application", location: .uri("Application")),
+            AWSMemberEncoding(label: "clientConfigurationVersion", location: .querystring("client_configuration_version")),
+            AWSMemberEncoding(label: "clientId", location: .querystring("client_id")),
+            AWSMemberEncoding(label: "configuration", location: .uri("Configuration")),
+            AWSMemberEncoding(label: "environment", location: .uri("Environment"))
         ]
 
         /// The application to get. Specify either the application name or the application ID.
@@ -969,9 +969,9 @@ extension AppConfig {
 
     public struct GetDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "deploymentNumber", location: .uri(locationName: "DeploymentNumber")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "deploymentNumber", location: .uri("DeploymentNumber")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
         ]
 
         /// The ID of the application that includes the deployment you want to get.
@@ -997,7 +997,7 @@ extension AppConfig {
 
     public struct GetDeploymentStrategyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
+            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri("DeploymentStrategyId"))
         ]
 
         /// The ID of the deployment strategy to get.
@@ -1016,8 +1016,8 @@ extension AppConfig {
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
         ]
 
         /// The ID of the application that includes the environment you want to get.
@@ -1040,9 +1040,9 @@ extension AppConfig {
 
     public struct GetHostedConfigurationVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
+            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
         ]
 
         /// The application ID.
@@ -1071,12 +1071,12 @@ extension AppConfig {
         public static let _payloadPath: String = "content"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .header(locationName: "Application-Id")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .header(locationName: "Configuration-Profile-Id")),
-            AWSMemberEncoding(label: "content", location: .body(locationName: "Content")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "description", location: .header(locationName: "Description")),
-            AWSMemberEncoding(label: "versionNumber", location: .header(locationName: "Version-Number"))
+            AWSMemberEncoding(label: "applicationId", location: .header("Application-Id")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .header("Configuration-Profile-Id")),
+            AWSMemberEncoding(label: "content", location: .body("Content")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "description", location: .header("Description")),
+            AWSMemberEncoding(label: "versionNumber", location: .header("Version-Number"))
         ]
 
         /// The application ID.
@@ -1159,8 +1159,8 @@ extension AppConfig {
 
     public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1185,9 +1185,9 @@ extension AppConfig {
 
     public struct ListConfigurationProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The application ID.
@@ -1216,8 +1216,8 @@ extension AppConfig {
 
     public struct ListDeploymentStrategiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1242,10 +1242,10 @@ extension AppConfig {
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The application ID.
@@ -1278,9 +1278,9 @@ extension AppConfig {
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The application ID.
@@ -1309,10 +1309,10 @@ extension AppConfig {
 
     public struct ListHostedConfigurationVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The application ID.
@@ -1345,7 +1345,7 @@ extension AppConfig {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The resource ARN.
@@ -1405,8 +1405,8 @@ extension AppConfig {
 
     public struct StartDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
         ]
 
         /// The application ID.
@@ -1461,9 +1461,9 @@ extension AppConfig {
 
     public struct StopDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "deploymentNumber", location: .uri(locationName: "DeploymentNumber")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "deploymentNumber", location: .uri("DeploymentNumber")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
         ]
 
         /// The application ID.
@@ -1489,7 +1489,7 @@ extension AppConfig {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource for which to retrieve tags.
@@ -1521,8 +1521,8 @@ extension AppConfig {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource for which to remove tags.
@@ -1551,7 +1551,7 @@ extension AppConfig {
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The application ID.
@@ -1582,8 +1582,8 @@ extension AppConfig {
 
     public struct UpdateConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId"))
         ]
 
         /// The application ID.
@@ -1633,7 +1633,7 @@ extension AppConfig {
 
     public struct UpdateDeploymentStrategyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
+            AWSMemberEncoding(label: "deploymentStrategyId", location: .uri("DeploymentStrategyId"))
         ]
 
         /// Total amount of time for a deployment to last.
@@ -1681,8 +1681,8 @@ extension AppConfig {
 
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "environmentId", location: .uri("EnvironmentId"))
         ]
 
         /// The application ID.
@@ -1725,9 +1725,9 @@ extension AppConfig {
 
     public struct ValidateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")),
-            AWSMemberEncoding(label: "configurationVersion", location: .querystring(locationName: "configuration_version"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
+            AWSMemberEncoding(label: "configurationVersion", location: .querystring("configuration_version"))
         ]
 
         /// The application ID.

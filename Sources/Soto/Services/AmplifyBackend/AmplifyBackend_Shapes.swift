@@ -316,8 +316,8 @@ extension AmplifyBackend {
 
     public struct CloneBackendRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -373,7 +373,7 @@ extension AmplifyBackend {
 
     public struct CreateBackendAPIRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -539,7 +539,7 @@ extension AmplifyBackend {
 
     public struct CreateBackendAuthRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -662,7 +662,7 @@ extension AmplifyBackend {
 
     public struct CreateBackendConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -769,7 +769,7 @@ extension AmplifyBackend {
 
     public struct CreateTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -809,8 +809,8 @@ extension AmplifyBackend {
 
     public struct DeleteBackendAPIRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -870,8 +870,8 @@ extension AmplifyBackend {
 
     public struct DeleteBackendAuthRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -927,8 +927,8 @@ extension AmplifyBackend {
 
     public struct DeleteBackendRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -979,8 +979,8 @@ extension AmplifyBackend {
 
     public struct DeleteTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "SessionId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("SessionId"))
         ]
 
         /// The app ID.
@@ -1028,8 +1028,8 @@ extension AmplifyBackend {
 
     public struct GenerateBackendAPIModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1085,8 +1085,8 @@ extension AmplifyBackend {
 
     public struct GetBackendAPIModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1126,8 +1126,8 @@ extension AmplifyBackend {
 
     public struct GetBackendAPIRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1183,8 +1183,8 @@ extension AmplifyBackend {
 
     public struct GetBackendAuthRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1236,9 +1236,9 @@ extension AmplifyBackend {
 
     public struct GetBackendJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The app ID.
@@ -1300,7 +1300,7 @@ extension AmplifyBackend {
 
     public struct GetBackendRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -1353,8 +1353,8 @@ extension AmplifyBackend {
 
     public struct GetTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "SessionId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("SessionId"))
         ]
 
         /// The app ID.
@@ -1397,8 +1397,8 @@ extension AmplifyBackend {
 
     public struct ImportBackendAuthRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1466,8 +1466,8 @@ extension AmplifyBackend {
 
     public struct ListBackendJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1553,7 +1553,7 @@ extension AmplifyBackend {
 
     public struct RemoveAllBackendsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -1602,7 +1602,7 @@ extension AmplifyBackend {
 
     public struct RemoveBackendConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -1685,8 +1685,8 @@ extension AmplifyBackend {
 
     public struct UpdateBackendAPIRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1847,8 +1847,8 @@ extension AmplifyBackend {
 
     public struct UpdateBackendAuthRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
         ]
 
         /// The app ID.
@@ -1958,7 +1958,7 @@ extension AmplifyBackend {
 
     public struct UpdateBackendConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
         ]
 
         /// The app ID.
@@ -2003,9 +2003,9 @@ extension AmplifyBackend {
 
     public struct UpdateBackendJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "AppId")),
-            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "BackendEnvironmentName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The app ID.

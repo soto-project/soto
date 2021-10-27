@@ -841,7 +841,7 @@ extension IoTSiteWise {
 
     public struct AssociateAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
         ]
 
         /// The ID of the parent asset.
@@ -944,7 +944,7 @@ extension IoTSiteWise {
 
     public struct BatchAssociateProjectAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         /// The IDs of the assets to be associated to the project.
@@ -997,7 +997,7 @@ extension IoTSiteWise {
 
     public struct BatchDisassociateProjectAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         /// The IDs of the assets to be disassociated from the project.
@@ -1743,8 +1743,8 @@ extension IoTSiteWise {
 
     public struct DeleteAccessPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri(locationName: "accessPolicyId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
+            AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
         ]
 
         /// The ID of the access policy to be deleted.
@@ -1775,8 +1775,8 @@ extension IoTSiteWise {
 
     public struct DeleteAssetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri(locationName: "assetModelId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
+            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
         ]
 
         /// The ID of the asset model to delete.
@@ -1816,8 +1816,8 @@ extension IoTSiteWise {
 
     public struct DeleteAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
         ]
 
         /// The ID of the asset to delete.
@@ -1857,8 +1857,8 @@ extension IoTSiteWise {
 
     public struct DeleteDashboardRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "dashboardId"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "dashboardId", location: .uri("dashboardId"))
         ]
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -1889,7 +1889,7 @@ extension IoTSiteWise {
 
     public struct DeleteGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
+            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
         ]
 
         /// The ID of the gateway to delete.
@@ -1910,8 +1910,8 @@ extension IoTSiteWise {
 
     public struct DeletePortalRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "portalId", location: .uri("portalId"))
         ]
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -1951,8 +1951,8 @@ extension IoTSiteWise {
 
     public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -1983,7 +1983,7 @@ extension IoTSiteWise {
 
     public struct DescribeAccessPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri(locationName: "accessPolicyId"))
+            AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId"))
         ]
 
         /// The ID of the access policy.
@@ -2041,7 +2041,7 @@ extension IoTSiteWise {
 
     public struct DescribeAssetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri(locationName: "assetModelId"))
+            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId"))
         ]
 
         /// The ID of the asset model.
@@ -2111,8 +2111,8 @@ extension IoTSiteWise {
 
     public struct DescribeAssetPropertyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .uri(locationName: "propertyId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "propertyId", location: .uri("propertyId"))
         ]
 
         /// The ID of the asset.
@@ -2168,7 +2168,7 @@ extension IoTSiteWise {
 
     public struct DescribeAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
         ]
 
         /// The ID of the asset.
@@ -2238,7 +2238,7 @@ extension IoTSiteWise {
 
     public struct DescribeDashboardRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "dashboardId"))
+            AWSMemberEncoding(label: "dashboardId", location: .uri("dashboardId"))
         ]
 
         /// The ID of the dashboard.
@@ -2325,8 +2325,8 @@ extension IoTSiteWise {
 
     public struct DescribeGatewayCapabilityConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "capabilityNamespace", location: .uri(locationName: "capabilityNamespace")),
-            AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
+            AWSMemberEncoding(label: "capabilityNamespace", location: .uri("capabilityNamespace")),
+            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
         ]
 
         /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
@@ -2378,7 +2378,7 @@ extension IoTSiteWise {
 
     public struct DescribeGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
+            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
         ]
 
         /// The ID of the gateway device.
@@ -2453,7 +2453,7 @@ extension IoTSiteWise {
 
     public struct DescribePortalRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId"))
+            AWSMemberEncoding(label: "portalId", location: .uri("portalId"))
         ]
 
         /// The ID of the portal.
@@ -2543,7 +2543,7 @@ extension IoTSiteWise {
 
     public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         /// The ID of the project.
@@ -2646,7 +2646,7 @@ extension IoTSiteWise {
 
     public struct DisassociateAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
         ]
 
         /// The ID of the parent asset from which to disassociate the child asset.
@@ -2818,17 +2818,17 @@ extension IoTSiteWise {
 
     public struct GetAssetPropertyAggregatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "aggregateTypes", location: .querystring(locationName: "aggregateTypes")),
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")),
-            AWSMemberEncoding(label: "qualities", location: .querystring(locationName: "qualities")),
-            AWSMemberEncoding(label: "resolution", location: .querystring(locationName: "resolution")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")),
-            AWSMemberEncoding(label: "timeOrdering", location: .querystring(locationName: "timeOrdering"))
+            AWSMemberEncoding(label: "aggregateTypes", location: .querystring("aggregateTypes")),
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "endDate", location: .querystring("endDate")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId")),
+            AWSMemberEncoding(label: "qualities", location: .querystring("qualities")),
+            AWSMemberEncoding(label: "resolution", location: .querystring("resolution")),
+            AWSMemberEncoding(label: "startDate", location: .querystring("startDate")),
+            AWSMemberEncoding(label: "timeOrdering", location: .querystring("timeOrdering"))
         ]
 
         /// The data aggregating function.
@@ -2913,15 +2913,15 @@ extension IoTSiteWise {
 
     public struct GetAssetPropertyValueHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")),
-            AWSMemberEncoding(label: "qualities", location: .querystring(locationName: "qualities")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")),
-            AWSMemberEncoding(label: "timeOrdering", location: .querystring(locationName: "timeOrdering"))
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "endDate", location: .querystring("endDate")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId")),
+            AWSMemberEncoding(label: "qualities", location: .querystring("qualities")),
+            AWSMemberEncoding(label: "startDate", location: .querystring("startDate")),
+            AWSMemberEncoding(label: "timeOrdering", location: .querystring("timeOrdering"))
         ]
 
         /// The ID of the asset.
@@ -2996,9 +2996,9 @@ extension IoTSiteWise {
 
     public struct GetAssetPropertyValueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId"))
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
         ]
 
         /// The ID of the asset.
@@ -3044,19 +3044,19 @@ extension IoTSiteWise {
 
     public struct GetInterpolatedAssetPropertyValuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "endTimeInSeconds", location: .querystring(locationName: "endTimeInSeconds")),
-            AWSMemberEncoding(label: "endTimeOffsetInNanos", location: .querystring(locationName: "endTimeOffsetInNanos")),
-            AWSMemberEncoding(label: "intervalInSeconds", location: .querystring(locationName: "intervalInSeconds")),
-            AWSMemberEncoding(label: "intervalWindowInSeconds", location: .querystring(locationName: "intervalWindowInSeconds")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")),
-            AWSMemberEncoding(label: "quality", location: .querystring(locationName: "quality")),
-            AWSMemberEncoding(label: "startTimeInSeconds", location: .querystring(locationName: "startTimeInSeconds")),
-            AWSMemberEncoding(label: "startTimeOffsetInNanos", location: .querystring(locationName: "startTimeOffsetInNanos")),
-            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "endTimeInSeconds", location: .querystring("endTimeInSeconds")),
+            AWSMemberEncoding(label: "endTimeOffsetInNanos", location: .querystring("endTimeOffsetInNanos")),
+            AWSMemberEncoding(label: "intervalInSeconds", location: .querystring("intervalInSeconds")),
+            AWSMemberEncoding(label: "intervalWindowInSeconds", location: .querystring("intervalWindowInSeconds")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId")),
+            AWSMemberEncoding(label: "quality", location: .querystring("quality")),
+            AWSMemberEncoding(label: "startTimeInSeconds", location: .querystring("startTimeInSeconds")),
+            AWSMemberEncoding(label: "startTimeOffsetInNanos", location: .querystring("startTimeOffsetInNanos")),
+            AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
         /// The ID of the asset.
@@ -3357,13 +3357,13 @@ extension IoTSiteWise {
 
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "iamArn", location: .querystring(locationName: "iamArn")),
-            AWSMemberEncoding(label: "identityId", location: .querystring(locationName: "identityId")),
-            AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "identityType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "iamArn", location: .querystring("iamArn")),
+            AWSMemberEncoding(label: "identityId", location: .querystring("identityId")),
+            AWSMemberEncoding(label: "identityType", location: .querystring("identityType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceId", location: .querystring("resourceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide. This parameter is required if you specify IAM for identityType.
@@ -3430,8 +3430,8 @@ extension IoTSiteWise {
 
     public struct ListAssetModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return for each paginated request. Default: 50
@@ -3474,10 +3474,10 @@ extension IoTSiteWise {
 
     public struct ListAssetRelationshipsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "traversalType", location: .querystring(locationName: "traversalType"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "traversalType", location: .querystring("traversalType"))
         ]
 
         /// The ID of the asset.
@@ -3529,10 +3529,10 @@ extension IoTSiteWise {
 
     public struct ListAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .querystring(locationName: "assetModelId")),
-            AWSMemberEncoding(label: "filter", location: .querystring(locationName: "filter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assetModelId", location: .querystring("assetModelId")),
+            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ID of the asset model by which to filter the list of assets. This parameter is required if you choose ALL for filter.
@@ -3584,11 +3584,11 @@ extension IoTSiteWise {
 
     public struct ListAssociatedAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
-            AWSMemberEncoding(label: "hierarchyId", location: .querystring(locationName: "hierarchyId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "traversalDirection", location: .querystring(locationName: "traversalDirection"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "hierarchyId", location: .querystring("hierarchyId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "traversalDirection", location: .querystring("traversalDirection"))
         ]
 
         /// The ID of the asset to query.
@@ -3646,9 +3646,9 @@ extension IoTSiteWise {
 
     public struct ListDashboardsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
         ]
 
         /// The maximum number of results to return for each paginated request. Default: 50
@@ -3697,8 +3697,8 @@ extension IoTSiteWise {
 
     public struct ListGatewaysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return for each paginated request. Default: 50
@@ -3741,8 +3741,8 @@ extension IoTSiteWise {
 
     public struct ListPortalsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return for each paginated request. Default: 50
@@ -3785,9 +3785,9 @@ extension IoTSiteWise {
 
     public struct ListProjectAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         /// The maximum number of results to return for each paginated request. Default: 50
@@ -3836,9 +3836,9 @@ extension IoTSiteWise {
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "portalId", location: .querystring(locationName: "portalId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "portalId", location: .querystring("portalId"))
         ]
 
         /// The maximum number of results to return for each paginated request. Default: 50
@@ -3887,7 +3887,7 @@ extension IoTSiteWise {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -4436,7 +4436,7 @@ extension IoTSiteWise {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource to tag.
@@ -4565,8 +4565,8 @@ extension IoTSiteWise {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource to untag.
@@ -4598,7 +4598,7 @@ extension IoTSiteWise {
 
     public struct UpdateAccessPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri(locationName: "accessPolicyId"))
+            AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId"))
         ]
 
         /// The ID of the access policy.
@@ -4645,7 +4645,7 @@ extension IoTSiteWise {
 
     public struct UpdateAssetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri(locationName: "assetModelId"))
+            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId"))
         ]
 
         /// The composite asset models that are part of this asset model. Composite asset models are asset models that contain specific properties. Each composite model has a type that defines the properties that the composite model supports. Use composite asset models to define alarms on this asset model.
@@ -4722,8 +4722,8 @@ extension IoTSiteWise {
 
     public struct UpdateAssetPropertyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .uri(locationName: "propertyId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "propertyId", location: .uri("propertyId"))
         ]
 
         /// The ID of the asset to be updated.
@@ -4768,7 +4768,7 @@ extension IoTSiteWise {
 
     public struct UpdateAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
         ]
 
         /// The ID of the asset to update.
@@ -4817,7 +4817,7 @@ extension IoTSiteWise {
 
     public struct UpdateDashboardRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "dashboardId"))
+            AWSMemberEncoding(label: "dashboardId", location: .uri("dashboardId"))
         ]
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -4870,7 +4870,7 @@ extension IoTSiteWise {
 
     public struct UpdateGatewayCapabilityConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
+            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
         ]
 
         /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
@@ -4922,7 +4922,7 @@ extension IoTSiteWise {
 
     public struct UpdateGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
+            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
         ]
 
         /// The ID of the gateway to update.
@@ -4951,7 +4951,7 @@ extension IoTSiteWise {
 
     public struct UpdatePortalRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId"))
+            AWSMemberEncoding(label: "portalId", location: .uri("portalId"))
         ]
 
         /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal.  You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range.  For more information, see Monitoring with alarms in the IoT SiteWise Application Guide.
@@ -5037,7 +5037,7 @@ extension IoTSiteWise {
 
     public struct UpdateProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.

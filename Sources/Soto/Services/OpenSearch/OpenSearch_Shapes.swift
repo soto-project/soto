@@ -333,7 +333,7 @@ extension OpenSearch {
 
     public struct AcceptInboundConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         /// The ID of the inbound connection you want to accept.
@@ -512,8 +512,8 @@ extension OpenSearch {
 
     public struct AssociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// The name of the domain to associate the package with.
@@ -1120,7 +1120,7 @@ extension OpenSearch {
 
     public struct DeleteDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The name of the domain you want to permanently delete.
@@ -1154,7 +1154,7 @@ extension OpenSearch {
 
     public struct DeleteInboundConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         /// The ID of the inbound connection to permanently delete.
@@ -1188,7 +1188,7 @@ extension OpenSearch {
 
     public struct DeleteOutboundConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         /// The ID of the outbound connection you want to permanently delete.
@@ -1222,7 +1222,7 @@ extension OpenSearch {
 
     public struct DeletePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// The internal ID of the package you want to delete. Use DescribePackages to find this value.
@@ -1250,7 +1250,7 @@ extension OpenSearch {
 
     public struct DescribeDomainAutoTunesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The domain name for which you want Auto-Tune action details.
@@ -1298,7 +1298,7 @@ extension OpenSearch {
 
     public struct DescribeDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The domain you want to get information about.
@@ -1332,7 +1332,7 @@ extension OpenSearch {
 
     public struct DescribeDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The name of the domain for which you want information.
@@ -1445,9 +1445,9 @@ extension OpenSearch {
 
     public struct DescribeInstanceTypeLimitsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")),
-            AWSMemberEncoding(label: "engineVersion", location: .uri(locationName: "EngineVersion")),
-            AWSMemberEncoding(label: "instanceType", location: .uri(locationName: "InstanceType"))
+            AWSMemberEncoding(label: "domainName", location: .querystring("domainName")),
+            AWSMemberEncoding(label: "engineVersion", location: .uri("EngineVersion")),
+            AWSMemberEncoding(label: "instanceType", location: .uri("InstanceType"))
         ]
 
         ///  The name of the domain you want to modify. Only include this value if you're querying OpenSearch  Limits  for an existing domain.
@@ -1601,9 +1601,9 @@ extension OpenSearch {
 
     public struct DescribeReservedInstanceOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "reservedInstanceOfferingId", location: .querystring(locationName: "offeringId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "reservedInstanceOfferingId", location: .querystring("offeringId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -1648,9 +1648,9 @@ extension OpenSearch {
 
     public struct DescribeReservedInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "reservedInstanceId", location: .querystring(locationName: "reservationId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "reservedInstanceId", location: .querystring("reservationId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -1695,8 +1695,8 @@ extension OpenSearch {
 
     public struct DissociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// The name of the domain to associate the package with.
@@ -2182,7 +2182,7 @@ extension OpenSearch {
 
     public struct GetCompatibleVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName"))
+            AWSMemberEncoding(label: "domainName", location: .querystring("domainName"))
         ]
 
         public let domainName: String?
@@ -2215,9 +2215,9 @@ extension OpenSearch {
 
     public struct GetPackageVersionHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Limits results to a maximum number of package versions.
@@ -2261,9 +2261,9 @@ extension OpenSearch {
 
     public struct GetUpgradeHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         public let domainName: String
@@ -2305,7 +2305,7 @@ extension OpenSearch {
 
     public struct GetUpgradeStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         public let domainName: String
@@ -2465,7 +2465,7 @@ extension OpenSearch {
 
     public struct ListDomainNamesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType"))
+            AWSMemberEncoding(label: "engineType", location: .querystring("engineType"))
         ]
 
         ///  Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'.
@@ -2493,9 +2493,9 @@ extension OpenSearch {
 
     public struct ListDomainsForPackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Limits the results to a maximum number of domains.
@@ -2536,10 +2536,10 @@ extension OpenSearch {
 
     public struct ListInstanceTypeDetailsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")),
-            AWSMemberEncoding(label: "engineVersion", location: .uri(locationName: "EngineVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .querystring("domainName")),
+            AWSMemberEncoding(label: "engineVersion", location: .uri("EngineVersion")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         public let domainName: String?
@@ -2584,9 +2584,9 @@ extension OpenSearch {
 
     public struct ListPackagesForDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the domain for which you want to list associated packages.
@@ -2631,7 +2631,7 @@ extension OpenSearch {
 
     public struct ListTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
         /// Specify the ARN of the domain that the tags you want to view are attached to.
@@ -2665,8 +2665,8 @@ extension OpenSearch {
 
     public struct ListVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Set this value to limit the number of results returned. Value must be greater than 10 or it won't be honored.
@@ -3032,7 +3032,7 @@ extension OpenSearch {
 
     public struct RejectInboundConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         /// The ID of the inbound connection to reject.
@@ -3482,7 +3482,7 @@ extension OpenSearch {
 
     public struct UpdateDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// IAM access policy as a JSON-formatted string.

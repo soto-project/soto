@@ -96,7 +96,7 @@ extension ConnectParticipant {
 
     public struct CompleteAttachmentUploadRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// A list of unique identifiers for the attachments.
@@ -154,7 +154,7 @@ extension ConnectParticipant {
 
     public struct CreateParticipantConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "participantToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "participantToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// This is a header parameter. The Participant Token as obtained from StartChatContact API response.
@@ -197,7 +197,7 @@ extension ConnectParticipant {
 
     public struct DisconnectParticipantRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -227,7 +227,7 @@ extension ConnectParticipant {
 
     public struct GetAttachmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// A unique identifier for the attachment.
@@ -271,7 +271,7 @@ extension ConnectParticipant {
 
     public struct GetTranscriptRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// The authentication token associated with the participant's connection.
@@ -389,7 +389,7 @@ extension ConnectParticipant {
 
     public struct SendEventRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -445,7 +445,7 @@ extension ConnectParticipant {
 
     public struct SendMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -500,7 +500,7 @@ extension ConnectParticipant {
 
     public struct StartAttachmentUploadRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
         /// A case-sensitive name of the attachment being uploaded.

@@ -112,7 +112,7 @@ extension Schemas {
 
     public struct CreateRegistryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
         ]
 
         /// A description of the registry to be created.
@@ -165,8 +165,8 @@ extension Schemas {
 
     public struct CreateSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
         ]
 
         /// The source of the schema definition.
@@ -249,7 +249,7 @@ extension Schemas {
 
     public struct DeleteDiscovererRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri(locationName: "DiscovererId"))
+            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
         ]
 
         /// The ID of the discoverer.
@@ -264,7 +264,7 @@ extension Schemas {
 
     public struct DeleteRegistryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
         ]
 
         /// The name of the registry.
@@ -279,7 +279,7 @@ extension Schemas {
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .querystring(locationName: "registryName"))
+            AWSMemberEncoding(label: "registryName", location: .querystring("registryName"))
         ]
 
         /// The name of the registry.
@@ -294,8 +294,8 @@ extension Schemas {
 
     public struct DeleteSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
         ]
 
         /// The name of the registry.
@@ -313,9 +313,9 @@ extension Schemas {
 
     public struct DeleteSchemaVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .uri(locationName: "SchemaVersion"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .uri("SchemaVersion"))
         ]
 
         /// The name of the registry.
@@ -336,10 +336,10 @@ extension Schemas {
 
     public struct DescribeCodeBindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri(locationName: "Language")),
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
+            AWSMemberEncoding(label: "language", location: .uri("Language")),
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
         ]
 
         /// The language of the code binding.
@@ -390,7 +390,7 @@ extension Schemas {
 
     public struct DescribeDiscovererRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri(locationName: "DiscovererId"))
+            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
         ]
 
         /// The ID of the discoverer.
@@ -442,7 +442,7 @@ extension Schemas {
 
     public struct DescribeRegistryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
         ]
 
         /// The name of the registry.
@@ -482,9 +482,9 @@ extension Schemas {
 
     public struct DescribeSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
         ]
 
         /// The name of the registry.
@@ -585,10 +585,10 @@ extension Schemas {
 
     public struct ExportSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion")),
-            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion")),
+            AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
         /// The name of the registry.
@@ -635,10 +635,10 @@ extension Schemas {
 
     public struct GetCodeBindingSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri(locationName: "Language")),
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
+            AWSMemberEncoding(label: "language", location: .uri("Language")),
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
         ]
 
         /// The language of the code binding.
@@ -665,7 +665,7 @@ extension Schemas {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"))
+            AWSMemberEncoding(label: "body", location: .body("Body"))
         ]
 
         public let body: AWSPayload?
@@ -720,7 +720,7 @@ extension Schemas {
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .querystring(locationName: "registryName"))
+            AWSMemberEncoding(label: "registryName", location: .querystring("registryName"))
         ]
 
         /// The name of the registry.
@@ -752,10 +752,10 @@ extension Schemas {
 
     public struct ListDiscoverersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererIdPrefix", location: .querystring(locationName: "discovererIdPrefix")),
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "sourceArnPrefix", location: .querystring(locationName: "sourceArnPrefix"))
+            AWSMemberEncoding(label: "discovererIdPrefix", location: .querystring("discovererIdPrefix")),
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "sourceArnPrefix", location: .querystring("sourceArnPrefix"))
         ]
 
         /// Specifying this limits the results to only those discoverer IDs that start with the specified prefix.
@@ -795,10 +795,10 @@ extension Schemas {
 
     public struct ListRegistriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "registryNamePrefix", location: .querystring(locationName: "registryNamePrefix")),
-            AWSMemberEncoding(label: "scope", location: .querystring(locationName: "scope"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registryNamePrefix", location: .querystring("registryNamePrefix")),
+            AWSMemberEncoding(label: "scope", location: .querystring("scope"))
         ]
 
         public let limit: Int?
@@ -838,10 +838,10 @@ extension Schemas {
 
     public struct ListSchemaVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
         ]
 
         public let limit: Int?
@@ -881,10 +881,10 @@ extension Schemas {
 
     public struct ListSchemasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaNamePrefix", location: .querystring(locationName: "schemaNamePrefix"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaNamePrefix", location: .querystring("schemaNamePrefix"))
         ]
 
         public let limit: Int?
@@ -924,7 +924,7 @@ extension Schemas {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -951,10 +951,10 @@ extension Schemas {
 
     public struct PutCodeBindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri(locationName: "Language")),
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
+            AWSMemberEncoding(label: "language", location: .uri("Language")),
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
         ]
 
         /// The language of the code binding.
@@ -1005,7 +1005,7 @@ extension Schemas {
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .querystring(locationName: "registryName"))
+            AWSMemberEncoding(label: "registryName", location: .querystring("registryName"))
         ]
 
         /// The resource-based policy.
@@ -1169,10 +1169,10 @@ extension Schemas {
 
     public struct SearchSchemasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "keywords", location: .querystring(locationName: "keywords")),
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName"))
+            AWSMemberEncoding(label: "keywords", location: .querystring("keywords")),
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
         ]
 
         /// Specifying this limits the results to only schemas that include the provided keywords.
@@ -1212,7 +1212,7 @@ extension Schemas {
 
     public struct StartDiscovererRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri(locationName: "DiscovererId"))
+            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
         ]
 
         /// The ID of the discoverer.
@@ -1244,7 +1244,7 @@ extension Schemas {
 
     public struct StopDiscovererRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri(locationName: "DiscovererId"))
+            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
         ]
 
         /// The ID of the discoverer.
@@ -1276,7 +1276,7 @@ extension Schemas {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -1296,8 +1296,8 @@ extension Schemas {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -1315,7 +1315,7 @@ extension Schemas {
 
     public struct UpdateDiscovererRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri(locationName: "DiscovererId"))
+            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
         ]
 
         /// Support discovery of schemas in events sent to the bus from another account. (default: true)
@@ -1380,7 +1380,7 @@ extension Schemas {
 
     public struct UpdateRegistryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
         ]
 
         /// The description of the registry to update.
@@ -1429,8 +1429,8 @@ extension Schemas {
 
     public struct UpdateSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "SchemaName"))
+            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
         ]
 
         /// The ID of the client token.

@@ -25,9 +25,9 @@ extension IoT1ClickProjects {
 
     public struct AssociateDeviceWithPlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName")),
-            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "deviceTemplateName", location: .uri("deviceTemplateName")),
+            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
@@ -71,7 +71,7 @@ extension IoT1ClickProjects {
 
     public struct CreatePlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
@@ -158,8 +158,8 @@ extension IoT1ClickProjects {
 
     public struct DeletePlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The name of the empty placement to delete.
@@ -190,7 +190,7 @@ extension IoT1ClickProjects {
 
     public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The name of the empty project to delete.
@@ -215,8 +215,8 @@ extension IoT1ClickProjects {
 
     public struct DescribePlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The name of the placement within a project.
@@ -256,7 +256,7 @@ extension IoT1ClickProjects {
 
     public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The name of the project to be described.
@@ -316,9 +316,9 @@ extension IoT1ClickProjects {
 
     public struct DisassociateDeviceFromPlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName")),
-            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "deviceTemplateName", location: .uri("deviceTemplateName")),
+            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The device ID that should be removed from the placement.
@@ -355,8 +355,8 @@ extension IoT1ClickProjects {
 
     public struct GetDevicesInPlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The name of the placement to get the devices from.
@@ -396,9 +396,9 @@ extension IoT1ClickProjects {
 
     public struct ListPlacementsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
@@ -446,8 +446,8 @@ extension IoT1ClickProjects {
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
@@ -489,7 +489,7 @@ extension IoT1ClickProjects {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to list.
@@ -672,7 +672,7 @@ extension IoT1ClickProjects {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resouce for which tag(s) should be added or modified.
@@ -708,8 +708,8 @@ extension IoT1ClickProjects {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource whose tag you want to remove.
@@ -742,8 +742,8 @@ extension IoT1ClickProjects {
 
     public struct UpdatePlacementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "placementName", location: .uri("placementName")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
@@ -784,7 +784,7 @@ extension IoT1ClickProjects {
 
     public struct UpdateProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName"))
         ]
 
         /// An optional user-defined description for the project.

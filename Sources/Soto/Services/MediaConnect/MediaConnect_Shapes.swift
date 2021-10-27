@@ -174,7 +174,7 @@ extension MediaConnect {
 
     public struct AddFlowMediaStreamsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the flow.
@@ -211,7 +211,7 @@ extension MediaConnect {
 
     public struct AddFlowOutputsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The flow that you want to add outputs to.
@@ -248,7 +248,7 @@ extension MediaConnect {
 
     public struct AddFlowSourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The flow that you want to mutate.
@@ -285,7 +285,7 @@ extension MediaConnect {
 
     public struct AddFlowVpcInterfacesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The flow that you want to mutate.
@@ -478,7 +478,7 @@ extension MediaConnect {
 
     public struct DeleteFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The ARN of the flow that you want to delete.
@@ -510,7 +510,7 @@ extension MediaConnect {
 
     public struct DescribeFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The ARN of the flow that you want to describe.
@@ -540,7 +540,7 @@ extension MediaConnect {
 
     public struct DescribeOfferingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "offeringArn", location: .uri(locationName: "OfferingArn"))
+            AWSMemberEncoding(label: "offeringArn", location: .uri("OfferingArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the offering.
@@ -567,7 +567,7 @@ extension MediaConnect {
 
     public struct DescribeReservationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reservationArn", location: .uri(locationName: "ReservationArn"))
+            AWSMemberEncoding(label: "reservationArn", location: .uri("ReservationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the reservation.
@@ -945,7 +945,7 @@ extension MediaConnect {
 
     public struct GrantFlowEntitlementsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The list of entitlements that you want to grant.
@@ -1046,8 +1046,8 @@ extension MediaConnect {
 
     public struct ListEntitlementsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
@@ -1087,8 +1087,8 @@ extension MediaConnect {
 
     public struct ListFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
@@ -1128,8 +1128,8 @@ extension MediaConnect {
 
     public struct ListOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
@@ -1169,8 +1169,8 @@ extension MediaConnect {
 
     public struct ListReservationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
@@ -1210,7 +1210,7 @@ extension MediaConnect {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags.
@@ -1574,7 +1574,7 @@ extension MediaConnect {
 
     public struct PurchaseOfferingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "offeringArn", location: .uri(locationName: "OfferingArn"))
+            AWSMemberEncoding(label: "offeringArn", location: .uri("OfferingArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the offering.
@@ -1610,8 +1610,8 @@ extension MediaConnect {
 
     public struct RemoveFlowMediaStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "mediaStreamName", location: .uri(locationName: "MediaStreamName"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "mediaStreamName", location: .uri("MediaStreamName"))
         ]
 
         /// The Amazon Resource Name (ARN) of the flow.
@@ -1646,8 +1646,8 @@ extension MediaConnect {
 
     public struct RemoveFlowOutputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "outputArn", location: .uri(locationName: "OutputArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "outputArn", location: .uri("OutputArn"))
         ]
 
         /// The flow that you want to remove an output from.
@@ -1682,8 +1682,8 @@ extension MediaConnect {
 
     public struct RemoveFlowSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "sourceArn", location: .uri(locationName: "SourceArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "sourceArn", location: .uri("SourceArn"))
         ]
 
         /// The flow that you want to remove a source from.
@@ -1718,8 +1718,8 @@ extension MediaConnect {
 
     public struct RemoveFlowVpcInterfaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "vpcInterfaceName", location: .uri(locationName: "VpcInterfaceName"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "vpcInterfaceName", location: .uri("VpcInterfaceName"))
         ]
 
         /// The flow that you want to remove a VPC interface from.
@@ -1836,8 +1836,8 @@ extension MediaConnect {
 
     public struct RevokeFlowEntitlementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "EntitlementArn")),
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "entitlementArn", location: .uri("EntitlementArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The ARN of the entitlement that you want to revoke.
@@ -2007,7 +2007,7 @@ extension MediaConnect {
 
     public struct StartFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The ARN of the flow that you want to start.
@@ -2039,7 +2039,7 @@ extension MediaConnect {
 
     public struct StopFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The ARN of the flow that you want to stop.
@@ -2071,7 +2071,7 @@ extension MediaConnect {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource to which to add tags.
@@ -2136,8 +2136,8 @@ extension MediaConnect {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource from which to delete tags.
@@ -2224,8 +2224,8 @@ extension MediaConnect {
 
     public struct UpdateFlowEntitlementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "EntitlementArn")),
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "entitlementArn", location: .uri("EntitlementArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
@@ -2277,8 +2277,8 @@ extension MediaConnect {
 
     public struct UpdateFlowMediaStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "mediaStreamName", location: .uri(locationName: "MediaStreamName"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "mediaStreamName", location: .uri("MediaStreamName"))
         ]
 
         /// The attributes that you want to assign to the media stream.
@@ -2334,8 +2334,8 @@ extension MediaConnect {
 
     public struct UpdateFlowOutputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "outputArn", location: .uri(locationName: "OutputArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "outputArn", location: .uri("OutputArn"))
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -2423,7 +2423,7 @@ extension MediaConnect {
 
     public struct UpdateFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
         ]
 
         /// The flow that you want to update.
@@ -2454,8 +2454,8 @@ extension MediaConnect {
 
     public struct UpdateFlowSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "FlowArn")),
-            AWSMemberEncoding(label: "sourceArn", location: .uri(locationName: "SourceArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn")),
+            AWSMemberEncoding(label: "sourceArn", location: .uri("SourceArn"))
         ]
 
         /// The type of encryption used on the content ingested from this source.

@@ -61,8 +61,8 @@ extension LookoutVision {
 
     public struct CreateDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to CreateDataset completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from CreateDataset. In this case, safely retry your call to CreateDataset by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateDataset. An idempotency token is active for 8 hours.
@@ -115,8 +115,8 @@ extension LookoutVision {
 
     public struct CreateModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
@@ -184,7 +184,7 @@ extension LookoutVision {
 
     public struct CreateProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
@@ -346,9 +346,9 @@ extension LookoutVision {
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "datasetType", location: .uri(locationName: "DatasetType")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
@@ -385,9 +385,9 @@ extension LookoutVision {
 
     public struct DeleteModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri(locationName: "ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
@@ -433,8 +433,8 @@ extension LookoutVision {
 
     public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to DeleteProject completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from DeleteProject. In this case, safely retry your call to DeleteProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8 hours.
@@ -474,8 +474,8 @@ extension LookoutVision {
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetType", location: .uri(locationName: "DatasetType")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// The type of the dataset to describe. Specify train to describe the  training dataset. Specify test to describe the test dataset. If you have a single dataset project, specify train
@@ -515,8 +515,8 @@ extension LookoutVision {
 
     public struct DescribeModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "modelVersion", location: .uri(locationName: "ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// The version of the model that you want to describe.
@@ -556,7 +556,7 @@ extension LookoutVision {
 
     public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// The name of the project that you want to describe.
@@ -593,9 +593,9 @@ extension LookoutVision {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri(locationName: "ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// The unencrypted image bytes that you want to analyze.
@@ -711,15 +711,15 @@ extension LookoutVision {
 
     public struct ListDatasetEntriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "afterCreationDate", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "anomalyClass", location: .querystring(locationName: "anomalyClass")),
-            AWSMemberEncoding(label: "beforeCreationDate", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "datasetType", location: .uri(locationName: "DatasetType")),
-            AWSMemberEncoding(label: "labeled", location: .querystring(locationName: "labeled")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName")),
-            AWSMemberEncoding(label: "sourceRefContains", location: .querystring(locationName: "sourceRefContains"))
+            AWSMemberEncoding(label: "afterCreationDate", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "anomalyClass", location: .querystring("anomalyClass")),
+            AWSMemberEncoding(label: "beforeCreationDate", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
+            AWSMemberEncoding(label: "labeled", location: .querystring("labeled")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName")),
+            AWSMemberEncoding(label: "sourceRefContains", location: .querystring("sourceRefContains"))
         ]
 
         /// Only includes entries after the specified date in the response. For example, 2020-06-23T00:00:00.
@@ -794,9 +794,9 @@ extension LookoutVision {
 
     public struct ListModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
@@ -844,8 +844,8 @@ extension LookoutVision {
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
@@ -887,7 +887,7 @@ extension LookoutVision {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the model for which you want to list tags.
@@ -1140,9 +1140,9 @@ extension LookoutVision {
 
     public struct StartModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri(locationName: "ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
@@ -1194,9 +1194,9 @@ extension LookoutVision {
 
     public struct StopModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri(locationName: "ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// ClientToken is an idempotency token that ensures a call to StopModel completes only once.  You choose the value to pass. For example, An issue,  such as an network outage, might prevent you from getting a response from StopModel. In this case, safely retry your call to StopModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StopModel. An idempotency token is active for 8 hours.
@@ -1267,7 +1267,7 @@ extension LookoutVision {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the model to assign the tags.
@@ -1300,8 +1300,8 @@ extension LookoutVision {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the model from which you want to remove tags.
@@ -1334,9 +1334,9 @@ extension LookoutVision {
 
     public struct UpdateDatasetEntriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "datasetType", location: .uri(locationName: "DatasetType")),
-            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "ProjectName"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
+            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
         ]
 
         /// The entries to add to the dataset.

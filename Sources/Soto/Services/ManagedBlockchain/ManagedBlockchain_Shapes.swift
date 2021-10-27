@@ -134,7 +134,7 @@ extension ManagedBlockchain {
 
     public struct CreateMemberInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -266,7 +266,7 @@ extension ManagedBlockchain {
 
     public struct CreateNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -326,7 +326,7 @@ extension ManagedBlockchain {
 
     public struct CreateProposalInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
@@ -392,8 +392,8 @@ extension ManagedBlockchain {
 
     public struct DeleteMemberInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "MemberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// The unique identifier of the member to remove.
@@ -422,9 +422,9 @@ extension ManagedBlockchain {
 
     public struct DeleteNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "memberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "NodeId"))
+            AWSMemberEncoding(label: "memberId", location: .querystring("memberId")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId"))
         ]
 
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
@@ -458,8 +458,8 @@ extension ManagedBlockchain {
 
     public struct GetMemberInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "MemberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// The unique identifier of the member.
@@ -497,7 +497,7 @@ extension ManagedBlockchain {
 
     public struct GetNetworkInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// The unique identifier of the network to get information about.
@@ -530,9 +530,9 @@ extension ManagedBlockchain {
 
     public struct GetNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "memberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "NodeId"))
+            AWSMemberEncoding(label: "memberId", location: .querystring("memberId")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId"))
         ]
 
         /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
@@ -575,8 +575,8 @@ extension ManagedBlockchain {
 
     public struct GetProposalInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "ProposalId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "proposalId", location: .uri("ProposalId"))
         ]
 
         /// The unique identifier of the network for which the proposal is made.
@@ -661,8 +661,8 @@ extension ManagedBlockchain {
 
     public struct ListInvitationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of invitations to return.
@@ -703,12 +703,12 @@ extension ManagedBlockchain {
 
     public struct ListMembersInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "isOwned", location: .querystring(locationName: "isOwned")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "isOwned", location: .querystring("isOwned")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (true) or that other AWS accounts own (false). If omitted, all members are listed.
@@ -763,11 +763,11 @@ extension ManagedBlockchain {
 
     public struct ListNetworksInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "framework", location: .querystring(locationName: "framework")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "framework", location: .querystring("framework")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// An optional framework specifier. If provided, only networks of this framework type are listed.
@@ -817,11 +817,11 @@ extension ManagedBlockchain {
 
     public struct ListNodesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "memberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "memberId", location: .querystring("memberId")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// The maximum number of nodes to list.
@@ -875,10 +875,10 @@ extension ManagedBlockchain {
 
     public struct ListProposalVotesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "ProposalId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "proposalId", location: .uri("ProposalId"))
         ]
 
         ///  The maximum number of votes to return.
@@ -929,9 +929,9 @@ extension ManagedBlockchain {
 
     public struct ListProposalsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The maximum number of proposals to return.
@@ -977,7 +977,7 @@ extension ManagedBlockchain {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
@@ -1786,7 +1786,7 @@ extension ManagedBlockchain {
 
     public struct RejectInvitationInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "invitationId", location: .uri(locationName: "InvitationId"))
+            AWSMemberEncoding(label: "invitationId", location: .uri("InvitationId"))
         ]
 
         /// The unique identifier of the invitation to reject.
@@ -1828,7 +1828,7 @@ extension ManagedBlockchain {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
@@ -1864,8 +1864,8 @@ extension ManagedBlockchain {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
@@ -1898,8 +1898,8 @@ extension ManagedBlockchain {
 
     public struct UpdateMemberInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "MemberId")),
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId"))
+            AWSMemberEncoding(label: "memberId", location: .uri("MemberId")),
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
         /// Configuration properties for publishing to Amazon CloudWatch Logs.
@@ -1933,8 +1933,8 @@ extension ManagedBlockchain {
 
     public struct UpdateNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "NodeId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId"))
         ]
 
         /// Configuration properties for publishing to Amazon CloudWatch Logs.
@@ -1974,8 +1974,8 @@ extension ManagedBlockchain {
 
     public struct VoteOnProposalInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "NetworkId")),
-            AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "ProposalId"))
+            AWSMemberEncoding(label: "networkId", location: .uri("NetworkId")),
+            AWSMemberEncoding(label: "proposalId", location: .uri("ProposalId"))
         ]
 
         ///  The unique identifier of the network.

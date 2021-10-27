@@ -467,9 +467,9 @@ extension S3Control {
 
     public struct CreateAccessPointForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The Amazon Web Services account ID for owner of the specified Object Lambda Access Point.
@@ -514,9 +514,9 @@ extension S3Control {
 
     public struct CreateAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the bucket for which you want to create an access point.
@@ -590,16 +590,16 @@ extension S3Control {
         public static let _payloadPath: String = "createBucketConfiguration"
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "createBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header(locationName: "x-amz-bucket-object-lock-enabled")),
-            AWSMemberEncoding(label: "outpostId", location: .header(locationName: "x-amz-outpost-id"))
+            AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
+            AWSMemberEncoding(label: "createBucketConfiguration", location: .body("CreateBucketConfiguration")),
+            AWSMemberEncoding(label: "grantFullControl", location: .header("x-amz-grant-full-control")),
+            AWSMemberEncoding(label: "grantRead", location: .header("x-amz-grant-read")),
+            AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
+            AWSMemberEncoding(label: "grantWrite", location: .header("x-amz-grant-write")),
+            AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
+            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header("x-amz-bucket-object-lock-enabled")),
+            AWSMemberEncoding(label: "outpostId", location: .header("x-amz-outpost-id"))
         ]
 
         /// The canned ACL to apply to the bucket.  This is not supported by Amazon S3 on Outposts buckets.
@@ -650,7 +650,7 @@ extension S3Control {
 
     public struct CreateBucketResult: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
@@ -671,8 +671,8 @@ extension S3Control {
 
     public struct CreateJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
         ]
 
         /// The Amazon Web Services account ID that creates the job.
@@ -790,8 +790,8 @@ extension S3Control {
     public struct CreateMultiRegionAccessPointRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets.
@@ -836,9 +836,9 @@ extension S3Control {
 
     public struct DeleteAccessPointForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -864,9 +864,9 @@ extension S3Control {
 
     public struct DeleteAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -892,9 +892,9 @@ extension S3Control {
 
     public struct DeleteAccessPointPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified access point.
@@ -919,9 +919,9 @@ extension S3Control {
 
     public struct DeleteAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified access point.
@@ -946,9 +946,9 @@ extension S3Control {
 
     public struct DeleteBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The account ID of the lifecycle configuration to delete.
@@ -973,9 +973,9 @@ extension S3Control {
 
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The account ID of the Outposts bucket.
@@ -1000,9 +1000,9 @@ extension S3Control {
 
     public struct DeleteBucketRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The account ID that owns the Outposts bucket.
@@ -1027,9 +1027,9 @@ extension S3Control {
 
     public struct DeleteBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket tag set to be removed.
@@ -1054,9 +1054,9 @@ extension S3Control {
 
     public struct DeleteJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -1105,8 +1105,8 @@ extension S3Control {
     public struct DeleteMultiRegionAccessPointRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -1151,8 +1151,8 @@ extension S3Control {
 
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
         ]
 
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
@@ -1172,9 +1172,9 @@ extension S3Control {
 
     public struct DeleteStorageLensConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "ConfigId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
 
         /// The account ID of the requester.
@@ -1200,9 +1200,9 @@ extension S3Control {
 
     public struct DeleteStorageLensConfigurationTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "ConfigId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
 
         /// The account ID of the requester.
@@ -1232,9 +1232,9 @@ extension S3Control {
 
     public struct DescribeJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -1274,9 +1274,9 @@ extension S3Control {
     public struct DescribeMultiRegionAccessPointOperationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "requestTokenARN", location: .uri(locationName: "RequestTokenARN"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "requestTokenARN", location: .uri("RequestTokenARN"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -1363,9 +1363,9 @@ extension S3Control {
 
     public struct GetAccessPointConfigurationForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1404,9 +1404,9 @@ extension S3Control {
 
     public struct GetAccessPointForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1453,9 +1453,9 @@ extension S3Control {
 
     public struct GetAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1494,9 +1494,9 @@ extension S3Control {
 
     public struct GetAccessPointPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified access point.
@@ -1534,9 +1534,9 @@ extension S3Control {
 
     public struct GetAccessPointPolicyStatusForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1574,9 +1574,9 @@ extension S3Control {
 
     public struct GetAccessPointPolicyStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified access point.
@@ -1614,9 +1614,9 @@ extension S3Control {
 
     public struct GetAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified access point.
@@ -1686,9 +1686,9 @@ extension S3Control {
 
     public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -1729,9 +1729,9 @@ extension S3Control {
 
     public struct GetBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -1769,9 +1769,9 @@ extension S3Control {
 
     public struct GetBucketRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -1816,9 +1816,9 @@ extension S3Control {
 
     public struct GetBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -1857,9 +1857,9 @@ extension S3Control {
 
     public struct GetJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -1900,9 +1900,9 @@ extension S3Control {
     public struct GetMultiRegionAccessPointPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -1941,9 +1941,9 @@ extension S3Control {
     public struct GetMultiRegionAccessPointPolicyStatusRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -1981,9 +1981,9 @@ extension S3Control {
     public struct GetMultiRegionAccessPointRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2023,7 +2023,7 @@ extension S3Control {
         /// The key for the payload
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
+            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body("PublicAccessBlockConfiguration"))
         ]
 
         /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
@@ -2040,8 +2040,8 @@ extension S3Control {
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
         ]
 
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
@@ -2061,9 +2061,9 @@ extension S3Control {
 
     public struct GetStorageLensConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "ConfigId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
 
         /// The account ID of the requester.
@@ -2091,7 +2091,7 @@ extension S3Control {
         /// The key for the payload
         public static let _payloadPath: String = "storageLensConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "storageLensConfiguration", location: .body(locationName: "StorageLensConfiguration"))
+            AWSMemberEncoding(label: "storageLensConfiguration", location: .body("StorageLensConfiguration"))
         ]
 
         /// The S3 Storage Lens configuration requested.
@@ -2108,9 +2108,9 @@ extension S3Control {
 
     public struct GetStorageLensConfigurationTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "ConfigId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
 
         /// The account ID of the requester.
@@ -2656,10 +2656,10 @@ extension S3Control {
 
     public struct ListAccessPointsForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -2709,11 +2709,11 @@ extension S3Control {
 
     public struct ListAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .querystring(locationName: "bucket")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .querystring("bucket")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Web Services account ID for owner of the bucket whose access points you want to list.
@@ -2768,11 +2768,11 @@ extension S3Control {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobStatuses", location: .querystring(locationName: "jobStatuses")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobStatuses", location: .querystring("jobStatuses")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -2825,10 +2825,10 @@ extension S3Control {
     public struct ListMultiRegionAccessPointsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2878,11 +2878,11 @@ extension S3Control {
 
     public struct ListRegionalBucketsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "outpostId", location: .header(locationName: "x-amz-outpost-id"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "outpostId", location: .header("x-amz-outpost-id"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -2959,9 +2959,9 @@ extension S3Control {
 
     public struct ListStorageLensConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The account ID of the requester.
@@ -3283,9 +3283,9 @@ extension S3Control {
 
     public struct PutAccessPointConfigurationForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -3317,9 +3317,9 @@ extension S3Control {
 
     public struct PutAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
@@ -3350,9 +3350,9 @@ extension S3Control {
 
     public struct PutAccessPointPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
@@ -3385,10 +3385,10 @@ extension S3Control {
         public static let _payloadPath: String = "lifecycleConfiguration"
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
+            AWSMemberEncoding(label: "lifecycleConfiguration", location: .body("LifecycleConfiguration"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -3420,10 +3420,10 @@ extension S3Control {
     public struct PutBucketPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
+            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header("x-amz-confirm-remove-self-bucket-access"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -3459,10 +3459,10 @@ extension S3Control {
         public static let _payloadPath: String = "tagging"
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
+            AWSMemberEncoding(label: "tagging", location: .body("Tagging"))
         ]
 
         /// The Amazon Web Services account ID of the Outposts bucket.
@@ -3492,9 +3492,9 @@ extension S3Control {
 
     public struct PutJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -3556,8 +3556,8 @@ extension S3Control {
     public struct PutMultiRegionAccessPointPolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.md5ChecksumRequired]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId"))
         ]
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -3604,9 +3604,9 @@ extension S3Control {
         /// The key for the payload
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body("PublicAccessBlockConfiguration"))
         ]
 
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
@@ -3631,9 +3631,9 @@ extension S3Control {
 
     public struct PutStorageLensConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "ConfigId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
@@ -3674,9 +3674,9 @@ extension S3Control {
 
     public struct PutStorageLensConfigurationTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "configId", location: .uri(locationName: "ConfigId"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
@@ -4438,10 +4438,10 @@ extension S3Control {
 
     public struct UpdateJobPriorityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId")),
-            AWSMemberEncoding(label: "priority", location: .querystring(locationName: "priority"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId")),
+            AWSMemberEncoding(label: "priority", location: .querystring("priority"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -4489,11 +4489,11 @@ extension S3Control {
 
     public struct UpdateJobStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "AccountId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId")),
-            AWSMemberEncoding(label: "requestedJobStatus", location: .querystring(locationName: "requestedJobStatus")),
-            AWSMemberEncoding(label: "statusUpdateReason", location: .querystring(locationName: "statusUpdateReason"))
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId")),
+            AWSMemberEncoding(label: "requestedJobStatus", location: .querystring("requestedJobStatus")),
+            AWSMemberEncoding(label: "statusUpdateReason", location: .querystring("statusUpdateReason"))
         ]
 
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.

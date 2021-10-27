@@ -513,10 +513,10 @@ extension LexRuntimeV2 {
 
     public struct DeleteSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The alias identifier in use for the bot that contains the session data.
@@ -631,10 +631,10 @@ extension LexRuntimeV2 {
 
     public struct GetSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The alias identifier in use for the bot that contains the session data.
@@ -913,11 +913,11 @@ extension LexRuntimeV2 {
 
     public struct PutSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "responseContentType", location: .header(locationName: "ResponseContentType")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "responseContentType", location: .header("ResponseContentType")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The alias identifier of the bot that receives the session data.
@@ -979,11 +979,11 @@ extension LexRuntimeV2 {
         public static let _payloadPath: String = "audioStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "messages", location: .header(locationName: "x-amz-lex-messages")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
-            AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "messages", location: .header("x-amz-lex-messages")),
+            AWSMemberEncoding(label: "requestAttributes", location: .header("x-amz-lex-request-attributes")),
+            AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
+            AWSMemberEncoding(label: "sessionState", location: .header("x-amz-lex-session-state"))
         ]
 
         /// If the requested content type was audio, the audio version of the message to convey to the user.
@@ -1020,10 +1020,10 @@ extension LexRuntimeV2 {
 
     public struct RecognizeTextRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The alias identifier in use for the bot that processes the request.
@@ -1108,14 +1108,14 @@ extension LexRuntimeV2 {
         public static let _payloadPath: String = "inputStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "requestContentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "responseContentType", location: .header(locationName: "Response-Content-Type")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
-            AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "requestAttributes", location: .header("x-amz-lex-request-attributes")),
+            AWSMemberEncoding(label: "requestContentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "responseContentType", location: .header("Response-Content-Type")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "sessionState", location: .header("x-amz-lex-session-state"))
         ]
 
         /// The alias identifier in use for the bot that should receive the request.
@@ -1169,14 +1169,14 @@ extension LexRuntimeV2 {
         public static let _payloadPath: String = "audioStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "inputMode", location: .header(locationName: "x-amz-lex-input-mode")),
-            AWSMemberEncoding(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")),
-            AWSMemberEncoding(label: "interpretations", location: .header(locationName: "x-amz-lex-interpretations")),
-            AWSMemberEncoding(label: "messages", location: .header(locationName: "x-amz-lex-messages")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
-            AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "inputMode", location: .header("x-amz-lex-input-mode")),
+            AWSMemberEncoding(label: "inputTranscript", location: .header("x-amz-lex-input-transcript")),
+            AWSMemberEncoding(label: "interpretations", location: .header("x-amz-lex-interpretations")),
+            AWSMemberEncoding(label: "messages", location: .header("x-amz-lex-messages")),
+            AWSMemberEncoding(label: "requestAttributes", location: .header("x-amz-lex-request-attributes")),
+            AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
+            AWSMemberEncoding(label: "sessionState", location: .header("x-amz-lex-session-state"))
         ]
 
         /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
@@ -1349,11 +1349,11 @@ extension LexRuntimeV2 {
         /// The key for the payload
         public static let _payloadPath: String = "requestEventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "conversationMode", location: .header(locationName: "x-amz-lex-conversation-mode")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "conversationMode", location: .header("x-amz-lex-conversation-mode")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The alias identifier in use for the bot that processes the request.

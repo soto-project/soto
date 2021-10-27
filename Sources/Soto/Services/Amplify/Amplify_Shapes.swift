@@ -533,7 +533,7 @@ extension Amplify {
 
     public struct CreateBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -586,7 +586,7 @@ extension Amplify {
 
     public struct CreateBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -712,8 +712,8 @@ extension Amplify {
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -769,7 +769,7 @@ extension Amplify {
 
     public struct CreateDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -835,7 +835,7 @@ extension Amplify {
 
     public struct CreateWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -917,7 +917,7 @@ extension Amplify {
 
     public struct DeleteAppRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -950,8 +950,8 @@ extension Amplify {
 
     public struct DeleteBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
         ]
 
         ///  The unique ID of an Amplify app.
@@ -990,8 +990,8 @@ extension Amplify {
 
     public struct DeleteBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1030,8 +1030,8 @@ extension Amplify {
 
     public struct DeleteDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
         ///  The unique id for an Amplify app.
@@ -1068,9 +1068,9 @@ extension Amplify {
 
     public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1112,7 +1112,7 @@ extension Amplify {
 
     public struct DeleteWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
+            AWSMemberEncoding(label: "webhookId", location: .uri("webhookId"))
         ]
 
         ///  The unique ID for a webhook.
@@ -1189,7 +1189,7 @@ extension Amplify {
 
     public struct GenerateAccessLogsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1237,7 +1237,7 @@ extension Amplify {
 
     public struct GetAppRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1270,7 +1270,7 @@ extension Amplify {
 
     public struct GetArtifactUrlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "artifactId", location: .uri(locationName: "artifactId"))
+            AWSMemberEncoding(label: "artifactId", location: .uri("artifactId"))
         ]
 
         ///  The unique ID for an artifact.
@@ -1306,8 +1306,8 @@ extension Amplify {
 
     public struct GetBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
         ]
 
         ///  The unique id for an Amplify app.
@@ -1346,8 +1346,8 @@ extension Amplify {
 
     public struct GetBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1385,8 +1385,8 @@ extension Amplify {
 
     public struct GetDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
         ///  The unique id for an Amplify app.
@@ -1424,9 +1424,9 @@ extension Amplify {
 
     public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1468,7 +1468,7 @@ extension Amplify {
 
     public struct GetWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
+            AWSMemberEncoding(label: "webhookId", location: .uri("webhookId"))
         ]
 
         ///  The unique ID for a webhook.
@@ -1562,8 +1562,8 @@ extension Amplify {
 
     public struct ListAppsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The maximum number of records to list in a single response.
@@ -1604,11 +1604,11 @@ extension Amplify {
 
     public struct ListArtifactsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1664,10 +1664,10 @@ extension Amplify {
 
     public struct ListBackendEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "environmentName", location: .querystring(locationName: "environmentName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .querystring("environmentName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1719,9 +1719,9 @@ extension Amplify {
 
     public struct ListBranchesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1768,9 +1768,9 @@ extension Amplify {
 
     public struct ListDomainAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1817,10 +1817,10 @@ extension Amplify {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1872,7 +1872,7 @@ extension Amplify {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) to use to list tags.
@@ -1904,9 +1904,9 @@ extension Amplify {
 
     public struct ListWebhooksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -1978,8 +1978,8 @@ extension Amplify {
 
     public struct StartDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -2029,8 +2029,8 @@ extension Amplify {
 
     public struct StartJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -2151,9 +2151,9 @@ extension Amplify {
 
     public struct StopJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -2240,7 +2240,7 @@ extension Amplify {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) to use to tag a resource.
@@ -2276,8 +2276,8 @@ extension Amplify {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         ///  The Amazon Resource Name (ARN) to use to untag a resource.
@@ -2310,7 +2310,7 @@ extension Amplify {
 
     public struct UpdateAppRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
         ///  The personal access token for a third-party source control system for an Amplify app. The token is used to create webhook and a read-only deploy key. The token is not stored.
@@ -2443,8 +2443,8 @@ extension Amplify {
 
     public struct UpdateBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "branchName", location: .uri("branchName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -2557,8 +2557,8 @@ extension Amplify {
 
     public struct UpdateDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
         ///  The unique ID for an Amplify app.
@@ -2623,7 +2623,7 @@ extension Amplify {
 
     public struct UpdateWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
+            AWSMemberEncoding(label: "webhookId", location: .uri("webhookId"))
         ]
 
         ///  The name for a branch that is part of an Amplify app.

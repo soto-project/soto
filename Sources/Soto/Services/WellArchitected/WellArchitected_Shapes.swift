@@ -203,7 +203,7 @@ extension WellArchitected {
 
     public struct AssociateLensesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAliases: [String]
@@ -317,7 +317,7 @@ extension WellArchitected {
 
     public struct CreateMilestoneInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let clientRequestToken: String
@@ -470,7 +470,7 @@ extension WellArchitected {
 
     public struct CreateWorkloadShareInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let clientRequestToken: String
@@ -515,8 +515,8 @@ extension WellArchitected {
 
     public struct DeleteWorkloadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientRequestToken", location: .querystring(locationName: "ClientRequestToken")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let clientRequestToken: String
@@ -536,9 +536,9 @@ extension WellArchitected {
 
     public struct DeleteWorkloadShareInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientRequestToken", location: .querystring(locationName: "ClientRequestToken")),
-            AWSMemberEncoding(label: "shareId", location: .uri(locationName: "ShareId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
+            AWSMemberEncoding(label: "shareId", location: .uri("ShareId")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let clientRequestToken: String
@@ -561,7 +561,7 @@ extension WellArchitected {
 
     public struct DisassociateLensesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAliases: [String]
@@ -588,10 +588,10 @@ extension WellArchitected {
 
     public struct GetAnswerInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "questionId", location: .uri(locationName: "QuestionId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
+            AWSMemberEncoding(label: "questionId", location: .uri("QuestionId")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAlias: String
@@ -642,9 +642,9 @@ extension WellArchitected {
 
     public struct GetLensReviewInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAlias: String
@@ -688,9 +688,9 @@ extension WellArchitected {
 
     public struct GetLensReviewReportInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAlias: String
@@ -734,8 +734,8 @@ extension WellArchitected {
 
     public struct GetLensVersionDifferenceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "baseLensVersion", location: .querystring(locationName: "BaseLensVersion")),
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias"))
+            AWSMemberEncoding(label: "baseLensVersion", location: .querystring("BaseLensVersion")),
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias"))
         ]
 
         /// The base version of the lens.
@@ -782,8 +782,8 @@ extension WellArchitected {
 
     public struct GetMilestoneInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "milestoneNumber", location: .uri(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "milestoneNumber", location: .uri("MilestoneNumber")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let milestoneNumber: Int
@@ -820,7 +820,7 @@ extension WellArchitected {
 
     public struct GetWorkloadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let workloadId: String
@@ -1004,12 +1004,12 @@ extension WellArchitected {
 
     public struct ListAnswersInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pillarId", location: .querystring(locationName: "PillarId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pillarId", location: .querystring("PillarId")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAlias: String
@@ -1070,12 +1070,12 @@ extension WellArchitected {
 
     public struct ListLensReviewImprovementsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pillarId", location: .querystring(locationName: "PillarId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pillarId", location: .querystring("PillarId")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAlias: String
@@ -1136,10 +1136,10 @@ extension WellArchitected {
 
     public struct ListLensReviewsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "milestoneNumber", location: .querystring(locationName: "MilestoneNumber")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let maxResults: Int?
@@ -1188,8 +1188,8 @@ extension WellArchitected {
 
     public struct ListLensesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         public let maxResults: Int?
@@ -1225,7 +1225,7 @@ extension WellArchitected {
 
     public struct ListMilestonesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let maxResults: Int?
@@ -1311,9 +1311,9 @@ extension WellArchitected {
 
     public struct ListShareInvitationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "workloadNamePrefix", location: .querystring(locationName: "WorkloadNamePrefix"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "workloadNamePrefix", location: .querystring("WorkloadNamePrefix"))
         ]
 
         /// The maximum number of results to return for this request.
@@ -1354,7 +1354,7 @@ extension WellArchitected {
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
+            AWSMemberEncoding(label: "workloadArn", location: .uri("WorkloadArn"))
         ]
 
         public let workloadArn: String
@@ -1381,10 +1381,10 @@ extension WellArchitected {
 
     public struct ListWorkloadSharesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "sharedWithPrefix", location: .querystring(locationName: "SharedWithPrefix")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "sharedWithPrefix", location: .querystring("SharedWithPrefix")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         /// The maximum number of results to return for this request.
@@ -1634,7 +1634,7 @@ extension WellArchitected {
 
     public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
+            AWSMemberEncoding(label: "workloadArn", location: .uri("WorkloadArn"))
         ]
 
         /// The tags for the resource.
@@ -1667,8 +1667,8 @@ extension WellArchitected {
 
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys")),
-            AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys")),
+            AWSMemberEncoding(label: "workloadArn", location: .uri("WorkloadArn"))
         ]
 
         /// A list of tag keys. Existing tags of the resource  whose keys are members of this list are removed from the resource.
@@ -1698,9 +1698,9 @@ extension WellArchitected {
 
     public struct UpdateAnswerInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "questionId", location: .uri(locationName: "QuestionId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "questionId", location: .uri("QuestionId")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         /// A list of choices to update on a question in your workload.  The String key  corresponds to the choice ID to be updated.
@@ -1772,8 +1772,8 @@ extension WellArchitected {
 
     public struct UpdateLensReviewInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let lensAlias: String
@@ -1823,7 +1823,7 @@ extension WellArchitected {
 
     public struct UpdateShareInvitationInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "shareInvitationId", location: .uri(locationName: "ShareInvitationId"))
+            AWSMemberEncoding(label: "shareInvitationId", location: .uri("ShareInvitationId"))
         ]
 
         public let shareInvitationAction: ShareInvitationAction
@@ -1859,7 +1859,7 @@ extension WellArchitected {
 
     public struct UpdateWorkloadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let accountIds: [String]?
@@ -1960,8 +1960,8 @@ extension WellArchitected {
 
     public struct UpdateWorkloadShareInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "shareId", location: .uri(locationName: "ShareId")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "shareId", location: .uri("ShareId")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let permissionType: PermissionType
@@ -2001,8 +2001,8 @@ extension WellArchitected {
 
     public struct UpgradeLensReviewInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "lensAlias", location: .uri(locationName: "LensAlias")),
-            AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
         public let clientRequestToken: String?

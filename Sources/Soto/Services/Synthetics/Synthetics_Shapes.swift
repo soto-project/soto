@@ -533,7 +533,7 @@ extension Synthetics {
 
     public struct DeleteCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
@@ -681,7 +681,7 @@ extension Synthetics {
 
     public struct GetCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the canary that you want details for.
@@ -715,7 +715,7 @@ extension Synthetics {
 
     public struct GetCanaryRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
@@ -766,7 +766,7 @@ extension Synthetics {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the canary that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
@@ -825,7 +825,7 @@ extension Synthetics {
 
     public struct StartCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the canary that you want to run. To find canary names, use DescribeCanaries.
@@ -850,7 +850,7 @@ extension Synthetics {
 
     public struct StopCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the canary that you want to stop. To find the names of your  canaries, use DescribeCanaries.
@@ -875,7 +875,7 @@ extension Synthetics {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the canary that you're adding tags to. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
@@ -913,8 +913,8 @@ extension Synthetics {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the canary that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
@@ -949,7 +949,7 @@ extension Synthetics {
 
     public struct UpdateCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.

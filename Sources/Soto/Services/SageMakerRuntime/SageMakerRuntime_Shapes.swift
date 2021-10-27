@@ -25,13 +25,13 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointAsyncInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "X-Amzn-SageMaker-Accept")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "X-Amzn-SageMaker-Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")),
-            AWSMemberEncoding(label: "inferenceId", location: .header(locationName: "X-Amzn-SageMaker-Inference-Id")),
-            AWSMemberEncoding(label: "inputLocation", location: .header(locationName: "X-Amzn-SageMaker-InputLocation")),
-            AWSMemberEncoding(label: "requestTTLSeconds", location: .header(locationName: "X-Amzn-SageMaker-RequestTTLSeconds"))
+            AWSMemberEncoding(label: "accept", location: .header("X-Amzn-SageMaker-Accept")),
+            AWSMemberEncoding(label: "contentType", location: .header("X-Amzn-SageMaker-Content-Type")),
+            AWSMemberEncoding(label: "customAttributes", location: .header("X-Amzn-SageMaker-Custom-Attributes")),
+            AWSMemberEncoding(label: "endpointName", location: .uri("EndpointName")),
+            AWSMemberEncoding(label: "inferenceId", location: .header("X-Amzn-SageMaker-Inference-Id")),
+            AWSMemberEncoding(label: "inputLocation", location: .header("X-Amzn-SageMaker-InputLocation")),
+            AWSMemberEncoding(label: "requestTTLSeconds", location: .header("X-Amzn-SageMaker-RequestTTLSeconds"))
         ]
 
         /// The desired MIME type of the inference in the response.
@@ -83,7 +83,7 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointAsyncOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "outputLocation", location: .header(locationName: "X-Amzn-SageMaker-OutputLocation"))
+            AWSMemberEncoding(label: "outputLocation", location: .header("X-Amzn-SageMaker-OutputLocation"))
         ]
 
         /// Identifier for an inference request. This will be the same as the InferenceId specified  in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
@@ -107,14 +107,14 @@ extension SageMakerRuntime {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")),
-            AWSMemberEncoding(label: "inferenceId", location: .header(locationName: "X-Amzn-SageMaker-Inference-Id")),
-            AWSMemberEncoding(label: "targetContainerHostname", location: .header(locationName: "X-Amzn-SageMaker-Target-Container-Hostname")),
-            AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model")),
-            AWSMemberEncoding(label: "targetVariant", location: .header(locationName: "X-Amzn-SageMaker-Target-Variant"))
+            AWSMemberEncoding(label: "accept", location: .header("Accept")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "customAttributes", location: .header("X-Amzn-SageMaker-Custom-Attributes")),
+            AWSMemberEncoding(label: "endpointName", location: .uri("EndpointName")),
+            AWSMemberEncoding(label: "inferenceId", location: .header("X-Amzn-SageMaker-Inference-Id")),
+            AWSMemberEncoding(label: "targetContainerHostname", location: .header("X-Amzn-SageMaker-Target-Container-Hostname")),
+            AWSMemberEncoding(label: "targetModel", location: .header("X-Amzn-SageMaker-Target-Model")),
+            AWSMemberEncoding(label: "targetVariant", location: .header("X-Amzn-SageMaker-Target-Variant"))
         ]
 
         /// The desired MIME type of the inference in the response.
@@ -179,10 +179,10 @@ extension SageMakerRuntime {
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "invokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"))
+            AWSMemberEncoding(label: "body", location: .body("Body")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "customAttributes", location: .header("X-Amzn-SageMaker-Custom-Attributes")),
+            AWSMemberEncoding(label: "invokedProductionVariant", location: .header("x-Amzn-Invoked-Production-Variant"))
         ]
 
         /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats-Inference.

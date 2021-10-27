@@ -703,7 +703,7 @@ extension AuditManager {
 
     public struct AssociateAssessmentReportEvidenceFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -736,7 +736,7 @@ extension AuditManager {
 
     public struct BatchAssociateAssessmentReportEvidenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The unique identifier for the specified assessment.
@@ -813,7 +813,7 @@ extension AuditManager {
 
     public struct BatchCreateDelegationByAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -882,7 +882,7 @@ extension AuditManager {
 
     public struct BatchDeleteDelegationByAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -928,7 +928,7 @@ extension AuditManager {
 
     public struct BatchDisassociateAssessmentReportEvidenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -1005,9 +1005,9 @@ extension AuditManager {
 
     public struct BatchImportEvidenceToAssessmentControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlId", location: .uri("controlId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -1400,7 +1400,7 @@ extension AuditManager {
 
     public struct CreateAssessmentReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -1770,7 +1770,7 @@ extension AuditManager {
 
     public struct DeleteAssessmentFrameworkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri(locationName: "frameworkId"))
+            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
         ]
 
         ///  The identifier for the specified framework.
@@ -1795,8 +1795,8 @@ extension AuditManager {
 
     public struct DeleteAssessmentReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "assessmentReportId", location: .uri(locationName: "assessmentReportId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "assessmentReportId", location: .uri("assessmentReportId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -1827,7 +1827,7 @@ extension AuditManager {
 
     public struct DeleteAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -1852,7 +1852,7 @@ extension AuditManager {
 
     public struct DeleteControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId"))
+            AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
         ]
 
         ///  The identifier for the specified control.
@@ -1917,7 +1917,7 @@ extension AuditManager {
 
     public struct DisassociateAssessmentReportEvidenceFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2126,7 +2126,7 @@ extension AuditManager {
 
     public struct GetAssessmentFrameworkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri(locationName: "frameworkId"))
+            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
         ]
 
         ///  The identifier for the specified framework.
@@ -2160,8 +2160,8 @@ extension AuditManager {
 
     public struct GetAssessmentReportUrlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "assessmentReportId", location: .uri(locationName: "assessmentReportId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "assessmentReportId", location: .uri("assessmentReportId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2200,7 +2200,7 @@ extension AuditManager {
 
     public struct GetAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2236,11 +2236,11 @@ extension AuditManager {
 
     public struct GetChangeLogsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .querystring(locationName: "controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .querystring(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlId", location: .querystring("controlId")),
+            AWSMemberEncoding(label: "controlSetId", location: .querystring("controlSetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2301,7 +2301,7 @@ extension AuditManager {
 
     public struct GetControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId"))
+            AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
         ]
 
         ///   The identifier for the specified control.
@@ -2335,8 +2335,8 @@ extension AuditManager {
 
     public struct GetDelegationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Represents the maximum number of results per page, or per API request call.
@@ -2379,11 +2379,11 @@ extension AuditManager {
 
     public struct GetEvidenceByEvidenceFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
+            AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2444,9 +2444,9 @@ extension AuditManager {
 
     public struct GetEvidenceFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
+            AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2492,11 +2492,11 @@ extension AuditManager {
 
     public struct GetEvidenceFoldersByAssessmentControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlId", location: .uri("controlId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2557,9 +2557,9 @@ extension AuditManager {
 
     public struct GetEvidenceFoldersByAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2608,10 +2608,10 @@ extension AuditManager {
 
     public struct GetEvidenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId")),
-            AWSMemberEncoding(label: "evidenceId", location: .uri(locationName: "evidenceId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId")),
+            AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId")),
+            AWSMemberEncoding(label: "evidenceId", location: .uri("evidenceId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -2701,7 +2701,7 @@ extension AuditManager {
 
     public struct GetSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attribute", location: .uri(locationName: "attribute"))
+            AWSMemberEncoding(label: "attribute", location: .uri("attribute"))
         ]
 
         ///  The list of SettingAttribute enum values.
@@ -2729,9 +2729,9 @@ extension AuditManager {
 
     public struct ListAssessmentFrameworksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkType", location: .querystring(locationName: "frameworkType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "frameworkType", location: .querystring("frameworkType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The type of framework, such as standard or custom.
@@ -2777,8 +2777,8 @@ extension AuditManager {
 
     public struct ListAssessmentReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Represents the maximum number of results per page, or per API request call.
@@ -2821,8 +2821,8 @@ extension AuditManager {
 
     public struct ListAssessmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Represents the maximum number of results per page, or per API request call.
@@ -2865,9 +2865,9 @@ extension AuditManager {
 
     public struct ListControlsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlType", location: .querystring(locationName: "controlType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "controlType", location: .querystring("controlType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The type of control, such as standard or custom.
@@ -2913,9 +2913,9 @@ extension AuditManager {
 
     public struct ListKeywordsForDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "source", location: .querystring(locationName: "source"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "source", location: .querystring("source"))
         ]
 
         ///  Represents the maximum number of results per page, or per API request call.
@@ -2961,8 +2961,8 @@ extension AuditManager {
 
     public struct ListNotificationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Represents the maximum number of results per page, or per API request call.
@@ -3005,7 +3005,7 @@ extension AuditManager {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the specified resource.
@@ -3318,7 +3318,7 @@ extension AuditManager {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the specified resource.
@@ -3373,8 +3373,8 @@ extension AuditManager {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the specified resource.
@@ -3409,9 +3409,9 @@ extension AuditManager {
 
     public struct UpdateAssessmentControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlId", location: .uri("controlId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -3468,8 +3468,8 @@ extension AuditManager {
 
     public struct UpdateAssessmentControlSetStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
+            AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -3553,7 +3553,7 @@ extension AuditManager {
 
     public struct UpdateAssessmentFrameworkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkId", location: .uri(locationName: "frameworkId"))
+            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
         ]
 
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
@@ -3615,7 +3615,7 @@ extension AuditManager {
 
     public struct UpdateAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The description of the specified assessment.
@@ -3680,7 +3680,7 @@ extension AuditManager {
 
     public struct UpdateAssessmentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId"))
+            AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
         ///  The identifier for the specified assessment.
@@ -3719,7 +3719,7 @@ extension AuditManager {
 
     public struct UpdateControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId"))
+            AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
         ]
 
         ///   The recommended actions to carry out if the control is not fulfilled.

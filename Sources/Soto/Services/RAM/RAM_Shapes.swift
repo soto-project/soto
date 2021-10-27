@@ -255,8 +255,8 @@ extension RAM {
 
     public struct DeleteResourceShareRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
-            AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "resourceShareArn", location: .querystring("resourceShareArn"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -949,7 +949,7 @@ extension RAM {
 
     public struct PromoteResourceShareCreatedFromPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
+            AWSMemberEncoding(label: "resourceShareArn", location: .querystring("resourceShareArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource share to promote.

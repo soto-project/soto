@@ -70,7 +70,7 @@ extension Signer {
 
     public struct AddProfilePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
         ]
 
         /// The AWS Signer action permitted as part of cross-account permissions.
@@ -129,7 +129,7 @@ extension Signer {
 
     public struct CancelSigningProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
         ]
 
         /// The name of the signing profile to be canceled.
@@ -150,7 +150,7 @@ extension Signer {
 
     public struct DescribeSigningJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The ID of the signing job on input.
@@ -283,7 +283,7 @@ extension Signer {
 
     public struct GetSigningPlatformRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "platformId", location: .uri(locationName: "platformId"))
+            AWSMemberEncoding(label: "platformId", location: .uri("platformId"))
         ]
 
         /// The ID of the target signing platform.
@@ -345,8 +345,8 @@ extension Signer {
 
     public struct GetSigningProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName")),
-            AWSMemberEncoding(label: "profileOwner", location: .querystring(locationName: "profileOwner"))
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName")),
+            AWSMemberEncoding(label: "profileOwner", location: .querystring("profileOwner"))
         ]
 
         /// The name of the target signing profile.
@@ -456,8 +456,8 @@ extension Signer {
 
     public struct ListProfilePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
         ]
 
         /// String for specifying the next set of paginated results.
@@ -506,15 +506,15 @@ extension Signer {
 
     public struct ListSigningJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "isRevoked", location: .querystring(locationName: "isRevoked")),
-            AWSMemberEncoding(label: "jobInvoker", location: .querystring(locationName: "jobInvoker")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "platformId", location: .querystring(locationName: "platformId")),
-            AWSMemberEncoding(label: "requestedBy", location: .querystring(locationName: "requestedBy")),
-            AWSMemberEncoding(label: "signatureExpiresAfter", location: .querystring(locationName: "signatureExpiresAfter")),
-            AWSMemberEncoding(label: "signatureExpiresBefore", location: .querystring(locationName: "signatureExpiresBefore")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "isRevoked", location: .querystring("isRevoked")),
+            AWSMemberEncoding(label: "jobInvoker", location: .querystring("jobInvoker")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "platformId", location: .querystring("platformId")),
+            AWSMemberEncoding(label: "requestedBy", location: .querystring("requestedBy")),
+            AWSMemberEncoding(label: "signatureExpiresAfter", location: .querystring("signatureExpiresAfter")),
+            AWSMemberEncoding(label: "signatureExpiresBefore", location: .querystring("signatureExpiresBefore")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// Filters results to return only signing jobs with revoked signatures.
@@ -588,11 +588,11 @@ extension Signer {
 
     public struct ListSigningPlatformsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "partner", location: .querystring(locationName: "partner")),
-            AWSMemberEncoding(label: "target", location: .querystring(locationName: "target"))
+            AWSMemberEncoding(label: "category", location: .querystring("category")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "partner", location: .querystring("partner")),
+            AWSMemberEncoding(label: "target", location: .querystring("target"))
         ]
 
         /// The category type of a signing platform.
@@ -643,11 +643,11 @@ extension Signer {
 
     public struct ListSigningProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeCanceled", location: .querystring(locationName: "includeCanceled")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "platformId", location: .querystring(locationName: "platformId")),
-            AWSMemberEncoding(label: "statuses", location: .querystring(locationName: "statuses"))
+            AWSMemberEncoding(label: "includeCanceled", location: .querystring("includeCanceled")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "platformId", location: .querystring("platformId")),
+            AWSMemberEncoding(label: "statuses", location: .querystring("statuses"))
         ]
 
         /// Designates whether to include profiles with the status of
@@ -703,7 +703,7 @@ extension Signer {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the signing profile.
@@ -756,7 +756,7 @@ extension Signer {
 
     public struct PutSigningProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
         ]
 
         /// A subfield of platform. This specifies any different configuration
@@ -836,9 +836,9 @@ extension Signer {
 
     public struct RemoveProfilePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "revisionId")),
-            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "statementId"))
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName")),
+            AWSMemberEncoding(label: "revisionId", location: .querystring("revisionId")),
+            AWSMemberEncoding(label: "statementId", location: .uri("statementId"))
         ]
 
         /// A human-readable name for the signing profile with permissions to be removed.
@@ -878,7 +878,7 @@ extension Signer {
 
     public struct RevokeSignatureRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// ID of the signing job to be revoked.
@@ -910,7 +910,7 @@ extension Signer {
 
     public struct RevokeSigningProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
+            AWSMemberEncoding(label: "profileName", location: .uri("profileName"))
         ]
 
         /// A timestamp for when revocation of a Signing Profile should become effective.
@@ -1407,7 +1407,7 @@ extension Signer {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the signing profile.
@@ -1442,8 +1442,8 @@ extension Signer {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) for the signing profile.

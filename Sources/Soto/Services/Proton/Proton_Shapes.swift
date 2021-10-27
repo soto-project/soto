@@ -2136,9 +2136,9 @@ extension Proton {
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The maximum number of tags to list.
@@ -2722,7 +2722,7 @@ extension Proton {
 
     public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that the resource tag is applied to.
@@ -2755,7 +2755,7 @@ extension Proton {
 
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that the tag is to be removed from.

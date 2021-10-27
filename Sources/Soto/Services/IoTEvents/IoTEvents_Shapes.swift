@@ -723,7 +723,7 @@ extension IoTEvents {
 
     public struct DeleteAlarmModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName"))
+            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName"))
         ]
 
         /// The name of the alarm model.
@@ -748,7 +748,7 @@ extension IoTEvents {
 
     public struct DeleteDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
+            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName"))
         ]
 
         /// The name of the detector model to be deleted.
@@ -773,7 +773,7 @@ extension IoTEvents {
 
     public struct DeleteInputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
+            AWSMemberEncoding(label: "inputName", location: .uri("inputName"))
         ]
 
         /// The name of the input to delete.
@@ -798,8 +798,8 @@ extension IoTEvents {
 
     public struct DescribeAlarmModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
-            AWSMemberEncoding(label: "alarmModelVersion", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName")),
+            AWSMemberEncoding(label: "alarmModelVersion", location: .querystring("version"))
         ]
 
         /// The name of the alarm model.
@@ -897,7 +897,7 @@ extension IoTEvents {
 
     public struct DescribeDetectorModelAnalysisRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "analysisId"))
+            AWSMemberEncoding(label: "analysisId", location: .uri("analysisId"))
         ]
 
         /// The ID of the analysis result that you want to retrieve.
@@ -925,8 +925,8 @@ extension IoTEvents {
 
     public struct DescribeDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
-            AWSMemberEncoding(label: "detectorModelVersion", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName")),
+            AWSMemberEncoding(label: "detectorModelVersion", location: .querystring("version"))
         ]
 
         /// The name of the detector model.
@@ -965,7 +965,7 @@ extension IoTEvents {
 
     public struct DescribeInputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
+            AWSMemberEncoding(label: "inputName", location: .uri("inputName"))
         ]
 
         /// The name of the input.
@@ -1382,9 +1382,9 @@ extension IoTEvents {
 
     public struct GetDetectorModelAnalysisResultsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "analysisId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "analysisId", location: .uri("analysisId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ID of the analysis result that you want to retrieve.
@@ -1709,9 +1709,9 @@ extension IoTEvents {
 
     public struct ListAlarmModelVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the alarm model.
@@ -1758,8 +1758,8 @@ extension IoTEvents {
 
     public struct ListAlarmModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -1800,9 +1800,9 @@ extension IoTEvents {
 
     public struct ListDetectorModelVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the detector model whose versions are returned.
@@ -1849,8 +1849,8 @@ extension IoTEvents {
 
     public struct ListDetectorModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -1936,8 +1936,8 @@ extension IoTEvents {
 
     public struct ListInputsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -1978,7 +1978,7 @@ extension IoTEvents {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -2503,7 +2503,7 @@ extension IoTEvents {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -2570,8 +2570,8 @@ extension IoTEvents {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -2602,7 +2602,7 @@ extension IoTEvents {
 
     public struct UpdateAlarmModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName"))
+            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName"))
         ]
 
         /// Contains the configuration information of alarm state changes.
@@ -2690,7 +2690,7 @@ extension IoTEvents {
 
     public struct UpdateDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
+            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName"))
         ]
 
         /// Information that defines how a detector operates.
@@ -2745,7 +2745,7 @@ extension IoTEvents {
 
     public struct UpdateInputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
+            AWSMemberEncoding(label: "inputName", location: .uri("inputName"))
         ]
 
         /// The definition of the input.

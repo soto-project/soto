@@ -1857,7 +1857,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "createApplicationRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createApplicationRequest", location: .body(locationName: "CreateApplicationRequest"))
+            AWSMemberEncoding(label: "createApplicationRequest", location: .body("CreateApplicationRequest"))
         ]
 
         public let createApplicationRequest: CreateApplicationRequest
@@ -1875,7 +1875,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
+            AWSMemberEncoding(label: "applicationResponse", location: .body("ApplicationResponse"))
         ]
 
         public let applicationResponse: ApplicationResponse
@@ -1910,8 +1910,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeCampaignRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "writeCampaignRequest", location: .body("WriteCampaignRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -1932,7 +1932,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
         ]
 
         public let campaignResponse: CampaignResponse
@@ -1950,8 +1950,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "emailTemplateRequest", location: .body("EmailTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         public let emailTemplateRequest: EmailTemplateRequest
@@ -1972,7 +1972,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
         ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
@@ -1990,8 +1990,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "exportJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "exportJobRequest", location: .body(locationName: "ExportJobRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "exportJobRequest", location: .body("ExportJobRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2012,7 +2012,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "exportJobResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobResponse", location: .body(locationName: "ExportJobResponse"))
+            AWSMemberEncoding(label: "exportJobResponse", location: .body("ExportJobResponse"))
         ]
 
         public let exportJobResponse: ExportJobResponse
@@ -2030,8 +2030,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "importJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "importJobRequest", location: .body(locationName: "ImportJobRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "importJobRequest", location: .body("ImportJobRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2052,7 +2052,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "importJobResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "importJobResponse", location: .body(locationName: "ImportJobResponse"))
+            AWSMemberEncoding(label: "importJobResponse", location: .body("ImportJobResponse"))
         ]
 
         public let importJobResponse: ImportJobResponse
@@ -2070,8 +2070,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "inAppTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body(locationName: "InAppTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body("InAppTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         public let inAppTemplateRequest: InAppTemplateRequest
@@ -2092,7 +2092,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "templateCreateMessageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateCreateMessageBody", location: .body(locationName: "TemplateCreateMessageBody"))
+            AWSMemberEncoding(label: "templateCreateMessageBody", location: .body("TemplateCreateMessageBody"))
         ]
 
         public let templateCreateMessageBody: TemplateCreateMessageBody
@@ -2110,8 +2110,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeJourneyRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "writeJourneyRequest", location: .body("WriteJourneyRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2132,7 +2132,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
         ]
 
         public let journeyResponse: JourneyResponse
@@ -2150,8 +2150,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "pushNotificationTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body("PushNotificationTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         public let pushNotificationTemplateRequest: PushNotificationTemplateRequest
@@ -2172,7 +2172,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
         ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
@@ -2190,7 +2190,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "createRecommenderConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createRecommenderConfiguration", location: .body(locationName: "CreateRecommenderConfiguration"))
+            AWSMemberEncoding(label: "createRecommenderConfiguration", location: .body("CreateRecommenderConfiguration"))
         ]
 
         public let createRecommenderConfiguration: CreateRecommenderConfigurationShape
@@ -2208,7 +2208,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
+            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
         ]
 
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
@@ -2271,8 +2271,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeSegmentRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "writeSegmentRequest", location: .body("WriteSegmentRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2293,7 +2293,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
         ]
 
         public let segmentResponse: SegmentResponse
@@ -2311,8 +2311,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body("SMSTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         public let sMSTemplateRequest: SMSTemplateRequest
@@ -2333,7 +2333,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
         ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
@@ -2372,8 +2372,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body("VoiceTemplateRequest"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -2394,7 +2394,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "createTemplateMessageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
         ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
@@ -2576,7 +2576,7 @@ extension Pinpoint {
 
     public struct DeleteAdmChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2593,7 +2593,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aDMChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
+            AWSMemberEncoding(label: "aDMChannelResponse", location: .body("ADMChannelResponse"))
         ]
 
         public let aDMChannelResponse: ADMChannelResponse
@@ -2609,7 +2609,7 @@ extension Pinpoint {
 
     public struct DeleteApnsChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2626,7 +2626,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
+            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body("APNSChannelResponse"))
         ]
 
         public let aPNSChannelResponse: APNSChannelResponse
@@ -2642,7 +2642,7 @@ extension Pinpoint {
 
     public struct DeleteApnsSandboxChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2659,7 +2659,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
+            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
         ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
@@ -2675,7 +2675,7 @@ extension Pinpoint {
 
     public struct DeleteApnsVoipChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2692,7 +2692,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
+            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
         ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
@@ -2708,7 +2708,7 @@ extension Pinpoint {
 
     public struct DeleteApnsVoipSandboxChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2725,7 +2725,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
         ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
@@ -2741,7 +2741,7 @@ extension Pinpoint {
 
     public struct DeleteAppRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2758,7 +2758,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
+            AWSMemberEncoding(label: "applicationResponse", location: .body("ApplicationResponse"))
         ]
 
         public let applicationResponse: ApplicationResponse
@@ -2774,7 +2774,7 @@ extension Pinpoint {
 
     public struct DeleteBaiduChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2791,7 +2791,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "baiduChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
+            AWSMemberEncoding(label: "baiduChannelResponse", location: .body("BaiduChannelResponse"))
         ]
 
         public let baiduChannelResponse: BaiduChannelResponse
@@ -2807,8 +2807,8 @@ extension Pinpoint {
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2828,7 +2828,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
         ]
 
         public let campaignResponse: CampaignResponse
@@ -2844,7 +2844,7 @@ extension Pinpoint {
 
     public struct DeleteEmailChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2861,7 +2861,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
+            AWSMemberEncoding(label: "emailChannelResponse", location: .body("EmailChannelResponse"))
         ]
 
         public let emailChannelResponse: EmailChannelResponse
@@ -2877,8 +2877,8 @@ extension Pinpoint {
 
     public struct DeleteEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -2898,7 +2898,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -2914,8 +2914,8 @@ extension Pinpoint {
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "EndpointId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2935,7 +2935,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointResponse", location: .body(locationName: "EndpointResponse"))
+            AWSMemberEncoding(label: "endpointResponse", location: .body("EndpointResponse"))
         ]
 
         public let endpointResponse: EndpointResponse
@@ -2951,7 +2951,7 @@ extension Pinpoint {
 
     public struct DeleteEventStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -2968,7 +2968,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "eventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
+            AWSMemberEncoding(label: "eventStream", location: .body("EventStream"))
         ]
 
         public let eventStream: EventStream
@@ -2984,7 +2984,7 @@ extension Pinpoint {
 
     public struct DeleteGcmChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -3001,7 +3001,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "gCMChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
+            AWSMemberEncoding(label: "gCMChannelResponse", location: .body("GCMChannelResponse"))
         ]
 
         public let gCMChannelResponse: GCMChannelResponse
@@ -3017,8 +3017,8 @@ extension Pinpoint {
 
     public struct DeleteInAppTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -3038,7 +3038,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -3054,8 +3054,8 @@ extension Pinpoint {
 
     public struct DeleteJourneyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -3075,7 +3075,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
         ]
 
         public let journeyResponse: JourneyResponse
@@ -3091,8 +3091,8 @@ extension Pinpoint {
 
     public struct DeletePushTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -3112,7 +3112,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -3128,7 +3128,7 @@ extension Pinpoint {
 
     public struct DeleteRecommenderConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "RecommenderId"))
+            AWSMemberEncoding(label: "recommenderId", location: .uri("RecommenderId"))
         ]
 
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
@@ -3145,7 +3145,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
+            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
         ]
 
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
@@ -3161,8 +3161,8 @@ extension Pinpoint {
 
     public struct DeleteSegmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -3182,7 +3182,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
         ]
 
         public let segmentResponse: SegmentResponse
@@ -3198,7 +3198,7 @@ extension Pinpoint {
 
     public struct DeleteSmsChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -3215,7 +3215,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
+            AWSMemberEncoding(label: "sMSChannelResponse", location: .body("SMSChannelResponse"))
         ]
 
         public let sMSChannelResponse: SMSChannelResponse
@@ -3231,8 +3231,8 @@ extension Pinpoint {
 
     public struct DeleteSmsTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -3252,7 +3252,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -3268,8 +3268,8 @@ extension Pinpoint {
 
     public struct DeleteUserEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -3289,7 +3289,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointsResponse", location: .body(locationName: "EndpointsResponse"))
+            AWSMemberEncoding(label: "endpointsResponse", location: .body("EndpointsResponse"))
         ]
 
         public let endpointsResponse: EndpointsResponse
@@ -3305,7 +3305,7 @@ extension Pinpoint {
 
     public struct DeleteVoiceChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -3322,7 +3322,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
+            AWSMemberEncoding(label: "voiceChannelResponse", location: .body("VoiceChannelResponse"))
         ]
 
         public let voiceChannelResponse: VoiceChannelResponse
@@ -3338,8 +3338,8 @@ extension Pinpoint {
 
     public struct DeleteVoiceTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -3359,7 +3359,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -4574,7 +4574,7 @@ extension Pinpoint {
 
     public struct GetAdmChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4591,7 +4591,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aDMChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
+            AWSMemberEncoding(label: "aDMChannelResponse", location: .body("ADMChannelResponse"))
         ]
 
         public let aDMChannelResponse: ADMChannelResponse
@@ -4607,7 +4607,7 @@ extension Pinpoint {
 
     public struct GetApnsChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4624,7 +4624,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
+            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body("APNSChannelResponse"))
         ]
 
         public let aPNSChannelResponse: APNSChannelResponse
@@ -4640,7 +4640,7 @@ extension Pinpoint {
 
     public struct GetApnsSandboxChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4657,7 +4657,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
+            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
         ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
@@ -4673,7 +4673,7 @@ extension Pinpoint {
 
     public struct GetApnsVoipChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4690,7 +4690,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
+            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
         ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
@@ -4706,7 +4706,7 @@ extension Pinpoint {
 
     public struct GetApnsVoipSandboxChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4723,7 +4723,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
         ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
@@ -4739,7 +4739,7 @@ extension Pinpoint {
 
     public struct GetAppRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4756,7 +4756,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
+            AWSMemberEncoding(label: "applicationResponse", location: .body("ApplicationResponse"))
         ]
 
         public let applicationResponse: ApplicationResponse
@@ -4772,12 +4772,12 @@ extension Pinpoint {
 
     public struct GetApplicationDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
-            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "KpiName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring("end-time")),
+            AWSMemberEncoding(label: "kpiName", location: .uri("KpiName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("start-time"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4811,7 +4811,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationDateRangeKpiResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationDateRangeKpiResponse", location: .body(locationName: "ApplicationDateRangeKpiResponse"))
+            AWSMemberEncoding(label: "applicationDateRangeKpiResponse", location: .body("ApplicationDateRangeKpiResponse"))
         ]
 
         public let applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse
@@ -4827,7 +4827,7 @@ extension Pinpoint {
 
     public struct GetApplicationSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4844,7 +4844,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationSettingsResource"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationSettingsResource", location: .body(locationName: "ApplicationSettingsResource"))
+            AWSMemberEncoding(label: "applicationSettingsResource", location: .body("ApplicationSettingsResource"))
         ]
 
         public let applicationSettingsResource: ApplicationSettingsResource
@@ -4860,8 +4860,8 @@ extension Pinpoint {
 
     public struct GetAppsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -4881,7 +4881,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationsResponse", location: .body(locationName: "ApplicationsResponse"))
+            AWSMemberEncoding(label: "applicationsResponse", location: .body("ApplicationsResponse"))
         ]
 
         public let applicationsResponse: ApplicationsResponse
@@ -4897,7 +4897,7 @@ extension Pinpoint {
 
     public struct GetBaiduChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4914,7 +4914,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "baiduChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
+            AWSMemberEncoding(label: "baiduChannelResponse", location: .body("BaiduChannelResponse"))
         ]
 
         public let baiduChannelResponse: BaiduChannelResponse
@@ -4930,10 +4930,10 @@ extension Pinpoint {
 
     public struct GetCampaignActivitiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -4959,7 +4959,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "activitiesResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "activitiesResponse", location: .body(locationName: "ActivitiesResponse"))
+            AWSMemberEncoding(label: "activitiesResponse", location: .body("ActivitiesResponse"))
         ]
 
         public let activitiesResponse: ActivitiesResponse
@@ -4975,13 +4975,13 @@ extension Pinpoint {
 
     public struct GetCampaignDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
-            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "KpiName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring("end-time")),
+            AWSMemberEncoding(label: "kpiName", location: .uri("KpiName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("start-time"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5018,7 +5018,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignDateRangeKpiResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignDateRangeKpiResponse", location: .body(locationName: "CampaignDateRangeKpiResponse"))
+            AWSMemberEncoding(label: "campaignDateRangeKpiResponse", location: .body("CampaignDateRangeKpiResponse"))
         ]
 
         public let campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse
@@ -5034,8 +5034,8 @@ extension Pinpoint {
 
     public struct GetCampaignRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5055,7 +5055,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
         ]
 
         public let campaignResponse: CampaignResponse
@@ -5071,9 +5071,9 @@ extension Pinpoint {
 
     public struct GetCampaignVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
+            AWSMemberEncoding(label: "version", location: .uri("Version"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5096,7 +5096,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
         ]
 
         public let campaignResponse: CampaignResponse
@@ -5112,10 +5112,10 @@ extension Pinpoint {
 
     public struct GetCampaignVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5141,7 +5141,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignsResponse", location: .body(locationName: "CampaignsResponse"))
+            AWSMemberEncoding(label: "campaignsResponse", location: .body("CampaignsResponse"))
         ]
 
         public let campaignsResponse: CampaignsResponse
@@ -5157,9 +5157,9 @@ extension Pinpoint {
 
     public struct GetCampaignsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5182,7 +5182,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignsResponse", location: .body(locationName: "CampaignsResponse"))
+            AWSMemberEncoding(label: "campaignsResponse", location: .body("CampaignsResponse"))
         ]
 
         public let campaignsResponse: CampaignsResponse
@@ -5198,7 +5198,7 @@ extension Pinpoint {
 
     public struct GetChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5215,7 +5215,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "channelsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelsResponse", location: .body(locationName: "ChannelsResponse"))
+            AWSMemberEncoding(label: "channelsResponse", location: .body("ChannelsResponse"))
         ]
 
         public let channelsResponse: ChannelsResponse
@@ -5231,7 +5231,7 @@ extension Pinpoint {
 
     public struct GetEmailChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5248,7 +5248,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
+            AWSMemberEncoding(label: "emailChannelResponse", location: .body("EmailChannelResponse"))
         ]
 
         public let emailChannelResponse: EmailChannelResponse
@@ -5264,8 +5264,8 @@ extension Pinpoint {
 
     public struct GetEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -5285,7 +5285,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailTemplateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailTemplateResponse", location: .body(locationName: "EmailTemplateResponse"))
+            AWSMemberEncoding(label: "emailTemplateResponse", location: .body("EmailTemplateResponse"))
         ]
 
         public let emailTemplateResponse: EmailTemplateResponse
@@ -5301,8 +5301,8 @@ extension Pinpoint {
 
     public struct GetEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "EndpointId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5322,7 +5322,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointResponse", location: .body(locationName: "EndpointResponse"))
+            AWSMemberEncoding(label: "endpointResponse", location: .body("EndpointResponse"))
         ]
 
         public let endpointResponse: EndpointResponse
@@ -5338,7 +5338,7 @@ extension Pinpoint {
 
     public struct GetEventStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5355,7 +5355,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "eventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
+            AWSMemberEncoding(label: "eventStream", location: .body("EventStream"))
         ]
 
         public let eventStream: EventStream
@@ -5371,8 +5371,8 @@ extension Pinpoint {
 
     public struct GetExportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5392,7 +5392,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "exportJobResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobResponse", location: .body(locationName: "ExportJobResponse"))
+            AWSMemberEncoding(label: "exportJobResponse", location: .body("ExportJobResponse"))
         ]
 
         public let exportJobResponse: ExportJobResponse
@@ -5408,9 +5408,9 @@ extension Pinpoint {
 
     public struct GetExportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5433,7 +5433,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "exportJobsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobsResponse", location: .body(locationName: "ExportJobsResponse"))
+            AWSMemberEncoding(label: "exportJobsResponse", location: .body("ExportJobsResponse"))
         ]
 
         public let exportJobsResponse: ExportJobsResponse
@@ -5449,7 +5449,7 @@ extension Pinpoint {
 
     public struct GetGcmChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5466,7 +5466,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "gCMChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
+            AWSMemberEncoding(label: "gCMChannelResponse", location: .body("GCMChannelResponse"))
         ]
 
         public let gCMChannelResponse: GCMChannelResponse
@@ -5482,8 +5482,8 @@ extension Pinpoint {
 
     public struct GetImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5503,7 +5503,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "importJobResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "importJobResponse", location: .body(locationName: "ImportJobResponse"))
+            AWSMemberEncoding(label: "importJobResponse", location: .body("ImportJobResponse"))
         ]
 
         public let importJobResponse: ImportJobResponse
@@ -5519,9 +5519,9 @@ extension Pinpoint {
 
     public struct GetImportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5544,7 +5544,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "importJobsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "importJobsResponse", location: .body(locationName: "ImportJobsResponse"))
+            AWSMemberEncoding(label: "importJobsResponse", location: .body("ImportJobsResponse"))
         ]
 
         public let importJobsResponse: ImportJobsResponse
@@ -5560,8 +5560,8 @@ extension Pinpoint {
 
     public struct GetInAppMessagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "EndpointId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5581,7 +5581,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "inAppMessagesResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "inAppMessagesResponse", location: .body(locationName: "InAppMessagesResponse"))
+            AWSMemberEncoding(label: "inAppMessagesResponse", location: .body("InAppMessagesResponse"))
         ]
 
         public let inAppMessagesResponse: InAppMessagesResponse
@@ -5597,8 +5597,8 @@ extension Pinpoint {
 
     public struct GetInAppTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -5618,7 +5618,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "inAppTemplateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "inAppTemplateResponse", location: .body(locationName: "InAppTemplateResponse"))
+            AWSMemberEncoding(label: "inAppTemplateResponse", location: .body("InAppTemplateResponse"))
         ]
 
         public let inAppTemplateResponse: InAppTemplateResponse
@@ -5634,13 +5634,13 @@ extension Pinpoint {
 
     public struct GetJourneyDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId")),
-            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "KpiName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring("end-time")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
+            AWSMemberEncoding(label: "kpiName", location: .uri("KpiName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring("start-time"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5677,7 +5677,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyDateRangeKpiResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyDateRangeKpiResponse", location: .body(locationName: "JourneyDateRangeKpiResponse"))
+            AWSMemberEncoding(label: "journeyDateRangeKpiResponse", location: .body("JourneyDateRangeKpiResponse"))
         ]
 
         public let journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse
@@ -5693,11 +5693,11 @@ extension Pinpoint {
 
     public struct GetJourneyExecutionActivityMetricsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "journeyActivityId", location: .uri(locationName: "JourneyActivityId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "journeyActivityId", location: .uri("JourneyActivityId")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5726,7 +5726,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyExecutionActivityMetricsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyExecutionActivityMetricsResponse", location: .body(locationName: "JourneyExecutionActivityMetricsResponse"))
+            AWSMemberEncoding(label: "journeyExecutionActivityMetricsResponse", location: .body("JourneyExecutionActivityMetricsResponse"))
         ]
 
         public let journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse
@@ -5742,10 +5742,10 @@ extension Pinpoint {
 
     public struct GetJourneyExecutionMetricsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5771,7 +5771,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyExecutionMetricsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyExecutionMetricsResponse", location: .body(locationName: "JourneyExecutionMetricsResponse"))
+            AWSMemberEncoding(label: "journeyExecutionMetricsResponse", location: .body("JourneyExecutionMetricsResponse"))
         ]
 
         public let journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse
@@ -5787,8 +5787,8 @@ extension Pinpoint {
 
     public struct GetJourneyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5808,7 +5808,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
         ]
 
         public let journeyResponse: JourneyResponse
@@ -5824,8 +5824,8 @@ extension Pinpoint {
 
     public struct GetPushTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -5845,7 +5845,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "pushNotificationTemplateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "pushNotificationTemplateResponse", location: .body(locationName: "PushNotificationTemplateResponse"))
+            AWSMemberEncoding(label: "pushNotificationTemplateResponse", location: .body("PushNotificationTemplateResponse"))
         ]
 
         public let pushNotificationTemplateResponse: PushNotificationTemplateResponse
@@ -5861,7 +5861,7 @@ extension Pinpoint {
 
     public struct GetRecommenderConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "RecommenderId"))
+            AWSMemberEncoding(label: "recommenderId", location: .uri("RecommenderId"))
         ]
 
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
@@ -5878,7 +5878,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
+            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
         ]
 
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
@@ -5894,8 +5894,8 @@ extension Pinpoint {
 
     public struct GetRecommenderConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -5915,7 +5915,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "listRecommenderConfigurationsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "listRecommenderConfigurationsResponse", location: .body(locationName: "ListRecommenderConfigurationsResponse"))
+            AWSMemberEncoding(label: "listRecommenderConfigurationsResponse", location: .body("ListRecommenderConfigurationsResponse"))
         ]
 
         public let listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse
@@ -5931,10 +5931,10 @@ extension Pinpoint {
 
     public struct GetSegmentExportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -5960,7 +5960,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "exportJobsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobsResponse", location: .body(locationName: "ExportJobsResponse"))
+            AWSMemberEncoding(label: "exportJobsResponse", location: .body("ExportJobsResponse"))
         ]
 
         public let exportJobsResponse: ExportJobsResponse
@@ -5976,10 +5976,10 @@ extension Pinpoint {
 
     public struct GetSegmentImportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6005,7 +6005,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "importJobsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "importJobsResponse", location: .body(locationName: "ImportJobsResponse"))
+            AWSMemberEncoding(label: "importJobsResponse", location: .body("ImportJobsResponse"))
         ]
 
         public let importJobsResponse: ImportJobsResponse
@@ -6021,8 +6021,8 @@ extension Pinpoint {
 
     public struct GetSegmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6042,7 +6042,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
         ]
 
         public let segmentResponse: SegmentResponse
@@ -6058,9 +6058,9 @@ extension Pinpoint {
 
     public struct GetSegmentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
+            AWSMemberEncoding(label: "version", location: .uri("Version"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6083,7 +6083,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
         ]
 
         public let segmentResponse: SegmentResponse
@@ -6099,10 +6099,10 @@ extension Pinpoint {
 
     public struct GetSegmentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6128,7 +6128,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentsResponse", location: .body(locationName: "SegmentsResponse"))
+            AWSMemberEncoding(label: "segmentsResponse", location: .body("SegmentsResponse"))
         ]
 
         public let segmentsResponse: SegmentsResponse
@@ -6144,9 +6144,9 @@ extension Pinpoint {
 
     public struct GetSegmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6169,7 +6169,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentsResponse", location: .body(locationName: "SegmentsResponse"))
+            AWSMemberEncoding(label: "segmentsResponse", location: .body("SegmentsResponse"))
         ]
 
         public let segmentsResponse: SegmentsResponse
@@ -6185,7 +6185,7 @@ extension Pinpoint {
 
     public struct GetSmsChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6202,7 +6202,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
+            AWSMemberEncoding(label: "sMSChannelResponse", location: .body("SMSChannelResponse"))
         ]
 
         public let sMSChannelResponse: SMSChannelResponse
@@ -6218,8 +6218,8 @@ extension Pinpoint {
 
     public struct GetSmsTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -6239,7 +6239,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSTemplateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSTemplateResponse", location: .body(locationName: "SMSTemplateResponse"))
+            AWSMemberEncoding(label: "sMSTemplateResponse", location: .body("SMSTemplateResponse"))
         ]
 
         public let sMSTemplateResponse: SMSTemplateResponse
@@ -6255,8 +6255,8 @@ extension Pinpoint {
 
     public struct GetUserEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6276,7 +6276,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointsResponse", location: .body(locationName: "EndpointsResponse"))
+            AWSMemberEncoding(label: "endpointsResponse", location: .body("EndpointsResponse"))
         ]
 
         public let endpointsResponse: EndpointsResponse
@@ -6292,7 +6292,7 @@ extension Pinpoint {
 
     public struct GetVoiceChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -6309,7 +6309,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
+            AWSMemberEncoding(label: "voiceChannelResponse", location: .body("VoiceChannelResponse"))
         ]
 
         public let voiceChannelResponse: VoiceChannelResponse
@@ -6325,8 +6325,8 @@ extension Pinpoint {
 
     public struct GetVoiceTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -6346,7 +6346,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceTemplateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "voiceTemplateResponse", location: .body(locationName: "VoiceTemplateResponse"))
+            AWSMemberEncoding(label: "voiceTemplateResponse", location: .body("VoiceTemplateResponse"))
         ]
 
         public let voiceTemplateResponse: VoiceTemplateResponse
@@ -7175,9 +7175,9 @@ extension Pinpoint {
 
     public struct ListJourneysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "token", location: .querystring("token"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -7200,7 +7200,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeysResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeysResponse", location: .body(locationName: "JourneysResponse"))
+            AWSMemberEncoding(label: "journeysResponse", location: .body("JourneysResponse"))
         ]
 
         public let journeysResponse: JourneysResponse
@@ -7233,7 +7233,7 @@ extension Pinpoint {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -7250,7 +7250,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "tagsModel"
         public static var _encoding = [
-            AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
+            AWSMemberEncoding(label: "tagsModel", location: .body("TagsModel"))
         ]
 
         public let tagsModel: TagsModel
@@ -7266,10 +7266,10 @@ extension Pinpoint {
 
     public struct ListTemplateVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "templateType", location: .uri(locationName: "TemplateType"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "templateType", location: .uri("TemplateType"))
         ]
 
         /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -7295,7 +7295,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "templateVersionsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateVersionsResponse", location: .body(locationName: "TemplateVersionsResponse"))
+            AWSMemberEncoding(label: "templateVersionsResponse", location: .body("TemplateVersionsResponse"))
         ]
 
         public let templateVersionsResponse: TemplateVersionsResponse
@@ -7311,10 +7311,10 @@ extension Pinpoint {
 
     public struct ListTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")),
-            AWSMemberEncoding(label: "templateType", location: .querystring(locationName: "template-type"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
+            AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
+            AWSMemberEncoding(label: "templateType", location: .querystring("template-type"))
         ]
 
         /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -7340,7 +7340,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "templatesResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templatesResponse", location: .body(locationName: "TemplatesResponse"))
+            AWSMemberEncoding(label: "templatesResponse", location: .body("TemplatesResponse"))
         ]
 
         public let templatesResponse: TemplatesResponse
@@ -7718,7 +7718,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "numberValidateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "numberValidateRequest", location: .body(locationName: "NumberValidateRequest"))
+            AWSMemberEncoding(label: "numberValidateRequest", location: .body("NumberValidateRequest"))
         ]
 
         public let numberValidateRequest: NumberValidateRequest
@@ -7736,7 +7736,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "numberValidateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "numberValidateResponse", location: .body(locationName: "NumberValidateResponse"))
+            AWSMemberEncoding(label: "numberValidateResponse", location: .body("NumberValidateResponse"))
         ]
 
         public let numberValidateResponse: NumberValidateResponse
@@ -7946,8 +7946,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeEventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "writeEventStream", location: .body(locationName: "WriteEventStream"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "writeEventStream", location: .body("WriteEventStream"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -7968,7 +7968,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "eventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
+            AWSMemberEncoding(label: "eventStream", location: .body("EventStream"))
         ]
 
         public let eventStream: EventStream
@@ -7986,8 +7986,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "eventsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "eventsRequest", location: .body(locationName: "EventsRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "eventsRequest", location: .body("EventsRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -8008,7 +8008,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "eventsResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventsResponse", location: .body(locationName: "EventsResponse"))
+            AWSMemberEncoding(label: "eventsResponse", location: .body("EventsResponse"))
         ]
 
         public let eventsResponse: EventsResponse
@@ -8160,9 +8160,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "updateAttributesRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "AttributeType")),
-            AWSMemberEncoding(label: "updateAttributesRequest", location: .body(locationName: "UpdateAttributesRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "attributeType", location: .uri("AttributeType")),
+            AWSMemberEncoding(label: "updateAttributesRequest", location: .body("UpdateAttributesRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -8186,7 +8186,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "attributesResource"
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributesResource", location: .body(locationName: "AttributesResource"))
+            AWSMemberEncoding(label: "attributesResource", location: .body("AttributesResource"))
         ]
 
         public let attributesResource: AttributesResource
@@ -8792,8 +8792,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "messageRequest", location: .body(locationName: "MessageRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "messageRequest", location: .body("MessageRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -8814,7 +8814,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageResponse", location: .body(locationName: "MessageResponse"))
+            AWSMemberEncoding(label: "messageResponse", location: .body("MessageResponse"))
         ]
 
         public let messageResponse: MessageResponse
@@ -8882,8 +8882,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sendUsersMessageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "sendUsersMessageRequest", location: .body(locationName: "SendUsersMessageRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "sendUsersMessageRequest", location: .body("SendUsersMessageRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -8904,7 +8904,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sendUsersMessageResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sendUsersMessageResponse", location: .body(locationName: "SendUsersMessageResponse"))
+            AWSMemberEncoding(label: "sendUsersMessageResponse", location: .body("SendUsersMessageResponse"))
         ]
 
         public let sendUsersMessageResponse: SendUsersMessageResponse
@@ -9043,8 +9043,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "tagsModel"
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagsModel", location: .body("TagsModel"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -9321,8 +9321,8 @@ extension Pinpoint {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -9342,8 +9342,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aDMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelRequest", location: .body(locationName: "ADMChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "aDMChannelRequest", location: .body("ADMChannelRequest")),
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         public let aDMChannelRequest: ADMChannelRequest
@@ -9364,7 +9364,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aDMChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
+            AWSMemberEncoding(label: "aDMChannelResponse", location: .body("ADMChannelResponse"))
         ]
 
         public let aDMChannelResponse: ADMChannelResponse
@@ -9382,8 +9382,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body(locationName: "APNSChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body("APNSChannelRequest")),
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         public let aPNSChannelRequest: APNSChannelRequest
@@ -9404,7 +9404,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
+            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body("APNSChannelResponse"))
         ]
 
         public let aPNSChannelResponse: APNSChannelResponse
@@ -9422,8 +9422,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body(locationName: "APNSSandboxChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body("APNSSandboxChannelRequest")),
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         public let aPNSSandboxChannelRequest: APNSSandboxChannelRequest
@@ -9444,7 +9444,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
+            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
         ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
@@ -9462,8 +9462,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body(locationName: "APNSVoipChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body("APNSVoipChannelRequest")),
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         public let aPNSVoipChannelRequest: APNSVoipChannelRequest
@@ -9484,7 +9484,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
+            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
         ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
@@ -9502,8 +9502,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body(locationName: "APNSVoipSandboxChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body("APNSVoipSandboxChannelRequest")),
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         public let aPNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
@@ -9524,7 +9524,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
         ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
@@ -9542,8 +9542,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeApplicationSettingsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "writeApplicationSettingsRequest", location: .body(locationName: "WriteApplicationSettingsRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "writeApplicationSettingsRequest", location: .body("WriteApplicationSettingsRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9564,7 +9564,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "applicationSettingsResource"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationSettingsResource", location: .body(locationName: "ApplicationSettingsResource"))
+            AWSMemberEncoding(label: "applicationSettingsResource", location: .body("ApplicationSettingsResource"))
         ]
 
         public let applicationSettingsResource: ApplicationSettingsResource
@@ -9595,8 +9595,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "baiduChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "baiduChannelRequest", location: .body(locationName: "BaiduChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "baiduChannelRequest", location: .body("BaiduChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9617,7 +9617,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "baiduChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
+            AWSMemberEncoding(label: "baiduChannelResponse", location: .body("BaiduChannelResponse"))
         ]
 
         public let baiduChannelResponse: BaiduChannelResponse
@@ -9635,9 +9635,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeCampaignRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId")),
-            AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
+            AWSMemberEncoding(label: "writeCampaignRequest", location: .body("WriteCampaignRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9661,7 +9661,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "campaignResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
         ]
 
         public let campaignResponse: CampaignResponse
@@ -9679,8 +9679,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "emailChannelRequest", location: .body(locationName: "EmailChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "emailChannelRequest", location: .body("EmailChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9701,7 +9701,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
+            AWSMemberEncoding(label: "emailChannelResponse", location: .body("EmailChannelResponse"))
         ]
 
         public let emailChannelResponse: EmailChannelResponse
@@ -9719,10 +9719,10 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
+            AWSMemberEncoding(label: "emailTemplateRequest", location: .body("EmailTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
@@ -9749,7 +9749,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -9767,9 +9767,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "EndpointId")),
-            AWSMemberEncoding(label: "endpointRequest", location: .body(locationName: "EndpointRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId")),
+            AWSMemberEncoding(label: "endpointRequest", location: .body("EndpointRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9793,7 +9793,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -9811,8 +9811,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointBatchRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "endpointBatchRequest", location: .body(locationName: "EndpointBatchRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "endpointBatchRequest", location: .body("EndpointBatchRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9833,7 +9833,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -9851,8 +9851,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "gCMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "gCMChannelRequest", location: .body(locationName: "GCMChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "gCMChannelRequest", location: .body("GCMChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9873,7 +9873,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "gCMChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
+            AWSMemberEncoding(label: "gCMChannelResponse", location: .body("GCMChannelResponse"))
         ]
 
         public let gCMChannelResponse: GCMChannelResponse
@@ -9891,10 +9891,10 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "inAppTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body(locationName: "InAppTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
+            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body("InAppTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
@@ -9921,7 +9921,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -9939,9 +9939,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeJourneyRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId")),
-            AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
+            AWSMemberEncoding(label: "writeJourneyRequest", location: .body("WriteJourneyRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -9965,7 +9965,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
         ]
 
         public let journeyResponse: JourneyResponse
@@ -9983,9 +9983,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyStateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "JourneyId")),
-            AWSMemberEncoding(label: "journeyStateRequest", location: .body(locationName: "JourneyStateRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
+            AWSMemberEncoding(label: "journeyStateRequest", location: .body("JourneyStateRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -10009,7 +10009,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
         ]
 
         public let journeyResponse: JourneyResponse
@@ -10027,10 +10027,10 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "pushNotificationTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
+            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body("PushNotificationTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
@@ -10057,7 +10057,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -10075,8 +10075,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "updateRecommenderConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "RecommenderId")),
-            AWSMemberEncoding(label: "updateRecommenderConfiguration", location: .body(locationName: "UpdateRecommenderConfiguration"))
+            AWSMemberEncoding(label: "recommenderId", location: .uri("RecommenderId")),
+            AWSMemberEncoding(label: "updateRecommenderConfiguration", location: .body("UpdateRecommenderConfiguration"))
         ]
 
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
@@ -10097,7 +10097,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "recommenderConfigurationResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body(locationName: "RecommenderConfigurationResponse"))
+            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
         ]
 
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
@@ -10160,9 +10160,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeSegmentRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "SegmentId")),
-            AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
+            AWSMemberEncoding(label: "writeSegmentRequest", location: .body("WriteSegmentRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -10186,7 +10186,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "segmentResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
         ]
 
         public let segmentResponse: SegmentResponse
@@ -10204,8 +10204,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "sMSChannelRequest", location: .body(locationName: "SMSChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "sMSChannelRequest", location: .body("SMSChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -10226,7 +10226,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
+            AWSMemberEncoding(label: "sMSChannelResponse", location: .body("SMSChannelResponse"))
         ]
 
         public let sMSChannelResponse: SMSChannelResponse
@@ -10244,10 +10244,10 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
+            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body("SMSTemplateRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
@@ -10274,7 +10274,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -10292,9 +10292,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "templateActiveVersionRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body(locationName: "TemplateActiveVersionRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "templateType", location: .uri(locationName: "TemplateType"))
+            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body("TemplateActiveVersionRequest")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "templateType", location: .uri("TemplateType"))
         ]
 
         public let templateActiveVersionRequest: TemplateActiveVersionRequest
@@ -10318,7 +10318,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody
@@ -10336,8 +10336,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "voiceChannelRequest", location: .body(locationName: "VoiceChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "voiceChannelRequest", location: .body("VoiceChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -10358,7 +10358,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
+            AWSMemberEncoding(label: "voiceChannelResponse", location: .body("VoiceChannelResponse"))
         ]
 
         public let voiceChannelResponse: VoiceChannelResponse
@@ -10376,10 +10376,10 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
+            AWSMemberEncoding(label: "version", location: .querystring("version")),
+            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body("VoiceTemplateRequest"))
         ]
 
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
@@ -10406,7 +10406,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageBody"
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
         ]
 
         public let messageBody: MessageBody

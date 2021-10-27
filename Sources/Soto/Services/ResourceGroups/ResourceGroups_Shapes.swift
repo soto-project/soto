@@ -304,7 +304,7 @@ extension ResourceGroups {
 
     public struct GetTagsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The ARN of the resource group whose tags you want to retrieve.
@@ -650,8 +650,8 @@ extension ResourceGroups {
 
     public struct ListGroupsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those of the specified resource types. Specify up to five resource types in the format AWS::ServiceCode::ResourceType . For example, AWS::EC2::Instance, or AWS::S3::Bucket.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS:EC2::CapacityReservationPool     AWS:EC2::HostManagement
@@ -921,7 +921,7 @@ extension ResourceGroups {
 
     public struct TagInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The ARN of the resource group to which to add tags.
@@ -1020,7 +1020,7 @@ extension ResourceGroups {
 
     public struct UntagInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The ARN of the resource group from which to remove tags. The command removed both the specified keys and any values associated with those keys.

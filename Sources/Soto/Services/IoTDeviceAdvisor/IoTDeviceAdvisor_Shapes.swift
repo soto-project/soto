@@ -104,7 +104,7 @@ extension IoTDeviceAdvisor {
 
     public struct DeleteSuiteDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId"))
         ]
 
         /// Suite definition Id of the test suite to be deleted.
@@ -152,8 +152,8 @@ extension IoTDeviceAdvisor {
 
     public struct GetSuiteDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring("suiteDefinitionVersion"))
         ]
 
         /// Suite definition Id of the test suite to get.
@@ -219,8 +219,8 @@ extension IoTDeviceAdvisor {
 
     public struct GetSuiteRunReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteRunId", location: .uri("suiteRunId"))
         ]
 
         /// Suite definition Id of the test suite.
@@ -258,8 +258,8 @@ extension IoTDeviceAdvisor {
 
     public struct GetSuiteRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteRunId", location: .uri("suiteRunId"))
         ]
 
         /// Suite definition Id for the test suite run.
@@ -358,8 +358,8 @@ extension IoTDeviceAdvisor {
 
     public struct ListSuiteDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return at once.
@@ -400,10 +400,10 @@ extension IoTDeviceAdvisor {
 
     public struct ListSuiteRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .querystring(locationName: "suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .querystring("suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring("suiteDefinitionVersion"))
         ]
 
         /// The maximum number of results to return at once.
@@ -454,7 +454,7 @@ extension IoTDeviceAdvisor {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the IoT Device Advisor resource.
@@ -487,7 +487,7 @@ extension IoTDeviceAdvisor {
 
     public struct StartSuiteRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId"))
         ]
 
         /// Suite definition Id of the test suite.
@@ -551,8 +551,8 @@ extension IoTDeviceAdvisor {
 
     public struct StopSuiteRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
-            AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteRunId", location: .uri("suiteRunId"))
         ]
 
         /// Suite definition Id of the test suite run to be stopped.
@@ -727,7 +727,7 @@ extension IoTDeviceAdvisor {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The resource ARN of an IoT Device Advisor resource.
@@ -821,8 +821,8 @@ extension IoTDeviceAdvisor {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The resource ARN of an IoT Device Advisor resource.
@@ -854,7 +854,7 @@ extension IoTDeviceAdvisor {
 
     public struct UpdateSuiteDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri("suiteDefinitionId"))
         ]
 
         /// Updates a Device Advisor test suite with suite definition configuration.

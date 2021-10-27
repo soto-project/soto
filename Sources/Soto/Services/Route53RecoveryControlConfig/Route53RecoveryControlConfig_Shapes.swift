@@ -341,7 +341,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DeleteClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the cluster that you're deleting.
@@ -360,7 +360,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DeleteControlPanelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri(locationName: "ControlPanelArn"))
+            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the control panel that you're deleting.
@@ -379,7 +379,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DeleteRoutingControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "routingControlArn", location: .uri(locationName: "RoutingControlArn"))
+            AWSMemberEncoding(label: "routingControlArn", location: .uri("RoutingControlArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the routing control that you're deleting.
@@ -398,7 +398,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DeleteSafetyRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "safetyRuleArn", location: .uri(locationName: "SafetyRuleArn"))
+            AWSMemberEncoding(label: "safetyRuleArn", location: .uri("SafetyRuleArn"))
         ]
 
         /// The request body that you include when you update a safety rule.
@@ -417,7 +417,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DescribeClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "ClusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the cluster that you're getting details for.
@@ -445,7 +445,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DescribeControlPanelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri(locationName: "ControlPanelArn"))
+            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the control panel that you're getting details for.
@@ -473,7 +473,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DescribeRoutingControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "routingControlArn", location: .uri(locationName: "RoutingControlArn"))
+            AWSMemberEncoding(label: "routingControlArn", location: .uri("RoutingControlArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the routing control that you're getting details for.
@@ -501,7 +501,7 @@ extension Route53RecoveryControlConfig {
 
     public struct DescribeSafetyRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "safetyRuleArn", location: .uri(locationName: "SafetyRuleArn"))
+            AWSMemberEncoding(label: "safetyRuleArn", location: .uri("SafetyRuleArn"))
         ]
 
         /// The request body that you include when you update a safety rule.
@@ -599,9 +599,9 @@ extension Route53RecoveryControlConfig {
 
     public struct ListAssociatedRoute53HealthChecksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "routingControlArn", location: .uri(locationName: "RoutingControlArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "routingControlArn", location: .uri("RoutingControlArn"))
         ]
 
         /// The number of objects that you want to return with this call.
@@ -644,8 +644,8 @@ extension Route53RecoveryControlConfig {
 
     public struct ListClustersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The number of objects that you want to return with this call.
@@ -685,9 +685,9 @@ extension Route53RecoveryControlConfig {
 
     public struct ListControlPanelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .querystring(locationName: "ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "clusterArn", location: .querystring("ClusterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) of a cluster.
@@ -730,9 +730,9 @@ extension Route53RecoveryControlConfig {
 
     public struct ListRoutingControlsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri(locationName: "ControlPanelArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) of the control panel that you're getting routing control details for.
@@ -775,9 +775,9 @@ extension Route53RecoveryControlConfig {
 
     public struct ListSafetyRulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri(locationName: "ControlPanelArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) of the control panel that you're getting details for.

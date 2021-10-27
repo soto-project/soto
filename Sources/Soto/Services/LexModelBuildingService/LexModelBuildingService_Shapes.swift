@@ -420,7 +420,7 @@ extension LexModelBuildingService {
 
     public struct CreateBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
@@ -523,7 +523,7 @@ extension LexModelBuildingService {
 
     public struct CreateIntentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
@@ -630,7 +630,7 @@ extension LexModelBuildingService {
 
     public struct CreateSlotTypeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
@@ -705,8 +705,8 @@ extension LexModelBuildingService {
 
     public struct DeleteBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the bot that the alias points to.
@@ -733,9 +733,9 @@ extension LexModelBuildingService {
 
     public struct DeleteBotChannelAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
@@ -768,7 +768,7 @@ extension LexModelBuildingService {
 
     public struct DeleteBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the bot. The name is case sensitive.
@@ -789,8 +789,8 @@ extension LexModelBuildingService {
 
     public struct DeleteBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "version", location: .uri("version"))
         ]
 
         /// The name of the bot.
@@ -817,7 +817,7 @@ extension LexModelBuildingService {
 
     public struct DeleteIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the intent. The name is case sensitive.
@@ -838,8 +838,8 @@ extension LexModelBuildingService {
 
     public struct DeleteIntentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "version", location: .uri("version"))
         ]
 
         /// The name of the intent.
@@ -866,7 +866,7 @@ extension LexModelBuildingService {
 
     public struct DeleteSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the slot type. The name is case sensitive.
@@ -887,8 +887,8 @@ extension LexModelBuildingService {
 
     public struct DeleteSlotTypeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "version", location: .uri("version"))
         ]
 
         /// The name of the slot type.
@@ -915,8 +915,8 @@ extension LexModelBuildingService {
 
     public struct DeleteUtterancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
         ]
 
         /// The name of the bot that stored the utterances.
@@ -1011,8 +1011,8 @@ extension LexModelBuildingService {
 
     public struct GetBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the bot.
@@ -1080,10 +1080,10 @@ extension LexModelBuildingService {
 
     public struct GetBotAliasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the bot.
@@ -1135,9 +1135,9 @@ extension LexModelBuildingService {
 
     public struct GetBotChannelAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
@@ -1215,11 +1215,11 @@ extension LexModelBuildingService {
 
     public struct GetBotChannelAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
@@ -1277,8 +1277,8 @@ extension LexModelBuildingService {
 
     public struct GetBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "versionOrAlias", location: .uri(locationName: "versionOrAlias"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "versionOrAlias", location: .uri("versionOrAlias"))
         ]
 
         /// The name of the bot. The name is case sensitive.
@@ -1383,9 +1383,9 @@ extension LexModelBuildingService {
 
     public struct GetBotVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of bot versions to return in the response. The default is 10.
@@ -1431,9 +1431,9 @@ extension LexModelBuildingService {
 
     public struct GetBotsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of bots to return in the response that the request will return. The default is 10.
@@ -1479,7 +1479,7 @@ extension LexModelBuildingService {
 
     public struct GetBuiltinIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "signature", location: .uri(locationName: "signature"))
+            AWSMemberEncoding(label: "signature", location: .uri("signature"))
         ]
 
         /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
@@ -1515,10 +1515,10 @@ extension LexModelBuildingService {
 
     public struct GetBuiltinIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "signatureContains", location: .querystring(locationName: "signatureContains"))
+            AWSMemberEncoding(label: "locale", location: .querystring("locale")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "signatureContains", location: .querystring("signatureContains"))
         ]
 
         /// A list of locales that the intent supports.
@@ -1564,10 +1564,10 @@ extension LexModelBuildingService {
 
     public struct GetBuiltinSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "signatureContains", location: .querystring(locationName: "signatureContains"))
+            AWSMemberEncoding(label: "locale", location: .querystring("locale")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "signatureContains", location: .querystring("signatureContains"))
         ]
 
         /// A list of locales that the slot type supports.
@@ -1613,10 +1613,10 @@ extension LexModelBuildingService {
 
     public struct GetExportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportType", location: .querystring(locationName: "exportType")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "exportType", location: .querystring("exportType")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
+            AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// The format of the exported data.
@@ -1686,7 +1686,7 @@ extension LexModelBuildingService {
 
     public struct GetImportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "importId", location: .uri(locationName: "importId"))
+            AWSMemberEncoding(label: "importId", location: .uri("importId"))
         ]
 
         /// The identifier of the import job information to return.
@@ -1738,8 +1738,8 @@ extension LexModelBuildingService {
 
     public struct GetIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "version", location: .uri("version"))
         ]
 
         /// The name of the intent. The name is case sensitive.
@@ -1847,9 +1847,9 @@ extension LexModelBuildingService {
 
     public struct GetIntentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of intent versions to return in the response. The default is 10.
@@ -1895,9 +1895,9 @@ extension LexModelBuildingService {
 
     public struct GetIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of intents to return in the response. The default is 10.
@@ -1943,7 +1943,7 @@ extension LexModelBuildingService {
 
     public struct GetMigrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "migrationId", location: .uri(locationName: "migrationId"))
+            AWSMemberEncoding(label: "migrationId", location: .uri("migrationId"))
         ]
 
         /// The unique identifier of the migration to view. The migrationID is returned by the  operation.
@@ -2013,12 +2013,12 @@ extension LexModelBuildingService {
 
     public struct GetMigrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "migrationStatusEquals", location: .querystring(locationName: "migrationStatusEquals")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "sortByAttribute", location: .querystring(locationName: "sortByAttribute")),
-            AWSMemberEncoding(label: "sortByOrder", location: .querystring(locationName: "sortByOrder")),
-            AWSMemberEncoding(label: "v1BotNameContains", location: .querystring(locationName: "v1BotNameContains"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "migrationStatusEquals", location: .querystring("migrationStatusEquals")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "sortByAttribute", location: .querystring("sortByAttribute")),
+            AWSMemberEncoding(label: "sortByOrder", location: .querystring("sortByOrder")),
+            AWSMemberEncoding(label: "v1BotNameContains", location: .querystring("v1BotNameContains"))
         ]
 
         /// The maximum number of migrations to return in the response. The default is 10.
@@ -2073,8 +2073,8 @@ extension LexModelBuildingService {
 
     public struct GetSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "version", location: .uri("version"))
         ]
 
         /// The name of the slot type. The name is case sensitive.
@@ -2150,9 +2150,9 @@ extension LexModelBuildingService {
 
     public struct GetSlotTypeVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .uri("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of slot type versions to return in the response. The default is 10.
@@ -2198,9 +2198,9 @@ extension LexModelBuildingService {
 
     public struct GetSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of slot types to return in the response. The default is 10.
@@ -2246,9 +2246,9 @@ extension LexModelBuildingService {
 
     public struct GetUtterancesViewRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "botVersions", location: .querystring(locationName: "bot_versions")),
-            AWSMemberEncoding(label: "statusType", location: .querystring(locationName: "status_type"))
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "botVersions", location: .querystring("bot_versions")),
+            AWSMemberEncoding(label: "statusType", location: .querystring("status_type"))
         ]
 
         /// The name of the bot for which utterance information should be returned.
@@ -2403,7 +2403,7 @@ extension LexModelBuildingService {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
@@ -2661,8 +2661,8 @@ extension LexModelBuildingService {
 
     public struct PutBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "botName", location: .uri("botName")),
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The name of the bot.
@@ -2764,7 +2764,7 @@ extension LexModelBuildingService {
 
     public struct PutBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then cancels the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the cancel statement will not be sent to the user, the fallback intent is used instead. For more information, see  AMAZON.FallbackIntent.
@@ -2950,7 +2950,7 @@ extension LexModelBuildingService {
 
     public struct PutIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -3144,7 +3144,7 @@ extension LexModelBuildingService {
 
     public struct PutSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -3642,7 +3642,7 @@ extension LexModelBuildingService {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
@@ -3675,8 +3675,8 @@ extension LexModelBuildingService {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to remove the tags from.

@@ -247,8 +247,8 @@ extension Nimble {
 
     public struct AcceptEulasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -360,8 +360,8 @@ extension Nimble {
 
     public struct CreateLaunchProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -435,8 +435,8 @@ extension Nimble {
 
     public struct CreateStreamingImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -491,8 +491,8 @@ extension Nimble {
 
     public struct CreateStreamingSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -551,9 +551,9 @@ extension Nimble {
 
     public struct CreateStreamingSessionStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -599,8 +599,8 @@ extension Nimble {
 
     public struct CreateStudioComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -685,7 +685,7 @@ extension Nimble {
 
     public struct CreateStudioRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token"))
         ]
 
         /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
@@ -748,10 +748,10 @@ extension Nimble {
 
     public struct DeleteLaunchProfileMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -784,9 +784,9 @@ extension Nimble {
 
     public struct DeleteLaunchProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -825,9 +825,9 @@ extension Nimble {
 
     public struct DeleteStreamingImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "streamingImageId", location: .uri(locationName: "streamingImageId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "streamingImageId", location: .uri("streamingImageId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -866,9 +866,9 @@ extension Nimble {
 
     public struct DeleteStreamingSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -907,9 +907,9 @@ extension Nimble {
 
     public struct DeleteStudioComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioComponentId", location: .uri(locationName: "studioComponentId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioComponentId", location: .uri("studioComponentId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -948,9 +948,9 @@ extension Nimble {
 
     public struct DeleteStudioMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -980,8 +980,8 @@ extension Nimble {
 
     public struct DeleteStudioRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -1078,7 +1078,7 @@ extension Nimble {
 
     public struct GetEulaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eulaId", location: .uri(locationName: "eulaId"))
+            AWSMemberEncoding(label: "eulaId", location: .uri("eulaId"))
         ]
 
         /// The EULA ID.
@@ -1106,8 +1106,8 @@ extension Nimble {
 
     public struct GetLaunchProfileDetailsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The launch profile ID.
@@ -1146,11 +1146,11 @@ extension Nimble {
 
     public struct GetLaunchProfileInitializationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "launchProfileProtocolVersions", location: .querystring(locationName: "launchProfileProtocolVersions")),
-            AWSMemberEncoding(label: "launchPurpose", location: .querystring(locationName: "launchPurpose")),
-            AWSMemberEncoding(label: "platform", location: .querystring(locationName: "platform")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "launchProfileProtocolVersions", location: .querystring("launchProfileProtocolVersions")),
+            AWSMemberEncoding(label: "launchPurpose", location: .querystring("launchPurpose")),
+            AWSMemberEncoding(label: "platform", location: .querystring("platform")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The launch profile ID.
@@ -1190,9 +1190,9 @@ extension Nimble {
 
     public struct GetLaunchProfileMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The launch profile ID.
@@ -1226,8 +1226,8 @@ extension Nimble {
 
     public struct GetLaunchProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The launch profile ID.
@@ -1258,8 +1258,8 @@ extension Nimble {
 
     public struct GetStreamingImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "streamingImageId", location: .uri(locationName: "streamingImageId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "streamingImageId", location: .uri("streamingImageId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The streaming image ID.
@@ -1290,8 +1290,8 @@ extension Nimble {
 
     public struct GetStreamingSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The session ID.
@@ -1322,9 +1322,9 @@ extension Nimble {
 
     public struct GetStreamingSessionStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
-            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "streamId", location: .uri("streamId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The session ID.
@@ -1358,8 +1358,8 @@ extension Nimble {
 
     public struct GetStudioComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "studioComponentId", location: .uri(locationName: "studioComponentId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "studioComponentId", location: .uri("studioComponentId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The studio component ID.
@@ -1390,8 +1390,8 @@ extension Nimble {
 
     public struct GetStudioMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The principal ID.
@@ -1422,7 +1422,7 @@ extension Nimble {
 
     public struct GetStudioRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The studio ID.
@@ -1662,9 +1662,9 @@ extension Nimble {
 
     public struct ListEulaAcceptancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eulaIds", location: .querystring(locationName: "eulaIds")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "eulaIds", location: .querystring("eulaIds")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// A collection of EULA IDs.
@@ -1702,8 +1702,8 @@ extension Nimble {
 
     public struct ListEulasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eulaIds", location: .querystring(locationName: "eulaIds")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "eulaIds", location: .querystring("eulaIds")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A collection of EULA IDs.
@@ -1738,10 +1738,10 @@ extension Nimble {
 
     public struct ListLaunchProfileMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The launch profile ID.
@@ -1787,11 +1787,11 @@ extension Nimble {
 
     public struct ListLaunchProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "principalId", location: .querystring(locationName: "principalId")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "principalId", location: .querystring("principalId")),
+            AWSMemberEncoding(label: "states", location: .querystring("states")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -1840,9 +1840,9 @@ extension Nimble {
 
     public struct ListStreamingImagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "owner", location: .querystring(locationName: "owner")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "owner", location: .querystring("owner")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The token for the next set of results, or null if there are no more results.
@@ -1880,11 +1880,11 @@ extension Nimble {
 
     public struct ListStreamingSessionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "createdBy", location: .querystring(locationName: "createdBy")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "ownedBy", location: .querystring(locationName: "ownedBy")),
-            AWSMemberEncoding(label: "sessionIds", location: .querystring(locationName: "sessionIds")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "createdBy", location: .querystring("createdBy")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "ownedBy", location: .querystring("ownedBy")),
+            AWSMemberEncoding(label: "sessionIds", location: .querystring("sessionIds")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The user ID of the user that created the streaming session.
@@ -1928,11 +1928,11 @@ extension Nimble {
 
     public struct ListStudioComponentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId")),
-            AWSMemberEncoding(label: "types", location: .querystring(locationName: "types"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "states", location: .querystring("states")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId")),
+            AWSMemberEncoding(label: "types", location: .querystring("types"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -1981,9 +1981,9 @@ extension Nimble {
 
     public struct ListStudioMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -2026,7 +2026,7 @@ extension Nimble {
 
     public struct ListStudiosRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The token for the next set of results, or null if there are no more results.
@@ -2058,7 +2058,7 @@ extension Nimble {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the target resource for tagging operations.
@@ -2120,9 +2120,9 @@ extension Nimble {
 
     public struct PutLaunchProfileMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -2163,8 +2163,8 @@ extension Nimble {
 
     public struct PutStudioMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -2262,8 +2262,8 @@ extension Nimble {
 
     public struct StartStudioSSOConfigurationRepairRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -2864,7 +2864,7 @@ extension Nimble {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the target resource for tagging operations.
@@ -2888,8 +2888,8 @@ extension Nimble {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the target resource for tagging operations.
@@ -2911,10 +2911,10 @@ extension Nimble {
 
     public struct UpdateLaunchProfileMemberRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -2961,9 +2961,9 @@ extension Nimble {
 
     public struct UpdateLaunchProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri(locationName: "launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -3032,9 +3032,9 @@ extension Nimble {
 
     public struct UpdateStreamingImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "streamingImageId", location: .uri(locationName: "streamingImageId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "streamingImageId", location: .uri("streamingImageId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -3083,9 +3083,9 @@ extension Nimble {
 
     public struct UpdateStudioComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioComponentId", location: .uri(locationName: "studioComponentId")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioComponentId", location: .uri("studioComponentId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
@@ -3169,8 +3169,8 @@ extension Nimble {
 
     public struct UpdateStudioRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
         /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.

@@ -242,7 +242,7 @@ extension IoTWireless {
 
     public struct AssociateWirelessDeviceWithThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -270,7 +270,7 @@ extension IoTWireless {
 
     public struct AssociateWirelessGatewayWithCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -309,7 +309,7 @@ extension IoTWireless {
 
     public struct AssociateWirelessGatewayWithThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -718,7 +718,7 @@ extension IoTWireless {
 
     public struct CreateWirelessGatewayTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -761,7 +761,7 @@ extension IoTWireless {
 
     public struct DeleteDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the resource to delete.
@@ -785,7 +785,7 @@ extension IoTWireless {
 
     public struct DeleteDeviceProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to delete.
@@ -808,7 +808,7 @@ extension IoTWireless {
 
     public struct DeleteServiceProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to delete.
@@ -831,7 +831,7 @@ extension IoTWireless {
 
     public struct DeleteWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to delete.
@@ -854,7 +854,7 @@ extension IoTWireless {
 
     public struct DeleteWirelessGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to delete.
@@ -877,7 +877,7 @@ extension IoTWireless {
 
     public struct DeleteWirelessGatewayTaskDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to delete.
@@ -901,7 +901,7 @@ extension IoTWireless {
 
     public struct DeleteWirelessGatewayTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to delete.
@@ -978,8 +978,8 @@ extension IoTWireless {
 
     public struct DisassociateAwsAccountFromPartnerAccountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "partnerAccountId", location: .uri(locationName: "PartnerAccountId")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring(locationName: "partnerType"))
+            AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
+            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
         ]
 
         /// The partner account ID to disassociate from the AWS account.
@@ -1005,7 +1005,7 @@ extension IoTWireless {
 
     public struct DisassociateWirelessDeviceFromThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -1028,7 +1028,7 @@ extension IoTWireless {
 
     public struct DisassociateWirelessGatewayFromCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -1051,7 +1051,7 @@ extension IoTWireless {
 
     public struct DisassociateWirelessGatewayFromThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to update.
@@ -1074,7 +1074,7 @@ extension IoTWireless {
 
     public struct GetDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the resource to get.
@@ -1127,7 +1127,7 @@ extension IoTWireless {
 
     public struct GetDeviceProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to get.
@@ -1193,8 +1193,8 @@ extension IoTWireless {
 
     public struct GetPartnerAccountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "partnerAccountId", location: .uri(locationName: "PartnerAccountId")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring(locationName: "partnerType"))
+            AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
+            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
         ]
 
         /// The partner account ID to disassociate from the AWS account.
@@ -1233,8 +1233,8 @@ extension IoTWireless {
 
     public struct GetResourceLogLevelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         public let resourceIdentifier: String
@@ -1267,7 +1267,7 @@ extension IoTWireless {
 
     public struct GetServiceEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "serviceType", location: .querystring(locationName: "serviceType"))
+            AWSMemberEncoding(label: "serviceType", location: .querystring("serviceType"))
         ]
 
         /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
@@ -1303,7 +1303,7 @@ extension IoTWireless {
 
     public struct GetServiceProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to get.
@@ -1347,8 +1347,8 @@ extension IoTWireless {
 
     public struct GetWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri(locationName: "Identifier")),
-            AWSMemberEncoding(label: "identifierType", location: .querystring(locationName: "identifierType"))
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType"))
         ]
 
         /// The identifier of the wireless device to get.
@@ -1419,7 +1419,7 @@ extension IoTWireless {
 
     public struct GetWirelessDeviceStatisticsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri(locationName: "WirelessDeviceId"))
+            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri("WirelessDeviceId"))
         ]
 
         /// The ID of the wireless device for which to get the data.
@@ -1463,7 +1463,7 @@ extension IoTWireless {
 
     public struct GetWirelessGatewayCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to get.
@@ -1499,7 +1499,7 @@ extension IoTWireless {
 
     public struct GetWirelessGatewayFirmwareInformationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to get.
@@ -1531,8 +1531,8 @@ extension IoTWireless {
 
     public struct GetWirelessGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri(locationName: "Identifier")),
-            AWSMemberEncoding(label: "identifierType", location: .querystring(locationName: "identifierType"))
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType"))
         ]
 
         /// The identifier of the wireless gateway to get.
@@ -1591,7 +1591,7 @@ extension IoTWireless {
 
     public struct GetWirelessGatewayStatisticsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "wirelessGatewayId", location: .uri(locationName: "WirelessGatewayId"))
+            AWSMemberEncoding(label: "wirelessGatewayId", location: .uri("WirelessGatewayId"))
         ]
 
         /// The ID of the wireless gateway for which to get the data.
@@ -1631,7 +1631,7 @@ extension IoTWireless {
 
     public struct GetWirelessGatewayTaskDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to get.
@@ -1676,7 +1676,7 @@ extension IoTWireless {
 
     public struct GetWirelessGatewayTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the resource to get.
@@ -1724,8 +1724,8 @@ extension IoTWireless {
 
     public struct ListDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -1766,8 +1766,8 @@ extension IoTWireless {
 
     public struct ListDeviceProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -1808,8 +1808,8 @@ extension IoTWireless {
 
     public struct ListPartnerAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -1850,8 +1850,8 @@ extension IoTWireless {
 
     public struct ListServiceProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -1892,7 +1892,7 @@ extension IoTWireless {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource for which you want to list tags.
@@ -1925,12 +1925,12 @@ extension IoTWireless {
 
     public struct ListWirelessDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationName", location: .querystring(locationName: "destinationName")),
-            AWSMemberEncoding(label: "deviceProfileId", location: .querystring(locationName: "deviceProfileId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "serviceProfileId", location: .querystring(locationName: "serviceProfileId")),
-            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring(locationName: "wirelessDeviceType"))
+            AWSMemberEncoding(label: "destinationName", location: .querystring("destinationName")),
+            AWSMemberEncoding(label: "deviceProfileId", location: .querystring("deviceProfileId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "serviceProfileId", location: .querystring("serviceProfileId")),
+            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("wirelessDeviceType"))
         ]
 
         /// A filter to list only the wireless devices that use this destination.
@@ -1987,9 +1987,9 @@ extension IoTWireless {
 
     public struct ListWirelessGatewayTaskDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "taskDefinitionType", location: .querystring(locationName: "taskDefinitionType"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "taskDefinitionType", location: .querystring("taskDefinitionType"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -2033,8 +2033,8 @@ extension IoTWireless {
 
     public struct ListWirelessGatewaysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -2633,8 +2633,8 @@ extension IoTWireless {
 
     public struct PutResourceLogLevelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         public let logLevel: LogLevel
@@ -2671,8 +2671,8 @@ extension IoTWireless {
 
     public struct ResetResourceLogLevelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         public let resourceIdentifier: String
@@ -2697,7 +2697,7 @@ extension IoTWireless {
 
     public struct SendDataToWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the wireless device to receive the data.
@@ -3004,7 +3004,7 @@ extension IoTWireless {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The ARN of the resource to add tags to.
@@ -3037,7 +3037,7 @@ extension IoTWireless {
 
     public struct TestWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the wireless device to test.
@@ -3069,8 +3069,8 @@ extension IoTWireless {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource to remove tags from.
@@ -3102,7 +3102,7 @@ extension IoTWireless {
 
     public struct UpdateDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A new description of the resource.
@@ -3169,8 +3169,8 @@ extension IoTWireless {
 
     public struct UpdatePartnerAccountRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "partnerAccountId", location: .uri(locationName: "PartnerAccountId")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring(locationName: "partnerType"))
+            AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
+            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
         ]
 
         /// The ID of the partner account to update.
@@ -3202,7 +3202,7 @@ extension IoTWireless {
 
     public struct UpdateWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// A new description of the resource.
@@ -3247,7 +3247,7 @@ extension IoTWireless {
 
     public struct UpdateWirelessGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// A new description of the resource.

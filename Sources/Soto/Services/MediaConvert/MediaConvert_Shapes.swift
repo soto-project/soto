@@ -3638,7 +3638,7 @@ extension MediaConvert {
 
     public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The Job ID of the job to be cancelled.
@@ -4724,7 +4724,7 @@ extension MediaConvert {
 
     public struct DeleteJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the job template to be deleted.
@@ -4743,7 +4743,7 @@ extension MediaConvert {
 
     public struct DeletePresetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the preset to be deleted.
@@ -4762,7 +4762,7 @@ extension MediaConvert {
 
     public struct DeleteQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the queue that you want to delete.
@@ -4836,7 +4836,7 @@ extension MediaConvert {
 
     public struct DisassociateCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
@@ -5599,7 +5599,7 @@ extension MediaConvert {
 
     public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// the job ID of the job.
@@ -5627,7 +5627,7 @@ extension MediaConvert {
 
     public struct GetJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the job template.
@@ -5655,7 +5655,7 @@ extension MediaConvert {
 
     public struct GetPresetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the preset.
@@ -5683,7 +5683,7 @@ extension MediaConvert {
 
     public struct GetQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the queue that you want information about.
@@ -7502,11 +7502,11 @@ extension MediaConvert {
 
     public struct ListJobTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")),
-            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
+            AWSMemberEncoding(label: "category", location: .querystring("category")),
+            AWSMemberEncoding(label: "listBy", location: .querystring("listBy")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "order", location: .querystring("order"))
         ]
 
         /// Optionally, specify a job template category to limit responses to only job templates from that category.
@@ -7555,11 +7555,11 @@ extension MediaConvert {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")),
-            AWSMemberEncoding(label: "queue", location: .querystring(locationName: "queue")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "order", location: .querystring("order")),
+            AWSMemberEncoding(label: "queue", location: .querystring("queue")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
@@ -7608,11 +7608,11 @@ extension MediaConvert {
 
     public struct ListPresetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")),
-            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
+            AWSMemberEncoding(label: "category", location: .querystring("category")),
+            AWSMemberEncoding(label: "listBy", location: .querystring("listBy")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "order", location: .querystring("order"))
         ]
 
         /// Optionally, specify a preset category to limit responses to only presets from that category.
@@ -7661,10 +7661,10 @@ extension MediaConvert {
 
     public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
+            AWSMemberEncoding(label: "listBy", location: .querystring("listBy")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "order", location: .querystring("order"))
         ]
 
         /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
@@ -7710,7 +7710,7 @@ extension MediaConvert {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
@@ -9877,7 +9877,7 @@ extension MediaConvert {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. To get the ARN, send a GET request with the resource name.
@@ -9901,7 +9901,7 @@ extension MediaConvert {
 
     public struct UpdateJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
@@ -9971,7 +9971,7 @@ extension MediaConvert {
 
     public struct UpdatePresetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The new category for the preset, if you are changing it.
@@ -10016,7 +10016,7 @@ extension MediaConvert {
 
     public struct UpdateQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The new description for the queue, if you are changing it.

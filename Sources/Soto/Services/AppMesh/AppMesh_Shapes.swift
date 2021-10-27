@@ -1272,9 +1272,9 @@ extension AppMesh {
 
     public struct CreateGatewayRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -1396,9 +1396,9 @@ extension AppMesh {
 
     public struct CreateRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -1469,8 +1469,8 @@ extension AppMesh {
 
     public struct CreateVirtualGatewayInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -1536,8 +1536,8 @@ extension AppMesh {
 
     public struct CreateVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -1603,8 +1603,8 @@ extension AppMesh {
 
     public struct CreateVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -1670,8 +1670,8 @@ extension AppMesh {
 
     public struct CreateVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -1735,10 +1735,10 @@ extension AppMesh {
 
     public struct DeleteGatewayRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayRouteName", location: .uri(locationName: "gatewayRouteName")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "gatewayRouteName", location: .uri("gatewayRouteName")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// The name of the gateway route to delete.
@@ -1789,7 +1789,7 @@ extension AppMesh {
 
     public struct DeleteMeshInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName"))
         ]
 
         /// The name of the service mesh to delete.
@@ -1825,10 +1825,10 @@ extension AppMesh {
 
     public struct DeleteRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "routeName", location: .uri(locationName: "routeName")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "routeName", location: .uri("routeName")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// The name of the service mesh to delete the route in.
@@ -1879,9 +1879,9 @@ extension AppMesh {
 
     public struct DeleteVirtualGatewayInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// The name of the service mesh to delete the virtual gateway from.
@@ -1927,9 +1927,9 @@ extension AppMesh {
 
     public struct DeleteVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualNodeName", location: .uri("virtualNodeName"))
         ]
 
         /// The name of the service mesh to delete the virtual node in.
@@ -1975,9 +1975,9 @@ extension AppMesh {
 
     public struct DeleteVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// The name of the service mesh to delete the virtual router in.
@@ -2023,9 +2023,9 @@ extension AppMesh {
 
     public struct DeleteVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualServiceName", location: .uri("virtualServiceName"))
         ]
 
         /// The name of the service mesh to delete the virtual service in.
@@ -2069,10 +2069,10 @@ extension AppMesh {
 
     public struct DescribeGatewayRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayRouteName", location: .uri(locationName: "gatewayRouteName")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "gatewayRouteName", location: .uri("gatewayRouteName")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// The name of the gateway route to describe.
@@ -2123,8 +2123,8 @@ extension AppMesh {
 
     public struct DescribeMeshInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner"))
         ]
 
         /// The name of the service mesh to describe.
@@ -2165,10 +2165,10 @@ extension AppMesh {
 
     public struct DescribeRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "routeName", location: .uri(locationName: "routeName")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "routeName", location: .uri("routeName")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// The name of the service mesh that the route resides in.
@@ -2219,9 +2219,9 @@ extension AppMesh {
 
     public struct DescribeVirtualGatewayInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// The name of the service mesh that the gateway route resides in.
@@ -2267,9 +2267,9 @@ extension AppMesh {
 
     public struct DescribeVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualNodeName", location: .uri("virtualNodeName"))
         ]
 
         /// The name of the service mesh that the virtual node resides in.
@@ -2315,9 +2315,9 @@ extension AppMesh {
 
     public struct DescribeVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// The name of the service mesh that the virtual router resides in.
@@ -2363,9 +2363,9 @@ extension AppMesh {
 
     public struct DescribeVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualServiceName", location: .uri("virtualServiceName"))
         ]
 
         /// The name of the service mesh that the virtual service resides in.
@@ -3419,11 +3419,11 @@ extension AppMesh {
 
     public struct ListGatewayRoutesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// The maximum number of results returned by ListGatewayRoutes in paginated output. When you use this parameter, ListGatewayRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListGatewayRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListGatewayRoutes returns up to 100 results and a nextToken value if applicable.
@@ -3478,8 +3478,8 @@ extension AppMesh {
 
     public struct ListMeshesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results returned by ListMeshes in paginated output. When you use this parameter, ListMeshes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListMeshes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListMeshes returns up to 100 results and a nextToken value if applicable.
@@ -3519,11 +3519,11 @@ extension AppMesh {
 
     public struct ListRoutesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// The maximum number of results returned by ListRoutes in paginated output. When you use this parameter, ListRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListRoutes returns up to 100 results and a nextToken value if applicable.
@@ -3578,9 +3578,9 @@ extension AppMesh {
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The maximum number of tag results returned by ListTagsForResource in paginated output. When this parameter is used, ListTagsForResource returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListTagsForResource request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListTagsForResource returns up to 100 results and a nextToken value if applicable.
@@ -3623,10 +3623,10 @@ extension AppMesh {
 
     public struct ListVirtualGatewaysInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualGateways in paginated output. When you use this parameter, ListVirtualGateways returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualGateways request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualGateways returns up to 100 results and a nextToken value if applicable.
@@ -3676,10 +3676,10 @@ extension AppMesh {
 
     public struct ListVirtualNodesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualNodes in paginated output. When you use this parameter, ListVirtualNodes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualNodes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualNodes returns up to 100 results and a nextToken value if applicable.
@@ -3729,10 +3729,10 @@ extension AppMesh {
 
     public struct ListVirtualRoutersInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualRouters in paginated output. When you use this parameter, ListVirtualRouters returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualRouters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualRouters returns up to 100 results and a nextToken value if applicable.
@@ -3782,10 +3782,10 @@ extension AppMesh {
 
     public struct ListVirtualServicesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualServices in paginated output. When you use this parameter, ListVirtualServices returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualServices request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualServices returns up to 100 results and a nextToken value if applicable.
@@ -4391,7 +4391,7 @@ extension AppMesh {
 
     public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to add tags to.
@@ -4553,7 +4553,7 @@ extension AppMesh {
 
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to delete tags from.
@@ -4585,10 +4585,10 @@ extension AppMesh {
 
     public struct UpdateGatewayRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayRouteName", location: .uri(locationName: "gatewayRouteName")),
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "gatewayRouteName", location: .uri("gatewayRouteName")),
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -4650,7 +4650,7 @@ extension AppMesh {
 
     public struct UpdateMeshInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -4695,10 +4695,10 @@ extension AppMesh {
 
     public struct UpdateRouteInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "routeName", location: .uri(locationName: "routeName")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "routeName", location: .uri("routeName")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -4760,9 +4760,9 @@ extension AppMesh {
 
     public struct UpdateVirtualGatewayInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualGatewayName", location: .uri("virtualGatewayName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -4819,9 +4819,9 @@ extension AppMesh {
 
     public struct UpdateVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualNodeName", location: .uri("virtualNodeName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -4878,9 +4878,9 @@ extension AppMesh {
 
     public struct UpdateVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri("virtualRouterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -4937,9 +4937,9 @@ extension AppMesh {
 
     public struct UpdateVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")),
-            AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")),
-            AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
+            AWSMemberEncoding(label: "meshName", location: .uri("meshName")),
+            AWSMemberEncoding(label: "meshOwner", location: .querystring("meshOwner")),
+            AWSMemberEncoding(label: "virtualServiceName", location: .uri("virtualServiceName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the

@@ -443,7 +443,7 @@ extension SESv2 {
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set .
@@ -540,7 +540,7 @@ extension SESv2 {
 
     public struct CreateContactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
         ]
 
         /// The attribute data attached to a contact.
@@ -684,8 +684,8 @@ extension SESv2 {
 
     public struct CreateEmailIdentityPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity")),
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "PolicyName"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity")),
+            AWSMemberEncoding(label: "policyName", location: .uri("PolicyName"))
         ]
 
         /// The email identity.
@@ -905,8 +905,8 @@ extension SESv2 {
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
         ]
 
         /// The name of the configuration set that contains the event destination to delete.
@@ -928,7 +928,7 @@ extension SESv2 {
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set.
@@ -947,7 +947,7 @@ extension SESv2 {
 
     public struct DeleteContactListRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
         ]
 
         /// The name of the contact list.
@@ -966,8 +966,8 @@ extension SESv2 {
 
     public struct DeleteContactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
-            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
+            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
         ]
 
         /// The name of the contact list from which the contact should be removed.
@@ -989,7 +989,7 @@ extension SESv2 {
 
     public struct DeleteCustomVerificationEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// The name of the custom verification email template that you want to delete.
@@ -1012,7 +1012,7 @@ extension SESv2 {
 
     public struct DeleteDedicatedIpPoolRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "poolName", location: .uri(locationName: "PoolName"))
+            AWSMemberEncoding(label: "poolName", location: .uri("PoolName"))
         ]
 
         /// The name of the dedicated IP pool that you want to delete.
@@ -1031,8 +1031,8 @@ extension SESv2 {
 
     public struct DeleteEmailIdentityPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity")),
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "PolicyName"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity")),
+            AWSMemberEncoding(label: "policyName", location: .uri("PolicyName"))
         ]
 
         /// The email identity.
@@ -1061,7 +1061,7 @@ extension SESv2 {
 
     public struct DeleteEmailIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The identity (that is, the email address or domain) to delete.
@@ -1084,7 +1084,7 @@ extension SESv2 {
 
     public struct DeleteEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// The name of the template to be deleted.
@@ -1107,7 +1107,7 @@ extension SESv2 {
 
     public struct DeleteSuppressedDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
         ]
 
         /// The suppressed email destination to remove from the account suppression list.
@@ -1570,7 +1570,7 @@ extension SESv2 {
 
     public struct GetBlacklistReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "blacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"))
+            AWSMemberEncoding(label: "blacklistItemNames", location: .querystring("BlacklistItemNames"))
         ]
 
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
@@ -1598,7 +1598,7 @@ extension SESv2 {
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that contains the event destination.
@@ -1626,7 +1626,7 @@ extension SESv2 {
 
     public struct GetConfigurationSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set.
@@ -1678,7 +1678,7 @@ extension SESv2 {
 
     public struct GetContactListRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
         ]
 
         /// The name of the contact list.
@@ -1726,8 +1726,8 @@ extension SESv2 {
 
     public struct GetContactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
-            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
+            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
         ]
 
         /// The name of the contact list to which the contact belongs.
@@ -1786,7 +1786,7 @@ extension SESv2 {
 
     public struct GetCustomVerificationEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// The name of the custom verification email template that you want to retrieve.
@@ -1838,7 +1838,7 @@ extension SESv2 {
 
     public struct GetDedicatedIpRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri(locationName: "Ip"))
+            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
         ]
 
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Web Services account.
@@ -1866,9 +1866,9 @@ extension SESv2 {
 
     public struct GetDedicatedIpsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")),
-            AWSMemberEncoding(label: "poolName", location: .querystring(locationName: "PoolName"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
+            AWSMemberEncoding(label: "poolName", location: .querystring("PoolName"))
         ]
 
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
@@ -1939,7 +1939,7 @@ extension SESv2 {
 
     public struct GetDeliverabilityTestReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri(locationName: "ReportId"))
+            AWSMemberEncoding(label: "reportId", location: .uri("ReportId"))
         ]
 
         /// A unique string that identifies the predictive inbox placement test.
@@ -1983,7 +1983,7 @@ extension SESv2 {
 
     public struct GetDomainDeliverabilityCampaignRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId"))
+            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
         ]
 
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
@@ -2011,9 +2011,9 @@ extension SESv2 {
 
     public struct GetDomainStatisticsReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .uri(locationName: "Domain")),
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "StartDate"))
+            AWSMemberEncoding(label: "domain", location: .uri("Domain")),
+            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
+            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate"))
         ]
 
         /// The domain that you want to obtain deliverability metrics for.
@@ -2055,7 +2055,7 @@ extension SESv2 {
 
     public struct GetEmailIdentityPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The email identity.
@@ -2087,7 +2087,7 @@ extension SESv2 {
 
     public struct GetEmailIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The email identity.
@@ -2147,7 +2147,7 @@ extension SESv2 {
 
     public struct GetEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// The name of the template.
@@ -2183,7 +2183,7 @@ extension SESv2 {
 
     public struct GetImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The ID of the import job.
@@ -2247,7 +2247,7 @@ extension SESv2 {
 
     public struct GetSuppressedDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
         ]
 
         /// The email address that's on the account suppression list.
@@ -2407,8 +2407,8 @@ extension SESv2 {
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
@@ -2443,8 +2443,8 @@ extension SESv2 {
 
     public struct ListContactListsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
@@ -2496,9 +2496,9 @@ extension SESv2 {
 
     public struct ListContactsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// The name of the contact list.
@@ -2541,8 +2541,8 @@ extension SESv2 {
 
     public struct ListCustomVerificationEmailTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
@@ -2577,8 +2577,8 @@ extension SESv2 {
 
     public struct ListDedicatedIpPoolsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
@@ -2613,8 +2613,8 @@ extension SESv2 {
 
     public struct ListDeliverabilityTestReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
@@ -2649,11 +2649,11 @@ extension SESv2 {
 
     public struct ListDomainDeliverabilityCampaignsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "StartDate")),
-            AWSMemberEncoding(label: "subscribedDomain", location: .uri(locationName: "SubscribedDomain"))
+            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
+            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate")),
+            AWSMemberEncoding(label: "subscribedDomain", location: .uri("SubscribedDomain"))
         ]
 
         /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
@@ -2697,8 +2697,8 @@ extension SESv2 {
 
     public struct ListEmailIdentitiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
@@ -2733,8 +2733,8 @@ extension SESv2 {
 
     public struct ListEmailTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
@@ -2769,8 +2769,8 @@ extension SESv2 {
 
     public struct ListImportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType.
@@ -2827,11 +2827,11 @@ extension SESv2 {
 
     public struct ListSuppressedDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")),
-            AWSMemberEncoding(label: "reasons", location: .querystring(locationName: "Reason")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "StartDate"))
+            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
+            AWSMemberEncoding(label: "reasons", location: .querystring("Reason")),
+            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate"))
         ]
 
         /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date. The date that you specify should be in Unix time format.
@@ -2875,7 +2875,7 @@ extension SESv2 {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
@@ -3124,7 +3124,7 @@ extension SESv2 {
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set to associate with a dedicated IP pool.
@@ -3152,7 +3152,7 @@ extension SESv2 {
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set.
@@ -3176,7 +3176,7 @@ extension SESv2 {
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set to enable or disable email sending for.
@@ -3200,7 +3200,7 @@ extension SESv2 {
 
     public struct PutConfigurationSetSuppressionOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set to change the suppression list preferences for.
@@ -3224,7 +3224,7 @@ extension SESv2 {
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// The name of the configuration set.
@@ -3248,7 +3248,7 @@ extension SESv2 {
 
     public struct PutDedicatedIpInPoolRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri(locationName: "Ip"))
+            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
         ]
 
         /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
@@ -3272,7 +3272,7 @@ extension SESv2 {
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri(locationName: "Ip"))
+            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
         ]
 
         /// The dedicated IP address that you want to update the warm-up attributes for.
@@ -3317,7 +3317,7 @@ extension SESv2 {
 
     public struct PutEmailIdentityConfigurationSetAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The configuration set to associate with an email identity.
@@ -3345,7 +3345,7 @@ extension SESv2 {
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The email identity.
@@ -3373,7 +3373,7 @@ extension SESv2 {
 
     public struct PutEmailIdentityDkimSigningAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The email identity.
@@ -3419,7 +3419,7 @@ extension SESv2 {
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
@@ -3447,7 +3447,7 @@ extension SESv2 {
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
         ]
 
         /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
@@ -3963,7 +3963,7 @@ extension SESv2 {
 
     public struct TestRenderEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
@@ -4073,8 +4073,8 @@ extension SESv2 {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "TagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("TagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
@@ -4096,8 +4096,8 @@ extension SESv2 {
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
         ]
 
         /// The name of the configuration set that contains the event destination to modify.
@@ -4124,7 +4124,7 @@ extension SESv2 {
 
     public struct UpdateContactListRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName"))
         ]
 
         /// The name of the contact list.
@@ -4152,8 +4152,8 @@ extension SESv2 {
 
     public struct UpdateContactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
-            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+            AWSMemberEncoding(label: "contactListName", location: .uri("ContactListName")),
+            AWSMemberEncoding(label: "emailAddress", location: .uri("EmailAddress"))
         ]
 
         /// The attribute data attached to a contact.
@@ -4188,7 +4188,7 @@ extension SESv2 {
 
     public struct UpdateCustomVerificationEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
@@ -4232,8 +4232,8 @@ extension SESv2 {
 
     public struct UpdateEmailIdentityPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity")),
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "PolicyName"))
+            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity")),
+            AWSMemberEncoding(label: "policyName", location: .uri("PolicyName"))
         ]
 
         /// The email identity.
@@ -4268,7 +4268,7 @@ extension SESv2 {
 
     public struct UpdateEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.

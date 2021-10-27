@@ -295,7 +295,7 @@ extension MediaTailor {
 
     public struct CreateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -374,8 +374,8 @@ extension MediaTailor {
 
     public struct CreateProgramRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri(locationName: "ProgramName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
+            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
         ]
 
         /// The ad break configuration settings.
@@ -453,7 +453,7 @@ extension MediaTailor {
 
     public struct CreateSourceLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
         /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
@@ -528,8 +528,8 @@ extension MediaTailor {
 
     public struct CreateVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "VodSourceName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
         ]
 
         /// An array of HTTP package configuration parameters for this VOD source.
@@ -671,7 +671,7 @@ extension MediaTailor {
 
     public struct DeleteChannelPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -690,7 +690,7 @@ extension MediaTailor {
 
     public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -709,7 +709,7 @@ extension MediaTailor {
 
     public struct DeletePlaybackConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The identifier for the playback configuration.
@@ -728,8 +728,8 @@ extension MediaTailor {
 
     public struct DeleteProgramRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri(locationName: "ProgramName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
+            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -751,7 +751,7 @@ extension MediaTailor {
 
     public struct DeleteSourceLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
         /// The identifier for the source location you are working on.
@@ -770,8 +770,8 @@ extension MediaTailor {
 
     public struct DeleteVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "VodSourceName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
         ]
 
         /// The identifier for the source location you are working on.
@@ -793,7 +793,7 @@ extension MediaTailor {
 
     public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -855,8 +855,8 @@ extension MediaTailor {
 
     public struct DescribeProgramRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri(locationName: "ProgramName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
+            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -917,7 +917,7 @@ extension MediaTailor {
 
     public struct DescribeSourceLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
         /// The identifier for the source location you are working on.
@@ -975,8 +975,8 @@ extension MediaTailor {
 
     public struct DescribeVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "VodSourceName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
         ]
 
         /// The identifier for the source location you are working on.
@@ -1033,7 +1033,7 @@ extension MediaTailor {
 
     public struct GetChannelPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -1061,10 +1061,10 @@ extension MediaTailor {
 
     public struct GetChannelScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName")),
-            AWSMemberEncoding(label: "durationMinutes", location: .querystring(locationName: "durationMinutes")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
+            AWSMemberEncoding(label: "durationMinutes", location: .querystring("durationMinutes")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -1110,7 +1110,7 @@ extension MediaTailor {
 
     public struct GetPlaybackConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The identifier for the playback configuration.
@@ -1270,9 +1270,9 @@ extension MediaTailor {
 
     public struct ListAlertsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// Upper bound on number of records to return. The maximum number of results is 100.
@@ -1315,8 +1315,8 @@ extension MediaTailor {
 
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return. The maximum number of results is 100.
@@ -1356,8 +1356,8 @@ extension MediaTailor {
 
     public struct ListPlaybackConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// Maximum number of records to return.
@@ -1397,8 +1397,8 @@ extension MediaTailor {
 
     public struct ListSourceLocationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return. The maximum number of results is 100.
@@ -1438,7 +1438,7 @@ extension MediaTailor {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request.
@@ -1466,9 +1466,9 @@ extension MediaTailor {
 
     public struct ListVodSourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
         /// Upper bound on number of records to return. The maximum number of results is 100.
@@ -1639,7 +1639,7 @@ extension MediaTailor {
 
     public struct PutChannelPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -2062,7 +2062,7 @@ extension MediaTailor {
 
     public struct StartChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -2081,7 +2081,7 @@ extension MediaTailor {
 
     public struct StopChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -2100,7 +2100,7 @@ extension MediaTailor {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request.
@@ -2145,8 +2145,8 @@ extension MediaTailor {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request.
@@ -2164,7 +2164,7 @@ extension MediaTailor {
 
     public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "ChannelName"))
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
         /// The identifier for the channel you are working on.
@@ -2231,7 +2231,7 @@ extension MediaTailor {
 
     public struct UpdateSourceLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
         /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
@@ -2302,8 +2302,8 @@ extension MediaTailor {
 
     public struct UpdateVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "VodSourceName"))
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
         ]
 
         /// An array of HTTP package configurations for the VOD source on this account.

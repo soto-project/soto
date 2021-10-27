@@ -25,7 +25,7 @@ extension ApiGatewayManagementApi {
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         public let connectionId: String
@@ -39,7 +39,7 @@ extension ApiGatewayManagementApi {
 
     public struct GetConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         public let connectionId: String
@@ -95,7 +95,7 @@ extension ApiGatewayManagementApi {
         public static let _payloadPath: String = "data"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
         /// The identifier of the connection that a specific client is using.

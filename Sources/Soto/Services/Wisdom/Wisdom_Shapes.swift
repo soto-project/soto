@@ -419,7 +419,7 @@ extension Wisdom {
 
     public struct CreateAssistantAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -543,7 +543,7 @@ extension Wisdom {
 
     public struct CreateContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -704,7 +704,7 @@ extension Wisdom {
 
     public struct CreateSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -768,8 +768,8 @@ extension Wisdom {
 
     public struct DeleteAssistantAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantAssociationId", location: .uri(locationName: "assistantAssociationId")),
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantAssociationId", location: .uri("assistantAssociationId")),
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -796,7 +796,7 @@ extension Wisdom {
 
     public struct DeleteAssistantRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -819,8 +819,8 @@ extension Wisdom {
 
     public struct DeleteContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri(locationName: "contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -847,7 +847,7 @@ extension Wisdom {
 
     public struct DeleteKnowledgeBaseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The knowledge base to delete content from. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -934,8 +934,8 @@ extension Wisdom {
 
     public struct GetAssistantAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantAssociationId", location: .uri(locationName: "assistantAssociationId")),
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantAssociationId", location: .uri("assistantAssociationId")),
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -971,7 +971,7 @@ extension Wisdom {
 
     public struct GetAssistantRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1003,8 +1003,8 @@ extension Wisdom {
 
     public struct GetContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri(locationName: "contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1040,8 +1040,8 @@ extension Wisdom {
 
     public struct GetContentSummaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri(locationName: "contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1077,7 +1077,7 @@ extension Wisdom {
 
     public struct GetKnowledgeBaseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1109,10 +1109,10 @@ extension Wisdom {
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
-            AWSMemberEncoding(label: "waitTimeSeconds", location: .querystring(locationName: "waitTimeSeconds"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "waitTimeSeconds", location: .querystring("waitTimeSeconds"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1158,8 +1158,8 @@ extension Wisdom {
 
     public struct GetSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1331,9 +1331,9 @@ extension Wisdom {
 
     public struct ListAssistantAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1380,8 +1380,8 @@ extension Wisdom {
 
     public struct ListAssistantsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per page.
@@ -1424,9 +1424,9 @@ extension Wisdom {
 
     public struct ListContentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1473,8 +1473,8 @@ extension Wisdom {
 
     public struct ListKnowledgeBasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per page.
@@ -1517,7 +1517,7 @@ extension Wisdom {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1566,8 +1566,8 @@ extension Wisdom {
 
     public struct NotifyRecommendationsReceivedRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1612,7 +1612,7 @@ extension Wisdom {
 
     public struct QueryAssistantRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1691,7 +1691,7 @@ extension Wisdom {
 
     public struct RemoveKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1754,9 +1754,9 @@ extension Wisdom {
 
     public struct SearchContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1828,9 +1828,9 @@ extension Wisdom {
 
     public struct SearchSessionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assistantId", location: .uri(locationName: "assistantId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1955,7 +1955,7 @@ extension Wisdom {
 
     public struct StartContentUploadRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The type of content to upload.
@@ -2005,7 +2005,7 @@ extension Wisdom {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -2040,8 +2040,8 @@ extension Wisdom {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -2074,8 +2074,8 @@ extension Wisdom {
 
     public struct UpdateContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentId", location: .uri(locationName: "contentId")),
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "contentId", location: .uri("contentId")),
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -2150,7 +2150,7 @@ extension Wisdom {
 
     public struct UpdateKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri(locationName: "knowledgeBaseId"))
+            AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
         /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.

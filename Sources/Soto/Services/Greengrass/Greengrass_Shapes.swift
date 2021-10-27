@@ -128,7 +128,7 @@ extension Greengrass {
 
     public struct AssociateRoleToGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -367,7 +367,7 @@ extension Greengrass {
 
     public struct CreateConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -432,8 +432,8 @@ extension Greengrass {
 
     public struct CreateConnectorDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -481,7 +481,7 @@ extension Greengrass {
 
     public struct CreateCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -546,8 +546,8 @@ extension Greengrass {
 
     public struct CreateCoreDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -595,8 +595,8 @@ extension Greengrass {
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -644,7 +644,7 @@ extension Greengrass {
 
     public struct CreateDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -709,8 +709,8 @@ extension Greengrass {
 
     public struct CreateDeviceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -758,7 +758,7 @@ extension Greengrass {
 
     public struct CreateFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -823,8 +823,8 @@ extension Greengrass {
 
     public struct CreateFunctionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -876,8 +876,8 @@ extension Greengrass {
 
     public struct CreateGroupCertificateAuthorityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -908,7 +908,7 @@ extension Greengrass {
 
     public struct CreateGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -973,8 +973,8 @@ extension Greengrass {
 
     public struct CreateGroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1046,7 +1046,7 @@ extension Greengrass {
 
     public struct CreateLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1111,8 +1111,8 @@ extension Greengrass {
 
     public struct CreateLoggerDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1160,7 +1160,7 @@ extension Greengrass {
 
     public struct CreateResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1225,8 +1225,8 @@ extension Greengrass {
 
     public struct CreateResourceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1274,7 +1274,7 @@ extension Greengrass {
 
     public struct CreateSoftwareUpdateJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1329,7 +1329,7 @@ extension Greengrass {
 
     public struct CreateSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1394,8 +1394,8 @@ extension Greengrass {
 
     public struct CreateSubscriptionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -1484,7 +1484,7 @@ extension Greengrass {
 
     public struct DeleteConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
         ]
 
         /// The ID of the connector definition.
@@ -1503,7 +1503,7 @@ extension Greengrass {
 
     public struct DeleteCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
         ]
 
         /// The ID of the core definition.
@@ -1522,7 +1522,7 @@ extension Greengrass {
 
     public struct DeleteDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
         ]
 
         /// The ID of the device definition.
@@ -1541,7 +1541,7 @@ extension Greengrass {
 
     public struct DeleteFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
         ]
 
         /// The ID of the Lambda function definition.
@@ -1560,7 +1560,7 @@ extension Greengrass {
 
     public struct DeleteGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -1579,7 +1579,7 @@ extension Greengrass {
 
     public struct DeleteLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
         ]
 
         /// The ID of the logger definition.
@@ -1598,7 +1598,7 @@ extension Greengrass {
 
     public struct DeleteResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
         ]
 
         /// The ID of the resource definition.
@@ -1617,7 +1617,7 @@ extension Greengrass {
 
     public struct DeleteSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
         ]
 
         /// The ID of the subscription definition.
@@ -1703,7 +1703,7 @@ extension Greengrass {
 
     public struct DisassociateRoleFromGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -1924,7 +1924,7 @@ extension Greengrass {
 
     public struct GetAssociatedRoleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -1956,7 +1956,7 @@ extension Greengrass {
 
     public struct GetBulkDeploymentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"))
+            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri("BulkDeploymentId"))
         ]
 
         /// The ID of the bulk deployment.
@@ -2004,7 +2004,7 @@ extension Greengrass {
 
     public struct GetConnectivityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
         ]
 
         /// The thing name.
@@ -2036,7 +2036,7 @@ extension Greengrass {
 
     public struct GetConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
         ]
 
         /// The ID of the connector definition.
@@ -2092,9 +2092,9 @@ extension Greengrass {
 
     public struct GetConnectorDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")),
-            AWSMemberEncoding(label: "connectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId")),
+            AWSMemberEncoding(label: "connectorDefinitionVersionId", location: .uri("ConnectorDefinitionVersionId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the connector definition.
@@ -2148,7 +2148,7 @@ extension Greengrass {
 
     public struct GetCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
         ]
 
         /// The ID of the core definition.
@@ -2204,8 +2204,8 @@ extension Greengrass {
 
     public struct GetCoreDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")),
-            AWSMemberEncoding(label: "coreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"))
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId")),
+            AWSMemberEncoding(label: "coreDefinitionVersionId", location: .uri("CoreDefinitionVersionId"))
         ]
 
         /// The ID of the core definition.
@@ -2256,8 +2256,8 @@ extension Greengrass {
 
     public struct GetDeploymentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId")),
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId")),
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the deployment.
@@ -2304,7 +2304,7 @@ extension Greengrass {
 
     public struct GetDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
         ]
 
         /// The ID of the device definition.
@@ -2360,9 +2360,9 @@ extension Greengrass {
 
     public struct GetDeviceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")),
-            AWSMemberEncoding(label: "deviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId")),
+            AWSMemberEncoding(label: "deviceDefinitionVersionId", location: .uri("DeviceDefinitionVersionId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the device definition.
@@ -2416,7 +2416,7 @@ extension Greengrass {
 
     public struct GetFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
         ]
 
         /// The ID of the Lambda function definition.
@@ -2472,9 +2472,9 @@ extension Greengrass {
 
     public struct GetFunctionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")),
-            AWSMemberEncoding(label: "functionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId")),
+            AWSMemberEncoding(label: "functionDefinitionVersionId", location: .uri("FunctionDefinitionVersionId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the Lambda function definition.
@@ -2528,8 +2528,8 @@ extension Greengrass {
 
     public struct GetGroupCertificateAuthorityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId")),
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "certificateAuthorityId", location: .uri("CertificateAuthorityId")),
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the certificate authority.
@@ -2568,7 +2568,7 @@ extension Greengrass {
 
     public struct GetGroupCertificateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -2604,7 +2604,7 @@ extension Greengrass {
 
     public struct GetGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -2660,8 +2660,8 @@ extension Greengrass {
 
     public struct GetGroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")),
-            AWSMemberEncoding(label: "groupVersionId", location: .uri(locationName: "GroupVersionId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId")),
+            AWSMemberEncoding(label: "groupVersionId", location: .uri("GroupVersionId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -2708,7 +2708,7 @@ extension Greengrass {
 
     public struct GetLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
         ]
 
         /// The ID of the logger definition.
@@ -2764,9 +2764,9 @@ extension Greengrass {
 
     public struct GetLoggerDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")),
-            AWSMemberEncoding(label: "loggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId")),
+            AWSMemberEncoding(label: "loggerDefinitionVersionId", location: .uri("LoggerDefinitionVersionId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the logger definition.
@@ -2816,7 +2816,7 @@ extension Greengrass {
 
     public struct GetResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
         ]
 
         /// The ID of the resource definition.
@@ -2872,8 +2872,8 @@ extension Greengrass {
 
     public struct GetResourceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId")),
-            AWSMemberEncoding(label: "resourceDefinitionVersionId", location: .uri(locationName: "ResourceDefinitionVersionId"))
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId")),
+            AWSMemberEncoding(label: "resourceDefinitionVersionId", location: .uri("ResourceDefinitionVersionId"))
         ]
 
         /// The ID of the resource definition.
@@ -2941,7 +2941,7 @@ extension Greengrass {
 
     public struct GetSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
         ]
 
         /// The ID of the subscription definition.
@@ -2997,9 +2997,9 @@ extension Greengrass {
 
     public struct GetSubscriptionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId")),
-            AWSMemberEncoding(label: "subscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId")),
+            AWSMemberEncoding(label: "subscriptionDefinitionVersionId", location: .uri("SubscriptionDefinitionVersionId"))
         ]
 
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3053,7 +3053,7 @@ extension Greengrass {
 
     public struct GetThingRuntimeConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
         ]
 
         /// The thing name.
@@ -3189,9 +3189,9 @@ extension Greengrass {
 
     public struct ListBulkDeploymentDetailedReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri("BulkDeploymentId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the bulk deployment.
@@ -3229,8 +3229,8 @@ extension Greengrass {
 
     public struct ListBulkDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3265,9 +3265,9 @@ extension Greengrass {
 
     public struct ListConnectorDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the connector definition.
@@ -3305,8 +3305,8 @@ extension Greengrass {
 
     public struct ListConnectorDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3341,9 +3341,9 @@ extension Greengrass {
 
     public struct ListCoreDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the core definition.
@@ -3381,8 +3381,8 @@ extension Greengrass {
 
     public struct ListCoreDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3417,9 +3417,9 @@ extension Greengrass {
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the Greengrass group.
@@ -3457,9 +3457,9 @@ extension Greengrass {
 
     public struct ListDeviceDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the device definition.
@@ -3497,8 +3497,8 @@ extension Greengrass {
 
     public struct ListDeviceDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3533,9 +3533,9 @@ extension Greengrass {
 
     public struct ListFunctionDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the Lambda function definition.
@@ -3573,8 +3573,8 @@ extension Greengrass {
 
     public struct ListFunctionDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3609,7 +3609,7 @@ extension Greengrass {
 
     public struct ListGroupCertificateAuthoritiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -3637,9 +3637,9 @@ extension Greengrass {
 
     public struct ListGroupVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the Greengrass group.
@@ -3677,8 +3677,8 @@ extension Greengrass {
 
     public struct ListGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3713,9 +3713,9 @@ extension Greengrass {
 
     public struct ListLoggerDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The ID of the logger definition.
@@ -3753,8 +3753,8 @@ extension Greengrass {
 
     public struct ListLoggerDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3789,9 +3789,9 @@ extension Greengrass {
 
     public struct ListResourceDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3829,8 +3829,8 @@ extension Greengrass {
 
     public struct ListResourceDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3865,9 +3865,9 @@ extension Greengrass {
 
     public struct ListSubscriptionDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3905,8 +3905,8 @@ extension Greengrass {
 
     public struct ListSubscriptionDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -3941,7 +3941,7 @@ extension Greengrass {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -4048,8 +4048,8 @@ extension Greengrass {
 
     public struct ResetDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -4256,7 +4256,7 @@ extension Greengrass {
 
     public struct StartBulkDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
+            AWSMemberEncoding(label: "amznClientToken", location: .header("X-Amzn-Client-Token"))
         ]
 
         /// A client token used to correlate requests and responses.
@@ -4301,7 +4301,7 @@ extension Greengrass {
 
     public struct StopBulkDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"))
+            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri("BulkDeploymentId"))
         ]
 
         /// The ID of the bulk deployment.
@@ -4358,7 +4358,7 @@ extension Greengrass {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -4407,8 +4407,8 @@ extension Greengrass {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -4426,7 +4426,7 @@ extension Greengrass {
 
     public struct UpdateConnectivityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
         ]
 
         /// A list of connectivity info.
@@ -4463,7 +4463,7 @@ extension Greengrass {
 
     public struct UpdateConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri("ConnectorDefinitionId"))
         ]
 
         /// The ID of the connector definition.
@@ -4487,7 +4487,7 @@ extension Greengrass {
 
     public struct UpdateCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri("CoreDefinitionId"))
         ]
 
         /// The ID of the core definition.
@@ -4511,7 +4511,7 @@ extension Greengrass {
 
     public struct UpdateDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri("DeviceDefinitionId"))
         ]
 
         /// The ID of the device definition.
@@ -4535,7 +4535,7 @@ extension Greengrass {
 
     public struct UpdateFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri("FunctionDefinitionId"))
         ]
 
         /// The ID of the Lambda function definition.
@@ -4559,7 +4559,7 @@ extension Greengrass {
 
     public struct UpdateGroupCertificateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The amount of time remaining before the certificate expires, in milliseconds.
@@ -4600,7 +4600,7 @@ extension Greengrass {
 
     public struct UpdateGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
+            AWSMemberEncoding(label: "groupId", location: .uri("GroupId"))
         ]
 
         /// The ID of the Greengrass group.
@@ -4624,7 +4624,7 @@ extension Greengrass {
 
     public struct UpdateLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri("LoggerDefinitionId"))
         ]
 
         /// The ID of the logger definition.
@@ -4648,7 +4648,7 @@ extension Greengrass {
 
     public struct UpdateResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri("ResourceDefinitionId"))
         ]
 
         /// The name of the definition.
@@ -4672,7 +4672,7 @@ extension Greengrass {
 
     public struct UpdateSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri("SubscriptionDefinitionId"))
         ]
 
         /// The name of the definition.
@@ -4696,7 +4696,7 @@ extension Greengrass {
 
     public struct UpdateThingRuntimeConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
         ]
 
         /// Configuration for telemetry service.

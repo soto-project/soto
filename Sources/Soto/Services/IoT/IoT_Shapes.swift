@@ -640,8 +640,8 @@ extension IoT {
 
     public struct AcceptCertificateTransferRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")),
-            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
+            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -1035,8 +1035,8 @@ extension IoT {
 
     public struct AssociateTargetsWithJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId"))
         ]
 
         /// An optional comment string describing why the job was associated with the targets.
@@ -1099,7 +1099,7 @@ extension IoT {
 
     public struct AttachPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// The name of the policy to attach.
@@ -1125,8 +1125,8 @@ extension IoT {
 
     public struct AttachPrincipalPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")),
-            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
+            AWSMemberEncoding(label: "principal", location: .header("x-amzn-iot-principal"))
         ]
 
         /// The policy name.
@@ -1150,8 +1150,8 @@ extension IoT {
 
     public struct AttachSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName")),
-            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName")),
+            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring("securityProfileTargetArn"))
         ]
 
         /// The security profile that is attached.
@@ -1179,8 +1179,8 @@ extension IoT {
 
     public struct AttachThingPrincipalRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "principal", location: .header("x-amzn-principal")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The principal, which can be a certificate ARN (as returned from the
@@ -2069,7 +2069,7 @@ extension IoT {
 
     public struct CancelAuditMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The unique identifier for the task that you want to cancel.
@@ -2094,7 +2094,7 @@ extension IoT {
 
     public struct CancelAuditTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
@@ -2119,7 +2119,7 @@ extension IoT {
 
     public struct CancelCertificateTransferRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -2140,7 +2140,7 @@ extension IoT {
 
     public struct CancelDetectMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         ///  The unique identifier of the task.
@@ -2165,9 +2165,9 @@ extension IoT {
 
     public struct CancelJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "force", location: .querystring("force")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// (Optional) The expected current version of the job execution. Each time you update the job  execution, its version is incremented. If the version of the job execution stored in Jobs does  not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that  contains the current job execution status data is returned. (This makes it unnecessary to  perform a separate DescribeJobExecution request in order to obtain the job execution status  data.)
@@ -2213,8 +2213,8 @@ extension IoT {
 
     public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "force", location: .querystring("force")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// An optional comment string describing why the job was canceled.
@@ -2534,7 +2534,7 @@ extension IoT {
 
     public struct ConfirmTopicRuleDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "confirmationToken", location: .uri(locationName: "confirmationToken"))
+            AWSMemberEncoding(label: "confirmationToken", location: .uri("confirmationToken"))
         ]
 
         /// The token used to confirm ownership or access to the topic rule confirmation URL.
@@ -2602,7 +2602,7 @@ extension IoT {
 
     public struct CreateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
+            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
         ]
 
         /// The ARN of the authorizer's Lambda function.
@@ -2678,7 +2678,7 @@ extension IoT {
 
     public struct CreateBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
+            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName"))
         ]
 
         /// The name you wish to give to the billing group.
@@ -2733,7 +2733,7 @@ extension IoT {
 
     public struct CreateCertificateFromCsrRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
+            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
         ]
 
         /// The certificate signing request (CSR).
@@ -2778,7 +2778,7 @@ extension IoT {
 
     public struct CreateCustomMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
@@ -2841,7 +2841,7 @@ extension IoT {
 
     public struct CreateDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs.  If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
@@ -2908,7 +2908,7 @@ extension IoT {
 
     public struct CreateDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
         ]
 
         /// An object that specifies the authorization service for a domain.
@@ -2986,7 +2986,7 @@ extension IoT {
 
     public struct CreateDynamicThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The dynamic thing group index name.
@@ -3077,7 +3077,7 @@ extension IoT {
 
     public struct CreateFleetMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         /// The field to aggregate.
@@ -3165,7 +3165,7 @@ extension IoT {
 
     public struct CreateJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// Allows you to create criteria to abort a job.
@@ -3277,7 +3277,7 @@ extension IoT {
 
     public struct CreateJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobTemplateId", location: .uri(locationName: "jobTemplateId"))
+            AWSMemberEncoding(label: "jobTemplateId", location: .uri("jobTemplateId"))
         ]
 
         public let abortConfig: AbortConfig?
@@ -3359,7 +3359,7 @@ extension IoT {
 
     public struct CreateKeysAndCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
+            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
         ]
 
         /// Specifies whether the certificate is active.
@@ -3399,7 +3399,7 @@ extension IoT {
 
     public struct CreateMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
+            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
         ]
 
         /// A friendly name for the action. Choose a friendly name that accurately describes the action (for example, EnableLoggingAction).
@@ -3455,7 +3455,7 @@ extension IoT {
 
     public struct CreateOTAUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
+            AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
         ]
 
         /// A list of additional OTA update parameters which are name-value pairs.
@@ -3571,7 +3571,7 @@ extension IoT {
 
     public struct CreatePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
@@ -3629,8 +3629,8 @@ extension IoT {
 
     public struct CreatePolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")),
-            AWSMemberEncoding(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
+            AWSMemberEncoding(label: "setAsDefault", location: .querystring("setAsDefault"))
         ]
 
         /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
@@ -3684,7 +3684,7 @@ extension IoT {
 
     public struct CreateProvisioningClaimRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
         ]
 
         /// The name of the provisioning template to use.
@@ -3802,8 +3802,8 @@ extension IoT {
 
     public struct CreateProvisioningTemplateVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "setAsDefault", location: .querystring(locationName: "setAsDefault")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
+            AWSMemberEncoding(label: "setAsDefault", location: .querystring("setAsDefault")),
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
         ]
 
         /// Sets a fleet provision template version as the default version.
@@ -3857,7 +3857,7 @@ extension IoT {
 
     public struct CreateRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
+            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
         ]
 
         /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds.
@@ -3915,7 +3915,7 @@ extension IoT {
 
     public struct CreateScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
         ]
 
         /// The day of the month on which the scheduled audit takes place. This can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days, the audit takes place on the LAST day of the month.
@@ -3974,7 +3974,7 @@ extension IoT {
 
     public struct CreateSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
         ]
 
         ///  Please use CreateSecurityProfileRequest$additionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained  for any metric used in the profile's behaviors, but it is also retained for  any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
@@ -4052,7 +4052,7 @@ extension IoT {
 
     public struct CreateStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
+            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
         ]
 
         /// A description of the stream.
@@ -4127,7 +4127,7 @@ extension IoT {
 
     public struct CreateThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The name of the parent thing group.
@@ -4189,7 +4189,7 @@ extension IoT {
 
     public struct CreateThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The attribute payload, which consists of up to three name/value pairs in a JSON
@@ -4257,7 +4257,7 @@ extension IoT {
 
     public struct CreateThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
         ]
 
         /// Metadata which can be used to manage the thing type.
@@ -4346,8 +4346,8 @@ extension IoT {
         /// The key for the payload
         public static let _payloadPath: String = "topicRulePayload"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName")),
-            AWSMemberEncoding(label: "tags", location: .header(locationName: "x-amz-tagging"))
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName")),
+            AWSMemberEncoding(label: "tags", location: .header("x-amz-tagging"))
         ]
 
         /// The name of the rule.
@@ -4402,7 +4402,7 @@ extension IoT {
 
     public struct DeleteAccountAuditConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deleteScheduledAudits", location: .querystring(locationName: "deleteScheduledAudits"))
+            AWSMemberEncoding(label: "deleteScheduledAudits", location: .querystring("deleteScheduledAudits"))
         ]
 
         /// If true, all scheduled audits are deleted.
@@ -4444,7 +4444,7 @@ extension IoT {
 
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
+            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
         ]
 
         /// The name of the authorizer to delete.
@@ -4469,8 +4469,8 @@ extension IoT {
 
     public struct DeleteBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName")),
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"))
+            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName")),
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion"))
         ]
 
         /// The name of the billing group.
@@ -4501,7 +4501,7 @@ extension IoT {
 
     public struct DeleteCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
         ]
 
         /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
@@ -4526,8 +4526,8 @@ extension IoT {
 
     public struct DeleteCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")),
-            AWSMemberEncoding(label: "forceDelete", location: .querystring(locationName: "forceDelete"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
+            AWSMemberEncoding(label: "forceDelete", location: .querystring("forceDelete"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -4551,7 +4551,7 @@ extension IoT {
 
     public struct DeleteCustomMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         ///  The name of the custom metric.
@@ -4576,7 +4576,7 @@ extension IoT {
 
     public struct DeleteDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The unique identifier for the dimension that you want to delete.
@@ -4601,7 +4601,7 @@ extension IoT {
 
     public struct DeleteDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
         ]
 
         /// The name of the domain configuration to be deleted.
@@ -4626,8 +4626,8 @@ extension IoT {
 
     public struct DeleteDynamicThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The expected version of the dynamic thing group to delete.
@@ -4655,8 +4655,8 @@ extension IoT {
 
     public struct DeleteFleetMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         /// The expected version of the fleet metric to delete.
@@ -4680,11 +4680,11 @@ extension IoT {
 
     public struct DeleteJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .uri(locationName: "executionNumber")),
-            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "executionNumber", location: .uri("executionNumber")),
+            AWSMemberEncoding(label: "force", location: .querystring("force")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The ID of the job execution to be deleted. The executionNumber refers to the  execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused  by IoT, so be sure you get and use the correct value here.
@@ -4723,9 +4723,9 @@ extension IoT {
 
     public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId"))
+            AWSMemberEncoding(label: "force", location: .querystring("force")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId"))
         ]
 
         /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception  will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to  a valid state.
@@ -4755,7 +4755,7 @@ extension IoT {
 
     public struct DeleteJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobTemplateId", location: .uri(locationName: "jobTemplateId"))
+            AWSMemberEncoding(label: "jobTemplateId", location: .uri("jobTemplateId"))
         ]
 
         /// The unique identifier of the job template to delete.
@@ -4776,7 +4776,7 @@ extension IoT {
 
     public struct DeleteMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
+            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
         ]
 
         /// The name of the mitigation action that you want to delete.
@@ -4800,9 +4800,9 @@ extension IoT {
 
     public struct DeleteOTAUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deleteStream", location: .querystring(locationName: "deleteStream")),
-            AWSMemberEncoding(label: "forceDeleteAWSJob", location: .querystring(locationName: "forceDeleteAWSJob")),
-            AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
+            AWSMemberEncoding(label: "deleteStream", location: .querystring("deleteStream")),
+            AWSMemberEncoding(label: "forceDeleteAWSJob", location: .querystring("forceDeleteAWSJob")),
+            AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
         ]
 
         /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
@@ -4833,7 +4833,7 @@ extension IoT {
 
     public struct DeletePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// The name of the policy to delete.
@@ -4854,8 +4854,8 @@ extension IoT {
 
     public struct DeletePolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri("policyVersionId"))
         ]
 
         /// The name of the policy.
@@ -4880,7 +4880,7 @@ extension IoT {
 
     public struct DeleteProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
         ]
 
         /// The name of the fleet provision template to delete.
@@ -4905,8 +4905,8 @@ extension IoT {
 
     public struct DeleteProvisioningTemplateVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")),
-            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "versionId"))
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName")),
+            AWSMemberEncoding(label: "versionId", location: .uri("versionId"))
         ]
 
         /// The name of the fleet provisioning template version to delete.
@@ -4942,7 +4942,7 @@ extension IoT {
 
     public struct DeleteRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
+            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
         ]
 
         /// The role alias to delete.
@@ -4967,7 +4967,7 @@ extension IoT {
 
     public struct DeleteScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
         ]
 
         /// The name of the scheduled audit you want to delete.
@@ -4992,8 +4992,8 @@ extension IoT {
 
     public struct DeleteSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
         ]
 
         /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
@@ -5021,7 +5021,7 @@ extension IoT {
 
     public struct DeleteStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
+            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
         ]
 
         /// The stream ID.
@@ -5046,8 +5046,8 @@ extension IoT {
 
     public struct DeleteThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The expected version of the thing group to delete.
@@ -5075,8 +5075,8 @@ extension IoT {
 
     public struct DeleteThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The expected version of the thing record in the registry. If the version of the
@@ -5107,7 +5107,7 @@ extension IoT {
 
     public struct DeleteThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
         ]
 
         /// The name of the thing type.
@@ -5132,7 +5132,7 @@ extension IoT {
 
     public struct DeleteTopicRuleDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn"))
         ]
 
         /// The ARN of the topic rule destination to delete.
@@ -5151,7 +5151,7 @@ extension IoT {
 
     public struct DeleteTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the rule.
@@ -5172,8 +5172,8 @@ extension IoT {
 
     public struct DeleteV2LoggingLevelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "targetName", location: .querystring(locationName: "targetName")),
-            AWSMemberEncoding(label: "targetType", location: .querystring(locationName: "targetType"))
+            AWSMemberEncoding(label: "targetName", location: .querystring("targetName")),
+            AWSMemberEncoding(label: "targetType", location: .querystring("targetType"))
         ]
 
         /// The name of the resource for which you are configuring logging.
@@ -5208,7 +5208,7 @@ extension IoT {
 
     public struct DeprecateThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
         ]
 
         /// The name of the thing type to deprecate.
@@ -5264,7 +5264,7 @@ extension IoT {
 
     public struct DescribeAuditFindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "findingId", location: .uri(locationName: "findingId"))
+            AWSMemberEncoding(label: "findingId", location: .uri("findingId"))
         ]
 
         /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
@@ -5297,7 +5297,7 @@ extension IoT {
 
     public struct DescribeAuditMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The unique identifier for the audit mitigation task.
@@ -5401,7 +5401,7 @@ extension IoT {
 
     public struct DescribeAuditTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The ID of the audit whose information you want to get.
@@ -5455,7 +5455,7 @@ extension IoT {
 
     public struct DescribeAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
+            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
         ]
 
         /// The name of the authorizer to describe.
@@ -5489,7 +5489,7 @@ extension IoT {
 
     public struct DescribeBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
+            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName"))
         ]
 
         /// The name of the billing group.
@@ -5543,7 +5543,7 @@ extension IoT {
 
     public struct DescribeCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
         ]
 
         /// The CA certificate identifier.
@@ -5581,7 +5581,7 @@ extension IoT {
 
     public struct DescribeCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -5615,7 +5615,7 @@ extension IoT {
 
     public struct DescribeCustomMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         ///  The name of the custom metric.
@@ -5686,7 +5686,7 @@ extension IoT {
 
     public struct DescribeDetectMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         ///  The unique identifier of the task.
@@ -5720,7 +5720,7 @@ extension IoT {
 
     public struct DescribeDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// The unique identifier for the dimension.
@@ -5774,7 +5774,7 @@ extension IoT {
 
     public struct DescribeDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
         ]
 
         /// The name of the domain configuration.
@@ -5840,7 +5840,7 @@ extension IoT {
 
     public struct DescribeEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointType", location: .querystring(locationName: "endpointType"))
+            AWSMemberEncoding(label: "endpointType", location: .querystring("endpointType"))
         ]
 
         /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs - Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid  issues related to the widespread distrust of Symantec certificate authorities.
@@ -5897,7 +5897,7 @@ extension IoT {
 
     public struct DescribeFleetMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         /// The name of the fleet metric to describe.
@@ -5979,7 +5979,7 @@ extension IoT {
 
     public struct DescribeIndexRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "indexName"))
+            AWSMemberEncoding(label: "indexName", location: .uri("indexName"))
         ]
 
         /// The index name.
@@ -6021,9 +6021,9 @@ extension IoT {
 
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "executionNumber", location: .querystring("executionNumber")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
@@ -6066,7 +6066,7 @@ extension IoT {
 
     public struct DescribeJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The unique identifier you assigned to this job when it was created.
@@ -6104,7 +6104,7 @@ extension IoT {
 
     public struct DescribeJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobTemplateId", location: .uri(locationName: "jobTemplateId"))
+            AWSMemberEncoding(label: "jobTemplateId", location: .uri("jobTemplateId"))
         ]
 
         /// The unique identifier of the job template.
@@ -6170,7 +6170,7 @@ extension IoT {
 
     public struct DescribeMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
+            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
         ]
 
         /// The friendly name that uniquely identifies the mitigation action.
@@ -6231,7 +6231,7 @@ extension IoT {
 
     public struct DescribeProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
         ]
 
         /// The name of the fleet provisioning template.
@@ -6301,8 +6301,8 @@ extension IoT {
 
     public struct DescribeProvisioningTemplateVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")),
-            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "versionId"))
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName")),
+            AWSMemberEncoding(label: "versionId", location: .uri("versionId"))
         ]
 
         /// The template name.
@@ -6351,7 +6351,7 @@ extension IoT {
 
     public struct DescribeRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
+            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
         ]
 
         /// The role alias to describe.
@@ -6385,7 +6385,7 @@ extension IoT {
 
     public struct DescribeScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
         ]
 
         /// The name of the scheduled audit whose information you want to get.
@@ -6439,7 +6439,7 @@ extension IoT {
 
     public struct DescribeSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
         ]
 
         /// The name of the security profile whose information you want to get.
@@ -6509,7 +6509,7 @@ extension IoT {
 
     public struct DescribeStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
+            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
         ]
 
         /// The stream ID.
@@ -6543,7 +6543,7 @@ extension IoT {
 
     public struct DescribeThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The name of the thing group.
@@ -6613,7 +6613,7 @@ extension IoT {
 
     public struct DescribeThingRegistrationTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The task ID.
@@ -6689,7 +6689,7 @@ extension IoT {
 
     public struct DescribeThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The name of the thing.
@@ -6759,7 +6759,7 @@ extension IoT {
 
     public struct DescribeThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
         ]
 
         /// The name of the thing type.
@@ -6829,7 +6829,7 @@ extension IoT {
 
     public struct DetachPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// The policy to detach.
@@ -6855,8 +6855,8 @@ extension IoT {
 
     public struct DetachPrincipalPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")),
-            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
+            AWSMemberEncoding(label: "principal", location: .header("x-amzn-iot-principal"))
         ]
 
         /// The name of the policy to detach.
@@ -6880,8 +6880,8 @@ extension IoT {
 
     public struct DetachSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName")),
-            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName")),
+            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring("securityProfileTargetArn"))
         ]
 
         /// The security profile that is detached.
@@ -6909,8 +6909,8 @@ extension IoT {
 
     public struct DetachThingPrincipalRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "principal", location: .header("x-amzn-principal")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// If the principal is a certificate, this value must be ARN of the certificate. If
@@ -7092,7 +7092,7 @@ extension IoT {
 
     public struct DisableTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the rule to disable.
@@ -7276,7 +7276,7 @@ extension IoT {
 
     public struct EnableTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the topic rule to enable.
@@ -7441,9 +7441,9 @@ extension IoT {
 
     public struct GetBehaviorModelTrainingSummariesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName"))
         ]
 
         ///  The maximum number of results to return at one time. The default is 25.
@@ -7590,7 +7590,7 @@ extension IoT {
 
     public struct GetEffectivePoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .querystring("thingName"))
         ]
 
         /// The Cognito identity pool ID.
@@ -7654,7 +7654,7 @@ extension IoT {
 
     public struct GetJobDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
         /// The unique identifier you assigned to this job when it was created.
@@ -7709,7 +7709,7 @@ extension IoT {
 
     public struct GetOTAUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
+            AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
         ]
 
         /// The OTA update ID.
@@ -7797,7 +7797,7 @@ extension IoT {
 
     public struct GetPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// The name of the policy.
@@ -7855,8 +7855,8 @@ extension IoT {
 
     public struct GetPolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri("policyVersionId"))
         ]
 
         /// The name of the policy.
@@ -7985,7 +7985,7 @@ extension IoT {
 
     public struct GetTopicRuleDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn"))
         ]
 
         /// The ARN of the topic rule destination.
@@ -8013,7 +8013,7 @@ extension IoT {
 
     public struct GetTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the rule.
@@ -8753,13 +8753,13 @@ extension IoT {
 
     public struct ListActiveViolationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring(locationName: "behaviorCriteriaType")),
-            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring(locationName: "listSuppressedAlerts")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")),
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName")),
-            AWSMemberEncoding(label: "verificationState", location: .querystring(locationName: "verificationState"))
+            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring("behaviorCriteriaType")),
+            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring("listSuppressedAlerts")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName")),
+            AWSMemberEncoding(label: "thingName", location: .querystring("thingName")),
+            AWSMemberEncoding(label: "verificationState", location: .querystring("verificationState"))
         ]
 
         ///  The criteria for a behavior.
@@ -8819,10 +8819,10 @@ extension IoT {
 
     public struct ListAttachedPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive")),
-            AWSMemberEncoding(label: "target", location: .uri(locationName: "target"))
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "recursive", location: .querystring("recursive")),
+            AWSMemberEncoding(label: "target", location: .uri("target"))
         ]
 
         /// The token to retrieve the next set of results.
@@ -8937,11 +8937,11 @@ extension IoT {
 
     public struct ListAuditMitigationActionsExecutionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionStatus", location: .querystring(locationName: "actionStatus")),
-            AWSMemberEncoding(label: "findingId", location: .querystring(locationName: "findingId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "taskId", location: .querystring(locationName: "taskId"))
+            AWSMemberEncoding(label: "actionStatus", location: .querystring("actionStatus")),
+            AWSMemberEncoding(label: "findingId", location: .querystring("findingId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "taskId", location: .querystring("taskId"))
         ]
 
         /// Specify this filter to limit results to those with a specific status.
@@ -8996,13 +8996,13 @@ extension IoT {
 
     public struct ListAuditMitigationActionsTasksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "auditTaskId", location: .querystring(locationName: "auditTaskId")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "findingId", location: .querystring(locationName: "findingId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "taskStatus", location: .querystring(locationName: "taskStatus"))
+            AWSMemberEncoding(label: "auditTaskId", location: .querystring("auditTaskId")),
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "findingId", location: .querystring("findingId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "taskStatus", location: .querystring("taskStatus"))
         ]
 
         /// Specify this filter to limit results to tasks that were applied to results for a specific audit.
@@ -9113,12 +9113,12 @@ extension IoT {
 
     public struct ListAuditTasksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "taskStatus", location: .querystring(locationName: "taskStatus")),
-            AWSMemberEncoding(label: "taskType", location: .querystring(locationName: "taskType"))
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "taskStatus", location: .querystring("taskStatus")),
+            AWSMemberEncoding(label: "taskType", location: .querystring("taskType"))
         ]
 
         /// The end of the time period.
@@ -9170,10 +9170,10 @@ extension IoT {
 
     public struct ListAuthorizersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// Return the list of authorizers in ascending alphabetical order.
@@ -9221,9 +9221,9 @@ extension IoT {
 
     public struct ListBillingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring("namePrefixFilter")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per request.
@@ -9271,9 +9271,9 @@ extension IoT {
 
     public struct ListCACertificatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
         ]
 
         /// Determines the order of the results.
@@ -9318,10 +9318,10 @@ extension IoT {
 
     public struct ListCertificatesByCARequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "caCertificateId", location: .uri(locationName: "caCertificateId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "caCertificateId", location: .uri("caCertificateId")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
         ]
 
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
@@ -9372,9 +9372,9 @@ extension IoT {
 
     public struct ListCertificatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
         ]
 
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
@@ -9419,8 +9419,8 @@ extension IoT {
 
     public struct ListCustomMetricsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  The maximum number of results to return at one time. The default is 25.
@@ -9460,13 +9460,13 @@ extension IoT {
 
     public struct ListDetectMitigationActionsExecutionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "taskId", location: .querystring(locationName: "taskId")),
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName")),
-            AWSMemberEncoding(label: "violationId", location: .querystring(locationName: "violationId"))
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "taskId", location: .querystring("taskId")),
+            AWSMemberEncoding(label: "thingName", location: .querystring("thingName")),
+            AWSMemberEncoding(label: "violationId", location: .querystring("violationId"))
         ]
 
         ///  The end of the time period for which ML Detect mitigation actions executions are returned.
@@ -9529,10 +9529,10 @@ extension IoT {
 
     public struct ListDetectMitigationActionsTasksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime"))
         ]
 
         ///  The end of the time period for which ML Detect mitigation actions tasks are returned.
@@ -9578,8 +9578,8 @@ extension IoT {
 
     public struct ListDimensionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to retrieve at one time.
@@ -9619,9 +9619,9 @@ extension IoT {
 
     public struct ListDomainConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "serviceType", location: .querystring(locationName: "serviceType"))
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "serviceType", location: .querystring("serviceType"))
         ]
 
         /// The marker for the next set of results.
@@ -9666,8 +9666,8 @@ extension IoT {
 
     public struct ListFleetMetricsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -9707,8 +9707,8 @@ extension IoT {
 
     public struct ListIndicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -9748,10 +9748,10 @@ extension IoT {
 
     public struct ListJobExecutionsForJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// The unique identifier you assigned to this job when it was created.
@@ -9800,11 +9800,11 @@ extension IoT {
 
     public struct ListJobExecutionsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -9859,8 +9859,8 @@ extension IoT {
 
     public struct ListJobTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in the list.
@@ -9900,13 +9900,13 @@ extension IoT {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")),
-            AWSMemberEncoding(label: "targetSelection", location: .querystring(locationName: "targetSelection")),
-            AWSMemberEncoding(label: "thingGroupId", location: .querystring(locationName: "thingGroupId")),
-            AWSMemberEncoding(label: "thingGroupName", location: .querystring(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status")),
+            AWSMemberEncoding(label: "targetSelection", location: .querystring("targetSelection")),
+            AWSMemberEncoding(label: "thingGroupId", location: .querystring("thingGroupId")),
+            AWSMemberEncoding(label: "thingGroupName", location: .querystring("thingGroupName"))
         ]
 
         /// The maximum number of results to return per request.
@@ -9970,9 +9970,9 @@ extension IoT {
 
     public struct ListMitigationActionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionType", location: .querystring(locationName: "actionType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "actionType", location: .querystring("actionType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Specify a value to limit the result to mitigation actions with a specific action type.
@@ -10015,9 +10015,9 @@ extension IoT {
 
     public struct ListOTAUpdatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "otaUpdateStatus", location: .querystring(locationName: "otaUpdateStatus"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "otaUpdateStatus", location: .querystring("otaUpdateStatus"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10060,9 +10060,9 @@ extension IoT {
 
     public struct ListOutgoingCertificatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
         ]
 
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
@@ -10107,9 +10107,9 @@ extension IoT {
 
     public struct ListPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
         ]
 
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
@@ -10154,10 +10154,10 @@ extension IoT {
 
     public struct ListPolicyPrincipalsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "policyName", location: .header("x-amzn-iot-policy"))
         ]
 
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
@@ -10208,7 +10208,7 @@ extension IoT {
 
     public struct ListPolicyVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// The policy name.
@@ -10242,10 +10242,10 @@ extension IoT {
 
     public struct ListPrincipalPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "principal", location: .header("x-amzn-iot-principal"))
         ]
 
         /// Specifies the order for results. If true, results are returned in ascending creation order.
@@ -10293,9 +10293,9 @@ extension IoT {
 
     public struct ListPrincipalThingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "principal", location: .header("x-amzn-principal"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -10340,9 +10340,9 @@ extension IoT {
 
     public struct ListProvisioningTemplateVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10388,8 +10388,8 @@ extension IoT {
 
     public struct ListProvisioningTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10429,9 +10429,9 @@ extension IoT {
 
     public struct ListRoleAliasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
         ]
 
         /// Return the list of role aliases in ascending alphabetical order.
@@ -10476,8 +10476,8 @@ extension IoT {
 
     public struct ListScheduledAuditsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return at one time. The default is 25.
@@ -10517,10 +10517,10 @@ extension IoT {
 
     public struct ListSecurityProfilesForTargetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive")),
-            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "recursive", location: .querystring("recursive")),
+            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring("securityProfileTargetArn"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10566,10 +10566,10 @@ extension IoT {
 
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dimensionName", location: .querystring(locationName: "dimensionName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "metricName", location: .querystring(locationName: "metricName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "dimensionName", location: .querystring("dimensionName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "metricName", location: .querystring("metricName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName
@@ -10621,9 +10621,9 @@ extension IoT {
 
     public struct ListStreamsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Set to true to return the list of streams in ascending order.
@@ -10666,8 +10666,8 @@ extension IoT {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// To retrieve the next set of results, the nextToken
@@ -10704,9 +10704,9 @@ extension IoT {
 
     public struct ListTargetsForPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
         ]
 
         /// A marker used to get the next set of results.
@@ -10754,9 +10754,9 @@ extension IoT {
 
     public struct ListTargetsForSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10802,9 +10802,9 @@ extension IoT {
 
     public struct ListThingGroupsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10852,11 +10852,11 @@ extension IoT {
 
     public struct ListThingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "parentGroup", location: .querystring(locationName: "parentGroup")),
-            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring("namePrefixFilter")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "parentGroup", location: .querystring("parentGroup")),
+            AWSMemberEncoding(label: "recursive", location: .querystring("recursive"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10913,9 +10913,9 @@ extension IoT {
 
     public struct ListThingPrincipalsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -10963,10 +10963,10 @@ extension IoT {
 
     public struct ListThingRegistrationTaskReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "reportType", location: .querystring(locationName: "reportType")),
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "reportType", location: .querystring("reportType")),
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The maximum number of results to return per request.
@@ -11019,9 +11019,9 @@ extension IoT {
 
     public struct ListThingRegistrationTasksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -11066,9 +11066,9 @@ extension IoT {
 
     public struct ListThingTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "thingTypeName", location: .querystring("thingTypeName"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -11116,9 +11116,9 @@ extension IoT {
 
     public struct ListThingsInBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the billing group.
@@ -11166,10 +11166,10 @@ extension IoT {
 
     public struct ListThingsInThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive")),
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "recursive", location: .querystring("recursive")),
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -11221,12 +11221,12 @@ extension IoT {
 
     public struct ListThingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributeName", location: .querystring(locationName: "attributeName")),
-            AWSMemberEncoding(label: "attributeValue", location: .querystring(locationName: "attributeValue")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName")),
-            AWSMemberEncoding(label: "usePrefixAttributeValue", location: .querystring(locationName: "usePrefixAttributeValue"))
+            AWSMemberEncoding(label: "attributeName", location: .querystring("attributeName")),
+            AWSMemberEncoding(label: "attributeValue", location: .querystring("attributeValue")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "thingTypeName", location: .querystring("thingTypeName")),
+            AWSMemberEncoding(label: "usePrefixAttributeValue", location: .querystring("usePrefixAttributeValue"))
         ]
 
         /// The attribute name used to search for things.
@@ -11289,8 +11289,8 @@ extension IoT {
 
     public struct ListTopicRuleDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -11330,10 +11330,10 @@ extension IoT {
 
     public struct ListTopicRulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled")),
-            AWSMemberEncoding(label: "topic", location: .querystring(locationName: "topic"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "ruleDisabled", location: .querystring("ruleDisabled")),
+            AWSMemberEncoding(label: "topic", location: .querystring("topic"))
         ]
 
         /// The maximum number of results to return.
@@ -11379,9 +11379,9 @@ extension IoT {
 
     public struct ListV2LoggingLevelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "targetType", location: .querystring(locationName: "targetType"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "targetType", location: .querystring("targetType"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -11424,15 +11424,15 @@ extension IoT {
 
     public struct ListViolationEventsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring(locationName: "behaviorCriteriaType")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring(locationName: "listSuppressedAlerts")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
-            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName")),
-            AWSMemberEncoding(label: "verificationState", location: .querystring(locationName: "verificationState"))
+            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring("behaviorCriteriaType")),
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring("listSuppressedAlerts")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "thingName", location: .querystring("thingName")),
+            AWSMemberEncoding(label: "verificationState", location: .querystring("verificationState"))
         ]
 
         ///  The criteria for a behavior.
@@ -12236,7 +12236,7 @@ extension IoT {
 
     public struct PutVerificationStateOnViolationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "violationId", location: .uri(locationName: "violationId"))
+            AWSMemberEncoding(label: "violationId", location: .uri("violationId"))
         ]
 
         /// The verification state of the violation.
@@ -12294,8 +12294,8 @@ extension IoT {
 
     public struct RegisterCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration")),
-            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
+            AWSMemberEncoding(label: "allowAutoRegistration", location: .querystring("allowAutoRegistration")),
+            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
         ]
 
         /// Allows this CA certificate to be used for auto registration of device certificates.
@@ -12358,7 +12358,7 @@ extension IoT {
 
     public struct RegisterCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
+            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
         ]
 
         /// The CA certificate used to sign the device certificate being registered.
@@ -12505,7 +12505,7 @@ extension IoT {
 
     public struct RejectCertificateTransferRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -12644,7 +12644,7 @@ extension IoT {
         /// The key for the payload
         public static let _payloadPath: String = "topicRulePayload"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
+            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
         ]
 
         /// The name of the rule.
@@ -13079,8 +13079,8 @@ extension IoT {
 
     public struct SetDefaultPolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri("policyVersionId"))
         ]
 
         /// The policy name.
@@ -13243,7 +13243,7 @@ extension IoT {
 
     public struct StartAuditMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts.
@@ -13298,7 +13298,7 @@ extension IoT {
 
     public struct StartDetectMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         ///  The actions to be performed when a device has unexpected behavior.
@@ -13548,7 +13548,7 @@ extension IoT {
 
     public struct StopThingRegistrationTaskRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The bulk thing provisioning task ID.
@@ -13821,7 +13821,7 @@ extension IoT {
 
     public struct TestAuthorizationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientId", location: .querystring(locationName: "clientId"))
+            AWSMemberEncoding(label: "clientId", location: .querystring("clientId"))
         ]
 
         /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
@@ -13888,7 +13888,7 @@ extension IoT {
 
     public struct TestInvokeAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
+            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
         ]
 
         /// The custom authorizer name.
@@ -14553,8 +14553,8 @@ extension IoT {
 
     public struct TransferCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")),
-            AWSMemberEncoding(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
+            AWSMemberEncoding(label: "targetAwsAccount", location: .querystring("targetAwsAccount"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -14728,7 +14728,7 @@ extension IoT {
 
     public struct UpdateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
+            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
         ]
 
         /// The ARN of the authorizer's Lambda function.
@@ -14793,7 +14793,7 @@ extension IoT {
 
     public struct UpdateBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
+            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName"))
         ]
 
         /// The name of the billing group.
@@ -14853,9 +14853,9 @@ extension IoT {
 
     public struct UpdateCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")),
-            AWSMemberEncoding(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus")),
-            AWSMemberEncoding(label: "newStatus", location: .querystring(locationName: "newStatus"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
+            AWSMemberEncoding(label: "newAutoRegistrationStatus", location: .querystring("newAutoRegistrationStatus")),
+            AWSMemberEncoding(label: "newStatus", location: .querystring("newStatus"))
         ]
 
         /// The CA certificate identifier.
@@ -14892,8 +14892,8 @@ extension IoT {
 
     public struct UpdateCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")),
-            AWSMemberEncoding(label: "newStatus", location: .querystring(locationName: "newStatus"))
+            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
+            AWSMemberEncoding(label: "newStatus", location: .querystring("newStatus"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -14917,7 +14917,7 @@ extension IoT {
 
     public struct UpdateCustomMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         ///  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
@@ -14991,7 +14991,7 @@ extension IoT {
 
     public struct UpdateDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri("name"))
         ]
 
         /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
@@ -15056,7 +15056,7 @@ extension IoT {
 
     public struct UpdateDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
         ]
 
         /// An object that specifies the authorization service for a domain.
@@ -15108,7 +15108,7 @@ extension IoT {
 
     public struct UpdateDynamicThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The expected version of the dynamic thing group to update.
@@ -15192,7 +15192,7 @@ extension IoT {
 
     public struct UpdateFleetMetricRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
         ]
 
         /// The field to aggregate.
@@ -15281,8 +15281,8 @@ extension IoT {
 
     public struct UpdateJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId"))
         ]
 
         /// Allows you to create criteria to abort a job.
@@ -15335,7 +15335,7 @@ extension IoT {
 
     public struct UpdateMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
+            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
         ]
 
         /// The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action with the new name.
@@ -15384,7 +15384,7 @@ extension IoT {
 
     public struct UpdateProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
         ]
 
         /// The ID of the default provisioning template version.
@@ -15439,7 +15439,7 @@ extension IoT {
 
     public struct UpdateRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
+            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
         ]
 
         /// The number of seconds the credential will be valid.
@@ -15490,7 +15490,7 @@ extension IoT {
 
     public struct UpdateScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
         ]
 
         /// The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
@@ -15542,8 +15542,8 @@ extension IoT {
 
     public struct UpdateSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")),
-            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
+            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
         ]
 
         ///  Please use UpdateSecurityProfileRequest$additionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
@@ -15661,7 +15661,7 @@ extension IoT {
 
     public struct UpdateStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
+            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
         ]
 
         /// The description of the stream.
@@ -15729,7 +15729,7 @@ extension IoT {
 
     public struct UpdateThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
+            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
         /// The expected version of the thing group. If this does not match the version of the
@@ -15822,7 +15822,7 @@ extension IoT {
 
     public struct UpdateThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// A list of thing attributes, a JSON string containing name-value pairs. For

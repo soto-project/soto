@@ -565,7 +565,7 @@ extension SSMIncidents {
 
     public struct DeleteReplicationSetInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the replication set you're deleting.
@@ -719,7 +719,7 @@ extension SSMIncidents {
 
     public struct GetIncidentRecordInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the incident record.
@@ -752,7 +752,7 @@ extension SSMIncidents {
 
     public struct GetReplicationSetInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the replication set you want to retrieve.
@@ -785,7 +785,7 @@ extension SSMIncidents {
 
     public struct GetResourcePoliciesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The maximum number of resource policies to display per page of results.
@@ -834,7 +834,7 @@ extension SSMIncidents {
 
     public struct GetResponsePlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the response plan.
@@ -891,8 +891,8 @@ extension SSMIncidents {
 
     public struct GetTimelineEventInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventId", location: .querystring(locationName: "eventId")),
-            AWSMemberEncoding(label: "incidentRecordArn", location: .querystring(locationName: "incidentRecordArn"))
+            AWSMemberEncoding(label: "eventId", location: .querystring("eventId")),
+            AWSMemberEncoding(label: "incidentRecordArn", location: .querystring("incidentRecordArn"))
         ]
 
         /// The ID of the event. You can get an event's ID when you create it or by using ListTimelineEvents.
@@ -1292,7 +1292,7 @@ extension SSMIncidents {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the response plan.
@@ -1663,7 +1663,7 @@ extension SSMIncidents {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the response plan you're adding the tags to.
@@ -1764,8 +1764,8 @@ extension SSMIncidents {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the response plan you're removing a tag from.

@@ -11865,7 +11865,7 @@ extension SecurityHub {
 
     public struct DeleteActionTargetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionTargetArn", location: .uri(locationName: "ActionTargetArn"))
+            AWSMemberEncoding(label: "actionTargetArn", location: .uri("ActionTargetArn"))
         ]
 
         /// The ARN of the custom action target to delete.
@@ -11897,7 +11897,7 @@ extension SecurityHub {
 
     public struct DeleteInsightRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "insightArn", location: .uri(locationName: "InsightArn"))
+            AWSMemberEncoding(label: "insightArn", location: .uri("InsightArn"))
         ]
 
         /// The ARN of the insight to delete.
@@ -12039,7 +12039,7 @@ extension SecurityHub {
 
     public struct DescribeHubRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hubArn", location: .querystring(locationName: "HubArn"))
+            AWSMemberEncoding(label: "hubArn", location: .querystring("HubArn"))
         ]
 
         /// The ARN of the Hub resource to retrieve.
@@ -12100,9 +12100,9 @@ extension SecurityHub {
 
     public struct DescribeProductsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "productArn", location: .querystring(locationName: "ProductArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "productArn", location: .querystring("ProductArn"))
         ]
 
         /// The maximum number of results to return.
@@ -12146,9 +12146,9 @@ extension SecurityHub {
 
     public struct DescribeStandardsControlsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "standardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "standardsSubscriptionArn", location: .uri("StandardsSubscriptionArn"))
         ]
 
         /// The maximum number of security standard controls to return.
@@ -12192,8 +12192,8 @@ extension SecurityHub {
 
     public struct DescribeStandardsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of standards to return.
@@ -12233,7 +12233,7 @@ extension SecurityHub {
 
     public struct DisableImportFindingsForProductRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "productSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"))
+            AWSMemberEncoding(label: "productSubscriptionArn", location: .uri("ProductSubscriptionArn"))
         ]
 
         /// The ARN of the integrated product to disable the integration for.
@@ -12629,7 +12629,7 @@ extension SecurityHub {
 
     public struct GetInsightResultsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "insightArn", location: .uri(locationName: "InsightArn"))
+            AWSMemberEncoding(label: "insightArn", location: .uri("InsightArn"))
         ]
 
         /// The ARN of the insight for which to return results.
@@ -13028,8 +13028,8 @@ extension SecurityHub {
 
     public struct ListEnabledProductsForImportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of items to return in the response.
@@ -13069,8 +13069,8 @@ extension SecurityHub {
 
     public struct ListInvitationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of items to return in the response.
@@ -13110,9 +13110,9 @@ extension SecurityHub {
 
     public struct ListMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "onlyAssociated", location: .querystring(locationName: "OnlyAssociated"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "onlyAssociated", location: .querystring("OnlyAssociated"))
         ]
 
         /// The maximum number of items to return in the response.
@@ -13155,8 +13155,8 @@ extension SecurityHub {
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of items to return in the response.
@@ -13196,7 +13196,7 @@ extension SecurityHub {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource to retrieve tags for.
@@ -14688,7 +14688,7 @@ extension SecurityHub {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource to apply the tags to.
@@ -14764,8 +14764,8 @@ extension SecurityHub {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource to remove the tags from.
@@ -14798,7 +14798,7 @@ extension SecurityHub {
 
     public struct UpdateActionTargetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionTargetArn", location: .uri(locationName: "ActionTargetArn"))
+            AWSMemberEncoding(label: "actionTargetArn", location: .uri("ActionTargetArn"))
         ]
 
         /// The ARN of the custom action target to update.
@@ -14862,7 +14862,7 @@ extension SecurityHub {
 
     public struct UpdateInsightRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "insightArn", location: .uri(locationName: "InsightArn"))
+            AWSMemberEncoding(label: "insightArn", location: .uri("InsightArn"))
         ]
 
         /// The updated filters that define this insight.
@@ -14935,7 +14935,7 @@ extension SecurityHub {
 
     public struct UpdateStandardsControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "standardsControlArn", location: .uri(locationName: "StandardsControlArn"))
+            AWSMemberEncoding(label: "standardsControlArn", location: .uri("StandardsControlArn"))
         ]
 
         /// The updated status of the security standard control.

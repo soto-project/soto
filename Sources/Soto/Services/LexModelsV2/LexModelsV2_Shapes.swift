@@ -858,9 +858,9 @@ extension LexModelsV2 {
 
     public struct BuildBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot to build. The identifier is returned in the response from the  operation.
@@ -1081,7 +1081,7 @@ extension LexModelsV2 {
 
     public struct CreateBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// Maps configuration information to a specific locale. You can use this parameter to specify a specific Lambda function to run different functions in different locales.
@@ -1200,8 +1200,8 @@ extension LexModelsV2 {
 
     public struct CreateBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion"))
         ]
 
         /// The identifier of the bot to create the locale for.
@@ -1403,7 +1403,7 @@ extension LexModelsV2 {
 
     public struct CreateBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The identifier of the bot to create the version for.
@@ -1527,9 +1527,9 @@ extension LexModelsV2 {
 
     public struct CreateIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot associated with this intent.
@@ -1692,7 +1692,7 @@ extension LexModelsV2 {
 
     public struct CreateResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see  IAM JSON policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
@@ -1735,8 +1735,8 @@ extension LexModelsV2 {
 
     public struct CreateResourcePolicyStatementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Lex action that this policy either allows or denies. The action must apply to the resource type of the specified ARN. For more information, see  Actions, resources, and condition keys for Amazon Lex V2.
@@ -1816,10 +1816,10 @@ extension LexModelsV2 {
 
     public struct CreateSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot associated with the slot.
@@ -1945,9 +1945,9 @@ extension LexModelsV2 {
 
     public struct CreateSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot associated with this slot type.
@@ -2109,9 +2109,9 @@ extension LexModelsV2 {
 
     public struct DeleteBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck"))
         ]
 
         /// The unique identifier of the bot alias to delete.
@@ -2162,9 +2162,9 @@ extension LexModelsV2 {
 
     public struct DeleteBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The unique identifier of the bot that contains the locale.
@@ -2219,8 +2219,8 @@ extension LexModelsV2 {
 
     public struct DeleteBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck"))
         ]
 
         /// The identifier of the bot to delete.
@@ -2261,9 +2261,9 @@ extension LexModelsV2 {
 
     public struct DeleteBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck"))
         ]
 
         /// The identifier of the bot that contains the version.
@@ -2314,7 +2314,7 @@ extension LexModelsV2 {
 
     public struct DeleteExportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
+            AWSMemberEncoding(label: "exportId", location: .uri("exportId"))
         ]
 
         /// The unique identifier of the export to delete.
@@ -2352,7 +2352,7 @@ extension LexModelsV2 {
 
     public struct DeleteImportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "importId", location: .uri(locationName: "importId"))
+            AWSMemberEncoding(label: "importId", location: .uri("importId"))
         ]
 
         /// The unique identifier of the import to delete.
@@ -2390,10 +2390,10 @@ extension LexModelsV2 {
 
     public struct DeleteIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot associated with the intent.
@@ -2429,8 +2429,8 @@ extension LexModelsV2 {
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The identifier of the revision to edit. If this ID doesn't match the current revision number, Amazon Lex returns an exception If you don't specify a revision ID, Amazon Lex will delete the current policy.
@@ -2473,9 +2473,9 @@ extension LexModelsV2 {
 
     public struct DeleteResourcePolicyStatementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "statementId"))
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "statementId", location: .uri("statementId"))
         ]
 
         /// The identifier of the revision of the policy to delete the statement from. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex removes the current contents of the statement.
@@ -2524,11 +2524,11 @@ extension LexModelsV2 {
 
     public struct DeleteSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "slotId", location: .uri(locationName: "slotId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "slotId", location: .uri("slotId"))
         ]
 
         /// The identifier of the bot associated with the slot to delete.
@@ -2570,11 +2570,11 @@ extension LexModelsV2 {
 
     public struct DeleteSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck")),
-            AWSMemberEncoding(label: "slotTypeId", location: .uri(locationName: "slotTypeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck")),
+            AWSMemberEncoding(label: "slotTypeId", location: .uri("slotTypeId"))
         ]
 
         /// The identifier of the bot associated with the slot type.
@@ -2613,9 +2613,9 @@ extension LexModelsV2 {
 
     public struct DeleteUtterancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .querystring(locationName: "localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .querystring(locationName: "sessionId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "localeId", location: .querystring("localeId")),
+            AWSMemberEncoding(label: "sessionId", location: .querystring("sessionId"))
         ]
 
         /// The unique identifier of the bot that contains the utterances.
@@ -2649,8 +2649,8 @@ extension LexModelsV2 {
 
     public struct DescribeBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The identifier of the bot alias to describe.
@@ -2733,9 +2733,9 @@ extension LexModelsV2 {
 
     public struct DescribeBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot associated with the locale.
@@ -2834,7 +2834,7 @@ extension LexModelsV2 {
 
     public struct DescribeBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The unique identifier of the bot to describe.
@@ -2900,8 +2900,8 @@ extension LexModelsV2 {
 
     public struct DescribeBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion"))
         ]
 
         /// The identifier of the bot containing the version to return metadata for.
@@ -2977,7 +2977,7 @@ extension LexModelsV2 {
 
     public struct DescribeExportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
+            AWSMemberEncoding(label: "exportId", location: .uri("exportId"))
         ]
 
         /// The unique identifier of the export to describe.
@@ -3039,7 +3039,7 @@ extension LexModelsV2 {
 
     public struct DescribeImportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "importId", location: .uri(locationName: "importId"))
+            AWSMemberEncoding(label: "importId", location: .uri("importId"))
         ]
 
         /// The unique identifier of the import to describe.
@@ -3105,10 +3105,10 @@ extension LexModelsV2 {
 
     public struct DescribeIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot associated with the intent.
@@ -3225,7 +3225,7 @@ extension LexModelsV2 {
 
     public struct DescribeResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
@@ -3266,11 +3266,11 @@ extension LexModelsV2 {
 
     public struct DescribeSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "slotId", location: .uri(locationName: "slotId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "slotId", location: .uri("slotId"))
         ]
 
         /// The identifier of the bot associated with the slot.
@@ -3373,10 +3373,10 @@ extension LexModelsV2 {
 
     public struct DescribeSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "slotTypeId", location: .uri(locationName: "slotTypeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "slotTypeId", location: .uri("slotTypeId"))
         ]
 
         /// The identifier of the bot associated with the slot type.
@@ -3944,7 +3944,7 @@ extension LexModelsV2 {
 
     public struct ListAggregatedUtterancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks.
@@ -4061,7 +4061,7 @@ extension LexModelsV2 {
 
     public struct ListBotAliasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The identifier of the bot to list aliases for.
@@ -4114,8 +4114,8 @@ extension LexModelsV2 {
 
     public struct ListBotLocalesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion"))
         ]
 
         /// The identifier of the bot to list locales for.
@@ -4191,7 +4191,7 @@ extension LexModelsV2 {
 
     public struct ListBotVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The identifier of the bot to list versions for.
@@ -4300,7 +4300,7 @@ extension LexModelsV2 {
 
     public struct ListBuiltInIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages.
@@ -4354,7 +4354,7 @@ extension LexModelsV2 {
 
     public struct ListBuiltInSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages.
@@ -4556,9 +4556,9 @@ extension LexModelsV2 {
 
     public struct ListIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The unique identifier of the bot that contains the intent.
@@ -4641,9 +4641,9 @@ extension LexModelsV2 {
 
     public struct ListSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The unique identifier of the bot that contains the slot types.
@@ -4726,10 +4726,10 @@ extension LexModelsV2 {
 
     public struct ListSlotsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot that contains the slot.
@@ -4822,7 +4822,7 @@ extension LexModelsV2 {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri(locationName: "resourceARN"))
+            AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
@@ -5610,7 +5610,7 @@ extension LexModelsV2 {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri(locationName: "resourceARN"))
+            AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN"))
         ]
 
         /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
@@ -5682,8 +5682,8 @@ extension LexModelsV2 {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri(locationName: "resourceARN")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
@@ -5715,8 +5715,8 @@ extension LexModelsV2 {
 
     public struct UpdateBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The unique identifier of the bot alias.
@@ -5831,9 +5831,9 @@ extension LexModelsV2 {
 
     public struct UpdateBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The unique identifier of the bot that contains the locale.
@@ -5932,7 +5932,7 @@ extension LexModelsV2 {
 
     public struct UpdateBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId"))
         ]
 
         /// The unique identifier of the bot to update. This identifier is returned by the CreateBot operation.
@@ -6028,7 +6028,7 @@ extension LexModelsV2 {
 
     public struct UpdateExportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
+            AWSMemberEncoding(label: "exportId", location: .uri("exportId"))
         ]
 
         /// The unique identifier Amazon Lex assigned to the export.
@@ -6089,10 +6089,10 @@ extension LexModelsV2 {
 
     public struct UpdateIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
         /// The identifier of the bot that contains the intent.
@@ -6276,8 +6276,8 @@ extension LexModelsV2 {
 
     public struct UpdateResourcePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The identifier of the revision of the policy to update. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
@@ -6326,11 +6326,11 @@ extension LexModelsV2 {
 
     public struct UpdateSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "slotId", location: .uri(locationName: "slotId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "slotId", location: .uri("slotId"))
         ]
 
         /// The unique identifier of the bot that contains the slot.
@@ -6466,10 +6466,10 @@ extension LexModelsV2 {
 
     public struct UpdateSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "slotTypeId", location: .uri(locationName: "slotTypeId"))
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
+            AWSMemberEncoding(label: "slotTypeId", location: .uri("slotTypeId"))
         ]
 
         /// The identifier of the bot that contains the slot type.

@@ -606,8 +606,8 @@ extension IoTEventsData {
 
     public struct DescribeAlarmRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
-            AWSMemberEncoding(label: "keyValue", location: .querystring(locationName: "keyValue"))
+            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName")),
+            AWSMemberEncoding(label: "keyValue", location: .querystring("keyValue"))
         ]
 
         /// The name of the alarm model.
@@ -648,8 +648,8 @@ extension IoTEventsData {
 
     public struct DescribeDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
-            AWSMemberEncoding(label: "keyValue", location: .querystring(locationName: "keyValue"))
+            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName")),
+            AWSMemberEncoding(label: "keyValue", location: .querystring("keyValue"))
         ]
 
         /// The name of the detector model whose detectors (instances) you want information about.
@@ -925,9 +925,9 @@ extension IoTEventsData {
 
     public struct ListAlarmsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "alarmModelName", location: .uri("alarmModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the alarm model.
@@ -974,10 +974,10 @@ extension IoTEventsData {
 
     public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "stateName", location: .querystring(locationName: "stateName"))
+            AWSMemberEncoding(label: "detectorModelName", location: .uri("detectorModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "stateName", location: .querystring("stateName"))
         ]
 
         /// The name of the detector model whose detectors (instances) are listed.

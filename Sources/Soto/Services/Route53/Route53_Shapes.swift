@@ -256,8 +256,8 @@ extension Route53 {
 
     public struct ActivateKeySigningKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A unique string used to identify a hosted zone.
@@ -518,7 +518,7 @@ extension Route53 {
 
     public struct AssociateVPCWithHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         ///  Optional: A comment about the association request.
@@ -656,7 +656,7 @@ extension Route53 {
 
     public struct ChangeResourceRecordSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         /// A complex type that contains an optional comment and the Changes element.
@@ -697,8 +697,8 @@ extension Route53 {
 
     public struct ChangeTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
+            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
+            AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
         ]
         public struct _AddTagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _RemoveTagKeysEncoding: ArrayCoderProperties { public static let member = "Key" }
@@ -830,7 +830,7 @@ extension Route53 {
 
     public struct CreateHealthCheckResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// A complex type that contains identifying information about the health check.
@@ -904,7 +904,7 @@ extension Route53 {
 
     public struct CreateHostedZoneResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// A complex type that contains information about the CreateHostedZone request.
@@ -989,7 +989,7 @@ extension Route53 {
 
     public struct CreateKeySigningKeyResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         public let changeInfo: ChangeInfo
@@ -1042,7 +1042,7 @@ extension Route53 {
 
     public struct CreateQueryLoggingConfigResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// The unique URL representing the new query logging configuration.
@@ -1092,7 +1092,7 @@ extension Route53 {
 
     public struct CreateReusableDelegationSetResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// A complex type that contains name server information.
@@ -1154,7 +1154,7 @@ extension Route53 {
 
     public struct CreateTrafficPolicyInstanceResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// A unique URL that represents a new traffic policy instance.
@@ -1203,7 +1203,7 @@ extension Route53 {
 
     public struct CreateTrafficPolicyResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// A unique URL that represents a new traffic policy.
@@ -1224,7 +1224,7 @@ extension Route53 {
 
     public struct CreateTrafficPolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The comment that you specified in the CreateTrafficPolicyVersion request, if any.
@@ -1257,7 +1257,7 @@ extension Route53 {
 
     public struct CreateTrafficPolicyVersionResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header("Location"))
         ]
 
         /// A unique URL that represents a new traffic policy version.
@@ -1278,7 +1278,7 @@ extension Route53 {
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         /// The ID of the private hosted zone that you want to authorize associating a VPC with.
@@ -1345,8 +1345,8 @@ extension Route53 {
 
     public struct DeactivateKeySigningKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A unique string used to identify a hosted zone.
@@ -1406,7 +1406,7 @@ extension Route53 {
 
     public struct DeleteHealthCheckRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
+            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
         ]
 
         /// The ID of the health check that you want to delete.
@@ -1429,7 +1429,7 @@ extension Route53 {
 
     public struct DeleteHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the hosted zone you want to delete.
@@ -1461,8 +1461,8 @@ extension Route53 {
 
     public struct DeleteKeySigningKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// A unique string used to identify a hosted zone.
@@ -1498,7 +1498,7 @@ extension Route53 {
 
     public struct DeleteQueryLoggingConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the configuration that you want to delete.
@@ -1522,7 +1522,7 @@ extension Route53 {
 
     public struct DeleteReusableDelegationSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the reusable delegation set that you want to delete.
@@ -1545,7 +1545,7 @@ extension Route53 {
 
     public struct DeleteTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the traffic policy instance that you want to delete.
@@ -1573,8 +1573,8 @@ extension Route53 {
 
     public struct DeleteTrafficPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "version", location: .uri("Version"))
         ]
 
         /// The ID of the traffic policy that you want to delete.
@@ -1603,7 +1603,7 @@ extension Route53 {
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         /// When removing authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone
@@ -1651,7 +1651,7 @@ extension Route53 {
 
     public struct DisableHostedZoneDNSSECRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         /// A unique string used to identify a hosted zone.
@@ -1682,7 +1682,7 @@ extension Route53 {
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         ///  Optional: A comment about the disassociation request.
@@ -1725,7 +1725,7 @@ extension Route53 {
 
     public struct EnableHostedZoneDNSSECRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         /// A unique string used to identify a hosted zone.
@@ -1829,7 +1829,7 @@ extension Route53 {
 
     public struct GetAccountLimitRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
+            AWSMemberEncoding(label: "type", location: .uri("Type"))
         ]
 
         /// The limit that you want to get. Valid values include the following:
@@ -1872,7 +1872,7 @@ extension Route53 {
 
     public struct GetChangeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets
@@ -1924,7 +1924,7 @@ extension Route53 {
 
     public struct GetDNSSECRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId"))
         ]
 
         /// A unique string used to identify a hosted zone.
@@ -1961,9 +1961,9 @@ extension Route53 {
 
     public struct GetGeoLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "continentCode", location: .querystring(locationName: "continentcode")),
-            AWSMemberEncoding(label: "countryCode", location: .querystring(locationName: "countrycode")),
-            AWSMemberEncoding(label: "subdivisionCode", location: .querystring(locationName: "subdivisioncode"))
+            AWSMemberEncoding(label: "continentCode", location: .querystring("continentcode")),
+            AWSMemberEncoding(label: "countryCode", location: .querystring("countrycode")),
+            AWSMemberEncoding(label: "subdivisionCode", location: .querystring("subdivisioncode"))
         ]
 
         /// For geolocation resource record sets, a two-letter abbreviation that identifies a continent. Amazon Route 53 supports the following continent codes:
@@ -2025,7 +2025,7 @@ extension Route53 {
 
     public struct GetHealthCheckLastFailureReasonRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
+            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
         ]
 
         /// The ID for the health check for which you want the last failure reason. When you created the health check,
@@ -2063,7 +2063,7 @@ extension Route53 {
 
     public struct GetHealthCheckRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
+            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
         ]
 
         /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set,
@@ -2097,7 +2097,7 @@ extension Route53 {
 
     public struct GetHealthCheckStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
+            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
         ]
 
         /// The ID for the health check that you want the current status for. When you created the health check,
@@ -2153,8 +2153,8 @@ extension Route53 {
 
     public struct GetHostedZoneLimitRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
-            AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
+            AWSMemberEncoding(label: "type", location: .uri("Type"))
         ]
 
         /// The ID of the hosted zone that you want to get a limit for.
@@ -2200,7 +2200,7 @@ extension Route53 {
 
     public struct GetHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the hosted zone that you want to get information about.
@@ -2243,7 +2243,7 @@ extension Route53 {
 
     public struct GetQueryLoggingConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the configuration for DNS query logging that you want to get information about.
@@ -2277,8 +2277,8 @@ extension Route53 {
 
     public struct GetReusableDelegationSetLimitRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "delegationSetId", location: .uri(locationName: "DelegationSetId")),
-            AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
+            AWSMemberEncoding(label: "delegationSetId", location: .uri("DelegationSetId")),
+            AWSMemberEncoding(label: "type", location: .uri("Type"))
         ]
 
         /// The ID of the delegation set that you want to get the limit for.
@@ -2318,7 +2318,7 @@ extension Route53 {
 
     public struct GetReusableDelegationSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the reusable delegation set that you want to get a list of name servers for.
@@ -2367,7 +2367,7 @@ extension Route53 {
 
     public struct GetTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the traffic policy instance that you want to get information about.
@@ -2400,8 +2400,8 @@ extension Route53 {
 
     public struct GetTrafficPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "version", location: .uri("Version"))
         ]
 
         /// The ID of the traffic policy that you want to get information about.
@@ -3019,10 +3019,10 @@ extension Route53 {
 
     public struct ListGeoLocationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "startContinentCode", location: .querystring(locationName: "startcontinentcode")),
-            AWSMemberEncoding(label: "startCountryCode", location: .querystring(locationName: "startcountrycode")),
-            AWSMemberEncoding(label: "startSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"))
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "startContinentCode", location: .querystring("startcontinentcode")),
+            AWSMemberEncoding(label: "startCountryCode", location: .querystring("startcountrycode")),
+            AWSMemberEncoding(label: "startSubdivisionCode", location: .querystring("startsubdivisioncode"))
         ]
 
         /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than maxitems
@@ -3108,8 +3108,8 @@ extension Route53 {
 
     public struct ListHealthChecksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more health checks. To get another group,
@@ -3175,9 +3175,9 @@ extension Route53 {
 
     public struct ListHostedZonesByNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dNSName", location: .querystring(locationName: "dnsname")),
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
+            AWSMemberEncoding(label: "dNSName", location: .querystring("dnsname")),
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
         ]
 
         /// (Optional) For your first request to ListHostedZonesByName, include the dnsname parameter only if you want to
@@ -3262,10 +3262,10 @@ extension Route53 {
 
     public struct ListHostedZonesByVPCRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken")),
-            AWSMemberEncoding(label: "vPCId", location: .querystring(locationName: "vpcid")),
-            AWSMemberEncoding(label: "vPCRegion", location: .querystring(locationName: "vpcregion"))
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken")),
+            AWSMemberEncoding(label: "vPCId", location: .querystring("vpcid")),
+            AWSMemberEncoding(label: "vPCRegion", location: .querystring("vpcregion"))
         ]
 
         /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with
@@ -3324,9 +3324,9 @@ extension Route53 {
 
     public struct ListHostedZonesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "delegationSetId", location: .querystring(locationName: "delegationsetid")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
+            AWSMemberEncoding(label: "delegationSetId", location: .querystring("delegationsetid")),
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
         ]
 
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated
@@ -3398,9 +3398,9 @@ extension Route53 {
 
     public struct ListQueryLoggingConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
         ]
 
         /// (Optional) If you want to list the query logging configuration that is associated with a hosted zone, specify the ID in
@@ -3464,11 +3464,11 @@ extension Route53 {
 
     public struct ListResourceRecordSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "startRecordIdentifier", location: .querystring(locationName: "identifier")),
-            AWSMemberEncoding(label: "startRecordName", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "startRecordType", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "startRecordIdentifier", location: .querystring("identifier")),
+            AWSMemberEncoding(label: "startRecordName", location: .querystring("name")),
+            AWSMemberEncoding(label: "startRecordType", location: .querystring("type"))
         ]
 
         /// The ID of the hosted zone that contains the resource record sets that you want to list.
@@ -3560,8 +3560,8 @@ extension Route53 {
 
     public struct ListReusableDelegationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
+            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more reusable delegation sets.
@@ -3625,8 +3625,8 @@ extension Route53 {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
+            AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
+            AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
         ]
 
         /// The ID of the resource for which you want to retrieve tags.
@@ -3662,7 +3662,7 @@ extension Route53 {
 
     public struct ListTagsForResourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
+            AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
         ]
         public struct _ResourceIdsEncoding: ArrayCoderProperties { public static let member = "ResourceId" }
 
@@ -3709,8 +3709,8 @@ extension Route53 {
 
     public struct ListTrafficPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"))
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "trafficPolicyIdMarker", location: .querystring("trafficpolicyid"))
         ]
 
         /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to return in response to this request. If you have more than
@@ -3772,10 +3772,10 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "id")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("id")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring("trafficpolicyinstancename")),
+            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring("trafficpolicyinstancetype"))
         ]
 
         /// The ID of the hosted zone that you want to list traffic policy instances for.
@@ -3853,12 +3853,12 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyId", location: .querystring(locationName: "id")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype")),
-            AWSMemberEncoding(label: "trafficPolicyVersion", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring("hostedzoneid")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "trafficPolicyId", location: .querystring("id")),
+            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring("trafficpolicyinstancename")),
+            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring("trafficpolicyinstancetype")),
+            AWSMemberEncoding(label: "trafficPolicyVersion", location: .querystring("version"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances.
@@ -3955,10 +3955,10 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename")),
-            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"))
+            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring("hostedzoneid")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring("trafficpolicyinstancename")),
+            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring("trafficpolicyinstancetype"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances.
@@ -4047,9 +4047,9 @@ extension Route53 {
 
     public struct ListTrafficPolicyVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")),
-            AWSMemberEncoding(label: "trafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"))
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
+            AWSMemberEncoding(label: "trafficPolicyVersionMarker", location: .querystring("trafficpolicyversion"))
         ]
 
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
@@ -4118,9 +4118,9 @@ extension Route53 {
 
     public struct ListVPCAssociationAuthorizationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri("HostedZoneId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxresults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken"))
         ]
 
         /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone.
@@ -4673,12 +4673,12 @@ extension Route53 {
 
     public struct TestDNSAnswerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip")),
-            AWSMemberEncoding(label: "eDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask")),
-            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")),
-            AWSMemberEncoding(label: "recordName", location: .querystring(locationName: "recordname")),
-            AWSMemberEncoding(label: "recordType", location: .querystring(locationName: "recordtype")),
-            AWSMemberEncoding(label: "resolverIP", location: .querystring(locationName: "resolverip"))
+            AWSMemberEncoding(label: "eDNS0ClientSubnetIP", location: .querystring("edns0clientsubnetip")),
+            AWSMemberEncoding(label: "eDNS0ClientSubnetMask", location: .querystring("edns0clientsubnetmask")),
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
+            AWSMemberEncoding(label: "recordName", location: .querystring("recordname")),
+            AWSMemberEncoding(label: "recordType", location: .querystring("recordtype")),
+            AWSMemberEncoding(label: "resolverIP", location: .querystring("resolverip"))
         ]
 
         /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or IPv6 address of a client
@@ -4882,7 +4882,7 @@ extension Route53 {
 
     public struct UpdateHealthCheckRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
+            AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
         ]
         public struct _ChildHealthChecksEncoding: ArrayCoderProperties { public static let member = "ChildHealthCheck" }
         public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
@@ -5142,7 +5142,7 @@ extension Route53 {
 
     public struct UpdateHostedZoneCommentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the
@@ -5181,8 +5181,8 @@ extension Route53 {
 
     public struct UpdateTrafficPolicyCommentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
-            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "version", location: .uri("Version"))
         ]
 
         /// The new comment for the specified traffic policy and version.
@@ -5226,7 +5226,7 @@ extension Route53 {
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the traffic policy instance that you want to update.

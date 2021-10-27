@@ -98,10 +98,10 @@ extension CodeArtifact {
 
     public struct AssociateExternalConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "externalConnection", location: .querystring(locationName: "external-connection")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "externalConnection", location: .querystring("external-connection")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         /// The name of the domain that contains the repository.
@@ -151,13 +151,13 @@ extension CodeArtifact {
 
     public struct CopyPackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationRepository", location: .querystring(locationName: "destination-repository")),
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "sourceRepository", location: .querystring(locationName: "source-repository"))
+            AWSMemberEncoding(label: "destinationRepository", location: .querystring("destination-repository")),
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "sourceRepository", location: .querystring("source-repository"))
         ]
 
         ///  Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with  an ALREADY_EXISTS error code.
@@ -259,7 +259,7 @@ extension CodeArtifact {
 
     public struct CreateDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain"))
         ]
 
         ///  The name of the domain to create. All domain names in an AWS Region that are in the same AWS account must be unique. The domain name is used as the prefix in DNS hostnames. Do not use sensitive information in a domain name because it is publicly discoverable.
@@ -309,9 +309,9 @@ extension CodeArtifact {
 
     public struct CreateRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  A description of the created repository.
@@ -379,9 +379,9 @@ extension CodeArtifact {
 
     public struct DeleteDomainPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "policyRevision", location: .querystring(locationName: "policy-revision"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "policyRevision", location: .querystring("policy-revision"))
         ]
 
         ///  The name of the domain associated with the resource policy to be deleted.
@@ -427,8 +427,8 @@ extension CodeArtifact {
 
     public struct DeleteDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner"))
         ]
 
         ///  The name of the domain to delete.
@@ -468,12 +468,12 @@ extension CodeArtifact {
 
     public struct DeletePackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the package to delete.
@@ -553,10 +553,10 @@ extension CodeArtifact {
 
     public struct DeleteRepositoryPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "policyRevision", location: .querystring(locationName: "policy-revision")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "policyRevision", location: .querystring("policy-revision")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository associated with the resource policy to be deleted.
@@ -608,9 +608,9 @@ extension CodeArtifact {
 
     public struct DeleteRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository to delete.
@@ -656,8 +656,8 @@ extension CodeArtifact {
 
     public struct DescribeDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner"))
         ]
 
         ///  A string that specifies the name of the requested domain.
@@ -696,13 +696,13 @@ extension CodeArtifact {
 
     public struct DescribePackageVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository that contains the package version.
@@ -769,9 +769,9 @@ extension CodeArtifact {
 
     public struct DescribeRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository to describe.
@@ -817,10 +817,10 @@ extension CodeArtifact {
 
     public struct DisassociateExternalConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "externalConnection", location: .querystring(locationName: "external-connection")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "externalConnection", location: .querystring("external-connection")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         /// The name of the domain that contains the repository from which to remove the external repository.
@@ -870,12 +870,12 @@ extension CodeArtifact {
 
     public struct DisposePackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository you want to dispose.
@@ -1045,9 +1045,9 @@ extension CodeArtifact {
 
     public struct GetAuthorizationTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "durationSeconds", location: .querystring(locationName: "duration"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "durationSeconds", location: .querystring("duration"))
         ]
 
         ///  The name of the domain that is in scope for the generated authorization token.
@@ -1096,8 +1096,8 @@ extension CodeArtifact {
 
     public struct GetDomainPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner"))
         ]
 
         ///  The name of the domain to which the resource policy is attached.
@@ -1137,15 +1137,15 @@ extension CodeArtifact {
 
     public struct GetPackageVersionAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "asset", location: .querystring(locationName: "asset")),
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "packageVersionRevision", location: .querystring(locationName: "revision")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "asset", location: .querystring("asset")),
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
+            AWSMemberEncoding(label: "packageVersionRevision", location: .querystring("revision")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the requested asset.
@@ -1214,9 +1214,9 @@ extension CodeArtifact {
         public static let _payloadPath: String = "asset"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetName", location: .header(locationName: "X-AssetName")),
-            AWSMemberEncoding(label: "packageVersion", location: .header(locationName: "X-PackageVersion")),
-            AWSMemberEncoding(label: "packageVersionRevision", location: .header(locationName: "X-PackageVersionRevision"))
+            AWSMemberEncoding(label: "assetName", location: .header("X-AssetName")),
+            AWSMemberEncoding(label: "packageVersion", location: .header("X-PackageVersion")),
+            AWSMemberEncoding(label: "packageVersionRevision", location: .header("X-PackageVersionRevision"))
         ]
 
         ///  The binary file, or asset, that is downloaded.
@@ -1245,13 +1245,13 @@ extension CodeArtifact {
 
     public struct GetPackageVersionReadmeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository that contains the package version with the requested readme file.
@@ -1338,10 +1338,10 @@ extension CodeArtifact {
 
     public struct GetRepositoryEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository.
@@ -1390,9 +1390,9 @@ extension CodeArtifact {
 
     public struct GetRepositoryPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain containing the repository whose associated resource policy is to be retrieved.
@@ -1497,15 +1497,15 @@ extension CodeArtifact {
 
     public struct ListPackageVersionAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository associated with the package version assets.
@@ -1607,14 +1607,14 @@ extension CodeArtifact {
 
     public struct ListPackageVersionDependenciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository that contains the requested package version dependencies.
@@ -1711,16 +1711,16 @@ extension CodeArtifact {
 
     public struct ListPackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository")),
-            AWSMemberEncoding(label: "sortBy", location: .querystring(locationName: "sortBy")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository")),
+            AWSMemberEncoding(label: "sortBy", location: .querystring("sortBy")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         ///  The name of the domain that contains the repository that contains the returned package versions.
@@ -1818,14 +1818,14 @@ extension CodeArtifact {
 
     public struct ListPackagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "packagePrefix", location: .querystring(locationName: "package-prefix")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "packagePrefix", location: .querystring("package-prefix")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository that contains the requested list of packages.
@@ -1901,12 +1901,12 @@ extension CodeArtifact {
 
     public struct ListRepositoriesInDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "administratorAccount", location: .querystring(locationName: "administrator-account")),
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "repositoryPrefix", location: .querystring(locationName: "repository-prefix"))
+            AWSMemberEncoding(label: "administratorAccount", location: .querystring("administrator-account")),
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "repositoryPrefix", location: .querystring("repository-prefix"))
         ]
 
         ///  Filter the list of repositories to only include those that are managed by the AWS account ID.
@@ -1973,9 +1973,9 @@ extension CodeArtifact {
 
     public struct ListRepositoriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "repositoryPrefix", location: .querystring(locationName: "repository-prefix"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "repositoryPrefix", location: .querystring("repository-prefix"))
         ]
 
         ///  The maximum number of results to return per page.
@@ -2024,7 +2024,7 @@ extension CodeArtifact {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
@@ -2251,9 +2251,9 @@ extension CodeArtifact {
 
     public struct PutRepositoryPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain containing the repository to set the resource policy on.
@@ -2469,7 +2469,7 @@ extension CodeArtifact {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
@@ -2503,7 +2503,7 @@ extension CodeArtifact {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
@@ -2538,12 +2538,12 @@ extension CodeArtifact {
 
     public struct UpdatePackageVersionsStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  The name of the domain that contains the repository that contains the package versions with a status to be updated.
@@ -2639,9 +2639,9 @@ extension CodeArtifact {
 
     public struct UpdateRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
         ]
 
         ///  An updated repository description.
