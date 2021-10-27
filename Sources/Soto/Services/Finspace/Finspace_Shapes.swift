@@ -122,7 +122,7 @@ extension Finspace {
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "environmentId"))
+            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
         ]
 
         /// The identifier for the FinSpace environment.
@@ -263,7 +263,7 @@ extension Finspace {
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "environmentId"))
+            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
         ]
 
         /// The identifier of the FinSpace environment.
@@ -297,8 +297,8 @@ extension Finspace {
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return in this request.
@@ -341,7 +341,7 @@ extension Finspace {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name of the resource.
@@ -375,7 +375,7 @@ extension Finspace {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource.
@@ -415,8 +415,8 @@ extension Finspace {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// A FinSpace resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
@@ -451,7 +451,7 @@ extension Finspace {
 
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "environmentId"))
+            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
         ]
 
         /// The description of the environment.

@@ -46,9 +46,9 @@ extension SSO {
 
     public struct GetRoleCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")),
-            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")),
-            AWSMemberEncoding(label: "roleName", location: .querystring(locationName: "role_name"))
+            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token")),
+            AWSMemberEncoding(label: "accountId", location: .querystring("account_id")),
+            AWSMemberEncoding(label: "roleName", location: .querystring("role_name"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -82,10 +82,10 @@ extension SSO {
 
     public struct ListAccountRolesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")),
-            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token")),
+            AWSMemberEncoding(label: "accountId", location: .querystring("account_id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_result")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -131,9 +131,9 @@ extension SSO {
 
     public struct ListAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_result")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -176,7 +176,7 @@ extension SSO {
 
     public struct LogoutRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"))
+            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.

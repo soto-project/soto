@@ -201,7 +201,7 @@ extension GreengrassV2 {
 
     public struct BatchAssociateClientDeviceWithCoreDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -244,7 +244,7 @@ extension GreengrassV2 {
 
     public struct BatchDisassociateClientDeviceFromCoreDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -287,7 +287,7 @@ extension GreengrassV2 {
 
     public struct CancelDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
+            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
         ]
 
         /// The ID of the deployment.
@@ -740,7 +740,7 @@ extension GreengrassV2 {
 
     public struct DeleteComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn"))
         ]
 
         /// The ARN of the component version.
@@ -759,7 +759,7 @@ extension GreengrassV2 {
 
     public struct DeleteCoreDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -893,7 +893,7 @@ extension GreengrassV2 {
 
     public struct DescribeComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn"))
         ]
 
         /// The ARN of the component version.
@@ -1045,8 +1045,8 @@ extension GreengrassV2 {
 
     public struct GetComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")),
-            AWSMemberEncoding(label: "recipeOutputFormat", location: .querystring(locationName: "recipeOutputFormat"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn")),
+            AWSMemberEncoding(label: "recipeOutputFormat", location: .querystring("recipeOutputFormat"))
         ]
 
         /// The ARN of the component version.
@@ -1089,8 +1089,8 @@ extension GreengrassV2 {
 
     public struct GetComponentVersionArtifactRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")),
-            AWSMemberEncoding(label: "artifactName", location: .uri(locationName: "artifactName"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn")),
+            AWSMemberEncoding(label: "artifactName", location: .uri("artifactName"))
         ]
 
         /// The ARN of the component version. Specify the ARN of a public component version.
@@ -1126,7 +1126,7 @@ extension GreengrassV2 {
 
     public struct GetCoreDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -1183,7 +1183,7 @@ extension GreengrassV2 {
 
     public struct GetDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
+            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
         ]
 
         /// The ID of the deployment.
@@ -1644,9 +1644,9 @@ extension GreengrassV2 {
 
     public struct ListClientDevicesAssociatedWithCoreDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -1691,9 +1691,9 @@ extension GreengrassV2 {
 
     public struct ListComponentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "arn", location: .uri("arn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ARN of the component version.
@@ -1737,9 +1737,9 @@ extension GreengrassV2 {
 
     public struct ListComponentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "scope", location: .querystring(locationName: "scope"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "scope", location: .querystring("scope"))
         ]
 
         /// The maximum number of results to be returned per paginated request.
@@ -1782,10 +1782,10 @@ extension GreengrassV2 {
 
     public struct ListCoreDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")),
-            AWSMemberEncoding(label: "thingGroupArn", location: .querystring(locationName: "thingGroupArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status")),
+            AWSMemberEncoding(label: "thingGroupArn", location: .querystring("thingGroupArn"))
         ]
 
         /// The maximum number of results to be returned per paginated request.
@@ -1832,10 +1832,10 @@ extension GreengrassV2 {
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "historyFilter", location: .querystring(locationName: "historyFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "targetArn", location: .querystring(locationName: "targetArn"))
+            AWSMemberEncoding(label: "historyFilter", location: .querystring("historyFilter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "targetArn", location: .querystring("targetArn"))
         ]
 
         /// The filter for the list of deployments. Choose one of the following options:    ALL – The list includes all deployments.    LATEST_ONLY – The list includes only the latest revision of each deployment.   Default: LATEST_ONLY
@@ -1882,9 +1882,9 @@ extension GreengrassV2 {
 
     public struct ListEffectiveDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -1929,9 +1929,9 @@ extension GreengrassV2 {
 
     public struct ListInstalledComponentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -1976,7 +1976,7 @@ extension GreengrassV2 {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -2093,7 +2093,7 @@ extension GreengrassV2 {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource to tag.
@@ -2129,8 +2129,8 @@ extension GreengrassV2 {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource to untag.

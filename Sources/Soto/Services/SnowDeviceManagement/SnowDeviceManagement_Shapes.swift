@@ -105,7 +105,7 @@ extension SnowDeviceManagement {
 
     public struct CancelTaskInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The ID of the task that you are attempting to cancel. You can retrieve a task ID by using the ListTasks operation.
@@ -241,7 +241,7 @@ extension SnowDeviceManagement {
 
     public struct DescribeDeviceEc2Input: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri(locationName: "managedDeviceId"))
+            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId"))
         ]
 
         /// A list of instance IDs associated with the managed device.
@@ -279,7 +279,7 @@ extension SnowDeviceManagement {
 
     public struct DescribeDeviceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri(locationName: "managedDeviceId"))
+            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId"))
         ]
 
         /// The ID of the device that you are checking the information of.
@@ -352,8 +352,8 @@ extension SnowDeviceManagement {
 
     public struct DescribeExecutionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri(locationName: "managedDeviceId")),
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId")),
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The ID of the managed device.
@@ -411,7 +411,7 @@ extension SnowDeviceManagement {
 
     public struct DescribeTaskInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
         ]
 
         /// The ID of the task to be described.
@@ -662,10 +662,10 @@ extension SnowDeviceManagement {
 
     public struct ListDeviceResourcesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri(locationName: "managedDeviceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
         /// The ID of the managed device that you are listing the resources of.
@@ -716,9 +716,9 @@ extension SnowDeviceManagement {
 
     public struct ListDevicesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .querystring(locationName: "jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "jobId", location: .querystring("jobId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ID of the job used to order the device.
@@ -766,10 +766,10 @@ extension SnowDeviceManagement {
 
     public struct ListExecutionsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "taskId", location: .querystring(locationName: "taskId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "state", location: .querystring("state")),
+            AWSMemberEncoding(label: "taskId", location: .querystring("taskId"))
         ]
 
         /// The maximum number of tasks to list per page.
@@ -820,7 +820,7 @@ extension SnowDeviceManagement {
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the device or task.
@@ -848,9 +848,9 @@ extension SnowDeviceManagement {
 
     public struct ListTasksInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "state", location: .querystring("state"))
         ]
 
         /// The maximum number of tasks per page.
@@ -996,7 +996,7 @@ extension SnowDeviceManagement {
 
     public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the device or task.
@@ -1045,8 +1045,8 @@ extension SnowDeviceManagement {
 
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the device or task.

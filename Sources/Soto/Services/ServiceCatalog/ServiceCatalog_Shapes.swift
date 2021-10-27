@@ -1492,7 +1492,7 @@ extension ServiceCatalog {
 
     public struct DeleteTagOptionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .querystring("id"))
         ]
 
         /// The TagOption identifier.
@@ -2311,7 +2311,7 @@ extension ServiceCatalog {
 
     public struct DescribeTagOptionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .querystring("id"))
         ]
 
         /// The TagOption identifier.
@@ -2492,8 +2492,8 @@ extension ServiceCatalog {
 
     public struct DisassociateTagOptionFromResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")),
-            AWSMemberEncoding(label: "tagOptionId", location: .querystring(locationName: "tagOptionId"))
+            AWSMemberEncoding(label: "resourceId", location: .querystring("resourceId")),
+            AWSMemberEncoding(label: "tagOptionId", location: .querystring("tagOptionId"))
         ]
 
         /// The resource identifier.
@@ -3576,10 +3576,10 @@ extension ServiceCatalog {
 
     public struct ListResourcesForTagOptionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring(locationName: "pageToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "tagOptionId", location: .querystring(locationName: "tagOptionId"))
+            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
+            AWSMemberEncoding(label: "pageToken", location: .querystring("pageToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
+            AWSMemberEncoding(label: "tagOptionId", location: .querystring("tagOptionId"))
         ]
 
         /// The maximum number of items to return with this call.

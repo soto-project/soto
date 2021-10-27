@@ -73,9 +73,9 @@ extension Mobile {
         public static let _payloadPath: String = "contents"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "region", location: .querystring(locationName: "region")),
-            AWSMemberEncoding(label: "snapshotId", location: .querystring(locationName: "snapshotId"))
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "region", location: .querystring("region")),
+            AWSMemberEncoding(label: "snapshotId", location: .querystring("snapshotId"))
         ]
 
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation.
@@ -112,7 +112,7 @@ extension Mobile {
 
     public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         ///  Unique project identifier.
@@ -144,7 +144,7 @@ extension Mobile {
 
     public struct DescribeBundleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId"))
+            AWSMemberEncoding(label: "bundleId", location: .uri("bundleId"))
         ]
 
         ///  Unique bundle identifier.
@@ -172,8 +172,8 @@ extension Mobile {
 
     public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId")),
-            AWSMemberEncoding(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"))
+            AWSMemberEncoding(label: "projectId", location: .querystring("projectId")),
+            AWSMemberEncoding(label: "syncFromResources", location: .querystring("syncFromResources"))
         ]
 
         ///  Unique project identifier.
@@ -203,9 +203,9 @@ extension Mobile {
 
     public struct ExportBundleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId")),
-            AWSMemberEncoding(label: "platform", location: .querystring(locationName: "platform")),
-            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
+            AWSMemberEncoding(label: "bundleId", location: .uri("bundleId")),
+            AWSMemberEncoding(label: "platform", location: .querystring("platform")),
+            AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
         ]
 
         ///  Unique bundle identifier.
@@ -239,7 +239,7 @@ extension Mobile {
 
     public struct ExportProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
         ]
 
         ///  Unique project identifier.
@@ -275,8 +275,8 @@ extension Mobile {
 
     public struct ListBundlesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response.
@@ -311,8 +311,8 @@ extension Mobile {
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response.
@@ -425,7 +425,7 @@ extension Mobile {
         public static let _payloadPath: String = "contents"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
+            AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
         ]
 
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation.

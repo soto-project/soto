@@ -218,7 +218,7 @@ extension VoiceID {
 
     public struct DeleteDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
         ]
 
         /// The identifier of the domain you want to delete.
@@ -239,8 +239,8 @@ extension VoiceID {
 
     public struct DeleteFraudsterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "fraudsterId", location: .uri(locationName: "FraudsterId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "fraudsterId", location: .uri("FraudsterId"))
         ]
 
         /// The identifier of the domain containing the fraudster.
@@ -267,8 +267,8 @@ extension VoiceID {
 
     public struct DeleteSpeakerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "speakerId", location: .uri(locationName: "SpeakerId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "speakerId", location: .uri("SpeakerId"))
         ]
 
         /// The identifier of the domain containing the speaker.
@@ -295,7 +295,7 @@ extension VoiceID {
 
     public struct DescribeDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
         ]
 
         /// The identifier of the domain you are describing.
@@ -329,8 +329,8 @@ extension VoiceID {
 
     public struct DescribeFraudsterRegistrationJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The identifier for the domain containing the fraudster registration job.
@@ -370,8 +370,8 @@ extension VoiceID {
 
     public struct DescribeFraudsterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "fraudsterId", location: .uri(locationName: "FraudsterId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "fraudsterId", location: .uri("FraudsterId"))
         ]
 
         /// The identifier of the domain containing the fraudster.
@@ -411,8 +411,8 @@ extension VoiceID {
 
     public struct DescribeSpeakerEnrollmentJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
         ]
 
         /// The identifier of the domain containing the speaker enrollment job.
@@ -452,8 +452,8 @@ extension VoiceID {
 
     public struct DescribeSpeakerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "speakerId", location: .uri(locationName: "SpeakerId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "speakerId", location: .uri("SpeakerId"))
         ]
 
         /// The identifier of the domain that contains the speaker.
@@ -618,8 +618,8 @@ extension VoiceID {
 
     public struct EvaluateSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .querystring(locationName: "domainId")),
-            AWSMemberEncoding(label: "sessionNameOrId", location: .uri(locationName: "SessionNameOrId"))
+            AWSMemberEncoding(label: "domainId", location: .querystring("domainId")),
+            AWSMemberEncoding(label: "sessionNameOrId", location: .uri("SessionNameOrId"))
         ]
 
         /// The identifier of the domain where the session started.
@@ -926,8 +926,8 @@ extension VoiceID {
 
     public struct ListDomainsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
@@ -969,10 +969,10 @@ extension VoiceID {
 
     public struct ListFraudsterRegistrationJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "jobStatus", location: .querystring(locationName: "jobStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "jobStatus", location: .querystring("jobStatus")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the domain containing the fraudster registration Jobs.
@@ -1023,10 +1023,10 @@ extension VoiceID {
 
     public struct ListSpeakerEnrollmentJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "jobStatus", location: .querystring(locationName: "jobStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "jobStatus", location: .querystring("jobStatus")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the domain containing the speaker enrollment jobs.
@@ -1077,9 +1077,9 @@ extension VoiceID {
 
     public struct ListSpeakersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the domain.
@@ -1127,7 +1127,7 @@ extension VoiceID {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags.
@@ -1161,8 +1161,8 @@ extension VoiceID {
 
     public struct OptOutSpeakerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId")),
-            AWSMemberEncoding(label: "speakerId", location: .uri(locationName: "SpeakerId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
+            AWSMemberEncoding(label: "speakerId", location: .uri("SpeakerId"))
         ]
 
         /// The identifier of the domain containing the speaker.
@@ -1430,7 +1430,7 @@ extension VoiceID {
 
     public struct StartFraudsterRegistrationJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
         ]
 
         /// The idempotency token for starting a new fraudster registration job. If not provided, Amazon Web Services  SDK populates this field.
@@ -1501,7 +1501,7 @@ extension VoiceID {
 
     public struct StartSpeakerEnrollmentJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
         ]
 
         /// The idempotency token for starting a new speaker enrollment Job. If not provided, Amazon Web Services  SDK populates this field.
@@ -1597,7 +1597,7 @@ extension VoiceID {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Voice ID resource you want to tag.
@@ -1631,8 +1631,8 @@ extension VoiceID {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Voice ID resource you want to remove tags from.
@@ -1666,7 +1666,7 @@ extension VoiceID {
 
     public struct UpdateDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri(locationName: "DomainId"))
+            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
         ]
 
         /// A brief description about this domain.

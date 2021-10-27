@@ -509,7 +509,7 @@ extension Transcribe {
 
     public struct CreateCallAnalyticsCategoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri(locationName: "CategoryName"))
+            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
         /// The name that you choose for your category when you create it.
@@ -553,7 +553,7 @@ extension Transcribe {
 
     public struct CreateLanguageModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "ModelName"))
+            AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
         ]
 
         /// The Amazon Transcribe standard language model, or base model used to create your custom language model. If you want to use your custom language model to transcribe audio with a sample rate of 16,000 Hz or greater,  choose Wideband. If you want to use your custom language model to transcribe audio with a sample rate that is less than  16,000 Hz, choose Narrowband.
@@ -626,7 +626,7 @@ extension Transcribe {
 
     public struct CreateMedicalVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The language code for the language used for the entries in your custom vocabulary. The language code of your  custom vocabulary must match the language code of your transcription job. US English (en-US) is the only language code available for Amazon Transcribe Medical.
@@ -697,7 +697,7 @@ extension Transcribe {
 
     public struct CreateVocabularyFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri(locationName: "VocabularyFilterName"))
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
         /// The language code of the words in the vocabulary filter. All words in the filter must be in the same language.  The vocabulary filter can only be used with transcription jobs in the specified language.
@@ -769,7 +769,7 @@ extension Transcribe {
 
     public struct CreateVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language  codes, see transcribe-whatis.
@@ -848,7 +848,7 @@ extension Transcribe {
 
     public struct DeleteCallAnalyticsCategoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri(locationName: "CategoryName"))
+            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
         /// The name of the call analytics category that you're choosing to delete. The value is case sensitive.
@@ -873,7 +873,7 @@ extension Transcribe {
 
     public struct DeleteCallAnalyticsJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri(locationName: "CallAnalyticsJobName"))
+            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
         ]
 
         /// The name of the call analytics job you want to delete.
@@ -898,7 +898,7 @@ extension Transcribe {
 
     public struct DeleteLanguageModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "ModelName"))
+            AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
         ]
 
         /// The name of the model you're choosing to delete.
@@ -919,7 +919,7 @@ extension Transcribe {
 
     public struct DeleteMedicalTranscriptionJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri(locationName: "MedicalTranscriptionJobName"))
+            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
         ]
 
         /// The name you provide to the DeleteMedicalTranscriptionJob object to delete a transcription job.
@@ -940,7 +940,7 @@ extension Transcribe {
 
     public struct DeleteMedicalVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The name of the vocabulary that you want to delete.
@@ -961,7 +961,7 @@ extension Transcribe {
 
     public struct DeleteTranscriptionJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "transcriptionJobName", location: .uri(locationName: "TranscriptionJobName"))
+            AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
         ]
 
         /// The name of the transcription job to be deleted.
@@ -982,7 +982,7 @@ extension Transcribe {
 
     public struct DeleteVocabularyFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri(locationName: "VocabularyFilterName"))
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
         /// The name of the vocabulary filter to remove.
@@ -1003,7 +1003,7 @@ extension Transcribe {
 
     public struct DeleteVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The name of the vocabulary to delete.
@@ -1024,7 +1024,7 @@ extension Transcribe {
 
     public struct DescribeLanguageModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "ModelName"))
+            AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
         ]
 
         /// The name of the custom language model you submit to get more information.
@@ -1058,7 +1058,7 @@ extension Transcribe {
 
     public struct GetCallAnalyticsCategoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri(locationName: "CategoryName"))
+            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
         /// The name of the category you want information about. This value is case sensitive.
@@ -1092,7 +1092,7 @@ extension Transcribe {
 
     public struct GetCallAnalyticsJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri(locationName: "CallAnalyticsJobName"))
+            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
         ]
 
         /// The name of the analytics job you want information about. This value is case sensitive.
@@ -1126,7 +1126,7 @@ extension Transcribe {
 
     public struct GetMedicalTranscriptionJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri(locationName: "MedicalTranscriptionJobName"))
+            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
         ]
 
         /// The name of the medical transcription job.
@@ -1160,7 +1160,7 @@ extension Transcribe {
 
     public struct GetMedicalVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The name of the vocabulary that you want information about. The value is case sensitive.
@@ -1214,7 +1214,7 @@ extension Transcribe {
 
     public struct GetTranscriptionJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "transcriptionJobName", location: .uri(locationName: "TranscriptionJobName"))
+            AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
         ]
 
         /// The name of the job.
@@ -1248,7 +1248,7 @@ extension Transcribe {
 
     public struct GetVocabularyFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri(locationName: "VocabularyFilterName"))
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
         /// The name of the vocabulary filter for which to return information.
@@ -1294,7 +1294,7 @@ extension Transcribe {
 
     public struct GetVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The name of the vocabulary to return information about. The name is case sensitive.
@@ -1485,8 +1485,8 @@ extension Transcribe {
 
     public struct ListCallAnalyticsCategoriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of categories to return in each page of results. If there are fewer  results than the value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
@@ -1528,10 +1528,10 @@ extension Transcribe {
 
     public struct ListCallAnalyticsJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobNameContains", location: .querystring(locationName: "JobNameContains")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
+            AWSMemberEncoding(label: "jobNameContains", location: .querystring("JobNameContains")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
@@ -1586,10 +1586,10 @@ extension Transcribe {
 
     public struct ListLanguageModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "statusEquals", location: .querystring(locationName: "         StatusEquals"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "statusEquals", location: .querystring("         StatusEquals"))
         ]
 
         ///  The maximum number of language models to return in each page of results. If there are fewer results than the  value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
@@ -1640,10 +1640,10 @@ extension Transcribe {
 
     public struct ListMedicalTranscriptionJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobNameContains", location: .querystring(locationName: "JobNameContains")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
+            AWSMemberEncoding(label: "jobNameContains", location: .querystring("JobNameContains")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
@@ -1698,10 +1698,10 @@ extension Transcribe {
 
     public struct ListMedicalVocabulariesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "stateEquals", location: .querystring(locationName: "StateEquals"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "stateEquals", location: .querystring("StateEquals"))
         ]
 
         /// The maximum number of vocabularies to return in each page of results. If there are fewer results than the  value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
@@ -1756,7 +1756,7 @@ extension Transcribe {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// Lists all tags associated with a given Amazon Resource Name (ARN).
@@ -1794,10 +1794,10 @@ extension Transcribe {
 
     public struct ListTranscriptionJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobNameContains", location: .querystring(locationName: "JobNameContains")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
+            AWSMemberEncoding(label: "jobNameContains", location: .querystring("JobNameContains")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
@@ -1852,10 +1852,10 @@ extension Transcribe {
 
     public struct ListVocabulariesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "stateEquals", location: .querystring(locationName: "StateEquals"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "stateEquals", location: .querystring("StateEquals"))
         ]
 
         /// The maximum number of vocabularies to return in each page of results. If there are fewer results than the  value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
@@ -1910,9 +1910,9 @@ extension Transcribe {
 
     public struct ListVocabularyFiltersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "NameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nameContains", location: .querystring("NameContains")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The maximum number of filters to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
@@ -2343,7 +2343,7 @@ extension Transcribe {
 
     public struct StartCallAnalyticsJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri(locationName: "CallAnalyticsJobName"))
+            AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
         ]
 
         /// The name of the call analytics job. You can't use the string "." or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you try to create a call analytics job with the same  name as a previous call analytics job, you get a ConflictException error.
@@ -2417,7 +2417,7 @@ extension Transcribe {
 
     public struct StartMedicalTranscriptionJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri(locationName: "MedicalTranscriptionJobName"))
+            AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
         ]
 
         /// You can configure Amazon Transcribe Medical to label content in the transcription output. If you specify PHI,  Amazon Transcribe Medical labels the personal health information (PHI) that it identifies in the transcription output.
@@ -2530,7 +2530,7 @@ extension Transcribe {
 
     public struct StartTranscriptionJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "transcriptionJobName", location: .uri(locationName: "TranscriptionJobName"))
+            AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
         ]
 
         /// An object that contains the request parameters for content redaction.
@@ -2712,7 +2712,7 @@ extension Transcribe {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to tag.
@@ -2953,7 +2953,7 @@ extension Transcribe {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from.
@@ -2989,7 +2989,7 @@ extension Transcribe {
 
     public struct UpdateCallAnalyticsCategoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "categoryName", location: .uri(locationName: "CategoryName"))
+            AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
         /// The name of the analytics category to update. The name is case sensitive. If you try to update a call analytics category with the same name as a previous category you will receive a ConflictException error.
@@ -3033,7 +3033,7 @@ extension Transcribe {
 
     public struct UpdateMedicalVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The language code of the language used for the entries in the updated vocabulary. US English (en-US) is the  only valid language code in Amazon Transcribe Medical.
@@ -3091,7 +3091,7 @@ extension Transcribe {
 
     public struct UpdateVocabularyFilterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri(locationName: "VocabularyFilterName"))
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
         /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from  the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
@@ -3150,7 +3150,7 @@ extension Transcribe {
 
     public struct UpdateVocabularyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "vocabularyName", location: .uri(locationName: "VocabularyName"))
+            AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes,  see transcribe-whatis.

@@ -342,7 +342,7 @@ extension FIS {
 
     public struct DeleteExperimentTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the experiment template.
@@ -779,7 +779,7 @@ extension FIS {
 
     public struct GetActionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the action.
@@ -812,7 +812,7 @@ extension FIS {
 
     public struct GetExperimentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the experiment.
@@ -845,7 +845,7 @@ extension FIS {
 
     public struct GetExperimentTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the experiment template.
@@ -878,8 +878,8 @@ extension FIS {
 
     public struct ListActionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -922,8 +922,8 @@ extension FIS {
 
     public struct ListExperimentTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -966,8 +966,8 @@ extension FIS {
 
     public struct ListExperimentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -1010,7 +1010,7 @@ extension FIS {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1093,7 +1093,7 @@ extension FIS {
 
     public struct StopExperimentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the experiment.
@@ -1126,7 +1126,7 @@ extension FIS {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1163,8 +1163,8 @@ extension FIS {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1248,7 +1248,7 @@ extension FIS {
 
     public struct UpdateExperimentTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The actions for the experiment.

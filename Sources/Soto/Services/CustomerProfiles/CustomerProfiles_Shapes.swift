@@ -222,7 +222,7 @@ extension CustomerProfiles {
 
     public struct AddProfileKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -382,7 +382,7 @@ extension CustomerProfiles {
 
     public struct CreateDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
@@ -483,7 +483,7 @@ extension CustomerProfiles {
 
     public struct CreateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// A unique account number that you have given to the customer.
@@ -640,7 +640,7 @@ extension CustomerProfiles {
 
     public struct DeleteDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -674,7 +674,7 @@ extension CustomerProfiles {
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -715,7 +715,7 @@ extension CustomerProfiles {
 
     public struct DeleteProfileKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -770,7 +770,7 @@ extension CustomerProfiles {
 
     public struct DeleteProfileObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -823,8 +823,8 @@ extension CustomerProfiles {
 
     public struct DeleteProfileObjectTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "objectTypeName", location: .uri(locationName: "ObjectTypeName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "objectTypeName", location: .uri("ObjectTypeName"))
         ]
 
         /// The unique name of the domain.
@@ -864,7 +864,7 @@ extension CustomerProfiles {
 
     public struct DeleteProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -1098,7 +1098,7 @@ extension CustomerProfiles {
 
     public struct GetDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -1167,7 +1167,7 @@ extension CustomerProfiles {
 
     public struct GetIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -1228,9 +1228,9 @@ extension CustomerProfiles {
 
     public struct GetMatchesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The unique name of the domain.
@@ -1287,8 +1287,8 @@ extension CustomerProfiles {
 
     public struct GetProfileObjectTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "objectTypeName", location: .uri(locationName: "ObjectTypeName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "objectTypeName", location: .uri("ObjectTypeName"))
         ]
 
         /// The unique name of the domain.
@@ -1368,7 +1368,7 @@ extension CustomerProfiles {
 
     public struct GetProfileObjectTypeTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
         ]
 
         /// A unique identifier for the object template.
@@ -1440,8 +1440,8 @@ extension CustomerProfiles {
 
     public struct ListAccountIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The maximum number of objects returned per page.
@@ -1515,8 +1515,8 @@ extension CustomerProfiles {
 
     public struct ListDomainsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The maximum number of objects returned per page.
@@ -1591,9 +1591,9 @@ extension CustomerProfiles {
 
     public struct ListIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The unique name of the domain.
@@ -1691,8 +1691,8 @@ extension CustomerProfiles {
 
     public struct ListProfileObjectTypeTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The maximum number of objects returned per page.
@@ -1734,9 +1734,9 @@ extension CustomerProfiles {
 
     public struct ListProfileObjectTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The unique name of the domain.
@@ -1805,9 +1805,9 @@ extension CustomerProfiles {
 
     public struct ListProfileObjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The unique name of the domain.
@@ -1873,7 +1873,7 @@ extension CustomerProfiles {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource for which you want to view tags.
@@ -1967,7 +1967,7 @@ extension CustomerProfiles {
 
     public struct MergeProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -2198,7 +2198,7 @@ extension CustomerProfiles {
 
     public struct PutIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -2283,7 +2283,7 @@ extension CustomerProfiles {
 
     public struct PutProfileObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The unique name of the domain.
@@ -2331,8 +2331,8 @@ extension CustomerProfiles {
 
     public struct PutProfileObjectTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "objectTypeName", location: .uri(locationName: "ObjectTypeName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "objectTypeName", location: .uri("ObjectTypeName"))
         ]
 
         /// Indicates whether a profile should be created when data is received if one doesn’t exist for an object of this type. The default is FALSE. If the AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE, and if no match is found, then the service creates a new standard profile.
@@ -2569,9 +2569,9 @@ extension CustomerProfiles {
 
     public struct SearchProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The unique name of the domain.
@@ -2722,7 +2722,7 @@ extension CustomerProfiles {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource that you're adding tags to.
@@ -2839,8 +2839,8 @@ extension CustomerProfiles {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource from which you are removing tags.
@@ -2936,7 +2936,7 @@ extension CustomerProfiles {
 
     public struct UpdateDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. If specified as an empty string, it will clear any existing value. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
@@ -3037,7 +3037,7 @@ extension CustomerProfiles {
 
     public struct UpdateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// A unique account number that you have given to the customer.

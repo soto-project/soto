@@ -84,7 +84,7 @@ extension Location {
 
     public struct AssociateTrackerConsumerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
@@ -132,7 +132,7 @@ extension Location {
 
     public struct BatchDeleteDevicePositionHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// Devices whose position history you want to delete.   For example, for two devices: “DeviceIds” : [DeviceId1,DeviceId2]
@@ -193,7 +193,7 @@ extension Location {
 
     public struct BatchDeleteGeofenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The geofence collection storing the geofences to be deleted.
@@ -259,7 +259,7 @@ extension Location {
 
     public struct BatchEvaluateGeofencesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The geofence collection used in evaluating the position of devices against its geofences.
@@ -318,7 +318,7 @@ extension Location {
 
     public struct BatchGetDevicePositionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// Devices whose position you want to retrieve.   For example, for two devices: device-ids=DeviceId1&amp;device-ids=DeviceId2
@@ -400,7 +400,7 @@ extension Location {
 
     public struct BatchPutGeofenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The geofence collection storing the geofences.
@@ -515,7 +515,7 @@ extension Location {
 
     public struct BatchUpdateDevicePositionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The name of the tracker resource to update.
@@ -574,7 +574,7 @@ extension Location {
 
     public struct CalculateRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri(locationName: "CalculatorName"))
+            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
         ]
 
         /// The name of the route calculator resource that you want to use to calculate a route.
@@ -1083,7 +1083,7 @@ extension Location {
 
     public struct DeleteGeofenceCollectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The name of the geofence collection to be deleted.
@@ -1108,7 +1108,7 @@ extension Location {
 
     public struct DeleteMapRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// The name of the map resource to be deleted.
@@ -1133,7 +1133,7 @@ extension Location {
 
     public struct DeletePlaceIndexRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
         /// The name of the place index resource to be deleted.
@@ -1158,7 +1158,7 @@ extension Location {
 
     public struct DeleteRouteCalculatorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri(locationName: "CalculatorName"))
+            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
         ]
 
         /// The name of the route calculator resource to be deleted.
@@ -1183,7 +1183,7 @@ extension Location {
 
     public struct DeleteTrackerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The name of the tracker resource to be deleted.
@@ -1208,7 +1208,7 @@ extension Location {
 
     public struct DescribeGeofenceCollectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The name of the geofence collection.
@@ -1276,7 +1276,7 @@ extension Location {
 
     public struct DescribeMapRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// The name of the map resource.
@@ -1345,7 +1345,7 @@ extension Location {
 
     public struct DescribePlaceIndexRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
         /// The name of the place index resource.
@@ -1413,7 +1413,7 @@ extension Location {
 
     public struct DescribeRouteCalculatorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri(locationName: "CalculatorName"))
+            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
         ]
 
         /// The name of the route calculator resource.
@@ -1477,7 +1477,7 @@ extension Location {
 
     public struct DescribeTrackerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The name of the tracker resource.
@@ -1602,8 +1602,8 @@ extension Location {
 
     public struct DisassociateTrackerConsumerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "consumerArn", location: .uri(locationName: "ConsumerArn")),
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "consumerArn", location: .uri("ConsumerArn")),
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all AWS.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
@@ -1653,8 +1653,8 @@ extension Location {
 
     public struct GetDevicePositionHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId")),
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The device whose position history you want to retrieve.
@@ -1715,8 +1715,8 @@ extension Location {
 
     public struct GetDevicePositionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId")),
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// The device whose position you want to retrieve.
@@ -1770,8 +1770,8 @@ extension Location {
 
     public struct GetGeofenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName")),
-            AWSMemberEncoding(label: "geofenceId", location: .uri(locationName: "GeofenceId"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName")),
+            AWSMemberEncoding(label: "geofenceId", location: .uri("GeofenceId"))
         ]
 
         /// The geofence collection storing the target geofence.
@@ -1829,9 +1829,9 @@ extension Location {
 
     public struct GetMapGlyphsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fontStack", location: .uri(locationName: "FontStack")),
-            AWSMemberEncoding(label: "fontUnicodeRange", location: .uri(locationName: "FontUnicodeRange")),
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+            AWSMemberEncoding(label: "fontStack", location: .uri("FontStack")),
+            AWSMemberEncoding(label: "fontUnicodeRange", location: .uri("FontUnicodeRange")),
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid fonts for HERE Technologies styles:     VectorHereBerlin – Fira GO Regular | Fira GO Bold
@@ -1861,8 +1861,8 @@ extension Location {
         public static let _payloadPath: String = "blob"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body(locationName: "Blob")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// The blob's content type.
@@ -1883,8 +1883,8 @@ extension Location {
 
     public struct GetMapSpritesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileName", location: .uri(locationName: "FileName")),
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+            AWSMemberEncoding(label: "fileName", location: .uri("FileName")),
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON document contain image offsets. Use the following ﬁle names:    sprites.json     sprites@2x.json for high pixel density displays
@@ -1911,8 +1911,8 @@ extension Location {
         public static let _payloadPath: String = "blob"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body(locationName: "Blob")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// Contains the body of the sprite sheet or JSON offset ﬁle.
@@ -1933,7 +1933,7 @@ extension Location {
 
     public struct GetMapStyleDescriptorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// The map resource to retrieve the style descriptor from.
@@ -1957,8 +1957,8 @@ extension Location {
         public static let _payloadPath: String = "blob"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body(locationName: "Blob")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// Contains the body of the style descriptor.
@@ -1979,10 +1979,10 @@ extension Location {
 
     public struct GetMapTileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName")),
-            AWSMemberEncoding(label: "x", location: .uri(locationName: "X")),
-            AWSMemberEncoding(label: "y", location: .uri(locationName: "Y")),
-            AWSMemberEncoding(label: "z", location: .uri(locationName: "Z"))
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName")),
+            AWSMemberEncoding(label: "x", location: .uri("X")),
+            AWSMemberEncoding(label: "y", location: .uri("Y")),
+            AWSMemberEncoding(label: "z", location: .uri("Z"))
         ]
 
         /// The map resource to retrieve the map tiles from.
@@ -2015,8 +2015,8 @@ extension Location {
         public static let _payloadPath: String = "blob"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body(locationName: "Blob")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// Contains Mapbox Vector Tile (MVT) data.
@@ -2083,7 +2083,7 @@ extension Location {
 
     public struct ListDevicePositionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// An optional limit for the number of entries returned in a single call. Default value: 100
@@ -2259,7 +2259,7 @@ extension Location {
 
     public struct ListGeofencesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The name of the geofence collection storing the list of geofences.
@@ -2526,7 +2526,7 @@ extension Location {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
@@ -2561,7 +2561,7 @@ extension Location {
 
     public struct ListTrackerConsumersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// An optional limit for the number of resources returned in a single call.  Default value: 100
@@ -2764,8 +2764,8 @@ extension Location {
 
     public struct PutGeofenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName")),
-            AWSMemberEncoding(label: "geofenceId", location: .uri(locationName: "GeofenceId"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName")),
+            AWSMemberEncoding(label: "geofenceId", location: .uri("GeofenceId"))
         ]
 
         /// The geofence collection to store the geofence in.
@@ -2847,7 +2847,7 @@ extension Location {
 
     public struct SearchPlaceIndexForPositionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
         /// The name of the place index resource you want to use for the search.
@@ -2919,7 +2919,7 @@ extension Location {
 
     public struct SearchPlaceIndexForTextRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
         /// Searches for results closest to the given position. An optional parameter defined by longitude, and latitude.   The first bias position is the X coordinate, or longitude.   The second bias position is the Y coordinate, or latitude.    For example, bias=xLongitude&amp;bias=yLatitude.
@@ -3055,7 +3055,7 @@ extension Location {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to update.
@@ -3136,8 +3136,8 @@ extension Location {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.
@@ -3167,7 +3167,7 @@ extension Location {
 
     public struct UpdateGeofenceCollectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName"))
+            AWSMemberEncoding(label: "collectionName", location: .uri("CollectionName"))
         ]
 
         /// The name of the geofence collection to update.
@@ -3224,7 +3224,7 @@ extension Location {
 
     public struct UpdateMapRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "mapName", location: .uri(locationName: "MapName"))
+            AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// Updates the description for the map resource.
@@ -3277,7 +3277,7 @@ extension Location {
 
     public struct UpdatePlaceIndexRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+            AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
         /// Updates the data storage option for the place index resource.
@@ -3334,7 +3334,7 @@ extension Location {
 
     public struct UpdateRouteCalculatorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "calculatorName", location: .uri(locationName: "CalculatorName"))
+            AWSMemberEncoding(label: "calculatorName", location: .uri("CalculatorName"))
         ]
 
         /// The name of the route calculator resource to update.
@@ -3387,7 +3387,7 @@ extension Location {
 
     public struct UpdateTrackerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
+            AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
         /// Updates the description for the tracker resource.

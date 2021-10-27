@@ -25,7 +25,7 @@ extension WorkMailMessageFlow {
 
     public struct GetRawMessageContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
+            AWSMemberEncoding(label: "messageId", location: .uri("messageId"))
         ]
 
         /// The identifier of the email message to retrieve.
@@ -63,7 +63,7 @@ extension WorkMailMessageFlow {
 
     public struct PutRawMessageContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
+            AWSMemberEncoding(label: "messageId", location: .uri("messageId"))
         ]
 
         /// Describes the raw message content of the updated email message.

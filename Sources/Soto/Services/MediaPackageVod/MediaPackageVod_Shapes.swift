@@ -167,7 +167,7 @@ extension MediaPackageVod {
 
     public struct ConfigureLogsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         public let egressAccessLogs: EgressAccessLogs?
@@ -488,7 +488,7 @@ extension MediaPackageVod {
 
     public struct DeleteAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the MediaPackage VOD Asset resource to delete.
@@ -507,7 +507,7 @@ extension MediaPackageVod {
 
     public struct DeletePackagingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
@@ -526,7 +526,7 @@ extension MediaPackageVod {
 
     public struct DeletePackagingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the MediaPackage VOD PackagingGroup resource to delete.
@@ -545,7 +545,7 @@ extension MediaPackageVod {
 
     public struct DescribeAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of an MediaPackage VOD Asset resource.
@@ -604,7 +604,7 @@ extension MediaPackageVod {
 
     public struct DescribePackagingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of a MediaPackage VOD PackagingConfiguration resource.
@@ -655,7 +655,7 @@ extension MediaPackageVod {
 
     public struct DescribePackagingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of a MediaPackage VOD PackagingGroup resource.
@@ -825,9 +825,9 @@ extension MediaPackageVod {
 
     public struct ListAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "packagingGroupId", location: .querystring(locationName: "packagingGroupId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packagingGroupId", location: .querystring("packagingGroupId"))
         ]
 
         /// Upper bound on number of records to return.
@@ -870,9 +870,9 @@ extension MediaPackageVod {
 
     public struct ListPackagingConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "packagingGroupId", location: .querystring(locationName: "packagingGroupId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packagingGroupId", location: .querystring("packagingGroupId"))
         ]
 
         /// Upper bound on number of records to return.
@@ -915,8 +915,8 @@ extension MediaPackageVod {
 
     public struct ListPackagingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -956,7 +956,7 @@ extension MediaPackageVod {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
@@ -1141,7 +1141,7 @@ extension MediaPackageVod {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
@@ -1161,8 +1161,8 @@ extension MediaPackageVod {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
@@ -1180,7 +1180,7 @@ extension MediaPackageVod {
 
     public struct UpdatePackagingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         public let authorization: Authorization?

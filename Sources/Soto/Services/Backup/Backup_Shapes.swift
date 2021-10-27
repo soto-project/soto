@@ -733,7 +733,7 @@ extension Backup {
 
     public struct CreateBackupSelectionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
         ]
 
         /// Uniquely identifies the backup plan to be associated with the selection of resources.
@@ -782,7 +782,7 @@ extension Backup {
 
     public struct CreateBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
@@ -950,7 +950,7 @@ extension Backup {
 
     public struct DeleteBackupPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -990,8 +990,8 @@ extension Backup {
 
     public struct DeleteBackupSelectionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId")),
-            AWSMemberEncoding(label: "selectionId", location: .uri(locationName: "SelectionId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
+            AWSMemberEncoding(label: "selectionId", location: .uri("SelectionId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1009,7 +1009,7 @@ extension Backup {
 
     public struct DeleteBackupVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1028,7 +1028,7 @@ extension Backup {
 
     public struct DeleteBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1043,7 +1043,7 @@ extension Backup {
 
     public struct DeleteBackupVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1062,7 +1062,7 @@ extension Backup {
 
     public struct DeleteFrameworkInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkName", location: .uri(locationName: "FrameworkName"))
+            AWSMemberEncoding(label: "frameworkName", location: .uri("FrameworkName"))
         ]
 
         /// The unique name of a framework.
@@ -1083,8 +1083,8 @@ extension Backup {
 
     public struct DeleteRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "RecoveryPointArn"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1106,7 +1106,7 @@ extension Backup {
 
     public struct DeleteReportPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "ReportPlanName"))
+            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
         ]
 
         /// The unique name of a report plan.
@@ -1127,7 +1127,7 @@ extension Backup {
 
     public struct DescribeBackupJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri(locationName: "BackupJobId"))
+            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId"))
         ]
 
         /// Uniquely identifies a request to Backup to back up a resource.
@@ -1231,7 +1231,7 @@ extension Backup {
 
     public struct DescribeBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1279,7 +1279,7 @@ extension Backup {
 
     public struct DescribeCopyJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "copyJobId", location: .uri(locationName: "CopyJobId"))
+            AWSMemberEncoding(label: "copyJobId", location: .uri("CopyJobId"))
         ]
 
         /// Uniquely identifies a copy job.
@@ -1307,7 +1307,7 @@ extension Backup {
 
     public struct DescribeFrameworkInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkName", location: .uri(locationName: "FrameworkName"))
+            AWSMemberEncoding(label: "frameworkName", location: .uri("FrameworkName"))
         ]
 
         /// The unique name of a framework.
@@ -1390,7 +1390,7 @@ extension Backup {
 
     public struct DescribeProtectedResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -1426,8 +1426,8 @@ extension Backup {
 
     public struct DescribeRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "RecoveryPointArn"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1551,7 +1551,7 @@ extension Backup {
 
     public struct DescribeReportJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportJobId", location: .uri(locationName: "ReportJobId"))
+            AWSMemberEncoding(label: "reportJobId", location: .uri("ReportJobId"))
         ]
 
         /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
@@ -1579,7 +1579,7 @@ extension Backup {
 
     public struct DescribeReportPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "ReportPlanName"))
+            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
         ]
 
         /// The unique name of a report plan.
@@ -1613,7 +1613,7 @@ extension Backup {
 
     public struct DescribeRestoreJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "restoreJobId", location: .uri(locationName: "RestoreJobId"))
+            AWSMemberEncoding(label: "restoreJobId", location: .uri("RestoreJobId"))
         ]
 
         /// Uniquely identifies the job that restores a recovery point.
@@ -1689,8 +1689,8 @@ extension Backup {
 
     public struct DisassociateRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "RecoveryPointArn"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
         /// The unique name of an Backup vault.
@@ -1712,7 +1712,7 @@ extension Backup {
 
     public struct ExportBackupPlanTemplateInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1824,7 +1824,7 @@ extension Backup {
 
     public struct GetBackupPlanFromTemplateInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanTemplateId", location: .uri(locationName: "BackupPlanTemplateId"))
+            AWSMemberEncoding(label: "backupPlanTemplateId", location: .uri("BackupPlanTemplateId"))
         ]
 
         /// Uniquely identifies a stored backup plan template.
@@ -1852,8 +1852,8 @@ extension Backup {
 
     public struct GetBackupPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId")),
-            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
+            AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1916,8 +1916,8 @@ extension Backup {
 
     public struct GetBackupSelectionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId")),
-            AWSMemberEncoding(label: "selectionId", location: .uri(locationName: "SelectionId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
+            AWSMemberEncoding(label: "selectionId", location: .uri("SelectionId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1964,7 +1964,7 @@ extension Backup {
 
     public struct GetBackupVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2004,7 +2004,7 @@ extension Backup {
 
     public struct GetBackupVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2048,8 +2048,8 @@ extension Backup {
 
     public struct GetRecoveryPointRestoreMetadataInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "RecoveryPointArn"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2122,15 +2122,15 @@ extension Backup {
 
     public struct ListBackupJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")),
-            AWSMemberEncoding(label: "byBackupVaultName", location: .querystring(locationName: "backupVaultName")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "byBackupVaultName", location: .querystring("backupVaultName")),
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
+            AWSMemberEncoding(label: "byState", location: .querystring("state")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization.
@@ -2194,8 +2194,8 @@ extension Backup {
 
     public struct ListBackupPlanTemplatesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2235,9 +2235,9 @@ extension Backup {
 
     public struct ListBackupPlanVersionsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -2280,9 +2280,9 @@ extension Backup {
 
     public struct ListBackupPlansInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeDeleted", location: .querystring(locationName: "includeDeleted")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "includeDeleted", location: .querystring("includeDeleted")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE.
@@ -2325,9 +2325,9 @@ extension Backup {
 
     public struct ListBackupSelectionsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -2370,8 +2370,8 @@ extension Backup {
 
     public struct ListBackupVaultsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2411,15 +2411,15 @@ extension Backup {
 
     public struct ListCopyJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring("destinationVaultArn")),
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
+            AWSMemberEncoding(label: "byState", location: .querystring("state")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
@@ -2482,8 +2482,8 @@ extension Backup {
 
     public struct ListFrameworksInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
@@ -2523,8 +2523,8 @@ extension Backup {
 
     public struct ListProtectedResourcesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2564,14 +2564,14 @@ extension Backup {
 
     public struct ListRecoveryPointsByBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName")),
-            AWSMemberEncoding(label: "byBackupPlanId", location: .querystring(locationName: "backupPlanId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "byBackupPlanId", location: .querystring("backupPlanId")),
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.  Backup vault name might not be available when a supported service creates the backup.
@@ -2631,9 +2631,9 @@ extension Backup {
 
     public struct ListRecoveryPointsByResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The maximum number of items to be returned.  Amazon RDS requires a value of at least 20.
@@ -2676,12 +2676,12 @@ extension Backup {
 
     public struct ListReportJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byCreationAfter", location: .querystring(locationName: "CreationAfter")),
-            AWSMemberEncoding(label: "byCreationBefore", location: .querystring(locationName: "CreationBefore")),
-            AWSMemberEncoding(label: "byReportPlanName", location: .querystring(locationName: "ReportPlanName")),
-            AWSMemberEncoding(label: "byStatus", location: .querystring(locationName: "Status")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "byCreationAfter", location: .querystring("CreationAfter")),
+            AWSMemberEncoding(label: "byCreationBefore", location: .querystring("CreationBefore")),
+            AWSMemberEncoding(label: "byReportPlanName", location: .querystring("ReportPlanName")),
+            AWSMemberEncoding(label: "byStatus", location: .querystring("Status")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
@@ -2736,8 +2736,8 @@ extension Backup {
 
     public struct ListReportPlansInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
@@ -2777,12 +2777,12 @@ extension Backup {
 
     public struct ListRestoreJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byStatus", location: .querystring(locationName: "status")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "byStatus", location: .querystring("status")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
@@ -2835,9 +2835,9 @@ extension Backup {
 
     public struct ListTagsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2901,7 +2901,7 @@ extension Backup {
 
     public struct PutBackupVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2925,7 +2925,7 @@ extension Backup {
 
     public struct PutBackupVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
         /// An array of events that indicate the status of jobs to back up resources to the backup vault.  The following events are supported:  BACKUP_JOB_STARTED, BACKUP_JOB_COMPLETED,  COPY_JOB_STARTED, COPY_JOB_SUCCESSFUL, COPY_JOB_FAILED,  RESTORE_JOB_STARTED, RESTORE_JOB_COMPLETED, and RECOVERY_POINT_MODIFIED. To find failed backup jobs, use BACKUP_JOB_COMPLETED and filter using event metadata. Other events in the following list are deprecated.
@@ -3421,7 +3421,7 @@ extension Backup {
 
     public struct StartReportJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "ReportPlanName"))
+            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
         ]
 
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartReportJobInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
@@ -3506,7 +3506,7 @@ extension Backup {
 
     public struct StopBackupJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri(locationName: "BackupJobId"))
+            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId"))
         ]
 
         /// Uniquely identifies a request to Backup to back up a resource.
@@ -3521,7 +3521,7 @@ extension Backup {
 
     public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
@@ -3541,7 +3541,7 @@ extension Backup {
 
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
@@ -3561,7 +3561,7 @@ extension Backup {
 
     public struct UpdateBackupPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "BackupPlanId"))
+            AWSMemberEncoding(label: "backupPlanId", location: .uri("BackupPlanId"))
         ]
 
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
@@ -3614,7 +3614,7 @@ extension Backup {
 
     public struct UpdateFrameworkInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkName", location: .uri(locationName: "FrameworkName"))
+            AWSMemberEncoding(label: "frameworkName", location: .uri("FrameworkName"))
         ]
 
         /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
@@ -3687,8 +3687,8 @@ extension Backup {
 
     public struct UpdateRecoveryPointLifecycleInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "BackupVaultName")),
-            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "RecoveryPointArn"))
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -3759,7 +3759,7 @@ extension Backup {
 
     public struct UpdateReportPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportPlanName", location: .uri(locationName: "ReportPlanName"))
+            AWSMemberEncoding(label: "reportPlanName", location: .uri("ReportPlanName"))
         ]
 
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.

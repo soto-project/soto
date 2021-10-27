@@ -69,8 +69,8 @@ extension Honeycode {
 
     public struct BatchCreateTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         ///  The request token for performing the batch create operation. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the operation again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
@@ -135,8 +135,8 @@ extension Honeycode {
 
     public struct BatchDeleteTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         ///  The request token for performing the delete action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
@@ -199,8 +199,8 @@ extension Honeycode {
 
     public struct BatchUpdateTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         ///  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
@@ -261,8 +261,8 @@ extension Honeycode {
 
     public struct BatchUpsertTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         ///  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
@@ -468,9 +468,9 @@ extension Honeycode {
 
     public struct DescribeTableDataImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         /// The ID of the job that was returned by the StartTableDataImportJob request.  If a job with the specified id could not be found, this API throws ResourceNotFoundException.
@@ -739,10 +739,10 @@ extension Honeycode {
 
     public struct InvokeScreenAutomationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "screenAutomationId", location: .uri(locationName: "screenAutomationId")),
-            AWSMemberEncoding(label: "screenId", location: .uri(locationName: "screenId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "screenAutomationId", location: .uri("screenAutomationId")),
+            AWSMemberEncoding(label: "screenId", location: .uri("screenId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         /// The ID of the app that contains the screen automation.
@@ -817,9 +817,9 @@ extension Honeycode {
 
     public struct ListTableColumnsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         ///  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
@@ -873,8 +873,8 @@ extension Honeycode {
 
     public struct ListTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         /// The maximum number of rows to return in each page of the results.
@@ -955,9 +955,9 @@ extension Honeycode {
 
     public struct ListTablesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         /// The maximum number of tables to return in each page of the results.
@@ -1010,8 +1010,8 @@ extension Honeycode {
 
     public struct QueryTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         /// An object that represents a filter formula along with the id of the context row under which the filter function needs to evaluate.
@@ -1133,8 +1133,8 @@ extension Honeycode {
 
     public struct StartTableDataImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationTableId", location: .uri(locationName: "destinationTableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
+            AWSMemberEncoding(label: "destinationTableId", location: .uri("destinationTableId")),
+            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
         ]
 
         ///  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.

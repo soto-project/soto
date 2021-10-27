@@ -46,7 +46,7 @@ extension SageMakerA2IRuntime {
 
     public struct DeleteHumanLoopRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
+            AWSMemberEncoding(label: "humanLoopName", location: .uri("HumanLoopName"))
         ]
 
         /// The name of the human loop that you want to delete.
@@ -71,7 +71,7 @@ extension SageMakerA2IRuntime {
 
     public struct DescribeHumanLoopRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
+            AWSMemberEncoding(label: "humanLoopName", location: .uri("HumanLoopName"))
         ]
 
         /// The name of the human loop that you want information about.
@@ -209,12 +209,12 @@ extension SageMakerA2IRuntime {
 
     public struct ListHumanLoopsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "creationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")),
-            AWSMemberEncoding(label: "creationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")),
-            AWSMemberEncoding(label: "flowDefinitionArn", location: .querystring(locationName: "FlowDefinitionArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "sortOrder", location: .querystring(locationName: "SortOrder"))
+            AWSMemberEncoding(label: "creationTimeAfter", location: .querystring("CreationTimeAfter")),
+            AWSMemberEncoding(label: "creationTimeBefore", location: .querystring("CreationTimeBefore")),
+            AWSMemberEncoding(label: "flowDefinitionArn", location: .querystring("FlowDefinitionArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "sortOrder", location: .querystring("SortOrder"))
         ]
 
         /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.

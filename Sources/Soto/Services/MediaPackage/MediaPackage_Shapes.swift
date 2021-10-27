@@ -253,7 +253,7 @@ extension MediaPackage {
 
     public struct ConfigureLogsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         public let egressAccessLogs: EgressAccessLogs?
@@ -661,7 +661,7 @@ extension MediaPackage {
 
     public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the Channel to delete.
@@ -680,7 +680,7 @@ extension MediaPackage {
 
     public struct DeleteOriginEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the OriginEndpoint to delete.
@@ -699,7 +699,7 @@ extension MediaPackage {
 
     public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of a Channel.
@@ -747,7 +747,7 @@ extension MediaPackage {
 
     public struct DescribeHarvestJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the HarvestJob.
@@ -810,7 +810,7 @@ extension MediaPackage {
 
     public struct DescribeOriginEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the OriginEndpoint.
@@ -1242,8 +1242,8 @@ extension MediaPackage {
 
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Upper bound on number of records to return.
@@ -1283,10 +1283,10 @@ extension MediaPackage {
 
     public struct ListHarvestJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeChannelId", location: .querystring(locationName: "includeChannelId")),
-            AWSMemberEncoding(label: "includeStatus", location: .querystring(locationName: "includeStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "includeChannelId", location: .querystring("includeChannelId")),
+            AWSMemberEncoding(label: "includeStatus", location: .querystring("includeStatus")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// When specified, the request will return only HarvestJobs associated with the given Channel ID.
@@ -1332,9 +1332,9 @@ extension MediaPackage {
 
     public struct ListOriginEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .querystring(locationName: "channelId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "channelId", location: .querystring("channelId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// When specified, the request will return only OriginEndpoints associated with the given Channel ID.
@@ -1377,7 +1377,7 @@ extension MediaPackage {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         public let resourceArn: String
@@ -1509,7 +1509,7 @@ extension MediaPackage {
 
     public struct RotateChannelCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// The ID of the channel to update.
@@ -1557,8 +1557,8 @@ extension MediaPackage {
 
     public struct RotateIngestEndpointCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
-            AWSMemberEncoding(label: "ingestEndpointId", location: .uri(locationName: "IngestEndpointId"))
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "ingestEndpointId", location: .uri("IngestEndpointId"))
         ]
 
         /// The ID of the channel the IngestEndpoint is on.
@@ -1686,7 +1686,7 @@ extension MediaPackage {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         public let resourceArn: String
@@ -1704,8 +1704,8 @@ extension MediaPackage {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1722,7 +1722,7 @@ extension MediaPackage {
 
     public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         /// A short text description of the Channel.
@@ -1775,7 +1775,7 @@ extension MediaPackage {
 
     public struct UpdateOriginEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
         ]
 
         public let authorization: Authorization?

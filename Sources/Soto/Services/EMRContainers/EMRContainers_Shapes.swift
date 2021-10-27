@@ -72,8 +72,8 @@ extension EMRContainers {
 
     public struct CancelJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "id", location: .uri("id")),
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// The ID of the job run to cancel.
@@ -236,7 +236,7 @@ extension EMRContainers {
 
     public struct CreateManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// The certificate ARN of the managed endpoint.
@@ -406,8 +406,8 @@ extension EMRContainers {
 
     public struct DeleteManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "id", location: .uri("id")),
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// The ID of the managed endpoint.
@@ -451,7 +451,7 @@ extension EMRContainers {
 
     public struct DeleteVirtualClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the virtual cluster that will be deleted.
@@ -485,8 +485,8 @@ extension EMRContainers {
 
     public struct DescribeJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "id", location: .uri("id")),
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// The ID of the job run request.
@@ -526,8 +526,8 @@ extension EMRContainers {
 
     public struct DescribeManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "id", location: .uri("id")),
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// This output displays ID of the managed endpoint.
@@ -567,7 +567,7 @@ extension EMRContainers {
 
     public struct DescribeVirtualClusterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
         /// The ID of the virtual cluster that will be described.
@@ -787,13 +787,13 @@ extension EMRContainers {
 
     public struct ListJobRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "createdAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "createdBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "states", location: .querystring("states")),
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// The date and time after which the job runs were submitted.
@@ -856,13 +856,13 @@ extension EMRContainers {
 
     public struct ListManagedEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
-            AWSMemberEncoding(label: "types", location: .querystring(locationName: "types")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "createdAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "createdBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "states", location: .querystring("states")),
+            AWSMemberEncoding(label: "types", location: .querystring("types")),
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         ///  The date and time after which the endpoints are created.
@@ -928,7 +928,7 @@ extension EMRContainers {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of tagged resources.
@@ -962,13 +962,13 @@ extension EMRContainers {
 
     public struct ListVirtualClustersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "containerProviderId", location: .querystring(locationName: "containerProviderId")),
-            AWSMemberEncoding(label: "containerProviderType", location: .querystring(locationName: "containerProviderType")),
-            AWSMemberEncoding(label: "createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states"))
+            AWSMemberEncoding(label: "containerProviderId", location: .querystring("containerProviderId")),
+            AWSMemberEncoding(label: "containerProviderType", location: .querystring("containerProviderType")),
+            AWSMemberEncoding(label: "createdAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "createdBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "states", location: .querystring("states"))
         ]
 
         /// The container provider ID of the virtual cluster.
@@ -1108,7 +1108,7 @@ extension EMRContainers {
 
     public struct StartJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
+            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
         /// The client idempotency token of the job run request.
@@ -1205,7 +1205,7 @@ extension EMRContainers {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of resources.
@@ -1243,8 +1243,8 @@ extension EMRContainers {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of resources.

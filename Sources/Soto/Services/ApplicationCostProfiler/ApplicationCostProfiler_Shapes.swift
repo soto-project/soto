@@ -46,7 +46,7 @@ extension ApplicationCostProfiler {
 
     public struct DeleteReportDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri(locationName: "reportId"))
+            AWSMemberEncoding(label: "reportId", location: .uri("reportId"))
         ]
 
         /// Required. ID of the report to delete.
@@ -80,7 +80,7 @@ extension ApplicationCostProfiler {
 
     public struct GetReportDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri(locationName: "reportId"))
+            AWSMemberEncoding(label: "reportId", location: .uri("reportId"))
         ]
 
         /// ID of the report to retrieve.
@@ -168,8 +168,8 @@ extension ApplicationCostProfiler {
 
     public struct ListReportDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return.
@@ -357,7 +357,7 @@ extension ApplicationCostProfiler {
 
     public struct UpdateReportDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri(locationName: "reportId"))
+            AWSMemberEncoding(label: "reportId", location: .uri("reportId"))
         ]
 
         /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report.

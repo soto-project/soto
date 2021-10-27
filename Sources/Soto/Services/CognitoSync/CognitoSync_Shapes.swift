@@ -53,7 +53,7 @@ extension CognitoSync {
 
     public struct BulkPublishRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -153,9 +153,9 @@ extension CognitoSync {
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
@@ -201,9 +201,9 @@ extension CognitoSync {
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
@@ -249,7 +249,7 @@ extension CognitoSync {
 
     public struct DescribeIdentityPoolUsageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -283,8 +283,8 @@ extension CognitoSync {
 
     public struct DescribeIdentityUsageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -324,7 +324,7 @@ extension CognitoSync {
 
     public struct GetBulkPublishDetailsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -374,7 +374,7 @@ extension CognitoSync {
 
     public struct GetCognitoEventsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// The Cognito Identity Pool ID for the request
@@ -408,7 +408,7 @@ extension CognitoSync {
 
     public struct GetIdentityPoolConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
@@ -504,10 +504,10 @@ extension CognitoSync {
 
     public struct ListDatasetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -561,8 +561,8 @@ extension CognitoSync {
 
     public struct ListIdentityPoolUsageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to be returned.
@@ -605,13 +605,13 @@ extension CognitoSync {
 
     public struct ListRecordsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId")),
-            AWSMemberEncoding(label: "lastSyncCount", location: .querystring(locationName: "lastSyncCount")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "syncSessionToken", location: .querystring(locationName: "syncSessionToken"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId")),
+            AWSMemberEncoding(label: "lastSyncCount", location: .querystring("lastSyncCount")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "syncSessionToken", location: .querystring("syncSessionToken"))
         ]
 
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
@@ -795,8 +795,8 @@ extension CognitoSync {
 
     public struct RegisterDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// The unique ID for this identity.
@@ -845,7 +845,7 @@ extension CognitoSync {
 
     public struct SetCognitoEventsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// The events to configure
@@ -872,7 +872,7 @@ extension CognitoSync {
 
     public struct SetIdentityPoolConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// Options to apply to this identity pool for Amazon Cognito streams.
@@ -925,10 +925,10 @@ extension CognitoSync {
 
     public struct SubscribeToDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "DatasetName")),
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId")),
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// The name of the dataset to subcribe to.
@@ -970,10 +970,10 @@ extension CognitoSync {
 
     public struct UnsubscribeFromDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "DatasetName")),
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId")),
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// The name of the dataset from which to unsubcribe.
@@ -1015,10 +1015,10 @@ extension CognitoSync {
 
     public struct UpdateRecordsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "x-amz-Client-Context")),
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "DatasetName")),
-            AWSMemberEncoding(label: "identityId", location: .uri(locationName: "IdentityId")),
-            AWSMemberEncoding(label: "identityPoolId", location: .uri(locationName: "IdentityPoolId"))
+            AWSMemberEncoding(label: "clientContext", location: .header("x-amz-Client-Context")),
+            AWSMemberEncoding(label: "datasetName", location: .uri("DatasetName")),
+            AWSMemberEncoding(label: "identityId", location: .uri("IdentityId")),
+            AWSMemberEncoding(label: "identityPoolId", location: .uri("IdentityPoolId"))
         ]
 
         /// Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.

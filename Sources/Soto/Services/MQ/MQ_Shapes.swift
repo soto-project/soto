@@ -485,7 +485,7 @@ extension MQ {
 
     public struct CreateTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource tag.
@@ -505,8 +505,8 @@ extension MQ {
 
     public struct CreateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri(locationName: "Username"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
+            AWSMemberEncoding(label: "username", location: .uri("Username"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -541,7 +541,7 @@ extension MQ {
 
     public struct DeleteBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -569,8 +569,8 @@ extension MQ {
 
     public struct DeleteTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource tag.
@@ -588,8 +588,8 @@ extension MQ {
 
     public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri(locationName: "Username"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
+            AWSMemberEncoding(label: "username", location: .uri("Username"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -611,9 +611,9 @@ extension MQ {
 
     public struct DescribeBrokerEngineTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "engineType", location: .querystring("engineType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Filter response by engine type.
@@ -660,11 +660,11 @@ extension MQ {
 
     public struct DescribeBrokerInstanceOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType")),
-            AWSMemberEncoding(label: "hostInstanceType", location: .querystring(locationName: "hostInstanceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "storageType", location: .querystring(locationName: "storageType"))
+            AWSMemberEncoding(label: "engineType", location: .querystring("engineType")),
+            AWSMemberEncoding(label: "hostInstanceType", location: .querystring("hostInstanceType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "storageType", location: .querystring("storageType"))
         ]
 
         /// Filter response by engine type.
@@ -717,7 +717,7 @@ extension MQ {
 
     public struct DescribeBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -854,7 +854,7 @@ extension MQ {
 
     public struct DescribeConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "ConfigurationId"))
+            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId"))
         ]
 
         /// The unique ID that Amazon MQ generates for the configuration.
@@ -919,8 +919,8 @@ extension MQ {
 
     public struct DescribeConfigurationRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "ConfigurationId")),
-            AWSMemberEncoding(label: "configurationRevision", location: .uri(locationName: "ConfigurationRevision"))
+            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId")),
+            AWSMemberEncoding(label: "configurationRevision", location: .uri("ConfigurationRevision"))
         ]
 
         /// The unique ID that Amazon MQ generates for the configuration.
@@ -964,8 +964,8 @@ extension MQ {
 
     public struct DescribeUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri(locationName: "Username"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
+            AWSMemberEncoding(label: "username", location: .uri("Username"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -1144,8 +1144,8 @@ extension MQ {
 
     public struct ListBrokersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
@@ -1185,9 +1185,9 @@ extension MQ {
 
     public struct ListConfigurationRevisionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "ConfigurationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID that Amazon MQ generates for the configuration.
@@ -1238,8 +1238,8 @@ extension MQ {
 
     public struct ListConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
@@ -1283,7 +1283,7 @@ extension MQ {
 
     public struct ListTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource tag.
@@ -1311,9 +1311,9 @@ extension MQ {
 
     public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -1427,7 +1427,7 @@ extension MQ {
 
     public struct RebootBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.
@@ -1467,7 +1467,7 @@ extension MQ {
 
     public struct UpdateBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId"))
         ]
 
         /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
@@ -1568,7 +1568,7 @@ extension MQ {
 
     public struct UpdateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "ConfigurationId"))
+            AWSMemberEncoding(label: "configurationId", location: .uri("ConfigurationId"))
         ]
 
         /// The unique ID that Amazon MQ generates for the configuration.
@@ -1626,8 +1626,8 @@ extension MQ {
 
     public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "BrokerId")),
-            AWSMemberEncoding(label: "username", location: .uri(locationName: "Username"))
+            AWSMemberEncoding(label: "brokerId", location: .uri("BrokerId")),
+            AWSMemberEncoding(label: "username", location: .uri("Username"))
         ]
 
         /// The unique ID that Amazon MQ generates for the broker.

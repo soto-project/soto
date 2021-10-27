@@ -1532,7 +1532,7 @@ extension Imagebuilder {
 
     public struct DeleteComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
+            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring("componentBuildVersionArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the component build version to delete.
@@ -1568,7 +1568,7 @@ extension Imagebuilder {
 
     public struct DeleteContainerRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring(locationName: "containerRecipeArn"))
+            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring("containerRecipeArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the container recipe to delete.
@@ -1604,7 +1604,7 @@ extension Imagebuilder {
 
     public struct DeleteDistributionConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
+            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring("distributionConfigurationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the distribution configuration to delete.
@@ -1640,7 +1640,7 @@ extension Imagebuilder {
 
     public struct DeleteImagePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
+            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring("imagePipelineArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image pipeline to delete.
@@ -1676,7 +1676,7 @@ extension Imagebuilder {
 
     public struct DeleteImageRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
+            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring("imageRecipeArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image recipe to delete.
@@ -1712,7 +1712,7 @@ extension Imagebuilder {
 
     public struct DeleteImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
+            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring("imageBuildVersionArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Image Builder image resource to delete.
@@ -1748,7 +1748,7 @@ extension Imagebuilder {
 
     public struct DeleteInfrastructureConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
+            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring("infrastructureConfigurationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete.
@@ -1993,7 +1993,7 @@ extension Imagebuilder {
 
     public struct GetComponentPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "componentArn", location: .querystring(locationName: "componentArn"))
+            AWSMemberEncoding(label: "componentArn", location: .querystring("componentArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the component whose policy you want to retrieve.
@@ -2029,7 +2029,7 @@ extension Imagebuilder {
 
     public struct GetComponentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
+            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring("componentBuildVersionArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires
@@ -2066,7 +2066,7 @@ extension Imagebuilder {
 
     public struct GetContainerRecipePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring(locationName: "containerRecipeArn"))
+            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring("containerRecipeArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the container recipe for the policy being requested.
@@ -2102,7 +2102,7 @@ extension Imagebuilder {
 
     public struct GetContainerRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring(locationName: "containerRecipeArn"))
+            AWSMemberEncoding(label: "containerRecipeArn", location: .querystring("containerRecipeArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the container recipe to retrieve.
@@ -2138,7 +2138,7 @@ extension Imagebuilder {
 
     public struct GetDistributionConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
+            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring("distributionConfigurationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the distribution configuration that you want to
@@ -2175,7 +2175,7 @@ extension Imagebuilder {
 
     public struct GetImagePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
+            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring("imagePipelineArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve.
@@ -2211,7 +2211,7 @@ extension Imagebuilder {
 
     public struct GetImagePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imageArn", location: .querystring(locationName: "imageArn"))
+            AWSMemberEncoding(label: "imageArn", location: .querystring("imageArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve.
@@ -2247,7 +2247,7 @@ extension Imagebuilder {
 
     public struct GetImageRecipePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
+            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring("imageRecipeArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve.
@@ -2283,7 +2283,7 @@ extension Imagebuilder {
 
     public struct GetImageRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
+            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring("imageRecipeArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
@@ -2319,7 +2319,7 @@ extension Imagebuilder {
 
     public struct GetImageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
+            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring("imageBuildVersionArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the image that you want to retrieve.
@@ -2355,7 +2355,7 @@ extension Imagebuilder {
 
     public struct GetInfrastructureConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
+            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring("infrastructureConfigurationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to
@@ -3931,7 +3931,7 @@ extension Imagebuilder {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
@@ -4283,7 +4283,7 @@ extension Imagebuilder {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -4341,8 +4341,8 @@ extension Imagebuilder {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.

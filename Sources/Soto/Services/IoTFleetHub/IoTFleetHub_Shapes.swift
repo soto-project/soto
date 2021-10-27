@@ -141,8 +141,8 @@ extension IoTFleetHub {
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
         ]
 
         /// The unique Id of the web application.
@@ -173,7 +173,7 @@ extension IoTFleetHub {
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
         ]
 
         /// The unique Id of the web application.
@@ -251,7 +251,7 @@ extension IoTFleetHub {
 
     public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// A token used to get the next set of results.
@@ -289,7 +289,7 @@ extension IoTFleetHub {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -317,7 +317,7 @@ extension IoTFleetHub {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -353,8 +353,8 @@ extension IoTFleetHub {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -384,7 +384,7 @@ extension IoTFleetHub {
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
         ]
 
         /// An optional description of the web application.

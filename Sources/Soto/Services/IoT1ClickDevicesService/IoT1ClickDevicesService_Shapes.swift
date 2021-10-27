@@ -29,7 +29,7 @@ extension IoT1ClickDevicesService {
 
     public struct ClaimDevicesByClaimCodeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "claimCode", location: .uri(locationName: "ClaimCode"))
+            AWSMemberEncoding(label: "claimCode", location: .uri("ClaimCode"))
         ]
 
         /// The claim code, starting with "C-", as provided by the device manufacturer.
@@ -61,7 +61,7 @@ extension IoT1ClickDevicesService {
 
     public struct DescribeDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.
@@ -181,7 +181,7 @@ extension IoT1ClickDevicesService {
 
     public struct FinalizeDeviceClaimRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.
@@ -214,7 +214,7 @@ extension IoT1ClickDevicesService {
 
     public struct GetDeviceMethodsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.
@@ -242,7 +242,7 @@ extension IoT1ClickDevicesService {
 
     public struct InitiateDeviceClaimRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.
@@ -270,7 +270,7 @@ extension IoT1ClickDevicesService {
 
     public struct InvokeDeviceMethodRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.
@@ -307,11 +307,11 @@ extension IoT1ClickDevicesService {
 
     public struct ListDeviceEventsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId")),
-            AWSMemberEncoding(label: "_fromTimeStamp", location: .querystring(locationName: "fromTimeStamp")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "_toTimeStamp", location: .querystring(locationName: "toTimeStamp"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId")),
+            AWSMemberEncoding(label: "_fromTimeStamp", location: .querystring("fromTimeStamp")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "_toTimeStamp", location: .querystring("toTimeStamp"))
         ]
 
         /// The unique identifier of the device.
@@ -362,9 +362,9 @@ extension IoT1ClickDevicesService {
 
     public struct ListDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceType", location: .querystring(locationName: "deviceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "deviceType", location: .querystring("deviceType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The type of the device, such as "button".
@@ -407,7 +407,7 @@ extension IoT1ClickDevicesService {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -435,7 +435,7 @@ extension IoT1ClickDevicesService {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -455,7 +455,7 @@ extension IoT1ClickDevicesService {
 
     public struct UnclaimDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.
@@ -483,8 +483,8 @@ extension IoT1ClickDevicesService {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -502,7 +502,7 @@ extension IoT1ClickDevicesService {
 
     public struct UpdateDeviceStateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "DeviceId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
         ]
 
         /// The unique identifier of the device.

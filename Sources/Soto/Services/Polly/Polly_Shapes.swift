@@ -171,7 +171,7 @@ extension Polly {
 
     public struct DeleteLexiconInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
@@ -194,10 +194,10 @@ extension Polly {
 
     public struct DescribeVoicesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")),
-            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")),
-            AWSMemberEncoding(label: "languageCode", location: .querystring(locationName: "LanguageCode")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "engine", location: .querystring("Engine")),
+            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring("IncludeAdditionalLanguageCodes")),
+            AWSMemberEncoding(label: "languageCode", location: .querystring("LanguageCode")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
@@ -242,7 +242,7 @@ extension Polly {
 
     public struct GetLexiconInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// Name of the lexicon.
@@ -278,7 +278,7 @@ extension Polly {
 
     public struct GetSpeechSynthesisTaskInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "TaskId"))
+            AWSMemberEncoding(label: "taskId", location: .uri("TaskId"))
         ]
 
         /// The Amazon Polly generated identifier for a speech synthesis task.
@@ -377,7 +377,7 @@ extension Polly {
 
     public struct ListLexiconsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
@@ -413,9 +413,9 @@ extension Polly {
 
     public struct ListSpeechSynthesisTasksInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
         /// Maximum number of speech synthesis tasks returned in a List operation.
@@ -459,7 +459,7 @@ extension Polly {
 
     public struct PutLexiconInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
         /// Content of the PLS lexicon as string data.
@@ -694,9 +694,9 @@ extension Polly {
         public static let _payloadPath: String = "audioStream"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "requestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"))
+            AWSMemberEncoding(label: "audioStream", location: .body("AudioStream")),
+            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "requestCharacters", location: .header("x-amzn-RequestCharacters"))
         ]
 
         ///  Stream containing the synthesized speech.

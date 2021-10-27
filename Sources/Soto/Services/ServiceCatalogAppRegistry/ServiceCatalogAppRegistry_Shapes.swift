@@ -120,8 +120,8 @@ extension ServiceCatalogAppRegistry {
 
     public struct AssociateAttributeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "attributeGroup", location: .uri(locationName: "attributeGroup"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
         /// The name or ID of the application.
@@ -165,9 +165,9 @@ extension ServiceCatalogAppRegistry {
 
     public struct AssociateResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "resource", location: .uri("resource")),
+            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
         ]
 
         /// The name or ID of the application.
@@ -407,7 +407,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application"))
+            AWSMemberEncoding(label: "application", location: .uri("application"))
         ]
 
         /// The name or ID of the application.
@@ -441,7 +441,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct DeleteAttributeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributeGroup", location: .uri(locationName: "attributeGroup"))
+            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
         /// The name or ID of the attribute group that holds the attributes to describe the application.
@@ -475,8 +475,8 @@ extension ServiceCatalogAppRegistry {
 
     public struct DisassociateAttributeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "attributeGroup", location: .uri(locationName: "attributeGroup"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
         /// The name or ID of the application.
@@ -520,9 +520,9 @@ extension ServiceCatalogAppRegistry {
 
     public struct DisassociateResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "resource", location: .uri("resource")),
+            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
         ]
 
         /// The name or ID of the application.
@@ -569,7 +569,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application"))
+            AWSMemberEncoding(label: "application", location: .uri("application"))
         ]
 
         /// The name or ID of the application.
@@ -637,9 +637,9 @@ extension ServiceCatalogAppRegistry {
 
     public struct GetAssociatedResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "resource", location: .uri("resource")),
+            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
         ]
 
         /// The name or ID of the application.
@@ -682,7 +682,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct GetAttributeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributeGroup", location: .uri(locationName: "attributeGroup"))
+            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
         /// The name or ID of the attribute group that holds the attributes to describe the application.
@@ -759,8 +759,8 @@ extension ServiceCatalogAppRegistry {
 
     public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
@@ -803,9 +803,9 @@ extension ServiceCatalogAppRegistry {
 
     public struct ListAssociatedAttributeGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name or ID of the application.
@@ -854,9 +854,9 @@ extension ServiceCatalogAppRegistry {
 
     public struct ListAssociatedResourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "application", location: .uri("application")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name or ID of the application.
@@ -905,8 +905,8 @@ extension ServiceCatalogAppRegistry {
 
     public struct ListAttributeGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
@@ -949,7 +949,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon resource name (ARN) that specifies the resource.
@@ -1060,8 +1060,8 @@ extension ServiceCatalogAppRegistry {
 
     public struct SyncResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
-            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+            AWSMemberEncoding(label: "resource", location: .uri("resource")),
+            AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
         ]
 
         /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket.
@@ -1106,7 +1106,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon resource name (ARN) that specifies the resource.
@@ -1144,8 +1144,8 @@ extension ServiceCatalogAppRegistry {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon resource name (ARN) that specifies the resource.
@@ -1179,7 +1179,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "application", location: .uri(locationName: "application"))
+            AWSMemberEncoding(label: "application", location: .uri("application"))
         ]
 
         /// The name or ID of the application that will be updated.
@@ -1226,7 +1226,7 @@ extension ServiceCatalogAppRegistry {
 
     public struct UpdateAttributeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributeGroup", location: .uri(locationName: "attributeGroup"))
+            AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
         /// The name or ID of the attribute group that holds the attributes to describe the application.

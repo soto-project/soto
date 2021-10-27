@@ -588,7 +588,7 @@ extension Connect {
 
     public struct AssociateApprovedOriginRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -614,7 +614,7 @@ extension Connect {
 
     public struct AssociateBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -644,7 +644,7 @@ extension Connect {
 
     public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -687,7 +687,7 @@ extension Connect {
 
     public struct AssociateLambdaFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
@@ -714,7 +714,7 @@ extension Connect {
 
     public struct AssociateLexBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -740,8 +740,8 @@ extension Connect {
 
     public struct AssociateQueueQuickConnectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -771,8 +771,8 @@ extension Connect {
 
     public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -805,7 +805,7 @@ extension Connect {
 
     public struct AssociateSecurityKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -948,7 +948,7 @@ extension Connect {
 
     public struct CreateAgentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The description of the status.
@@ -1020,7 +1020,7 @@ extension Connect {
 
     public struct CreateContactFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The content of the contact flow.
@@ -1087,7 +1087,7 @@ extension Connect {
 
     public struct CreateHoursOfOperationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// Configuration information for the hours of operation: day, start time, and end time.
@@ -1221,7 +1221,7 @@ extension Connect {
 
     public struct CreateIntegrationAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1296,7 +1296,7 @@ extension Connect {
 
     public struct CreateQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The description of the queue.
@@ -1378,7 +1378,7 @@ extension Connect {
 
     public struct CreateQuickConnectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The description of the quick connect.
@@ -1445,7 +1445,7 @@ extension Connect {
 
     public struct CreateRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The default outbound queue for the routing profile.
@@ -1527,8 +1527,8 @@ extension Connect {
 
     public struct CreateUseCaseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1587,7 +1587,7 @@ extension Connect {
 
     public struct CreateUserHierarchyGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1633,7 +1633,7 @@ extension Connect {
 
     public struct CreateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
@@ -1798,8 +1798,8 @@ extension Connect {
 
     public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri("HoursOfOperationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier for the hours of operation.
@@ -1822,7 +1822,7 @@ extension Connect {
 
     public struct DeleteInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1842,8 +1842,8 @@ extension Connect {
 
     public struct DeleteIntegrationAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1868,8 +1868,8 @@ extension Connect {
 
     public struct DeleteQuickConnectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1892,9 +1892,9 @@ extension Connect {
 
     public struct DeleteUseCaseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId")),
-            AWSMemberEncoding(label: "useCaseId", location: .uri(locationName: "UseCaseId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId")),
+            AWSMemberEncoding(label: "useCaseId", location: .uri("UseCaseId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1924,8 +1924,8 @@ extension Connect {
 
     public struct DeleteUserHierarchyGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -1948,8 +1948,8 @@ extension Connect {
 
     public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -1972,8 +1972,8 @@ extension Connect {
 
     public struct DescribeAgentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "agentStatusId", location: .uri(locationName: "AgentStatusId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "agentStatusId", location: .uri("AgentStatusId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier for the agent status.
@@ -2009,8 +2009,8 @@ extension Connect {
 
     public struct DescribeContactFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the contact flow.
@@ -2047,8 +2047,8 @@ extension Connect {
 
     public struct DescribeHoursOfOperationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri("HoursOfOperationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier for the hours of operation.
@@ -2084,8 +2084,8 @@ extension Connect {
 
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "AttributeType")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "attributeType", location: .uri("AttributeType")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The type of attribute.
@@ -2121,7 +2121,7 @@ extension Connect {
 
     public struct DescribeInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2154,9 +2154,9 @@ extension Connect {
 
     public struct DescribeInstanceStorageConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -2197,8 +2197,8 @@ extension Connect {
 
     public struct DescribeQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2234,8 +2234,8 @@ extension Connect {
 
     public struct DescribeQuickConnectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2271,8 +2271,8 @@ extension Connect {
 
     public struct DescribeRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2308,8 +2308,8 @@ extension Connect {
 
     public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -2345,7 +2345,7 @@ extension Connect {
 
     public struct DescribeUserHierarchyStructureRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2378,8 +2378,8 @@ extension Connect {
 
     public struct DescribeUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2432,8 +2432,8 @@ extension Connect {
 
     public struct DisassociateApprovedOriginRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "origin", location: .querystring(locationName: "origin"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "origin", location: .querystring("origin"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2457,7 +2457,7 @@ extension Connect {
 
     public struct DisassociateBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2487,9 +2487,9 @@ extension Connect {
 
     public struct DisassociateInstanceStorageConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -2517,8 +2517,8 @@ extension Connect {
 
     public struct DisassociateLambdaFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionArn", location: .querystring(locationName: "functionArn")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "functionArn", location: .querystring("functionArn")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
@@ -2543,9 +2543,9 @@ extension Connect {
 
     public struct DisassociateLexBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .querystring(locationName: "botName")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "lexRegion", location: .querystring(locationName: "lexRegion"))
+            AWSMemberEncoding(label: "botName", location: .querystring("botName")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "lexRegion", location: .querystring("lexRegion"))
         ]
 
         /// The name of the Amazon Lex bot. Maximum character limit of 50.
@@ -2573,8 +2573,8 @@ extension Connect {
 
     public struct DisassociateQueueQuickConnectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2604,8 +2604,8 @@ extension Connect {
 
     public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2633,8 +2633,8 @@ extension Connect {
 
     public struct DisassociateSecurityKeyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -2704,8 +2704,8 @@ extension Connect {
 
     public struct GetContactAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "initialContactId", location: .uri(locationName: "InitialContactId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "initialContactId", location: .uri("InitialContactId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the initial contact.
@@ -2743,7 +2743,7 @@ extension Connect {
 
     public struct GetCurrentMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW
@@ -2812,7 +2812,7 @@ extension Connect {
 
     public struct GetFederationTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2845,7 +2845,7 @@ extension Connect {
 
     public struct GetMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
@@ -3555,10 +3555,10 @@ extension Connect {
 
     public struct ListAgentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "agentStatusTypes", location: .querystring(locationName: "AgentStatusTypes")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "agentStatusTypes", location: .querystring("AgentStatusTypes")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// Available agent status types.
@@ -3608,9 +3608,9 @@ extension Connect {
 
     public struct ListApprovedOriginsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -3656,10 +3656,10 @@ extension Connect {
 
     public struct ListBotsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "lexVersion", location: .querystring(locationName: "lexVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "lexVersion", location: .querystring("lexVersion")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -3708,10 +3708,10 @@ extension Connect {
 
     public struct ListContactFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "contactFlowTypes", location: .querystring("contactFlowTypes")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The type of contact flow.
@@ -3761,9 +3761,9 @@ extension Connect {
 
     public struct ListHoursOfOperationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -3809,9 +3809,9 @@ extension Connect {
 
     public struct ListInstanceAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -3857,10 +3857,10 @@ extension Connect {
 
     public struct ListInstanceStorageConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -3909,8 +3909,8 @@ extension Connect {
 
     public struct ListInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The maximum number of results to return per page.
@@ -3951,10 +3951,10 @@ extension Connect {
 
     public struct ListIntegrationAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "integrationType", location: .querystring(locationName: "integrationType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "integrationType", location: .querystring("integrationType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4002,9 +4002,9 @@ extension Connect {
 
     public struct ListLambdaFunctionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4050,9 +4050,9 @@ extension Connect {
 
     public struct ListLexBotsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4098,11 +4098,11 @@ extension Connect {
 
     public struct ListPhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "phoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes")),
-            AWSMemberEncoding(label: "phoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "phoneNumberCountryCodes", location: .querystring("phoneNumberCountryCodes")),
+            AWSMemberEncoding(label: "phoneNumberTypes", location: .querystring("phoneNumberTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4156,9 +4156,9 @@ extension Connect {
 
     public struct ListPromptsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -4203,10 +4203,10 @@ extension Connect {
 
     public struct ListQueueQuickConnectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4255,10 +4255,10 @@ extension Connect {
 
     public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "queueTypes", location: .querystring(locationName: "queueTypes"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "queueTypes", location: .querystring("queueTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4308,10 +4308,10 @@ extension Connect {
 
     public struct ListQuickConnectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "quickConnectTypes", location: .querystring(locationName: "QuickConnectTypes"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "quickConnectTypes", location: .querystring("QuickConnectTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4361,10 +4361,10 @@ extension Connect {
 
     public struct ListRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4413,9 +4413,9 @@ extension Connect {
 
     public struct ListRoutingProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4461,9 +4461,9 @@ extension Connect {
 
     public struct ListSecurityKeysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4509,9 +4509,9 @@ extension Connect {
 
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4557,7 +4557,7 @@ extension Connect {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -4585,10 +4585,10 @@ extension Connect {
 
     public struct ListUseCasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri("IntegrationAssociationId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4639,9 +4639,9 @@ extension Connect {
 
     public struct ListUserHierarchyGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -4687,9 +4687,9 @@ extension Connect {
 
     public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -5680,7 +5680,7 @@ extension Connect {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -5728,8 +5728,8 @@ extension Connect {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -5757,8 +5757,8 @@ extension Connect {
 
     public struct UpdateAgentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "agentStatusId", location: .uri(locationName: "AgentStatusId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "agentStatusId", location: .uri("AgentStatusId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the agent status.
@@ -5844,8 +5844,8 @@ extension Connect {
 
     public struct UpdateContactFlowContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the contact flow.
@@ -5874,8 +5874,8 @@ extension Connect {
 
     public struct UpdateContactFlowNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the contact flow.
@@ -5909,8 +5909,8 @@ extension Connect {
 
     public struct UpdateHoursOfOperationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri("HoursOfOperationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// Configuration information of the hours of operation.
@@ -5957,8 +5957,8 @@ extension Connect {
 
     public struct UpdateInstanceAttributeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "AttributeType")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "attributeType", location: .uri("AttributeType")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.
@@ -5988,9 +5988,9 @@ extension Connect {
 
     public struct UpdateInstanceStorageConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+            AWSMemberEncoding(label: "associationId", location: .uri("AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -6023,8 +6023,8 @@ extension Connect {
 
     public struct UpdateQueueHoursOfOperationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier for the hours of operation.
@@ -6052,8 +6052,8 @@ extension Connect {
 
     public struct UpdateQueueMaxContactsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6082,8 +6082,8 @@ extension Connect {
 
     public struct UpdateQueueNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The description of the queue.
@@ -6119,8 +6119,8 @@ extension Connect {
 
     public struct UpdateQueueOutboundCallerConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6149,8 +6149,8 @@ extension Connect {
 
     public struct UpdateQueueStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri("QueueId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6178,8 +6178,8 @@ extension Connect {
 
     public struct UpdateQuickConnectConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6208,8 +6208,8 @@ extension Connect {
 
     public struct UpdateQuickConnectNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri("QuickConnectId"))
         ]
 
         /// The description of the quick connect.
@@ -6244,8 +6244,8 @@ extension Connect {
 
     public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6276,8 +6276,8 @@ extension Connect {
 
     public struct UpdateRoutingProfileDefaultOutboundQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier for the default outbound queue.
@@ -6305,8 +6305,8 @@ extension Connect {
 
     public struct UpdateRoutingProfileNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The description of the routing profile. Must not be more than 250 characters.
@@ -6342,8 +6342,8 @@ extension Connect {
 
     public struct UpdateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "routingProfileId", location: .uri("RoutingProfileId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6376,8 +6376,8 @@ extension Connect {
 
     public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -6405,8 +6405,8 @@ extension Connect {
 
     public struct UpdateUserHierarchyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -6434,7 +6434,7 @@ extension Connect {
 
     public struct UpdateUserHierarchyStructureRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
         /// The hierarchy levels to update.
@@ -6459,8 +6459,8 @@ extension Connect {
 
     public struct UpdateUserIdentityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identity information for the user.
@@ -6489,8 +6489,8 @@ extension Connect {
 
     public struct UpdateUserPhoneConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6519,8 +6519,8 @@ extension Connect {
 
     public struct UpdateUserRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -6548,8 +6548,8 @@ extension Connect {
 
     public struct UpdateUserSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.

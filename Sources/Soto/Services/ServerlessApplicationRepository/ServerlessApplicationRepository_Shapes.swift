@@ -253,8 +253,8 @@ extension ServerlessApplicationRepository {
 
     public struct CreateApplicationVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "semanticVersion", location: .uri(locationName: "SemanticVersion"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "semanticVersion", location: .uri("SemanticVersion"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -334,7 +334,7 @@ extension ServerlessApplicationRepository {
 
     public struct CreateCloudFormationChangeSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -423,7 +423,7 @@ extension ServerlessApplicationRepository {
 
     public struct CreateCloudFormationTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -480,7 +480,7 @@ extension ServerlessApplicationRepository {
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -495,7 +495,7 @@ extension ServerlessApplicationRepository {
 
     public struct GetApplicationPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -523,8 +523,8 @@ extension ServerlessApplicationRepository {
 
     public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "semanticVersion", location: .querystring("semanticVersion"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -603,8 +603,8 @@ extension ServerlessApplicationRepository {
 
     public struct GetCloudFormationTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -659,10 +659,10 @@ extension ServerlessApplicationRepository {
 
     public struct ListApplicationDependenciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxItems")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "semanticVersion", location: .querystring("semanticVersion"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -708,9 +708,9 @@ extension ServerlessApplicationRepository {
 
     public struct ListApplicationVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxItems")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -753,8 +753,8 @@ extension ServerlessApplicationRepository {
 
     public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxItems", location: .querystring("maxItems")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The total number of items to return.
@@ -872,7 +872,7 @@ extension ServerlessApplicationRepository {
 
     public struct PutApplicationPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -956,7 +956,7 @@ extension ServerlessApplicationRepository {
 
     public struct UnshareApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.
@@ -976,7 +976,7 @@ extension ServerlessApplicationRepository {
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the application.

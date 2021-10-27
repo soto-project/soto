@@ -66,7 +66,7 @@ extension PinpointSMSVoice {
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// ConfigurationSetName
@@ -110,8 +110,8 @@ extension PinpointSMSVoice {
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
         ]
 
         /// ConfigurationSetName
@@ -133,7 +133,7 @@ extension PinpointSMSVoice {
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// ConfigurationSetName
@@ -206,7 +206,7 @@ extension PinpointSMSVoice {
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
         ]
 
         /// ConfigurationSetName
@@ -250,8 +250,8 @@ extension PinpointSMSVoice {
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
         ]
 
         /// A token returned from a previous call to the API that indicates the position in the list of results.
@@ -382,8 +382,8 @@ extension PinpointSMSVoice {
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
         ]
 
         /// ConfigurationSetName

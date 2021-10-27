@@ -261,7 +261,7 @@ extension ElasticsearchService {
 
     public struct AcceptInboundCrossClusterSearchConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri(locationName: "CrossClusterSearchConnectionId"))
+            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri("CrossClusterSearchConnectionId"))
         ]
 
         /// The id of the inbound connection that you want to accept.
@@ -431,8 +431,8 @@ extension ElasticsearchService {
 
     public struct AssociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Name of the domain that you want to associate the package with.
@@ -959,7 +959,7 @@ extension ElasticsearchService {
 
     public struct DeleteElasticsearchDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The name of the Elasticsearch domain that you want to permanently delete.
@@ -993,7 +993,7 @@ extension ElasticsearchService {
 
     public struct DeleteInboundCrossClusterSearchConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri(locationName: "CrossClusterSearchConnectionId"))
+            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri("CrossClusterSearchConnectionId"))
         ]
 
         /// The id of the inbound connection that you want to permanently delete.
@@ -1021,7 +1021,7 @@ extension ElasticsearchService {
 
     public struct DeleteOutboundCrossClusterSearchConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri(locationName: "CrossClusterSearchConnectionId"))
+            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri("CrossClusterSearchConnectionId"))
         ]
 
         /// The id of the outbound connection that you want to permanently delete.
@@ -1049,7 +1049,7 @@ extension ElasticsearchService {
 
     public struct DeletePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Internal ID of the package that you want to delete. Use DescribePackages to find this value.
@@ -1077,7 +1077,7 @@ extension ElasticsearchService {
 
     public struct DescribeDomainAutoTunesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// Specifies the domain name for which you want Auto-Tune action details.
@@ -1125,7 +1125,7 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The Elasticsearch domain that you want to get information about.
@@ -1159,7 +1159,7 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// The name of the Elasticsearch domain for which you want information.
@@ -1227,9 +1227,9 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")),
-            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")),
-            AWSMemberEncoding(label: "instanceType", location: .uri(locationName: "InstanceType"))
+            AWSMemberEncoding(label: "domainName", location: .querystring("domainName")),
+            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri("ElasticsearchVersion")),
+            AWSMemberEncoding(label: "instanceType", location: .uri("InstanceType"))
         ]
 
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain.
@@ -1426,9 +1426,9 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "reservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "reservedElasticsearchInstanceOfferingId", location: .querystring("offeringId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -1472,9 +1472,9 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "reservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "reservedElasticsearchInstanceId", location: .querystring("reservationId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -1518,8 +1518,8 @@ extension ElasticsearchService {
 
     public struct DissociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Name of the domain that you want to associate the package with.
@@ -2094,7 +2094,7 @@ extension ElasticsearchService {
 
     public struct GetCompatibleElasticsearchVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName"))
+            AWSMemberEncoding(label: "domainName", location: .querystring("domainName"))
         ]
 
         public let domainName: String?
@@ -2127,9 +2127,9 @@ extension ElasticsearchService {
 
     public struct GetPackageVersionHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Limits results to a maximum number of versions.
@@ -2173,9 +2173,9 @@ extension ElasticsearchService {
 
     public struct GetUpgradeHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         public let domainName: String
@@ -2217,7 +2217,7 @@ extension ElasticsearchService {
 
     public struct GetUpgradeStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         public let domainName: String
@@ -2347,7 +2347,7 @@ extension ElasticsearchService {
 
     public struct ListDomainNamesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType"))
+            AWSMemberEncoding(label: "engineType", location: .querystring("engineType"))
         ]
 
         ///  Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'.
@@ -2375,9 +2375,9 @@ extension ElasticsearchService {
 
     public struct ListDomainsForPackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
         /// Limits results to a maximum number of domains.
@@ -2418,10 +2418,10 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchInstanceTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")),
-            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .querystring("domainName")),
+            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri("ElasticsearchVersion")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain.
@@ -2470,8 +2470,8 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored.
@@ -2507,9 +2507,9 @@ extension ElasticsearchService {
 
     public struct ListPackagesForDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The name of the domain for which you want to list associated packages.
@@ -2554,7 +2554,7 @@ extension ElasticsearchService {
 
     public struct ListTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
@@ -2894,7 +2894,7 @@ extension ElasticsearchService {
 
     public struct RejectInboundCrossClusterSearchConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri(locationName: "CrossClusterSearchConnectionId"))
+            AWSMemberEncoding(label: "crossClusterSearchConnectionId", location: .uri("CrossClusterSearchConnectionId"))
         ]
 
         /// The id of the inbound connection that you want to reject.
@@ -3325,7 +3325,7 @@ extension ElasticsearchService {
 
     public struct UpdateElasticsearchDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
         /// IAM access policy as a JSON-formatted string.

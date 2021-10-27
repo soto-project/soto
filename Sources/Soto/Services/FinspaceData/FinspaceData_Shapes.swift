@@ -137,7 +137,7 @@ extension FinspaceData {
 
     public struct CreateChangesetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
         ]
 
         /// Option to indicate how a changeset will be applied to a dataset.    REPLACE - Changeset will be considered as a replacement to all prior loaded changesets.    APPEND - Changeset will be considered as an addition to the end of all prior loaded changesets.
@@ -233,8 +233,8 @@ extension FinspaceData {
 
     public struct GetProgrammaticAccessCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "durationInMinutes", location: .querystring(locationName: "durationInMinutes")),
-            AWSMemberEncoding(label: "environmentId", location: .querystring(locationName: "environmentId"))
+            AWSMemberEncoding(label: "durationInMinutes", location: .querystring("durationInMinutes")),
+            AWSMemberEncoding(label: "environmentId", location: .querystring("environmentId"))
         ]
 
         /// The time duration in which the credentials remain valid.

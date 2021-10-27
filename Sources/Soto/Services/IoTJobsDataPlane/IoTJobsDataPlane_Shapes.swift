@@ -37,10 +37,10 @@ extension IoTJobsDataPlane {
 
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")),
-            AWSMemberEncoding(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "executionNumber", location: .querystring("executionNumber")),
+            AWSMemberEncoding(label: "includeJobDocument", location: .querystring("includeJobDocument")),
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
@@ -84,7 +84,7 @@ extension IoTJobsDataPlane {
 
     public struct GetPendingJobExecutionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// The name of the thing that is executing the job.
@@ -229,7 +229,7 @@ extension IoTJobsDataPlane {
 
     public struct StartNextPendingJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
@@ -280,8 +280,8 @@ extension IoTJobsDataPlane {
 
     public struct UpdateJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
         /// Optional. A number that identifies a particular job execution on a particular device.
