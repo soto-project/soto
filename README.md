@@ -1,6 +1,6 @@
 # Soto for AWS
 
-[![sswg:sandbox|94x20](https://img.shields.io/badge/sswg-incubating-lightgrey.svg)](https://github.com/swift-server/sswg/blob/master/process/incubation.md#incubating-level)
+[![sswg:sandbox|94x20](https://img.shields.io/badge/sswg-incubating-blue.svg)](https://github.com/swift-server/sswg/blob/master/process/incubation.md#incubating-level)
 [<img src="http://img.shields.io/badge/swift-5.2-brightgreen.svg" alt="Swift 5.2" />](https://swift.org)
 [<img src="https://github.com/soto-project/soto/workflows/CI/badge.svg" />](https://github.com/soto-project/soto/actions?query=workflow%3ACI)
 
