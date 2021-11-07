@@ -24,6 +24,7 @@ jobs:
       run: |
         brew install mint
         mint install soto-project/soto-codegenerator
+        echo "$HOME/.mint/bin" >> $GITHUB_PATH
     - name: Update Models
       id: update-models
       run: |
