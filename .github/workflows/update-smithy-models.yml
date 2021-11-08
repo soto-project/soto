@@ -22,6 +22,7 @@ jobs:
         fetch-depth: 1
     - name: Install Dependencies
       run: |
+        brew install swift-sh
         brew install mint
         mint install soto-project/soto-codegenerator
         echo "$HOME/.mint/bin" >> $GITHUB_PATH
