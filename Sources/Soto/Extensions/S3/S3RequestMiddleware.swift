@@ -28,7 +28,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         self.createBucketFixup(request: &request)
         self.calculateMD5(request: &request)
         self.expect100Continue(request: &request)
-        
+
         return request
     }
 
@@ -138,8 +138,8 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     func expect100Continue(request: inout AWSRequest) {
         if request.httpMethod == .PUT,
-            case .raw(let payload) = request.body,
-            let size = payload.size
+           case .raw(let payload) = request.body,
+           let size = payload.size
         {
             if size > 128 * 1024 {
                 request.httpHeaders.replaceOrAdd(name: "Expect", value: "100-continue")

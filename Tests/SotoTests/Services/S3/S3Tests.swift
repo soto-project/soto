@@ -269,7 +269,7 @@ class S3Tests: XCTestCase {
         }
         let s3 = Self.s3.with(middlewares: [Verify100CompleteMiddleware()])
         let name = TestEnvironment.generateResourceName()
-        let blockSize = 64*1024
+        let blockSize = 64 * 1024
         let data = Self.createRandomBuffer(size: 8 * 1024 * 1024)
         var byteBuffer = ByteBuffer(data: data)
         // put request that will fail
