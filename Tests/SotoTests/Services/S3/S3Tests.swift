@@ -171,44 +171,6 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testPut100Complete() {
-        struct Verify100CompleteMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
-                XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
-                return request
-            }
-        }
-        let s3 = Self.s3.with(middlewares: [Verify100CompleteMiddleware()])
-        let name = TestEnvironment.generateResourceName()
-        let data = Self.createRandomBuffer(size: 3 * 1024 * 1024)
-        let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { _ -> EventLoopFuture<Void> in
-                // put request that will fail
-                let putRequest = S3.PutObjectRequest(
-                    body: .data(data),
-                    bucket: name + "fail",
-                    key: name
-                )
-                return s3.putObject(putRequest).map { _ in }
-            }
-            .flatMapError { _ -> EventLoopFuture<Void> in
-                return Self.eventLoopGroup.next().makeSucceededVoidFuture()
-            }
-            .flatMap { _ -> EventLoopFuture<Void> in
-                // put request that will be successful
-                let putRequest = S3.PutObjectRequest(
-                    body: .data(data),
-                    bucket: name,
-                    key: name
-                )
-                return s3.putObject(putRequest).map { _ in }
-            }
-            .flatAlways { _ in
-                return Self.deleteBucket(name: name, s3: Self.s3)
-            }
-        XCTAssertNoThrow(try response.wait())
-    }
-
     func testCopy() {
         let name = TestEnvironment.generateResourceName()
         let keyName = "file1"
@@ -295,6 +257,40 @@ class S3Tests: XCTestCase {
             }
 
         XCTAssertNoThrow(try response.wait())
+    }
+
+    /// test 100-Complete header forces failed request to quit before uploading everything
+    func testPut100Complete() {
+        struct Verify100CompleteMiddleware: AWSServiceMiddleware {
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
+                return request
+            }
+        }
+        let s3 = Self.s3.with(middlewares: [Verify100CompleteMiddleware()])
+        let name = TestEnvironment.generateResourceName()
+        let blockSize = 64*1024
+        let data = Self.createRandomBuffer(size: 8 * 1024 * 1024)
+        var byteBuffer = ByteBuffer(data: data)
+        // put request that will fail
+        let payload = AWSPayload.stream(size: byteBuffer.readableBytes) { eventLoop in
+            let size = min(blockSize, byteBuffer.readableBytes)
+            if size == 0 {
+                return eventLoop.makeSucceededFuture(.end)
+            }
+            let slice = byteBuffer.readSlice(length: size)!
+            return eventLoop.makeSucceededFuture(.byteBuffer(slice))
+        }
+        let putRequest = S3.PutObjectRequest(
+            body: payload,
+            bucket: name,
+            key: name
+        )
+        let response = s3.putObject(putRequest)
+        _ = try? response.wait()
+
+        // verify upload was not completed
+        XCTAssertGreaterThan(byteBuffer.readableBytes, 0)
     }
 
     /// test lifecycle rules are uploaded and downloaded ok
