@@ -13,6 +13,8 @@
 ##
 ##===----------------------------------------------------------------------===##
 
+SWIFT_FORMAT_VERSION=0.48.17
+
 set -eu
 here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -38,8 +40,8 @@ printf "\033[0;32mokay.\033[0m\n"
 printf "=> Checking format... "
 FIRST_OUT="$(git status --porcelain)"
 if [[ -n "${CI-""}" ]]; then
-  printf "(using v$(mint run NickLockwood/SwiftFormat@0.47.13 --version)) "
-  mint run NickLockwood/SwiftFormat@0.47.13 . > /dev/null 2>&1
+  printf "(using v$(mint run NickLockwood/SwiftFormat@$SWIFT_FORMAT_VERSION --version)) "
+  mint run NickLockwood/SwiftFormat@$SWIFT_FORMAT_VERSION . > /dev/null 2>&1
 else
   printf "(using v$(swiftformat --version)) "
   swiftformat . > /dev/null 2>&1

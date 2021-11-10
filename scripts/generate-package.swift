@@ -34,7 +34,7 @@ struct GeneratePackage {
 
         let extensionSubfolders = extensionsFolder.subfolders
         // construct list of services along with a flag to say if they have an extension
-        let srcFolders = servicesFolder.subfolders.map { (folder) -> Target in
+        let srcFolders = servicesFolder.subfolders.map { folder -> Target in
             let hasExtension = extensionSubfolders.first { $0.name == folder.name } != nil
             let dependencies: [String]
             if folder.name == "S3" {

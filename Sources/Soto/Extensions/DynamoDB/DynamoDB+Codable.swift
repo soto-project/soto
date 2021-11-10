@@ -164,7 +164,7 @@ extension DynamoDB {
             tokenKey: \QueryOutput.lastEvaluatedKey,
             logger: logger,
             on: eventLoop
-        ) { (result, response, eventLoop) -> EventLoopFuture<(Bool, Result)> in
+        ) { result, response, eventLoop -> EventLoopFuture<(Bool, Result)> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let queryOutput = QueryCodableOutput(
@@ -194,7 +194,7 @@ extension DynamoDB {
             tokenKey: \QueryOutput.lastEvaluatedKey,
             logger: logger,
             on: eventLoop
-        ) { (response, eventLoop) -> EventLoopFuture<Bool> in
+        ) { response, eventLoop -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let queryOutput = QueryCodableOutput(
@@ -235,7 +235,7 @@ extension DynamoDB {
             tokenKey: \ScanOutput.lastEvaluatedKey,
             logger: logger,
             on: eventLoop
-        ) { (result, response, eventLoop) -> EventLoopFuture<(Bool, Result)> in
+        ) { result, response, eventLoop -> EventLoopFuture<(Bool, Result)> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let scanOutput = ScanCodableOutput(
@@ -265,7 +265,7 @@ extension DynamoDB {
             tokenKey: \ScanOutput.lastEvaluatedKey,
             logger: logger,
             on: eventLoop
-        ) { (response, eventLoop) -> EventLoopFuture<Bool> in
+        ) { response, eventLoop -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let scanOutput = ScanCodableOutput(

@@ -92,7 +92,7 @@ struct AWSService {
     // return dictionary of partition endpoints keyed by endpoint name
     var partitionEndpoints: [String: (endpoint: String, region: Region)] {
         var partitionEndpoints: [String: (endpoint: String, region: Region)] = [:]
-        endpoints.partitions.forEach {
+        self.endpoints.partitions.forEach {
             if let endpoint = $0.services[api.metadata.endpointPrefix]?.partitionEndpoint {
                 guard let region = $0.services[api.metadata.endpointPrefix]?.endpoints[endpoint]?.credentialScope?.region else {
                     preconditionFailure("Found partition endpoint without a credential scope region")
@@ -427,12 +427,12 @@ extension AWSService {
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
             // process input tokens
-            var processedInputTokens = try inputTokens.map { (token) -> String in
+            var processedInputTokens = try inputTokens.map { token -> String in
                 return try self.toKeyPath(token: token, shape: inputShape, type: inputStructure).keyPath
             }
 
             // process output tokens
-            let processedOutputTokens = try outputTokens.map { (token) -> String in
+            let processedOutputTokens = try outputTokens.map { token -> String in
                 return try self.toKeyPath(token: token, shape: outputShape, type: outputStructure).keyPath
             }
             var moreResultsKey = try paginator.value.moreResults.map {

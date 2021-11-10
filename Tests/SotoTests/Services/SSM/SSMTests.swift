@@ -56,7 +56,7 @@ class SSMTests: XCTestCase {
         // parameter names cannot begin wih "aws"
         let name = "test" + TestEnvironment.generateResourceName()
         let response = self.putParameter(name: name, value: "testdata")
-            .flatMap { (_) -> EventLoopFuture<SSM.GetParameterResult> in
+            .flatMap { _ -> EventLoopFuture<SSM.GetParameterResult> in
                 let request = SSM.GetParameterRequest(name: name)
                 return Self.ssm.getParameter(request)
             }
@@ -75,7 +75,7 @@ class SSMTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let fullname = "/\(name)/\(name)"
         let response = self.putParameter(name: fullname, value: "testdata2")
-            .flatMap { (_) -> EventLoopFuture<SSM.GetParametersByPathResult> in
+            .flatMap { _ -> EventLoopFuture<SSM.GetParametersByPathResult> in
                 let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
                 return Self.ssm.eventLoopGroup.next().flatScheduleTask(in: .milliseconds(500)) {
                     Self.ssm.getParametersByPath(request)

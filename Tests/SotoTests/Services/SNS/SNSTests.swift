@@ -52,7 +52,7 @@ class SNSTests: XCTestCase {
                 return topicArn!
             }
             .flatMap(body)
-            .flatAlways { (_) -> EventLoopFuture<Void> in
+            .flatAlways { _ -> EventLoopFuture<Void> in
                 if let topicArn = topicArn {
                     let request = SNS.DeleteTopicInput(topicArn: topicArn)
                     return Self.sns.deleteTopic(request)
@@ -96,7 +96,7 @@ class SNSTests: XCTestCase {
                 topicArn: topicArn
             )
             return Self.sns.setTopicAttributes(request)
-                .flatMap { (_) -> EventLoopFuture<SNS.GetTopicAttributesResponse> in
+                .flatMap { _ -> EventLoopFuture<SNS.GetTopicAttributesResponse> in
                     let request = SNS.GetTopicAttributesInput(topicArn: topicArn)
                     return Self.sns.getTopicAttributes(request)
                 }
