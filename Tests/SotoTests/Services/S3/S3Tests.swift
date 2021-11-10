@@ -171,6 +171,44 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testPut100Complete() {
+        struct Verify100CompleteMiddleware: AWSServiceMiddleware {
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
+                return request
+            }
+        }
+        let s3 = Self.s3.with(middlewares: [Verify100CompleteMiddleware()])
+        let name = TestEnvironment.generateResourceName()
+        let data = Self.createRandomBuffer(size: 3 * 1024 * 1024)
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { _ -> EventLoopFuture<Void> in
+                // put request that will fail
+                let putRequest = S3.PutObjectRequest(
+                    body: .data(data),
+                    bucket: name + "fail",
+                    key: name
+                )
+                return s3.putObject(putRequest).map { _ in }
+            }
+            .flatMapError { _ -> EventLoopFuture<Void> in
+                return Self.eventLoopGroup.next().makeSucceededVoidFuture()
+            }
+            .flatMap { _ -> EventLoopFuture<Void> in
+                // put request that will be successful
+                let putRequest = S3.PutObjectRequest(
+                    body: .data(data),
+                    bucket: name,
+                    key: name
+                )
+                return s3.putObject(putRequest).map { _ in }
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testCopy() {
         let name = TestEnvironment.generateResourceName()
         let keyName = "file1"
