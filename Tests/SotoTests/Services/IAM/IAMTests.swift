@@ -65,7 +65,7 @@ class IAMTests: XCTestCase {
         let request = IAM.ListUserPoliciesRequest(userName: userName)
         return Self.iam.listUserPolicies(request, logger: TestEnvironment.logger)
             .flatMap { response -> EventLoopFuture<Void> in
-                let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
+                let futures = response.policyNames.map { policyName -> EventLoopFuture<Void> in
                     let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
                     // add stall to avoid throttling errors.
                     return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
@@ -113,10 +113,10 @@ class IAMTests: XCTestCase {
         """
         let username = TestEnvironment.generateResourceName()
         let response = self.createUser(userName: username)
-            .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
+            .flatMap { _ -> EventLoopFuture<IAM.GetUserResponse> in
                 return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             }
-            .flatMap { (user) -> EventLoopFuture<Void> in
+            .flatMap { user -> EventLoopFuture<Void> in
                 let request = IAM.PutUserPolicyRequest(
                     policyDocument: policyDocument,
                     policyName: "testSetGetPolicy",
@@ -124,7 +124,7 @@ class IAMTests: XCTestCase {
                 )
                 return Self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
             }
-            .flatMap { (_) -> EventLoopFuture<IAM.GetUserPolicyResponse> in
+            .flatMap { _ -> EventLoopFuture<IAM.GetUserPolicyResponse> in
                 let request = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
                 return Self.iam.getUserPolicy(request, logger: TestEnvironment.logger)
             }
@@ -147,10 +147,10 @@ class IAMTests: XCTestCase {
         """
         let username = TestEnvironment.generateResourceName()
         let response = self.createUser(userName: username)
-            .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
+            .flatMap { _ -> EventLoopFuture<IAM.GetUserResponse> in
                 return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             }
-            .flatMap { (user) -> EventLoopFuture<IAM.SimulatePolicyResponse> in
+            .flatMap { user -> EventLoopFuture<IAM.SimulatePolicyResponse> in
                 let request = IAM.SimulateCustomPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], callerArn: user.user.arn, policyInputList: [policyDocument])
                 return Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
             }
@@ -182,7 +182,7 @@ class IAMTests: XCTestCase {
     func testUserTags() {
         let username = TestEnvironment.generateResourceName()
         let response = self.createUser(userName: username, tags: ["test": "tag"])
-            .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
+            .flatMap { _ -> EventLoopFuture<IAM.GetUserResponse> in
                 return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             }
             .map { response in

@@ -93,20 +93,20 @@ private struct _EncoderStorage {
     /// push a new container onto the storage
     mutating func pushKeyedContainer() -> _EncoderKeyedContainer {
         let container = _EncoderKeyedContainer()
-        containers.append(container)
+        self.containers.append(container)
         return container
     }
 
     /// push a new container onto the storage
     mutating func pushUnkeyedContainer() -> _EncoderUnkeyedContainer {
         let container = _EncoderUnkeyedContainer()
-        containers.append(container)
+        self.containers.append(container)
         return container
     }
 
     mutating func pushSingleValueContainer(_ attribute: DynamoDB.AttributeValue) {
         let container = _EncoderSingleValueContainer(attribute: attribute)
-        containers.append(container)
+        self.containers.append(container)
     }
 
     /// pop a container from the storage
@@ -234,7 +234,7 @@ class _DynamoDBEncoder: Encoder {
             defer { self.encoder.codingPath.removeLast() }
 
             let nestedContainer = _EncoderKeyedContainer()
-            container.addNestedContainer(path: key.stringValue, child: nestedContainer)
+            self.container.addNestedContainer(path: key.stringValue, child: nestedContainer)
 
             return KeyedEncodingContainer(KEC<NestedKey>(container: nestedContainer, encoder: self.encoder))
         }
@@ -244,7 +244,7 @@ class _DynamoDBEncoder: Encoder {
             defer { self.encoder.codingPath.removeLast() }
 
             let nestedContainer = _EncoderUnkeyedContainer()
-            container.addNestedContainer(path: key.stringValue, child: nestedContainer)
+            self.container.addNestedContainer(path: key.stringValue, child: nestedContainer)
 
             return UKEC(container: nestedContainer, encoder: self.encoder)
         }
@@ -254,7 +254,7 @@ class _DynamoDBEncoder: Encoder {
             defer { self.encoder.codingPath.removeLast() }
 
             let nestedContainer = _EncoderKeyedContainer()
-            container.addNestedContainer(path: key.stringValue, child: nestedContainer)
+            self.container.addNestedContainer(path: key.stringValue, child: nestedContainer)
 
             return _DynamoDBReferencingEncoder(encoder: self.encoder, container: nestedContainer)
         }
@@ -358,7 +358,7 @@ class _DynamoDBEncoder: Encoder {
             self.count += 1
 
             let nestedContainer = _EncoderKeyedContainer()
-            container.addNestedContainer(nestedContainer)
+            self.container.addNestedContainer(nestedContainer)
 
             return KeyedEncodingContainer(KEC<NestedKey>(container: nestedContainer, encoder: self.encoder))
         }
@@ -370,7 +370,7 @@ class _DynamoDBEncoder: Encoder {
             self.count += 1
 
             let nestedContainer = _EncoderUnkeyedContainer()
-            container.addNestedContainer(nestedContainer)
+            self.container.addNestedContainer(nestedContainer)
 
             return UKEC(container: nestedContainer, encoder: self.encoder)
         }
@@ -448,7 +448,7 @@ extension _DynamoDBEncoder: SingleValueEncodingContainer {
 
     func encode<T>(_ value: T) throws where T: Encodable {
         let attribute = try box(value)
-        encode(attribute)
+        self.encode(attribute)
     }
 }
 

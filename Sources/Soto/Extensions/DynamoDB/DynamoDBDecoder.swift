@@ -241,7 +241,7 @@ private class _DynamoDBDecoder: Decoder {
                 throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l"))
             }
             let value = values[currentIndex]
-            currentIndex += 1
+            self.currentIndex += 1
             return value
         }
 
@@ -249,7 +249,7 @@ private class _DynamoDBDecoder: Decoder {
             switch self.attribute {
             case .ns(let values):
                 let value = values[currentIndex]
-                currentIndex += 1
+                self.currentIndex += 1
                 return value
             case .l(let attributes):
                 let attribute = attributes[currentIndex]
@@ -267,7 +267,7 @@ private class _DynamoDBDecoder: Decoder {
             switch self.attribute {
             case .ss(let values):
                 let value = values[currentIndex]
-                currentIndex += 1
+                self.currentIndex += 1
                 return value
             case .l(let attributes):
                 let attribute = attributes[currentIndex]
@@ -401,22 +401,22 @@ private class _DynamoDBDecoder: Decoder {
             switch self.attribute {
             case .bs(let values):
                 let value = values[currentIndex]
-                currentIndex += 1
+                self.currentIndex += 1
                 return try self.decoder.unbox(.b(value), as: T.self)
 
             case .ss(let values):
                 let value = values[currentIndex]
-                currentIndex += 1
+                self.currentIndex += 1
                 return try self.decoder.unbox(.s(value), as: T.self)
 
             case .ns(let values):
                 let value = values[currentIndex]
-                currentIndex += 1
+                self.currentIndex += 1
                 return try self.decoder.unbox(.n(value), as: T.self)
 
             case .l(let values):
                 let value = values[currentIndex]
-                currentIndex += 1
+                self.currentIndex += 1
                 return try self.decoder.unbox(value, as: T.self)
 
             default:
