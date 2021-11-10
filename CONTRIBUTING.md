@@ -28,7 +28,7 @@ The main development branch of the repository is  `main`. Each major version rel
 
 ### Formatting
 
-We use Nick Lockwood's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted. The current version of SwiftFormat we are using is v0.47.13.
+We use Nick Lockwood's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted. The current version of SwiftFormat we are using is v0.48.17.
 
 All new files need to include the following file header at the top
 ```swift
@@ -68,4 +68,4 @@ let client = AWSClient(middlewares: [AWSLoggingMiddleware()], ...)
 
 ## Community
 
-You can also contribute by becoming an active member of the Soto community.  Join us on the soto-aws [slack](https://join.slack.com/t/soto-project/shared_invite/zt-juqk6l9w-z9zruW5pjlod4AscdWlz7Q).
+You can also contribute by becoming an active member of the Soto community.  Join us on the soto-aws [slack](https://join.slack.com/t/soto-project/shared_invite/zt-y7c8tmcx-Sm2eDY1nrRJ0~bRCD9byVg).
