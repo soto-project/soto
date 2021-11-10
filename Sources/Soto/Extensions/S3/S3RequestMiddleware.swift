@@ -141,7 +141,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             case .raw(let payload) = request.body,
             let size = payload.size
         {
-            if size > 1024 * 1024 {
+            if size > 128 * 1024 {
                 request.httpHeaders.replaceOrAdd(name: "Expect", value: "100-continue")
             }
         }
