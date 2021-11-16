@@ -160,6 +160,173 @@ extension S3 {
         try fileHandle.close()
         return downloaded
     }
+
+    /// Multipart upload of file to S3.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
+    ///     - on: an EventLoop to process each part to upload
+    ///     - inputStream: The function supplying the data parts to the multipartUpload. Each parts must be at least 5MB in size expect the last one which has no size limit.
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func multipartUpload(
+        _ input: CreateMultipartUploadRequest,
+        abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        inputStream: @escaping (EventLoop) async throws -> AWSPayload
+    ) async throws -> CompleteMultipartUploadOutput {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+        // initialize multipart upload
+        let upload = try await createMultipartUpload(input, logger: logger, on: eventLoop)
+        guard let uploadId = upload.uploadId else {
+            throw S3ErrorType.multipart.noUploadId
+        }
+
+        do {
+            // upload all the parts
+            let parts = try await self.multipartUploadParts(
+                input, uploadId: uploadId,
+                logger: logger,
+                on: eventLoop,
+                inputStream: inputStream,
+                skipStream: { _ in return true }
+            )
+
+            // complete multipart upload
+            let request = S3.CompleteMultipartUploadRequest(
+                bucket: input.bucket,
+                key: input.key,
+                multipartUpload: S3.CompletedMultipartUpload(parts: parts),
+                requestPayer: input.requestPayer,
+                uploadId: uploadId
+            )
+            return try await self.completeMultipartUpload(request, logger: logger, on: eventLoop)
+        } catch {
+            guard abortOnFail else {
+                // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
+                if let error = error as? MultipartUploadError {
+                    throw S3ErrorType.multipart.abortedUpload(
+                        resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: error.completedParts),
+                        error: error.error
+                    )
+                } else {
+                    throw S3ErrorType.multipart.abortedUpload(
+                        resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: []),
+                        error: error
+                    )
+                }
+            }
+            // if failure then abort the multipart upload
+            let request = S3.AbortMultipartUploadRequest(
+                bucket: input.bucket,
+                key: input.key,
+                requestPayer: input.requestPayer,
+                uploadId: uploadId
+            )
+            _ = try await self.abortMultipartUpload(request, logger: logger, on: eventLoop)
+            throw error
+        }
+    }
+
+    /// Multipart upload of file to S3.
+    ///
+    /// Uploads file using multipart upload commands. If you want the function to not abort the multipart upload when it receives an error then set `abortOnFail` to false. With this you
+    /// can then use `resumeMultipartUpload` to resume the failed upload. If you set `abortOnFail` to false but don't call `resumeMultipartUpload` on failure you will have
+    /// to call `abortMultipartUpload` yourself.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - fileHandle: File handle for file to upload
+    ///     - fileIO: NIO non blocking file io manager
+    ///     - uploadSize: Size of file to upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
+    ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///     - eventLoop: Eventloop to run upload on
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    func multipartUpload(
+        _ input: CreateMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        fileHandle: NIOFileHandle,
+        fileIO: NonBlockingFileIO,
+        uploadSize: Int,
+        abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        progress: @escaping (Double) throws -> Void = { _ in }
+    ) async throws -> CompleteMultipartUploadOutput {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+
+        var progressAmount: Int = 0
+        var prevProgressAmount: Int = 0
+
+        return try await self.multipartUpload(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { eventLoop in
+            let size = min(partSize, uploadSize - progressAmount)
+            guard size > 0 else { return .empty }
+            prevProgressAmount = progressAmount
+            progressAmount += size
+            let payload = AWSPayload.fileHandle(
+                fileHandle,
+                size: size,
+                fileIO: fileIO,
+                byteBufferAllocator: self.config.byteBufferAllocator
+            ) { downloaded in
+                try progress(Double(downloaded + prevProgressAmount) / Double(uploadSize))
+            }
+            return payload
+        }
+    }
+
+    /// Multipart upload of file to S3.
+    ///
+    /// Uploads file using multipart upload commands. If you want the function to not abort the multipart upload when it receives an error then set `abortOnFail` to false. With this you
+    /// can then use `resumeMultipartUpload` to resume the failed upload. If you set `abortOnFail` to false but don't call `resumeMultipartUpload` on failure you will have
+    /// to call `abortMultipartUpload` yourself.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - filename: Full path of file to upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
+    ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///     - eventLoop: Eventloop to run upload on
+    ///     - threadPoolProvider: Provide a thread pool to use or create a new one
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func multipartUpload(
+        _ input: CreateMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        filename: String,
+        abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        threadPoolProvider: ThreadPoolProvider = .createNew,
+        progress: @escaping (Double) throws -> Void = { _ in }
+    ) async throws -> CompleteMultipartUploadOutput {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+
+        return try await openFileForMultipartUpload(
+            filename: filename,
+            logger: logger,
+            on: eventLoop,
+            threadPoolProvider: threadPoolProvider
+        ) { fileHandle, fileRegion, fileIO in
+            try await self.multipartUpload(
+                input,
+                partSize: partSize,
+                fileHandle: fileHandle,
+                fileIO: fileIO,
+                uploadSize: fileRegion.readableBytes,
+                abortOnFail: abortOnFail,
+                logger: logger,
+                on: eventLoop,
+                progress: progress
+            ).get()
+        }
+    }
+
 }
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
@@ -191,5 +358,72 @@ extension S3 {
         try fileHandle.close()
         return uploadOutput
     }
+
+    /// used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
+    func multipartUploadParts(
+        _ input: CreateMultipartUploadRequest,
+        uploadId: String,
+        parts: [S3.CompletedPart] = [],
+        logger: Logger,
+        on eventLoop: EventLoop,
+        inputStream: @escaping (EventLoop) async throws -> AWSPayload,
+        skipStream: @escaping (EventLoop) async throws -> Bool
+    ) async throws -> [S3.CompletedPart] {
+        var completedParts: [S3.CompletedPart] = []
+
+        func uploadPartTask(payload: AWSPayload, partNumber: Int) async throws -> UploadPartOutput {
+            // upload payload
+            let request = S3.UploadPartRequest(
+                body: payload,
+                bucket: input.bucket,
+                key: input.key,
+                partNumber: partNumber,
+                requestPayer: input.requestPayer,
+                sSECustomerAlgorithm: input.sSECustomerAlgorithm,
+                sSECustomerKey: input.sSECustomerKey,
+                sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+                uploadId: uploadId
+            )
+            // request upload future
+            return try await self.uploadPart(request, logger: logger, on: eventLoop)
+        }
+
+        func streamPartTask(partNumber: Int) -> Task<AWSPayload?, Swift.Error> {
+            return Task {
+                if parts.first(where: { $0.partNumber == partNumber }) != nil {
+                    let finish = try await skipStream(eventLoop)
+                    if finish == true {
+                        // returning an empty payload indicates we have hit the last part
+                        return .empty
+                    }
+                    return nil
+                } else {
+                    return try await inputStream(eventLoop)
+                }
+            }
+        }
+        var streamedPartTask = streamPartTask(partNumber: 0)
+        var partNumber = 0
+        while true {
+            // wait for stream part to be done
+            let payload = try await streamedPartTask.value
+            guard let size = payload?.size, size > 0 else {
+                break
+            }
+            // start new stream part
+            partNumber += 1
+            streamedPartTask = streamPartTask(partNumber: partNumber)
+
+            // upload part
+            if let payload = payload {
+                let uploadOutput = try await uploadPartTask(payload: payload, partNumber: partNumber)
+                let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: partNumber-1)
+                completedParts.append(part)
+            }
+        }
+
+        return completedParts + parts
+    }
 }
+
 #endif // compiler(>=5.5) && canImport(_Concurrency)

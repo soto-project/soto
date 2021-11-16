@@ -62,7 +62,7 @@ extension S3 {
     }
 
     /// error thrown during upload of parts
-    private struct MultipartUploadError: Swift.Error {
+    struct MultipartUploadError: Swift.Error {
         let error: Swift.Error
         let completedParts: [S3.CompletedPart]
     }
