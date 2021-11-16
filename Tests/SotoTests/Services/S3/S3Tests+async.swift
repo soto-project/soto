@@ -625,6 +625,47 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
+    func testMultipartCopy() {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let name2 = name + "2"
+        let filename = "S3MultipartUploadTest"
+        let filename2 = "S3MultipartUploadTest2"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        self.s3Test(bucket: name) {
+            let s3Euwest2 = S3(
+                client: Self.client,
+                region: .useast1,
+                endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+            )
+            self.s3Test(bucket: name2, s3: s3Euwest2) {
+                // upload to bucket
+                let uploadRequest = S3.CreateMultipartUploadRequest(
+                    bucket: name,
+                    key: filename
+                )
+                _ = try await s3.multipartUpload(uploadRequest, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
+
+                // copy
+                let copyRequest = S3.CopyObjectRequest(
+                    bucket: name2,
+                    copySource: "/\(name)/\(filename)",
+                    key: filename2
+                )
+                _ = try await s3Euwest2.multipartCopy(copyRequest, partSize: 5 * 1024 * 1024)
+
+                // download
+                let object = try await s3Euwest2.getObject(.init(bucket: name2, key: filename2))
+                XCTAssertEqual(object.body?.asData(), data)
+            }
+        }
+    }
 }
 
 #endif
