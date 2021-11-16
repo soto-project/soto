@@ -536,6 +536,27 @@ class S3AsyncTests: XCTestCase {
             } catch is CancelError {}
         }
     }
+
+    func testMultiPartDownload() throws {
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartDownloadTest"
+
+        self.s3Test(bucket: name) {
+            let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
+            _ = try await s3.putObject(putRequest, logger: TestEnvironment.logger)
+
+            let request = S3.GetObjectRequest(bucket: name, key: filename)
+            let size = try await s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+
+            XCTAssertEqual(size, Int64(data.count))
+            let savedData = try Data(contentsOf: URL(fileURLWithPath: filename))
+            XCTAssertEqual(savedData, data)
+            try FileManager.default.removeItem(atPath: filename)
+        }
+    }
 }
 
 #endif
