@@ -580,6 +580,51 @@ class S3AsyncTests: XCTestCase {
             XCTAssertEqual(download.body?.asData(), data)
         }
     }
+
+    func testResumeMultiPartUpload() {
+        struct CancelError: Error {}
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartUploadTest"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        self.s3Test(bucket: name) {
+            var resumeRequest: S3.ResumeMultipartUploadRequest
+            do {
+                let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+                _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                    guard $0 < 0.45 else { throw CancelError() }
+                    print("Progress \($0 * 100)")
+                }
+                throw CancelError()
+            } catch S3ErrorType.multipart.abortedUpload(let resume, _) {
+                resumeRequest = resume
+            }
+
+            do {
+                _ = try await s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                    guard $0 < 0.95 else { throw CancelError() }
+                    print("Progress \($0 * 100)")
+                }
+                throw CancelError()
+            } catch S3ErrorType.multipart.abortedUpload(let resume, _) {
+                resumeRequest = resume
+            }
+
+            _ = try await s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                print("Progress \($0 * 100)")
+            }
+
+            let response = try await s3.getObject(.init(bucket: name, key: name))
+            XCTAssertEqual(response.body?.asData(), data)
+        }
+    }
+
 }
 
 #endif
