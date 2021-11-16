@@ -266,7 +266,7 @@ extension S3 {
         var progressAmount: Int = 0
         var prevProgressAmount: Int = 0
 
-        return try await self.multipartUpload(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { eventLoop in
+        return try await self.multipartUpload(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { _ in
             let size = min(partSize, uploadSize - progressAmount)
             guard size > 0 else { return .empty }
             prevProgressAmount = progressAmount
@@ -440,7 +440,7 @@ extension S3 {
             abortOnFail: abortOnFail,
             logger: logger,
             on: eventLoop,
-            inputStream: { eventLoop in
+            inputStream: { _ in
                 let size = min(partSize, uploadSize - progressAmount)
                 guard size > 0 else { return .empty }
                 prevProgressAmount = progressAmount
@@ -456,7 +456,7 @@ extension S3 {
                 progressAmount += size
                 return payload
             },
-            skipStream: { eventLoop in
+            skipStream: { _ in
                 let size = min(partSize, uploadSize - progressAmount)
                 progressAmount += size
                 return size == 0
@@ -713,7 +713,7 @@ extension Sequence {
                 result.append(element)
             }
 
-            //return result.sorted(by: {$0.0 < $1.0}).map(\.1)
+            // return result.sorted(by: {$0.0 < $1.0}).map(\.1)
             // construct final array and fill in elements
             return Array(unsafeUninitializedCapacity: result.count) { buffer, count in
                 for value in result {
