@@ -162,4 +162,34 @@ extension S3 {
     }
 }
 
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+extension S3 {
+    /// Do all the work for opening a file and closing it for MultiUpload function
+    func openFileForMultipartUpload(
+        filename: String,
+        logger: Logger,
+        on eventLoop: EventLoop,
+        threadPoolProvider: ThreadPoolProvider = .createNew,
+        uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) async throws -> CompleteMultipartUploadOutput
+    ) async throws -> CompleteMultipartUploadOutput {
+        let threadPool = threadPoolProvider.create()
+        defer {
+            threadPoolProvider.destory(threadPool)
+        }
+        let fileIO = NonBlockingFileIO(threadPool: threadPool)
+        let (fileHandle, fileRegion) = try await fileIO.openFile(path: filename, eventLoop: eventLoop).get()
+
+        logger.debug("Open file \(filename)")
+
+        let uploadOutput: CompleteMultipartUploadOutput
+        do {
+            uploadOutput = try await uploadCallback(fileHandle, fileRegion, fileIO)
+        } catch {
+            try fileHandle.close()
+            throw error
+        }
+        try fileHandle.close()
+        return uploadOutput
+    }
+}
 #endif // compiler(>=5.5) && canImport(_Concurrency)
