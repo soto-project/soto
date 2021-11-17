@@ -3,12 +3,12 @@ name: CI
 on:
   push:
     branches:
-    - 6.x.x
+    - main
     paths:
     - '**.swift'
   pull_request:
     branches:
-    - 6.x.x
+    - main
     paths:
     - '**.swift'
   workflow_dispatch:
@@ -25,9 +25,7 @@ jobs:
     runs-on: macOS-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
+      uses: actions/checkout@v2
     - name: SPM build
       run: swift build
 
