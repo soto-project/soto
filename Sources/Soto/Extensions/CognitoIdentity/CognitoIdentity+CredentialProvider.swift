@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import AsyncHTTPClient
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
 import SotoCore
@@ -27,7 +28,7 @@ extension CognitoIdentity {
             identityPoolId: String,
             identityProvider: IdentityProviderFactory,
             region: Region,
-            httpClient: AWSHTTPClient,
+            httpClient: HTTPClient,
             logger: Logger = AWSClient.loggingDisabled,
             eventLoop: EventLoop
         ) {
