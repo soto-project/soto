@@ -545,8 +545,13 @@ class S3AsyncTests: XCTestCase {
         let filename = "S3MultipartDownloadTest"
 
         self.s3Test(bucket: name) {
-            let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
-            _ = try await s3.putObject(putRequest, logger: TestEnvironment.logger)
+            var buffer = ByteBuffer(data: data)
+            let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
+            _ = try await s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { _ -> AWSPayload in
+                let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
+                let slice = buffer.readSlice(length: blockSize)!
+                return .byteBuffer(slice)
+            }
 
             let request = S3.GetObjectRequest(bucket: name, key: filename)
             let size = try await s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }

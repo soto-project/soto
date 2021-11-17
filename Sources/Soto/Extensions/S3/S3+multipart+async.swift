@@ -159,7 +159,7 @@ extension S3 {
     ///     - on: an EventLoop to process each part to upload
     ///     - inputStream: The function supplying the data parts to the multipartUpload. Each parts must be at least 5MB in size expect the last one which has no size limit.
     /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
-    public func multipartUpload(
+    public func multipartUploadFromStream(
         _ input: CreateMultipartUploadRequest,
         abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
@@ -256,7 +256,7 @@ extension S3 {
         var progressAmount: Int = 0
         var prevProgressAmount: Int = 0
 
-        return try await self.multipartUpload(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { _ in
+        return try await self.multipartUploadFromStream(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { _ in
             let size = min(partSize, uploadSize - progressAmount)
             guard size > 0 else { return .empty }
             prevProgressAmount = progressAmount

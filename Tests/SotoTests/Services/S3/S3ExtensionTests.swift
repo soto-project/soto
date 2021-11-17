@@ -94,7 +94,7 @@ class S3ExtensionTests: XCTestCase {
             .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 var buffer = ByteBuffer(data: data)
                 let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
-                return s3.multipartUpload(putRequest, logger: TestEnvironment.logger) { eventLoop in
+                return s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { eventLoop in
                     let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
                     let slice = buffer.readSlice(length: blockSize)!
                     return eventLoop.makeSucceededFuture(.byteBuffer(slice))
