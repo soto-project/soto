@@ -27,6 +27,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         self.virtualAddressFixup(request: &request, context: context)
         self.createBucketFixup(request: &request)
         self.calculateMD5(request: &request)
+        self.expect100Continue(request: &request)
 
         return request
     }
@@ -132,6 +133,17 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             return Data(Insecure.MD5.hash(data: bytes)).base64EncodedString()
         }) {
             request.httpHeaders.replaceOrAdd(name: "Content-MD5", value: encoded)
+        }
+    }
+
+    func expect100Continue(request: inout AWSRequest) {
+        if request.httpMethod == .PUT,
+           case .raw(let payload) = request.body,
+           let size = payload.size
+        {
+            if size > 128 * 1024 {
+                request.httpHeaders.replaceOrAdd(name: "Expect", value: "100-continue")
+            }
         }
     }
 
