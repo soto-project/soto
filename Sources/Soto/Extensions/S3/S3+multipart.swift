@@ -47,7 +47,7 @@ extension S3 {
             }
         }
 
-        func destory(_ threadPool: NIOThreadPool) {
+        func destroy(_ threadPool: NIOThreadPool) {
             if case .createNew = self {
                 threadPool.shutdownGracefully { _ in }
             }
@@ -181,7 +181,7 @@ extension S3 {
             }
 
             download.whenComplete { _ in
-                threadPoolProvider.destory(threadPool)
+                threadPoolProvider.destroy(threadPool)
             }
             return
                 download
@@ -652,7 +652,7 @@ extension S3 {
             let uploadFuture = uploadCallback(fileHandle, fileRegion, fileIO)
 
             uploadFuture.whenComplete { _ in
-                threadPoolProvider.destory(threadPool)
+                threadPoolProvider.destroy(threadPool)
             }
             return
                 uploadFuture.flatMapErrorThrowing { error in

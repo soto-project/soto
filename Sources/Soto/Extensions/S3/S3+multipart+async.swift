@@ -126,20 +126,7 @@ extension S3 {
     ) async throws -> Int64 {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        let threadPool: NIOThreadPool
-        switch threadPoolProvider {
-        case .createNew:
-            threadPool = NIOThreadPool(numberOfThreads: 1)
-            threadPool.start()
-        case .shared(let sharedPool):
-            threadPool = sharedPool
-        }
-        defer {
-            if case .createNew = threadPoolProvider {
-                threadPool.shutdownGracefully { _ in }
-            }
-        }
-
+        let threadPool = threadPoolProvider.create()
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         let fileHandle = try await fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).get()
         var progressValue: Int64 = 0
@@ -155,9 +142,12 @@ extension S3 {
             }.get()
         } catch {
             try fileHandle.close()
+            // ignore errors from thread pool provider shutdown, as we want to throw the original error
+            try? await threadPoolProvider.destroy(threadPool)
             throw error
         }
         try fileHandle.close()
+        try await threadPoolProvider.destroy(threadPool)
         return downloaded
     }
 
@@ -599,9 +589,6 @@ extension S3 {
         uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) async throws -> CompleteMultipartUploadOutput
     ) async throws -> CompleteMultipartUploadOutput {
         let threadPool = threadPoolProvider.create()
-        defer {
-            threadPoolProvider.destory(threadPool)
-        }
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         let (fileHandle, fileRegion) = try await fileIO.openFile(path: filename, eventLoop: eventLoop).get()
 
@@ -612,9 +599,12 @@ extension S3 {
             uploadOutput = try await uploadCallback(fileHandle, fileRegion, fileIO)
         } catch {
             try fileHandle.close()
+            // ignore errors from thread pool provider shutdown, as we want to throw the original error
+            try? await threadPoolProvider.destroy(threadPool)
             throw error
         }
         try fileHandle.close()
+        try await threadPoolProvider.destroy(threadPool)
         return uploadOutput
     }
 
@@ -724,4 +714,23 @@ extension Sequence {
         }
     }
 }
+
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+extension S3.ThreadPoolProvider {
+    /// async version of destroy
+    func destroy(_ threadPool: NIOThreadPool) async throws {
+        if case .createNew = self {
+            return try await withUnsafeThrowingContinuation { cont in
+                threadPool.shutdownGracefully { error in
+                    if let error = error {
+                        cont.resume(throwing: error)
+                    } else {
+                        cont.resume()
+                    }
+                }
+            }
+        }
+    }
+}
+
 #endif // compiler(>=5.5) && canImport(_Concurrency)
