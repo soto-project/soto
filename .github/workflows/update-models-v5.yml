@@ -16,8 +16,9 @@ jobs:
         app_id: ${{ secrets.APP_ID }}
         private_key: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
+        ref: 5.x.x
         fetch-depth: 1
     - name: Update Models
       id: update-models
@@ -34,4 +35,4 @@ jobs:
         branch: aws-sdk-go-update-models
         title: 'Update models from aws-sdk-go ${{ env.AWS_MODELS_VERSION }}'
         body: 'Automated update of AWS service files from json model files in aws-sdk-go repository'
-        base: main
+        base: 5.x.x
