@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import AsyncHTTPClient
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
 import struct Foundation.UUID
@@ -66,7 +67,7 @@ extension STS {
             requestProvider: RequestProvider<STS.AssumeRoleRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
-            httpClient: AWSHTTPClient
+            httpClient: HTTPClient
         ) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
@@ -94,7 +95,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>, region: Region, httpClient: AWSHTTPClient) {
+        init(requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>, region: Region, httpClient: HTTPClient) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -121,7 +122,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>, region: Region, httpClient: AWSHTTPClient) {
+        init(requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>, region: Region, httpClient: HTTPClient) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -216,7 +217,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.GetFederationTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: AWSHTTPClient) {
+        init(requestProvider: RequestProvider<STS.GetFederationTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: HTTPClient) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -243,7 +244,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.GetSessionTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: AWSHTTPClient) {
+        init(requestProvider: RequestProvider<STS.GetSessionTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: HTTPClient) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
