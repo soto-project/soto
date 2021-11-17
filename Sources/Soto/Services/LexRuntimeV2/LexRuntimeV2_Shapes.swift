@@ -40,6 +40,7 @@ extension LexRuntimeV2 {
         case delegate = "Delegate"
         case elicitintent = "ElicitIntent"
         case elicitslot = "ElicitSlot"
+        case none = "None"
         public var description: String { return self.rawValue }
     }
 
@@ -53,6 +54,7 @@ extension LexRuntimeV2 {
     public enum IntentState: String, CustomStringConvertible, Codable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
+        case fulfillmentinprogress = "FulfillmentInProgress"
         case inprogress = "InProgress"
         case readyforfulfillment = "ReadyForFulfillment"
         case waiting = "Waiting"
@@ -258,7 +260,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ActiveContext: AWSEncodableShape & AWSDecodableShape {
-        /// A lis tof contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request. If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
+        /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request. If you don't specify a list of contexts, Amazon Lex V2 will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
         public let contextAttributes: [String: String]
         /// The name of the context.
         public let name: String
@@ -421,7 +423,7 @@ extension LexRuntimeV2 {
     public struct ConfigurationEvent: AWSEncodableShape {
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
-        /// Determines whether Amazon Lex V2 should send audio responses to the client application. When this parameter if false, the client application needs to create responses for the user.
+        /// Determines whether Amazon Lex V2 should send audio responses to the client application.   Set this field to false when the client is operating in a playback mode where audio responses are played to the user. If the client isn't operating in playback mode, such as a text chat application, set this to true so that Amazon Lex V2 doesn't wait for the prompt to finish playing on the client.
         public let disablePlayback: Bool?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?

@@ -516,7 +516,7 @@ extension Connect {
         public let name: String?
         /// The state of the agent status.
         public let state: AgentStatusState?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The type of agent status.
         public let type: AgentStatusType?
@@ -884,6 +884,24 @@ extension Connect {
         }
     }
 
+    public struct ChatStreamingConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversations.
+        public let streamingEndpointArn: String
+
+        public init(streamingEndpointArn: String) {
+            self.streamingEndpointArn = streamingEndpointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamingEndpointArn, name: "streamingEndpointArn", parent: name, max: 350)
+            try self.validate(self.streamingEndpointArn, name: "streamingEndpointArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingEndpointArn = "StreamingEndpointArn"
+        }
+    }
+
     public struct ContactFlow: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
@@ -961,7 +979,7 @@ extension Connect {
         public let name: String
         /// The state of the status.
         public let state: AgentStatusState
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String, state: AgentStatusState, tags: [String: String]? = nil) {
@@ -1098,7 +1116,7 @@ extension Connect {
         public let instanceId: String
         /// The name of the hours of operation.
         public let name: String
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The time zone of the hours of operation.
         public let timeZone: String
@@ -1236,7 +1254,7 @@ extension Connect {
         public let sourceApplicationUrl: String?
         /// The type of the data source. This field is only required for the EVENT integration type.
         public let sourceType: SourceType?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String? = nil, sourceApplicationUrl: String? = nil, sourceType: SourceType? = nil, tags: [String: String]? = nil) {
@@ -1313,7 +1331,7 @@ extension Connect {
         public let outboundCallerConfig: OutboundCallerConfig?
         /// The quick connects available to agents who are working the queue.
         public let quickConnectIds: [String]?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, hoursOfOperationId: String, instanceId: String, maxContacts: Int? = nil, name: String, outboundCallerConfig: OutboundCallerConfig? = nil, quickConnectIds: [String]? = nil, tags: [String: String]? = nil) {
@@ -1389,7 +1407,7 @@ extension Connect {
         public let name: String
         /// Configuration settings for the quick connect.
         public let quickConnectConfig: QuickConnectConfig
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, instanceId: String, name: String, quickConnectConfig: QuickConnectConfig, tags: [String: String]? = nil) {
@@ -1525,6 +1543,74 @@ extension Connect {
         }
     }
 
+    public struct CreateSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// The description of the security profile.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// Permissions assigned to the security profile.
+        public let permissions: [String]?
+        /// The name of the security profile.
+        public let securityProfileName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.instanceId = instanceId
+            self.permissions = permissions
+            self.securityProfileName = securityProfileName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try validate($0, name: "permissions[]", parent: name, max: 128)
+                try validate($0, name: "permissions[]", parent: name, min: 1)
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 500)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case permissions = "Permissions"
+            case securityProfileName = "SecurityProfileName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSecurityProfileResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the security profile.
+        public let securityProfileArn: String?
+        /// The identifier for the security profle.
+        public let securityProfileId: String?
+
+        public init(securityProfileArn: String? = nil, securityProfileId: String? = nil) {
+            self.securityProfileArn = securityProfileArn
+            self.securityProfileId = securityProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileArn = "SecurityProfileArn"
+            case securityProfileId = "SecurityProfileId"
+        }
+    }
+
     public struct CreateUseCaseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
@@ -1535,7 +1621,7 @@ extension Connect {
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
         public let useCaseType: UseCaseType
@@ -1880,6 +1966,30 @@ extension Connect {
         public init(instanceId: String, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectId = quickConnectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(instanceId: String, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.securityProfileId = securityProfileId
         }
 
         public func validate(name: String) throws {
@@ -2303,6 +2413,43 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case routingProfile = "RoutingProfile"
+        }
+    }
+
+    public struct DescribeSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(instanceId: String, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.securityProfileId = securityProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSecurityProfileResponse: AWSDecodableShape {
+        /// The security profile.
+        public let securityProfile: SecurityProfile?
+
+        public init(securityProfile: SecurityProfile? = nil) {
+            self.securityProfile = securityProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfile = "SecurityProfile"
         }
     }
 
@@ -3157,7 +3304,7 @@ extension Connect {
         public let hoursOfOperationId: String?
         /// The name for the hours of operation.
         public let name: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The time zone for the hours of operation.
         public let timeZone: String?
@@ -3186,9 +3333,9 @@ extension Connect {
     public struct HoursOfOperationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The day that the hours of operation applies to.
         public let day: HoursOfOperationDays
-        /// The end time that your contact center is closes.
+        /// The end time that your contact center closes.
         public let endTime: HoursOfOperationTimeSlice
-        /// The start time that your contact center is open.
+        /// The start time that your contact center opens.
         public let startTime: HoursOfOperationTimeSlice
 
         public init(day: HoursOfOperationDays, endTime: HoursOfOperationTimeSlice, startTime: HoursOfOperationTimeSlice) {
@@ -3959,6 +4106,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
+        /// The type of integration.
         public let integrationType: IntegrationType?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -4032,7 +4180,7 @@ extension Connect {
     }
 
     public struct ListLambdaFunctionsResponse: AWSDecodableShape {
-        /// The Lambdafunction ARNs associated with the specified instance.
+        /// The Lambda function ARNs associated with the specified instance.
         public let lambdaFunctions: [String]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -4057,7 +4205,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The maximum number of results to return per page.
+        /// The maximum number of results to return per page. If no value is specified, the default is 10.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
@@ -4507,6 +4655,58 @@ extension Connect {
         }
     }
 
+    public struct ListSecurityProfilePermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.securityProfileId = securityProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSecurityProfilePermissionsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The permissions granted to the security profile.
+        public let permissions: [String]?
+
+        public init(nextToken: String? = nil, permissions: [String]? = nil) {
+            self.nextToken = nextToken
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case permissions = "Permissions"
+        }
+    }
+
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
@@ -4880,7 +5080,7 @@ extension Connect {
         public let queueId: String?
         /// The status of the queue.
         public let status: QueueStatus?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, hoursOfOperationId: String? = nil, maxContacts: Int? = nil, name: String? = nil, outboundCallerConfig: OutboundCallerConfig? = nil, queueArn: String? = nil, queueId: String? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
@@ -4982,7 +5182,7 @@ extension Connect {
         public let quickConnectConfig: QuickConnectConfig?
         /// The identifier for the quick connect.
         public let quickConnectId: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, name: String? = nil, quickConnectARN: String? = nil, quickConnectConfig: QuickConnectConfig? = nil, quickConnectId: String? = nil, tags: [String: String]? = nil) {
@@ -5304,6 +5504,39 @@ extension Connect {
         }
     }
 
+    public struct SecurityProfile: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the secruity profile.
+        public let arn: String?
+        /// The description of the security profile.
+        public let description: String?
+        /// The identifier for the security profile.
+        public let id: String?
+        /// The organization resource identifier for the security profile.
+        public let organizationResourceId: String?
+        /// The name for the security profile.
+        public let securityProfileName: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.organizationResourceId = organizationResourceId
+            self.securityProfileName = securityProfileName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case organizationResourceId = "OrganizationResourceId"
+            case securityProfileName = "SecurityProfileName"
+            case tags = "Tags"
+        }
+    }
+
     public struct SecurityProfileSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
@@ -5429,6 +5662,53 @@ extension Connect {
 
     public struct StartContactRecordingResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StartContactStreamingRequest: AWSEncodableShape {
+        /// The streaming configuration, such as the Amazon SNS streaming endpoint.
+        public let chatStreamingConfiguration: ChatStreamingConfiguration
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(chatStreamingConfiguration: ChatStreamingConfiguration, clientToken: String = StartContactStreamingRequest.idempotencyToken(), contactId: String, instanceId: String) {
+            self.chatStreamingConfiguration = chatStreamingConfiguration
+            self.clientToken = clientToken
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.chatStreamingConfiguration.validate(name: "\(name).chatStreamingConfiguration")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatStreamingConfiguration = "ChatStreamingConfiguration"
+            case clientToken = "ClientToken"
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StartContactStreamingResponse: AWSDecodableShape {
+        /// The identifier of the streaming configuration enabled.
+        public let streamingId: String
+
+        public init(streamingId: String) {
+            self.streamingId = streamingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingId = "StreamingId"
+        }
     }
 
     public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
@@ -5641,6 +5921,40 @@ extension Connect {
     }
 
     public struct StopContactResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopContactStreamingRequest: AWSEncodableShape {
+        /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier of the streaming configuration enabled.
+        public let streamingId: String
+
+        public init(contactId: String, instanceId: String, streamingId: String) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.streamingId = streamingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.streamingId, name: "streamingId", parent: name, max: 100)
+            try self.validate(self.streamingId, name: "streamingId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+            case streamingId = "StreamingId"
+        }
+    }
+
+    public struct StopContactStreamingResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5961,7 +6275,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
-        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.
+        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
         public let attributeType: InstanceAttributeType
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
@@ -6371,6 +6685,45 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case queueConfigs = "QueueConfigs"
+        }
+    }
+
+    public struct UpdateSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
+        ]
+
+        /// The description of the security profile.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The permissions granted to a security profile.
+        public let permissions: [String]?
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.permissions = permissions
+            self.securityProfileId = securityProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try validate($0, name: "permissions[]", parent: name, max: 128)
+                try validate($0, name: "permissions[]", parent: name, min: 1)
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case permissions = "Permissions"
         }
     }
 

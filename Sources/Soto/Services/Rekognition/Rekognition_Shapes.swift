@@ -53,6 +53,30 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum DatasetStatus: String, CustomStringConvertible, Codable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetStatusMessageCode: String, CustomStringConvertible, Codable {
+        case clientError = "CLIENT_ERROR"
+        case serviceError = "SERVICE_ERROR"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetType: String, CustomStringConvertible, Codable {
+        case test = "TEST"
+        case train = "TRAIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EmotionName: String, CustomStringConvertible, Codable {
         case angry = "ANGRY"
         case calm = "CALM"
@@ -403,16 +427,19 @@ extension Rekognition {
         public let face: FaceDetail?
         /// The unique identifier for the celebrity.
         public let id: String?
+        /// Retrieves the known gender for the celebrity.
+        public let knownGender: KnownGender?
         /// The name of the celebrity.
         public let name: String?
         /// An array of URLs pointing to additional celebrity information.
         public let urls: [String]?
 
-        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, face: FaceDetail? = nil, id: String? = nil, name: String? = nil, urls: [String]? = nil) {
+        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, face: FaceDetail? = nil, id: String? = nil, knownGender: KnownGender? = nil, name: String? = nil, urls: [String]? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.face = face
             self.id = id
+            self.knownGender = knownGender
             self.name = name
             self.urls = urls
         }
@@ -422,6 +449,7 @@ extension Rekognition {
             case confidence = "Confidence"
             case face = "Face"
             case id = "Id"
+            case knownGender = "KnownGender"
             case name = "Name"
             case urls = "Urls"
         }
@@ -662,6 +690,48 @@ extension Rekognition {
         }
     }
 
+    public struct CreateDatasetRequest: AWSEncodableShape {
+        /// The source files for the dataset. You can specify the ARN of an existing dataset or specify the Amazon S3 bucket location
+        /// of an Amazon Sagemaker format manifest file. If you don't specify datasetSource, an empty dataset is created. To add labeled images to the dataset,  You can use the console or call UpdateDatasetEntries.
+        public let datasetSource: DatasetSource?
+        /// The type of the dataset. Specify train to create a training dataset. Specify test  to create a test dataset.
+        public let datasetType: DatasetType
+        /// The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset.
+        public let projectArn: String
+
+        public init(datasetSource: DatasetSource? = nil, datasetType: DatasetType, projectArn: String) {
+            self.datasetSource = datasetSource
+            self.datasetType = datasetType
+            self.projectArn = projectArn
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetSource?.validate(name: "\(name).datasetSource")
+            try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetSource = "DatasetSource"
+            case datasetType = "DatasetType"
+            case projectArn = "ProjectArn"
+        }
+    }
+
+    public struct CreateDatasetResponse: AWSDecodableShape {
+        /// The ARN of the created  Amazon Rekognition Custom Labels dataset.
+        public let datasetArn: String?
+
+        public init(datasetArn: String? = nil) {
+            self.datasetArn = datasetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
+        }
+    }
+
     public struct CreateProjectRequest: AWSEncodableShape {
         /// The name of the project to create.
         public let projectName: String
@@ -695,7 +765,7 @@ extension Rekognition {
     }
 
     public struct CreateProjectVersionRequest: AWSEncodableShape {
-        /// The identifier for your AWS Key Management Service (AWS KMS) customer master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your CMK, an alias for your CMK, or an alias ARN. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own CMK, you need the following permissions on the CMK.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
+        /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.    kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
         public let kmsKeyId: String?
         /// The Amazon S3 bucket location to store the results of training. The S3 bucket can be in any AWS account as long as the caller has s3:PutObject permissions on the S3 bucket.
         public let outputConfig: OutputConfig
@@ -703,14 +773,14 @@ extension Rekognition {
         public let projectArn: String
         ///  A set of tags (key-value pairs) that you want to attach to the model.
         public let tags: [String: String]?
-        /// The dataset to use for testing.
-        public let testingData: TestingData
-        /// The dataset to use for training.
-        public let trainingData: TrainingData
+        /// Specifies an external manifest that the service uses to test the model. If you specify TestingData you must also specify TrainingData. The project must not have any associated datasets.
+        public let testingData: TestingData?
+        /// Specifies an external manifest that the services uses to train the model. If you specify TrainingData you must also specify TestingData. The project must not have any associated datasets.
+        public let trainingData: TrainingData?
         /// A name for the version of the model. This value must be unique.
         public let versionName: String
 
-        public init(kmsKeyId: String? = nil, outputConfig: OutputConfig, projectArn: String, tags: [String: String]? = nil, testingData: TestingData, trainingData: TrainingData, versionName: String) {
+        public init(kmsKeyId: String? = nil, outputConfig: OutputConfig, projectArn: String, tags: [String: String]? = nil, testingData: TestingData? = nil, trainingData: TrainingData? = nil, versionName: String) {
             self.kmsKeyId = kmsKeyId
             self.outputConfig = outputConfig
             self.projectArn = projectArn
@@ -736,8 +806,8 @@ extension Rekognition {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
-            try self.testingData.validate(name: "\(name).testingData")
-            try self.trainingData.validate(name: "\(name).trainingData")
+            try self.testingData?.validate(name: "\(name).testingData")
+            try self.trainingData?.validate(name: "\(name).trainingData")
             try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
             try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
@@ -852,6 +922,173 @@ extension Rekognition {
         }
     }
 
+    public struct DatasetChanges: AWSEncodableShape {
+        /// A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset.  You change a dataset by calling UpdateDatasetEntries. If you are using an AWS SDK to call UpdateDatasetEntries, you don't need to encode Changes as the SDK encodes the data for you.
+        ///    For example JSON lines, see Image-Level labels in manifest files and  and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide.
+        public let groundTruth: Data
+
+        public init(groundTruth: Data) {
+            self.groundTruth = groundTruth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groundTruth, name: "groundTruth", parent: name, max: 5_242_880)
+            try self.validate(self.groundTruth, name: "groundTruth", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groundTruth = "GroundTruth"
+        }
+    }
+
+    public struct DatasetDescription: AWSDecodableShape {
+        /// The Unix timestamp for the time and date that the dataset was created.
+        public let creationTimestamp: Date?
+        /// The status message code for the dataset.
+        public let datasetStats: DatasetStats?
+        ///  The Unix timestamp for the date and time that the dataset was last updated.
+        public let lastUpdatedTimestamp: Date?
+        ///  The status of the dataset.
+        public let status: DatasetStatus?
+        ///  The status message for the dataset.
+        public let statusMessage: String?
+        ///  The status message code for the dataset operation. If a service error occurs, try the  API call again later. If a client error occurs, check the input parameters to the dataset API call that failed.
+        public let statusMessageCode: DatasetStatusMessageCode?
+
+        public init(creationTimestamp: Date? = nil, datasetStats: DatasetStats? = nil, lastUpdatedTimestamp: Date? = nil, status: DatasetStatus? = nil, statusMessage: String? = nil, statusMessageCode: DatasetStatusMessageCode? = nil) {
+            self.creationTimestamp = creationTimestamp
+            self.datasetStats = datasetStats
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.status = status
+            self.statusMessage = statusMessage
+            self.statusMessageCode = statusMessageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimestamp = "CreationTimestamp"
+            case datasetStats = "DatasetStats"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case statusMessageCode = "StatusMessageCode"
+        }
+    }
+
+    public struct DatasetLabelDescription: AWSDecodableShape {
+        /// The name of the label.
+        public let labelName: String?
+        /// Statistics about the label.
+        public let labelStats: DatasetLabelStats?
+
+        public init(labelName: String? = nil, labelStats: DatasetLabelStats? = nil) {
+            self.labelName = labelName
+            self.labelStats = labelStats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelName = "LabelName"
+            case labelStats = "LabelStats"
+        }
+    }
+
+    public struct DatasetLabelStats: AWSDecodableShape {
+        /// The total number of images that have the label assigned to a bounding box.
+        public let boundingBoxCount: Int?
+        /// The total number of images that use the label.
+        public let entryCount: Int?
+
+        public init(boundingBoxCount: Int? = nil, entryCount: Int? = nil) {
+            self.boundingBoxCount = boundingBoxCount
+            self.entryCount = entryCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundingBoxCount = "BoundingBoxCount"
+            case entryCount = "EntryCount"
+        }
+    }
+
+    public struct DatasetMetadata: AWSDecodableShape {
+        ///  The Unix timestamp for the date and time that the dataset was created.
+        public let creationTimestamp: Date?
+        /// The Amazon Resource Name (ARN) for the dataset.
+        public let datasetArn: String?
+        ///  The type of the dataset.
+        public let datasetType: DatasetType?
+        ///  The status for the dataset.
+        public let status: DatasetStatus?
+        ///  The status message for the dataset.
+        public let statusMessage: String?
+        ///  The status message code for the dataset operation. If a service error occurs, try the  API call again later. If a client error occurs, check the input parameters to the dataset API call that failed.
+        public let statusMessageCode: DatasetStatusMessageCode?
+
+        public init(creationTimestamp: Date? = nil, datasetArn: String? = nil, datasetType: DatasetType? = nil, status: DatasetStatus? = nil, statusMessage: String? = nil, statusMessageCode: DatasetStatusMessageCode? = nil) {
+            self.creationTimestamp = creationTimestamp
+            self.datasetArn = datasetArn
+            self.datasetType = datasetType
+            self.status = status
+            self.statusMessage = statusMessage
+            self.statusMessageCode = statusMessageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimestamp = "CreationTimestamp"
+            case datasetArn = "DatasetArn"
+            case datasetType = "DatasetType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case statusMessageCode = "StatusMessageCode"
+        }
+    }
+
+    public struct DatasetSource: AWSEncodableShape {
+        /// The ARN of an Amazon Rekognition Custom Labels dataset that you want to copy.
+        public let datasetArn: String?
+        public let groundTruthManifest: GroundTruthManifest?
+
+        public init(datasetArn: String? = nil, groundTruthManifest: GroundTruthManifest? = nil) {
+            self.datasetArn = datasetArn
+            self.groundTruthManifest = groundTruthManifest
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, min: 20)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+            try self.groundTruthManifest?.validate(name: "\(name).groundTruthManifest")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
+            case groundTruthManifest = "GroundTruthManifest"
+        }
+    }
+
+    public struct DatasetStats: AWSDecodableShape {
+        ///  The total number of entries that contain at least one error.
+        public let errorEntries: Int?
+        /// The total number of images in the dataset that have labels.
+        public let labeledEntries: Int?
+        /// The total number of images in the dataset.
+        public let totalEntries: Int?
+        /// The total number of labels declared in the dataset.
+        public let totalLabels: Int?
+
+        public init(errorEntries: Int? = nil, labeledEntries: Int? = nil, totalEntries: Int? = nil, totalLabels: Int? = nil) {
+            self.errorEntries = errorEntries
+            self.labeledEntries = labeledEntries
+            self.totalEntries = totalEntries
+            self.totalLabels = totalLabels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries = "ErrorEntries"
+            case labeledEntries = "LabeledEntries"
+            case totalEntries = "TotalEntries"
+            case totalLabels = "TotalLabels"
+        }
+    }
+
     public struct DeleteCollectionRequest: AWSEncodableShape {
         /// ID of the collection to delete.
         public let collectionId: String
@@ -882,6 +1119,29 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case statusCode = "StatusCode"
         }
+    }
+
+    public struct DeleteDatasetRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Rekognition Custom Labels dataset that you want to delete.
+        public let datasetArn: String
+
+        public init(datasetArn: String) {
+            self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, min: 20)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
+        }
+    }
+
+    public struct DeleteDatasetResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteFacesRequest: AWSEncodableShape {
@@ -1056,6 +1316,38 @@ extension Rekognition {
         }
     }
 
+    public struct DescribeDatasetRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that you want to describe.
+        public let datasetArn: String
+
+        public init(datasetArn: String) {
+            self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, min: 20)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
+        }
+    }
+
+    public struct DescribeDatasetResponse: AWSDecodableShape {
+        /// The description for the dataset.
+        public let datasetDescription: DatasetDescription?
+
+        public init(datasetDescription: DatasetDescription? = nil) {
+            self.datasetDescription = datasetDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetDescription = "DatasetDescription"
+        }
+    }
+
     public struct DescribeProjectVersionsRequest: AWSEncodableShape {
         /// The maximum number of results to return per paginated call.  The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
         public let maxResults: Int?
@@ -1119,21 +1411,32 @@ extension Rekognition {
         public let maxResults: Int?
         /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
         public let nextToken: String?
+        /// A list of the projects that you want Amazon Rekognition Custom Labels to describe. If you don't specify a value,  the response includes descriptions for all the projects in your AWS account.
+        public let projectNames: [String]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.projectNames = projectNames
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.projectNames?.forEach {
+                try validate($0, name: "projectNames[]", parent: name, max: 255)
+                try validate($0, name: "projectNames[]", parent: name, min: 1)
+                try validate($0, name: "projectNames[]", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            }
+            try self.validate(self.projectNames, name: "projectNames", parent: name, max: 10)
+            try self.validate(self.projectNames, name: "projectNames", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case projectNames = "ProjectNames"
         }
     }
 
@@ -1538,6 +1841,50 @@ extension Rekognition {
         }
     }
 
+    public struct DistributeDataset: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that you want to use.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct DistributeDatasetEntriesRequest: AWSEncodableShape {
+        /// The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty.
+        public let datasets: [DistributeDataset]
+
+        public init(datasets: [DistributeDataset]) {
+            self.datasets = datasets
+        }
+
+        public func validate(name: String) throws {
+            try self.datasets.forEach {
+                try $0.validate(name: "\(name).datasets[]")
+            }
+            try self.validate(self.datasets, name: "datasets", parent: name, max: 2)
+            try self.validate(self.datasets, name: "datasets", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasets = "Datasets"
+        }
+    }
+
+    public struct DistributeDatasetEntriesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Emotion: AWSDecodableShape {
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -1783,7 +2130,7 @@ extension Rekognition {
     public struct FaceSearchSettings: AWSEncodableShape & AWSDecodableShape {
         /// The ID of a collection that contains faces that you want to search for.
         public let collectionId: String?
-        /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 80. 0 is the lowest confidence. 100 is the highest confidence.
+        /// Minimum face match confidence score that must be met to return a result for a recognized face. The default is 80. 0 is the lowest confidence. 100 is the highest confidence. Values between 0 and 100 are accepted, and values lower than 80 are set to 80.
         public let faceMatchThreshold: Float?
 
         public init(collectionId: String? = nil, faceMatchThreshold: Float? = nil) {
@@ -2743,6 +3090,126 @@ extension Rekognition {
         }
     }
 
+    public struct ListDatasetEntriesRequest: AWSEncodableShape {
+        /// Specifies a label filter for the response. The response includes an entry only if one or more of the labels in ContainsLabels exist in the entry.
+        public let containsLabels: [String]?
+        /// The Amazon Resource Name (ARN) for the dataset that you want to use.
+        public let datasetArn: String
+        /// Specifies an error filter for the response. Specify True to only include entries that have errors.
+        public let hasErrors: Bool?
+        ///  Specify true to get only the JSON Lines where the image is labeled.  Specify false to get only the JSON Lines where the image isn't labeled. If you don't specify Labeled, ListDatasetEntries returns JSON Lines for labeled and unlabeled  images.
+        public let labeled: Bool?
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
+        public let nextToken: String?
+        /// If specified, ListDatasetEntries only returns JSON Lines where the value of SourceRefContains is part of the source-ref field. The source-ref field contains the Amazon S3 location of the image. You can use SouceRefContains for tasks such as getting the JSON Line for a single image, or gettting JSON Lines for all images within a specific folder.
+        public let sourceRefContains: String?
+
+        public init(containsLabels: [String]? = nil, datasetArn: String, hasErrors: Bool? = nil, labeled: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceRefContains: String? = nil) {
+            self.containsLabels = containsLabels
+            self.datasetArn = datasetArn
+            self.hasErrors = hasErrors
+            self.labeled = labeled
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceRefContains = sourceRefContains
+        }
+
+        public func validate(name: String) throws {
+            try self.containsLabels?.forEach {
+                try validate($0, name: "containsLabels[]", parent: name, max: 255)
+                try validate($0, name: "containsLabels[]", parent: name, min: 1)
+                try validate($0, name: "containsLabels[]", parent: name, pattern: "^.{1,}$")
+            }
+            try self.validate(self.containsLabels, name: "containsLabels", parent: name, max: 10)
+            try self.validate(self.containsLabels, name: "containsLabels", parent: name, min: 1)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, min: 20)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.sourceRefContains, name: "sourceRefContains", parent: name, max: 2048)
+            try self.validate(self.sourceRefContains, name: "sourceRefContains", parent: name, min: 1)
+            try self.validate(self.sourceRefContains, name: "sourceRefContains", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containsLabels = "ContainsLabels"
+            case datasetArn = "DatasetArn"
+            case hasErrors = "HasErrors"
+            case labeled = "Labeled"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sourceRefContains = "SourceRefContains"
+        }
+    }
+
+    public struct ListDatasetEntriesResponse: AWSDecodableShape {
+        /// A list of entries (images) in the dataset.
+        public let datasetEntries: [String]?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(datasetEntries: [String]? = nil, nextToken: String? = nil) {
+            self.datasetEntries = datasetEntries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetEntries = "DatasetEntries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDatasetLabelsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that you want to use.
+        public let datasetArn: String
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(datasetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetArn = datasetArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, min: 20)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDatasetLabelsResponse: AWSDecodableShape {
+        /// A list of the labels in the dataset.
+        public let datasetLabelDescriptions: [DatasetLabelDescription]?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(datasetLabelDescriptions: [DatasetLabelDescription]? = nil, nextToken: String? = nil) {
+            self.datasetLabelDescriptions = datasetLabelDescriptions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetLabelDescriptions = "DatasetLabelDescriptions"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListFacesRequest: AWSEncodableShape {
         /// ID of the collection from which to list the faces.
         public let collectionId: String
@@ -3078,32 +3545,36 @@ extension Rekognition {
     public struct ProjectDescription: AWSDecodableShape {
         /// The Unix timestamp for the date and time that the project was created.
         public let creationTimestamp: Date?
+        ///  Information about the training and test datasets in the project.
+        public let datasets: [DatasetMetadata]?
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String?
         /// The current status of the project.
         public let status: ProjectStatus?
 
-        public init(creationTimestamp: Date? = nil, projectArn: String? = nil, status: ProjectStatus? = nil) {
+        public init(creationTimestamp: Date? = nil, datasets: [DatasetMetadata]? = nil, projectArn: String? = nil, status: ProjectStatus? = nil) {
             self.creationTimestamp = creationTimestamp
+            self.datasets = datasets
             self.projectArn = projectArn
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationTimestamp = "CreationTimestamp"
+            case datasets = "Datasets"
             case projectArn = "ProjectArn"
             case status = "Status"
         }
     }
 
     public struct ProjectVersionDescription: AWSDecodableShape {
-        /// The duration, in seconds, that the model version has been billed for training.  This value is only returned if the model version has been successfully trained.
+        /// The duration, in seconds, that you were billed for a successful training of the model version.  This value is only returned if the model version has been successfully trained.
         public let billableTrainingTimeInSeconds: Int64?
         /// The Unix datetime for the date and time that training started.
         public let creationTimestamp: Date?
         /// The training results. EvaluationResult is only returned if training is successful.
         public let evaluationResult: EvaluationResult?
-        /// The identifer for the AWS Key Management Service (AWS KMS) customer master key that was used to encrypt the model during training.
+        /// The identifer for the AWS Key Management Service key (AWS KMS key) that was used to encrypt the model during training.
         public let kmsKeyId: String?
         /// The location of the summary manifest. The summary manifest provides aggregate data validation results for the training and test datasets.
         public let manifestSummary: GroundTruthManifest?
@@ -4342,7 +4813,7 @@ extension Rekognition {
     public struct TestingData: AWSEncodableShape & AWSDecodableShape {
         /// The assets used for testing.
         public let assets: [Asset]?
-        /// If specified, Amazon Rekognition Custom Labels creates a testing dataset with an 80/20 split of the training dataset.
+        /// If specified, Amazon Rekognition Custom Labels temporarily splits the training dataset (80%) to create a test dataset (20%) for the training job. After training completes, the test dataset is not stored and the training dataset reverts to its previous size.
         public let autoCreate: Bool?
 
         public init(assets: [Asset]? = nil, autoCreate: Bool? = nil) {
@@ -4519,6 +4990,34 @@ extension Rekognition {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateDatasetEntriesRequest: AWSEncodableShape {
+        ///  The changes that you want to make to the dataset.
+        public let changes: DatasetChanges
+        /// The Amazon Resource Name (ARN) of the dataset that you want to update.
+        public let datasetArn: String
+
+        public init(changes: DatasetChanges, datasetArn: String) {
+            self.changes = changes
+            self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.changes.validate(name: "\(name).changes")
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, min: 20)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/dataset\\/(train|test)\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changes = "Changes"
+            case datasetArn = "DatasetArn"
+        }
+    }
+
+    public struct UpdateDatasetEntriesResponse: AWSDecodableShape {
         public init() {}
     }
 

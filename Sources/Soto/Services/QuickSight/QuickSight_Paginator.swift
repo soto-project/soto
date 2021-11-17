@@ -179,7 +179,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region;.
+    ///  Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region.
     ///  		       The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -233,7 +233,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists data sources in current Amazon Web Services Region; that belong to this Amazon Web Services account.
+    ///  Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

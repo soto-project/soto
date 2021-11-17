@@ -26,10 +26,10 @@ extension ECS {
     /// Creates a new capacity provider. Capacity providers are associated with an Amazon ECS
     /// 			cluster and are used in capacity provider strategies to facilitate cluster auto
     /// 			scaling.
-    /// 		       Only capacity providers using an Auto Scaling group can be created. Amazon ECS tasks on
-    /// 			Fargate use the FARGATE and FARGATE_SPOT capacity providers
-    /// 			which are already created and available to all accounts in Regions supported by
-    /// 			Fargate.
+    /// 		       Only capacity providers that use an Auto Scaling group can be created. Amazon ECS tasks on
+    /// 			Fargate use the FARGATE and FARGATE_SPOT capacity providers.
+    /// 			These providers are available to all accounts in the Amazon Web Services Regions that Fargate
+    /// 			supports.
     public func createCapacityProvider(_ input: CreateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCapacityProviderResponse {
         return try await self.client.execute(operation: "CreateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -39,10 +39,10 @@ extension ECS {
     /// 			cluster with a unique name with the CreateCluster action.
     ///
     /// 			         When you call the CreateCluster API operation, Amazon ECS attempts to
-    /// 				create the Amazon ECS service-linked role for your account so that required resources in
-    /// 				other Amazon Web Services services can be managed on your behalf. However, if the IAM user that
-    /// 				makes the call does not have permissions to create the service-linked role, it is
-    /// 				not created. For more information, see Using
+    /// 				create the Amazon ECS service-linked role for your account. This is so that it can manage
+    /// 				required resources in other Amazon Web Services services on your behalf. However, if the IAM user
+    /// 				that makes the call doesn't have permissions to create the service-linked role, it
+    /// 				isn't created. For more information, see Using
     /// 					Service-Linked Roles for Amazon ECS in the
     /// 					Amazon Elastic Container Service Developer Guide.
     ///
@@ -50,24 +50,23 @@ extension ECS {
         return try await self.client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Runs and maintains a desired number of tasks from a specified task definition. If the
-    /// 			number of tasks running in a service drops below the desiredCount, Amazon ECS
-    /// 			runs another copy of the task in the specified cluster. To update an existing service,
-    /// 			see the UpdateService action.
+    /// Runs and maintains your desired number of tasks from a specified task definition. If
+    /// 			the number of tasks running in a service drops below the desiredCount,
+    /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
+    /// 			service, see the UpdateService action.
     /// 		       In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service Load Balancing in the
     /// 				Amazon Elastic Container Service Developer Guide.
-    /// 		       Tasks for services that do not use a load balancer are considered
-    /// 			healthy if they're in the RUNNING state. Tasks for services that
-    /// 				do use a load balancer are considered healthy if they're in the
-    /// 				RUNNING state and the container instance that they're hosted on is
-    /// 			reported as healthy by the load balancer.
+    /// 		       Tasks for services that don't use a load balancer are considered healthy if they're in
+    /// 			the RUNNING state. Tasks for services that use a load balancer are
+    /// 			considered healthy if they're in the RUNNING state and the container
+    /// 			instance that they're hosted on is reported as healthy by the load balancer.
     /// 		       There are two service scheduler strategies available:
     ///
     /// 				            REPLICA - The replica scheduling strategy places and
-    /// 					maintains the desired number of tasks across your cluster. By default, the
+    /// 					maintains your desired number of tasks across your cluster. By default, the
     /// 					service scheduler spreads tasks across Availability Zones. You can use task
     /// 					placement strategies and constraints to customize task placement decisions. For
     /// 					more information, see Service Scheduler Concepts in the
@@ -76,62 +75,64 @@ extension ECS {
     /// 				            DAEMON - The daemon scheduling strategy deploys exactly one
     /// 					task on each active container instance that meets all of the task placement
     /// 					constraints that you specify in your cluster. The service scheduler also
-    /// 					evaluates the task placement constraints for running tasks and will stop tasks
-    /// 					that do not meet the placement constraints. When using this strategy, you don't
+    /// 					evaluates the task placement constraints for running tasks. It also stops tasks
+    /// 					that don't meet the placement constraints. When using this strategy, you don't
     /// 					need to specify a desired number of tasks, a task placement strategy, or use
     /// 					Service Auto Scaling policies. For more information, see Service Scheduler Concepts in the
     /// 						Amazon Elastic Container Service Developer Guide.
     ///
     /// 		       You can optionally specify a deployment configuration for your service. The deployment
-    /// 			is triggered by changing properties, such as the task definition or the desired count of
-    /// 			a service, with an UpdateService operation. The default value for a
-    /// 			replica service for minimumHealthyPercent is 100%. The default value for a
-    /// 			daemon service for minimumHealthyPercent is 0%.
-    /// 		       If a service is using the ECS deployment controller, the minimum healthy
+    /// 			is initiated by changing properties. For example, the deployment might be initiated by
+    /// 			the task definition or by your desired count of a service. This is done with an UpdateService operation. The default value for a replica service for
+    /// 				minimumHealthyPercent is 100%. The default value for a daemon service
+    /// 			for minimumHealthyPercent is 0%.
+    /// 		       If a service uses the ECS deployment controller, the minimum healthy
     /// 			percent represents a lower limit on the number of tasks in a service that must remain in
-    /// 			the RUNNING state during a deployment, as a percentage of the desired
-    /// 			number of tasks (rounded up to the nearest integer), and while any container instances
-    /// 			are in the DRAINING state if the service contains tasks using the
-    /// 			EC2 launch type. This parameter enables you to deploy without using
-    /// 			additional cluster capacity. For example, if your service has a desired number of four
-    /// 			tasks and a minimum healthy percent of 50%, the scheduler might stop two existing tasks
-    /// 			to free up cluster capacity before starting two new tasks. Tasks for services that
-    /// 				do not use a load balancer are considered healthy if they're in
-    /// 			the RUNNING state. Tasks for services that do use a
-    /// 			load balancer are considered healthy if they're in the RUNNING state and
-    /// 			they're reported as healthy by the load balancer. The default value for minimum healthy
-    /// 			percent is 100%.
-    /// 		       If a service is using the ECS deployment controller, the maximum percent parameter represents an upper limit on the
+    /// 			the RUNNING state during a deployment. Specifically, it represents it as a
+    /// 			percentage of your desired number of tasks (rounded up to the nearest integer). This
+    /// 			happens when any of your container instances are in the DRAINING state if
+    /// 			the service contains tasks using the EC2 launch type. Using this
+    /// 			parameter, you can deploy without using additional cluster capacity. For example, if you
+    /// 			set your service to have desired number of four tasks and a minimum healthy percent of
+    /// 			50%, the scheduler might stop two existing tasks to free up cluster capacity before
+    /// 			starting two new tasks. If they're in the RUNNING state, tasks for services
+    /// 			that don't use a load balancer are considered healthy . If they're in the
+    /// 				RUNNING state and reported as healthy by the load balancer, tasks for
+    /// 			services that do use a load balancer are considered healthy . The
+    /// 			default value for minimum healthy percent is 100%.
+    /// 		       If a service uses the ECS deployment controller, the maximum percent parameter represents an upper limit on the
     /// 			number of tasks in a service that are allowed in the RUNNING or
-    /// 				PENDING state during a deployment, as a percentage of the desired
-    /// 			number of tasks (rounded down to the nearest integer), and while any container instances
-    /// 			are in the DRAINING state if the service contains tasks using the
-    /// 			EC2 launch type. This parameter enables you to define the deployment batch
-    /// 			size. For example, if your service has a desired number of four tasks and a maximum
-    /// 			percent value of 200%, the scheduler may start four new tasks before stopping the four
-    /// 			older tasks (provided that the cluster resources required to do this are available). The
-    /// 			default value for maximum percent is 200%.
-    /// 		       If a service is using either the CODE_DEPLOY or EXTERNAL
+    /// 				PENDING state during a deployment. Specifically, it represents it as a
+    /// 			percentage of the desired number of tasks (rounded down to the nearest integer). This
+    /// 			happens when any of your container instances are in the DRAINING state if
+    /// 			the service contains tasks using the EC2 launch type. Using this
+    /// 			parameter, you can define the deployment batch size. For example, if your service has a
+    /// 			desired number of four tasks and a maximum percent value of 200%, the scheduler may
+    /// 			start four new tasks before stopping the four older tasks (provided that the cluster
+    /// 			resources required to do this are available). The default value for maximum percent is
+    /// 			200%.
+    /// 		       If a service uses either the CODE_DEPLOY or EXTERNAL
     /// 			deployment controller types and tasks that use the EC2 launch type, the
     /// 				minimum healthy percent and maximum percent values are used only to define the lower and upper limit
-    /// 			on the number of the tasks in the service that remain in the RUNNING state
-    /// 			while the container instances are in the DRAINING state. If the tasks in
-    /// 			the service use the Fargate launch type, the minimum healthy percent and
-    /// 			maximum percent values aren't used, although they're currently visible when describing
-    /// 			your service.
+    /// 			on the number of the tasks in the service that remain in the RUNNING state.
+    /// 			This is while the container instances are in the DRAINING state. If the
+    /// 			tasks in the service use the Fargate launch type, the minimum healthy
+    /// 			percent and maximum percent values aren't used. This is the case even if they're
+    /// 			currently visible when describing your service.
     /// 		       When creating a service that uses the EXTERNAL deployment controller, you
     /// 			can specify only parameters that aren't controlled at the task set level. The only
     /// 			required parameter is the service name. You control your services using the CreateTaskSet operation. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide.
     /// 		       When the service scheduler launches new tasks, it determines task placement in your
     /// 			cluster using the following logic:
     ///
-    /// 				           Determine which of the container instances in your cluster can support your
-    /// 					service's task definition (for example, they have the required CPU, memory,
-    /// 					ports, and container instance attributes).
+    /// 				           Determine which of the container instances in your cluster can support the
+    /// 					task definition of your service. For example, they have the required CPU,
+    /// 					memory, ports, and container instance attributes.
     ///
     /// 				           By default, the service scheduler attempts to balance tasks across
-    /// 					Availability Zones in this manner (although you can choose a different placement
-    /// 					strategy) with the placementStrategy parameter):
+    /// 					Availability Zones in this manner. This is the case even if you can choose a
+    /// 					different placement strategy with the placementStrategy
+    /// 					parameter.
     ///
     /// 						               Sort the valid container instances, giving priority to instances that
     /// 							have the fewest number of running tasks for this service in their
@@ -140,7 +141,7 @@ extension ECS {
     /// 							in either zone B or C are considered optimal for placement.
     ///
     /// 						               Place the new service task on a valid container instance in an optimal
-    /// 							Availability Zone (based on the previous steps), favoring container
+    /// 							Availability Zone based on the previous steps, favoring container
     /// 							instances with the fewest number of running tasks for this
     /// 							service.
     ///
@@ -171,8 +172,8 @@ extension ECS {
     /// Deletes the specified capacity provider.
     ///
     /// 			         The FARGATE and FARGATE_SPOT capacity providers are
-    /// 				reserved and cannot be deleted. You can disassociate them from a cluster using
-    /// 				either the PutClusterCapacityProviders API or by deleting the
+    /// 				reserved and can't be deleted. You can disassociate them from a cluster using either
+    /// 				the PutClusterCapacityProviders API or by deleting the
     /// 				cluster.
     ///
     /// 		       Prior to a capacity provider being deleted, the capacity provider must be removed from
@@ -181,17 +182,16 @@ extension ECS {
     /// 			strategy. When updating a service, the forceNewDeployment option can be
     /// 			used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity
     /// 			provider are transitioned to use the capacity from the remaining capacity providers.
-    /// 			Only capacity providers that are not associated with a cluster can be deleted. To remove
+    /// 			Only capacity providers that aren't associated with a cluster can be deleted. To remove
     /// 			a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
     public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteCapacityProviderResponse {
         return try await self.client.execute(operation: "DeleteCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified cluster. The cluster will transition to the
-    /// 				INACTIVE state. Clusters with an INACTIVE status may
-    /// 			remain discoverable in your account for a period of time. However, this behavior is
-    /// 			subject to change in the future, so you should not rely on INACTIVE
-    /// 			clusters persisting.
+    /// Deletes the specified cluster. The cluster transitions to the INACTIVE
+    /// 			state. Clusters with an INACTIVE status might remain discoverable in your
+    /// 			account for a period of time. However, this behavior is subject to change in the future.
+    /// 			We don't recommend that you rely on INACTIVE clusters persisting.
     /// 		       You must deregister all container instances from this cluster before you may delete
     /// 			it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteClusterResponse {
@@ -200,7 +200,7 @@ extension ECS {
 
     /// Deletes a specified service within a cluster. You can delete a service if you have no
     /// 			running tasks in it and the desired task count is zero. If the service is actively
-    /// 			maintaining tasks, you cannot delete it, and you must update the service to a desired
+    /// 			maintaining tasks, you can't delete it, and you must update the service to a desired
     /// 			task count of zero. For more information, see UpdateService.
     ///
     /// 			         When you delete a service, if there are still running tasks that require cleanup,
@@ -232,15 +232,16 @@ extension ECS {
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is
     /// 			no longer available to run tasks.
     /// 		       If you intend to use the container instance for some other purpose after
-    /// 			deregistration, you should stop all of the tasks running on the container instance
-    /// 			before deregistration. That prevents any orphaned tasks from consuming resources.
-    /// 		       Deregistering a container instance removes the instance from a cluster, but it does
-    /// 			not terminate the EC2 instance. If you are finished using the instance, be sure to
-    /// 			terminate it in the Amazon EC2 console to stop billing.
+    /// 			deregistration, we recommend that you stop all of the tasks running on the container
+    /// 			instance before deregistration. That prevents any orphaned tasks from consuming
+    /// 			resources.
+    /// 		       Deregistering a container instance removes the instance from a cluster, but it doesn't
+    /// 			terminate the EC2 instance. If you are finished using the instance, be sure to terminate
+    /// 			it in the Amazon EC2 console to stop billing.
     ///
     /// 			         If you terminate a running container instance, Amazon ECS automatically deregisters the
     /// 				instance from your cluster (stopped container instances or instances with
-    /// 				disconnected agents are not automatically deregistered when terminated).
+    /// 				disconnected agents aren't automatically deregistered when terminated).
     ///
     public func deregisterContainerInstance(_ input: DeregisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterContainerInstanceResponse {
         return try await self.client.execute(operation: "DeregisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -251,16 +252,15 @@ extension ECS {
     /// 			reference an INACTIVE task definition continue to run without disruption.
     /// 			Existing services that reference an INACTIVE task definition can still
     /// 			scale up or down by modifying the service's desired count.
-    /// 		       You cannot use an INACTIVE task definition to run new tasks or create new
-    /// 			services, and you cannot update an existing service to reference an
-    /// 				INACTIVE task definition. However, there may be up to a 10-minute
-    /// 			window following deregistration where these restrictions have not yet taken
-    /// 			effect.
+    /// 		       You can't use an INACTIVE task definition to run new tasks or create new
+    /// 			services, and you can't update an existing service to reference an INACTIVE
+    /// 			task definition. However, there may be up to a 10-minute window following deregistration
+    /// 			where these restrictions have not yet taken effect.
     ///
     /// 			         At this time, INACTIVE task definitions remain discoverable in your
-    /// 				account indefinitely. However, this behavior is subject to change in the future, so
-    /// 				you should not rely on INACTIVE task definitions persisting beyond the
-    /// 				lifecycle of any associated tasks and services.
+    /// 				account indefinitely. However, this behavior is subject to change in the future. We
+    /// 				don't recommend that you rely on INACTIVE task definitions persisting
+    /// 				beyond the lifecycle of any associated tasks and services.
     ///
     public func deregisterTaskDefinition(_ input: DeregisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterTaskDefinitionResponse {
         return try await self.client.execute(operation: "DeregisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -312,8 +312,8 @@ extension ECS {
         return try await self.client.execute(operation: "DescribeTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Returns an endpoint for
-    /// 			the Amazon ECS agent to poll for updates.
+    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
+    /// 		       Returns an endpoint for the Amazon ECS agent to poll for updates.
     public func discoverPollEndpoint(_ input: DiscoverPollEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DiscoverPollEndpointResponse {
         return try await self.client.execute(operation: "DiscoverPollEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -332,9 +332,9 @@ extension ECS {
     /// 			When you specify a target type and cluster, ListAttributes returns a list
     /// 			of attribute objects, one for each attribute on each resource. You can filter the list
     /// 			of results to a single attribute name to only return results that have that name. You
-    /// 			can also filter the results by attribute name and value, for example, to see which
-    /// 			container instances in a cluster are running a Linux AMI
-    /// 			(ecs.os-type=linux).
+    /// 			can also filter the results by attribute name and value. You can do this, for example,
+    /// 			to see which container instances in a cluster are running a Linux AMI
+    /// 				(ecs.os-type=linux).
     public func listAttributes(_ input: ListAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAttributesResponse {
         return try await self.client.execute(operation: "ListAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -363,12 +363,12 @@ extension ECS {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of task definition families that are registered to your account (which
-    /// 			may include task definition families that no longer have any ACTIVE task
-    /// 			definition revisions).
-    /// 		       You can filter out task definition families that do not contain any
-    /// 				ACTIVE task definition revisions by setting the status
-    /// 			parameter to ACTIVE. You can also filter the results with the
+    /// Returns a list of task definition families that are registered to your account. This
+    /// 			list includes task definition families that no longer have any ACTIVE task
+    /// 			definition revisions.
+    /// 		       You can filter out task definition families that don't contain any ACTIVE
+    /// 			task definition revisions by setting the status parameter to
+    /// 				ACTIVE. You can also filter the results with the
     /// 				familyPrefix parameter.
     public func listTaskDefinitionFamilies(_ input: ListTaskDefinitionFamiliesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTaskDefinitionFamiliesResponse {
         return try await self.client.execute(operation: "ListTaskDefinitionFamilies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -392,16 +392,16 @@ extension ECS {
 
     /// Modifies an account setting. Account settings are set on a per-Region basis.
     /// 		       If you change the account setting for the root user, the default settings for all of
-    /// 			the IAM users and roles for which no individual account setting has been specified are
-    /// 			reset. For more information, see Account
+    /// 			the IAM users and roles that no individual account setting was specified are reset for.
+    /// 			For more information, see Account
     /// 				Settings in the Amazon Elastic Container Service Developer Guide.
     /// 		       When serviceLongArnFormat, taskLongArnFormat, or
     /// 				containerInstanceLongArnFormat are specified, the Amazon Resource Name
     /// 			(ARN) and resource ID format of the resource type for a specified IAM user, IAM role, or
     /// 			the root user for an account is affected. The opt-in and opt-out account setting must be
-    /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource
-    /// 			will be defined by the opt-in status of the IAM user or role that created the resource.
-    /// 			You must enable this setting to use Amazon ECS features such as resource tagging.
+    /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is
+    /// 			defined by the opt-in status of the IAM user or role that created the resource. You must
+    /// 			enable this setting to use Amazon ECS features such as resource tagging.
     /// 		       When awsvpcTrunking is specified, the elastic network interface (ENI)
     /// 			limit for any new container instances that support the feature is changed. If
     /// 				awsvpcTrunking is enabled, any new container instances that support the
@@ -425,8 +425,8 @@ extension ECS {
         return try await self.client.execute(operation: "PutAccountSettingDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create or update an attribute on an Amazon ECS resource. If the attribute does not exist,
-    /// 			it is created. If the attribute exists, its value is replaced with the specified value.
+    /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist,
+    /// 			it's created. If the attribute exists, its value is replaced with the specified value.
     /// 			To delete an attribute, use DeleteAttributes. For more information,
     /// 			see Attributes in the
     /// 			Amazon Elastic Container Service Developer Guide.
@@ -439,22 +439,22 @@ extension ECS {
     /// 		       You must specify both the available capacity providers and a default capacity provider
     /// 			strategy for the cluster. If the specified cluster has existing capacity providers
     /// 			associated with it, you must specify all existing capacity providers in addition to any
-    /// 			new ones you want to add. Any existing capacity providers associated with a cluster that
-    /// 			are omitted from a PutClusterCapacityProviders API call will be
-    /// 			disassociated with the cluster. You can only disassociate an existing capacity provider
-    /// 			from a cluster if it's not being used by any existing tasks.
+    /// 			new ones you want to add. Any existing capacity providers that are associated with a
+    /// 			cluster that are omitted from a PutClusterCapacityProviders API call
+    /// 			will be disassociated with the cluster. You can only disassociate an existing capacity
+    /// 			provider from a cluster if it's not being used by any existing tasks.
     /// 		       When creating a service or running a task on a cluster, if no capacity provider or
     /// 			launch type is specified, then the cluster's default capacity provider strategy is used.
-    /// 			It is recommended to define a default capacity provider strategy for your cluster,
-    /// 			however you may specify an empty array ([]) to bypass defining a default
+    /// 			We recommend that you define a default capacity provider strategy for your cluster.
+    /// 			However, you must specify an empty array ([]) to bypass defining a default
     /// 			strategy.
     public func putClusterCapacityProviders(_ input: PutClusterCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutClusterCapacityProvidersResponse {
         return try await self.client.execute(operation: "PutClusterCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Registers an EC2
-    /// 			instance into the specified cluster. This instance becomes available to place containers
-    /// 			on.
+    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
+    /// 		       Registers an EC2 instance into the specified cluster. This instance becomes available
+    /// 			to place containers on.
     public func registerContainerInstance(_ input: RegisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterContainerInstanceResponse {
         return try await self.client.execute(operation: "RegisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -467,7 +467,7 @@ extension ECS {
     /// 		       You can specify an IAM role for your task with the taskRoleArn parameter.
     /// 			When you specify an IAM role for a task, its containers can then use the latest versions
     /// 			of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in
-    /// 			the IAM policy associated with the role. For more information, see IAM
+    /// 			the IAM policy that's associated with the role. For more information, see IAM
     /// 				Roles for Tasks in the Amazon Elastic Container Service Developer Guide.
     /// 		       You can specify a Docker networking mode for the containers in your task definition
     /// 			with the networkMode parameter. The available network modes correspond to
@@ -488,11 +488,11 @@ extension ECS {
     /// 				Amazon Elastic Container Service Developer Guide.
     /// 		       Alternatively, you can use StartTask to use your own scheduler or
     /// 			place tasks manually on specific container instances.
-    /// 		       The Amazon ECS API follows an eventual consistency model, due to the distributed nature of
-    /// 			the system supporting the API. This means that the result of an API command you run that
-    /// 			affects your Amazon ECS resources might not be immediately visible to all subsequent commands
-    /// 			you run. Keep this in mind when you carry out an API command that immediately follows a
-    /// 			previous API command.
+    /// 		       The Amazon ECS API follows an eventual consistency model. This is because the distributed
+    /// 			nature of the system supporting the API. This means that the result of an API command
+    /// 			you run that affects your Amazon ECS resources might not be immediately visible to all
+    /// 			subsequent commands you run. Keep this in mind when you carry out an API command that
+    /// 			immediately follows a previous API command.
     /// 		       To manage eventual consistency, you can do the following:
     ///
     /// 				           Confirm the state of the resource before you run a command to modify it. Run
@@ -537,27 +537,27 @@ extension ECS {
         return try await self.client.execute(operation: "StopTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to
-    /// 			acknowledge that an attachment changed states.
+    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
+    /// 		       Sent to acknowledge that an attachment changed states.
     public func submitAttachmentStateChanges(_ input: SubmitAttachmentStateChangesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SubmitAttachmentStateChangesResponse {
         return try await self.client.execute(operation: "SubmitAttachmentStateChanges", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to
-    /// 			acknowledge that a container changed states.
+    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
+    /// 		       Sent to acknowledge that a container changed states.
     public func submitContainerStateChange(_ input: SubmitContainerStateChangeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SubmitContainerStateChangeResponse {
         return try await self.client.execute(operation: "SubmitContainerStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge
-    /// 			that a task changed states.
+    ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.
+    /// 		       Sent to acknowledge that a task changed states.
     public func submitTaskStateChange(_ input: SubmitTaskStateChangeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SubmitTaskStateChangeResponse {
         return try await self.client.execute(operation: "SubmitTaskStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates the specified tags to a resource with the specified
-    /// 				resourceArn. If existing tags on a resource are not specified in the
-    /// 			request parameters, they are not changed. When a resource is deleted, the tags
+    /// 				resourceArn. If existing tags on a resource aren't specified in the
+    /// 			request parameters, they aren't changed. When a resource is deleted, the tags that are
     /// 			associated with that resource are deleted as well.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -584,14 +584,14 @@ extension ECS {
     }
 
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the
-    /// 			Amazon ECS container agent does not interrupt running tasks or services on the container
+    /// 			Amazon ECS container agent doesn't interrupt running tasks or services on the container
     /// 			instance. The process for updating the agent differs depending on whether your container
     /// 			instance was launched with the Amazon ECS-optimized AMI or another operating system.
     ///
     /// 			         The UpdateContainerAgent API isn't supported for container instances
     /// 				using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent,
-    /// 				you can update the ecs-init package which will update the agent. For
-    /// 				more information, see Updating the
+    /// 				you can update the ecs-init package. This updates the agent. For more
+    /// 				information, see Updating the
     /// 					Amazon ECS container agent in the
     /// 				Amazon Elastic Container Service Developer Guide.
     ///
@@ -609,7 +609,7 @@ extension ECS {
     /// 			from a cluster, for example to perform system updates, update the Docker daemon, or
     /// 			scale down the cluster size.
     ///
-    /// 			         A container instance cannot be changed to DRAINING until it has
+    /// 			         A container instance can't be changed to DRAINING until it has
     /// 				reached an ACTIVE status. If the instance is in any other status, an
     /// 				error will be received.
     ///
@@ -629,13 +629,13 @@ extension ECS {
     /// 					scheduler to stop two existing tasks before starting two new tasks. If the
     /// 					minimum is 100%, the service scheduler can't remove existing tasks until the
     /// 					replacement tasks are considered healthy. Tasks for services that do not use a
-    /// 					load balancer are considered healthy if they are in the RUNNING
+    /// 					load balancer are considered healthy if they're in the RUNNING
     /// 					state. Tasks for services that use a load balancer are considered healthy if
-    /// 					they are in the RUNNING state and the container instance they are
+    /// 					they're in the RUNNING state and the container instance they're
     /// 					hosted on is reported as healthy by the load balancer.
     ///
     /// 				           The maximumPercent parameter represents an upper limit on the
-    /// 					number of running tasks during task replacement, which enables you to define the
+    /// 					number of running tasks during task replacement. You can use this to define the
     /// 					replacement batch size. For example, if desiredCount is four tasks,
     /// 					a maximum of 200% starts four new tasks before stopping the four tasks to be
     /// 					drained, provided that the cluster resources required to do this are available.
@@ -643,7 +643,7 @@ extension ECS {
     /// 					tasks have stopped.
     ///
     /// 		       Any PENDING or RUNNING tasks that do not belong to a service
-    /// 			are not affected. You must wait for them to finish or stop them manually.
+    /// 			aren't affected. You must wait for them to finish or stop them manually.
     /// 		       A container instance has completed draining when it has no more RUNNING
     /// 			tasks. You can verify this using ListTasks.
     /// 		       When a container instance has been drained, you can set a container instance to
@@ -666,12 +666,12 @@ extension ECS {
     /// 			only the desired count, deployment configuration, task placement constraints and
     /// 			strategies, and health check grace period can be updated using this API. If the network
     /// 			configuration, platform version, or task definition need to be updated, a new CodeDeploy
-    /// 			deployment should be created. For more information, see CreateDeployment in the CodeDeploy API Reference.
+    /// 			deployment is created. For more information, see CreateDeployment in the CodeDeploy API Reference.
     /// 		       For services using an external deployment controller, you can update only the desired
     /// 			count, task placement constraints and strategies, and health check grace period using
     /// 			this API. If the launch type, load balancer, network configuration, platform version, or
-    /// 			task definition need to be updated, you should create a new task set. For more
-    /// 			information, see CreateTaskSet.
+    /// 			task definition need to be updated, create a new task set. For more information, see
+    /// 				CreateTaskSet.
     /// 		       You can add to or subtract from the number of instantiations of a task definition in a
     /// 			service by specifying the cluster that the service is running in and a new
     /// 				desiredCount parameter.
@@ -681,7 +681,7 @@ extension ECS {
     /// 			configuration) to determine the deployment strategy.
     ///
     /// 			         If your updated Docker image uses the same tag as what is in the existing task
-    /// 				definition for your service (for example, my_image:latest), you do not
+    /// 				definition for your service (for example, my_image:latest), you don't
     /// 				need to create a new revision of your task definition. You can update the service
     /// 				using the forceNewDeployment option. The new tasks launched by the
     /// 				deployment pull the current image/tag combination from your repository when they
@@ -696,34 +696,34 @@ extension ECS {
     /// 						desiredCount temporarily during a deployment. For example, if
     /// 						desiredCount is four tasks, a minimum of 50% allows the
     /// 					scheduler to stop two existing tasks before starting two new tasks. Tasks for
-    /// 					services that do not use a load balancer are considered healthy if they are in
-    /// 					the RUNNING state. Tasks for services that use a load balancer are
-    /// 					considered healthy if they are in the RUNNING state and the
-    /// 					container instance they are hosted on is reported as healthy by the load
+    /// 					services that don't use a load balancer are considered healthy if they're in the
+    /// 						RUNNING state. Tasks for services that use a load balancer are
+    /// 					considered healthy if they're in the RUNNING state and the
+    /// 					container instance they're hosted on is reported as healthy by the load
     /// 					balancer.
     ///
     /// 				           The maximumPercent parameter represents an upper limit on the
-    /// 					number of running tasks during a deployment, which enables you to define the
+    /// 					number of running tasks during a deployment. You can use it to define the
     /// 					deployment batch size. For example, if desiredCount is four tasks,
     /// 					a maximum of 200% starts four new tasks before stopping the four older tasks
     /// 					(provided that the cluster resources required to do this are available).
     ///
     /// 		       When UpdateService stops a task during a deployment, the equivalent
     /// 			of docker stop is issued to the containers running in the task. This
-    /// 			results in a SIGTERM and a 30-second timeout, after which
+    /// 			results in a SIGTERM and a 30-second timeout. After this,
     /// 				SIGKILL is sent and the containers are forcibly stopped. If the
     /// 			container handles the SIGTERM gracefully and exits within 30 seconds from
     /// 			receiving it, no SIGKILL is sent.
     /// 		       When the service scheduler launches new tasks, it determines task placement in your
-    /// 			cluster with the following logic:
+    /// 			cluster with the following logic.
     ///
     /// 				           Determine which of the container instances in your cluster can support your
-    /// 					service's task definition (for example, they have the required CPU, memory,
-    /// 					ports, and container instance attributes).
+    /// 					service's task definition. For example, they have the required CPU, memory,
+    /// 					ports, and container instance attributes.
     ///
     /// 				           By default, the service scheduler attempts to balance tasks across
-    /// 					Availability Zones in this manner (although you can choose a different placement
-    /// 					strategy):
+    /// 					Availability Zones in this manner even though you can choose a different
+    /// 					placement strategy.
     ///
     /// 						               Sort the valid container instances by the fewest number of running
     /// 							tasks for this service in the same Availability Zone as the instance.

@@ -111,7 +111,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of evidence folders associated with a specified control of an assessment in Audit Manager.
+    ///   Returns a list of evidence folders that are associated with a specified control of an assessment in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -133,7 +133,29 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of the frameworks available in the Audit Manager framework library.
+    ///   Returns a list of sent or received share requests for custom frameworks in Audit Manager.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssessmentFrameworkShareRequestsPaginator(
+        _ input: ListAssessmentFrameworkShareRequestsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssessmentFrameworkShareRequestsRequest, ListAssessmentFrameworkShareRequestsResponse> {
+        return .init(
+            input: input,
+            command: listAssessmentFrameworkShareRequests,
+            inputKey: \ListAssessmentFrameworkShareRequestsRequest.nextToken,
+            outputKey: \ListAssessmentFrameworkShareRequestsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns a list of the frameworks that are available in the Audit Manager framework library.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,7 +243,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns a list of keywords that pre-mapped to the specified control data source.
+    ///   Returns a list of keywords that are pre-mapped to the specified control data source.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

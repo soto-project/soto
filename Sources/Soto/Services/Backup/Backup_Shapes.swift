@@ -418,18 +418,22 @@ extension Backup {
     }
 
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
+        public let conditions: Conditions?
         /// The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting". Assigns the backup plan to every resource with at least one matching tag.
         public let listOfTags: [Condition]?
+        public let notResources: [String]?
         /// An array of strings that contain Amazon Resource Names (ARNs)  of resources to assign to a backup plan.
         public let resources: [String]?
         /// The display name of a resource selection document.
         public let selectionName: String
 
-        public init(iamRoleArn: String, listOfTags: [Condition]? = nil, resources: [String]? = nil, selectionName: String) {
+        public init(conditions: Conditions? = nil, iamRoleArn: String, listOfTags: [Condition]? = nil, notResources: [String]? = nil, resources: [String]? = nil, selectionName: String) {
+            self.conditions = conditions
             self.iamRoleArn = iamRoleArn
             self.listOfTags = listOfTags
+            self.notResources = notResources
             self.resources = resources
             self.selectionName = selectionName
         }
@@ -439,8 +443,10 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conditions = "Conditions"
             case iamRoleArn = "IamRoleArn"
             case listOfTags = "ListOfTags"
+            case notResources = "NotResources"
             case resources = "Resources"
             case selectionName = "SelectionName"
         }
@@ -490,15 +496,27 @@ extension Backup {
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// The date and time when Backup Vault Lock configuration becomes immutable, meaning it cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let lockDate: Date?
+        /// A Boolean value that indicates whether Backup Vault Lock applies to the selected backup vault. If true, Vault Lock prevents delete and update operations on the recovery points in the selected vault.
+        public let locked: Bool?
+        /// The Backup Vault Lock setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
+        public let maxRetentionDays: Int64?
+        /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
+        public let minRetentionDays: Int64?
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
 
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+            self.lockDate = lockDate
+            self.locked = locked
+            self.maxRetentionDays = maxRetentionDays
+            self.minRetentionDays = minRetentionDays
             self.numberOfRecoveryPoints = numberOfRecoveryPoints
         }
 
@@ -508,6 +526,10 @@ extension Backup {
             case creationDate = "CreationDate"
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case lockDate = "LockDate"
+            case locked = "Locked"
+            case maxRetentionDays = "MaxRetentionDays"
+            case minRetentionDays = "MinRetentionDays"
             case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
         }
     }
@@ -550,6 +572,42 @@ extension Backup {
         }
     }
 
+    public struct ConditionParameter: AWSEncodableShape & AWSDecodableShape {
+        public let conditionKey: String?
+        public let conditionValue: String?
+
+        public init(conditionKey: String? = nil, conditionValue: String? = nil) {
+            self.conditionKey = conditionKey
+            self.conditionValue = conditionValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionKey = "ConditionKey"
+            case conditionValue = "ConditionValue"
+        }
+    }
+
+    public struct Conditions: AWSEncodableShape & AWSDecodableShape {
+        public let stringEquals: [ConditionParameter]?
+        public let stringLike: [ConditionParameter]?
+        public let stringNotEquals: [ConditionParameter]?
+        public let stringNotLike: [ConditionParameter]?
+
+        public init(stringEquals: [ConditionParameter]? = nil, stringLike: [ConditionParameter]? = nil, stringNotEquals: [ConditionParameter]? = nil, stringNotLike: [ConditionParameter]? = nil) {
+            self.stringEquals = stringEquals
+            self.stringLike = stringLike
+            self.stringNotEquals = stringNotEquals
+            self.stringNotLike = stringNotLike
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringEquals = "StringEquals"
+            case stringLike = "StringLike"
+            case stringNotEquals = "StringNotEquals"
+            case stringNotLike = "StringNotLike"
+        }
+    }
+
     public struct ControlInputParameter: AWSEncodableShape & AWSDecodableShape {
         /// The name of a parameter, for example, BackupPlanFrequency.
         public let parameterName: String?
@@ -568,7 +626,7 @@ extension Backup {
     }
 
     public struct ControlScope: AWSEncodableShape & AWSDecodableShape {
-        /// Describes whether the control scope includes a specific resource identified by its unique Amazon Resource Name (ARN).
+        /// The ID of the only Amazon Web Services resource that you want your control scope to contain.
         public let complianceResourceIds: [String]?
         /// Describes whether the control scope includes one or more types of resources, such as EFS or RDS.
         public let complianceResourceTypes: [String]?
@@ -899,9 +957,9 @@ extension Backup {
         public let reportPlanDescription: String?
         /// The unique name of the report plan. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
         public let reportPlanName: String
-        /// Metadata that you can assign to help organize the frameworks that you create. Each tag is a key-value pair.
+        /// Metadata that you can assign to help organize the report plans that you create. Each tag is a key-value pair.
         public let reportPlanTags: [String: String]?
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting
 
         public init(idempotencyToken: String? = CreateReportPlanInput.idempotencyToken(), reportDeliveryChannel: ReportDeliveryChannel, reportPlanDescription: String? = nil, reportPlanName: String, reportPlanTags: [String: String]? = nil, reportSetting: ReportSetting) {
@@ -932,17 +990,21 @@ extension Backup {
     }
 
     public struct CreateReportPlanOutput: AWSDecodableShape {
+        /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let reportPlanArn: String?
         /// The unique name of the report plan.
         public let reportPlanName: String?
 
-        public init(reportPlanArn: String? = nil, reportPlanName: String? = nil) {
+        public init(creationTime: Date? = nil, reportPlanArn: String? = nil, reportPlanName: String? = nil) {
+            self.creationTime = creationTime
             self.reportPlanArn = reportPlanArn
             self.reportPlanName = reportPlanName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
             case reportPlanArn = "ReportPlanArn"
             case reportPlanName = "ReportPlanName"
         }
@@ -1036,6 +1098,25 @@ extension Backup {
 
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBackupVaultLockConfigurationInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
+        ]
+
+        /// The name of the backup vault from which to delete Backup Vault Lock.
+        public let backupVaultName: String
+
+        public init(backupVaultName: String) {
+            self.backupVaultName = backupVaultName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1255,15 +1336,27 @@ extension Backup {
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// The date and time when Backup Vault Lock configuration cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change any of your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let lockDate: Date?
+        /// A Boolean that indicates whether Backup Vault Lock is currently protecting the backup vault. True means that Vault Lock causes delete or update operations on the recovery points stored in the vault to fail.
+        public let locked: Bool?
+        /// The Backup Vault Lock setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
+        public let maxRetentionDays: Int64?
+        /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
+        public let minRetentionDays: Int64?
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
 
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+            self.lockDate = lockDate
+            self.locked = locked
+            self.maxRetentionDays = maxRetentionDays
+            self.minRetentionDays = minRetentionDays
             self.numberOfRecoveryPoints = numberOfRecoveryPoints
         }
 
@@ -1273,6 +1366,10 @@ extension Backup {
             case creationDate = "CreationDate"
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case lockDate = "LockDate"
+            case locked = "Locked"
+            case maxRetentionDays = "MaxRetentionDays"
+            case minRetentionDays = "MinRetentionDays"
             case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
         }
     }
@@ -2091,7 +2188,7 @@ extension Backup {
     }
 
     public struct GetSupportedResourceTypesOutput: AWSDecodableShape {
-        /// Contains a string with the supported Amazon Web Services resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
+        /// Contains a string with the supported Amazon Web Services resource types:    Aurora for Amazon Aurora    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSX for Amazon FSx    RDS for Amazon Relational Database Service    Storage Gateway for Storage Gateway
         public let resourceTypes: [String]?
 
         public init(resourceTypes: [String]? = nil) {
@@ -2923,6 +3020,38 @@ extension Backup {
         }
     }
 
+    public struct PutBackupVaultLockConfigurationInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
+        ]
+
+        /// The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
+        public let backupVaultName: String
+        /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
+        public let changeableForDays: Int64?
+        /// The Backup Vault Lock configuration that specifies the maximum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to destroy certain data after retaining it for four years (1460 days). If this parameter is not included, Vault Lock does not enforce a maximum retention period on the recovery points in the vault. If this parameter is included without a value, Vault Lock will not enforce a maximum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already saved in the vault prior to Vault Lock are not affected.
+        public let maxRetentionDays: Int64?
+        /// The Backup Vault Lock configuration that specifies the minimum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to retain certain data for at least seven years (2555 days). If this parameter is not specified, Vault Lock will not enforce a minimum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails that backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already saved in the vault prior to Vault Lock are not affected.
+        public let minRetentionDays: Int64?
+
+        public init(backupVaultName: String, changeableForDays: Int64? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil) {
+            self.backupVaultName = backupVaultName
+            self.changeableForDays = changeableForDays
+            self.maxRetentionDays = maxRetentionDays
+            self.minRetentionDays = minRetentionDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeableForDays = "ChangeableForDays"
+            case maxRetentionDays = "MaxRetentionDays"
+            case minRetentionDays = "MinRetentionDays"
+        }
+    }
+
     public struct PutBackupVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
@@ -3143,7 +3272,7 @@ extension Backup {
         public let reportJobId: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let reportPlanArn: String?
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:   BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:   RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
         public let reportTemplate: String?
         /// The status of a report job. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED   COMPLETED means that the report is available for your review at your designated destination. If the status is FAILED, review the StatusMessage for the reason.
         public let status: String?
@@ -3190,7 +3319,7 @@ extension Backup {
         public let reportPlanDescription: String?
         /// The unique name of the report plan. This name is between 1 and 256 characters starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
         public let reportPlanName: String?
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting?
 
         public init(creationTime: Date? = nil, deploymentStatus: String? = nil, lastAttemptedExecutionTime: Date? = nil, lastSuccessfulExecutionTime: Date? = nil, reportDeliveryChannel: ReportDeliveryChannel? = nil, reportPlanArn: String? = nil, reportPlanDescription: String? = nil, reportPlanName: String? = nil, reportSetting: ReportSetting? = nil) {
@@ -3219,14 +3348,22 @@ extension Backup {
     }
 
     public struct ReportSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// The Amazon Resource Names (ARNs) of the frameworks a report covers.
+        public let frameworkArns: [String]?
+        /// The number of frameworks a report covers.
+        public let numberOfFrameworks: Int?
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
         public let reportTemplate: String
 
-        public init(reportTemplate: String) {
+        public init(frameworkArns: [String]? = nil, numberOfFrameworks: Int? = nil, reportTemplate: String) {
+            self.frameworkArns = frameworkArns
+            self.numberOfFrameworks = numberOfFrameworks
             self.reportTemplate = reportTemplate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case frameworkArns = "FrameworkArns"
+            case numberOfFrameworks = "NumberOfFrameworks"
             case reportTemplate = "ReportTemplate"
         }
     }
@@ -3770,7 +3907,7 @@ extension Backup {
         public let reportPlanDescription: String?
         /// The unique name of the report plan. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
         public let reportPlanName: String
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting?
 
         public init(idempotencyToken: String? = UpdateReportPlanInput.idempotencyToken(), reportDeliveryChannel: ReportDeliveryChannel? = nil, reportPlanDescription: String? = nil, reportPlanName: String, reportSetting: ReportSetting? = nil) {

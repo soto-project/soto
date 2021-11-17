@@ -47,6 +47,12 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchReportModeType: String, CustomStringConvertible, Codable {
+        case reportAggregatedBatch = "REPORT_AGGREGATED_BATCH"
+        case reportIndividualBuilds = "REPORT_INDIVIDUAL_BUILDS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BucketOwnerAccess: String, CustomStringConvertible, Codable {
         case full = "FULL"
         case none = "NONE"
@@ -2011,7 +2017,7 @@ extension CodeBuild {
         public let nextToken: String?
         /// The name of the CodeBuild project.
         public let projectName: String
-        /// The order to list results in. The results are sorted by build number, not the build identifier. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.   If the project has more than 100 builds, setting the sort order will result in an error.
+        /// The order to sort the results in. The results are sorted by build number, not the build identifier. If this is not specified, the results are sorted in descending order. Valid values include:    ASCENDING: List the build identifiers in ascending order, by build number.    DESCENDING: List the build identifiers in descending order, by build number.   If the project has more than 100 builds, setting the sort order will result in an error.
         public let sortOrder: SortOrderType?
 
         public init(nextToken: String? = nil, projectName: String, sortOrder: SortOrderType? = nil) {
@@ -2032,7 +2038,7 @@ extension CodeBuild {
     }
 
     public struct ListBuildsForProjectOutput: AWSDecodableShape {
-        /// A list of build IDs for the specified build project, with each build ID representing a single build.
+        /// A list of build identifiers for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
@@ -2676,6 +2682,8 @@ extension CodeBuild {
     }
 
     public struct ProjectBuildBatchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how build status reports are sent to the source provider for the batch build. This property is only used when the source provider for your project is Bitbucket, GitHub, or GitHub Enterprise, and your project is configured to report build statuses to the source provider.  REPORT_AGGREGATED_BATCH  (Default) Aggregate all of the build statuses into a single status report.  REPORT_INDIVIDUAL_BUILDS  Send a separate status report for each individual build.
+        public let batchReportMode: BatchReportModeType?
         /// Specifies if the build artifacts for the batch build should be combined into a single artifact location.
         public let combineArtifacts: Bool?
         /// A BatchRestrictions object that specifies the restrictions for the batch build.
@@ -2685,7 +2693,8 @@ extension CodeBuild {
         /// Specifies the maximum amount of time, in minutes, that the batch build must be completed in.
         public let timeoutInMins: Int?
 
-        public init(combineArtifacts: Bool? = nil, restrictions: BatchRestrictions? = nil, serviceRole: String? = nil, timeoutInMins: Int? = nil) {
+        public init(batchReportMode: BatchReportModeType? = nil, combineArtifacts: Bool? = nil, restrictions: BatchRestrictions? = nil, serviceRole: String? = nil, timeoutInMins: Int? = nil) {
+            self.batchReportMode = batchReportMode
             self.combineArtifacts = combineArtifacts
             self.restrictions = restrictions
             self.serviceRole = serviceRole
@@ -2698,6 +2707,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchReportMode
             case combineArtifacts
             case restrictions
             case serviceRole
@@ -3817,7 +3827,7 @@ extension CodeBuild {
         public let name: String
         ///  The number of minutes a build is allowed to be queued before it times out.
         public let queuedTimeoutInMinutes: Int?
-        ///  An array of ProjectSource objects.
+        ///  An array of ProjectArtifact objects.
         public let secondaryArtifacts: [ProjectArtifacts]?
         ///  An array of ProjectSource objects.
         public let secondarySources: [ProjectSource]?

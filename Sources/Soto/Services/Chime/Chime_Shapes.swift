@@ -41,6 +41,18 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ArtifactsState: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioMuxType: String, CustomStringConvertible, Codable {
+        case audioonly = "AudioOnly"
+        case audiowithactivespeakervideo = "AudioWithActiveSpeakerVideo"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BotType: String, CustomStringConvertible, Codable {
         case chatbot = "ChatBot"
         public var description: String { return self.rawValue }
@@ -87,6 +99,11 @@ extension Chime {
     public enum ChannelPrivacy: String, CustomStringConvertible, Codable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentMuxType: String, CustomStringConvertible, Codable {
+        case contentonly = "ContentOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -337,6 +354,11 @@ extension Chime {
     public enum UserType: String, CustomStringConvertible, Codable {
         case privateuser = "PrivateUser"
         case shareddevice = "SharedDevice"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoMuxType: String, CustomStringConvertible, Codable {
+        case videoonly = "VideoOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -619,6 +641,27 @@ extension Chime {
         }
     }
 
+    public struct ArtifactsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the audio artifacts.
+        public let audio: AudioArtifactsConfiguration
+        /// The configuration for the content artifacts.
+        public let content: ContentArtifactsConfiguration
+        /// The configuration for the video artifacts.
+        public let video: VideoArtifactsConfiguration
+
+        public init(audio: AudioArtifactsConfiguration, content: ContentArtifactsConfiguration, video: VideoArtifactsConfiguration) {
+            self.audio = audio
+            self.content = content
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audio = "Audio"
+            case content = "Content"
+            case video = "Video"
+        }
+    }
+
     public struct AssociatePhoneNumberWithUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri("AccountId")),
@@ -788,6 +831,19 @@ extension Chime {
             case attendeeId = "AttendeeId"
             case externalUserId = "ExternalUserId"
             case joinToken = "JoinToken"
+        }
+    }
+
+    public struct AudioArtifactsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The MUX type of the audio artifact configuration object.
+        public let muxType: AudioMuxType
+
+        public init(muxType: AudioMuxType) {
+            self.muxType = muxType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case muxType = "MuxType"
         }
     }
 
@@ -1577,6 +1633,44 @@ extension Chime {
         }
     }
 
+    public struct ChimeSdkMeetingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the artifacts in an Amazon Chime SDK meeting.
+        public let artifactsConfiguration: ArtifactsConfiguration?
+        /// The source configuration for a specified media capture pipline.
+        public let sourceConfiguration: SourceConfiguration?
+
+        public init(artifactsConfiguration: ArtifactsConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil) {
+            self.artifactsConfiguration = artifactsConfiguration
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactsConfiguration = "ArtifactsConfiguration"
+            case sourceConfiguration = "SourceConfiguration"
+        }
+    }
+
+    public struct ContentArtifactsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The MUX type of the artifact configuration.
+        public let muxType: ContentMuxType?
+        /// Indicates whether the content artifact is enabled or disabled.
+        public let state: ArtifactsState
+
+        public init(muxType: ContentMuxType? = nil, state: ArtifactsState) {
+            self.muxType = muxType
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case muxType = "MuxType"
+            case state = "State"
+        }
+    }
+
     public struct ConversationRetentionSettings: AWSEncodableShape & AWSDecodableShape {
         /// The number of days for which to retain conversation messages.
         public let retentionDays: Int?
@@ -2176,6 +2270,8 @@ extension Chime {
     }
 
     public struct CreateMediaCapturePipelineRequest: AWSEncodableShape {
+        /// The configuration for a specified media capture pipeline. SourceType must be ChimeSdkMeeting.
+        public let chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration?
         /// The token assigned to the client making the pipeline request.
         public let clientRequestToken: String?
         /// The ARN of the sink type.
@@ -2187,7 +2283,8 @@ extension Chime {
         /// Source type from which the media artifacts will be captured. A Chime SDK Meeting  is the only supported source.
         public let sourceType: MediaPipelineSourceType
 
-        public init(clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType) {
+        public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType) {
+            self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.clientRequestToken = clientRequestToken
             self.sinkArn = sinkArn
             self.sinkType = sinkType
@@ -2196,6 +2293,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.chimeSdkMeetingConfiguration?.validate(name: "\(name).chimeSdkMeetingConfiguration")
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
@@ -2208,6 +2306,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case chimeSdkMeetingConfiguration = "ChimeSdkMeetingConfiguration"
             case clientRequestToken = "ClientRequestToken"
             case sinkArn = "SinkArn"
             case sinkType = "SinkType"
@@ -6935,6 +7034,8 @@ extension Chime {
     }
 
     public struct MediaCapturePipeline: AWSDecodableShape {
+        /// The configuration for a specified media capture pipeline. SourceType must be ChimeSdkMeeting.
+        public let chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration?
         /// The time at which the capture pipeline was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
@@ -6954,7 +7055,8 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
-        public init(createdTimestamp: Date? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
+        public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, createdTimestamp: Date? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
+            self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineId = mediaPipelineId
             self.sinkArn = sinkArn
@@ -6966,6 +7068,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case chimeSdkMeetingConfiguration = "ChimeSdkMeetingConfiguration"
             case createdTimestamp = "CreatedTimestamp"
             case mediaPipelineId = "MediaPipelineId"
             case sinkArn = "SinkArn"
@@ -6982,7 +7085,7 @@ extension Chime {
         public let audioFallbackUrl: String?
         /// The audio host URL.
         public let audioHostUrl: String?
-        /// The URL of the S3 bucket used to store the captured media.
+        /// The event ingestion URL.
         public let eventIngestionUrl: String?
         /// The screen data URL.
         public let screenDataUrl: String?
@@ -8407,6 +8510,35 @@ extension Chime {
         }
     }
 
+    public struct SelectedVideoStreams: AWSEncodableShape & AWSDecodableShape {
+        /// The attendee IDs of the streams selected for a media capture pipeline.
+        public let attendeeIds: [String]?
+        /// The external user IDs of the streams selected for a media capture pipeline.
+        public let externalUserIds: [String]?
+
+        public init(attendeeIds: [String]? = nil, externalUserIds: [String]? = nil) {
+            self.attendeeIds = attendeeIds
+            self.externalUserIds = externalUserIds
+        }
+
+        public func validate(name: String) throws {
+            try self.attendeeIds?.forEach {
+                try validate($0, name: "attendeeIds[]", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+            }
+            try self.validate(self.attendeeIds, name: "attendeeIds", parent: name, min: 1)
+            try self.externalUserIds?.forEach {
+                try validate($0, name: "externalUserIds[]", parent: name, max: 64)
+                try validate($0, name: "externalUserIds[]", parent: name, min: 2)
+            }
+            try self.validate(self.externalUserIds, name: "externalUserIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendeeIds = "AttendeeIds"
+            case externalUserIds = "ExternalUserIds"
+        }
+    }
+
     public struct SendChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
@@ -8642,6 +8774,23 @@ extension Chime {
             case awsRegion = "AwsRegion"
             case priority = "Priority"
             case sipMediaApplicationId = "SipMediaApplicationId"
+        }
+    }
+
+    public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The selected video streams to capture for a specified media capture pipeline. The number of video streams can't exceed 25.
+        public let selectedVideoStreams: SelectedVideoStreams?
+
+        public init(selectedVideoStreams: SelectedVideoStreams? = nil) {
+            self.selectedVideoStreams = selectedVideoStreams
+        }
+
+        public func validate(name: String) throws {
+            try self.selectedVideoStreams?.validate(name: "\(name).selectedVideoStreams")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectedVideoStreams = "SelectedVideoStreams"
         }
     }
 
@@ -9412,11 +9561,11 @@ extension Chime {
 
     public struct UpdateGlobalSettingsRequest: AWSEncodableShape {
         /// The Amazon Chime Business Calling settings.
-        public let businessCalling: BusinessCallingSettings
+        public let businessCalling: BusinessCallingSettings?
         /// The Amazon Chime Voice Connector settings.
-        public let voiceConnector: VoiceConnectorSettings
+        public let voiceConnector: VoiceConnectorSettings?
 
-        public init(businessCalling: BusinessCallingSettings, voiceConnector: VoiceConnectorSettings) {
+        public init(businessCalling: BusinessCallingSettings? = nil, voiceConnector: VoiceConnectorSettings? = nil) {
             self.businessCalling = businessCalling
             self.voiceConnector = voiceConnector
         }
@@ -10082,6 +10231,23 @@ extension Chime {
         }
     }
 
+    public struct VideoArtifactsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The MUX type of the video artifact configuration object.
+        public let muxType: VideoMuxType?
+        /// Indicates whether the video artifact is enabled or disabled.
+        public let state: ArtifactsState
+
+        public init(muxType: VideoMuxType? = nil, state: ArtifactsState) {
+            self.muxType = muxType
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case muxType = "MuxType"
+            case state = "State"
+        }
+    }
+
     public struct VoiceConnector: AWSDecodableShape {
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default:
         /// us-east-1.
@@ -10098,16 +10264,19 @@ extension Chime {
         /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The ARN of the specified Amazon Chime Voice Connector.
+        public let voiceConnectorArn: String?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String?
 
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
             self.updatedTimestamp = updatedTimestamp
+            self.voiceConnectorArn = voiceConnectorArn
             self.voiceConnectorId = voiceConnectorId
         }
 
@@ -10118,6 +10287,7 @@ extension Chime {
             case outboundHostName = "OutboundHostName"
             case requireEncryption = "RequireEncryption"
             case updatedTimestamp = "UpdatedTimestamp"
+            case voiceConnectorArn = "VoiceConnectorArn"
             case voiceConnectorId = "VoiceConnectorId"
         }
     }
@@ -10131,15 +10301,18 @@ extension Chime {
         /// The updated Amazon Chime Voice Connector group time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The ARN of the specified Amazon Chime Voice Connector group.
+        public let voiceConnectorGroupArn: String?
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String?
         /// The Amazon Chime Voice Connectors to which to route inbound calls.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
-        public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+        public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp
+            self.voiceConnectorGroupArn = voiceConnectorGroupArn
             self.voiceConnectorGroupId = voiceConnectorGroupId
             self.voiceConnectorItems = voiceConnectorItems
         }
@@ -10148,6 +10321,7 @@ extension Chime {
             case createdTimestamp = "CreatedTimestamp"
             case name = "Name"
             case updatedTimestamp = "UpdatedTimestamp"
+            case voiceConnectorGroupArn = "VoiceConnectorGroupArn"
             case voiceConnectorGroupId = "VoiceConnectorGroupId"
             case voiceConnectorItems = "VoiceConnectorItems"
         }

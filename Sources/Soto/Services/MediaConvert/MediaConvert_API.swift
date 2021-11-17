@@ -99,6 +99,11 @@ public struct MediaConvert: AWSService {
         return self.client.execute(operation: "DeleteJobTemplate", path: "/2017-08-29/jobTemplates/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Permanently delete a policy that you created.
+    public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePolicyResponse> {
+        return self.client.execute(operation: "DeletePolicy", path: "/2017-08-29/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Permanently delete a preset you have created.
     public func deletePreset(_ input: DeletePresetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePresetResponse> {
         return self.client.execute(operation: "DeletePreset", path: "/2017-08-29/presets/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -127,6 +132,11 @@ public struct MediaConvert: AWSService {
     /// Retrieve the JSON for a specific job template.
     public func getJobTemplate(_ input: GetJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobTemplateResponse> {
         return self.client.execute(operation: "GetJobTemplate", path: "/2017-08-29/jobTemplates/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve the JSON for your policy.
+    public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPolicyResponse> {
+        return self.client.execute(operation: "GetPolicy", path: "/2017-08-29/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieve the JSON for a specific preset.
@@ -162,6 +172,11 @@ public struct MediaConvert: AWSService {
     /// Retrieve the tags for a MediaConvert resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/2017-08-29/tags/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+    public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPolicyResponse> {
+        return self.client.execute(operation: "PutPolicy", path: "/2017-08-29/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html

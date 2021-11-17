@@ -338,6 +338,218 @@ extension NetworkManager {
         )
     }
 
+    ///  Gets the count of network resources, by resource type, for the specified global network.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getNetworkResourceCountsPaginator<Result>(
+        _ input: GetNetworkResourceCountsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetNetworkResourceCountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getNetworkResourceCounts,
+            inputKey: \GetNetworkResourceCountsRequest.nextToken,
+            outputKey: \GetNetworkResourceCountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getNetworkResourceCountsPaginator(
+        _ input: GetNetworkResourceCountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetNetworkResourceCountsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getNetworkResourceCounts,
+            inputKey: \GetNetworkResourceCountsRequest.nextToken,
+            outputKey: \GetNetworkResourceCountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets the network resource relationships for the specified global network.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getNetworkResourceRelationshipsPaginator<Result>(
+        _ input: GetNetworkResourceRelationshipsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetNetworkResourceRelationshipsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getNetworkResourceRelationships,
+            inputKey: \GetNetworkResourceRelationshipsRequest.nextToken,
+            outputKey: \GetNetworkResourceRelationshipsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getNetworkResourceRelationshipsPaginator(
+        _ input: GetNetworkResourceRelationshipsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetNetworkResourceRelationshipsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getNetworkResourceRelationships,
+            inputKey: \GetNetworkResourceRelationshipsRequest.nextToken,
+            outputKey: \GetNetworkResourceRelationshipsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getNetworkResourcesPaginator<Result>(
+        _ input: GetNetworkResourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetNetworkResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getNetworkResources,
+            inputKey: \GetNetworkResourcesRequest.nextToken,
+            outputKey: \GetNetworkResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getNetworkResourcesPaginator(
+        _ input: GetNetworkResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetNetworkResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getNetworkResources,
+            inputKey: \GetNetworkResourcesRequest.nextToken,
+            outputKey: \GetNetworkResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets the network telemetry of the specified global network.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getNetworkTelemetryPaginator<Result>(
+        _ input: GetNetworkTelemetryRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetNetworkTelemetryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getNetworkTelemetry,
+            inputKey: \GetNetworkTelemetryRequest.nextToken,
+            outputKey: \GetNetworkTelemetryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getNetworkTelemetryPaginator(
+        _ input: GetNetworkTelemetryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetNetworkTelemetryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getNetworkTelemetry,
+            inputKey: \GetNetworkTelemetryRequest.nextToken,
+            outputKey: \GetNetworkTelemetryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets information about one or more of your sites in a global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -565,6 +777,62 @@ extension NetworkManager.GetLinksRequest: AWSPaginateToken {
             provider: self.provider,
             siteId: self.siteId,
             type: self.type
+        )
+    }
+}
+
+extension NetworkManager.GetNetworkResourceCountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetNetworkResourceCountsRequest {
+        return .init(
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension NetworkManager.GetNetworkResourceRelationshipsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetNetworkResourceRelationshipsRequest {
+        return .init(
+            accountId: self.accountId,
+            awsRegion: self.awsRegion,
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registeredGatewayArn: self.registeredGatewayArn,
+            resourceArn: self.resourceArn,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension NetworkManager.GetNetworkResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetNetworkResourcesRequest {
+        return .init(
+            accountId: self.accountId,
+            awsRegion: self.awsRegion,
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registeredGatewayArn: self.registeredGatewayArn,
+            resourceArn: self.resourceArn,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension NetworkManager.GetNetworkTelemetryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetNetworkTelemetryRequest {
+        return .init(
+            accountId: self.accountId,
+            awsRegion: self.awsRegion,
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registeredGatewayArn: self.registeredGatewayArn,
+            resourceArn: self.resourceArn,
+            resourceType: self.resourceType
         )
     }
 }

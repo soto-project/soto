@@ -45,6 +45,28 @@ extension ChimeSDKIdentity {
         )
     }
 
+    ///  Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAppInstanceUserEndpointsPaginator(
+        _ input: ListAppInstanceUserEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAppInstanceUserEndpointsRequest, ListAppInstanceUserEndpointsResponse> {
+        return .init(
+            input: input,
+            command: listAppInstanceUserEndpoints,
+            inputKey: \ListAppInstanceUserEndpointsRequest.nextToken,
+            outputKey: \ListAppInstanceUserEndpointsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  List all AppInstanceUsers created under a single AppInstance.
     /// Return PaginatorSequence for operation.
     ///

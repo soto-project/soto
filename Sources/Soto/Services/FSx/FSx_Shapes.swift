@@ -747,6 +747,8 @@ extension FSx {
         public let backupId: String
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
         public let clientRequestToken: String?
+        /// Sets the version for the Amazon FSx for Lustre file system you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
+        public let fileSystemTypeVersion: String?
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
         /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
@@ -760,9 +762,10 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
-        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
+            self.fileSystemTypeVersion = fileSystemTypeVersion
             self.kmsKeyId = kmsKeyId
             self.lustreConfiguration = lustreConfiguration
             self.securityGroupIds = securityGroupIds
@@ -779,6 +782,9 @@ extension FSx {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileSystemTypeVersion, name: "fileSystemTypeVersion", parent: name, max: 20)
+            try self.validate(self.fileSystemTypeVersion, name: "fileSystemTypeVersion", parent: name, min: 1)
+            try self.validate(self.fileSystemTypeVersion, name: "fileSystemTypeVersion", parent: name, pattern: "^[0-9](\\.[0-9]*)*$")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.{1,2048}$")
@@ -806,6 +812,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case clientRequestToken = "ClientRequestToken"
+            case fileSystemTypeVersion = "FileSystemTypeVersion"
             case kmsKeyId = "KmsKeyId"
             case lustreConfiguration = "LustreConfiguration"
             case securityGroupIds = "SecurityGroupIds"
@@ -984,6 +991,8 @@ extension FSx {
         public let clientRequestToken: String?
         /// The type of Amazon FSx file system to create. Valid values are WINDOWS, LUSTRE, and ONTAP.
         public let fileSystemType: FileSystemType
+        /// Sets the version of the Amazon FSx for Lustre file system you're creating. Valid values are 2.10 and 2.12.   Set the value to 2.10 to create a Lustre 2.10 file system.   Set the value to 2.12 to create a Lustre 2.12 file system.   Default value is 2.10.
+        public let fileSystemTypeVersion: String?
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
         public let ontapConfiguration: CreateFileSystemOntapConfiguration?
@@ -1000,9 +1009,10 @@ extension FSx {
         /// The Microsoft Windows configuration for the file system being created.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
-        public init(clientRequestToken: String? = CreateFileSystemRequest.idempotencyToken(), fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, ontapConfiguration: CreateFileSystemOntapConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = CreateFileSystemRequest.idempotencyToken(), fileSystemType: FileSystemType, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, ontapConfiguration: CreateFileSystemOntapConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemType = fileSystemType
+            self.fileSystemTypeVersion = fileSystemTypeVersion
             self.kmsKeyId = kmsKeyId
             self.lustreConfiguration = lustreConfiguration
             self.ontapConfiguration = ontapConfiguration
@@ -1018,6 +1028,9 @@ extension FSx {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileSystemTypeVersion, name: "fileSystemTypeVersion", parent: name, max: 20)
+            try self.validate(self.fileSystemTypeVersion, name: "fileSystemTypeVersion", parent: name, min: 1)
+            try self.validate(self.fileSystemTypeVersion, name: "fileSystemTypeVersion", parent: name, pattern: "^[0-9](\\.[0-9]*)*$")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.{1,2048}$")
@@ -1048,6 +1061,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemType = "FileSystemType"
+            case fileSystemTypeVersion = "FileSystemTypeVersion"
             case kmsKeyId = "KmsKeyId"
             case lustreConfiguration = "LustreConfiguration"
             case ontapConfiguration = "OntapConfiguration"
@@ -2299,6 +2313,8 @@ extension FSx {
         public let fileSystemId: String?
         /// The type of Amazon FSx file system, which can be LUSTRE, WINDOWS, or ONTAP.
         public let fileSystemType: FileSystemType?
+        /// The version of your Amazon FSx for Lustre file system, either 2.10 or 2.12.
+        public let fileSystemTypeVersion: String?
         /// The ID of the Key Management Service (KMS) key used to encrypt the file system's data for Amazon FSx for Windows File Server file systems, Amazon FSx for NetApp ONTAP file systems, and persistent Amazon FSx for Lustre file systems at rest. If not specified, the Amazon FSx managed key is used. The scratch Amazon FSx for Lustre file systems are always encrypted at rest using Amazon FSx managed keys. For more information, see Encrypt in the Key Management Service API Reference.
         public let kmsKeyId: String?
         /// The lifecycle status of the file system, following are the possible values and what they mean:     AVAILABLE - The file system is in a healthy state, and is reachable and available for use.    CREATING - Amazon FSx is creating the new file system.    DELETING - Amazon FSx is deleting an existing file system.    FAILED - An existing file system has experienced an unrecoverable failure.  When creating a new file system, Amazon FSx was unable to create the file system.    MISCONFIGURED indicates that the file system is in a failed but recoverable state.    UPDATING indicates that the file system is undergoing a customer initiated update.
@@ -2326,13 +2342,14 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
-        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
+        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.dNSName = dNSName
             self.failureDetails = failureDetails
             self.fileSystemId = fileSystemId
             self.fileSystemType = fileSystemType
+            self.fileSystemTypeVersion = fileSystemTypeVersion
             self.kmsKeyId = kmsKeyId
             self.lifecycle = lifecycle
             self.lustreConfiguration = lustreConfiguration
@@ -2355,6 +2372,7 @@ extension FSx {
             case failureDetails = "FailureDetails"
             case fileSystemId = "FileSystemId"
             case fileSystemType = "FileSystemType"
+            case fileSystemTypeVersion = "FileSystemTypeVersion"
             case kmsKeyId = "KmsKeyId"
             case lifecycle = "Lifecycle"
             case lustreConfiguration = "LustreConfiguration"
@@ -2644,7 +2662,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryAttributes: AWSDecodableShape {
-        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
         /// The fully qualified domain name of the self-managed AD directory.
         public let domainName: String?
@@ -2673,7 +2691,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfiguration: AWSEncodableShape {
-        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
         public let domainName: String
@@ -2731,7 +2749,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSEncodableShape {
-        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
         /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
         public let password: String?

@@ -111,6 +111,11 @@ extension Nimble {
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case ready = "READY"
+        case startFailed = "START_FAILED"
+        case startInProgress = "START_IN_PROGRESS"
+        case stopped = "STOPPED"
+        case stopFailed = "STOP_FAILED"
+        case stopInProgress = "STOP_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -126,6 +131,10 @@ extension Nimble {
         case streamingSessionDeleted = "STREAMING_SESSION_DELETED"
         case streamingSessionDeleteInProgress = "STREAMING_SESSION_DELETE_IN_PROGRESS"
         case streamingSessionReady = "STREAMING_SESSION_READY"
+        case streamingSessionStarted = "STREAMING_SESSION_STARTED"
+        case streamingSessionStartInProgress = "STREAMING_SESSION_START_IN_PROGRESS"
+        case streamingSessionStopped = "STREAMING_SESSION_STOPPED"
+        case streamingSessionStopInProgress = "STREAMING_SESSION_STOP_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -243,6 +252,74 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
+    public enum StudioComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for a Microsoft Active Directory (Microsoft AD) studio resource.
+        case activeDirectoryConfiguration(ActiveDirectoryConfiguration)
+        /// The configuration for a render farm that is associated with a studio resource.
+        case computeFarmConfiguration(ComputeFarmConfiguration)
+        /// The configuration for a license service that is associated with a studio resource.
+        case licenseServiceConfiguration(LicenseServiceConfiguration)
+        /// The configuration for a shared file storage system that is associated with a studio resource.
+        case sharedFileSystemConfiguration(SharedFileSystemConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .activeDirectoryConfiguration:
+                let value = try container.decode(ActiveDirectoryConfiguration.self, forKey: .activeDirectoryConfiguration)
+                self = .activeDirectoryConfiguration(value)
+            case .computeFarmConfiguration:
+                let value = try container.decode(ComputeFarmConfiguration.self, forKey: .computeFarmConfiguration)
+                self = .computeFarmConfiguration(value)
+            case .licenseServiceConfiguration:
+                let value = try container.decode(LicenseServiceConfiguration.self, forKey: .licenseServiceConfiguration)
+                self = .licenseServiceConfiguration(value)
+            case .sharedFileSystemConfiguration:
+                let value = try container.decode(SharedFileSystemConfiguration.self, forKey: .sharedFileSystemConfiguration)
+                self = .sharedFileSystemConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .activeDirectoryConfiguration(let value):
+                try container.encode(value, forKey: .activeDirectoryConfiguration)
+            case .computeFarmConfiguration(let value):
+                try container.encode(value, forKey: .computeFarmConfiguration)
+            case .licenseServiceConfiguration(let value):
+                try container.encode(value, forKey: .licenseServiceConfiguration)
+            case .sharedFileSystemConfiguration(let value):
+                try container.encode(value, forKey: .sharedFileSystemConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .activeDirectoryConfiguration(let value):
+                try value.validate(name: "\(name).activeDirectoryConfiguration")
+            case .sharedFileSystemConfiguration(let value):
+                try value.validate(name: "\(name).sharedFileSystemConfiguration")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDirectoryConfiguration
+            case computeFarmConfiguration
+            case licenseServiceConfiguration
+            case sharedFileSystemConfiguration
+        }
+    }
+
     // MARK: Shapes
 
     public struct AcceptEulasRequest: AWSEncodableShape {
@@ -251,11 +328,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The EULA ID.
         public let eulaIds: [String]?
-        /// The studio ID.
+        /// A collection of EULA IDs.
         public let studioId: String
 
         public init(clientToken: String? = AcceptEulasRequest.idempotencyToken(), eulaIds: [String]? = nil, studioId: String) {
@@ -364,10 +441,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
         public let description: String?
+        /// Specifies the IDs of the EC2 subnets where streaming sessions will be accessible from. These subnets must support the specified instance types.
         public let ec2SubnetIds: [String]
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]
@@ -404,6 +482,7 @@ extension Nimble {
                 try validate($0, name: "launchProfileProtocolVersions[]", parent: name, pattern: "^2021\\-03\\-31$")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.streamConfiguration.validate(name: "\(name).streamConfiguration")
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, max: 100)
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, min: 1)
@@ -439,7 +518,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A human-readable description of the streaming image.
         public let description: String?
@@ -478,6 +557,7 @@ extension Nimble {
     }
 
     public struct CreateStreamingImageResponse: AWSDecodableShape {
+        /// The streaming image.
         public let streamingImage: StreamingImage?
 
         public init(streamingImage: StreamingImage? = nil) {
@@ -495,7 +575,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The EC2 Instance type used for the streaming session.
         public let ec2InstanceType: StreamingInstanceType?
@@ -556,11 +636,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The expiration time in seconds.
         public let expirationInSeconds: Int?
-        /// The session ID.
+        /// The streaming session ID.
         public let sessionId: String
         /// The studio ID.
         public let studioId: String
@@ -603,7 +683,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
@@ -690,7 +770,7 @@ extension Nimble {
 
         /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A friendly name for the studio.
         public let displayName: String
@@ -754,11 +834,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
-        /// The principal ID.
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -789,9 +869,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
         /// The studio ID.
         public let studioId: String
@@ -830,7 +910,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming image ID.
         public let streamingImageId: String
@@ -871,9 +951,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The session ID.
+        /// The streaming session ID.
         public let sessionId: String
         /// The studio ID.
         public let studioId: String
@@ -912,7 +992,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio component ID.
         public let studioComponentId: String
@@ -953,9 +1033,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The principal ID.
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -984,7 +1064,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio ID.
         public let studioId: String
@@ -1004,9 +1084,9 @@ extension Nimble {
 
     public struct DeleteStudioResponse: AWSDecodableShape {
         /// Information about a studio.
-        public let studio: Studio?
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 
@@ -1110,7 +1190,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
         /// The studio ID.
         public let studioId: String
@@ -1153,13 +1233,13 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
-        /// A collection of launch profile protocol versions.
+        /// The launch profile protocol versions supported by the client.
         public let launchProfileProtocolVersions: [String]
         /// The launch purpose.
         public let launchPurpose: String
-        /// The platform.
+        /// The platform where this Launch Profile will be used, either WINDOWS or LINUX.
         public let platform: String
         /// The studio ID.
         public let studioId: String
@@ -1195,9 +1275,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
-        /// The principal ID.
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -1230,7 +1310,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
         /// The studio ID.
         public let studioId: String
@@ -1294,7 +1374,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The session ID.
+        /// The streaming session ID.
         public let sessionId: String
         /// The studio ID.
         public let studioId: String
@@ -1327,9 +1407,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The session ID.
+        /// The streaming session ID.
         public let sessionId: String
-        /// The stream ID.
+        /// The streaming session stream ID.
         public let streamId: String
         /// The studio ID.
         public let studioId: String
@@ -1394,7 +1474,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The principal ID.
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -1437,9 +1517,9 @@ extension Nimble {
 
     public struct GetStudioResponse: AWSDecodableShape {
         /// Information about a studio.
-        public let studio: Studio?
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 
@@ -1633,17 +1713,21 @@ extension Nimble {
         public let persona: LaunchProfilePersona?
         /// The principal ID.
         public let principalId: String?
+        /// The Active Directory Security Identifier for this user, if available.
+        public let sid: String?
 
-        public init(identityStoreId: String? = nil, persona: LaunchProfilePersona? = nil, principalId: String? = nil) {
+        public init(identityStoreId: String? = nil, persona: LaunchProfilePersona? = nil, principalId: String? = nil, sid: String? = nil) {
             self.identityStoreId = identityStoreId
             self.persona = persona
             self.principalId = principalId
+            self.sid = sid
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId
             case persona
             case principalId
+            case sid
         }
     }
 
@@ -1667,9 +1751,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// A collection of EULA IDs.
+        /// The list of EULA IDs that have been previously accepted.
         public let eulaIds: [String]?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
@@ -1706,9 +1790,9 @@ extension Nimble {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// A collection of EULA IDs.
+        /// The list of EULA IDs that should be returned
         public let eulaIds: [String]?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
 
         public init(eulaIds: [String]? = nil, nextToken: String? = nil) {
@@ -1744,11 +1828,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
-        /// The maximum number of results to be returned per request.
+        /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
@@ -1794,13 +1878,13 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The maximum number of results to be returned per request.
+        /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
-        /// The principal ID.
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String?
-        /// A list of states.
+        /// Filter this request to launch profiles in any of the given states.
         public let states: [String]?
         /// The studio ID.
         public let studioId: String
@@ -1845,9 +1929,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
-        /// The owner.
+        /// Filter this request to streaming images with the given owner
         public let owner: String?
         /// The studio ID.
         public let studioId: String
@@ -1887,13 +1971,13 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The user ID of the user that created the streaming session.
+        /// Filters the request to streaming sessions created by the given user.
         public let createdBy: String?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
-        /// The user ID of the user that owns the streaming session.
+        /// Filters the request to streaming session owned by the given user
         public let ownedBy: String?
-        /// A collection of session IDs.
+        /// Filters the request to only the provided session IDs.
         public let sessionIds: String?
         /// The studio ID.
         public let studioId: String
@@ -1935,15 +2019,15 @@ extension Nimble {
             AWSMemberEncoding(label: "types", location: .querystring("types"))
         ]
 
-        /// The maximum number of results to be returned per request.
+        /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
-        /// A list of states.
+        /// Filters the request to studio components that are in one of the given states.
         public let states: [String]?
         /// The studio ID.
         public let studioId: String
-        /// The types.
+        /// Filters the request to studio components that are of one of the given types.
         public let types: [String]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, states: [String]? = nil, studioId: String, types: [String]? = nil) {
@@ -1986,9 +2070,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The maximum number of results to be returned per request.
+        /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
@@ -2029,7 +2113,7 @@ extension Nimble {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The token for the next set of results, or null if there are no more results.
+        /// The token to request the next page of results.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -2043,9 +2127,9 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// A collection of studios.
-        public let studios: [Studio]?
+        public let studios: [Studio]
 
-        public init(nextToken: String? = nil, studios: [Studio]? = nil) {
+        public init(nextToken: String? = nil, studios: [Studio]) {
             self.nextToken = nextToken
             self.studios = studios
         }
@@ -2061,7 +2145,7 @@ extension Nimble {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The ARN of the target resource for tagging operations.
+        /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2125,11 +2209,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the identity store.
         public let identityStoreId: String
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
         /// A list of members.
         public let members: [NewLaunchProfileMember]
@@ -2167,7 +2251,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the identity store.
         public let identityStoreId: String
@@ -2260,13 +2344,53 @@ extension Nimble {
         }
     }
 
+    public struct StartStreamingSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The streaming session ID for the StartStreamingSessionRequest.
+        public let sessionId: String
+        /// The studio ID for the StartStreamingSessionRequest.
+        public let studioId: String
+
+        public init(clientToken: String? = StartStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+            self.clientToken = clientToken
+            self.sessionId = sessionId
+            self.studioId = studioId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartStreamingSessionResponse: AWSDecodableShape {
+        public let session: StreamingSession?
+
+        public init(session: StreamingSession? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session
+        }
+    }
+
     public struct StartStudioSSOConfigurationRepairRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio ID.
         public let studioId: String
@@ -2286,9 +2410,9 @@ extension Nimble {
 
     public struct StartStudioSSOConfigurationRepairResponse: AWSDecodableShape {
         /// Information about a studio.
-        public let studio: Studio?
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 
@@ -2297,20 +2421,63 @@ extension Nimble {
         }
     }
 
+    public struct StopStreamingSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The streaming session ID for the StopStreamingSessionRequest.
+        public let sessionId: String
+        /// The studioId for the StopStreamingSessionRequest.
+        public let studioId: String
+
+        public init(clientToken: String? = StopStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+            self.clientToken = clientToken
+            self.sessionId = sessionId
+            self.studioId = studioId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopStreamingSessionResponse: AWSDecodableShape {
+        public let session: StreamingSession?
+
+        public init(session: StreamingSession? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session
+        }
+    }
+
     public struct StreamConfiguration: AWSDecodableShape {
         /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
-        public let clipboardMode: StreamingClipboardMode?
+        public let clipboardMode: StreamingClipboardMode
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
-        public let ec2InstanceTypes: [StreamingInstanceType]?
-        /// The length of time, in minutes, that a streaming session can run. After this point, Nimble Studio automatically terminates the session.
+        public let ec2InstanceTypes: [StreamingInstanceType]
+        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).
+        public let maxStoppedSessionLengthInMinutes: Int?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
-        public let streamingImageIds: [String]?
+        public let streamingImageIds: [String]
 
-        public init(clipboardMode: StreamingClipboardMode? = nil, ec2InstanceTypes: [StreamingInstanceType]? = nil, maxSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]? = nil) {
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
+            self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
             self.streamingImageIds = streamingImageIds
         }
 
@@ -2318,6 +2485,7 @@ extension Nimble {
             case clipboardMode
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
+            case maxStoppedSessionLengthInMinutes
             case streamingImageIds
         }
     }
@@ -2327,34 +2495,41 @@ extension Nimble {
         public let clipboardMode: StreamingClipboardMode
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
         public let ec2InstanceTypes: [StreamingInstanceType]
-        /// The length of time, in minutes, that a streaming session can run. After this point, Nimble Studio automatically terminates the session.
+        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
+        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
+        public let maxStoppedSessionLengthInMinutes: Int?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
+            self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
             self.streamingImageIds = streamingImageIds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.ec2InstanceTypes, name: "ec2InstanceTypes", parent: name, max: 30)
             try self.validate(self.ec2InstanceTypes, name: "ec2InstanceTypes", parent: name, min: 1)
-            try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, max: 690)
+            try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, max: 43200)
             try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, min: 1)
+            try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, max: 5760)
+            try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, min: 0)
             try self.streamingImageIds.forEach {
                 try validate($0, name: "streamingImageIds[]", parent: name, max: 22)
                 try validate($0, name: "streamingImageIds[]", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             }
             try self.validate(self.streamingImageIds, name: "streamingImageIds", parent: name, max: 20)
+            try self.validate(self.streamingImageIds, name: "streamingImageIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clipboardMode
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
+            case maxStoppedSessionLengthInMinutes
             case streamingImageIds
         }
     }
@@ -2453,12 +2628,25 @@ extension Nimble {
         public let ownedBy: String?
         /// The session ID.
         public let sessionId: String?
+        /// The time the session entered START_IN_PROGRESS state.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The user ID of the user that started the streaming session.
+        public let startedBy: String?
         /// The current state.
         public let state: StreamingSessionState?
         /// The status code.
         public let statusCode: StreamingSessionStatusCode?
         /// The status message for the streaming session.
         public let statusMessage: String?
+        /// The time the streaming session will automatically be stopped if the user doesn’t stop the session themselves.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var stopAt: Date?
+        /// The time the session entered STOP_IN_PROGRESS state.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var stoppedAt: Date?
+        /// The user ID of the user that stopped the streaming session.
+        public let stoppedBy: String?
         /// The ID of the streaming image.
         public let streamingImageId: String?
         /// A collection of labels, in the form of key:value pairs, that apply to this resource.
@@ -2472,7 +2660,7 @@ extension Nimble {
         /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, stopAt: Date? = nil, stoppedAt: Date? = nil, stoppedBy: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2480,9 +2668,14 @@ extension Nimble {
             self.launchProfileId = launchProfileId
             self.ownedBy = ownedBy
             self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.startedBy = startedBy
             self.state = state
             self.statusCode = statusCode
             self.statusMessage = statusMessage
+            self.stopAt = stopAt
+            self.stoppedAt = stoppedAt
+            self.stoppedBy = stoppedBy
             self.streamingImageId = streamingImageId
             self.tags = tags
             self.terminateAt = terminateAt
@@ -2498,9 +2691,14 @@ extension Nimble {
             case launchProfileId
             case ownedBy
             case sessionId
+            case startedAt
+            case startedBy
             case state
             case statusCode
             case statusMessage
+            case stopAt
+            case stoppedAt
+            case stoppedBy
             case streamingImageId
             case tags
             case terminateAt
@@ -2564,7 +2762,7 @@ extension Nimble {
         public let displayName: String?
         /// The Amazon Web Services Region where the studio resource is located.
         public let homeRegion: String?
-        /// The Amazon Web Services SSO application client ID used to integrate with Amazon Web Services SSO to enable Amazon Web Services SSO users to log in to Nimble portal.
+        /// The Amazon Web Services SSO application client ID used to integrate with Amazon Web Services SSO to enable Amazon Web Services SSO users to log in to Nimble Studio portal.
         public let ssoClientId: String?
         /// The current state of the studio resource.
         public let state: StudioState?
@@ -2710,36 +2908,6 @@ extension Nimble {
         }
     }
 
-    public struct StudioComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration for a Microsoft Active Directory (Microsoft AD) studio resource.
-        public let activeDirectoryConfiguration: ActiveDirectoryConfiguration?
-        /// The configuration for a render farm that is associated with a studio resource.
-        public let computeFarmConfiguration: ComputeFarmConfiguration?
-        /// The configuration for a license service that is associated with a studio resource.
-        public let licenseServiceConfiguration: LicenseServiceConfiguration?
-        /// The configuration for a shared file storage system that is associated with a studio resource.
-        public let sharedFileSystemConfiguration: SharedFileSystemConfiguration?
-
-        public init(activeDirectoryConfiguration: ActiveDirectoryConfiguration? = nil, computeFarmConfiguration: ComputeFarmConfiguration? = nil, licenseServiceConfiguration: LicenseServiceConfiguration? = nil, sharedFileSystemConfiguration: SharedFileSystemConfiguration? = nil) {
-            self.activeDirectoryConfiguration = activeDirectoryConfiguration
-            self.computeFarmConfiguration = computeFarmConfiguration
-            self.licenseServiceConfiguration = licenseServiceConfiguration
-            self.sharedFileSystemConfiguration = sharedFileSystemConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.activeDirectoryConfiguration?.validate(name: "\(name).activeDirectoryConfiguration")
-            try self.sharedFileSystemConfiguration?.validate(name: "\(name).sharedFileSystemConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activeDirectoryConfiguration
-            case computeFarmConfiguration
-            case licenseServiceConfiguration
-            case sharedFileSystemConfiguration
-        }
-    }
-
     public struct StudioComponentInitializationScript: AWSEncodableShape & AWSDecodableShape {
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersion: String?
@@ -2832,7 +3000,7 @@ extension Nimble {
 
         public func validate(name: String) throws {
             try self.validate(self.keyArn, name: "keyArn", parent: name, min: 4)
-            try self.validate(self.keyArn, name: "keyArn", parent: name, pattern: "^arn:")
+            try self.validate(self.keyArn, name: "keyArn", parent: name, pattern: "^arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2848,17 +3016,21 @@ extension Nimble {
         public let persona: StudioPersona?
         /// The principal ID.
         public let principalId: String?
+        /// The Active Directory Security Identifier for this user, if available.
+        public let sid: String?
 
-        public init(identityStoreId: String? = nil, persona: StudioPersona? = nil, principalId: String? = nil) {
+        public init(identityStoreId: String? = nil, persona: StudioPersona? = nil, principalId: String? = nil, sid: String? = nil) {
             self.identityStoreId = identityStoreId
             self.persona = persona
             self.principalId = principalId
+            self.sid = sid
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId
             case persona
             case principalId
+            case sid
         }
     }
 
@@ -2867,7 +3039,7 @@ extension Nimble {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The ARN of the target resource for tagging operations.
+        ///  The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceArn: String
         /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
@@ -2892,9 +3064,9 @@ extension Nimble {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The ARN of the target resource for tagging operations.
+        /// Identifies the Amazon Resource Name(ARN) key from which you are removing tags.
         public let resourceArn: String
-        /// An array of tag keys to delete.
+        /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2917,13 +3089,13 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
         /// The persona.
         public let persona: LaunchProfilePersona
-        /// The principal ID.
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -2947,7 +3119,7 @@ extension Nimble {
     }
 
     public struct UpdateLaunchProfileMemberResponse: AWSDecodableShape {
-        /// The member.
+        /// The updated member.
         public let member: LaunchProfileMembership?
 
         public init(member: LaunchProfileMembership? = nil) {
@@ -2966,11 +3138,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
         public let description: String?
-        /// The launch profile ID.
+        /// The Launch Profile ID.
         public let launchProfileId: String
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]?
@@ -3003,6 +3175,7 @@ extension Nimble {
                 try validate($0, name: "launchProfileProtocolVersions[]", parent: name, pattern: "^2021\\-03\\-31$")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.streamConfiguration?.validate(name: "\(name).streamConfiguration")
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, max: 100)
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, min: 1)
@@ -3037,7 +3210,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
         public let description: String?
@@ -3088,7 +3261,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
@@ -3175,7 +3348,7 @@ extension Nimble {
 
         /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String?
-        /// To make an idempotent API request using one of these actions, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails with a ValidationException error.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A friendly name for the studio.
         public let displayName: String?
@@ -3207,9 +3380,9 @@ extension Nimble {
 
     public struct UpdateStudioResponse: AWSDecodableShape {
         /// Information about a studio.
-        public let studio: Studio?
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 

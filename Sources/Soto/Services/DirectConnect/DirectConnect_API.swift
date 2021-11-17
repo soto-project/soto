@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS DirectConnect service.
 ///
-/// Direct Connect links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable.  One end of the cable is connected to your router, the other to an Direct Connect router. With this connection in place, you can create virtual interfaces directly to the Cloud (for example, to Amazon EC2  and Amazon S3) and to Amazon VPC, bypassing Internet service providers in your network path. A  connection provides access to all Regions except the China (Beijing) and (China) Ningxia Regions.  Amazon Web Services resources in the China Regions can only be accessed through locations associated with those Regions.
+/// Direct Connect links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable.  One end of the cable is connected to your router, the other to an Direct Connect router. With this connection in place, you can create virtual interfaces directly to the Amazon Web Services Cloud (for example, to Amazon EC2  and Amazon S3) and to Amazon VPC, bypassing Internet service providers in your network path. A  connection provides access to all Amazon Web Services Regions except the China (Beijing) and (China) Ningxia Regions.  Amazon Web Services resources in the China Regions can only be accessed through locations associated with those Regions.
 public struct DirectConnect: AWSService {
     // MARK: Member variables
 
@@ -81,17 +81,17 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "AllocateHostedConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provisions a private virtual interface to be owned by the specified account. Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.  Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
+    /// Provisions a private virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.  Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
     public func allocatePrivateVirtualInterface(_ input: AllocatePrivateVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualInterface> {
         return self.client.execute(operation: "AllocatePrivateVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provisions a public virtual interface to be owned by the specified account. The owner of a connection calls this function to provision a public virtual interface to be owned by the specified account. Virtual interfaces created using this function must be confirmed by the owner using ConfirmPublicVirtualInterface. Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic. When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
+    /// Provisions a public virtual interface to be owned by the specified Amazon Web Services account. The owner of a connection calls this function to provision a public virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this function must be confirmed by the owner using ConfirmPublicVirtualInterface. Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic. When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
     public func allocatePublicVirtualInterface(_ input: AllocatePublicVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualInterface> {
         return self.client.execute(operation: "AllocatePublicVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provisions a transit virtual interface to be owned by the specified account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified account. After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
+    /// Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account. After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
     public func allocateTransitVirtualInterface(_ input: AllocateTransitVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AllocateTransitVirtualInterfaceResult> {
         return self.client.execute(operation: "AllocateTransitVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -121,17 +121,22 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "ConfirmConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Accepts ownership of a private virtual interface created by another account. After the virtual interface owner makes this call, the virtual interface is created and attached to the specified virtual private gateway or Direct Connect gateway, and is made available to handle traffic.
+    ///  The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
+    public func confirmCustomerAgreement(_ input: ConfirmCustomerAgreementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfirmCustomerAgreementResponse> {
+        return self.client.execute(operation: "ConfirmCustomerAgreement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Accepts ownership of a private virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the virtual interface is created and attached to the specified virtual private gateway or Direct Connect gateway, and is made available to handle traffic.
     public func confirmPrivateVirtualInterface(_ input: ConfirmPrivateVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfirmPrivateVirtualInterfaceResponse> {
         return self.client.execute(operation: "ConfirmPrivateVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Accepts ownership of a public virtual interface created by another account. After the virtual interface owner makes this call, the specified virtual interface is  created and made available to handle traffic.
+    /// Accepts ownership of a public virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the specified virtual interface is  created and made available to handle traffic.
     public func confirmPublicVirtualInterface(_ input: ConfirmPublicVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfirmPublicVirtualInterfaceResponse> {
         return self.client.execute(operation: "ConfirmPublicVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Accepts ownership of a transit virtual interface created by another account.  After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
+    /// Accepts ownership of a transit virtual interface created by another Amazon Web Services account.  After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
     public func confirmTransitVirtualInterface(_ input: ConfirmTransitVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfirmTransitVirtualInterfaceResponse> {
         return self.client.execute(operation: "ConfirmTransitVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -147,7 +152,7 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set  of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any  Region after it is created. The virtual interfaces and virtual private gateways that  are connected through a Direct Connect gateway can be in different Regions. This enables you to connect to a VPC in any Region, regardless of the Region in which the virtual interfaces are located, and pass traffic between them.
+    /// Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set  of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any  Amazon Web Services Region after it is created. The virtual interfaces and virtual private gateways that  are connected through a Direct Connect gateway can be in different Amazon Web Services Regions. This enables you to connect to a VPC in any Region, regardless of the Region in which the virtual interfaces are located, and pass traffic between them.
     public func createDirectConnectGateway(_ input: CreateDirectConnectGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDirectConnectGatewayResult> {
         return self.client.execute(operation: "CreateDirectConnectGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -157,7 +162,7 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "CreateDirectConnectGatewayAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any account.
+    /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
     public func createDirectConnectGatewayAssociationProposal(_ input: CreateDirectConnectGatewayAssociationProposalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDirectConnectGatewayAssociationProposalResult> {
         return self.client.execute(operation: "CreateDirectConnectGatewayAssociationProposal", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -167,12 +172,12 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "CreateInterconnect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single  interface. All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the account used to create a LAG is a registered Direct Connect Partner, the LAG is  automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual  interfaces cannot be directly configured.
+    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single  interface. All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is  automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual  interfaces cannot be directly configured.
     public func createLag(_ input: CreateLagRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Lag> {
         return self.client.execute(operation: "CreateLag", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple  VPCs, including VPCs in different Regions. Connecting the private virtual interface  to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
+    /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple  VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface  to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
     public func createPrivateVirtualInterface(_ input: CreatePrivateVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualInterface> {
         return self.client.execute(operation: "CreatePrivateVirtualInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -242,6 +247,11 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "DescribeConnectionsOnInterconnect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
+    public func describeCustomerMetadata(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCustomerMetadataResponse> {
+        return self.client.execute(operation: "DescribeCustomerMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
+    }
+
     /// Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
     public func describeDirectConnectGatewayAssociationProposals(_ input: DescribeDirectConnectGatewayAssociationProposalsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDirectConnectGatewayAssociationProposalsResult> {
         return self.client.execute(operation: "DescribeDirectConnectGatewayAssociationProposals", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -272,7 +282,7 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "DescribeInterconnectLoa", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the interconnects owned by the account or only the specified interconnect.
+    /// Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
     public func describeInterconnects(_ input: DescribeInterconnectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Interconnects> {
         return self.client.execute(operation: "DescribeInterconnects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -287,9 +297,14 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "DescribeLoa", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Direct Connect locations in the current Region. These are the locations that can be selected when calling CreateConnection or CreateInterconnect.
+    /// Lists the Direct Connect locations in the current Amazon Web Services Region. These are the locations that can be selected when calling CreateConnection or CreateInterconnect.
     public func describeLocations(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Locations> {
         return self.client.execute(operation: "DescribeLocations", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
+    }
+
+    ///  Details about the router.
+    public func describeRouterConfiguration(_ input: DescribeRouterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRouterConfigurationResponse> {
+        return self.client.execute(operation: "DescribeRouterConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the tags associated with the specified Direct Connect resources.
@@ -297,12 +312,12 @@ public struct DirectConnect: AWSService {
         return self.client.execute(operation: "DescribeTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the virtual private gateways owned by the account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
+    /// Lists the virtual private gateways owned by the Amazon Web Services account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
     public func describeVirtualGateways(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualGateways> {
         return self.client.execute(operation: "DescribeVirtualGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
-    /// Displays all virtual interfaces for an account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
+    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
     public func describeVirtualInterfaces(_ input: DescribeVirtualInterfacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VirtualInterfaces> {
         return self.client.execute(operation: "DescribeVirtualInterfaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -345,6 +360,11 @@ public struct DirectConnect: AWSService {
     /// Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:   The connection name   The connection's MAC Security (MACsec) encryption mode.
     public func updateConnection(_ input: UpdateConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Connection> {
         return self.client.execute(operation: "UpdateConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the name of a current Direct Connect gateway.
+    public func updateDirectConnectGateway(_ input: UpdateDirectConnectGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDirectConnectGatewayResponse> {
+        return self.client.execute(operation: "UpdateDirectConnectGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the specified attributes of the Direct Connect gateway association. Add or remove prefixes from the association.

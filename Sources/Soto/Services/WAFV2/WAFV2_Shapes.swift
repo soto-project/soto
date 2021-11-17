@@ -24,7 +24,9 @@ extension WAFV2 {
     public enum ActionValue: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
         case block = "BLOCK"
+        case captcha = "CAPTCHA"
         case count = "COUNT"
+        case excludedAsCount = "EXCLUDED_AS_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -298,6 +300,12 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailureReason: String, CustomStringConvertible, Codable {
+        case tokenExpired = "TOKEN_EXPIRED"
+        case tokenMissing = "TOKEN_MISSING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FallbackBehavior: String, CustomStringConvertible, Codable {
         case match = "MATCH"
         case noMatch = "NO_MATCH"
@@ -545,6 +553,61 @@ extension WAFV2 {
         }
     }
 
+    public struct CaptchaAction: AWSEncodableShape & AWSDecodableShape {
+        /// Defines custom handling for the web request. For information about customizing web requests and responses, see Customizing web requests and responses in WAF in the  WAF Developer Guide.
+        public let customRequestHandling: CustomRequestHandling?
+
+        public init(customRequestHandling: CustomRequestHandling? = nil) {
+            self.customRequestHandling = customRequestHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customRequestHandling = "CustomRequestHandling"
+        }
+    }
+
+    public struct CaptchaConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Determines how long a CAPTCHA token remains valid after the client successfully solves a CAPTCHA puzzle.
+        public let immunityTimeProperty: ImmunityTimeProperty?
+
+        public init(immunityTimeProperty: ImmunityTimeProperty? = nil) {
+            self.immunityTimeProperty = immunityTimeProperty
+        }
+
+        public func validate(name: String) throws {
+            try self.immunityTimeProperty?.validate(name: "\(name).immunityTimeProperty")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case immunityTimeProperty = "ImmunityTimeProperty"
+        }
+    }
+
+    public struct CaptchaResponse: AWSDecodableShape {
+        /// The reason for failure, populated when the evaluation of the token fails.
+        public let failureReason: FailureReason?
+        /// The HTTP response code indicating the status of the CAPTCHA token in the web request. If the token is missing, invalid, or expired, this code is 405 Method Not Allowed.
+        public let responseCode: Int?
+        /// The time that the CAPTCHA puzzle was solved for the supplied token.
+        public let solveTimestamp: Int64?
+
+        public init(failureReason: FailureReason? = nil, responseCode: Int? = nil, solveTimestamp: Int64? = nil) {
+            self.failureReason = failureReason
+            self.responseCode = responseCode
+            self.solveTimestamp = solveTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case responseCode = "ResponseCode"
+            case solveTimestamp = "SolveTimestamp"
+        }
+    }
+
     public struct CheckCapacityRequest: AWSEncodableShape {
         /// An array of Rule that you're configuring to use in a rule group or web ACL.
         public let rules: [Rule]
@@ -648,6 +711,7 @@ extension WAFV2 {
                 try validate($0, name: "addresses[]", parent: name, min: 1)
                 try validate($0, name: "addresses[]", parent: name, pattern: "\\S")
             }
+            try self.validate(self.addresses, name: "addresses", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
@@ -823,6 +887,8 @@ extension WAFV2 {
     }
 
     public struct CreateWebACLRequest: AWSEncodableShape {
+        /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
+        public let captchaConfig: CaptchaConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.   For information about customizing web requests and responses, see Customizing web requests and responses in WAF in the  WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas in the  WAF Developer Guide.
         public let customResponseBodies: [String: CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
@@ -840,7 +906,8 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(captchaConfig: CaptchaConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+            self.captchaConfig = captchaConfig
             self.customResponseBodies = customResponseBodies
             self.defaultAction = defaultAction
             self.description = description
@@ -852,6 +919,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.customResponseBodies?.forEach {
                 try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
                 try validate($0.key, name: "customResponseBodies.key", parent: name, min: 1)
@@ -877,6 +945,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case captchaConfig = "CaptchaConfig"
             case customResponseBodies = "CustomResponseBodies"
             case defaultAction = "DefaultAction"
             case description = "Description"
@@ -965,7 +1034,7 @@ extension WAFV2 {
             try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, max: 128)
             try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, min: 1)
             try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, pattern: "^[\\w\\-]+$")
-            try self.validate(self.responseCode, name: "responseCode", parent: name, max: 600)
+            try self.validate(self.responseCode, name: "responseCode", parent: name, max: 599)
             try self.validate(self.responseCode, name: "responseCode", parent: name, min: 200)
             try self.responseHeaders?.forEach {
                 try $0.validate(name: "\(name).responseHeaders[]")
@@ -1371,7 +1440,7 @@ extension WAFV2 {
     }
 
     public struct ExcludedRule: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the rule to exclude.
+        /// The name of the rule whose action you want to override to Count.
         public let name: String
 
         public init(name: String) {
@@ -1469,7 +1538,7 @@ extension WAFV2 {
         public let firewallManagerStatement: FirewallManagerStatement
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
-        /// The override action to apply to the rules in a rule group. Used only for rule statements that reference a rule group,  like RuleGroupReferenceStatement and ManagedRuleGroupStatement.  Set the override action to none to leave the rule actions in effect. Set it to count to only count matches, regardless of the rule action settings.   In a Rule, you must specify either this OverrideAction setting or the rule Action setting, but not both:   If the rule statement references a rule group, use this override action setting and not the action setting.     If the rule statement does not reference a rule group, use the rule action setting and not this rule override action setting.
+        /// The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only.  You can only use this for rule statements that reference a rule group, like RuleGroupReferenceStatement and ManagedRuleGroupStatement.   This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count   matches, do not use this and instead exclude those rules in your rule group reference statement settings.
         public let overrideAction: OverrideAction
         /// If you define more than one rule group in the first or last Firewall Manager rule groups, WAF evaluates each request against the rule groups in order, starting from the lowest priority setting. The priorities don't need to be consecutive, but they must all be different.
         public let priority: Int
@@ -2176,6 +2245,24 @@ extension WAFV2 {
         }
     }
 
+    public struct ImmunityTimeProperty: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time, in seconds, that a CAPTCHA token is valid. The default setting is 300.
+        public let immunityTime: Int64
+
+        public init(immunityTime: Int64) {
+            self.immunityTime = immunityTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.immunityTime, name: "immunityTime", parent: name, max: 259_200)
+            try self.validate(self.immunityTime, name: "immunityTime", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case immunityTime = "ImmunityTime"
+        }
+    }
+
     public struct JsonBody: AWSEncodableShape & AWSDecodableShape {
         /// What WAF should do if it fails to completely parse the JSON body. The options are the following:    EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters.  WAF does its best to parse the entire JSON body, but might be forced to stop for reasons such as invalid characters, duplicate keys, truncation, and any content whose root node isn't an object or an array.  WAF parses the JSON in the following examples as two valid key, value pairs:    Missing comma: {"key1":"value1""key2":"value2"}    Missing colon: {"key1":"value1","key2""value2"}    Extra colons: {"key1"::"value1","key2""value2"}
         public let invalidFallbackBehavior: BodyParsingFallbackBehavior?
@@ -2458,9 +2545,9 @@ extension WAFV2 {
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
-        public let scope: Scope?
+        public let scope: Scope
 
-        public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
             self.scope = scope
@@ -2835,7 +2922,7 @@ extension WAFV2 {
     }
 
     public class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
-        /// The rules whose actions are set to COUNT by the web ACL, regardless of the action that is set on the rule. This effectively excludes the rule from acting on web requests.
+        /// The rules in the referenced rule group whose actions are set to Count.   When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were Count.  This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.
         public let excludedRules: [ExcludedRule]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
@@ -3067,9 +3154,9 @@ extension WAFV2 {
     }
 
     public struct OverrideAction: AWSEncodableShape & AWSDecodableShape {
-        /// Override the rule action setting to count.
+        /// Override the rule group evaluation result to count only.   This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count   matches, do not use this and instead exclude those rules in your rule group reference statement settings.
         public let count: CountAction?
-        /// Don't override the rule action setting.
+        /// Don't override the rule group evaluation result. This is the most common setting.
         public let none: NoneAction?
 
         public init(count: CountAction? = nil, none: NoneAction? = nil) {
@@ -3409,9 +3496,11 @@ extension WAFV2 {
     public struct Rule: AWSEncodableShape & AWSDecodableShape {
         /// The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.  This is used only for rules whose statements do not reference a rule group. Rule statements that reference a rule group include RuleGroupReferenceStatement and ManagedRuleGroupStatement.  You must specify either this Action setting or the rule OverrideAction setting, but not both:   If the rule statement does not reference a rule group, use this rule action setting and not the rule override action setting.     If the rule statement references a rule group, use the override action setting and not this action setting.
         public let action: RuleAction?
+        /// Specifies how WAF should handle CAPTCHA evaluations. If you don't specify this, WAF uses the CAPTCHA configuration that's defined for the web ACL.
+        public let captchaConfig: CaptchaConfig?
         /// The name of the rule. You can't change the name of a Rule after you create it.
         public let name: String
-        /// The override action to apply to the rules in a rule group. Used only for rule statements that reference a rule group,  like RuleGroupReferenceStatement and ManagedRuleGroupStatement.  Set the override action to none to leave the rule actions in effect. Set it to count to only count matches, regardless of the rule action settings.   In a Rule, you must specify either this OverrideAction setting or the rule Action setting, but not both:   If the rule statement references a rule group, use this override action setting and not the action setting.     If the rule statement does not reference a rule group, use the rule action setting and not this rule override action setting.
+        /// The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only.  You can only use this for rule statements that reference a rule group, like RuleGroupReferenceStatement and ManagedRuleGroupStatement.   This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count   matches, do not use this and instead exclude those rules in your rule group reference statement settings.
         public let overrideAction: OverrideAction?
         /// If you define more than one Rule in a WebACL, WAF evaluates each request against the Rules in order based on the value of Priority. WAF processes rules with lower priority first. The priorities don't need to be consecutive, but they must all be different.
         public let priority: Int
@@ -3422,8 +3511,9 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(action: RuleAction? = nil, name: String, overrideAction: OverrideAction? = nil, priority: Int, ruleLabels: [Label]? = nil, statement: Statement, visibilityConfig: VisibilityConfig) {
+        public init(action: RuleAction? = nil, captchaConfig: CaptchaConfig? = nil, name: String, overrideAction: OverrideAction? = nil, priority: Int, ruleLabels: [Label]? = nil, statement: Statement, visibilityConfig: VisibilityConfig) {
             self.action = action
+            self.captchaConfig = captchaConfig
             self.name = name
             self.overrideAction = overrideAction
             self.priority = priority
@@ -3434,6 +3524,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.action?.validate(name: "\(name).action")
+            try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -3448,6 +3539,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+            case captchaConfig = "CaptchaConfig"
             case name = "Name"
             case overrideAction = "OverrideAction"
             case priority = "Priority"
@@ -3462,24 +3554,29 @@ extension WAFV2 {
         public let allow: AllowAction?
         /// Instructs WAF to block the web request.
         public let block: BlockAction?
+        /// Instructs WAF to run a CAPTCHA check against the web request.
+        public let captcha: CaptchaAction?
         /// Instructs WAF to count the web request and allow it.
         public let count: CountAction?
 
-        public init(allow: AllowAction? = nil, block: BlockAction? = nil, count: CountAction? = nil) {
+        public init(allow: AllowAction? = nil, block: BlockAction? = nil, captcha: CaptchaAction? = nil, count: CountAction? = nil) {
             self.allow = allow
             self.block = block
+            self.captcha = captcha
             self.count = count
         }
 
         public func validate(name: String) throws {
             try self.allow?.validate(name: "\(name).allow")
             try self.block?.validate(name: "\(name).block")
+            try self.captcha?.validate(name: "\(name).captcha")
             try self.count?.validate(name: "\(name).count")
         }
 
         private enum CodingKeys: String, CodingKey {
             case allow = "Allow"
             case block = "Block"
+            case captcha = "Captcha"
             case count = "Count"
         }
     }
@@ -3542,7 +3639,7 @@ extension WAFV2 {
     public struct RuleGroupReferenceStatement: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
-        /// The names of rules that are in the referenced rule group, but that you want WAF to exclude from processing for this rule statement.
+        /// The rules in the referenced rule group whose actions are set to Count.   When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were Count.  This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.
         public let excludedRules: [ExcludedRule]?
 
         public init(arn: String, excludedRules: [ExcludedRule]? = nil) {
@@ -3612,8 +3709,10 @@ extension WAFV2 {
     }
 
     public struct SampledHTTPRequest: AWSDecodableShape {
-        /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
+        /// The action for the Rule that the request matched: Allow, Block, or Count.
         public let action: String?
+        /// The CAPTCHA response for the request.
+        public let captchaResponse: CaptchaResponse?
         /// Labels applied to the web request by matching rules. WAF applies fully qualified labels to matching web requests. A fully qualified label is the concatenation of a label namespace and a rule label. The rule's rule group or web ACL defines the label namespace.  For example, awswaf:111122223333:myRuleGroup:testRules:testNS1:testNS2:labelNameA or awswaf:managed:aws:managed-rule-set:header:encoding:utf8.
         public let labels: [Label]?
         /// A complex type that contains detailed information about the request.
@@ -3629,8 +3728,9 @@ extension WAFV2 {
         /// A value that indicates how one result in the response relates proportionally to other results in the response. For example, a result that has a weight of 2 represents roughly twice as many web requests as a result that has a weight of 1.
         public let weight: Int64
 
-        public init(action: String? = nil, labels: [Label]? = nil, request: HTTPRequest, requestHeadersInserted: [HTTPHeader]? = nil, responseCodeSent: Int? = nil, ruleNameWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
+        public init(action: String? = nil, captchaResponse: CaptchaResponse? = nil, labels: [Label]? = nil, request: HTTPRequest, requestHeadersInserted: [HTTPHeader]? = nil, responseCodeSent: Int? = nil, ruleNameWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
             self.action = action
+            self.captchaResponse = captchaResponse
             self.labels = labels
             self.request = request
             self.requestHeadersInserted = requestHeadersInserted
@@ -3642,6 +3742,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+            case captchaResponse = "CaptchaResponse"
             case labels = "Labels"
             case request = "Request"
             case requestHeadersInserted = "RequestHeadersInserted"
@@ -4010,6 +4111,7 @@ extension WAFV2 {
                 try validate($0, name: "addresses[]", parent: name, min: 1)
                 try validate($0, name: "addresses[]", parent: name, pattern: "\\S")
             }
+            try self.validate(self.addresses, name: "addresses", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
@@ -4260,6 +4362,8 @@ extension WAFV2 {
     }
 
     public struct UpdateWebACLRequest: AWSEncodableShape {
+        /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
+        public let captchaConfig: CaptchaConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.   For information about customizing web requests and responses, see Customizing web requests and responses in WAF in the  WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas in the  WAF Developer Guide.
         public let customResponseBodies: [String: CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
@@ -4279,7 +4383,8 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+        public init(captchaConfig: CaptchaConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+            self.captchaConfig = captchaConfig
             self.customResponseBodies = customResponseBodies
             self.defaultAction = defaultAction
             self.description = description
@@ -4292,6 +4397,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.customResponseBodies?.forEach {
                 try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
                 try validate($0.key, name: "customResponseBodies.key", parent: name, min: 1)
@@ -4319,6 +4425,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case captchaConfig = "CaptchaConfig"
             case customResponseBodies = "CustomResponseBodies"
             case defaultAction = "DefaultAction"
             case description = "Description"
@@ -4406,6 +4513,8 @@ extension WAFV2 {
         /// 				that use more processing power.
         /// 				Rule group capacity is fixed at creation, which helps users plan their   web ACL WCU usage when they use a rule group.  The WCU limit for web ACLs is 1,500.
         public let capacity: Int64?
+        /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
+        public let captchaConfig: CaptchaConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.   For information about customizing web requests and responses, see Customizing web requests and responses in WAF in the  WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas in the  WAF Developer Guide.
         public let customResponseBodies: [String: CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
@@ -4429,9 +4538,10 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(arn: String, capacity: Int64? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(arn: String, capacity: Int64? = nil, captchaConfig: CaptchaConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
             self.arn = arn
             self.capacity = capacity
+            self.captchaConfig = captchaConfig
             self.customResponseBodies = customResponseBodies
             self.defaultAction = defaultAction
             self.description = description
@@ -4448,6 +4558,7 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case capacity = "Capacity"
+            case captchaConfig = "CaptchaConfig"
             case customResponseBodies = "CustomResponseBodies"
             case defaultAction = "DefaultAction"
             case description = "Description"

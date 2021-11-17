@@ -245,7 +245,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the AWS resource associations for the specified Amazon Connect instance.
+    ///  Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -487,7 +487,29 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSecurityProfilePermissionsPaginator(
+        _ input: ListSecurityProfilePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSecurityProfilePermissionsRequest, ListSecurityProfilePermissionsResponse> {
+        return .init(
+            input: input,
+            command: listSecurityProfilePermissions,
+            inputKey: \ListSecurityProfilePermissionsRequest.nextToken,
+            outputKey: \ListSecurityProfilePermissionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

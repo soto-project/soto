@@ -802,15 +802,18 @@ extension MediaPackageVod {
         public let encryption: HlsEncryption?
         /// A list of HLS manifest configurations.
         public let hlsManifests: [HlsManifest]
+        /// When enabled, MediaPackage passes through digital video broadcasting (DVB) subtitles into the output.
+        public let includeDvbSubtitles: Bool?
         /// Duration (in seconds) of each fragment. Actual fragments will be
         /// rounded to the nearest multiple of the source fragment duration.
         public let segmentDurationSeconds: Int?
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
-        public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int? = nil, useAudioRenditionGroup: Bool? = nil) {
+        public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest], includeDvbSubtitles: Bool? = nil, segmentDurationSeconds: Int? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
+            self.includeDvbSubtitles = includeDvbSubtitles
             self.segmentDurationSeconds = segmentDurationSeconds
             self.useAudioRenditionGroup = useAudioRenditionGroup
         }
@@ -818,6 +821,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case encryption
             case hlsManifests
+            case includeDvbSubtitles
             case segmentDurationSeconds
             case useAudioRenditionGroup
         }

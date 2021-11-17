@@ -25,6 +25,8 @@ extension EKS {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
+        case bottlerocketArm64 = "BOTTLEROCKET_ARM_64"
+        case bottlerocketX8664 = "BOTTLEROCKET_x86_64"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }

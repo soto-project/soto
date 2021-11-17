@@ -1319,6 +1319,8 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendResponse: AWSDecodableShape {
+        /// A stringified version of the cli.json file for your Amplify project.
+        public let amplifyFeatureFlags: String?
         /// A stringified version of the current configs for your Amplify project.
         public let amplifyMetaConfig: String?
         /// The app ID.
@@ -1332,7 +1334,8 @@ extension AmplifyBackend {
         /// If the request failed, this is the returned error.
         public let error: String?
 
-        public init(amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
+        public init(amplifyFeatureFlags: String? = nil, amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
+            self.amplifyFeatureFlags = amplifyFeatureFlags
             self.amplifyMetaConfig = amplifyMetaConfig
             self.appId = appId
             self.appName = appName
@@ -1342,6 +1345,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amplifyFeatureFlags
             case amplifyMetaConfig
             case appId
             case appName

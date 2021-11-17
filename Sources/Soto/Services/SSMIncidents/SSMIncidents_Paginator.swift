@@ -285,7 +285,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists timeline events of the specified incident record.
+    ///  Lists timeline events for the specified incident record.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

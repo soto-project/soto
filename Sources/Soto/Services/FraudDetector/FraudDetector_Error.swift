@@ -49,14 +49,13 @@ public struct FraudDetectorErrorType: AWSErrorType {
 
     /// An exception indicating Amazon Fraud Detector does not have the needed permissions. This can occur if you submit a request, such as PutExternalModel, that specifies a role that is not in your account.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// An exception indicating there was a conflict during a delete operation. The following delete operations can cause a conflict exception:
-    /// 	          DeleteDetector: A conflict exception will occur if the detector has associated Rules or DetectorVersions. You can only delete a detector if it has no Rules or DetectorVersions.   DeleteDetectorVersion: A conflict exception will occur if the DetectorVersion status is ACTIVE.   DeleteRule: A conflict exception will occur if the RuleVersion is in use by an associated ACTIVE or INACTIVE DetectorVersion.
+    /// An exception indicating there was a conflict during a delete operation.
     public static var conflictException: Self { .init(.conflictException) }
     /// An exception indicating an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// An exception indicating the specified resource was not found. This can occur if you submit a request, such as CreateBatchPredictionJob, but the detector name or version does not exist.
+    /// An exception indicating the specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    ///  An exception indicating that the attached customer-owned (external) model threw an exception when Amazon Fraud Detector invoked the model.
+    /// An exception indicating that the attached customer-owned (external) model threw an exception when Amazon Fraud Detector invoked the model.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
     /// An exception indicating a throttling error.
     public static var throttlingException: Self { .init(.throttlingException) }

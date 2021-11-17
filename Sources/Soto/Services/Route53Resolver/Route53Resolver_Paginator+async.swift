@@ -155,6 +155,29 @@ extension Route53Resolver {
         )
     }
 
+    ///  Retrieves the Resolver configurations that you have defined.
+    ///  			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listResolverConfigsPaginator(
+        _ input: ListResolverConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListResolverConfigsRequest, ListResolverConfigsResponse> {
+        return .init(
+            input: input,
+            command: listResolverConfigs,
+            inputKey: \ListResolverConfigsRequest.nextToken,
+            outputKey: \ListResolverConfigsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///

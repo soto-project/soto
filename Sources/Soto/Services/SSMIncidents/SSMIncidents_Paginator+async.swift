@@ -133,7 +133,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists timeline events of the specified incident record.
+    ///  Lists timeline events for the specified incident record.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

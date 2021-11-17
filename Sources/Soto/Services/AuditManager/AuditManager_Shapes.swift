@@ -128,6 +128,31 @@ extension AuditManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShareRequestAction: String, CustomStringConvertible, Codable {
+        case accept = "ACCEPT"
+        case decline = "DECLINE"
+        case revoke = "REVOKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareRequestStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case declined = "DECLINED"
+        case expired = "EXPIRED"
+        case expiring = "EXPIRING"
+        case failed = "FAILED"
+        case replicating = "REPLICATING"
+        case revoked = "REVOKED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareRequestType: String, CustomStringConvertible, Codable {
+        case received = "RECEIVED"
+        case sent = "SENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceFrequency: String, CustomStringConvertible, Codable {
         case daily = "DAILY"
         case monthly = "MONTHLY"
@@ -153,11 +178,11 @@ extension AuditManager {
     // MARK: Shapes
 
     public struct AWSAccount: AWSEncodableShape & AWSDecodableShape {
-        ///  The email address associated with the specified account.
+        ///  The email address that's associated with the Amazon Web Services account.
         public let emailAddress: String?
-        ///  The identifier for the specified account.
+        ///  The identifier for the Amazon Web Services account.
         public let id: String?
-        ///  The name of the specified account.
+        ///  The name of the Amazon Web Services account.
         public let name: String?
 
         public init(emailAddress: String? = nil, id: String? = nil, name: String? = nil) {
@@ -207,13 +232,13 @@ extension AuditManager {
     public struct Assessment: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the assessment.
         public let arn: String?
-        ///  The account associated with the assessment.
+        ///  The Amazon Web Services account that's associated with the assessment.
         public let awsAccount: AWSAccount?
-        ///  The framework from which the assessment was created.
+        ///  The framework that the assessment was created from.
         public let framework: AssessmentFramework?
-        ///  The metadata for the specified assessment.
+        ///  The metadata for the assessment.
         public let metadata: AssessmentMetadata?
-        ///  The tags associated with the assessment.
+        ///  The tags that are associated with the assessment.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, awsAccount: AWSAccount? = nil, framework: AssessmentFramework? = nil, metadata: AssessmentMetadata? = nil, tags: [String: String]? = nil) {
@@ -236,21 +261,21 @@ extension AuditManager {
     public struct AssessmentControl: AWSDecodableShape {
         ///  The amount of evidence in the assessment report.
         public let assessmentReportEvidenceCount: Int?
-        ///  The list of comments attached to the specified control.
+        ///  The list of comments that's attached to the control.
         public let comments: [ControlComment]?
-        ///  The description of the specified control.
+        ///  The description of the control.
         public let description: String?
-        ///  The amount of evidence generated for the control.
+        ///  The amount of evidence that's generated for the control.
         public let evidenceCount: Int?
-        ///  The list of data sources for the specified evidence.
+        ///  The list of data sources for the evidence.
         public let evidenceSources: [String]?
-        ///  The identifier for the specified control.
+        ///  The identifier for the control.
         public let id: String?
-        ///  The name of the specified control.
+        ///  The name of the control.
         public let name: String?
-        ///  The response of the specified control.
+        ///  The response of the control.
         public let response: ControlResponse?
-        ///  The status of the specified control.
+        ///  The status of the control.
         public let status: ControlStatus?
 
         public init(assessmentReportEvidenceCount: Int? = nil, comments: [ControlComment]? = nil, description: String? = nil, evidenceCount: Int? = nil, evidenceSources: [String]? = nil, id: String? = nil, name: String? = nil, response: ControlResponse? = nil, status: ControlStatus? = nil) {
@@ -279,21 +304,21 @@ extension AuditManager {
     }
 
     public struct AssessmentControlSet: AWSDecodableShape {
-        /// The list of controls contained with the control set.
+        ///  The list of controls that's contained with the control set.
         public let controls: [AssessmentControl]?
-        ///  The delegations associated with the control set.
+        ///  The delegations that are associated with the control set.
         public let delegations: [Delegation]?
         ///  The description for the control set.
         public let description: String?
         ///  The identifier of the control set in the assessment. This is the control set name in a plain string format.
         public let id: String?
-        ///  The total number of evidence objects uploaded manually to the control set.
+        ///  The total number of evidence objects that are uploaded manually to the control set.
         public let manualEvidenceCount: Int?
-        ///  The roles associated with the control set.
+        ///  The roles that are associated with the control set.
         public let roles: [Role]?
-        /// Specifies the current status of the control set.
+        ///  Specifies the current status of the control set.
         public let status: ControlSetStatus?
-        ///  The total number of evidence objects retrieved automatically for the control set.
+        ///  The total number of evidence objects that are retrieved automatically for the control set.
         public let systemEvidenceCount: Int?
 
         public init(controls: [AssessmentControl]? = nil, delegations: [Delegation]? = nil, description: String? = nil, id: String? = nil, manualEvidenceCount: Int? = nil, roles: [Role]? = nil, status: ControlSetStatus? = nil, systemEvidenceCount: Int? = nil) {
@@ -320,23 +345,23 @@ extension AuditManager {
     }
 
     public struct AssessmentEvidenceFolder: AWSDecodableShape {
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String?
-        ///  The total count of evidence included in the assessment report.
+        ///  The total count of evidence that's included in the assessment report.
         public let assessmentReportSelectionCount: Int?
         ///  The name of the user who created the evidence folder.
         public let author: String?
-        ///   The unique identifier for the specified control.
+        ///  The unique identifier for the control.
         public let controlId: String?
         ///  The name of the control.
         public let controlName: String?
         ///  The identifier for the control set.
         public let controlSetId: String?
-        ///  The Amazon Web Service from which the evidence was collected.
+        ///  The Amazon Web Service that the evidence was collected from.
         public let dataSource: String?
         ///  The date when the first evidence was added to the evidence folder.
         public let date: Date?
-        ///  The total number of Amazon Web Services resources assessed to generate the evidence.
+        ///  The total number of Amazon Web Services resources that were assessed to generate the evidence.
         public let evidenceAwsServiceSourceCount: Int?
         ///  The number of evidence that falls under the compliance check category. This evidence is collected from Config or Security Hub.
         public let evidenceByTypeComplianceCheckCount: Int?
@@ -348,11 +373,11 @@ extension AuditManager {
         public let evidenceByTypeManualCount: Int?
         ///  The number of evidence that falls under the user activity category. This evidence is collected from CloudTrail logs.
         public let evidenceByTypeUserActivityCount: Int?
-        ///  The amount of evidence included in the evidence folder.
+        ///  The amount of evidence that's included in the evidence folder.
         public let evidenceResourcesIncludedCount: Int?
-        /// The identifier for the folder in which evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let id: String?
-        /// The name of the specified evidence folder.
+        ///  The name of the evidence folder.
         public let name: String?
         ///  The total amount of evidence in the evidence folder.
         public let totalEvidence: Int?
@@ -401,11 +426,11 @@ extension AuditManager {
     }
 
     public struct AssessmentFramework: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the specified framework.
+        ///  The Amazon Resource Name (ARN) of the framework.
         public let arn: String?
-        ///  The control sets associated with the framework.
+        ///  The control sets that are associated with the framework.
         public let controlSets: [AssessmentControlSet]?
-        /// The unique identifier for the framework.
+        ///  The unique identifier for the framework.
         public let id: String?
         public let metadata: FrameworkMetadata?
 
@@ -429,23 +454,23 @@ extension AuditManager {
         public let arn: String?
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        /// The number of controls associated with the specified framework.
+        ///  The number of controls that are associated with the framework.
         public let controlsCount: Int?
-        ///  The number of control sets associated with the specified framework.
+        ///  The number of control sets that are associated with the framework.
         public let controlSetsCount: Int?
         ///  Specifies when the framework was created.
         public let createdAt: Date?
-        ///  The description of the specified framework.
+        ///  The description of the framework.
         public let description: String?
-        /// The unique identified for the specified framework.
+        ///  The unique identifier for the framework.
         public let id: String?
         ///  Specifies when the framework was most recently updated.
         public let lastUpdatedAt: Date?
-        ///  The logo associated with the framework.
+        ///  The logo that's associated with the framework.
         public let logo: String?
-        /// The name of the specified framework.
+        ///  The name of the framework.
         public let name: String?
-        /// The framework type, such as standard or custom.
+        ///  The framework type, such as a standard framework or a custom framework.
         public let type: FrameworkType?
 
         public init(arn: String? = nil, complianceType: String? = nil, controlsCount: Int? = nil, controlSetsCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, logo: String? = nil, name: String? = nil, type: FrameworkType? = nil) {
@@ -477,14 +502,83 @@ extension AuditManager {
         }
     }
 
+    public struct AssessmentFrameworkShareRequest: AWSDecodableShape {
+        ///  An optional comment from the sender about the share request.
+        public let comment: String?
+        /// The compliance type that the shared custom framework supports, such as CIS or HIPAA.
+        public let complianceType: String?
+        ///  The time when the share request was created.
+        public let creationTime: Date?
+        /// The number of custom controls that are part of the shared custom framework.
+        public let customControlsCount: Int?
+        ///  The Amazon Web Services account of the recipient.
+        public let destinationAccount: String?
+        ///  The Amazon Web Services Region of the recipient.
+        public let destinationRegion: String?
+        ///  The time when the share request expires.
+        public let expirationTime: Date?
+        /// The description of the shared custom framework.
+        public let frameworkDescription: String?
+        /// The unique identifier for the shared custom framework.
+        public let frameworkId: String?
+        ///  The name of the custom framework that the share request is for.
+        public let frameworkName: String?
+        ///  The unique identifier for the share request.
+        public let id: String?
+        ///  Specifies when the share request was last updated.
+        public let lastUpdated: Date?
+        ///  The Amazon Web Services account of the sender.
+        public let sourceAccount: String?
+        /// The number of standard controls that are part of the shared custom framework.
+        public let standardControlsCount: Int?
+        ///  The status of the share request.
+        public let status: ShareRequestStatus?
+
+        public init(comment: String? = nil, complianceType: String? = nil, creationTime: Date? = nil, customControlsCount: Int? = nil, destinationAccount: String? = nil, destinationRegion: String? = nil, expirationTime: Date? = nil, frameworkDescription: String? = nil, frameworkId: String? = nil, frameworkName: String? = nil, id: String? = nil, lastUpdated: Date? = nil, sourceAccount: String? = nil, standardControlsCount: Int? = nil, status: ShareRequestStatus? = nil) {
+            self.comment = comment
+            self.complianceType = complianceType
+            self.creationTime = creationTime
+            self.customControlsCount = customControlsCount
+            self.destinationAccount = destinationAccount
+            self.destinationRegion = destinationRegion
+            self.expirationTime = expirationTime
+            self.frameworkDescription = frameworkDescription
+            self.frameworkId = frameworkId
+            self.frameworkName = frameworkName
+            self.id = id
+            self.lastUpdated = lastUpdated
+            self.sourceAccount = sourceAccount
+            self.standardControlsCount = standardControlsCount
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment
+            case complianceType
+            case creationTime
+            case customControlsCount
+            case destinationAccount
+            case destinationRegion
+            case expirationTime
+            case frameworkDescription
+            case frameworkId
+            case frameworkName
+            case id
+            case lastUpdated
+            case sourceAccount
+            case standardControlsCount
+            case status
+        }
+    }
+
     public struct AssessmentMetadata: AWSDecodableShape {
-        ///  The destination in which evidence reports are stored for the specified assessment.
+        ///  The destination that evidence reports are stored in for the assessment.
         public let assessmentReportsDestination: AssessmentReportsDestination?
-        ///  The name of a compliance standard related to the assessment, such as PCI-DSS.
+        ///  The name of the compliance standard that's related to the assessment, such as PCI-DSS.
         public let complianceType: String?
         ///  Specifies when the assessment was created.
         public let creationTime: Date?
-        ///  The delegations associated with the assessment.
+        ///  The delegations that are associated with the assessment.
         public let delegations: [Delegation]?
         ///  The description of the assessment.
         public let description: String?
@@ -494,9 +588,9 @@ extension AuditManager {
         public let lastUpdated: Date?
         ///  The name of the assessment.
         public let name: String?
-        ///  The roles associated with the assessment.
+        ///  The roles that are associated with the assessment.
         public let roles: [Role]?
-        ///  The wrapper of accounts and services in scope for the assessment.
+        ///  The wrapper of Amazon Web Services accounts and services that are in scope for the assessment.
         public let scope: Scope?
         ///  The overall status of the assessment.
         public let status: AssessmentStatus?
@@ -531,21 +625,21 @@ extension AuditManager {
     }
 
     public struct AssessmentMetadataItem: AWSDecodableShape {
-        ///  The name of the compliance standard related to the assessment, such as PCI-DSS.
+        ///  The name of the compliance standard that's related to the assessment, such as PCI-DSS.
         public let complianceType: String?
         ///  Specifies when the assessment was created.
         public let creationTime: Date?
-        ///  The delegations associated with the assessment.
+        ///  The delegations that are associated with the assessment.
         public let delegations: [Delegation]?
         ///  The unique identifier for the assessment.
         public let id: String?
         ///  The time of the most recent update.
         public let lastUpdated: Date?
-        /// The name of the assessment.
+        ///  The name of the assessment.
         public let name: String?
-        ///  The roles associated with the assessment.
+        ///  The roles that are associated with the assessment.
         public let roles: [Role]?
-        /// The current status of the assessment.
+        ///  The current status of the assessment.
         public let status: AssessmentStatus?
 
         public init(complianceType: String? = nil, creationTime: Date? = nil, delegations: [Delegation]? = nil, id: String? = nil, lastUpdated: Date? = nil, name: String? = nil, roles: [Role]? = nil, status: AssessmentStatus? = nil) {
@@ -574,21 +668,21 @@ extension AuditManager {
     public struct AssessmentReport: AWSDecodableShape {
         ///  The identifier for the specified assessment.
         public let assessmentId: String?
-        /// The name of the associated assessment.
+        ///  The name of the associated assessment.
         public let assessmentName: String?
         ///  The name of the user who created the assessment report.
         public let author: String?
-        ///  The identifier for the specified account.
+        ///  The identifier for the specified Amazon Web Services account.
         public let awsAccountId: String?
         ///  Specifies when the assessment report was created.
         public let creationTime: Date?
         ///  The description of the specified assessment report.
         public let description: String?
-        /// The unique identifier for the specified assessment report.
+        ///  The unique identifier for the assessment report.
         public let id: String?
-        /// The name given to the assessment report.
+        ///  The name that's given to the assessment report.
         public let name: String?
-        /// The current status of the specified assessment report.
+        ///  The current status of the specified assessment report.
         public let status: AssessmentReportStatus?
 
         public init(assessmentId: String? = nil, assessmentName: String? = nil, author: String? = nil, awsAccountId: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: AssessmentReportStatus? = nil) {
@@ -617,9 +711,9 @@ extension AuditManager {
     }
 
     public struct AssessmentReportEvidenceError: AWSDecodableShape {
-        ///  The error code returned by the AssessmentReportEvidence API.
+        ///  The error code that the AssessmentReportEvidence API returned.
         public let errorCode: String?
-        ///  The error message returned by the AssessmentReportEvidence API.
+        ///  The error message that the AssessmentReportEvidence API returned.
         public let errorMessage: String?
         ///  The identifier for the evidence.
         public let evidenceId: String?
@@ -646,13 +740,13 @@ extension AuditManager {
         public let author: String?
         ///  Specifies when the assessment report was created.
         public let creationTime: Date?
-        /// The description of the specified assessment report.
+        ///  The description of the assessment report.
         public let description: String?
-        /// The unique identifier for the assessment report.
+        ///  The unique identifier for the assessment report.
         public let id: String?
-        /// The name of the assessment report.
+        ///  The name of the assessment report.
         public let name: String?
-        /// The current status of the assessment report.
+        ///  The current status of the assessment report.
         public let status: AssessmentReportStatus?
 
         public init(assessmentId: String? = nil, assessmentName: String? = nil, author: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: AssessmentReportStatus? = nil) {
@@ -706,9 +800,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifier for the folder in which evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
 
         public init(assessmentId: String, evidenceFolderId: String) {
@@ -739,9 +833,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The unique identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifier for the folder in which the evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
         ///  The list of evidence identifiers.
         public let evidenceIds: [String]
@@ -774,9 +868,9 @@ extension AuditManager {
     }
 
     public struct BatchAssociateAssessmentReportEvidenceResponse: AWSDecodableShape {
-        ///  A list of errors returned by the BatchAssociateAssessmentReportEvidence API.
+        ///  A list of errors that the BatchAssociateAssessmentReportEvidence API returned.
         public let errors: [AssessmentReportEvidenceError]?
-        ///  The identifier for the evidence.
+        ///  The list of evidence identifiers.
         public let evidenceIds: [String]?
 
         public init(errors: [AssessmentReportEvidenceError]? = nil, evidenceIds: [String]? = nil) {
@@ -793,9 +887,9 @@ extension AuditManager {
     public struct BatchCreateDelegationByAssessmentError: AWSDecodableShape {
         ///  The API request to batch create delegations in Audit Manager.
         public let createDelegationRequest: CreateDelegationRequest?
-        ///  The error code returned by the BatchCreateDelegationByAssessment API.
+        ///  The error code that the BatchCreateDelegationByAssessment API returned.
         public let errorCode: String?
-        ///  The error message returned by the BatchCreateDelegationByAssessment API.
+        ///  The error message that the BatchCreateDelegationByAssessment API returned.
         public let errorMessage: String?
 
         public init(createDelegationRequest: CreateDelegationRequest? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
@@ -816,7 +910,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The API request to batch create delegations in Audit Manager.
         public let createDelegationRequests: [CreateDelegationRequest]
@@ -843,9 +937,9 @@ extension AuditManager {
     }
 
     public struct BatchCreateDelegationByAssessmentResponse: AWSDecodableShape {
-        ///  The delegations associated with the assessment.
+        ///  The delegations that are associated with the assessment.
         public let delegations: [Delegation]?
-        ///  A list of errors returned by the BatchCreateDelegationByAssessment API.
+        ///  A list of errors that the BatchCreateDelegationByAssessment API returned.
         public let errors: [BatchCreateDelegationByAssessmentError]?
 
         public init(delegations: [Delegation]? = nil, errors: [BatchCreateDelegationByAssessmentError]? = nil) {
@@ -860,11 +954,11 @@ extension AuditManager {
     }
 
     public struct BatchDeleteDelegationByAssessmentError: AWSDecodableShape {
-        ///  The identifier for the specified delegation.
+        ///  The identifier for the delegation.
         public let delegationId: String?
-        ///  The error code returned by the BatchDeleteDelegationByAssessment API.
+        ///  The error code that the BatchDeleteDelegationByAssessment API returned.
         public let errorCode: String?
-        ///  The error message returned by the BatchDeleteDelegationByAssessment API.
+        ///  The error message that the BatchDeleteDelegationByAssessment API returned.
         public let errorMessage: String?
 
         public init(delegationId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
@@ -885,9 +979,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifiers for the specified delegations.
+        ///  The identifiers for the delegations.
         public let delegationIds: [String]
 
         public init(assessmentId: String, delegationIds: [String]) {
@@ -914,7 +1008,7 @@ extension AuditManager {
     }
 
     public struct BatchDeleteDelegationByAssessmentResponse: AWSDecodableShape {
-        ///  A list of errors returned by the BatchDeleteDelegationByAssessment API.
+        ///  A list of errors that the BatchDeleteDelegationByAssessment API returned.
         public let errors: [BatchDeleteDelegationByAssessmentError]?
 
         public init(errors: [BatchDeleteDelegationByAssessmentError]? = nil) {
@@ -931,9 +1025,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifier for the folder in which evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
         ///  The list of evidence identifiers.
         public let evidenceIds: [String]
@@ -966,7 +1060,7 @@ extension AuditManager {
     }
 
     public struct BatchDisassociateAssessmentReportEvidenceResponse: AWSDecodableShape {
-        ///  A list of errors returned by the BatchDisassociateAssessmentReportEvidence API.
+        ///  A list of errors that the BatchDisassociateAssessmentReportEvidence API returned.
         public let errors: [AssessmentReportEvidenceError]?
         ///  The identifier for the evidence.
         public let evidenceIds: [String]?
@@ -983,11 +1077,11 @@ extension AuditManager {
     }
 
     public struct BatchImportEvidenceToAssessmentControlError: AWSDecodableShape {
-        ///  The error code returned by the BatchImportEvidenceToAssessmentControl API.
+        ///  The error code that the BatchImportEvidenceToAssessmentControl API returned.
         public let errorCode: String?
-        ///  The error message returned by the BatchImportEvidenceToAssessmentControl API.
+        ///  The error message that the BatchImportEvidenceToAssessmentControl API returned.
         public let errorMessage: String?
-        ///  Manual evidence that cannot be collected automatically by Audit Manager.
+        ///  Manual evidence that can't be collected automatically by Audit Manager.
         public let manualEvidence: ManualEvidence?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, manualEvidence: ManualEvidence? = nil) {
@@ -1010,11 +1104,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///   The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String
         ///  The list of manual evidence objects.
         public let manualEvidence: [ManualEvidence]
@@ -1049,7 +1143,7 @@ extension AuditManager {
     }
 
     public struct BatchImportEvidenceToAssessmentControlResponse: AWSDecodableShape {
-        ///  A list of errors returned by the BatchImportEvidenceToAssessmentControl API.
+        ///  A list of errors that the BatchImportEvidenceToAssessmentControl API returned.
         public let errors: [BatchImportEvidenceToAssessmentControlError]?
 
         public init(errors: [BatchImportEvidenceToAssessmentControlError]? = nil) {
@@ -1062,15 +1156,15 @@ extension AuditManager {
     }
 
     public struct ChangeLog: AWSDecodableShape {
-        ///  The action performed.
+        ///  The action that was performed.
         public let action: ActionEnum?
-        ///  The time of creation for the changelog object.
+        ///  The time when the action was performed and the changelog record was created.
         public let createdAt: Date?
         ///  The IAM user or role that performed the action.
         public let createdBy: String?
-        ///  The name of the changelog object.
+        ///  The name of the object that changed. This could be the name of an assessment, control, or control set.
         public let objectName: String?
-        ///  The changelog object type, such as an assessment, control, or control set.
+        ///  The object that was changed, such as an assessment, control, or control set.
         public let objectType: ObjectTypeEnum?
 
         public init(action: ActionEnum? = nil, createdAt: Date? = nil, createdBy: String? = nil, objectName: String? = nil, objectType: ObjectTypeEnum? = nil) {
@@ -1091,35 +1185,35 @@ extension AuditManager {
     }
 
     public struct Control: AWSDecodableShape {
-        ///   The recommended actions to carry out if the control is not fulfilled.
+        ///  The recommended actions to carry out if the control isn't fulfilled.
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
         public let actionPlanTitle: String?
-        ///  The Amazon Resource Name (ARN) of the specified control.
+        ///  The Amazon Resource Name (ARN) of the control.
         public let arn: String?
-        ///  The data mapping sources for the specified control.
+        ///  The data mapping sources for the control.
         public let controlMappingSources: [ControlMappingSource]?
-        ///  The data source that determines from where Audit Manager collects evidence for the control.
+        ///  The data source that determines where Audit Manager collects evidence from for the control.
         public let controlSources: String?
-        /// Specifies when the control was created.
+        ///  Specifies when the control was created.
         public let createdAt: Date?
         ///  The IAM user or role that created the control.
         public let createdBy: String?
-        ///  The description of the specified control.
+        ///  The description of the control.
         public let description: String?
-        /// The unique identifier for the control.
+        ///  The unique identifier for the control.
         public let id: String?
-        /// Specifies when the control was most recently updated.
+        ///  Specifies when the control was most recently updated.
         public let lastUpdatedAt: Date?
         ///  The IAM user or role that most recently updated the control.
         public let lastUpdatedBy: String?
-        /// The name of the specified control.
+        ///  The name of the control.
         public let name: String?
         ///  The tags associated with the control.
         public let tags: [String: String]?
-        ///  The steps to follow to determine if the control has been satisfied.
+        ///  The steps that you should follow to determine if the control has been satisfied.
         public let testingInformation: String?
-        /// The type of control, such as custom or standard.
+        ///  The type of control, such as a custom control or a standard control.
         public let type: ControlType?
 
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, arn: String? = nil, controlMappingSources: [ControlMappingSource]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String? = nil, tags: [String: String]? = nil, testingInformation: String? = nil, type: ControlType? = nil) {
@@ -1181,20 +1275,20 @@ extension AuditManager {
     }
 
     public struct ControlMappingSource: AWSEncodableShape & AWSDecodableShape {
-        /// The description of the specified source.
+        ///  The description of the source.
         public let sourceDescription: String?
-        ///  The frequency of evidence collection for the specified control mapping source.
+        ///  The frequency of evidence collection for the control mapping source.
         public let sourceFrequency: SourceFrequency?
-        /// The unique identifier for the specified source.
+        ///  The unique identifier for the source.
         public let sourceId: String?
         public let sourceKeyword: SourceKeyword?
-        /// The name of the specified source.
+        ///  The name of the source.
         public let sourceName: String?
-        ///  The setup option for the data source, which reflects if the evidence collection is automated or manual.
+        ///  The setup option for the data source. This option reflects if the evidence collection is automated or manual.
         public let sourceSetUpOption: SourceSetUpOption?
         ///  Specifies one of the five types of data sources for evidence collection.
         public let sourceType: SourceType?
-        ///  The instructions for troubleshooting the specified control.
+        ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
 
         public init(sourceDescription: String? = nil, sourceFrequency: SourceFrequency? = nil, sourceId: String? = nil, sourceKeyword: SourceKeyword? = nil, sourceName: String? = nil, sourceSetUpOption: SourceSetUpOption? = nil, sourceType: SourceType? = nil, troubleshootingText: String? = nil) {
@@ -1234,17 +1328,17 @@ extension AuditManager {
     }
 
     public struct ControlMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the specified control.
+        ///  The Amazon Resource Name (ARN) of the control.
         public let arn: String?
-        ///  The data source that determines from where Audit Manager collects evidence for the control.
+        ///  The data source that determines where Audit Manager collects evidence from for the control.
         public let controlSources: String?
         ///  Specifies when the control was created.
         public let createdAt: Date?
-        /// The unique identifier for the specified control.
+        ///  The unique identifier for the control.
         public let id: String?
         ///  Specifies when the control was most recently updated.
         public let lastUpdatedAt: Date?
-        /// The name of the specified control.
+        ///  The name of the control.
         public let name: String?
 
         public init(arn: String? = nil, controlSources: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil) {
@@ -1271,7 +1365,7 @@ extension AuditManager {
         public let controls: [Control]?
         ///  The identifier of the control set in the assessment. This is the control set name in a plain string format.
         public let id: String?
-        /// The name of the control set.
+        ///  The name of the control set.
         public let name: String?
 
         public init(controls: [Control]? = nil, id: String? = nil, name: String? = nil) {
@@ -1288,7 +1382,7 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentFrameworkControl: AWSEncodableShape {
-        /// The unique identifier of the control.
+        ///  The unique identifier of the control.
         public let id: String?
 
         public init(id: String? = nil) {
@@ -1307,9 +1401,9 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentFrameworkControlSet: AWSEncodableShape {
-        ///  The list of controls within the control set. This does not contain the control set ID.
+        ///  The list of controls within the control set. This doesn't contain the control set ID.
         public let controls: [CreateAssessmentFrameworkControl]?
-        /// The name of the specified control set.
+        ///  The name of the control set.
         public let name: String
 
         public init(controls: [CreateAssessmentFrameworkControl]? = nil, name: String) {
@@ -1324,7 +1418,7 @@ extension AuditManager {
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\\\_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1334,15 +1428,15 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentFrameworkRequest: AWSEncodableShape {
-        /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
+        ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        ///  The control sets to be associated with the framework.
+        ///  The control sets that are associated with the framework.
         public let controlSets: [CreateAssessmentFrameworkControlSet]
-        /// An optional description for the new custom framework.
+        ///  An optional description for the new custom framework.
         public let description: String?
-        /// The name of the new custom framework.
+        ///  The name of the new custom framework.
         public let name: String
-        ///  The tags associated with the framework.
+        ///  The tags that are associated with the framework.
         public let tags: [String: String]?
 
         public init(complianceType: String? = nil, controlSets: [CreateAssessmentFrameworkControlSet], description: String? = nil, name: String, tags: [String: String]? = nil) {
@@ -1386,7 +1480,7 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentFrameworkResponse: AWSDecodableShape {
-        ///  The name of the new framework returned by the CreateAssessmentFramework API.
+        ///  The name of the new framework that the CreateAssessmentFramework API returned.
         public let framework: Framework?
 
         public init(framework: Framework? = nil) {
@@ -1403,11 +1497,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        /// The description of the assessment report.
+        ///  The description of the assessment report.
         public let description: String?
-        /// The name of the new assessment report.
+        ///  The name of the new assessment report.
         public let name: String
 
         public init(assessmentId: String, description: String? = nil, name: String) {
@@ -1434,7 +1528,7 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentReportResponse: AWSDecodableShape {
-        ///  The new assessment report returned by the CreateAssessmentReport API.
+        ///  The new assessment report that the CreateAssessmentReport API returned.
         public let assessmentReport: AssessmentReport?
 
         public init(assessmentReport: AssessmentReport? = nil) {
@@ -1447,18 +1541,18 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentRequest: AWSEncodableShape {
-        ///  The assessment report storage destination for the specified assessment that is being created.
+        ///  The assessment report storage destination for the assessment that's being created.
         public let assessmentReportsDestination: AssessmentReportsDestination
         ///  The optional description of the assessment to be created.
         public let description: String?
-        ///  The identifier for the specified framework.
+        ///  The identifier for the framework that the assessment will be created from.
         public let frameworkId: String
         ///  The name of the assessment to be created.
         public let name: String
-        ///  The list of roles for the specified assessment.
+        ///  The list of roles for the assessment.
         public let roles: [Role]
         public let scope: Scope
-        ///  The tags associated with the assessment.
+        ///  The tags that are associated with the assessment.
         public let tags: [String: String]?
 
         public init(assessmentReportsDestination: AssessmentReportsDestination, description: String? = nil, frameworkId: String, name: String, roles: [Role], scope: Scope, tags: [String: String]? = nil) {
@@ -1519,18 +1613,18 @@ extension AuditManager {
     }
 
     public struct CreateControlMappingSource: AWSEncodableShape {
-        ///  The description of the data source that determines from where Audit Manager collects evidence for the control.
+        ///  The description of the data source that determines where Audit Manager collects evidence from for the control.
         public let sourceDescription: String?
-        ///  The frequency of evidence collection for the specified control mapping source.
+        ///  The frequency of evidence collection for the control mapping source.
         public let sourceFrequency: SourceFrequency?
         public let sourceKeyword: SourceKeyword?
-        /// The name of the control mapping data source.
+        ///  The name of the control mapping data source.
         public let sourceName: String?
         ///  The setup option for the data source, which reflects if the evidence collection is automated or manual.
         public let sourceSetUpOption: SourceSetUpOption?
         ///  Specifies one of the five types of data sources for evidence collection.
         public let sourceType: SourceType?
-        /// The instructions for troubleshooting the specified control.
+        ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
 
         public init(sourceDescription: String? = nil, sourceFrequency: SourceFrequency? = nil, sourceKeyword: SourceKeyword? = nil, sourceName: String? = nil, sourceSetUpOption: SourceSetUpOption? = nil, sourceType: SourceType? = nil, troubleshootingText: String? = nil) {
@@ -1565,19 +1659,19 @@ extension AuditManager {
     }
 
     public struct CreateControlRequest: AWSEncodableShape {
-        ///  The recommended actions to carry out if the control is not fulfilled.
+        ///  The recommended actions to carry out if the control isn't fulfilled.
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
         public let actionPlanTitle: String?
-        ///  The data mapping sources for the specified control.
+        ///  The data mapping sources for the control.
         public let controlMappingSources: [CreateControlMappingSource]
-        /// The description of the control.
+        ///  The description of the control.
         public let description: String?
-        /// The name of the control.
+        ///  The name of the control.
         public let name: String
-        ///  The tags associated with the control.
+        ///  The tags that are associated with the control.
         public let tags: [String: String]?
-        ///  The steps to follow to determine if the control has been satisfied.
+        ///  The steps to follow to determine if the control is satisfied.
         public let testingInformation: String?
 
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, controlMappingSources: [CreateControlMappingSource], description: String? = nil, name: String, tags: [String: String]? = nil, testingInformation: String? = nil) {
@@ -1628,7 +1722,7 @@ extension AuditManager {
     }
 
     public struct CreateControlResponse: AWSDecodableShape {
-        ///  The new control returned by the CreateControl API.
+        ///  The new control that the CreateControl API returned.
         public let control: Control?
 
         public init(control: Control? = nil) {
@@ -1641,14 +1735,13 @@ extension AuditManager {
     }
 
     public struct CreateDelegationRequest: AWSEncodableShape & AWSDecodableShape {
-        ///  A comment related to the delegation request.
+        ///  A comment that's related to the delegation request.
         public let comment: String?
         ///  The unique identifier for the control set.
         public let controlSetId: String?
         ///  The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String?
-        ///  The type of customer persona.
-        ///   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
+        ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
         public let roleType: RoleType?
 
         public init(comment: String? = nil, controlSetId: String? = nil, roleArn: String? = nil, roleType: RoleType? = nil) {
@@ -1678,13 +1771,13 @@ extension AuditManager {
     }
 
     public struct Delegation: AWSDecodableShape {
-        ///  The identifier for the associated assessment.
+        ///  The identifier for the assessment that's associated with the delegation.
         public let assessmentId: String?
-        ///  The name of the associated assessment.
+        ///  The name of the assessment that's associated with the delegation.
         public let assessmentName: String?
-        ///  The comment related to the delegation.
+        ///  The comment that's related to the delegation.
         public let comment: String?
-        ///  The identifier for the associated control set.
+        ///  The identifier for the control set that's associated with the delegation.
         public let controlSetId: String?
         ///  The IAM user or role that created the delegation.
         public let createdBy: String?
@@ -1696,8 +1789,7 @@ extension AuditManager {
         public let lastUpdated: Date?
         ///  The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String?
-        ///  The type of customer persona.
-        ///   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
+        ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
         public let roleType: RoleType?
         ///  The status of the delegation.
         public let status: DelegationStatus?
@@ -1732,11 +1824,11 @@ extension AuditManager {
     }
 
     public struct DelegationMetadata: AWSDecodableShape {
-        ///  The unique identifier for the specified assessment.
+        ///  The unique identifier for the assessment.
         public let assessmentId: String?
         ///  The name of the associated assessment.
         public let assessmentName: String?
-        /// Specifies the name of the control set delegated for review.
+        ///  Specifies the name of the control set that was delegated for review.
         public let controlSetName: String?
         ///  Specifies when the delegation was created.
         public let creationTime: Date?
@@ -1744,7 +1836,7 @@ extension AuditManager {
         public let id: String?
         ///  The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String?
-        /// The current status of the delgation.
+        ///  The current status of the delegation.
         public let status: DelegationStatus?
 
         public init(assessmentId: String? = nil, assessmentName: String? = nil, controlSetName: String? = nil, creationTime: Date? = nil, id: String? = nil, roleArn: String? = nil, status: DelegationStatus? = nil) {
@@ -1773,7 +1865,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
         ]
 
-        ///  The identifier for the specified framework.
+        ///  The identifier for the framework.
         public let frameworkId: String
 
         public init(frameworkId: String) {
@@ -1793,15 +1885,44 @@ extension AuditManager {
         public init() {}
     }
 
+    public struct DeleteAssessmentFrameworkShareRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestId", location: .uri("requestId")),
+            AWSMemberEncoding(label: "requestType", location: .querystring("requestType"))
+        ]
+
+        /// The unique identifier for the share request to be deleted.
+        public let requestId: String
+        /// Specifies whether the share request is a sent request or a received request.
+        public let requestType: ShareRequestType
+
+        public init(requestId: String, requestType: ShareRequestType) {
+            self.requestId = requestId
+            self.requestType = requestType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 36)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 36)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAssessmentFrameworkShareResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteAssessmentReportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId")),
             AWSMemberEncoding(label: "assessmentReportId", location: .uri("assessmentReportId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        /// The unique identifier for the assessment report.
+        ///  The unique identifier for the assessment report.
         public let assessmentReportId: String
 
         public init(assessmentId: String, assessmentReportId: String) {
@@ -1830,7 +1951,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
 
         public init(assessmentId: String) {
@@ -1855,7 +1976,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
         ]
 
-        ///  The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String
 
         public init(controlId: String) {
@@ -1880,7 +2001,7 @@ extension AuditManager {
     }
 
     public struct DeregisterAccountResponse: AWSDecodableShape {
-        /// The registration status of the account.
+        ///  The registration status of the account.
         public let status: AccountStatus?
 
         public init(status: AccountStatus? = nil) {
@@ -1893,7 +2014,7 @@ extension AuditManager {
     }
 
     public struct DeregisterOrganizationAdminAccountRequest: AWSEncodableShape {
-        ///  The identifier for the specified administrator account.
+        ///  The identifier for the administrator account.
         public let adminAccountId: String?
 
         public init(adminAccountId: String? = nil) {
@@ -1920,7 +2041,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the folder in which evidence is stored.
         public let evidenceFolderId: String
@@ -1951,31 +2072,31 @@ extension AuditManager {
     public struct Evidence: AWSDecodableShape {
         ///  Specifies whether the evidence is included in the assessment report.
         public let assessmentReportSelection: String?
-        ///  The names and values used by the evidence event, including an attribute name (such as allowUsersToChangePassword) and value (such as true or false).
+        ///  The names and values that are used by the evidence event. This includes an attribute name (such as allowUsersToChangePassword) and value (such as true or false).
         public let attributes: [String: String]?
-        ///  The identifier for the specified account.
+        ///  The identifier for the Amazon Web Services account.
         public let awsAccountId: String?
-        ///  The account from which the evidence is collected, and its organization path.
+        ///  The Amazon Web Services account that the evidence is collected from, and its organization path.
         public let awsOrganization: String?
         ///  The evaluation status for evidence that falls under the compliance check category. For evidence collected from Security Hub, a Pass or Fail result is shown. For evidence collected from Config, a Compliant or Noncompliant result is shown.
         public let complianceCheck: String?
-        ///  The data source from which the specified evidence was collected.
+        ///  The data source where the evidence was collected from.
         public let dataSource: String?
-        ///  The name of the specified evidence event.
+        ///  The name of the evidence event.
         public let eventName: String?
-        ///  The Amazon Web Service from which the evidence is collected.
+        ///  The Amazon Web Service that the evidence is collected from.
         public let eventSource: String?
-        ///  The identifier for the specified account.
+        ///  The identifier for the Amazon Web Services account.
         public let evidenceAwsAccountId: String?
         ///  The type of automated evidence.
         public let evidenceByType: String?
-        ///  The identifier for the folder in which the evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String?
-        ///  The unique identifier for the IAM user or role associated with the evidence.
+        ///  The unique identifier for the IAM user or role that's associated with the evidence.
         public let iamId: String?
         ///  The identifier for the evidence.
         public let id: String?
-        ///  The list of resources assessed to generate the evidence.
+        ///  The list of resources that are assessed to generate the evidence.
         public let resourcesIncluded: [Resource]?
         ///  The timestamp that represents when the evidence was collected.
         public let time: Date?
@@ -2018,33 +2139,33 @@ extension AuditManager {
     }
 
     public struct Framework: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the specified framework.
+        ///  The Amazon Resource Name (ARN) of the framework.
         public let arn: String?
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        ///  The control sets associated with the framework.
+        ///  The control sets that are associated with the framework.
         public let controlSets: [ControlSet]?
-        ///  The sources from which Audit Manager collects evidence for the control.
+        ///  The sources that Audit Manager collects evidence from for the control.
         public let controlSources: String?
         ///  Specifies when the framework was created.
         public let createdAt: Date?
         ///  The IAM user or role that created the framework.
         public let createdBy: String?
-        ///  The description of the specified framework.
+        ///  The description of the framework.
         public let description: String?
-        /// The unique identifier for the specified framework.
+        ///  The unique identifier for the framework.
         public let id: String?
         ///  Specifies when the framework was most recently updated.
         public let lastUpdatedAt: Date?
         ///  The IAM user or role that most recently updated the framework.
         public let lastUpdatedBy: String?
-        ///  The logo associated with the framework.
+        ///  The logo that's associated with the framework.
         public let logo: String?
-        /// The name of the specified framework.
+        ///  The name of the framework.
         public let name: String?
-        ///  The tags associated with the framework.
+        ///  The tags that are associated with the framework.
         public let tags: [String: String]?
-        /// The framework type, such as custom or standard.
+        ///  The framework type, such as a custom framework or a standard framework.
         public let type: FrameworkType?
 
         public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: FrameworkType? = nil) {
@@ -2083,11 +2204,11 @@ extension AuditManager {
     }
 
     public struct FrameworkMetadata: AWSDecodableShape {
-        ///  The compliance standard associated with the framework, such as PCI-DSS or HIPAA.
+        ///  The compliance standard that's associated with the framework. For example, this could be PCI DSS or HIPAA.
         public let complianceType: String?
         ///  The description of the framework.
         public let description: String?
-        ///  The logo associated with the framework.
+        ///  The logo that's associated with the framework.
         public let logo: String?
         ///  The name of the framework.
         public let name: String?
@@ -2112,7 +2233,7 @@ extension AuditManager {
     }
 
     public struct GetAccountStatusResponse: AWSDecodableShape {
-        ///  The status of the specified account.
+        ///  The status of the Amazon Web Services account.
         public let status: AccountStatus?
 
         public init(status: AccountStatus? = nil) {
@@ -2129,7 +2250,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
         ]
 
-        ///  The identifier for the specified framework.
+        ///  The identifier for the framework.
         public let frameworkId: String
 
         public init(frameworkId: String) {
@@ -2146,7 +2267,7 @@ extension AuditManager {
     }
 
     public struct GetAssessmentFrameworkResponse: AWSDecodableShape {
-        ///  The framework returned by the GetAssessmentFramework API.
+        ///  The framework that the GetAssessmentFramework API returned.
         public let framework: Framework?
 
         public init(framework: Framework? = nil) {
@@ -2164,9 +2285,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentReportId", location: .uri("assessmentReportId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        /// The identifier for the assessment report.
+        ///  The identifier for the assessment report.
         public let assessmentReportId: String
 
         public init(assessmentId: String, assessmentReportId: String) {
@@ -2203,7 +2324,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
 
         public init(assessmentId: String) {
@@ -2243,15 +2364,15 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///   The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String?
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String?
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(assessmentId: String, controlId: String? = nil, controlSetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2285,7 +2406,7 @@ extension AuditManager {
     public struct GetChangeLogsResponse: AWSDecodableShape {
         ///  The list of user activity for the control.
         public let changeLogs: [ChangeLog]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(changeLogs: [ChangeLog]? = nil, nextToken: String? = nil) {
@@ -2304,7 +2425,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
         ]
 
-        ///   The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String
 
         public init(controlId: String) {
@@ -2321,7 +2442,7 @@ extension AuditManager {
     }
 
     public struct GetControlResponse: AWSDecodableShape {
-        ///  The name of the control returned by the GetControl API.
+        ///  The name of the control that the GetControl API returned.
         public let control: Control?
 
         public init(control: Control? = nil) {
@@ -2339,9 +2460,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2361,9 +2482,9 @@ extension AuditManager {
     }
 
     public struct GetDelegationsResponse: AWSDecodableShape {
-        ///  The list of delegations returned by the GetDelegations API.
+        ///  The list of delegations that the GetDelegations API returned.
         public let delegations: [DelegationMetadata]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(delegations: [DelegationMetadata]? = nil, nextToken: String? = nil) {
@@ -2386,15 +2507,15 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
         ///  The identifier for the control set.
         public let controlSetId: String
-        ///  The unique identifier for the folder in which the evidence is stored.
+        ///  The unique identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(assessmentId: String, controlSetId: String, evidenceFolderId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2426,9 +2547,9 @@ extension AuditManager {
     }
 
     public struct GetEvidenceByEvidenceFolderResponse: AWSDecodableShape {
-        ///  The list of evidence returned by the GetEvidenceByEvidenceFolder API.
+        ///  The list of evidence that the GetEvidenceByEvidenceFolder API returned.
         public let evidence: [Evidence]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(evidence: [Evidence]? = nil, nextToken: String? = nil) {
@@ -2449,11 +2570,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "evidenceFolderId", location: .uri("evidenceFolderId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String
-        ///  The identifier for the folder in which the evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
 
         public init(assessmentId: String, controlSetId: String, evidenceFolderId: String) {
@@ -2478,7 +2599,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFolderResponse: AWSDecodableShape {
-        /// The folder in which evidence is stored.
+        ///  The folder that the evidence is stored in.
         public let evidenceFolder: AssessmentEvidenceFolder?
 
         public init(evidenceFolder: AssessmentEvidenceFolder? = nil) {
@@ -2499,15 +2620,15 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(assessmentId: String, controlId: String, controlSetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2539,9 +2660,9 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFoldersByAssessmentControlResponse: AWSDecodableShape {
-        ///  The list of evidence folders returned by the GetEvidenceFoldersByAssessmentControl API.
+        ///  The list of evidence folders that the GetEvidenceFoldersByAssessmentControl API returned.
         public let evidenceFolders: [AssessmentEvidenceFolder]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(evidenceFolders: [AssessmentEvidenceFolder]? = nil, nextToken: String? = nil) {
@@ -2562,11 +2683,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(assessmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2590,9 +2711,9 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFoldersByAssessmentResponse: AWSDecodableShape {
-        ///  The list of evidence folders returned by the GetEvidenceFoldersByAssessment API.
+        ///  The list of evidence folders that the GetEvidenceFoldersByAssessment API returned.
         public let evidenceFolders: [AssessmentEvidenceFolder]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(evidenceFolders: [AssessmentEvidenceFolder]? = nil, nextToken: String? = nil) {
@@ -2614,11 +2735,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "evidenceId", location: .uri("evidenceId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String
-        ///  The identifier for the folder in which the evidence is stored.
+        ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
         ///  The identifier for the evidence.
         public let evidenceId: String
@@ -2649,7 +2770,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceResponse: AWSDecodableShape {
-        ///  The evidence returned by the GetEvidenceResponse API.
+        ///  The evidence that the GetEvidenceResponse API returned.
         public let evidence: Evidence?
 
         public init(evidence: Evidence? = nil) {
@@ -2666,9 +2787,9 @@ extension AuditManager {
     }
 
     public struct GetOrganizationAdminAccountResponse: AWSDecodableShape {
-        ///  The identifier for the specified administrator account.
+        ///  The identifier for the administrator account.
         public let adminAccountId: String?
-        ///  The identifier for the specified organization.
+        ///  The identifier for the organization.
         public let organizationId: String?
 
         public init(adminAccountId: String? = nil, organizationId: String? = nil) {
@@ -2687,7 +2808,7 @@ extension AuditManager {
     }
 
     public struct GetServicesInScopeResponse: AWSDecodableShape {
-        ///  The metadata associated with the Amazon Web Service.
+        ///  The metadata that's associated with the Amazon Web Service.
         public let serviceMetadata: [ServiceMetadata]?
 
         public init(serviceMetadata: [ServiceMetadata]? = nil) {
@@ -2727,6 +2848,54 @@ extension AuditManager {
         }
     }
 
+    public struct ListAssessmentFrameworkShareRequestsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "requestType", location: .querystring("requestType"))
+        ]
+
+        ///  Represents the maximum number of results on a page or for an API request call.
+        public let maxResults: Int?
+        ///  The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+        ///  Specifies whether the share request is a sent request or a received request.
+        public let requestType: ShareRequestType
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, requestType: ShareRequestType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.requestType = requestType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssessmentFrameworkShareRequestsResponse: AWSDecodableShape {
+        ///  The list of share requests that the ListAssessmentFrameworkShareRequests API returned.
+        public let assessmentFrameworkShareRequests: [AssessmentFrameworkShareRequest]?
+        ///  The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(assessmentFrameworkShareRequests: [AssessmentFrameworkShareRequest]? = nil, nextToken: String? = nil) {
+            self.assessmentFrameworkShareRequests = assessmentFrameworkShareRequests
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentFrameworkShareRequests
+            case nextToken
+        }
+    }
+
     public struct ListAssessmentFrameworksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "frameworkType", location: .querystring("frameworkType")),
@@ -2734,11 +2903,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  The type of framework, such as standard or custom.
+        ///  The type of framework, such as a standard framework or a custom framework.
         public let frameworkType: FrameworkType
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(frameworkType: FrameworkType, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2759,9 +2928,9 @@ extension AuditManager {
     }
 
     public struct ListAssessmentFrameworksResponse: AWSDecodableShape {
-        /// The list of metadata objects for the specified framework.
+        ///  The list of metadata objects for the framework.
         public let frameworkMetadataList: [AssessmentFrameworkMetadata]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(frameworkMetadataList: [AssessmentFrameworkMetadata]? = nil, nextToken: String? = nil) {
@@ -2781,9 +2950,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2803,9 +2972,9 @@ extension AuditManager {
     }
 
     public struct ListAssessmentReportsResponse: AWSDecodableShape {
-        ///  The list of assessment reports returned by the ListAssessmentReports API.
+        ///  The list of assessment reports that the ListAssessmentReports API returned.
         public let assessmentReports: [AssessmentReportMetadata]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(assessmentReports: [AssessmentReportMetadata]? = nil, nextToken: String? = nil) {
@@ -2825,9 +2994,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2847,9 +3016,9 @@ extension AuditManager {
     }
 
     public struct ListAssessmentsResponse: AWSDecodableShape {
-        ///  The metadata associated with the assessment.
+        ///  The metadata that's associated with the assessment.
         public let assessmentMetadata: [AssessmentMetadataItem]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(assessmentMetadata: [AssessmentMetadataItem]? = nil, nextToken: String? = nil) {
@@ -2870,11 +3039,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The type of control, such as standard or custom.
+        ///  The type of control, such as a standard control or a custom control.
         public let controlType: ControlType
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(controlType: ControlType, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2895,9 +3064,9 @@ extension AuditManager {
     }
 
     public struct ListControlsResponse: AWSDecodableShape {
-        ///  The list of control metadata objects returned by the ListControls API.
+        ///  The list of control metadata objects that the ListControls API returned.
         public let controlMetadataList: [ControlMetadata]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(controlMetadataList: [ControlMetadata]? = nil, nextToken: String? = nil) {
@@ -2918,11 +3087,11 @@ extension AuditManager {
             AWSMemberEncoding(label: "source", location: .querystring("source"))
         ]
 
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
-        /// The control mapping data source to which the keywords apply.
+        ///  The control mapping data source that the keywords apply to.
         public let source: SourceType
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, source: SourceType) {
@@ -2943,9 +3112,9 @@ extension AuditManager {
     }
 
     public struct ListKeywordsForDataSourceResponse: AWSDecodableShape {
-        ///  The list of keywords for the specified event mapping source.
+        ///  The list of keywords for the event mapping source.
         public let keywords: [String]?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(keywords: [String]? = nil, nextToken: String? = nil) {
@@ -2965,9 +3134,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  Represents the maximum number of results per page, or per API request call.
+        ///  Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2987,7 +3156,7 @@ extension AuditManager {
     }
 
     public struct ListNotificationsResponse: AWSDecodableShape {
-        ///  The pagination token used to fetch the next set of results.
+        ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         ///  The returned list of notifications.
         public let notifications: [Notification]?
@@ -3008,7 +3177,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        ///  The Amazon Resource Name (ARN) of the specified resource.
+        ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -3025,7 +3194,7 @@ extension AuditManager {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        ///  The list of tags returned by the ListTagsForResource API.
+        ///  The list of tags that the ListTagsForResource API returned.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -3057,11 +3226,11 @@ extension AuditManager {
     }
 
     public struct Notification: AWSDecodableShape {
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String?
         ///  The name of the related assessment.
         public let assessmentName: String?
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String?
         ///  Specifies the name of the control set that the notification is about.
         public let controlSetName: String?
@@ -3137,7 +3306,7 @@ extension AuditManager {
     }
 
     public struct RegisterOrganizationAdminAccountRequest: AWSEncodableShape {
-        ///  The identifier for the specified delegated administrator account.
+        ///  The identifier for the delegated administrator account.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
@@ -3156,9 +3325,9 @@ extension AuditManager {
     }
 
     public struct RegisterOrganizationAdminAccountResponse: AWSDecodableShape {
-        ///  The identifier for the specified delegated administrator account.
+        ///  The identifier for the delegated administrator account.
         public let adminAccountId: String?
-        ///  The identifier for the specified organization.
+        ///  The identifier for the organization.
         public let organizationId: String?
 
         public init(adminAccountId: String? = nil, organizationId: String? = nil) {
@@ -3173,9 +3342,9 @@ extension AuditManager {
     }
 
     public struct Resource: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) for the specified resource.
+        ///  The Amazon Resource Name (ARN) for the resource.
         public let arn: String?
-        ///  The value of the specified resource.
+        ///  The value of the resource.
         public let value: String?
 
         public init(arn: String? = nil, value: String? = nil) {
@@ -3192,8 +3361,7 @@ extension AuditManager {
     public struct Role: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String?
-        ///  The type of customer persona.
-        ///   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
+        ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
         public let roleType: RoleType?
 
         public init(roleArn: String? = nil, roleType: RoleType? = nil) {
@@ -3214,9 +3382,9 @@ extension AuditManager {
     }
 
     public struct Scope: AWSEncodableShape & AWSDecodableShape {
-        ///  The accounts included in the scope of the assessment.
+        ///  The Amazon Web Services accounts that are included in the scope of the assessment.
         public let awsAccounts: [AWSAccount]?
-        ///  The Amazon Web Services services included in the scope of the assessment.
+        ///  The Amazon Web Services services that are included in the scope of the assessment.
         public let awsServices: [AWSService]?
 
         public init(awsAccounts: [AWSAccount]? = nil, awsServices: [AWSService]? = nil) {
@@ -3240,9 +3408,9 @@ extension AuditManager {
     }
 
     public struct ServiceMetadata: AWSDecodableShape {
-        ///  The category in which the Amazon Web Service belongs, such as compute, storage, database, and so on.
+        ///  The category that the Amazon Web Service belongs to, such as compute, storage, or database.
         public let category: String?
-        ///  The description of the specified Amazon Web Service.
+        ///  The description of the Amazon Web Service.
         public let description: String?
         ///  The display name of the Amazon Web Service.
         public let displayName: String?
@@ -3294,9 +3462,9 @@ extension AuditManager {
     }
 
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
-        /// The method of input for the specified keyword.
+        ///  The method of input for the keyword.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword used to search CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names when mapping a control data source.
+        ///  The value of the keyword that's used to search CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names when mapping a control data source.
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
@@ -3316,14 +3484,67 @@ extension AuditManager {
         }
     }
 
+    public struct StartAssessmentFrameworkShareRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "frameworkId", location: .uri("frameworkId"))
+        ]
+
+        ///  An optional comment from the sender about the share request.
+        public let comment: String?
+        ///  The Amazon Web Services account of the recipient.
+        public let destinationAccount: String
+        ///  The Amazon Web Services Region of the recipient.
+        public let destinationRegion: String
+        ///  The unique identifier for the custom framework to be shared.
+        public let frameworkId: String
+
+        public init(comment: String? = nil, destinationAccount: String, destinationRegion: String, frameworkId: String) {
+            self.comment = comment
+            self.destinationAccount = destinationAccount
+            self.destinationRegion = destinationRegion
+            self.frameworkId = frameworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, max: 500)
+            try self.validate(self.comment, name: "comment", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.destinationAccount, name: "destinationAccount", parent: name, max: 12)
+            try self.validate(self.destinationAccount, name: "destinationAccount", parent: name, min: 12)
+            try self.validate(self.destinationAccount, name: "destinationAccount", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, pattern: "^[a-z]{2}-[a-z]+-[0-9]{1}$")
+            try self.validate(self.frameworkId, name: "frameworkId", parent: name, max: 36)
+            try self.validate(self.frameworkId, name: "frameworkId", parent: name, min: 36)
+            try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment
+            case destinationAccount
+            case destinationRegion
+        }
+    }
+
+    public struct StartAssessmentFrameworkShareResponse: AWSDecodableShape {
+        ///  The share request that's created by the StartAssessmentFrameworkShare API.
+        public let assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest?
+
+        public init(assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest? = nil) {
+            self.assessmentFrameworkShareRequest = assessmentFrameworkShareRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentFrameworkShareRequest
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        ///  The Amazon Resource Name (ARN) of the specified resource.
+        ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        /// The tags to be associated with the resource.
+        ///  The tags that are associated with the resource.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -3355,7 +3576,7 @@ extension AuditManager {
     }
 
     public struct URL: AWSDecodableShape {
-        ///  The name or word used as a hyperlink to the URL.
+        ///  The name or word that's used as a hyperlink to the URL.
         public let hyperlinkName: String?
         ///  The unique identifier for the internet resource.
         public let link: String?
@@ -3414,15 +3635,15 @@ extension AuditManager {
             AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The comment body text for the specified control.
+        ///  The comment body text for the control.
         public let commentBody: String?
-        ///   The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String
-        ///  The status of the specified control.
+        ///  The status of the control.
         public let controlStatus: ControlStatus?
 
         public init(assessmentId: String, commentBody: String? = nil, controlId: String, controlSetId: String, controlStatus: ControlStatus? = nil) {
@@ -3454,7 +3675,7 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentControlResponse: AWSDecodableShape {
-        ///  The name of the updated control set returned by the UpdateAssessmentControl API.
+        ///  The name of the updated control set that the UpdateAssessmentControl API returned.
         public let control: AssessmentControl?
 
         public init(control: AssessmentControl? = nil) {
@@ -3472,13 +3693,13 @@ extension AuditManager {
             AWSMemberEncoding(label: "controlSetId", location: .uri("controlSetId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The comment related to the status update.
+        ///  The comment that's related to the status update.
         public let comment: String
-        ///  The identifier for the specified control set.
+        ///  The identifier for the control set.
         public let controlSetId: String
-        /// The status of the control set that is being updated.
+        ///  The status of the control set that's being updated.
         public let status: ControlSetStatus
 
         public init(assessmentId: String, comment: String, controlSetId: String, status: ControlSetStatus) {
@@ -3505,7 +3726,7 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentControlSetStatusResponse: AWSDecodableShape {
-        ///  The name of the updated control set returned by the UpdateAssessmentControlSetStatus API.
+        ///  The name of the updated control set that the UpdateAssessmentControlSetStatus API returned.
         public let controlSet: AssessmentControlSet?
 
         public init(controlSet: AssessmentControlSet? = nil) {
@@ -3518,11 +3739,11 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentFrameworkControlSet: AWSEncodableShape {
-        /// The list of controls contained within the control set.
+        ///  The list of controls that are contained within the control set.
         public let controls: [CreateAssessmentFrameworkControl]?
-        /// The unique identifier for the control set.
+        ///  The unique identifier for the control set.
         public let id: String?
-        /// The name of the control set.
+        ///  The name of the control set.
         public let name: String
 
         public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String) {
@@ -3538,10 +3759,10 @@ extension AuditManager {
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 300)
             try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[^\\_]*$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[^\\\\\\_]*$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\\\_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3558,13 +3779,13 @@ extension AuditManager {
 
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        ///  The control sets associated with the framework.
+        ///  The control sets that are associated with the framework.
         public let controlSets: [UpdateAssessmentFrameworkControlSet]
-        /// The description of the framework that is to be updated.
+        ///  The description of the updated framework.
         public let description: String?
-        ///  The identifier for the specified framework.
+        ///  The identifier for the framework.
         public let frameworkId: String
-        /// The name of the framework to be updated.
+        ///  The name of the framework to be updated.
         public let name: String
 
         public init(complianceType: String? = nil, controlSets: [UpdateAssessmentFrameworkControlSet], description: String? = nil, frameworkId: String, name: String) {
@@ -3601,7 +3822,7 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentFrameworkResponse: AWSDecodableShape {
-        /// The name of the specified framework.
+        ///  The name of the framework.
         public let framework: Framework?
 
         public init(framework: Framework? = nil) {
@@ -3613,22 +3834,65 @@ extension AuditManager {
         }
     }
 
+    public struct UpdateAssessmentFrameworkShareRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestId", location: .uri("requestId"))
+        ]
+
+        /// Specifies the update action for the share request.
+        public let action: ShareRequestAction
+        ///  The unique identifier for the share request.
+        public let requestId: String
+        /// Specifies whether the share request is a sent request or a received request.
+        public let requestType: ShareRequestType
+
+        public init(action: ShareRequestAction, requestId: String, requestType: ShareRequestType) {
+            self.action = action
+            self.requestId = requestId
+            self.requestType = requestType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 36)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 36)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action
+            case requestType
+        }
+    }
+
+    public struct UpdateAssessmentFrameworkShareResponse: AWSDecodableShape {
+        ///  The updated share request that's returned by the UpdateAssessmentFrameworkShare operation.
+        public let assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest?
+
+        public init(assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest? = nil) {
+            self.assessmentFrameworkShareRequest = assessmentFrameworkShareRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentFrameworkShareRequest
+        }
+    }
+
     public struct UpdateAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The description of the specified assessment.
+        ///  The description of the assessment.
         public let assessmentDescription: String?
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The name of the specified assessment to be updated.
+        ///  The name of the assessment to be updated.
         public let assessmentName: String?
-        ///  The assessment report storage destination for the specified assessment that is being updated.
+        ///  The assessment report storage destination for the assessment that's being updated.
         public let assessmentReportsDestination: AssessmentReportsDestination?
-        ///  The list of roles for the specified assessment.
+        ///  The list of roles for the assessment.
         public let roles: [Role]?
-        ///  The scope of the specified assessment.
+        ///  The scope of the assessment.
         public let scope: Scope
 
         public init(assessmentDescription: String? = nil, assessmentId: String, assessmentName: String? = nil, assessmentReportsDestination: AssessmentReportsDestination? = nil, roles: [Role]? = nil, scope: Scope) {
@@ -3666,7 +3930,7 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentResponse: AWSDecodableShape {
-        ///  The response object (name of the updated assessment) for the UpdateAssessmentRequest API.
+        ///  The response object for the UpdateAssessmentRequest API. This is the name of the updated assessment.
         public let assessment: Assessment?
 
         public init(assessment: Assessment? = nil) {
@@ -3683,9 +3947,9 @@ extension AuditManager {
             AWSMemberEncoding(label: "assessmentId", location: .uri("assessmentId"))
         ]
 
-        ///  The identifier for the specified assessment.
+        ///  The identifier for the assessment.
         public let assessmentId: String
-        ///  The current status of the specified assessment.
+        ///  The current status of the assessment.
         public let status: AssessmentStatus
 
         public init(assessmentId: String, status: AssessmentStatus) {
@@ -3705,7 +3969,7 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentStatusResponse: AWSDecodableShape {
-        ///  The name of the updated assessment returned by the UpdateAssessmentStatus API.
+        ///  The name of the updated assessment that the UpdateAssessmentStatus API returned.
         public let assessment: Assessment?
 
         public init(assessment: Assessment? = nil) {
@@ -3722,19 +3986,19 @@ extension AuditManager {
             AWSMemberEncoding(label: "controlId", location: .uri("controlId"))
         ]
 
-        ///   The recommended actions to carry out if the control is not fulfilled.
+        ///  The recommended actions to carry out if the control isn't fulfilled.
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
         public let actionPlanTitle: String?
-        ///  The identifier for the specified control.
+        ///  The identifier for the control.
         public let controlId: String
-        ///  The data mapping sources for the specified control.
+        ///  The data mapping sources for the control.
         public let controlMappingSources: [ControlMappingSource]
-        /// The optional description of the control.
+        ///  The optional description of the control.
         public let description: String?
-        /// The name of the control to be updated.
+        ///  The name of the updated control.
         public let name: String
-        ///  The steps that to follow to determine if the control has been satisfied.
+        ///  The steps that you should follow to determine if the control is met.
         public let testingInformation: String?
 
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, controlId: String, controlMappingSources: [ControlMappingSource], description: String? = nil, name: String, testingInformation: String? = nil) {
@@ -3779,7 +4043,7 @@ extension AuditManager {
     }
 
     public struct UpdateControlResponse: AWSDecodableShape {
-        ///  The name of the updated control set returned by the UpdateControl API.
+        ///  The name of the updated control set that the UpdateControl API returned.
         public let control: Control?
 
         public init(control: Control? = nil) {
@@ -3794,11 +4058,11 @@ extension AuditManager {
     public struct UpdateSettingsRequest: AWSEncodableShape {
         ///  The default storage destination for assessment reports.
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
-        /// A list of the default audit owners.
+        ///  A list of the default audit owners.
         public let defaultProcessOwners: [Role]?
         ///  The KMS key details.
         public let kmsKey: String?
-        ///  The Amazon Simple Notification Service (Amazon SNS) topic to which Audit Manager sends notifications.
+        ///  The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to.
         public let snsTopic: String?
 
         public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
@@ -3830,7 +4094,7 @@ extension AuditManager {
     }
 
     public struct UpdateSettingsResponse: AWSDecodableShape {
-        /// The current list of settings.
+        ///  The current list of settings.
         public let settings: Settings?
 
         public init(settings: Settings? = nil) {
@@ -3843,7 +4107,7 @@ extension AuditManager {
     }
 
     public struct ValidateAssessmentReportIntegrityRequest: AWSEncodableShape {
-        ///  The relative path of the specified Amazon S3 bucket in which the assessment report is stored.
+        ///  The relative path of the Amazon S3 bucket that the assessment report is stored in.
         public let s3RelativePath: String
 
         public init(s3RelativePath: String) {
@@ -3862,15 +4126,15 @@ extension AuditManager {
     }
 
     public struct ValidateAssessmentReportIntegrityResponse: AWSDecodableShape {
-        ///  The signature algorithm used to code sign the assessment report file.
+        ///  The signature algorithm that's used to code sign the assessment report file.
         public let signatureAlgorithm: String?
-        /// The date and time signature that specifies when the assessment report was created.
+        ///  The date and time signature that specifies when the assessment report was created.
         public let signatureDateTime: String?
-        /// The unique identifier for the validation signature key.
+        ///  The unique identifier for the validation signature key.
         public let signatureKeyId: String?
-        /// Specifies whether the signature key is valid.
+        ///  Specifies whether the signature key is valid.
         public let signatureValid: Bool?
-        /// Represents any errors that occurred when validating the assessment report.
+        ///  Represents any errors that occurred when validating the assessment report.
         public let validationErrors: [String]?
 
         public init(signatureAlgorithm: String? = nil, signatureDateTime: String? = nil, signatureKeyId: String? = nil, signatureValid: Bool? = nil, validationErrors: [String]? = nil) {

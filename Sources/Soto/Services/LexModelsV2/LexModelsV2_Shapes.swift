@@ -1212,7 +1212,7 @@ extension LexModelsV2 {
         public let description: String?
         /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
         public let localeId: String
-        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
+        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
         public let nluIntentConfidenceThreshold: Double
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
@@ -1586,6 +1586,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
@@ -3061,7 +3062,7 @@ extension LexModelsV2 {
     public struct DescribeImportResponse: AWSDecodableShape {
         /// The date and time that the import was created.
         public let creationDateTime: Date?
-        /// If the importStatus field is Failed, this provides one or more reasons for the failture.
+        /// If the importStatus field is Failed, this provides one or more reasons for the failure.
         public let failureReasons: [String]?
         /// The unique identifier that Amazon Lex assigned to the resource created by the import.
         public let importedResourceId: String?
@@ -3481,7 +3482,7 @@ extension LexModelsV2 {
         public let name: ExportFilterName
         /// The operator to use for the filter. Specify EQ when the ListExports operation should return only resource types that equal the specified value. Specify CO when the ListExports operation should return resource types that contain the specified value.
         public let `operator`: ExportFilterOperator
-        /// The values to use to fileter the response.
+        /// The values to use to filter the response.
         public let values: [String]
 
         public init(name: ExportFilterName, operator: ExportFilterOperator, values: [String]) {
@@ -3582,13 +3583,120 @@ extension LexModelsV2 {
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
         public let enabled: Bool
+        /// Provides settings for update messages sent to the user for long-running Lambda fulfillment functions. Fulfillment updates can be used only with streaming conversations.
+        public let fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification?
+        /// Provides settings for messages sent to the user for after the Lambda fulfillment function completes. Post-fulfillment messages can be sent for both streaming and non-streaming conversations.
+        public let postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification?
 
-        public init(enabled: Bool) {
+        public init(enabled: Bool, fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification? = nil, postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification? = nil) {
             self.enabled = enabled
+            self.fulfillmentUpdatesSpecification = fulfillmentUpdatesSpecification
+            self.postFulfillmentStatusSpecification = postFulfillmentStatusSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.fulfillmentUpdatesSpecification?.validate(name: "\(name).fulfillmentUpdatesSpecification")
+            try self.postFulfillmentStatusSpecification?.validate(name: "\(name).postFulfillmentStatusSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled
+            case fulfillmentUpdatesSpecification
+            case postFulfillmentStatusSpecification
+        }
+    }
+
+    public struct FulfillmentStartResponseSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the user can interrupt the start message while it is playing.
+        public let allowInterrupt: Bool?
+        /// The delay between when the Lambda fulfillment function starts running and the start message is played. If the Lambda function returns before the delay is over, the start message isn't played.
+        public let delayInSeconds: Int
+        /// One to 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
+        public let messageGroups: [MessageGroup]
+
+        public init(allowInterrupt: Bool? = nil, delayInSeconds: Int, messageGroups: [MessageGroup]) {
+            self.allowInterrupt = allowInterrupt
+            self.delayInSeconds = delayInSeconds
+            self.messageGroups = messageGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delayInSeconds, name: "delayInSeconds", parent: name, max: 900)
+            try self.validate(self.delayInSeconds, name: "delayInSeconds", parent: name, min: 1)
+            try self.messageGroups.forEach {
+                try $0.validate(name: "\(name).messageGroups[]")
+            }
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, max: 5)
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowInterrupt
+            case delayInSeconds
+            case messageGroups
+        }
+    }
+
+    public struct FulfillmentUpdateResponseSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the user can interrupt an update message while it is playing.
+        public let allowInterrupt: Bool?
+        /// The frequency that a message is sent to the user. When the period ends, Amazon Lex chooses a message from the message groups and plays it to the user. If the fulfillment Lambda returns before the first period ends, an update message is not played to the user.
+        public let frequencyInSeconds: Int
+        /// One to 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
+        public let messageGroups: [MessageGroup]
+
+        public init(allowInterrupt: Bool? = nil, frequencyInSeconds: Int, messageGroups: [MessageGroup]) {
+            self.allowInterrupt = allowInterrupt
+            self.frequencyInSeconds = frequencyInSeconds
+            self.messageGroups = messageGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.frequencyInSeconds, name: "frequencyInSeconds", parent: name, max: 900)
+            try self.validate(self.frequencyInSeconds, name: "frequencyInSeconds", parent: name, min: 1)
+            try self.messageGroups.forEach {
+                try $0.validate(name: "\(name).messageGroups[]")
+            }
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, max: 5)
+            try self.validate(self.messageGroups, name: "messageGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowInterrupt
+            case frequencyInSeconds
+            case messageGroups
+        }
+    }
+
+    public struct FulfillmentUpdatesSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether fulfillment updates are sent to the user. When this field is true, updates are sent. If the active field is set to true, the startResponse, updateResponse, and timeoutInSeconds fields are required.
+        public let active: Bool
+        /// Provides configuration information for the message sent to users when the fulfillment Lambda functions starts running.
+        public let startResponse: FulfillmentStartResponseSpecification?
+        /// The length of time that the fulfillment Lambda function should run before it times out.
+        public let timeoutInSeconds: Int?
+        /// Provides configuration information for messages sent periodically to the user while the fulfillment Lambda function is running.
+        public let updateResponse: FulfillmentUpdateResponseSpecification?
+
+        public init(active: Bool, startResponse: FulfillmentStartResponseSpecification? = nil, timeoutInSeconds: Int? = nil, updateResponse: FulfillmentUpdateResponseSpecification? = nil) {
+            self.active = active
+            self.startResponse = startResponse
+            self.timeoutInSeconds = timeoutInSeconds
+            self.updateResponse = updateResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.startResponse?.validate(name: "\(name).startResponse")
+            try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 900)
+            try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 1)
+            try self.updateResponse?.validate(name: "\(name).updateResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active
+            case startResponse
+            case timeoutInSeconds
+            case updateResponse
         }
     }
 
@@ -3757,7 +3865,7 @@ extension LexModelsV2 {
     }
 
     public struct IntentClosingSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user and no closing input from the user is used. If the active field isn't specified, the default is true.
+        /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// The response that Amazon Lex sends to the user when the intent is complete.
         public let closingResponse: ResponseSpecification
@@ -3778,7 +3886,7 @@ extension LexModelsV2 {
     }
 
     public struct IntentConfirmationSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent and processing continues as if the responses aren't present. If the active field isn't specified, the default is true.
+        /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// When the user answers "no" to the question defined in promptSpecification, Amazon Lex responds with this response to acknowledge that the intent was canceled.
         public let declinationResponse: ResponseSpecification
@@ -4415,7 +4523,7 @@ extension LexModelsV2 {
         public let filters: [ExportFilter]?
         /// The maximum number of exports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
-        /// If the response from the ListExports operation contans more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        /// If the response from the ListExports operation contains more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
         public let nextToken: String?
         /// Determines the field that the list of exports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
         public let sortBy: ExportSortBy?
@@ -4985,6 +5093,30 @@ extension LexModelsV2 {
         }
     }
 
+    public struct PostFulfillmentStatusSpecification: AWSEncodableShape & AWSDecodableShape {
+        public let failureResponse: ResponseSpecification?
+        public let successResponse: ResponseSpecification?
+        public let timeoutResponse: ResponseSpecification?
+
+        public init(failureResponse: ResponseSpecification? = nil, successResponse: ResponseSpecification? = nil, timeoutResponse: ResponseSpecification? = nil) {
+            self.failureResponse = failureResponse
+            self.successResponse = successResponse
+            self.timeoutResponse = timeoutResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.failureResponse?.validate(name: "\(name).failureResponse")
+            try self.successResponse?.validate(name: "\(name).successResponse")
+            try self.timeoutResponse?.validate(name: "\(name).timeoutResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureResponse
+            case successResponse
+            case timeoutResponse
+        }
+    }
+
     public struct Principal: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the principal.
         public let arn: String?
@@ -5014,7 +5146,7 @@ extension LexModelsV2 {
     public struct PromptSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the user can interrupt a speech prompt from the bot.
         public let allowInterrupt: Bool?
-        /// The maximum number of times the bot tries to elicit a resonse from the user using this prompt.
+        /// The maximum number of times the bot tries to elicit a response from the user using this prompt.
         public let maxRetries: Int
         /// A collection of messages that Amazon Lex can send to the user. Amazon Lex chooses the actual message to send at runtime.
         public let messageGroups: [MessageGroup]
@@ -5410,7 +5542,7 @@ extension LexModelsV2 {
     public struct SlotTypeValue: AWSEncodableShape & AWSDecodableShape {
         /// The value of the slot type entry.
         public let sampleValue: SampleValue?
-        /// Additional values releated to the slot type entry.
+        /// Additional values related to the slot type entry.
         public let synonyms: [SampleValue]?
 
         public init(sampleValue: SampleValue? = nil, synonyms: [SampleValue]? = nil) {
@@ -5434,7 +5566,7 @@ extension LexModelsV2 {
     }
 
     public struct SlotValueElicitationSetting: AWSEncodableShape & AWSDecodableShape {
-        /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, sesion attributes, and defined values.
+        /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public let defaultValueSpecification: SlotDefaultValueSpecification?
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let promptSpecification: PromptSpecification?
@@ -6155,6 +6287,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
@@ -6618,7 +6751,7 @@ extension LexModelsV2 {
     }
 
     public struct WaitAndContinueSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used and the bot expects an appropriate response within the configured timeout. If the active field isn't specified, the default is true.
+        /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.
         public let continueResponse: ResponseSpecification

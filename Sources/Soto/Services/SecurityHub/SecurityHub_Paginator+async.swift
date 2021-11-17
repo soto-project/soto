@@ -133,7 +133,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns a list of findings that match the specified criteria.
+    ///  Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -194,6 +194,28 @@ extension SecurityHub {
             command: listEnabledProductsForImport,
             inputKey: \ListEnabledProductsForImportRequest.nextToken,
             outputKey: \ListEnabledProductsForImportResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFindingAggregatorsPaginator(
+        _ input: ListFindingAggregatorsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFindingAggregatorsRequest, ListFindingAggregatorsResponse> {
+        return .init(
+            input: input,
+            command: listFindingAggregators,
+            inputKey: \ListFindingAggregatorsRequest.nextToken,
+            outputKey: \ListFindingAggregatorsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

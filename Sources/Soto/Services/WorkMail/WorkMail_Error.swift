@@ -28,9 +28,11 @@ public struct WorkMailErrorType: AWSErrorType {
         case entityNotFoundException = "EntityNotFoundException"
         case entityStateException = "EntityStateException"
         case invalidConfigurationException = "InvalidConfigurationException"
+        case invalidCustomSesConfigurationException = "InvalidCustomSesConfigurationException"
         case invalidParameterException = "InvalidParameterException"
         case invalidPasswordException = "InvalidPasswordException"
         case limitExceededException = "LimitExceededException"
+        case mailDomainInUseException = "MailDomainInUseException"
         case mailDomainNotFoundException = "MailDomainNotFoundException"
         case mailDomainStateException = "MailDomainStateException"
         case nameAvailabilityException = "NameAvailabilityException"
@@ -76,13 +78,17 @@ public struct WorkMailErrorType: AWSErrorType {
     public static var entityStateException: Self { .init(.entityStateException) }
     /// The configuration for a resource isn't valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
     public static var invalidConfigurationException: Self { .init(.invalidConfigurationException) }
+    /// You SES configuration has customizations that Amazon WorkMail cannot save. The error message lists the invalid setting. For examples of invalid settings, refer to  CreateReceiptRule.
+    public static var invalidCustomSesConfigurationException: Self { .init(.invalidCustomSesConfigurationException) }
     /// One or more of the input parameters don't match the service's restrictions.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The supplied password doesn't match the minimum security constraints, such as length or use of special characters.
     public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
     /// The request exceeds the limit of the resource.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// For an email or alias to be created in Amazon WorkMail, the included domain must be defined in the organization.
+    /// The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
+    public static var mailDomainInUseException: Self { .init(.mailDomainInUseException) }
+    /// The domain specified is not found in your organization.
     public static var mailDomainNotFoundException: Self { .init(.mailDomainNotFoundException) }
     /// After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     public static var mailDomainStateException: Self { .init(.mailDomainStateException) }
