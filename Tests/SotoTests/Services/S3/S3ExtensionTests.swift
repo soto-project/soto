@@ -84,16 +84,21 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testMultiPartDownload() {
+    func testMultiPartUploadDownloadFile() {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
         let response = S3Tests.createBucket(name: name, s3: s3)
-            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
-                let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
-                return s3.putObject(putRequest, logger: TestEnvironment.logger)
+            .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                var buffer = ByteBuffer(data: data)
+                let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
+                return s3.multipartUpload(putRequest, logger: TestEnvironment.logger) { eventLoop in
+                    let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
+                    let slice = buffer.readSlice(length: blockSize)!
+                    return eventLoop.makeSucceededFuture(.byteBuffer(slice))
+                }
             }
             .flatMap { _ -> EventLoopFuture<Int64> in
                 let request = S3.GetObjectRequest(bucket: name, key: filename)
@@ -138,7 +143,7 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testMultiPartUpload() {
+    func testMultiPartUploadFile() {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
