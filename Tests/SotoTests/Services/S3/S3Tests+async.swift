@@ -536,6 +536,141 @@ class S3AsyncTests: XCTestCase {
             } catch is CancelError {}
         }
     }
+
+    func testMultiPartDownload() throws {
+        guard !TestEnvironment.isUsingLocalstack else { return }
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartDownloadTest"
+
+        self.s3Test(bucket: name) {
+            var buffer = ByteBuffer(data: data)
+            let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
+            _ = try await s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { _ -> AWSPayload in
+                let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
+                let slice = buffer.readSlice(length: blockSize)!
+                return .byteBuffer(slice)
+            }
+
+            let request = S3.GetObjectRequest(bucket: name, key: filename)
+            let size = try await s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+
+            XCTAssertEqual(size, Int64(data.count))
+            let savedData = try Data(contentsOf: URL(fileURLWithPath: filename))
+            XCTAssertEqual(savedData, data)
+            try FileManager.default.removeItem(atPath: filename)
+        }
+    }
+
+    func testMultiPartUpload() {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartUploadTest"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        self.s3Test(bucket: name) {
+            let request = S3.CreateMultipartUploadRequest(
+                bucket: name,
+                key: name
+            )
+            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+
+            let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
+            XCTAssertEqual(download.body?.asData(), data)
+        }
+    }
+
+    func testResumeMultiPartUpload() {
+        struct CancelError: Error {}
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "S3MultipartUploadTest"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        self.s3Test(bucket: name) {
+            var resumeRequest: S3.ResumeMultipartUploadRequest
+            do {
+                let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+                _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                    guard $0 < 0.45 else { throw CancelError() }
+                    print("Progress \($0 * 100)")
+                }
+                throw CancelError()
+            } catch S3ErrorType.multipart.abortedUpload(let resume, _) {
+                resumeRequest = resume
+            }
+
+            do {
+                _ = try await s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                    guard $0 < 0.95 else { throw CancelError() }
+                    print("Progress \($0 * 100)")
+                }
+                throw CancelError()
+            } catch S3ErrorType.multipart.abortedUpload(let resume, _) {
+                resumeRequest = resume
+            }
+
+            _ = try await s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                print("Progress \($0 * 100)")
+            }
+
+            let response = try await s3.getObject(.init(bucket: name, key: name))
+            XCTAssertEqual(response.body?.asData(), data)
+        }
+    }
+
+    func testMultipartCopy() {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let name2 = name + "2"
+        let filename = "S3MultipartUploadTest"
+        let filename2 = "S3MultipartUploadTest2"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        self.s3Test(bucket: name) {
+            let s3Euwest2 = S3(
+                client: Self.client,
+                region: .useast1,
+                endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+            )
+            self.s3Test(bucket: name2, s3: s3Euwest2) {
+                // upload to bucket
+                let uploadRequest = S3.CreateMultipartUploadRequest(
+                    bucket: name,
+                    key: filename
+                )
+                _ = try await s3.multipartUpload(uploadRequest, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
+
+                // copy
+                let copyRequest = S3.CopyObjectRequest(
+                    bucket: name2,
+                    copySource: "/\(name)/\(filename)",
+                    key: filename2
+                )
+                _ = try await s3Euwest2.multipartCopy(copyRequest, partSize: 5 * 1024 * 1024)
+
+                // download
+                let object = try await s3Euwest2.getObject(.init(bucket: name2, key: filename2))
+                XCTAssertEqual(object.body?.asData(), data)
+            }
+        }
+    }
 }
 
 #endif

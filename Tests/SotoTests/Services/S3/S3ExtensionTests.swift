@@ -87,14 +87,14 @@ class S3ExtensionTests: XCTestCase {
     func testMultiPartUploadDownloadFile() {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
         let response = S3Tests.createBucket(name: name, s3: s3)
             .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 var buffer = ByteBuffer(data: data)
                 let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
-                return s3.multipartUpload(putRequest, logger: TestEnvironment.logger) { eventLoop in
+                return s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { eventLoop in
                     let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
                     let slice = buffer.readSlice(length: blockSize)!
                     return eventLoop.makeSucceededFuture(.byteBuffer(slice))
