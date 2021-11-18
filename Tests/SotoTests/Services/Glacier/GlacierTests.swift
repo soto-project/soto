@@ -75,6 +75,7 @@ class GlacierTests: XCTestCase {
     }
 
     func testWaiter() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let vaultName = TestEnvironment.generateResourceName()
         let response = Self.glacier.createVault(.init(accountId: "-", vaultName: vaultName))
             .flatMap { _ in

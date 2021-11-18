@@ -261,6 +261,7 @@ class S3Tests: XCTestCase {
 
     /// test 100-Complete header forces failed request to quit before uploading everything
     func testPut100Complete() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         struct Verify100CompleteMiddleware: AWSServiceMiddleware {
             func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
                 XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
