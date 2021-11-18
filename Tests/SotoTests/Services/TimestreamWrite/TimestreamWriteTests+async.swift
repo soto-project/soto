@@ -70,6 +70,7 @@ class TimestreamWriteAsyncTests: XCTestCase {
     }
 
     func testCreateDeleteDatabaseAsync() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
 
         XCTRunAsyncAndBlock {
@@ -79,6 +80,7 @@ class TimestreamWriteAsyncTests: XCTestCase {
     }
 
     func testCreateTableAndWriteAsync() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
         let tableName = "\(name)-table"
 

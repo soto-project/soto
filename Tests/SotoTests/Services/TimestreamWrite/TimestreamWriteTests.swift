@@ -77,6 +77,7 @@ class TimestreamWriteTests: XCTestCase {
     }
 
     func testCreateDeleteDatabase() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
         let response = self.createDatabase(named: name)
             .flatMap { _ in
@@ -86,6 +87,7 @@ class TimestreamWriteTests: XCTestCase {
     }
 
     func testCreateTableAndWrite() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
         let tableName = "\(name)-table"
         let response = self.createDatabase(named: name)
