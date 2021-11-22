@@ -138,7 +138,7 @@ extension AppRunner {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -181,12 +181,12 @@ extension AppRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, max: 102)
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, max: 1024)
             try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, min: 29)
-            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, pattern: "arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}")
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::[0-9]{12}:(role|role\\/service-role)\\/[\\w+=,.@\\-/]{1,1000}$")
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1011)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
-            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -432,7 +432,7 @@ extension AppRunner {
     }
 
     public struct CreateAutoScalingConfigurationRequest: AWSEncodableShape {
-        /// A name for the auto scaling configuration. When you use it for the first time in an AWS Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration.
+        /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration.
         public let autoScalingConfigurationName: String
         /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100
         public let maxConcurrency: Int?
@@ -454,7 +454,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, max: 32)
             try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, min: 4)
-            try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}")
+            try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}$")
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 200)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxSize, name: "maxSize", parent: name, max: 25)
@@ -489,7 +489,7 @@ extension AppRunner {
     }
 
     public struct CreateConnectionRequest: AWSEncodableShape {
-        /// A name for the new connection. It must be unique across all App Runner connections for the AWS account in the AWS Region.
+        /// A name for the new connection. It must be unique across all App Runner connections for the Amazon Web Services account in the Amazon Web Services Region.
         public let connectionName: String
         /// The source repository provider.
         public let providerType: ProviderType
@@ -505,7 +505,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 32)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 4)
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -534,13 +534,13 @@ extension AppRunner {
     public struct CreateServiceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with your service. If not provided, App Runner associates the latest revision of a default auto scaling configuration.
         public let autoScalingConfigurationArn: String?
-        /// An optional custom encryption key that App Runner uses to encrypt the copy of your source repository that it maintains and your service logs. By default, App Runner uses an AWS managed CMK.
+        /// An optional custom encryption key that App Runner uses to encrypt the copy of your source repository that it maintains and your service logs. By default, App Runner uses an Amazon Web Services managed CMK.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The settings for the health check that AWS App Runner performs to monitor the health of your service.
+        /// The settings for the health check that App Runner performs to monitor the health of your service.
         public let healthCheckConfiguration: HealthCheckConfiguration?
         /// The runtime configuration of instances (scaling units) of the App Runner service.
         public let instanceConfiguration: InstanceConfiguration?
-        /// A name for the new service. It must be unique across all the running App Runner services in your AWS account in the AWS Region.
+        /// A name for the new service. It must be unique across all the running App Runner services in your Amazon Web Services account in the Amazon Web Services Region.
         public let serviceName: String
         /// The source to deploy to the App Runner service. It can be a code or an image repository.
         public let sourceConfiguration: SourceConfiguration
@@ -560,13 +560,13 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, max: 1011)
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, min: 1)
-            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.healthCheckConfiguration?.validate(name: "\(name).healthCheckConfiguration")
             try self.instanceConfiguration?.validate(name: "\(name).instanceConfiguration")
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 40)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 4)
-            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9-_]{3,39}")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9-_]{3,39}$")
             try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -637,7 +637,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, max: 1011)
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, min: 1)
-            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -669,7 +669,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1011)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
-            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,7 +701,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -737,7 +737,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, max: 1011)
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, min: 1)
-            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -779,7 +779,7 @@ extension AppRunner {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,7 +825,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -862,7 +862,7 @@ extension AppRunner {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -902,7 +902,7 @@ extension AppRunner {
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 256)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "arn:aws(-[\\w]+)*:kms:[a-z\\-]+-[0-9]{1}:[0-9]{12}:key\\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws(-[\\w]+)*:kms:[a-z\\-]+-[0-9]{1}:[0-9]{12}:key\\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -911,7 +911,7 @@ extension AppRunner {
     }
 
     public struct HealthCheckConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The number of consecutive checks that must succeed before App Runner decides that the service is healthy. Default: 3
+        /// The number of consecutive checks that must succeed before App Runner decides that the service is healthy. Default: 1
         public let healthyThreshold: Int?
         /// The time interval, in seconds, between health checks. Default: 5
         public let interval: Int?
@@ -921,7 +921,7 @@ extension AppRunner {
         public let `protocol`: HealthCheckProtocol?
         /// The time, in seconds, to wait for a health check response before deciding it failed. Default: 2
         public let timeout: Int?
-        /// The number of consecutive checks that must fail before App Runner decides that the service is unhealthy. Default: 3
+        /// The number of consecutive checks that must fail before App Runner decides that the service is unhealthy. Default: 5
         public let unhealthyThreshold: Int?
 
         public init(healthyThreshold: Int? = nil, interval: Int? = nil, path: String? = nil, protocol: HealthCheckProtocol? = nil, timeout: Int? = nil, unhealthyThreshold: Int? = nil) {
@@ -938,8 +938,7 @@ extension AppRunner {
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, min: 1)
             try self.validate(self.interval, name: "interval", parent: name, max: 20)
             try self.validate(self.interval, name: "interval", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, max: 51200)
-            try self.validate(self.path, name: "path", parent: name, pattern: ".*")
+            try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.timeout, name: "timeout", parent: name, max: 20)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.validate(self.unhealthyThreshold, name: "unhealthyThreshold", parent: name, max: 20)
@@ -1002,7 +1001,7 @@ extension AppRunner {
             try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.validate(self.imageIdentifier, name: "imageIdentifier", parent: name, max: 1024)
             try self.validate(self.imageIdentifier, name: "imageIdentifier", parent: name, min: 1)
-            try self.validate(self.imageIdentifier, name: "imageIdentifier", parent: name, pattern: "([0-9]{12}.dkr.ecr.[a-z\\-]+-[0-9]{1}.amazonaws.com\\/.*)|(^public\\.ecr\\.aws\\/.+\\/.+)")
+            try self.validate(self.imageIdentifier, name: "imageIdentifier", parent: name, pattern: "^([0-9]{12}.dkr.ecr.[a-z\\-]+-[0-9]{1}.amazonaws.com\\/((?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*)(:([\\w\\d+\\-=._:\\/@])+|@([\\w\\d\\:]+))?)|(^public\\.ecr\\.aws\\/.+\\/((?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*)(:([\\w\\d+\\-=._:\\/@])+|@([\\w\\d\\:]+))?)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1015,7 +1014,7 @@ extension AppRunner {
     public struct InstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The number of CPU units reserved for each instance of your App Runner service. Default: 1 vCPU
         public let cpu: String?
-        /// The Amazon Resource Name (ARN) of an IAM role that provides permissions to your App Runner service. These are permissions that your code needs when it calls any AWS APIs.
+        /// The Amazon Resource Name (ARN) of an IAM role that provides permissions to your App Runner service. These are permissions that your code needs when it calls any Amazon Web Services APIs.
         public let instanceRoleArn: String?
         /// The amount of memory, in MB or GB, reserved for each instance of your App Runner service. Default: 2 GB
         public let memory: String?
@@ -1029,13 +1028,13 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.cpu, name: "cpu", parent: name, max: 6)
             try self.validate(self.cpu, name: "cpu", parent: name, min: 4)
-            try self.validate(self.cpu, name: "cpu", parent: name, pattern: "1024|2048|(1|2) vCPU")
-            try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, max: 102)
+            try self.validate(self.cpu, name: "cpu", parent: name, pattern: "^1024|2048|(1|2) vCPU$")
+            try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, max: 1024)
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, min: 29)
-            try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, pattern: "arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}")
+            try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::[0-9]{12}:(role|role\\/service-role)\\/[\\w+=,.@\\-/]{1,1000}$")
             try self.validate(self.memory, name: "memory", parent: name, max: 4)
             try self.validate(self.memory, name: "memory", parent: name, min: 4)
-            try self.validate(self.memory, name: "memory", parent: name, pattern: "2048|3072|4096|(2|3|4) GB")
+            try self.validate(self.memory, name: "memory", parent: name, pattern: "^2048|3072|4096|(2|3|4) GB$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1065,7 +1064,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, max: 32)
             try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, min: 4)
-            try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}")
+            try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1115,7 +1114,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 32)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 4)
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1168,7 +1167,7 @@ extension AppRunner {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1247,7 +1246,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1316,7 +1315,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1352,7 +1351,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1384,7 +1383,7 @@ extension AppRunner {
         public let createdAt: Date
         /// The time when the App Runner service was deleted. It's in the Unix time stamp format.
         public let deletedAt: Date?
-        /// The encryption key that App Runner uses to encrypt the service logs and the copy of the source repository that App Runner maintains for the service. It can be either a customer-provided encryption key or an AWS managed CMK.
+        /// The encryption key that App Runner uses to encrypt the service logs and the copy of the source repository that App Runner maintains for the service. It can be either a customer-provided encryption key or an Amazon Web Services managed CMK.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The settings for the health check that App Runner performs to monitor the health of this service.
         public let healthCheckConfiguration: HealthCheckConfiguration?
@@ -1392,7 +1391,7 @@ extension AppRunner {
         public let instanceConfiguration: InstanceConfiguration
         /// The Amazon Resource Name (ARN) of this service.
         public let serviceArn: String
-        /// An ID that App Runner generated for this service. It's unique within the AWS Region.
+        /// An ID that App Runner generated for this service. It's unique within the Amazon Web Services Region.
         public let serviceId: String
         /// The customer-provided service name.
         public let serviceName: String
@@ -1443,7 +1442,7 @@ extension AppRunner {
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of this service.
         public let serviceArn: String?
-        /// An ID that App Runner generated for this service. It's unique within the AWS Region.
+        /// An ID that App Runner generated for this service. It's unique within the Amazon Web Services Region.
         public let serviceId: String?
         /// The customer-provided service name.
         public let serviceName: String?
@@ -1500,7 +1499,7 @@ extension AppRunner {
     public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Describes the resources that are needed to authenticate access to some source repositories.
         public let authenticationConfiguration: AuthenticationConfiguration?
-        /// If true, continuous integration from the source repository is enabled for the App Runner service. Each repository change (source code commit or new image version) starts a deployment. Default: true
+        /// If true, continuous integration from the source repository is enabled for the App Runner service. Each repository change (including any source code commit or new image version) starts a deployment. Default: App Runner sets to false for a source image that uses an ECR Public repository or an ECR repository that's in an Amazon Web Services account other than the one that the service is in. App Runner sets to true in all other cases (which currently include a source code repository or a source image using a same-account ECR repository).
         public let autoDeploymentsEnabled: Bool?
         /// The description of a source code repository. You must provide either this member or ImageRepository (but not both).
         public let codeRepository: CodeRepository?
@@ -1539,7 +1538,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,7 +1573,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^(?!aws:).+")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(?!aws:).+$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: ".*")
         }
@@ -1599,7 +1598,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1629,11 +1628,11 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:).+")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:).+$")
             }
         }
 
@@ -1650,7 +1649,7 @@ extension AppRunner {
     public struct UpdateServiceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with your service.
         public let autoScalingConfigurationArn: String?
-        /// The settings for the health check that AWS App Runner performs to monitor the health of your service.
+        /// The settings for the health check that App Runner performs to monitor the health of your service.
         public let healthCheckConfiguration: HealthCheckConfiguration?
         /// The runtime configuration to apply to instances (scaling units) of the App Runner service.
         public let instanceConfiguration: InstanceConfiguration?
@@ -1670,12 +1669,12 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, max: 1011)
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, min: 1)
-            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
             try self.healthCheckConfiguration?.validate(name: "\(name).healthCheckConfiguration")
             try self.instanceConfiguration?.validate(name: "\(name).instanceConfiguration")
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
             try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
         }
 

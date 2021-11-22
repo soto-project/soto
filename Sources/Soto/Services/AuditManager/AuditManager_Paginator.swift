@@ -232,7 +232,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of evidence folders associated with a specified control of an assessment in Audit Manager.
+    ///   Returns a list of evidence folders that are associated with a specified control of an assessment in Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,113 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of the frameworks available in the Audit Manager framework library.
+    ///  Lists the latest analytics data for controls within a specific control domain and a specific active assessment.  Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssessmentControlInsightsByControlDomainPaginator<Result>(
+        _ input: ListAssessmentControlInsightsByControlDomainRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssessmentControlInsightsByControlDomainResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssessmentControlInsightsByControlDomain,
+            inputKey: \ListAssessmentControlInsightsByControlDomainRequest.nextToken,
+            outputKey: \ListAssessmentControlInsightsByControlDomainResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssessmentControlInsightsByControlDomainPaginator(
+        _ input: ListAssessmentControlInsightsByControlDomainRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssessmentControlInsightsByControlDomainResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssessmentControlInsightsByControlDomain,
+            inputKey: \ListAssessmentControlInsightsByControlDomainRequest.nextToken,
+            outputKey: \ListAssessmentControlInsightsByControlDomainResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns a list of sent or received share requests for custom frameworks in Audit Manager.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssessmentFrameworkShareRequestsPaginator<Result>(
+        _ input: ListAssessmentFrameworkShareRequestsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssessmentFrameworkShareRequestsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssessmentFrameworkShareRequests,
+            inputKey: \ListAssessmentFrameworkShareRequestsRequest.nextToken,
+            outputKey: \ListAssessmentFrameworkShareRequestsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssessmentFrameworkShareRequestsPaginator(
+        _ input: ListAssessmentFrameworkShareRequestsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssessmentFrameworkShareRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssessmentFrameworkShareRequests,
+            inputKey: \ListAssessmentFrameworkShareRequestsRequest.nextToken,
+            outputKey: \ListAssessmentFrameworkShareRequestsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns a list of the frameworks that are available in the Audit Manager framework library.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -444,6 +550,165 @@ extension AuditManager {
         )
     }
 
+    ///  Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listControlDomainInsightsPaginator<Result>(
+        _ input: ListControlDomainInsightsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListControlDomainInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listControlDomainInsights,
+            inputKey: \ListControlDomainInsightsRequest.nextToken,
+            outputKey: \ListControlDomainInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listControlDomainInsightsPaginator(
+        _ input: ListControlDomainInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListControlDomainInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listControlDomainInsights,
+            inputKey: \ListControlDomainInsightsRequest.nextToken,
+            outputKey: \ListControlDomainInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listControlDomainInsightsByAssessmentPaginator<Result>(
+        _ input: ListControlDomainInsightsByAssessmentRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListControlDomainInsightsByAssessmentResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listControlDomainInsightsByAssessment,
+            inputKey: \ListControlDomainInsightsByAssessmentRequest.nextToken,
+            outputKey: \ListControlDomainInsightsByAssessmentResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listControlDomainInsightsByAssessmentPaginator(
+        _ input: ListControlDomainInsightsByAssessmentRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListControlDomainInsightsByAssessmentResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listControlDomainInsightsByAssessment,
+            inputKey: \ListControlDomainInsightsByAssessmentRequest.nextToken,
+            outputKey: \ListControlDomainInsightsByAssessmentResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the latest analytics data for controls within a specific control domain across all active assessments.   Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listControlInsightsByControlDomainPaginator<Result>(
+        _ input: ListControlInsightsByControlDomainRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListControlInsightsByControlDomainResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listControlInsightsByControlDomain,
+            inputKey: \ListControlInsightsByControlDomainRequest.nextToken,
+            outputKey: \ListControlInsightsByControlDomainResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listControlInsightsByControlDomainPaginator(
+        _ input: ListControlInsightsByControlDomainRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListControlInsightsByControlDomainResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listControlInsightsByControlDomain,
+            inputKey: \ListControlInsightsByControlDomainRequest.nextToken,
+            outputKey: \ListControlInsightsByControlDomainResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///   Returns a list of controls from Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -497,7 +762,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns a list of keywords that pre-mapped to the specified control data source.
+    ///   Returns a list of keywords that are pre-mapped to the specified control data source.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -659,6 +924,27 @@ extension AuditManager.GetEvidenceFoldersByAssessmentControlRequest: AWSPaginate
     }
 }
 
+extension AuditManager.ListAssessmentControlInsightsByControlDomainRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListAssessmentControlInsightsByControlDomainRequest {
+        return .init(
+            assessmentId: self.assessmentId,
+            controlDomainId: self.controlDomainId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AuditManager.ListAssessmentFrameworkShareRequestsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListAssessmentFrameworkShareRequestsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            requestType: self.requestType
+        )
+    }
+}
+
 extension AuditManager.ListAssessmentFrameworksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AuditManager.ListAssessmentFrameworksRequest {
         return .init(
@@ -681,6 +967,36 @@ extension AuditManager.ListAssessmentReportsRequest: AWSPaginateToken {
 extension AuditManager.ListAssessmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AuditManager.ListAssessmentsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension AuditManager.ListControlDomainInsightsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlDomainInsightsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AuditManager.ListControlDomainInsightsByAssessmentRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlDomainInsightsByAssessmentRequest {
+        return .init(
+            assessmentId: self.assessmentId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AuditManager.ListControlInsightsByControlDomainRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlInsightsByControlDomainRequest {
+        return .init(
+            controlDomainId: self.controlDomainId,
             maxResults: self.maxResults,
             nextToken: token
         )

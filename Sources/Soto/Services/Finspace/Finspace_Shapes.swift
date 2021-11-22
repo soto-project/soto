@@ -44,6 +44,8 @@ extension Finspace {
     // MARK: Shapes
 
     public struct CreateEnvironmentRequest: AWSEncodableShape {
+        /// The list of Amazon Resource Names (ARN) of the data bundles to install. Currently supported data bundle ARNs:    arn:aws:finspace:${Region}::data-bundle/capital-markets-sample - Contains sample Capital Markets datasets, categories and controlled vocabularies.    arn:aws:finspace:${Region}::data-bundle/taq (default) - Contains trades and quotes data in addition to sample Capital Markets data.
+        public let dataBundles: [String]?
         /// The description of the FinSpace environment to be created.
         public let description: String?
         /// Authentication mode for the environment.    FEDERATED - Users access FinSpace through Single Sign On (SSO) via your Identity provider.    LOCAL - Users access FinSpace via email and password managed within the FinSpace environment.
@@ -54,19 +56,28 @@ extension Finspace {
         public let kmsKeyId: String?
         /// The name of the FinSpace environment to be created.
         public let name: String
+        /// Configuration information for the superuser.
+        public let superuserParameters: SuperuserParameters?
         /// Add tags to your FinSpace environment.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, federationMode: FederationMode? = nil, federationParameters: FederationParameters? = nil, kmsKeyId: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(dataBundles: [String]? = nil, description: String? = nil, federationMode: FederationMode? = nil, federationParameters: FederationParameters? = nil, kmsKeyId: String? = nil, name: String, superuserParameters: SuperuserParameters? = nil, tags: [String: String]? = nil) {
+            self.dataBundles = dataBundles
             self.description = description
             self.federationMode = federationMode
             self.federationParameters = federationParameters
             self.kmsKeyId = kmsKeyId
             self.name = name
+            self.superuserParameters = superuserParameters
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.dataBundles?.forEach {
+                try validate($0, name: "dataBundles[]", parent: name, max: 2048)
+                try validate($0, name: "dataBundles[]", parent: name, min: 20)
+                try validate($0, name: "dataBundles[]", parent: name, pattern: "^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\\d*:data-bundle/[0-9A-Za-z_-]{1,128}$")
+            }
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9. ]{1,1000}$")
@@ -77,6 +88,7 @@ extension Finspace {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]$")
+            try self.superuserParameters?.validate(name: "\(name).superuserParameters")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -90,11 +102,13 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataBundles
             case description
             case federationMode
             case federationParameters
             case kmsKeyId
             case name
+            case superuserParameters
             case tags
         }
     }
@@ -228,18 +242,18 @@ extension Finspace {
         public func validate(name: String) throws {
             try self.validate(self.applicationCallBackURL, name: "applicationCallBackURL", parent: name, max: 1000)
             try self.validate(self.applicationCallBackURL, name: "applicationCallBackURL", parent: name, min: 1)
-            try self.validate(self.applicationCallBackURL, name: "applicationCallBackURL", parent: name, pattern: "^https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+            try self.validate(self.applicationCallBackURL, name: "applicationCallBackURL", parent: name, pattern: "^https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
             try self.attributeMap?.forEach {
                 try validate($0.key, name: "attributeMap.key", parent: name, max: 32)
                 try validate($0.key, name: "attributeMap.key", parent: name, min: 1)
                 try validate($0.key, name: "attributeMap.key", parent: name, pattern: ".*")
                 try validate($0.value, name: "attributeMap[\"\($0.key)\"]", parent: name, max: 1000)
                 try validate($0.value, name: "attributeMap[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "attributeMap[\"\($0.key)\"]", parent: name, pattern: "^https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+                try validate($0.value, name: "attributeMap[\"\($0.key)\"]", parent: name, pattern: "^https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
             }
             try self.validate(self.federationProviderName, name: "federationProviderName", parent: name, max: 32)
             try self.validate(self.federationProviderName, name: "federationProviderName", parent: name, min: 1)
-            try self.validate(self.federationProviderName, name: "federationProviderName", parent: name, pattern: "[^_\\p{Z}][\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}][^_\\p{Z}]+")
+            try self.validate(self.federationProviderName, name: "federationProviderName", parent: name, pattern: "^[^_\\p{Z}][\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}][^_\\p{Z}]+$")
             try self.validate(self.federationURN, name: "federationURN", parent: name, max: 255)
             try self.validate(self.federationURN, name: "federationURN", parent: name, min: 1)
             try self.validate(self.federationURN, name: "federationURN", parent: name, pattern: "^[A-Za-z0-9._\\-:\\/#\\+]+$")
@@ -248,7 +262,7 @@ extension Finspace {
             try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, pattern: ".*")
             try self.validate(self.samlMetadataURL, name: "samlMetadataURL", parent: name, max: 1000)
             try self.validate(self.samlMetadataURL, name: "samlMetadataURL", parent: name, min: 1)
-            try self.validate(self.samlMetadataURL, name: "samlMetadataURL", parent: name, pattern: "^https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+            try self.validate(self.samlMetadataURL, name: "samlMetadataURL", parent: name, pattern: "^https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -370,6 +384,39 @@ extension Finspace {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct SuperuserParameters: AWSEncodableShape {
+        /// The email address of the superuser.
+        public let emailAddress: String
+        /// The first name of the superuser.
+        public let firstName: String
+        /// The last name of the superuser.
+        public let lastName: String
+
+        public init(emailAddress: String, firstName: String, lastName: String) {
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastName = lastName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 128)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.]+[A-Za-z]+$")
+            try self.validate(self.firstName, name: "firstName", parent: name, max: 50)
+            try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^[a-zA-Z0-9]{1,50}$")
+            try self.validate(self.lastName, name: "lastName", parent: name, max: 50)
+            try self.validate(self.lastName, name: "lastName", parent: name, min: 1)
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^[a-zA-Z0-9]{1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress
+            case firstName
+            case lastName
         }
     }
 

@@ -156,6 +156,28 @@ extension Connect {
         )
     }
 
+    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listContactReferencesPaginator(
+        _ input: ListContactReferencesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListContactReferencesRequest, ListContactReferencesResponse> {
+        return .init(
+            input: input,
+            command: listContactReferences,
+            inputKey: \ListContactReferencesRequest.nextToken,
+            outputKey: \ListContactReferencesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -482,6 +504,28 @@ extension Connect {
             command: listSecurityKeys,
             inputKey: \ListSecurityKeysRequest.nextToken,
             outputKey: \ListSecurityKeysResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSecurityProfilePermissionsPaginator(
+        _ input: ListSecurityProfilePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSecurityProfilePermissionsRequest, ListSecurityProfilePermissionsResponse> {
+        return .init(
+            input: input,
+            command: listSecurityProfilePermissions,
+            inputKey: \ListSecurityProfilePermissionsRequest.nextToken,
+            outputKey: \ListSecurityProfilePermissionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

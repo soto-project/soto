@@ -111,7 +111,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of Kafka versions.
+    ///  Returns a list of Apache Kafka versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

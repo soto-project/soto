@@ -20,6 +20,7 @@ import SotoCore
 /// Error enum for Connect
 public struct ConnectErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case contactFlowNotPublishedException = "ContactFlowNotPublishedException"
         case contactNotFoundException = "ContactNotFoundException"
         case destinationNotAllowedException = "DestinationNotAllowedException"
@@ -56,6 +57,8 @@ public struct ConnectErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The contact flow has not been published.
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
     /// The contact with the specified ID is not active or does not exist.

@@ -972,9 +972,9 @@ extension EFS {
     }
 
     public struct LifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
-        ///  Describes the period of time that a file is not accessed, after which it transitions to the IA storage class. Metadata operations such as listing the contents of a directory don't count as file access events.
+        ///  Describes the period of time that a file is not accessed, after which it transitions to IA storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
-        /// Describes the policy used to transition a file from infequent access storage to primary storage.
+        /// Describes when to transition a file from IA storage to primary storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules?
 
         public init(transitionToIA: TransitionToIARules? = nil, transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules? = nil) {
@@ -1152,7 +1152,7 @@ extension EFS {
     }
 
     public struct PutAccountPreferencesRequest: AWSEncodableShape {
-        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region,  either LONG_ID (17 characters), or SHORT_ID (8 characters).
+        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region,  either LONG_ID (17 characters), or SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID.  Contact Amazon Web Services support if you receive an error and need to use short IDs for file system and mount target resources.
         public let resourceIdType: ResourceIdType
 
         public init(resourceIdType: ResourceIdType) {
@@ -1240,7 +1240,7 @@ extension EFS {
 
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
         public let fileSystemId: String
-        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object tells lifecycle management when to transition files from the Standard storage class to the Infrequent Access storage class.
+        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle management and intelligent tiering of the following:   When to move files in the file system from primary storage to the IA storage class.   When to move files that are in IA storage to primary storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action,  Amazon EFS requires that each LifecyclePolicy  object have only a single transition. This means that in a request body, LifecyclePolicies needs to be structured as an array of LifecyclePolicy objects, one object for each transition, TransitionToIA, TransitionToPrimaryStorageClass.  See the example requests in the following section for more information.
         public let lifecyclePolicies: [LifecyclePolicy]
 
         public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {

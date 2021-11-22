@@ -44,6 +44,11 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Operator`: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginManifestType: String, CustomStringConvertible, Codable {
         case multiPeriod = "MULTI_PERIOD"
         case singlePeriod = "SINGLE_PERIOD"
@@ -158,6 +163,23 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case relatedResourceArns = "RelatedResourceArns"
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct AvailMatchingCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// The dynamic variable(s) that MediaTailor should use as avail matching criteria. MediaTailor only places the prefetched ads into the avail if the avail matches the criteria defined by the dynamic variable. For information about dynamic variables, see Using dynamic ad variables in the MediaTailor User Guide. You can include up to 100 dynamic variables.
+        public let dynamicVariable: String
+        /// For the DynamicVariable specified in AvailMatchingCriteria, the Operator that is used for the comparison.
+        public let `operator`: Operator
+
+        public init(dynamicVariable: String, operator: Operator) {
+            self.dynamicVariable = dynamicVariable
+            self.`operator` = `operator`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicVariable = "DynamicVariable"
+            case `operator` = "Operator"
         }
     }
 
@@ -369,6 +391,71 @@ extension MediaTailor {
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
             case tags
+        }
+    }
+
+    public struct CreatePrefetchScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
+        ]
+
+        /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
+        public let consumption: PrefetchConsumption
+        /// The identifier for the playback configuration.
+        public let name: String
+        /// The name of the playback configuration.
+        public let playbackConfigurationName: String
+        /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
+        public let retrieval: PrefetchRetrieval
+        /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
+        public let streamId: String?
+
+        public init(consumption: PrefetchConsumption, name: String, playbackConfigurationName: String, retrieval: PrefetchRetrieval, streamId: String? = nil) {
+            self.consumption = consumption
+            self.name = name
+            self.playbackConfigurationName = playbackConfigurationName
+            self.retrieval = retrieval
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumption = "Consumption"
+            case retrieval = "Retrieval"
+            case streamId = "StreamId"
+        }
+    }
+
+    public struct CreatePrefetchScheduleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prefetch schedule.
+        public let arn: String?
+        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+        public let consumption: PrefetchConsumption?
+        /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
+        public let name: String?
+        /// The name of the playback configuration to create the prefetch schedule for.
+        public let playbackConfigurationName: String?
+        /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
+        public let retrieval: PrefetchRetrieval?
+        /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
+        public let streamId: String?
+
+        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
+            self.arn = arn
+            self.consumption = consumption
+            self.name = name
+            self.playbackConfigurationName = playbackConfigurationName
+            self.retrieval = retrieval
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case consumption = "Consumption"
+            case name = "Name"
+            case playbackConfigurationName = "PlaybackConfigurationName"
+            case retrieval = "Retrieval"
+            case streamId = "StreamId"
         }
     }
 
@@ -723,6 +810,29 @@ extension MediaTailor {
     }
 
     public struct DeletePlaybackConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePrefetchScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
+        ]
+
+        /// The identifier for the playback configuration.
+        public let name: String
+        /// The name of the playback configuration.
+        public let playbackConfigurationName: String
+
+        public init(name: String, playbackConfigurationName: String) {
+            self.name = name
+            self.playbackConfigurationName = playbackConfigurationName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePrefetchScheduleResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1208,6 +1318,58 @@ extension MediaTailor {
         }
     }
 
+    public struct GetPrefetchScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri("Name")),
+            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
+        ]
+
+        /// The identifier for the playback configuration.
+        public let name: String
+        /// The name of the playback configuration.
+        public let playbackConfigurationName: String
+
+        public init(name: String, playbackConfigurationName: String) {
+            self.name = name
+            self.playbackConfigurationName = playbackConfigurationName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPrefetchScheduleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prefetch schedule.
+        public let arn: String?
+        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+        public let consumption: PrefetchConsumption?
+        /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
+        public let name: String?
+        /// The name of the playback configuration to create the prefetch schedule for.
+        public let playbackConfigurationName: String?
+        /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
+        public let retrieval: PrefetchRetrieval?
+        /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
+        public let streamId: String?
+
+        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
+            self.arn = arn
+            self.consumption = consumption
+            self.name = name
+            self.playbackConfigurationName = playbackConfigurationName
+            self.retrieval = retrieval
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case consumption = "Consumption"
+            case name = "Name"
+            case playbackConfigurationName = "PlaybackConfigurationName"
+            case retrieval = "Retrieval"
+            case streamId = "StreamId"
+        }
+    }
+
     public struct HlsConfiguration: AWSDecodableShape {
         /// The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
         public let manifestEndpointPrefix: String?
@@ -1385,6 +1547,56 @@ extension MediaTailor {
         public let nextToken: String?
 
         public init(items: [PlaybackConfiguration]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPrefetchSchedulesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
+        ]
+
+        /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If the playback configuration has more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int?
+        /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
+        public let nextToken: String?
+        /// The name of the playback configuration.
+        public let playbackConfigurationName: String
+        /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
+        public let streamId: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.playbackConfigurationName = playbackConfigurationName
+            self.streamId = streamId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case streamId = "StreamId"
+        }
+    }
+
+    public struct ListPrefetchSchedulesResponse: AWSDecodableShape {
+        /// Lists the prefetch schedules. An empty Items list doesn't mean there aren't more items to fetch, just that that page was empty.
+        public let items: [PrefetchSchedule]?
+        /// The value that you will use forNextToken in the next ListPrefetchSchedulesRequest request.
+        public let nextToken: String?
+
+        public init(items: [PrefetchSchedule]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1634,6 +1846,85 @@ extension MediaTailor {
             case tags
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
+        }
+    }
+
+    public struct PrefetchConsumption: AWSEncodableShape & AWSDecodableShape {
+        /// If you only want MediaTailor to insert prefetched ads into avails (ad breaks) that match specific dynamic variables, such as scte.event_id, set the avail matching criteria.
+        public let availMatchingCriteria: [AvailMatchingCriteria]?
+        /// The time when MediaTailor no longer considers the prefetched ads for use in an ad break. MediaTailor automatically deletes prefetch schedules no less than seven days after the end time. If you'd like to manually delete the prefetch schedule, you can call DeletePrefetchSchedule.
+        @CustomCoding<UnixEpochDateCoder>
+        public var endTime: Date
+        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrives them from the ad decision server.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var startTime: Date?
+
+        public init(availMatchingCriteria: [AvailMatchingCriteria]? = nil, endTime: Date, startTime: Date? = nil) {
+            self.availMatchingCriteria = availMatchingCriteria
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availMatchingCriteria = "AvailMatchingCriteria"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct PrefetchRetrieval: AWSEncodableShape & AWSDecodableShape {
+        /// The dynamic variables to use for substitution during prefetch requests to the ad decision server (ADS). You intially configure dynamic variables for the ADS URL when you set up your playback configuration. When you specify DynamicVariables for prefetch retrieval, MediaTailor includes the dynamic variables in the request to the ADS.
+        public let dynamicVariables: [String: String]?
+        /// The time when prefetch retrieval ends for the ad break. Prefetching will be attempted for manifest requests that occur at or before this time.
+        @CustomCoding<UnixEpochDateCoder>
+        public var endTime: Date
+        /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var startTime: Date?
+
+        public init(dynamicVariables: [String: String]? = nil, endTime: Date, startTime: Date? = nil) {
+            self.dynamicVariables = dynamicVariables
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicVariables = "DynamicVariables"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct PrefetchSchedule: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prefetch schedule.
+        public let arn: String
+        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+        public let consumption: PrefetchConsumption
+        /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
+        public let name: String
+        /// The name of the playback configuration to create the prefetch schedule for.
+        public let playbackConfigurationName: String
+        /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
+        public let retrieval: PrefetchRetrieval
+        /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
+        public let streamId: String?
+
+        public init(arn: String, consumption: PrefetchConsumption, name: String, playbackConfigurationName: String, retrieval: PrefetchRetrieval, streamId: String? = nil) {
+            self.arn = arn
+            self.consumption = consumption
+            self.name = name
+            self.playbackConfigurationName = playbackConfigurationName
+            self.retrieval = retrieval
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case consumption = "Consumption"
+            case name = "Name"
+            case playbackConfigurationName = "PlaybackConfigurationName"
+            case retrieval = "Retrieval"
+            case streamId = "StreamId"
         }
     }
 

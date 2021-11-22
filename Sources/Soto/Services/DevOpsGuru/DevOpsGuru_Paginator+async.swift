@@ -23,7 +23,33 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension DevOpsGuru {
-    ///   		Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in  		resource collections in your account. You specify the type of AWS resources collection. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze  	only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+    ///  Provides an overview of your system's health. If additional member accounts are part
+    ///  			of your organization, you can filter those accounts using the AccountIds
+    ///  			field.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeOrganizationResourceCollectionHealthPaginator(
+        _ input: DescribeOrganizationResourceCollectionHealthRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationResourceCollectionHealthRequest, DescribeOrganizationResourceCollectionHealthResponse> {
+        return .init(
+            input: input,
+            command: describeOrganizationResourceCollectionHealth,
+            inputKey: \DescribeOrganizationResourceCollectionHealthRequest.nextToken,
+            outputKey: \DescribeOrganizationResourceCollectionHealthResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
+    ///  			for all closed insights in resource collections in your account. You specify the type of
+    ///  			Amazon Web Services resources collection. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +71,7 @@ extension DevOpsGuru {
         )
     }
 
-    ///  Returns an estimate of the monthly cost for DevOps Guru to analyze your AWS resources.
+    ///  Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
     ///  			For more information,
     ///  			see Estimate your
     ///  			Amazon DevOps Guru costs and
@@ -71,7 +97,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns lists AWS resources that are of the specified resource collection type. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze  	only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+    ///   Returns lists Amazon Web Services resources that are of the specified resource collection type.
+    ///  			The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -93,7 +120,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of the anomalies that belong to an insight that you specify using its ID.
+    ///   Returns a list of the anomalies that belong to an insight that you specify using its
+    ///  			ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -115,7 +143,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You can use filters to specify which events are returned.
+    ///   Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
+    ///  			You can use filters to specify which events are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -137,7 +166,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of insights in your AWS account. You can specify which insights are returned by their start time and  		status (ONGOING, CLOSED, or ANY).
+    ///   Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+    ///  			returned by their start time and status (ONGOING, CLOSED, or
+    ///  				ANY).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -159,7 +190,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when  		DevOps Guru generates an insight that contains information about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
+    ///   Returns a list of notification channels configured for DevOps Guru. Each notification
+    ///  			channel is used to notify you when DevOps Guru generates an insight that contains information
+    ///  			about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -181,7 +214,30 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events.
+    ///  Returns a list of insights associated with the account or OU Id.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listOrganizationInsightsPaginator(
+        _ input: ListOrganizationInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListOrganizationInsightsRequest, ListOrganizationInsightsResponse> {
+        return .init(
+            input: input,
+            command: listOrganizationInsights,
+            inputKey: \ListOrganizationInsightsRequest.nextToken,
+            outputKey: \ListOrganizationInsightsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns a list of a specified insight's recommendations. Each recommendation includes
+    ///  			a list of related metrics and a list of related events.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -203,7 +259,14 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of insights in your AWS account. You can specify which insights are returned by their start time, one or more statuses  		(ONGOING, CLOSED, and CLOSED), one or more severities (LOW, MEDIUM,  		and HIGH), and type (REACTIVE or PROACTIVE). 	 	      		Use the Filters parameter to specify status and severity  		search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
+    ///   Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+    ///  			returned by their start time, one or more statuses (ONGOING,
+    ///  				CLOSED, and CLOSED), one or more severities
+    ///  				(LOW, MEDIUM, and HIGH), and type
+    ///  				(REACTIVE or PROACTIVE).
+    ///  		        Use the Filters parameter to specify status and severity search
+    ///  			parameters. Use the Type parameter to specify REACTIVE or
+    ///  				PROACTIVE in your search.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -220,6 +283,35 @@ extension DevOpsGuru {
             command: searchInsights,
             inputKey: \SearchInsightsRequest.nextToken,
             outputKey: \SearchInsightsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns a list of insights in your organization. You can specify which insights are
+    ///  			returned by their start time, one or more statuses (ONGOING,
+    ///  				CLOSED, and CLOSED), one or more severities
+    ///  				(LOW, MEDIUM, and HIGH), and type
+    ///  				(REACTIVE or PROACTIVE).
+    ///  		        Use the Filters parameter to specify status and severity search
+    ///  			parameters. Use the Type parameter to specify REACTIVE or
+    ///  				PROACTIVE in your search.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchOrganizationInsightsPaginator(
+        _ input: SearchOrganizationInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchOrganizationInsightsRequest, SearchOrganizationInsightsResponse> {
+        return .init(
+            input: input,
+            command: searchOrganizationInsights,
+            inputKey: \SearchOrganizationInsightsRequest.nextToken,
+            outputKey: \SearchOrganizationInsightsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

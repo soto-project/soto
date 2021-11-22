@@ -21,6 +21,32 @@ import SotoCore
 extension EC2 {
     // MARK: Enums
 
+    public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable {
+        case amazonWebServices = "amazon-web-services"
+        case amd
+        case nvidia
+        case xilinx
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcceleratorName: String, CustomStringConvertible, Codable {
+        case a100
+        case k80
+        case m60
+        case radeonProV520 = "radeon-pro-v520"
+        case t4
+        case v100
+        case vu9p
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcceleratorType: String, CustomStringConvertible, Codable {
+        case fpga
+        case gpu
+        case inference
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccountAttributeName: String, CustomStringConvertible, Codable {
         case defaultVpc = "default-vpc"
         case supportedPlatforms = "supported-platforms"
@@ -93,6 +119,7 @@ extension EC2 {
         public static var arm64: Self { .init(rawValue: "arm64") }
         public static var i386: Self { .init(rawValue: "i386") }
         public static var x8664: Self { .init(rawValue: "x86_64") }
+        public static var x8664Mac: Self { .init(rawValue: "x86_64_mac") }
     }
 
     public enum ArchitectureValues: String, CustomStringConvertible, Codable {
@@ -158,6 +185,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BareMetal: String, CustomStringConvertible, Codable {
+        case excluded
+        case included
+        case required
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchState: String, CustomStringConvertible, Codable {
         case active
         case cancelled
@@ -198,6 +232,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BurstablePerformance: String, CustomStringConvertible, Codable {
+        case excluded
+        case included
+        case required
+        public var description: String { return self.rawValue }
+    }
+
     public enum ByoipCidrState: String, CustomStringConvertible, Codable {
         case advertised
         case deprovisioned
@@ -224,6 +265,19 @@ extension EC2 {
         case closed
         case completed
         case open
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationFleetState: String, CustomStringConvertible, Codable {
+        case active
+        case cancelled
+        case cancelling
+        case expired
+        case expiring
+        case failed
+        case modifying
+        case partiallyFulfilled = "partially_fulfilled"
+        case submitted
         public var description: String { return self.rawValue }
     }
 
@@ -357,6 +411,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CpuManufacturer: String, CustomStringConvertible, Codable {
+        case amazonWebServices = "amazon-web-services"
+        case amd
+        case intel
+        public var description: String { return self.rawValue }
+    }
+
     public enum CurrencyCodeValues: String, CustomStringConvertible, Codable {
         case usd = "USD"
         public var description: String { return self.rawValue }
@@ -398,6 +459,12 @@ extension EC2 {
         case reservedInstancesIdInvalid = "reserved-instances-id-invalid"
         case reservedInstancesNotInQueuedState = "reserved-instances-not-in-queued-state"
         case unexpectedError = "unexpected-error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationFileFormat: String, CustomStringConvertible, Codable {
+        case parquet
+        case plainText = "plain-text"
         public var description: String { return self.rawValue }
     }
 
@@ -545,6 +612,11 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FleetCapacityReservationTenancy: String, CustomStringConvertible, Codable {
+        case `default`
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable {
         case useCapacityReservationsFirst = "use-capacity-reservations-first"
         public var description: String { return self.rawValue }
@@ -563,6 +635,11 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FleetInstanceMatchCriteria: String, CustomStringConvertible, Codable {
+        case open
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetOnDemandAllocationStrategy: String, CustomStringConvertible, Codable {
         case lowestPrice = "lowest-price"
         case prioritized
@@ -571,6 +648,7 @@ extension EC2 {
 
     public enum FleetReplacementStrategy: String, CustomStringConvertible, Codable {
         case launch
+        case launchBeforeTerminate = "launch-before-terminate"
         public var description: String { return self.rawValue }
     }
 
@@ -612,6 +690,14 @@ extension EC2 {
         case failed
         case pending
         case unavailable
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayAssociationState: String, CustomStringConvertible, Codable {
+        case associated
+        case associating
+        case disassociating
+        case notAssociated = "not-associated"
         public var description: String { return self.rawValue }
     }
 
@@ -715,6 +801,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceGeneration: String, CustomStringConvertible, Codable {
+        case current
+        case previous
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceHealthStatus: String, CustomStringConvertible, Codable {
         case healthy
         case unhealthy
@@ -771,6 +863,12 @@ extension EC2 {
         case stopped
         case stopping
         case terminated
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStorageEncryptionSupport: String, CustomStringConvertible, Codable {
+        case required
+        case unsupported
         public var description: String { return self.rawValue }
     }
 
@@ -866,6 +964,15 @@ extension EC2 {
         public static var c6gnLarge: Self { .init(rawValue: "c6gn.large") }
         public static var c6gnMedium: Self { .init(rawValue: "c6gn.medium") }
         public static var c6gnXlarge: Self { .init(rawValue: "c6gn.xlarge") }
+        public static var c6i12Xlarge: Self { .init(rawValue: "c6i.12xlarge") }
+        public static var c6i16Xlarge: Self { .init(rawValue: "c6i.16xlarge") }
+        public static var c6i24Xlarge: Self { .init(rawValue: "c6i.24xlarge") }
+        public static var c6i2Xlarge: Self { .init(rawValue: "c6i.2xlarge") }
+        public static var c6i32Xlarge: Self { .init(rawValue: "c6i.32xlarge") }
+        public static var c6i4Xlarge: Self { .init(rawValue: "c6i.4xlarge") }
+        public static var c6i8Xlarge: Self { .init(rawValue: "c6i.8xlarge") }
+        public static var c6iLarge: Self { .init(rawValue: "c6i.large") }
+        public static var c6iXlarge: Self { .init(rawValue: "c6i.xlarge") }
         public static var cc14Xlarge: Self { .init(rawValue: "cc1.4xlarge") }
         public static var cc28Xlarge: Self { .init(rawValue: "cc2.8xlarge") }
         public static var cg14Xlarge: Self { .init(rawValue: "cg1.4xlarge") }
@@ -884,6 +991,7 @@ extension EC2 {
         public static var d3en6Xlarge: Self { .init(rawValue: "d3en.6xlarge") }
         public static var d3en8Xlarge: Self { .init(rawValue: "d3en.8xlarge") }
         public static var d3enXlarge: Self { .init(rawValue: "d3en.xlarge") }
+        public static var dl124Xlarge: Self { .init(rawValue: "dl1.24xlarge") }
         public static var f116Xlarge: Self { .init(rawValue: "f1.16xlarge") }
         public static var f12Xlarge: Self { .init(rawValue: "f1.2xlarge") }
         public static var f14Xlarge: Self { .init(rawValue: "f1.4xlarge") }
@@ -905,6 +1013,14 @@ extension EC2 {
         public static var g4dn8Xlarge: Self { .init(rawValue: "g4dn.8xlarge") }
         public static var g4dnMetal: Self { .init(rawValue: "g4dn.metal") }
         public static var g4dnXlarge: Self { .init(rawValue: "g4dn.xlarge") }
+        public static var g512Xlarge: Self { .init(rawValue: "g5.12xlarge") }
+        public static var g516Xlarge: Self { .init(rawValue: "g5.16xlarge") }
+        public static var g524Xlarge: Self { .init(rawValue: "g5.24xlarge") }
+        public static var g52Xlarge: Self { .init(rawValue: "g5.2xlarge") }
+        public static var g548Xlarge: Self { .init(rawValue: "g5.48xlarge") }
+        public static var g54Xlarge: Self { .init(rawValue: "g5.4xlarge") }
+        public static var g58Xlarge: Self { .init(rawValue: "g5.8xlarge") }
+        public static var g5Xlarge: Self { .init(rawValue: "g5.xlarge") }
         public static var h116Xlarge: Self { .init(rawValue: "h1.16xlarge") }
         public static var h12Xlarge: Self { .init(rawValue: "h1.2xlarge") }
         public static var h14Xlarge: Self { .init(rawValue: "h1.4xlarge") }
@@ -1298,6 +1414,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocalStorage: String, CustomStringConvertible, Codable {
+        case excluded
+        case included
+        case required
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalStorageType: String, CustomStringConvertible, Codable {
+        case hdd
+        case ssd
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocationType: String, CustomStringConvertible, Codable {
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
@@ -1540,6 +1669,7 @@ extension EC2 {
 
     public enum ReplacementStrategy: String, CustomStringConvertible, Codable {
         case launch
+        case launchBeforeTerminate = "launch-before-terminate"
         public var description: String { return self.rawValue }
     }
 
@@ -1827,6 +1957,13 @@ extension EC2 {
         case insufficientData = "insufficient-data"
         case notApplicable = "not-applicable"
         case ok
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetCapacityUnitType: String, CustomStringConvertible, Codable {
+        case memoryMib = "memory-mib"
+        case units
+        case vcpu
         public var description: String { return self.rawValue }
     }
 
@@ -2185,6 +2322,74 @@ extension EC2 {
 
     // MARK: Shapes
 
+    public struct AcceleratorCount: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of accelerators. If this parameter is not specified, there is no maximum limit.
+        public let max: Int?
+        /// The minimum number of accelerators. If this parameter is not specified, there is no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct AcceleratorCountRequest: AWSEncodableShape {
+        /// The maximum number of accelerators. To specify no maximum limit, omit this parameter. To exclude accelerator-enabled instance types, set Max to 0.
+        public let max: Int?
+        /// The minimum number of accelerators. To specify no minimum limit, omit this parameter.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AcceleratorTotalMemoryMiB: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of accelerator memory, in MiB. If this parameter is not specified, there is no maximum limit.
+        public let max: Int?
+        /// The minimum amount of accelerator memory, in MiB. If this parameter is not specified, there is no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct AcceleratorTotalMemoryMiBRequest: AWSEncodableShape {
+        /// The maximum amount of accelerator memory, in MiB. To specify no maximum limit, omit this parameter.
+        public let max: Int?
+        /// The minimum amount of accelerator memory, in MiB. To specify no minimum limit, omit this parameter.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSEncodableShape {
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { public static let member = "ReservedInstanceId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { public static let member = "TargetConfigurationRequest" }
@@ -2488,7 +2693,7 @@ extension EC2 {
         public let domain: DomainType?
         /// The ID of the instance that the address is associated with (if any).
         public let instanceId: String?
-        /// The name of the unique set of Availability Zones, Local Zones, or Wavelength Zones from which AWS advertises IP addresses.
+        /// The name of the unique set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses.
         public let networkBorderGroup: String?
         /// The ID of the network interface.
         public let networkInterfaceId: String?
@@ -2605,7 +2810,7 @@ extension EC2 {
         public let domain: DomainType?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        ///  A unique set of Availability Zones, Local Zones, or Wavelength Zones from which AWS advertises IP addresses. Use this parameter to limit the IP address to this location. IP addresses cannot move between network border groups. Use DescribeAvailabilityZones to view the network border groups.   You cannot use a network border group with EC2 Classic. If you attempt this operation on EC2 classic, you will receive an InvalidParameterCombination error. For more information, see Error Codes.
+        ///  A unique set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses. Use this parameter to limit the IP address to this location. IP addresses cannot move between network border groups. Use DescribeAvailabilityZones to view the network border groups.  You cannot use a network border group with EC2 Classic. If you attempt this operation on EC2 Classic,  you receive an InvalidParameterCombination error.
         public let networkBorderGroup: String?
         /// The ID of an address pool that you own. Use this parameter to let Amazon EC2 select an address from the address pool. To specify a specific address from the address pool, use the Address parameter instead.
         public let publicIpv4Pool: String?
@@ -2646,7 +2851,7 @@ extension EC2 {
         /// Indicates whether the Elastic IP address is for use with instances in a VPC (vpc) or
         /// 				instances in EC2-Classic (standard).
         public let domain: DomainType?
-        /// The set of Availability Zones, Local Zones, or Wavelength Zones from which AWS advertises IP addresses.
+        /// The set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses.
         public let networkBorderGroup: String?
         /// The Elastic IP address.
         public let publicIp: String?
@@ -4273,6 +4478,40 @@ extension EC2 {
         }
     }
 
+    public struct BaselineEbsBandwidthMbps: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum baseline bandwidth, in Mbps. If this parameter is not specified, there is no maximum limit.
+        public let max: Int?
+        /// The minimum baseline bandwidth, in Mbps. If this parameter is not specified, there is no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct BaselineEbsBandwidthMbpsRequest: AWSEncodableShape {
+        /// The maximum baseline bandwidth, in Mbps. To specify no maximum limit, omit this parameter.
+        public let max: Int?
+        /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit this parameter.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
     public struct BlobAttributeValue: AWSEncodableShape {
         public let value: Data?
 
@@ -4454,6 +4693,65 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case bundleTask = "bundleInstanceTask"
+        }
+    }
+
+    public struct CancelCapacityReservationFleetError: AWSDecodableShape {
+        /// The error code.
+        public let code: String?
+        /// The error message.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
+    }
+
+    public struct CancelCapacityReservationFleetsRequest: AWSEncodableShape {
+        public struct _CapacityReservationFleetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IDs of the Capacity Reservation Fleets to cancel.
+        @CustomCoding<ArrayCoder<_CapacityReservationFleetIdsEncoding, String>>
+        public var capacityReservationFleetIds: [String]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(capacityReservationFleetIds: [String], dryRun: Bool? = nil) {
+            self.capacityReservationFleetIds = capacityReservationFleetIds
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetIds = "CapacityReservationFleetId"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct CancelCapacityReservationFleetsResult: AWSDecodableShape {
+        public struct _FailedFleetCancellationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SuccessfulFleetCancellationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the Capacity Reservation Fleets that could not be cancelled.
+        @OptionalCustomCoding<ArrayCoder<_FailedFleetCancellationsEncoding, FailedCapacityReservationFleetCancellationResult>>
+        public var failedFleetCancellations: [FailedCapacityReservationFleetCancellationResult]?
+        /// Information about the Capacity Reservation Fleets that were successfully cancelled.
+        @OptionalCustomCoding<ArrayCoder<_SuccessfulFleetCancellationsEncoding, CapacityReservationFleetCancellationState>>
+        public var successfulFleetCancellations: [CapacityReservationFleetCancellationState]?
+
+        public init(failedFleetCancellations: [FailedCapacityReservationFleetCancellationResult]? = nil, successfulFleetCancellations: [CapacityReservationFleetCancellationState]? = nil) {
+            self.failedFleetCancellations = failedFleetCancellations
+            self.successfulFleetCancellations = successfulFleetCancellations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedFleetCancellations = "failedFleetCancellationSet"
+            case successfulFleetCancellations = "successfulFleetCancellationSet"
         }
     }
 
@@ -4757,6 +5055,9 @@ extension EC2 {
         public let availableInstanceCount: Int?
         /// The Amazon Resource Name (ARN) of the Capacity Reservation.
         public let capacityReservationArn: String?
+        /// The ID of the Capacity Reservation Fleet to which the Capacity Reservation belongs.
+        /// 			Only valid for Capacity Reservations that were created by a Capacity Reservation Fleet.
+        public let capacityReservationFleetId: String?
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
         /// The date and time at which the Capacity Reservation was created.
@@ -4813,11 +5114,12 @@ extension EC2 {
         /// The total number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
             self.capacityReservationArn = capacityReservationArn
+            self.capacityReservationFleetId = capacityReservationFleetId
             self.capacityReservationId = capacityReservationId
             self.createDate = createDate
             self.ebsOptimized = ebsOptimized
@@ -4841,6 +5143,7 @@ extension EC2 {
             case availabilityZoneId
             case availableInstanceCount
             case capacityReservationArn
+            case capacityReservationFleetId
             case capacityReservationId
             case createDate
             case ebsOptimized
@@ -4857,6 +5160,140 @@ extension EC2 {
             case tags = "tagSet"
             case tenancy
             case totalInstanceCount
+        }
+    }
+
+    public struct CapacityReservationFleet: AWSDecodableShape {
+        public struct _InstanceTypeSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The strategy used by the Capacity Reservation Fleet to determine which of the specified
+        /// 			instance types to use. For more information, see For more information, see
+        ///
+        /// 				Allocation strategy in the Amazon EC2 User Guide.
+        public let allocationStrategy: String?
+        /// The ARN of the Capacity Reservation Fleet.
+        public let capacityReservationFleetArn: String?
+        /// The ID of the Capacity Reservation Fleet.
+        public let capacityReservationFleetId: String?
+        /// The date and time at which the Capacity Reservation Fleet was created.
+        public let createTime: Date?
+        /// The date and time at which the Capacity Reservation Fleet expires.
+        public let endDate: Date?
+        /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All
+        /// 			Capacity Reservations in the Fleet inherit this instance matching criteria.
+        /// 		       Currently, Capacity Reservation Fleets support open instance matching criteria
+        /// 			only. This means that instances that have matching attributes (instance type, platform, and
+        /// 			Availability Zone) run in the Capacity Reservations automatically. Instances do not need to
+        /// 			explicitly target a Capacity Reservation Fleet to use its reserved capacity.
+        public let instanceMatchCriteria: FleetInstanceMatchCriteria?
+        /// Information about the instance types for which to reserve the capacity.
+        @OptionalCustomCoding<ArrayCoder<_InstanceTypeSpecificationsEncoding, FleetCapacityReservation>>
+        public var instanceTypeSpecifications: [FleetCapacityReservation]?
+        /// The state of the Capacity Reservation Fleet. Possible states include:
+        ///
+        /// 				            submitted - The Capacity Reservation Fleet request has been submitted
+        /// 					and Amazon Elastic Compute Cloud is preparing to create the Capacity Reservations.
+        ///
+        /// 				            modifying - The Capacity Reservation Fleet is being modified. The Fleet
+        /// 					remains in this state until the modification is complete.
+        ///
+        /// 				            active - The Capacity Reservation Fleet has fulfilled its total target
+        /// 					capacity and it is attempting to maintain this capacity. The Fleet remains in this
+        /// 					state until it is modified or deleted.
+        ///
+        /// 				            partially_fulfilled - The Capacity Reservation Fleet has partially
+        /// 					fulfilled its total target capacity. There is insufficient Amazon EC2 to
+        /// 					fulfill the total target capacity. The Fleet is attempting to asynchronously fulfill
+        /// 					its total target capacity.
+        ///
+        /// 				            expiring - The Capacity Reservation Fleet has reach its end date and it
+        /// 					is in the process of expiring. One or more of its Capacity reservations might still
+        /// 					be active.
+        ///
+        /// 				            expired - The Capacity Reservation Fleet has reach its end date. The Fleet
+        /// 					and its Capacity Reservations are expired. The Fleet can't create new Capacity
+        /// 					Reservations.
+        ///
+        /// 				            cancelling - The Capacity Reservation Fleet is in the process of being
+        /// 					cancelled. One or more of its Capacity reservations might still be active.
+        ///
+        /// 				            cancelled - The Capacity Reservation Fleet has been manually cancelled.
+        /// 					The Fleet and its Capacity Reservations are cancelled and the Fleet can't create new
+        /// 					Capacity Reservations.
+        ///
+        /// 				            failed - The Capacity Reservation Fleet failed to reserve capacity for
+        /// 					the specified instance types.
+        ///
+        public let state: CapacityReservationFleetState?
+        /// The tags assigned to the Capacity Reservation Fleet.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The tenancy of the Capacity Reservation Fleet. Tenancies include:
+        ///
+        /// 				            default - The Capacity Reservation Fleet is created on hardware that is
+        /// 					shared with other Amazon Web Services accounts.
+        ///
+        /// 				            dedicated - The Capacity Reservation Fleet is created on single-tenant
+        /// 					hardware that is dedicated to a single Amazon Web Services account.
+        ///
+        public let tenancy: FleetCapacityReservationTenancy?
+        /// The capacity units that have been fulfilled.
+        public let totalFulfilledCapacity: Double?
+        /// The total number of capacity units for which the Capacity Reservation Fleet reserves capacity.
+        /// 			For more information, see Total target capacity
+        /// 			in the Amazon EC2 User Guide.
+        public let totalTargetCapacity: Int?
+
+        public init(allocationStrategy: String? = nil, capacityReservationFleetArn: String? = nil, capacityReservationFleetId: String? = nil, createTime: Date? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [FleetCapacityReservation]? = nil, state: CapacityReservationFleetState? = nil, tags: [Tag]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalFulfilledCapacity: Double? = nil, totalTargetCapacity: Int? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationFleetArn = capacityReservationFleetArn
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.createTime = createTime
+            self.endDate = endDate
+            self.instanceMatchCriteria = instanceMatchCriteria
+            self.instanceTypeSpecifications = instanceTypeSpecifications
+            self.state = state
+            self.tags = tags
+            self.tenancy = tenancy
+            self.totalFulfilledCapacity = totalFulfilledCapacity
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy
+            case capacityReservationFleetArn
+            case capacityReservationFleetId
+            case createTime
+            case endDate
+            case instanceMatchCriteria
+            case instanceTypeSpecifications = "instanceTypeSpecificationSet"
+            case state
+            case tags = "tagSet"
+            case tenancy
+            case totalFulfilledCapacity
+            case totalTargetCapacity
+        }
+    }
+
+    public struct CapacityReservationFleetCancellationState: AWSDecodableShape {
+        /// The ID of the Capacity Reservation Fleet that was successfully cancelled.
+        public let capacityReservationFleetId: String?
+        /// The current state of the Capacity Reservation Fleet.
+        public let currentFleetState: CapacityReservationFleetState?
+        /// The previous state of the Capacity Reservation Fleet.
+        public let previousFleetState: CapacityReservationFleetState?
+
+        public init(capacityReservationFleetId: String? = nil, currentFleetState: CapacityReservationFleetState? = nil, previousFleetState: CapacityReservationFleetState? = nil) {
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.currentFleetState = currentFleetState
+            self.previousFleetState = previousFleetState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetId
+            case currentFleetState
+            case previousFleetState
         }
     }
 
@@ -5590,9 +6027,9 @@ extension EC2 {
     public struct CoipAddressUsage: AWSDecodableShape {
         /// The allocation ID of the address.
         public let allocationId: String?
-        /// The AWS account ID.
+        /// The Amazon Web Services account ID.
         public let awsAccountId: String?
-        /// The AWS service.
+        /// The Amazon Web Services service.
         public let awsService: String?
         /// The customer-owned IP address.
         public let coIp: String?
@@ -5807,7 +6244,7 @@ extension EC2 {
     }
 
     public struct CopyFpgaImageRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.  For more information, see Ensuring Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.  For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// The description for the new AFI.
         public let description: String?
@@ -6017,6 +6454,151 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case coreCount = "CoreCount"
             case threadsPerCore = "ThreadsPerCore"
+        }
+    }
+
+    public struct CreateCapacityReservationFleetRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The strategy used by the Capacity Reservation Fleet to determine which of the
+        /// 			specified instance types to use. Currently, only the prioritized
+        /// 			allocation strategy is supported. For more information, see
+        /// 				Allocation strategy in the Amazon EC2 User Guide.
+        /// 		       Valid values: prioritized
+        public let allocationStrategy: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The date and time at which the Capacity Reservation Fleet expires. When the Capacity
+        /// 			Reservation Fleet expires, its state changes to expired and all of the Capacity
+        /// 			Reservations in the Fleet expire.
+        /// 		       The Capacity Reservation Fleet expires within an hour after the specified time. For example,
+        /// 			if you specify 5/31/2019, 13:30:55, the Capacity Reservation Fleet
+        /// 			is guaranteed to expire between 13:30:55 and 14:30:55 on
+        /// 			5/31/2019.
+        ///
+        public let endDate: Date?
+        /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All
+        /// 			Capacity Reservations in the Fleet inherit this instance matching criteria.
+        /// 		       Currently, Capacity Reservation Fleets support open instance matching criteria
+        /// 			only. This means that instances that have matching attributes (instance type, platform, and
+        /// 			Availability Zone) run in the Capacity Reservations automatically. Instances do not need to
+        /// 			explicitly target a Capacity Reservation Fleet to use its reserved capacity.
+        public let instanceMatchCriteria: FleetInstanceMatchCriteria?
+        /// Information about the instance types for which to reserve the capacity.
+        @CustomCoding<StandardArrayCoder>
+        public var instanceTypeSpecifications: [ReservationFleetInstanceSpecification]
+        /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned
+        /// 			to the Capacity Reservations in the Fleet.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// Indicates the tenancy of the Capacity Reservation Fleet. All Capacity Reservations
+        /// 			in the Fleet inherit this tenancy. The Capacity Reservation Fleet can have one of
+        /// 			the following tenancy settings:
+        ///
+        ///
+        /// 					             default - The Capacity Reservation Fleet is created on hardware
+        /// 					that is shared with other Amazon Web Services accounts.
+        ///
+        ///
+        /// 					             dedicated - The Capacity Reservations are created on single-tenant
+        /// 					hardware that is dedicated to a single Amazon Web Services account.
+        ///
+        public let tenancy: FleetCapacityReservationTenancy?
+        /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This
+        /// 			value, together with the instance type weights that you assign to each instance type used by
+        /// 			the Fleet determine the number of instances for which the Fleet reserves capacity. Both values
+        /// 			are based on units that make sense for your workload. For more information, see
+        /// 				Total target capacity in the Amazon EC2 User Guide.
+        public let totalTargetCapacity: Int
+
+        public init(allocationStrategy: String? = nil, clientToken: String? = CreateCapacityReservationFleetRequest.idempotencyToken(), dryRun: Bool? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [ReservationFleetInstanceSpecification], tagSpecifications: [TagSpecification]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalTargetCapacity: Int) {
+            self.allocationStrategy = allocationStrategy
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.endDate = endDate
+            self.instanceMatchCriteria = instanceMatchCriteria
+            self.instanceTypeSpecifications = instanceTypeSpecifications
+            self.tagSpecifications = tagSpecifications
+            self.tenancy = tenancy
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceTypeSpecifications.forEach {
+                try $0.validate(name: "\(name).instanceTypeSpecifications[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case endDate = "EndDate"
+            case instanceMatchCriteria = "InstanceMatchCriteria"
+            case instanceTypeSpecifications = "InstanceTypeSpecification"
+            case tagSpecifications = "TagSpecification"
+            case tenancy = "Tenancy"
+            case totalTargetCapacity = "TotalTargetCapacity"
+        }
+    }
+
+    public struct CreateCapacityReservationFleetResult: AWSDecodableShape {
+        public struct _FleetCapacityReservationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The allocation strategy used by the Capacity Reservation Fleet.
+        public let allocationStrategy: String?
+        /// The ID of the Capacity Reservation Fleet.
+        public let capacityReservationFleetId: String?
+        /// The date and time at which the Capacity Reservation Fleet was created.
+        public let createTime: Date?
+        /// The date and time at which the Capacity Reservation Fleet expires.
+        public let endDate: Date?
+        /// Information about the individual Capacity Reservations in the Capacity Reservation Fleet.
+        @OptionalCustomCoding<ArrayCoder<_FleetCapacityReservationsEncoding, FleetCapacityReservation>>
+        public var fleetCapacityReservations: [FleetCapacityReservation]?
+        /// The instance matching criteria for the Capacity Reservation Fleet.
+        public let instanceMatchCriteria: FleetInstanceMatchCriteria?
+        /// The status of the Capacity Reservation Fleet.
+        public let state: CapacityReservationFleetState?
+        /// The tags assigned to the Capacity Reservation Fleet.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// Indicates the tenancy of Capacity Reservation Fleet.
+        public let tenancy: FleetCapacityReservationTenancy?
+        /// The requested capacity units that have been successfully reserved.
+        public let totalFulfilledCapacity: Double?
+        /// The total number of capacity units for which the Capacity Reservation Fleet reserves capacity.
+        public let totalTargetCapacity: Int?
+
+        public init(allocationStrategy: String? = nil, capacityReservationFleetId: String? = nil, createTime: Date? = nil, endDate: Date? = nil, fleetCapacityReservations: [FleetCapacityReservation]? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, state: CapacityReservationFleetState? = nil, tags: [Tag]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalFulfilledCapacity: Double? = nil, totalTargetCapacity: Int? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.createTime = createTime
+            self.endDate = endDate
+            self.fleetCapacityReservations = fleetCapacityReservations
+            self.instanceMatchCriteria = instanceMatchCriteria
+            self.state = state
+            self.tags = tags
+            self.tenancy = tenancy
+            self.totalFulfilledCapacity = totalFulfilledCapacity
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy
+            case capacityReservationFleetId
+            case createTime
+            case endDate
+            case fleetCapacityReservations = "fleetCapacityReservationSet"
+            case instanceMatchCriteria
+            case state
+            case tags = "tagSet"
+            case tenancy
+            case totalFulfilledCapacity
+            case totalTargetCapacity
         }
     }
 
@@ -6703,13 +7285,15 @@ extension EC2 {
         public let clientToken: String?
         /// The ARN for the IAM role that permits Amazon EC2 to publish flow logs to a CloudWatch Logs log group  in your account. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName.
         public let deliverLogsPermissionArn: String?
+        /// The destination options.
+        public let destinationOptions: DestinationOptionsRequest?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies the destination to which the flow log data is to be published. Flow log data can be published  to a CloudWatch Logs log group or an Amazon S3 bucket. The value specified for this parameter depends on the value specified for LogDestinationType. If LogDestinationType is not specified or cloud-watch-logs, specify the Amazon Resource Name (ARN) of the CloudWatch Logs log group. For example, to publish to a log group called my-logs, specify arn:aws:logs:us-east-1:123456789012:log-group:my-logs. Alternatively, use LogGroupName instead.  If LogDestinationType is s3, specify the ARN of the Amazon S3 bucket. You can also specify a  subfolder in the bucket. To specify a subfolder in the bucket, use the following  ARN format:  bucket_ARN/subfolder_name/. For example, to specify a subfolder named my-logs in a  bucket named my-bucket, use the following ARN: arn:aws:s3:::my-bucket/my-logs/. You  cannot use AWSLogs as a subfolder name. This is a reserved term.
+        /// The destination to which the flow log data is to be published. Flow log data can be published  to a CloudWatch Logs log group or an Amazon S3 bucket. The value specified for this parameter depends on the value specified for LogDestinationType. If LogDestinationType is not specified or cloud-watch-logs, specify the Amazon Resource Name (ARN) of the CloudWatch Logs log group. For example, to publish to a log group called my-logs, specify arn:aws:logs:us-east-1:123456789012:log-group:my-logs. Alternatively, use LogGroupName instead.  If LogDestinationType is s3, specify the ARN of the Amazon S3 bucket. You can also specify a  subfolder in the bucket. To specify a subfolder in the bucket, use the following  ARN format:  bucket_ARN/subfolder_name/. For example, to specify a subfolder named my-logs in a  bucket named my-bucket, use the following ARN: arn:aws:s3:::my-bucket/my-logs/. You  cannot use AWSLogs as a subfolder name. This is a reserved term.
         public let logDestination: String?
-        /// Specifies the type of destination to which the flow log data is to be published. Flow log data can be  published to CloudWatch Logs or Amazon S3. To publish flow log data to CloudWatch Logs, specify cloud-watch-logs. To  publish flow log data to Amazon S3, specify s3. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName. Default: cloud-watch-logs
+        /// The type of destination to which the flow log data is to be published. Flow log data can be  published to CloudWatch Logs or Amazon S3. To publish flow log data to CloudWatch Logs, specify cloud-watch-logs. To  publish flow log data to Amazon S3, specify s3. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName. Default: cloud-watch-logs
         public let logDestinationType: LogDestinationType?
-        /// The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow log records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter,  you must specify at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the CLI, use single quotation marks (' ') to surround the parameter value.
+        /// The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow log records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter,  you must specify at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the CLI, surround this parameter value with single quotes on Linux or double quotes on Windows.
         public let logFormat: String?
         /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName.
         public let logGroupName: String?
@@ -6726,9 +7310,10 @@ extension EC2 {
         /// The type of traffic to log. You can log traffic that the resource accepts or rejects, or all traffic.
         public let trafficType: TrafficType
 
-        public init(clientToken: String? = nil, deliverLogsPermissionArn: String? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String], resourceType: FlowLogsResourceType, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType) {
+        public init(clientToken: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String], resourceType: FlowLogsResourceType, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType) {
             self.clientToken = clientToken
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
+            self.destinationOptions = destinationOptions
             self.dryRun = dryRun
             self.logDestination = logDestination
             self.logDestinationType = logDestinationType
@@ -6744,6 +7329,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case deliverLogsPermissionArn = "DeliverLogsPermissionArn"
+            case destinationOptions = "DestinationOptions"
             case dryRun = "DryRun"
             case logDestination = "LogDestination"
             case logDestinationType = "LogDestinationType"
@@ -7866,6 +8452,7 @@ extension EC2 {
     public struct CreateRouteRequest: AWSEncodableShape {
         /// The ID of the carrier gateway. You can only use this option when the VPC contains a subnet which is associated with a Wavelength Zone.
         public let carrierGatewayId: String?
+        public let coreNetworkArn: String?
         /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match. We modify the specified CIDR block to its canonical form; for example, if you specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
         public let destinationCidrBlock: String?
         /// The IPv6 CIDR block used for the destination match. Routing decisions are based on the most specific match.
@@ -7896,8 +8483,9 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(carrierGatewayId: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
+            self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -7916,6 +8504,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case carrierGatewayId = "CarrierGatewayId"
+            case coreNetworkArn = "CoreNetworkArn"
             case destinationCidrBlock
             case destinationIpv6CidrBlock
             case destinationPrefixListId = "DestinationPrefixListId"
@@ -8331,7 +8920,7 @@ extension EC2 {
     public struct CreateTrafficMirrorFilterRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror filter.
         public let description: String?
@@ -8357,7 +8946,7 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorFilterResult: AWSDecodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// Information about the Traffic Mirror filter.
         public let trafficMirrorFilter: TrafficMirrorFilter?
@@ -8374,7 +8963,7 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorFilterRuleRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror rule.
         public let description: String?
@@ -8386,7 +8975,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The protocol, for example UDP, to assign to the Traffic Mirror rule. For information about the protocol value, see Protocol Numbers on the  Internet Assigned Numbers Authority (IANA) website.
         public let `protocol`: Int?
-        /// The action to take (accept | reject) on the filtered traffic.
+        /// The action to take on the filtered traffic.
         public let ruleAction: TrafficMirrorRuleAction
         /// The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.
         public let ruleNumber: Int
@@ -8394,7 +8983,7 @@ extension EC2 {
         public let sourceCidrBlock: String
         /// The source port range.
         public let sourcePortRange: TrafficMirrorPortRangeRequest?
-        /// The type of traffic (ingress | egress).
+        /// The type of traffic.
         public let trafficDirection: TrafficDirection
         /// The ID of the filter that this rule is associated with.
         public let trafficMirrorFilterId: String
@@ -8431,7 +9020,7 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorFilterRuleResult: AWSDecodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The Traffic Mirror rule.
         public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
@@ -8450,7 +9039,7 @@ extension EC2 {
     public struct CreateTrafficMirrorSessionRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror session.
         public let description: String?
@@ -8500,7 +9089,7 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorSessionResult: AWSDecodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// Information about the Traffic Mirror session.
         public let trafficMirrorSession: TrafficMirrorSession?
@@ -8519,7 +9108,7 @@ extension EC2 {
     public struct CreateTrafficMirrorTargetRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror target.
         public let description: String?
@@ -8553,7 +9142,7 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorTargetResult: AWSDecodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// Information about the Traffic Mirror target.
         public let trafficMirrorTarget: TrafficMirrorTarget?
@@ -9130,7 +9719,7 @@ extension EC2 {
     public struct CreateVpcEndpointConnectionNotificationRequest: AWSEncodableShape {
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// One or more endpoint events for which to receive notifications. Valid values are Accept, Connect, Delete, and Reject.
         @CustomCoding<ArrayCoder<_ConnectionEventsEncoding, String>>
@@ -9186,7 +9775,7 @@ extension EC2 {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9266,7 +9855,7 @@ extension EC2 {
 
         /// Indicates whether requests from service consumers to create an endpoint to your service must be accepted. To accept a request, use AcceptVpcEndpointConnections.
         public let acceptanceRequired: Bool?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11801,6 +12390,76 @@ extension EC2 {
         }
     }
 
+    public struct DescribeCapacityReservationFleetsRequest: AWSEncodableShape {
+        public struct _CapacityReservationFleetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The IDs of the Capacity Reservation Fleets to describe.
+        @OptionalCustomCoding<ArrayCoder<_CapacityReservationFleetIdsEncoding, String>>
+        public var capacityReservationFleetIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters.
+        ///
+        /// 				            state - The state of the Fleet (submitted | modifying | active |
+        /// 					partially_fulfilled | expiring | expired | cancelling |
+        /// 					cancelled | failed).
+        ///
+        /// 				            instance-match-criteria - The instance matching criteria for the Fleet. Only open is supported.
+        ///
+        /// 				            tenancy - The tenancy of the Fleet (default | dedicated).
+        ///
+        /// 				            allocation-strategy - The allocation strategy used by the Fleet. Only prioritized is supported.
+        ///
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(capacityReservationFleetIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.capacityReservationFleetIds = capacityReservationFleetIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetIds = "CapacityReservationFleetId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeCapacityReservationFleetsResult: AWSDecodableShape {
+        public struct _CapacityReservationFleetsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the Capacity Reservation Fleets.
+        @OptionalCustomCoding<ArrayCoder<_CapacityReservationFleetsEncoding, CapacityReservationFleet>>
+        public var capacityReservationFleets: [CapacityReservationFleet]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(capacityReservationFleets: [CapacityReservationFleet]? = nil, nextToken: String? = nil) {
+            self.capacityReservationFleets = capacityReservationFleets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleets = "capacityReservationFleetSet"
+            case nextToken
+        }
+    }
+
     public struct DescribeCapacityReservationsRequest: AWSEncodableShape {
         public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
@@ -13177,7 +13836,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.
-        /// 		          create-time - The creation time of the AFI.    fpga-image-id - The FPGA image identifier (AFI ID).    fpga-image-global-id - The global FPGA image identifier (AGFI ID).    name - The name of the AFI.    owner-id - The AWS account ID of the AFI owner.    product-code - The product code.    shell-version - The version of the AWS Shell that was used to create the bitstream.    state - The state of the AFI (pending | failed | available | unavailable).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    update-time - The time of the most recent update.
+        /// 		          create-time - The creation time of the AFI.    fpga-image-id - The FPGA image identifier (AFI ID).    fpga-image-global-id - The global FPGA image identifier (AGFI ID).    name - The name of the AFI.    owner-id - The Amazon Web Services account ID of the AFI owner.    product-code - The product code.    shell-version - The version of the Amazon Web Services Shell that was used to create the bitstream.    state - The state of the AFI (pending | failed | available | unavailable).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    update-time - The time of the most recent update.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The AFI IDs.
@@ -13187,7 +13846,9 @@ extension EC2 {
         public let maxResults: Int?
         /// The token to retrieve the next page of results.
         public let nextToken: String?
-        /// Filters the AFI by owner. Specify an AWS account ID, self (owner is the sender of the request), or an AWS owner alias (valid values are amazon | aws-marketplace).
+        /// Filters the AFI by owner. Specify an Amazon Web Services account ID, self
+        /// 			(owner is the sender of the request), or an Amazon Web Services owner alias (valid values are
+        /// 			amazon | aws-marketplace).
         @OptionalCustomCoding<ArrayCoder<_OwnersEncoding, String>>
         public var owners: [String]?
 
@@ -13543,7 +14204,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Scopes the images by users with explicit launch permissions.  Specify an Amazon Web Services account ID, self (the sender of the request),
-        /// 				or all (public AMIs).
+        /// 				or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
         @OptionalCustomCoding<ArrayCoder<_ExecutableUsersEncoding, String>>
         public var executableUsers: [String]?
         /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    	         block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    	         block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).   		          			           block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted. 	          description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
@@ -13986,7 +14647,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type  (true | false).    burstable-performance-supported - Indicates whether it is a burstable performance instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported  (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported) | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic  Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type  automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type  (true | false).    burstable-performance-supported - Indicates whether it is a burstable performance instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported  (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-supported - Indicates whether data is encrypted at rest  (required | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic  Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type  automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance types. For more information, see Instance types in the Amazon EC2 User Guide.
@@ -14046,7 +14707,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.     host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.http-put-response-hop-limit - The http metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-endpoint - Enable or disable metadata access on http endpoint (enabled | disabled)    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.     host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.http-put-response-hop-limit - The http metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-endpoint - Enable or disable metadata access on http endpoint (enabled | disabled)    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance IDs. Default: Describes all your instances.
@@ -18154,7 +18815,8 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
-        /// 		          service-id - The ID of the service.    vpc-endpoint-owner - The AWS account number of the owner of the endpoint.
+        /// 		          service-id - The ID of the service.    vpc-endpoint-owner - The ID of the Amazon Web Services account ID
+        /// 		        that owns the endpoint.
         /// 			             vpc-endpoint-state - The state of the endpoint
         /// 			        (pendingAcceptance | pending |
         /// 			        available | deleting | deleted |
@@ -18644,6 +19306,48 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case vpnGateways = "vpnGatewaySet"
+        }
+    }
+
+    public struct DestinationOptionsRequest: AWSEncodableShape {
+        /// The format for the flow log. The default is plain-text.
+        public let fileFormat: DestinationFileFormat?
+        /// Indicates whether to use Hive-compatible prefixes for flow logs stored in Amazon S3. The default is false.
+        public let hiveCompatiblePartitions: Bool?
+        /// Indicates whether to partition the flow log per hour. This reduces the cost and response  time for queries. The default is false.
+        public let perHourPartition: Bool?
+
+        public init(fileFormat: DestinationFileFormat? = nil, hiveCompatiblePartitions: Bool? = nil, perHourPartition: Bool? = nil) {
+            self.fileFormat = fileFormat
+            self.hiveCompatiblePartitions = hiveCompatiblePartitions
+            self.perHourPartition = perHourPartition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormat = "FileFormat"
+            case hiveCompatiblePartitions = "HiveCompatiblePartitions"
+            case perHourPartition = "PerHourPartition"
+        }
+    }
+
+    public struct DestinationOptionsResponse: AWSDecodableShape {
+        /// The format for the flow log.
+        public let fileFormat: DestinationFileFormat?
+        /// Indicates whether to use Hive-compatible prefixes for flow logs stored in Amazon S3.
+        public let hiveCompatiblePartitions: Bool?
+        /// Indicates whether to partition the flow log per hour.
+        public let perHourPartition: Bool?
+
+        public init(fileFormat: DestinationFileFormat? = nil, hiveCompatiblePartitions: Bool? = nil, perHourPartition: Bool? = nil) {
+            self.fileFormat = fileFormat
+            self.hiveCompatiblePartitions = hiveCompatiblePartitions
+            self.perHourPartition = perHourPartition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormat
+            case hiveCompatiblePartitions
+            case perHourPartition
         }
     }
 
@@ -19922,7 +20626,7 @@ extension EC2 {
     }
 
     public struct ElasticGpuSpecification: AWSEncodableShape {
-        /// The type of Elastic Graphics accelerator. For more information about the values to specify for Type, see Elastic Graphics Basics, specifically the Elastic Graphics accelerator column, in the Amazon Elastic Compute Cloud User Guide for Windows Instances.
+        /// The type of Elastic Graphics accelerator. For more information about the values to specify for Type, see Elastic Graphics Basics, specifically the Elastic Graphics accelerator column, in the  Amazon Elastic Compute Cloud User Guide for Windows Instances.
         public let type: String
 
         public init(type: String) {
@@ -20433,11 +21137,10 @@ extension EC2 {
     public struct EventInformation: AWSDecodableShape {
         /// The description of the event.
         public let eventDescription: String?
-        /// The event.
-        ///  The following are the error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet did not have the required permissions either to launch or terminate an instance.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.
-        ///  The following are the fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running Spot Instances.    cancelled - The EC2 Fleet or Spot Fleet request is canceled and has no running Spot Instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances were terminated.    cancelled_running - The EC2 Fleet or Spot Fleet request is canceled and does not launch additional Spot Instances. Existing Spot Instances continue to run until they are interrupted or terminated.    cancelled_terminating - The EC2 Fleet or Spot Fleet request is canceled and its Spot Instances are terminating.    expired - The EC2 Fleet or Spot Fleet request has expired. A subsequent event indicates that the instances were terminated, if the request was created with TerminateInstancesWithExpiration set.    modify_in_progress - A request to modify the EC2 Fleet or Spot Fleet request was accepted and is in progress.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of Spot Instances.
-        ///  The following are the instanceChange events:    launched - A request was fulfilled and a new instance was launched.    terminated - An instance was terminated by the user.
-        ///  The following are the Information events:    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price or the Spot price is above the On-Demand price.    fleetProgressHalted - The price in every launch specification is not valid. A launch specification might become valid if the Spot price changes.
+        /// The event.   error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet does not have the required permissions either to launch or terminate an instance.    allLaunchSpecsTemporarilyBlacklisted - None of the configurations are valid, and several attempts to launch instances have failed. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.
+        ///   fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running instances.    cancelled - The EC2 Fleet or Spot Fleet request is canceled and has no running instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances are terminated.    cancelled_running - The EC2 Fleet or Spot Fleet request is canceled and does not launch additional instances. Its existing instances continue to run until they are interrupted or terminated. The request remains in this state until all instances are interrupted or terminated.    cancelled_terminating - The EC2 Fleet or Spot Fleet request is canceled and its instances are terminating. The request remains in this state until all instances are terminated.    expired - The EC2 Fleet or Spot Fleet request has expired. If the request was created with TerminateInstancesWithExpiration set, a subsequent terminated event indicates that the instances are terminated.    modify_in_progress - The EC2 Fleet or Spot Fleet request is being modified. The request remains in this state until the modification is fully processed.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of instances.    progress - The EC2 Fleet or Spot Fleet request is in the process of being fulfilled.
+        ///   instanceChange events:    launched - A new instance was launched.    terminated - An instance was terminated by the user.    termination_notified - An instance termination notification was sent when a Spot Instance was terminated by Amazon EC2 during scale-down, when the target capacity of the fleet was modified down, for example, from a target capacity of 4 to a target capacity of 3.
+        ///   Information events:    fleetProgressHalted - The price in every launch specification is not valid because it is below the Spot price (all the launch specifications have produced launchSpecUnusable events). A launch specification might become valid if the Spot price changes.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price.    registerWithLoadBalancersFailed - An attempt to register instances with load balancers failed. For more information, see the description of the event.
         public let eventSubType: String?
         /// The ID of the instance. This information is available only for instanceChange events.
         public let instanceId: String?
@@ -21028,6 +21731,23 @@ extension EC2 {
         }
     }
 
+    public struct FailedCapacityReservationFleetCancellationResult: AWSDecodableShape {
+        /// Information about the Capacity Reservation Fleet cancellation error.
+        public let cancelCapacityReservationFleetError: CancelCapacityReservationFleetError?
+        /// The ID of the Capacity Reservation Fleet that could not be cancelled.
+        public let capacityReservationFleetId: String?
+
+        public init(cancelCapacityReservationFleetError: CancelCapacityReservationFleetError? = nil, capacityReservationFleetId: String? = nil) {
+            self.cancelCapacityReservationFleetError = cancelCapacityReservationFleetError
+            self.capacityReservationFleetId = capacityReservationFleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancelCapacityReservationFleetError
+            case capacityReservationFleetId
+        }
+    }
+
     public struct FailedQueuedPurchaseDeletion: AWSDecodableShape {
         /// The error.
         public let error: DeleteQueuedReservedInstancesError?
@@ -21096,6 +21816,65 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Value"
+        }
+    }
+
+    public struct FleetCapacityReservation: AWSDecodableShape {
+        /// The Availability Zone in which the Capacity Reservation reserves capacity.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the Capacity Reservation reserves capacity.
+        public let availabilityZoneId: String?
+        /// The ID of the Capacity Reservation.
+        public let capacityReservationId: String?
+        /// The date and time at which the Capacity Reservation was created.
+        public let createDate: Date?
+        /// Indicates whether the Capacity Reservation reserves capacity for EBS-optimized instance types.
+        public let ebsOptimized: Bool?
+        /// The number of capacity units fulfilled by the Capacity Reservation. For more information, see
+        ///
+        /// 				Total target capacity in the Amazon EC2 User Guide.
+        public let fulfilledCapacity: Double?
+        /// The type of operating system for which the Capacity Reservation reserves capacity.
+        public let instancePlatform: CapacityReservationInstancePlatform?
+        /// The instance type for which the Capacity Reservation reserves capacity.
+        public let instanceType: InstanceType?
+        /// The priority of the instance type in the Capacity Reservation Fleet. For more information,
+        /// 			see
+        /// 				Instance type priority in the Amazon EC2 User Guide.
+        public let priority: Int?
+        /// The total number of instances for which the Capacity Reservation reserves capacity.
+        public let totalInstanceCount: Int?
+        /// The weight of the instance type in the Capacity Reservation Fleet. For more information,
+        /// 			see
+        /// 				Instance type weight in the Amazon EC2 User Guide.
+        public let weight: Double?
+
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, fulfilledCapacity: Double? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: InstanceType? = nil, priority: Int? = nil, totalInstanceCount: Int? = nil, weight: Double? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityReservationId = capacityReservationId
+            self.createDate = createDate
+            self.ebsOptimized = ebsOptimized
+            self.fulfilledCapacity = fulfilledCapacity
+            self.instancePlatform = instancePlatform
+            self.instanceType = instanceType
+            self.priority = priority
+            self.totalInstanceCount = totalInstanceCount
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone
+            case availabilityZoneId
+            case capacityReservationId
+            case createDate
+            case ebsOptimized
+            case fulfilledCapacity
+            case instancePlatform
+            case instanceType
+            case priority
+            case totalInstanceCount
+            case weight
         }
     }
 
@@ -21237,6 +22016,9 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
+            try self.overrides?.forEach {
+                try $0.validate(name: "\(name).overrides[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21248,7 +22030,9 @@ extension EC2 {
     public struct FleetLaunchTemplateOverrides: AWSDecodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The instance type.
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        public let instanceRequirements: InstanceRequirements?
+        /// The instance type.  If you specify InstanceTypes, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
         public let maxPrice: String?
@@ -21261,8 +22045,9 @@ extension EC2 {
         /// The number of units provided by the specified instance type.
         public let weightedCapacity: Double?
 
-        public init(availabilityZone: String? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: PlacementResponse? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
+        public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: PlacementResponse? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
+            self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.maxPrice = maxPrice
             self.placement = placement
@@ -21273,6 +22058,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone
+            case instanceRequirements
             case instanceType
             case maxPrice
             case placement
@@ -21285,7 +22071,9 @@ extension EC2 {
     public struct FleetLaunchTemplateOverridesRequest: AWSEncodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The instance type.
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// The instance type.  If you specify InstanceTypes, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
         public let maxPrice: String?
@@ -21298,8 +22086,9 @@ extension EC2 {
         /// The number of units provided by the specified instance type.
         public let weightedCapacity: Double?
 
-        public init(availabilityZone: String? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: Placement? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
+        public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: Placement? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
+            self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.maxPrice = maxPrice
             self.placement = placement
@@ -21308,8 +22097,13 @@ extension EC2 {
             self.weightedCapacity = weightedCapacity
         }
 
+        public func validate(name: String) throws {
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case instanceRequirements = "InstanceRequirements"
             case instanceType = "InstanceType"
             case maxPrice = "MaxPrice"
             case placement = "Placement"
@@ -21374,28 +22168,36 @@ extension EC2 {
     }
 
     public struct FleetSpotCapacityRebalance: AWSDecodableShape {
-        /// To allow EC2 Fleet to launch a replacement Spot Instance when an instance rebalance notification is emitted for an existing Spot Instance in the fleet, specify launch. Only available for fleets of type maintain.  When a replacement instance is launched, the instance marked for rebalance is not automatically terminated. You can terminate it, or you can leave it running. You are charged for both instances while they are running.
+        /// The replacement strategy to use. Only available for fleets of type maintain.  launch - EC2 Fleet launches a new replacement Spot Instance when a rebalance notification is emitted for an existing Spot Instance in the fleet. EC2 Fleet does not terminate the instances that receive a rebalance notification. You can terminate the old instances, or you can leave them running. You are charged for all instances while they are running.   launch-before-terminate - EC2 Fleet launches a new replacement Spot Instance when a rebalance notification is emitted for an existing Spot Instance in the fleet, and then, after a delay that you specify (in TerminationDelay), terminates the instances that received a rebalance notification.
         public let replacementStrategy: FleetReplacementStrategy?
+        /// The amount of time (in seconds) that Amazon EC2 waits before terminating the old Spot Instance after launching a new replacement Spot Instance.
+        public let terminationDelay: Int?
 
-        public init(replacementStrategy: FleetReplacementStrategy? = nil) {
+        public init(replacementStrategy: FleetReplacementStrategy? = nil, terminationDelay: Int? = nil) {
             self.replacementStrategy = replacementStrategy
+            self.terminationDelay = terminationDelay
         }
 
         private enum CodingKeys: String, CodingKey {
             case replacementStrategy
+            case terminationDelay
         }
     }
 
     public struct FleetSpotCapacityRebalanceRequest: AWSEncodableShape {
-        /// The replacement strategy to use. Only available for fleets of type maintain. To allow EC2 Fleet to launch a replacement Spot Instance when an instance rebalance notification is emitted for an existing Spot Instance in the fleet, specify launch. You must specify a value, otherwise you get an error.  When a replacement instance is launched, the instance marked for rebalance is not automatically terminated. You can terminate it, or you can leave it running. You are charged for all instances while they are running.
+        /// The replacement strategy to use. Only available for fleets of type maintain.  launch - EC2 Fleet launches a replacement Spot Instance when a rebalance notification is emitted for an existing Spot Instance in the fleet. EC2 Fleet does not terminate the instances that receive a rebalance notification. You can terminate the old instances, or you can leave them running. You are charged for all instances while they are running.   launch-before-terminate - EC2 Fleet launches a replacement Spot Instance when a rebalance notification is emitted for an existing Spot Instance in the fleet, and then, after a delay that you specify (in TerminationDelay), terminates the instances that received a rebalance notification.
         public let replacementStrategy: FleetReplacementStrategy?
+        /// The amount of time (in seconds) that Amazon EC2 waits before terminating the old Spot Instance after launching a new replacement Spot Instance.
+        public let terminationDelay: Int?
 
-        public init(replacementStrategy: FleetReplacementStrategy? = nil) {
+        public init(replacementStrategy: FleetReplacementStrategy? = nil, terminationDelay: Int? = nil) {
             self.replacementStrategy = replacementStrategy
+            self.terminationDelay = terminationDelay
         }
 
         private enum CodingKeys: String, CodingKey {
             case replacementStrategy = "ReplacementStrategy"
+            case terminationDelay = "TerminationDelay"
         }
     }
 
@@ -21436,13 +22238,15 @@ extension EC2 {
         public let deliverLogsPermissionArn: String?
         /// The status of the logs delivery (SUCCESS | FAILED).
         public let deliverLogsStatus: String?
+        /// The destination options.
+        public let destinationOptions: DestinationOptionsResponse?
         /// The flow log ID.
         public let flowLogId: String?
         /// The status of the flow log (ACTIVE).
         public let flowLogStatus: String?
-        /// Specifies the destination to which the flow log data is published. Flow log data can be published to an CloudWatch Logs log group or an Amazon S3 bucket. If the flow log publishes to CloudWatch Logs, this element indicates the Amazon Resource Name (ARN) of the CloudWatch Logs log group to which the data is published. If the flow log publishes to Amazon S3, this element indicates the ARN of the Amazon S3 bucket to which the data is published.
+        /// The destination to which the flow log data is published. Flow log data can be published to an CloudWatch Logs log group or an Amazon S3 bucket. If the flow log publishes to CloudWatch Logs, this element indicates the Amazon Resource Name (ARN) of the CloudWatch Logs log group to which the data is published. If the flow log publishes to Amazon S3, this element indicates the ARN of the Amazon S3 bucket to which the data is published.
         public let logDestination: String?
-        /// Specifies the type of destination to which the flow log data is published. Flow log data can be  published to CloudWatch Logs or Amazon S3.
+        /// The type of destination to which the flow log data is published. Flow log data can be  published to CloudWatch Logs or Amazon S3.
         public let logDestinationType: LogDestinationType?
         /// The format of the flow log record.
         public let logFormat: String?
@@ -21458,11 +22262,12 @@ extension EC2 {
         /// The type of traffic captured for the flow log.
         public let trafficType: TrafficType?
 
-        public init(creationTime: Date? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
+        public init(creationTime: Date? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, destinationOptions: DestinationOptionsResponse? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
             self.creationTime = creationTime
             self.deliverLogsErrorMessage = deliverLogsErrorMessage
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
             self.deliverLogsStatus = deliverLogsStatus
+            self.destinationOptions = destinationOptions
             self.flowLogId = flowLogId
             self.flowLogStatus = flowLogStatus
             self.logDestination = logDestination
@@ -21480,6 +22285,7 @@ extension EC2 {
             case deliverLogsErrorMessage
             case deliverLogsPermissionArn
             case deliverLogsStatus
+            case destinationOptions
             case flowLogId
             case flowLogStatus
             case logDestination
@@ -21549,7 +22355,7 @@ extension EC2 {
         public let name: String?
         /// The alias of the AFI owner. Possible values include self, amazon, and aws-marketplace.
         public let ownerAlias: String?
-        /// The AWS account ID of the AFI owner.
+        /// The ID of the Amazon Web Services account that owns the AFI.
         public let ownerId: String?
         /// Information about the PCI bus.
         public let pciId: PciId?
@@ -21558,7 +22364,7 @@ extension EC2 {
         public var productCodes: [ProductCode]?
         /// Indicates whether the AFI is public.
         public let `public`: Bool?
-        /// The version of the AWS Shell that was used to create the bitstream.
+        /// The version of the Amazon Web Services Shell that was used to create the bitstream.
         public let shellVersion: String?
         /// Information about the state of the AFI.
         public let state: FpgaImageState?
@@ -22208,6 +23014,70 @@ extension EC2 {
         }
     }
 
+    public struct GetInstanceTypesFromInstanceRequirementsRequest: AWSEncodableShape {
+        public struct _ArchitectureTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _VirtualizationTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The processor architecture type.
+        @CustomCoding<ArrayCoder<_ArchitectureTypesEncoding, ArchitectureType>>
+        public var architectureTypes: [ArchitectureType]
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The attributes required for the instance types.
+        public let instanceRequirements: InstanceRequirementsRequest
+        /// The maximum number of results to return in a single call. Specify a value between 1 and   1000. The default value is 1000. To retrieve the remaining results, make another call with   the returned NextToken value.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The virtualization type.
+        @CustomCoding<ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
+        public var virtualizationTypes: [VirtualizationType]
+
+        public init(architectureTypes: [ArchitectureType], dryRun: Bool? = nil, instanceRequirements: InstanceRequirementsRequest, maxResults: Int? = nil, nextToken: String? = nil, virtualizationTypes: [VirtualizationType]) {
+            self.architectureTypes = architectureTypes
+            self.dryRun = dryRun
+            self.instanceRequirements = instanceRequirements
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.virtualizationTypes = virtualizationTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.architectureTypes, name: "architectureTypes", parent: name, max: 3)
+            try self.instanceRequirements.validate(name: "\(name).instanceRequirements")
+            try self.validate(self.virtualizationTypes, name: "virtualizationTypes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architectureTypes = "ArchitectureType"
+            case dryRun = "DryRun"
+            case instanceRequirements = "InstanceRequirements"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case virtualizationTypes = "VirtualizationType"
+        }
+    }
+
+    public struct GetInstanceTypesFromInstanceRequirementsResult: AWSDecodableShape {
+        public struct _InstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The instance types with the specified instance attributes.
+        @OptionalCustomCoding<ArrayCoder<_InstanceTypesEncoding, InstanceTypeInfoFromInstanceRequirements>>
+        public var instanceTypes: [InstanceTypeInfoFromInstanceRequirements]?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(instanceTypes: [InstanceTypeInfoFromInstanceRequirements]? = nil, nextToken: String? = nil) {
+            self.instanceTypes = instanceTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTypes = "instanceTypeSet"
+            case nextToken
+        }
+    }
+
     public struct GetLaunchTemplateDataRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22483,6 +23353,83 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case serialConsoleAccessEnabled
+        }
+    }
+
+    public struct GetSpotPlacementScoresRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
+        public let instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest?
+        /// The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low.  If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var instanceTypes: [String]?
+        /// The maximum number of results to return in a single call. Specify a value between 1 and        1000. The default value is 1000. To retrieve the remaining results, make another call with        the returned NextToken value.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The Regions used to narrow down the list of Regions to be scored. Enter the Region code, for example, us-east-1.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var regionNames: [String]?
+        /// Specify true so that the response returns a list of scored Availability Zones. Otherwise, the response returns a list of scored Regions. A list of scored Availability Zones is useful if you want to launch all of your Spot capacity into a single Availability Zone.
+        public let singleAvailabilityZone: Bool?
+        /// The target capacity.
+        public let targetCapacity: Int
+        /// The unit for the target capacity. Default: units (translates to number of instances)
+        public let targetCapacityUnitType: TargetCapacityUnitType?
+
+        public init(dryRun: Bool? = nil, instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil, instanceTypes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionNames: [String]? = nil, singleAvailabilityZone: Bool? = nil, targetCapacity: Int, targetCapacityUnitType: TargetCapacityUnitType? = nil) {
+            self.dryRun = dryRun
+            self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
+            self.instanceTypes = instanceTypes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.regionNames = regionNames
+            self.singleAvailabilityZone = singleAvailabilityZone
+            self.targetCapacity = targetCapacity
+            self.targetCapacityUnitType = targetCapacityUnitType
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceRequirementsWithMetadata?.validate(name: "\(name).instanceRequirementsWithMetadata")
+            try self.validate(self.instanceTypes, name: "instanceTypes", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.regionNames, name: "regionNames", parent: name, max: 10)
+            try self.validate(self.targetCapacity, name: "targetCapacity", parent: name, max: 2_000_000_000)
+            try self.validate(self.targetCapacity, name: "targetCapacity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instanceRequirementsWithMetadata = "InstanceRequirementsWithMetadata"
+            case instanceTypes = "InstanceType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case regionNames = "RegionName"
+            case singleAvailabilityZone = "SingleAvailabilityZone"
+            case targetCapacity = "TargetCapacity"
+            case targetCapacityUnitType = "TargetCapacityUnitType"
+        }
+    }
+
+    public struct GetSpotPlacementScoresResult: AWSDecodableShape {
+        public struct _SpotPlacementScoresEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The Spot placement score for the top 10 Regions or Availability Zones, scored on a scale from 1 to 10. Each score  reflects how likely it is that each Region or Availability Zone will succeed at fulfilling the specified target capacity  at the time of the Spot placement score request. A score of 10 means that your Spot capacity request is highly likely to succeed in that Region or Availability Zone.  If you request a Spot placement score for Regions, a high score assumes that your fleet request will be configured to use all Availability Zones and the capacity-optimized allocation strategy. If you request a Spot placement score for Availability Zones, a high score assumes that your fleet request will be configured to use a single Availability Zone and the capacity-optimized allocation strategy. Different  Regions or Availability Zones might return the same score.  The Spot placement score serves as a recommendation only. No score guarantees that your Spot request will be fully or partially fulfilled.
+        @OptionalCustomCoding<ArrayCoder<_SpotPlacementScoresEncoding, SpotPlacementScore>>
+        public var spotPlacementScores: [SpotPlacementScore]?
+
+        public init(nextToken: String? = nil, spotPlacementScores: [SpotPlacementScore]? = nil) {
+            self.nextToken = nextToken
+            self.spotPlacementScores = spotPlacementScores
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case spotPlacementScores = "spotPlacementScoreSet"
         }
     }
 
@@ -23750,7 +24697,7 @@ extension EC2 {
         /// The tags to apply to the import image task during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
-        /// The usage operation value. For more information, see AMI billing information fields in the Amazon Elastic Compute Cloud User Guide.
+        /// The usage operation value. For more information, see Licensing options in the VM Import/Export User Guide.
         public let usageOperation: String?
 
         public init(architecture: String? = nil, bootMode: BootModeValues? = nil, clientData: ClientData? = nil, clientToken: String? = nil, description: String? = nil, diskContainers: [ImageDiskContainer]? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, hypervisor: String? = nil, kmsKeyId: String? = nil, licenseSpecifications: [ImportImageLicenseConfigurationRequest]? = nil, licenseType: String? = nil, platform: String? = nil, roleName: String? = nil, tagSpecifications: [TagSpecification]? = nil, usageOperation: String? = nil) {
@@ -25121,7 +26068,7 @@ extension EC2 {
     }
 
     public struct InstanceMetadataOptionsRequest: AWSEncodableShape {
-        /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.
+        /// Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not  specified, the default state is enabled. If you specify a value of disabled, you will not be able to access your instance metadata.
         public let httpEndpoint: InstanceMetadataEndpointState?
         /// Enables or disables the IPv6 endpoint for the instance metadata service.
         public let httpProtocolIpv6: InstanceMetadataProtocolState?
@@ -25146,9 +26093,9 @@ extension EC2 {
     }
 
     public struct InstanceMetadataOptionsResponse: AWSDecodableShape {
-        /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.
+        /// Indicates whether the HTTP metadata endpoint on your instances is enabled or disabled.
         public let httpEndpoint: InstanceMetadataEndpointState?
-        /// Whether or not the IPv6 endpoint for the instance metadata service is enabled or disabled.
+        /// Indicates whether the IPv6 endpoint for the instance metadata service is enabled or disabled.
         public let httpProtocolIpv6: InstanceMetadataProtocolState?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
@@ -25287,6 +26234,8 @@ extension EC2 {
     public struct InstanceNetworkInterfaceAssociation: AWSDecodableShape {
         /// The carrier IP address associated with the network interface.
         public let carrierIp: String?
+        /// The customer-owned IP address associated with the network interface.
+        public let customerOwnedIp: String?
         /// The ID of the owner of the Elastic IP address.
         public let ipOwnerId: String?
         /// The public DNS name.
@@ -25294,8 +26243,9 @@ extension EC2 {
         /// The public IP address or Elastic IP address bound to the network interface.
         public let publicIp: String?
 
-        public init(carrierIp: String? = nil, ipOwnerId: String? = nil, publicDnsName: String? = nil, publicIp: String? = nil) {
+        public init(carrierIp: String? = nil, customerOwnedIp: String? = nil, ipOwnerId: String? = nil, publicDnsName: String? = nil, publicIp: String? = nil) {
             self.carrierIp = carrierIp
+            self.customerOwnedIp = customerOwnedIp
             self.ipOwnerId = ipOwnerId
             self.publicDnsName = publicDnsName
             self.publicIp = publicIp
@@ -25303,6 +26253,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case carrierIp
+            case customerOwnedIp
             case ipOwnerId
             case publicDnsName
             case publicIp
@@ -25465,6 +26416,272 @@ extension EC2 {
             case primary
             case privateDnsName
             case privateIpAddress
+        }
+    }
+
+    public struct InstanceRequirements: AWSEncodableShape & AWSDecodableShape {
+        public struct _AcceleratorManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AcceleratorNamesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AcceleratorTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _CpuManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ExcludedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _InstanceGenerationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _LocalStorageTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
+        public let acceleratorCount: AcceleratorCount?
+        /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with NVIDIA devices, specify nvidia.   For instance types with AMD devices, specify amd.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
+        @OptionalCustomCoding<ArrayCoder<_AcceleratorManufacturersEncoding, AcceleratorManufacturer>>
+        public var acceleratorManufacturers: [AcceleratorManufacturer]?
+        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   Default: Any accelerator
+        @OptionalCustomCoding<ArrayCoder<_AcceleratorNamesEncoding, AcceleratorName>>
+        public var acceleratorNames: [AcceleratorName]?
+        /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
+        public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB?
+        /// The accelerator types that must be on the instance type.   For instance types with GPU accelerators, specify gpu.   For instance types with FPGA accelerators, specify fpga.   For instance types with inference accelerators, specify inference.   Default: Any accelerator type
+        @OptionalCustomCoding<ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
+        public var acceleratorTypes: [AcceleratorType]?
+        /// Indicates whether bare metal instance types must be included, excluded, or required.   To include bare metal instance types, specify included.   To require only bare metal instance types, specify required.   To exclude bare metal instance types, specify excluded.   Default: excluded
+        public let bareMetal: BareMetal?
+        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide. Default: No minimum or maximum limits
+        public let baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps?
+        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, see  Burstable performance instances.   To include burstable performance instance types, specify included.   To require only burstable performance instance types, specify required.   To exclude burstable performance instance types, specify excluded.   Default: excluded
+        public let burstablePerformance: BurstablePerformance?
+        /// The CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU manufacturer with the CPU architecture. Instances will  be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you  specify in your launch template.  Default: Any manufacturer
+        @OptionalCustomCoding<ArrayCoder<_CpuManufacturersEncoding, CpuManufacturer>>
+        public var cpuManufacturers: [CpuManufacturer]?
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. Default: No excluded instance types
+        @OptionalCustomCoding<ArrayCoder<_ExcludedInstanceTypesEncoding, String>>
+        public var excludedInstanceTypes: [String]?
+        /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
+        @OptionalCustomCoding<ArrayCoder<_InstanceGenerationsEncoding, InstanceGeneration>>
+        public var instanceGenerations: [InstanceGeneration]?
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, Amazon EC2 instance store in the Amazon EC2 User Guide.   To include instance types with instance store volumes, specify included.   To require only instance types with instance store volumes, specify required.   To exclude instance types with instance store volumes, specify excluded.   Default: included
+        public let localStorage: LocalStorage?
+        /// The type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SDD) storage, specify sdd.   Default: hdd and sdd
+        @OptionalCustomCoding<ArrayCoder<_LocalStorageTypesEncoding, LocalStorageType>>
+        public var localStorageTypes: [LocalStorageType]?
+        /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
+        public let memoryGiBPerVCpu: MemoryGiBPerVCpu?
+        /// The minimum and maximum amount of memory, in MiB.
+        public let memoryMiB: MemoryMiB?
+        /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
+        public let networkInterfaceCount: NetworkInterfaceCount?
+        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements. Default: 20
+        public let onDemandMaxPricePercentageOverLowestPrice: Int?
+        /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for GetSpotPlacementScores. Default: false
+        public let requireHibernateSupport: Bool?
+        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements. Default: 100
+        public let spotMaxPricePercentageOverLowestPrice: Int?
+        /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
+        public let totalLocalStorageGB: TotalLocalStorageGB?
+        /// The minimum and maximum number of vCPUs.
+        public let vCpuCount: VCpuCountRange?
+
+        public init(acceleratorCount: AcceleratorCount? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpu? = nil, memoryMiB: MemoryMiB? = nil, networkInterfaceCount: NetworkInterfaceCount? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGB? = nil, vCpuCount: VCpuCountRange? = nil) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedInstanceTypes?.forEach {
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+            }
+            try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 400)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorCount
+            case acceleratorManufacturers = "acceleratorManufacturerSet"
+            case acceleratorNames = "acceleratorNameSet"
+            case acceleratorTotalMemoryMiB
+            case acceleratorTypes = "acceleratorTypeSet"
+            case bareMetal
+            case baselineEbsBandwidthMbps
+            case burstablePerformance
+            case cpuManufacturers = "cpuManufacturerSet"
+            case excludedInstanceTypes = "excludedInstanceTypeSet"
+            case instanceGenerations = "instanceGenerationSet"
+            case localStorage
+            case localStorageTypes = "localStorageTypeSet"
+            case memoryGiBPerVCpu
+            case memoryMiB
+            case networkInterfaceCount
+            case onDemandMaxPricePercentageOverLowestPrice
+            case requireHibernateSupport
+            case spotMaxPricePercentageOverLowestPrice
+            case totalLocalStorageGB
+            case vCpuCount
+        }
+    }
+
+    public struct InstanceRequirementsRequest: AWSEncodableShape {
+        public struct _AcceleratorManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AcceleratorNamesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AcceleratorTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _CpuManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ExcludedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _InstanceGenerationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _LocalStorageTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
+        public let acceleratorCount: AcceleratorCountRequest?
+        /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with NVIDIA devices, specify nvidia.   For instance types with AMD devices, specify amd.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
+        @OptionalCustomCoding<ArrayCoder<_AcceleratorManufacturersEncoding, AcceleratorManufacturer>>
+        public var acceleratorManufacturers: [AcceleratorManufacturer]?
+        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify  vu9p.   Default: Any accelerator
+        @OptionalCustomCoding<ArrayCoder<_AcceleratorNamesEncoding, AcceleratorName>>
+        public var acceleratorNames: [AcceleratorName]?
+        /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
+        public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
+        /// The accelerator types that must be on the instance type.   To include instance types with GPU hardware, specify gpu.   To include instance types with FPGA hardware, specify fpga.   To include instance types with inference hardware, specify inference.   Default: Any accelerator type
+        @OptionalCustomCoding<ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
+        public var acceleratorTypes: [AcceleratorType]?
+        /// Indicates whether bare metal instance types must be included, excluded, or required.   To include bare metal instance types, specify included.   To require only bare metal instance types, specify required.   To exclude bare metal instance types, specify excluded.   Default: excluded
+        public let bareMetal: BareMetal?
+        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide. Default: No minimum or maximum limits
+        public let baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest?
+        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, see  Burstable performance instances.   To include burstable performance instance types, specify included.   To require only burstable performance instance types, specify required.   To exclude burstable performance instance types, specify excluded.   Default: excluded
+        public let burstablePerformance: BurstablePerformance?
+        /// The CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU manufacturer with the CPU architecture. Instances will  be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you  specify in your launch template.  Default: Any manufacturer
+        @OptionalCustomCoding<ArrayCoder<_CpuManufacturersEncoding, CpuManufacturer>>
+        public var cpuManufacturers: [CpuManufacturer]?
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. Default: No excluded instance types
+        @OptionalCustomCoding<ArrayCoder<_ExcludedInstanceTypesEncoding, String>>
+        public var excludedInstanceTypes: [String]?
+        /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
+        @OptionalCustomCoding<ArrayCoder<_InstanceGenerationsEncoding, InstanceGeneration>>
+        public var instanceGenerations: [InstanceGeneration]?
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, Amazon EC2 instance store in the Amazon EC2 User Guide.   To include instance types with instance store volumes, specify included.   To require only instance types with instance store volumes, specify required.   To exclude instance types with instance store volumes, specify excluded.   Default: included
+        public let localStorage: LocalStorage?
+        /// The type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SDD) storage, specify sdd.   Default: hdd and sdd
+        @OptionalCustomCoding<ArrayCoder<_LocalStorageTypesEncoding, LocalStorageType>>
+        public var localStorageTypes: [LocalStorageType]?
+        /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
+        public let memoryGiBPerVCpu: MemoryGiBPerVCpuRequest?
+        /// The minimum and maximum amount of memory, in MiB.
+        public let memoryMiB: MemoryMiBRequest
+        /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
+        public let networkInterfaceCount: NetworkInterfaceCountRequest?
+        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements. Default: 20
+        public let onDemandMaxPricePercentageOverLowestPrice: Int?
+        /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for GetSpotPlacementScores. Default: false
+        public let requireHibernateSupport: Bool?
+        /// The price protection threshold for Spot Instance. This is the maximum you’ll pay for an Spot Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements. Default: 100
+        public let spotMaxPricePercentageOverLowestPrice: Int?
+        /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
+        public let totalLocalStorageGB: TotalLocalStorageGBRequest?
+        /// The minimum and maximum number of vCPUs.
+        public let vCpuCount: VCpuCountRangeRequest
+
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedInstanceTypes?.forEach {
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+            }
+            try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 400)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorCount = "AcceleratorCount"
+            case acceleratorManufacturers = "AcceleratorManufacturer"
+            case acceleratorNames = "AcceleratorName"
+            case acceleratorTotalMemoryMiB = "AcceleratorTotalMemoryMiB"
+            case acceleratorTypes = "AcceleratorType"
+            case bareMetal = "BareMetal"
+            case baselineEbsBandwidthMbps = "BaselineEbsBandwidthMbps"
+            case burstablePerformance = "BurstablePerformance"
+            case cpuManufacturers = "CpuManufacturer"
+            case excludedInstanceTypes = "ExcludedInstanceType"
+            case instanceGenerations = "InstanceGeneration"
+            case localStorage = "LocalStorage"
+            case localStorageTypes = "LocalStorageType"
+            case memoryGiBPerVCpu = "MemoryGiBPerVCpu"
+            case memoryMiB = "MemoryMiB"
+            case networkInterfaceCount = "NetworkInterfaceCount"
+            case onDemandMaxPricePercentageOverLowestPrice = "OnDemandMaxPricePercentageOverLowestPrice"
+            case requireHibernateSupport = "RequireHibernateSupport"
+            case spotMaxPricePercentageOverLowestPrice = "SpotMaxPricePercentageOverLowestPrice"
+            case totalLocalStorageGB = "TotalLocalStorageGB"
+            case vCpuCount = "VCpuCount"
+        }
+    }
+
+    public struct InstanceRequirementsWithMetadataRequest: AWSEncodableShape {
+        public struct _ArchitectureTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _VirtualizationTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The architecture type.
+        @OptionalCustomCoding<ArrayCoder<_ArchitectureTypesEncoding, ArchitectureType>>
+        public var architectureTypes: [ArchitectureType]?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// The virtualization type.
+        @OptionalCustomCoding<ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
+        public var virtualizationTypes: [VirtualizationType]?
+
+        public init(architectureTypes: [ArchitectureType]? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, virtualizationTypes: [VirtualizationType]? = nil) {
+            self.architectureTypes = architectureTypes
+            self.instanceRequirements = instanceRequirements
+            self.virtualizationTypes = virtualizationTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.architectureTypes, name: "architectureTypes", parent: name, max: 3)
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+            try self.validate(self.virtualizationTypes, name: "virtualizationTypes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architectureTypes = "ArchitectureType"
+            case instanceRequirements = "InstanceRequirements"
+            case virtualizationTypes = "VirtualizationType"
         }
     }
 
@@ -25643,19 +26860,23 @@ extension EC2 {
         /// Describes the disks that are available for the instance type.
         @OptionalCustomCoding<ArrayCoder<_DisksEncoding, DiskInfo>>
         public var disks: [DiskInfo]?
-        /// Indicates whether non-volatile memory express (NVMe) is supported for instance store.
+        /// Indicates whether data is encrypted at rest.
+        public let encryptionSupport: InstanceStorageEncryptionSupport?
+        /// Indicates whether non-volatile memory express (NVMe) is supported.
         public let nvmeSupport: EphemeralNvmeSupport?
         /// The total size of the disks, in GB.
         public let totalSizeInGB: Int64?
 
-        public init(disks: [DiskInfo]? = nil, nvmeSupport: EphemeralNvmeSupport? = nil, totalSizeInGB: Int64? = nil) {
+        public init(disks: [DiskInfo]? = nil, encryptionSupport: InstanceStorageEncryptionSupport? = nil, nvmeSupport: EphemeralNvmeSupport? = nil, totalSizeInGB: Int64? = nil) {
             self.disks = disks
+            self.encryptionSupport = encryptionSupport
             self.nvmeSupport = nvmeSupport
             self.totalSizeInGB = totalSizeInGB
         }
 
         private enum CodingKeys: String, CodingKey {
             case disks
+            case encryptionSupport
             case nvmeSupport
             case totalSizeInGB
         }
@@ -25792,6 +27013,19 @@ extension EC2 {
             case supportedUsageClasses
             case supportedVirtualizationTypes
             case vCpuInfo
+        }
+    }
+
+    public struct InstanceTypeInfoFromInstanceRequirements: AWSDecodableShape {
+        /// The matching instance type.
+        public let instanceType: String?
+
+        public init(instanceType: String? = nil) {
+            self.instanceType = instanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType
         }
     }
 
@@ -26207,16 +27441,24 @@ extension EC2 {
     public struct LaunchPermission: AWSEncodableShape & AWSDecodableShape {
         /// The name of the group.
         public let group: PermissionGroup?
+        /// The Amazon Resource Name (ARN) of an organizational unit (OU).
+        public let organizationalUnitArn: String?
+        /// The Amazon Resource Name (ARN) of an organization.
+        public let organizationArn: String?
         /// The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request.
         public let userId: String?
 
-        public init(group: PermissionGroup? = nil, userId: String? = nil) {
+        public init(group: PermissionGroup? = nil, organizationalUnitArn: String? = nil, organizationArn: String? = nil, userId: String? = nil) {
             self.group = group
+            self.organizationalUnitArn = organizationalUnitArn
+            self.organizationArn = organizationArn
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case group
+            case organizationalUnitArn
+            case organizationArn
             case userId
         }
     }
@@ -26481,6 +27723,9 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
+            try self.overrides?.forEach {
+                try $0.validate(name: "\(name).overrides[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27045,6 +28290,8 @@ extension EC2 {
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
+        /// The instance requirements. When you specify instance requirements, Amazon EC2 will identify instance types with the provided requirements, and then use your On-Demand and Spot allocation strategies to launch instances from these instance types, in the same way as when you specify a list of instance types.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        public let instanceRequirements: InstanceRequirements?
         /// The instance type.
         public let instanceType: InstanceType?
         /// The priority for the launch template override. The highest priority is launched first. If OnDemandAllocationStrategy is set to prioritized, Spot Fleet uses priority to determine which launch template override to use first in fulfilling On-Demand capacity. If the Spot AllocationStrategy is set to capacityOptimizedPrioritized, Spot Fleet uses priority on a best-effort basis to determine which launch template override to use in fulfilling Spot capacity, but optimizes for capacity first. Valid values are whole numbers starting at 0. The lower the number, the higher the priority. If no number is set, the launch template override has the lowest priority. You can set the same priority for different launch template overrides.
@@ -27056,8 +28303,9 @@ extension EC2 {
         /// The number of units provided by the specified instance type.
         public let weightedCapacity: Double?
 
-        public init(availabilityZone: String? = nil, instanceType: InstanceType? = nil, priority: Double? = nil, spotPrice: String? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
+        public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, priority: Double? = nil, spotPrice: String? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
+            self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.priority = priority
             self.spotPrice = spotPrice
@@ -27065,8 +28313,13 @@ extension EC2 {
             self.weightedCapacity = weightedCapacity
         }
 
+        public func validate(name: String) throws {
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZone
+            case instanceRequirements
             case instanceType
             case priority
             case spotPrice
@@ -27396,7 +28649,7 @@ extension EC2 {
     public struct LoadPermission: AWSDecodableShape {
         /// The name of the group.
         public let group: PermissionGroup?
-        /// The AWS account ID.
+        /// The Amazon Web Services account ID.
         public let userId: String?
 
         public init(group: PermissionGroup? = nil, userId: String? = nil) {
@@ -27435,7 +28688,7 @@ extension EC2 {
     public struct LoadPermissionRequest: AWSEncodableShape {
         /// The name of the group.
         public let group: PermissionGroup?
-        /// The AWS account ID.
+        /// The Amazon Web Services account ID.
         public let userId: String?
 
         public init(group: PermissionGroup? = nil, userId: String? = nil) {
@@ -27456,7 +28709,7 @@ extension EC2 {
         public let localGatewayId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
-        /// The AWS account ID that owns the local gateway.
+        /// The ID of the Amazon Web Services account that owns the local gateway.
         public let ownerId: String?
         /// The state of the local gateway.
         public let state: String?
@@ -27490,7 +28743,7 @@ extension EC2 {
         public let localGatewayRouteTableId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
-        /// The AWS account ID that owns the local gateway route.
+        /// The ID of the Amazon Web Services account that owns the local gateway route.
         public let ownerId: String?
         /// The state of the route.
         public let state: LocalGatewayRouteState?
@@ -27529,7 +28782,7 @@ extension EC2 {
         public let localGatewayRouteTableId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
-        /// The AWS account ID that owns the local gateway route table.
+        /// The ID of the Amazon Web Services account that owns the local gateway route table.
         public let ownerId: String?
         /// The state of the local gateway route table.
         public let state: String?
@@ -27571,7 +28824,7 @@ extension EC2 {
         public let localGatewayRouteTableVirtualInterfaceGroupAssociationId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
-        /// The AWS account ID that owns the local gateway virtual interface group association.
+        /// The ID of the Amazon Web Services account that owns the local gateway virtual interface group association.
         public let ownerId: String?
         /// The state of the association.
         public let state: String?
@@ -27613,7 +28866,7 @@ extension EC2 {
         public let localGatewayRouteTableId: String?
         /// The ID of the association.
         public let localGatewayRouteTableVpcAssociationId: String?
-        /// The AWS account ID that owns the local gateway route table for the association.
+        /// The ID of the Amazon Web Services account that owns the local gateway route table for the association.
         public let ownerId: String?
         /// The state of the association.
         public let state: String?
@@ -27657,7 +28910,7 @@ extension EC2 {
         public let localGatewayId: String?
         /// The ID of the virtual interface.
         public let localGatewayVirtualInterfaceId: String?
-        /// The AWS account ID that owns the local gateway virtual interface.
+        /// The ID of the Amazon Web Services account that owns the local gateway virtual interface.
         public let ownerId: String?
         /// The peer address.
         public let peerAddress: String?
@@ -27705,7 +28958,7 @@ extension EC2 {
         /// The IDs of the virtual interfaces.
         @OptionalCustomCoding<ArrayCoder<_LocalGatewayVirtualInterfaceIdsEncoding, String>>
         public var localGatewayVirtualInterfaceIds: [String]?
-        /// The AWS account ID that owns the local gateway virtual interface group.
+        /// The ID of the Amazon Web Services account that owns the local gateway virtual interface group.
         public let ownerId: String?
         /// The tags assigned to the virtual interface group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -27780,6 +29033,40 @@ extension EC2 {
         }
     }
 
+    public struct MemoryGiBPerVCpu: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of memory per vCPU, in GiB. If this parameter is not specified, there is no maximum limit.
+        public let max: Double?
+        /// The minimum amount of memory per vCPU, in GiB. If this parameter is not specified, there is no minimum limit.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct MemoryGiBPerVCpuRequest: AWSEncodableShape {
+        /// The maximum amount of memory per vCPU, in GiB. To specify no maximum limit, omit this parameter.
+        public let max: Double?
+        /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit, omit this parameter.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
     public struct MemoryInfo: AWSDecodableShape {
         /// The size of the memory, in MiB.
         public let sizeInMiB: Int64?
@@ -27790,6 +29077,40 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case sizeInMiB
+        }
+    }
+
+    public struct MemoryMiB: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of memory, in MiB. If this parameter is not specified, there is no maximum limit.
+        public let max: Int?
+        /// The minimum amount of memory, in MiB. If this parameter is not specified, there is no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct MemoryMiBRequest: AWSEncodableShape {
+        /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this parameter.
+        public let max: Int?
+        /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
+        public let min: Int
+
+        public init(max: Int? = nil, min: Int) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
         }
     }
 
@@ -27832,7 +29153,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The name of the Availability Zone group, Local Zone group, or Wavelength Zone group.
         public let groupName: String
-        /// Indicates whether you are opted in to the Local Zone group or Wavelength Zone group. The only valid value is opted-in. You must contact AWS Support to opt out of a Local Zone group, or Wavelength Zone group.
+        /// Indicates whether you are opted in to the Local Zone group or Wavelength Zone group. The only valid value is opted-in. You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group.
         public let optInStatus: ModifyAvailabilityZoneOptInStatus
 
         public init(dryRun: Bool? = nil, groupName: String, optInStatus: ModifyAvailabilityZoneOptInStatus) {
@@ -27861,9 +29182,68 @@ extension EC2 {
         }
     }
 
+    public struct ModifyCapacityReservationFleetRequest: AWSEncodableShape {
+        /// The ID of the Capacity Reservation Fleet to modify.
+        public let capacityReservationFleetId: String
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The date and time at which the Capacity Reservation Fleet expires. When the Capacity Reservation
+        /// 			Fleet expires, its state changes to expired and all of the Capacity Reservations in the
+        /// 			Fleet expire.
+        /// 		       The Capacity Reservation Fleet expires within an hour after the specified time. For example, if you
+        /// 			specify 5/31/2019, 13:30:55, the Capacity Reservation Fleet is guaranteed
+        /// 			to expire between 13:30:55 and 14:30:55 on 5/31/2019.
+        /// 		       You can't specify EndDate and
+        /// 			RemoveEndDate in the same request.
+        public let endDate: Date?
+        /// Indicates whether to remove the end date from the Capacity Reservation Fleet. If you remove the
+        /// 			end date, the Capacity Reservation Fleet does not expire and it remains active until you explicitly
+        /// 			cancel it using the CancelCapacityReservationFleet action.
+        /// 		       You can't specify RemoveEndDate and
+        /// 			EndDate in the same request.
+        public let removeEndDate: Bool?
+        /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value,
+        /// 			together with the instance type weights that you assign to each instance type used by the Fleet
+        /// 			determine the number of instances for which the Fleet reserves capacity. Both values are based on
+        /// 			units that make sense for your workload. For more information, see Total target capacity
+        /// 			in the Amazon EC2 User Guide.
+        public let totalTargetCapacity: Int?
+
+        public init(capacityReservationFleetId: String, dryRun: Bool? = nil, endDate: Date? = nil, removeEndDate: Bool? = nil, totalTargetCapacity: Int? = nil) {
+            self.capacityReservationFleetId = capacityReservationFleetId
+            self.dryRun = dryRun
+            self.endDate = endDate
+            self.removeEndDate = removeEndDate
+            self.totalTargetCapacity = totalTargetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationFleetId = "CapacityReservationFleetId"
+            case dryRun = "DryRun"
+            case endDate = "EndDate"
+            case removeEndDate = "RemoveEndDate"
+            case totalTargetCapacity = "TotalTargetCapacity"
+        }
+    }
+
+    public struct ModifyCapacityReservationFleetResult: AWSDecodableShape {
+        /// Returns true if the request succeeds; otherwise, it returns an error.
+        public let `return`: Bool?
+
+        public init(return: Bool? = nil) {
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return`
+        }
+    }
+
     public struct ModifyCapacityReservationRequest: AWSEncodableShape {
         /// Reserved. Capacity Reservations you have created are accepted by default.
         public let accept: Bool?
+        /// Reserved for future use.
+        public let additionalInfo: String?
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -27889,8 +29269,9 @@ extension EC2 {
         /// 		    	decreased by more than 1000 in a single request.
         public let instanceCount: Int?
 
-        public init(accept: Bool? = nil, capacityReservationId: String, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
+        public init(accept: Bool? = nil, additionalInfo: String? = nil, capacityReservationId: String, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
             self.accept = accept
+            self.additionalInfo = additionalInfo
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
             self.endDate = endDate
@@ -27900,6 +29281,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case accept = "Accept"
+            case additionalInfo = "AdditionalInfo"
             case capacityReservationId = "CapacityReservationId"
             case dryRun = "DryRun"
             case endDate = "EndDate"
@@ -28147,7 +29529,7 @@ extension EC2 {
         /// The user groups. This parameter is valid only when modifying the loadPermission attribute.
         @OptionalCustomCoding<ArrayCoder<_UserGroupsEncoding, String>>
         public var userGroups: [String]?
-        /// The AWS account IDs. This parameter is valid only when modifying the loadPermission attribute.
+        /// The Amazon Web Services account IDs. This parameter is valid only when modifying the loadPermission attribute.
         @OptionalCustomCoding<ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
 
@@ -28299,11 +29681,13 @@ extension EC2 {
     }
 
     public struct ModifyImageAttributeRequest: AWSEncodableShape {
+        public struct _OrganizationalUnitArnsEncoding: ArrayCoderProperties { public static let member = "OrganizationalUnitArn" }
+        public struct _OrganizationArnsEncoding: ArrayCoderProperties { public static let member = "OrganizationArn" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { public static let member = "ProductCode" }
         public struct _UserGroupsEncoding: ArrayCoderProperties { public static let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { public static let member = "UserId" }
 
-        /// The name of the attribute to modify.  The valid values are description and launchPermission.
+        /// The name of the attribute to modify. Valid values: description | launchPermission
         public let attribute: String?
         /// A new description for the AMI.
         public let description: AttributeValue?
@@ -28315,6 +29699,12 @@ extension EC2 {
         public let launchPermission: LaunchPermissionModifications?
         /// The operation type.  This parameter can be used only when the Attribute parameter is launchPermission.
         public let operationType: OperationType?
+        /// The Amazon Resource Name (ARN) of an organizational unit (OU). This parameter can be used only when the Attribute parameter is launchPermission.
+        @OptionalCustomCoding<ArrayCoder<_OrganizationalUnitArnsEncoding, String>>
+        public var organizationalUnitArns: [String]?
+        /// The Amazon Resource Name (ARN) of an organization. This parameter can be used only when the Attribute parameter is launchPermission.
+        @OptionalCustomCoding<ArrayCoder<_OrganizationArnsEncoding, String>>
+        public var organizationArns: [String]?
         /// Not supported.
         @OptionalCustomCoding<ArrayCoder<_ProductCodesEncoding, String>>
         public var productCodes: [String]?
@@ -28327,13 +29717,15 @@ extension EC2 {
         /// The value of the attribute being modified.  This parameter can be used only when the Attribute parameter is description.
         public let value: String?
 
-        public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
+        public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
             self.attribute = attribute
             self.description = description
             self.dryRun = dryRun
             self.imageId = imageId
             self.launchPermission = launchPermission
             self.operationType = operationType
+            self.organizationalUnitArns = organizationalUnitArns
+            self.organizationArns = organizationArns
             self.productCodes = productCodes
             self.userGroups = userGroups
             self.userIds = userIds
@@ -28347,6 +29739,8 @@ extension EC2 {
             case imageId = "ImageId"
             case launchPermission = "LaunchPermission"
             case operationType = "OperationType"
+            case organizationalUnitArns = "OrganizationalUnitArn"
+            case organizationArns = "OrganizationArn"
             case productCodes = "ProductCode"
             case userGroups = "UserGroup"
             case userIds = "UserId"
@@ -29017,6 +30411,8 @@ extension EC2 {
         public let assignIpv6AddressOnCreation: AttributeBooleanValue?
         /// The customer-owned IPv4 address pool associated with the subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
         public let customerOwnedIpv4Pool: String?
+        /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet  should return synthetic IPv6 addresses for IPv4-only destinations.
+        public let enableDns64: AttributeBooleanValue?
         /// Specify true to indicate that network interfaces  attached to instances created in the specified subnet should be assigned a customer-owned IPv4 address. When this value is true, you must specify the customer-owned IP pool using CustomerOwnedIpv4Pool.
         public let mapCustomerOwnedIpOnLaunch: AttributeBooleanValue?
         /// Specify true to indicate that network interfaces attached to instances created in the specified subnet should be assigned a public IPv4 address.
@@ -29024,9 +30420,10 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String
 
-        public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, customerOwnedIpv4Pool: String? = nil, mapCustomerOwnedIpOnLaunch: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, subnetId: String) {
+        public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, customerOwnedIpv4Pool: String? = nil, enableDns64: AttributeBooleanValue? = nil, mapCustomerOwnedIpOnLaunch: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, subnetId: String) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
+            self.enableDns64 = enableDns64
             self.mapCustomerOwnedIpOnLaunch = mapCustomerOwnedIpOnLaunch
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
             self.subnetId = subnetId
@@ -29035,6 +30432,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case assignIpv6AddressOnCreation = "AssignIpv6AddressOnCreation"
             case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
+            case enableDns64 = "EnableDns64"
             case mapCustomerOwnedIpOnLaunch = "MapCustomerOwnedIpOnLaunch"
             case mapPublicIpOnLaunch = "MapPublicIpOnLaunch"
             case subnetId
@@ -29106,7 +30504,7 @@ extension EC2 {
         public let sourceCidrBlock: String?
         /// The port range to assign to the Traffic Mirror rule.
         public let sourcePortRange: TrafficMirrorPortRangeRequest?
-        /// The type of traffic (ingress | egress) to assign to the rule.
+        /// The type of traffic to assign to the rule.
         public let trafficDirection: TrafficDirection?
         /// The ID of the Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String
@@ -30587,6 +31985,8 @@ extension EC2 {
         public let attachment: NetworkInterfaceAttachment?
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// Indicates whether a network interface with an IPv6 address is unreachable from the  public internet. If the value is true, inbound traffic from the internet  is dropped and you cannot assign an elastic IP address to the network interface. The  network interface is reachable from peered VPCs and resources connected through a  transit gateway, including on-premises networks.
+        public let denyAllIgwTraffic: Bool?
         /// A description.
         public let description: String?
         /// Any security groups for the network interface.
@@ -30634,10 +32034,11 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
-        public init(association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
+        public init(association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, denyAllIgwTraffic: Bool? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
             self.association = association
             self.attachment = attachment
             self.availabilityZone = availabilityZone
+            self.denyAllIgwTraffic = denyAllIgwTraffic
             self.description = description
             self.groups = groups
             self.interfaceType = interfaceType
@@ -30664,6 +32065,7 @@ extension EC2 {
             case association
             case attachment
             case availabilityZone
+            case denyAllIgwTraffic
             case description
             case groups = "groupSet"
             case interfaceType
@@ -30779,6 +32181,40 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case attachmentId
             case deleteOnTermination
+        }
+    }
+
+    public struct NetworkInterfaceCount: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of network interfaces. If this parameter is not specified, there is no maximum limit.
+        public let max: Int?
+        /// The minimum number of network interfaces. If this parameter is not specified, there is no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct NetworkInterfaceCountRequest: AWSEncodableShape {
+        /// The maximum number of network interfaces. To specify no maximum limit, omit this parameter.
+        public let max: Int?
+        /// The minimum number of network interfaces. To specify no minimum limit, omit this parameter.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
         }
     }
 
@@ -32535,7 +33971,7 @@ extension EC2 {
         public let allocationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The set of Availability Zones, Local Zones, or Wavelength Zones from which AWS advertises IP addresses. If you provide an incorrect network border group, you will receive an InvalidAddress.NotFound error. For more information, see Error Codes.  You cannot use a network border group with EC2 Classic. If you attempt this operation on EC2 classic, you will receive an InvalidParameterCombination error. For more information, see Error Codes.
+        /// The set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses. If you provide an incorrect network border group, you receive an InvalidAddress.NotFound error. You cannot use a network border group with EC2 Classic. If you attempt this operation on EC2 classic, you  receive an InvalidParameterCombination error.
         public let networkBorderGroup: String?
         /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
         public let publicIp: String?
@@ -32761,6 +34197,7 @@ extension EC2 {
     public struct ReplaceRouteRequest: AWSEncodableShape {
         /// [IPv4 traffic only] The ID of a carrier gateway.
         public let carrierGatewayId: String?
+        public let coreNetworkArn: String?
         /// The IPv4 CIDR address block used for the destination match. The value that you
         /// 			provide must match the CIDR of an existing route in the table.
         public let destinationCidrBlock: String?
@@ -32794,8 +34231,9 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(carrierGatewayId: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
+            self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -32815,6 +34253,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case carrierGatewayId = "CarrierGatewayId"
+            case coreNetworkArn = "CoreNetworkArn"
             case destinationCidrBlock
             case destinationIpv6CidrBlock
             case destinationPrefixListId = "DestinationPrefixListId"
@@ -33003,7 +34442,9 @@ extension EC2 {
         public let instanceInitiatedShutdownBehavior: ShutdownBehavior?
         /// The market (purchasing) option for the instances.
         public let instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest?
-        /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. If you specify InstanceRequirements, you can't specify InstanceTypes.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide. If you specify InstanceTypes, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User Provided Kernels in the Amazon Elastic Compute Cloud User Guide.
         public let kernelId: String?
@@ -33035,7 +34476,7 @@ extension EC2 {
         /// The user data to make available to the instance. You must provide base64-encoded text.  User data is limited to 16 KB. For more information, see Running Commands on Your Linux Instance at Launch (Linux) or Adding User Data (Windows).  If you are creating the launch template for use with Batch, the user data  must be provided in the  MIME multi-part archive format.  For more information, see Amazon EC2 user data in  launch templates in the Batch User Guide.
         public let userData: String?
 
-        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, placement: LaunchTemplatePlacementRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, placement: LaunchTemplatePlacementRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
@@ -33050,6 +34491,7 @@ extension EC2 {
             self.imageId = imageId
             self.instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehavior
             self.instanceMarketOptions = instanceMarketOptions
+            self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.kernelId = kernelId
             self.keyName = keyName
@@ -33069,6 +34511,7 @@ extension EC2 {
             try self.elasticInferenceAccelerators?.forEach {
                 try $0.validate(name: "\(name).elasticInferenceAccelerators[]")
             }
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -33086,6 +34529,7 @@ extension EC2 {
             case imageId = "ImageId"
             case instanceInitiatedShutdownBehavior = "InstanceInitiatedShutdownBehavior"
             case instanceMarketOptions = "InstanceMarketOptions"
+            case instanceRequirements = "InstanceRequirements"
             case instanceType = "InstanceType"
             case kernelId = "KernelId"
             case keyName = "KeyName"
@@ -33329,6 +34773,63 @@ extension EC2 {
             case ownerId
             case requesterId
             case reservationId
+        }
+    }
+
+    public struct ReservationFleetInstanceSpecification: AWSEncodableShape {
+        /// The Availability Zone in which the Capacity Reservation Fleet reserves the capacity. A Capacity
+        /// 			Reservation Fleet can't span Availability Zones. All instance type specifications that you specify
+        /// 			for the Fleet must use the same Availability Zone.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the Capacity Reservation Fleet reserves the capacity. A
+        /// 			Capacity Reservation Fleet can't span Availability Zones. All instance type specifications that you
+        /// 			specify for the Fleet must use the same Availability Zone.
+        public let availabilityZoneId: String?
+        /// Indicates whether the Capacity Reservation Fleet supports EBS-optimized instances types. This
+        /// 			optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack
+        /// 			to provide optimal I/O performance. This optimization isn't available with all instance types. Additional
+        /// 			usage charges apply when using EBS-optimized instance types.
+        public let ebsOptimized: Bool?
+        /// The type of operating system for which the Capacity Reservation Fleet reserves capacity.
+        public let instancePlatform: CapacityReservationInstancePlatform?
+        /// The instance type for which the Capacity Reservation Fleet reserves capacity.
+        public let instanceType: InstanceType?
+        /// The priority to assign to the instance type. This value is used to determine which of the instance types
+        /// 			specified for the Fleet should be prioritized for use. A lower value indicates a high priority. For more
+        /// 			information, see Instance type priority
+        /// 			in the Amazon EC2 User Guide.
+        public let priority: Int?
+        /// The number of capacity units provided by the specified instance type. This value, together with the
+        /// 			total target capacity that you specify for the Fleet determine the number of instances for which the
+        /// 			Fleet reserves capacity. Both values are based on units that make sense for your workload. For more
+        /// 			information, see Total target capacity
+        /// 			in the Amazon EC2 User Guide.
+        public let weight: Double?
+
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, ebsOptimized: Bool? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: InstanceType? = nil, priority: Int? = nil, weight: Double? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.ebsOptimized = ebsOptimized
+            self.instancePlatform = instancePlatform
+            self.instanceType = instanceType
+            self.priority = priority
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.priority, name: "priority", parent: name, min: 0)
+            try self.validate(self.weight, name: "weight", parent: name, max: 99.999)
+            try self.validate(self.weight, name: "weight", parent: name, min: 0.001)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case ebsOptimized = "EbsOptimized"
+            case instancePlatform = "InstancePlatform"
+            case instanceType = "InstanceType"
+            case priority = "Priority"
+            case weight = "Weight"
         }
     }
 
@@ -33956,6 +35457,8 @@ extension EC2 {
         public let instanceInitiatedShutdownBehavior: ShutdownBehavior?
         /// The market (purchasing) option for the instances.
         public let instanceMarketOptions: LaunchTemplateInstanceMarketOptions?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. If you specify InstanceRequirements, you can't specify InstanceTypes.
+        public let instanceRequirements: InstanceRequirements?
         /// The instance type.
         public let instanceType: InstanceType?
         /// The ID of the kernel, if applicable.
@@ -33988,7 +35491,7 @@ extension EC2 {
         /// The user data for the instance.
         public let userData: String?
 
-        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, placement: LaunchTemplatePlacement? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, placement: LaunchTemplatePlacement? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
@@ -34003,6 +35506,7 @@ extension EC2 {
             self.imageId = imageId
             self.instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehavior
             self.instanceMarketOptions = instanceMarketOptions
+            self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.kernelId = kernelId
             self.keyName = keyName
@@ -34033,6 +35537,7 @@ extension EC2 {
             case imageId
             case instanceInitiatedShutdownBehavior
             case instanceMarketOptions
+            case instanceRequirements
             case instanceType
             case kernelId
             case keyName
@@ -34318,6 +35823,7 @@ extension EC2 {
     public struct Route: AWSDecodableShape {
         /// The ID of the carrier gateway.
         public let carrierGatewayId: String?
+        public let coreNetworkArn: String?
         /// The IPv4 CIDR block used for the destination match.
         public let destinationCidrBlock: String?
         /// The IPv6 CIDR block used for the destination match.
@@ -34349,8 +35855,9 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(carrierGatewayId: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
+            self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -34369,6 +35876,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case carrierGatewayId
+            case coreNetworkArn
             case destinationCidrBlock
             case destinationIpv6CidrBlock
             case destinationPrefixListId
@@ -35243,8 +36751,8 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
-        @CustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
-        public var filters: [Filter]
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String
         /// The maximum number of results to return with a single call.
@@ -35253,7 +36761,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter], localGatewayRouteTableId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -35651,7 +37159,7 @@ extension EC2 {
         public struct _ServiceTypeEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates whether requests from other AWS accounts to create an endpoint to the service must first be accepted.
+        /// Indicates whether requests from other Amazon Web Services accounts to create an endpoint to the service must first be accepted.
         public let acceptanceRequired: Bool?
         /// The Availability Zones in which the service is available.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -35734,7 +37242,7 @@ extension EC2 {
         public var baseEndpointDnsNames: [String]?
         /// Indicates whether the service manages its VPC endpoints. Management of the service VPC endpoints using the VPC endpoint API is restricted.
         public let managesVpcEndpoints: Bool?
-        /// The AWS account ID of the service owner.
+        /// The Amazon Web Services account ID of the service owner.
         public let owner: String?
         /// The private DNS name for the service.
         public let privateDnsName: String?
@@ -36092,15 +37600,19 @@ extension EC2 {
     }
 
     public struct SpotCapacityRebalance: AWSEncodableShape & AWSDecodableShape {
-        /// The replacement strategy to use. Only available for fleets of type maintain. You must specify a value, otherwise you get an error. To allow Spot Fleet to launch a replacement Spot Instance when an instance rebalance notification is emitted for a Spot Instance in the fleet, specify launch.  When a replacement instance is launched, the instance marked for rebalance is not automatically terminated. You can terminate it, or you can leave it running. You are charged for all instances while they are running.
+        /// The replacement strategy to use. Only available for fleets of type maintain.  launch - Spot Fleet launches a new replacement Spot Instance when a rebalance notification is emitted for an existing Spot Instance in the fleet. Spot Fleet does not terminate the instances that receive a rebalance notification. You can terminate the old instances, or you can leave them running. You are charged for all instances while they are running.   launch-before-terminate - Spot Fleet launches a new replacement Spot Instance when a rebalance notification is emitted for an existing Spot Instance in the fleet, and then, after a delay that you specify (in TerminationDelay), terminates the instances that received a rebalance notification.
         public let replacementStrategy: ReplacementStrategy?
+        /// The amount of time (in seconds) that Amazon EC2 waits before terminating the old Spot Instance after launching a new replacement Spot Instance.
+        public let terminationDelay: Int?
 
-        public init(replacementStrategy: ReplacementStrategy? = nil) {
+        public init(replacementStrategy: ReplacementStrategy? = nil, terminationDelay: Int? = nil) {
             self.replacementStrategy = replacementStrategy
+            self.terminationDelay = terminationDelay
         }
 
         private enum CodingKeys: String, CodingKey {
             case replacementStrategy
+            case terminationDelay
         }
     }
 
@@ -36150,6 +37662,8 @@ extension EC2 {
         public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// The ID of the AMI.
         public let imageId: String?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        public let instanceRequirements: InstanceRequirements?
         /// The instance type.
         public let instanceType: InstanceType?
         /// The ID of the kernel.
@@ -36180,12 +37694,13 @@ extension EC2 {
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O.  If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.
         public let weightedCapacity: Double?
 
-        public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: SpotFleetMonitoring? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroups: [GroupIdentifier]? = nil, spotPrice: String? = nil, subnetId: String? = nil, tagSpecifications: [SpotFleetTagSpecification]? = nil, userData: String? = nil, weightedCapacity: Double? = nil) {
+        public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: SpotFleetMonitoring? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroups: [GroupIdentifier]? = nil, spotPrice: String? = nil, subnetId: String? = nil, tagSpecifications: [SpotFleetTagSpecification]? = nil, userData: String? = nil, weightedCapacity: Double? = nil) {
             self.addressingType = addressingType
             self.blockDeviceMappings = blockDeviceMappings
             self.ebsOptimized = ebsOptimized
             self.iamInstanceProfile = iamInstanceProfile
             self.imageId = imageId
+            self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.kernelId = kernelId
             self.keyName = keyName
@@ -36201,12 +37716,17 @@ extension EC2 {
             self.weightedCapacity = weightedCapacity
         }
 
+        public func validate(name: String) throws {
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case addressingType
             case blockDeviceMappings = "blockDeviceMapping"
             case ebsOptimized
             case iamInstanceProfile
             case imageId
+            case instanceRequirements
             case instanceType
             case kernelId
             case keyName
@@ -36322,6 +37842,8 @@ extension EC2 {
         public var tagSpecifications: [TagSpecification]?
         /// The number of units to request for the Spot Fleet. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O. If the request type is maintain, you can specify a target capacity of 0 and add capacity later.
         public let targetCapacity: Int
+        /// The unit for the target capacity. Default: units (translates to number of instances)
+        public let targetCapacityUnitType: TargetCapacityUnitType?
         /// Indicates whether running Spot Instances are terminated when the Spot Fleet request expires.
         public let terminateInstancesWithExpiration: Bool?
         /// The type of request. Indicates whether the Spot Fleet only requests the target capacity or also attempts to maintain it. When this value is request, the Spot Fleet only places the required requests. It does not attempt to replenish Spot Instances if capacity is diminished, nor does it submit requests in alternative Spot pools if capacity is not available. When this value is maintain, the Spot Fleet maintains the target capacity. The Spot Fleet places the required requests to meet capacity and automatically replenishes any interrupted instances. Default: maintain. instant is listed but is not used by Spot Fleet.
@@ -36331,7 +37853,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). After the end date and time, no new Spot Instance requests are placed or able to fulfill the request. If no value is specified, the Spot Fleet request remains until you cancel it.
         public let validUntil: Date?
 
-        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaintenanceStrategies: SpotMaintenanceStrategies? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
+        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaintenanceStrategies: SpotMaintenanceStrategies? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int, targetCapacityUnitType: TargetCapacityUnitType? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
             self.context = context
@@ -36353,6 +37875,7 @@ extension EC2 {
             self.spotPrice = spotPrice
             self.tagSpecifications = tagSpecifications
             self.targetCapacity = targetCapacity
+            self.targetCapacityUnitType = targetCapacityUnitType
             self.terminateInstancesWithExpiration = terminateInstancesWithExpiration
             self.type = type
             self.validFrom = validFrom
@@ -36360,6 +37883,9 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
+            try self.launchSpecifications?.forEach {
+                try $0.validate(name: "\(name).launchSpecifications[]")
+            }
             try self.launchTemplateConfigs?.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
@@ -36388,6 +37914,7 @@ extension EC2 {
             case spotPrice
             case tagSpecifications = "TagSpecification"
             case targetCapacity
+            case targetCapacityUnitType
             case terminateInstancesWithExpiration
             case type
             case validFrom
@@ -36683,6 +38210,27 @@ extension EC2 {
             case availabilityZone
             case groupName
             case tenancy
+        }
+    }
+
+    public struct SpotPlacementScore: AWSDecodableShape {
+        /// The Availability Zone.
+        public let availabilityZoneId: String?
+        /// The Region.
+        public let region: String?
+        /// The placement score, on a scale from 1 to 10. A score of 10 indicates that your Spot request is highly likely to succeed in this Region or Availability Zone. A score of 1 indicates that your Spot request is not likely to succeed.
+        public let score: Int?
+
+        public init(availabilityZoneId: String? = nil, region: String? = nil, score: Int? = nil) {
+            self.availabilityZoneId = availabilityZoneId
+            self.region = region
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneId
+            case region
+            case score
         }
     }
 
@@ -37064,6 +38612,8 @@ extension EC2 {
         public let customerOwnedIpv4Pool: String?
         /// Indicates whether this is the default subnet for the Availability Zone.
         public let defaultForAz: Bool?
+        /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet  should return synthetic IPv6 addresses for IPv4-only destinations.
+        public let enableDns64: Bool?
         /// Information about the IPv6 CIDR blocks associated with the subnet.
         @OptionalCustomCoding<ArrayCoder<_Ipv6CidrBlockAssociationSetEncoding, SubnetIpv6CidrBlockAssociation>>
         public var ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]?
@@ -37087,7 +38637,7 @@ extension EC2 {
         /// The ID of the VPC the subnet is in.
         public let vpcId: String?
 
-        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, customerOwnedIpv4Pool: String? = nil, defaultForAz: Bool? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, mapCustomerOwnedIpOnLaunch: Bool? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, customerOwnedIpv4Pool: String? = nil, defaultForAz: Bool? = nil, enableDns64: Bool? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, mapCustomerOwnedIpOnLaunch: Bool? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -37095,6 +38645,7 @@ extension EC2 {
             self.cidrBlock = cidrBlock
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.defaultForAz = defaultForAz
+            self.enableDns64 = enableDns64
             self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
             self.mapCustomerOwnedIpOnLaunch = mapCustomerOwnedIpOnLaunch
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
@@ -37115,6 +38666,7 @@ extension EC2 {
             case cidrBlock
             case customerOwnedIpv4Pool
             case defaultForAz
+            case enableDns64
             case ipv6CidrBlockAssociationSet
             case mapCustomerOwnedIpOnLaunch
             case mapPublicIpOnLaunch
@@ -37294,7 +38846,7 @@ extension EC2 {
     public struct TagSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The type of resource to tag on creation. The possible values are:  	   capacity-reservation | carrier-gateway | client-vpn-endpoint | customer-gateway | 	   dedicated-host | dhcp-options |  	   egress-only-internet-gateway | elastic-gpu |  	   elastic-ip | export-image-task | export-instance-task | fleet | fpga-image | 	   host-reservation | image | import-image-task | 	   import-snapshot-task | instance | instance-event-window | internet-gateway | ipv4pool-ec2 | ipv6pool-ec2 | 	   key-pair | launch-template | local-gateway-route-table-vpc-association | 	   natgateway | network-acl | network-insights-analysis |  	   network-insights-path | network-interface |  	   placement-group | prefix-list | reserved-instances |  	   route-table | security-group | security-group-rule |  	   snapshot | spot-fleet-request | spot-instances-request | subnet |  traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target |  	   transit-gateway | transit-gateway-attachment |  	   transit-gateway-multicast-domain | transit-gateway-route-table | volume | vpc | vpc-endpoint | vpc-endpoint-service |  	   vpc-flow-log | vpc-peering-connection | 	   vpn-connection | vpn-gateway. To tag a resource after it has been created, see CreateTags.
+        /// The type of resource to tag on creation.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -37318,13 +38870,16 @@ extension EC2 {
         public let onDemandTargetCapacity: Int?
         /// The maximum number of Spot units to launch. If you specify a target capacity for On-Demand units, you cannot specify a target capacity for Spot units.
         public let spotTargetCapacity: Int?
+        /// The unit for the target capacity. Default: units (translates to number of instances)
+        public let targetCapacityUnitType: TargetCapacityUnitType?
         /// The number of units to request, filled using DefaultTargetCapacityType.
         public let totalTargetCapacity: Int?
 
-        public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, totalTargetCapacity: Int? = nil) {
+        public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, totalTargetCapacity: Int? = nil) {
             self.defaultTargetCapacityType = defaultTargetCapacityType
             self.onDemandTargetCapacity = onDemandTargetCapacity
             self.spotTargetCapacity = spotTargetCapacity
+            self.targetCapacityUnitType = targetCapacityUnitType
             self.totalTargetCapacity = totalTargetCapacity
         }
 
@@ -37332,6 +38887,7 @@ extension EC2 {
             case defaultTargetCapacityType
             case onDemandTargetCapacity
             case spotTargetCapacity
+            case targetCapacityUnitType
             case totalTargetCapacity
         }
     }
@@ -37343,13 +38899,16 @@ extension EC2 {
         public let onDemandTargetCapacity: Int?
         /// The number of Spot units to request.
         public let spotTargetCapacity: Int?
+        /// The unit for the target capacity. Default: units (translates to number of instances)
+        public let targetCapacityUnitType: TargetCapacityUnitType?
         /// The number of units to request, filled using DefaultTargetCapacityType.
         public let totalTargetCapacity: Int
 
-        public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, totalTargetCapacity: Int) {
+        public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, totalTargetCapacity: Int) {
             self.defaultTargetCapacityType = defaultTargetCapacityType
             self.onDemandTargetCapacity = onDemandTargetCapacity
             self.spotTargetCapacity = spotTargetCapacity
+            self.targetCapacityUnitType = targetCapacityUnitType
             self.totalTargetCapacity = totalTargetCapacity
         }
 
@@ -37357,6 +38916,7 @@ extension EC2 {
             case defaultTargetCapacityType = "DefaultTargetCapacityType"
             case onDemandTargetCapacity = "OnDemandTargetCapacity"
             case spotTargetCapacity = "SpotTargetCapacity"
+            case targetCapacityUnitType = "TargetCapacityUnitType"
             case totalTargetCapacity = "TotalTargetCapacity"
         }
     }
@@ -37586,6 +39146,40 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case terminatingInstances = "instancesSet"
+        }
+    }
+
+    public struct TotalLocalStorageGB: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of total local storage, in GB. If this parameter is not specified, there is no maximum limit.
+        public let max: Double?
+        /// The minimum amount of total local storage, in GB. If this parameter is not specified, there is no minimum limit.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct TotalLocalStorageGBRequest: AWSEncodableShape {
+        /// The maximum amount of total local storage, in GB. To specify no maximum limit, omit this parameter.
+        public let max: Double?
+        /// The minimum amount of total local storage, in GB. To specify no minimum limit, omit this parameter.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
         }
     }
 
@@ -39355,6 +40949,40 @@ extension EC2 {
         }
     }
 
+    public struct VCpuCountRange: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of vCPUs. If this parameter is not specified, there is no maximum limit.
+        public let max: Int?
+        /// The minimum number of vCPUs. If the value is 0, there is no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct VCpuCountRangeRequest: AWSEncodableShape {
+        /// The maximum number of vCPUs. To specify no maximum limit, omit this parameter.
+        public let max: Int?
+        /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
+        public let min: Int
+
+        public init(max: Int? = nil, min: Int) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
     public struct VCpuInfo: AWSDecodableShape {
         public struct _ValidCoresEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ValidThreadsPerCoreEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -39964,7 +41592,7 @@ extension EC2 {
         /// (Interface endpoint) One or more network interfaces for the endpoint.
         @OptionalCustomCoding<ArrayCoder<_NetworkInterfaceIdsEncoding, String>>
         public var networkInterfaceIds: [String]?
-        /// The ID of the AWS account that owns the VPC endpoint.
+        /// The ID of the Amazon Web Services account that owns the VPC endpoint.
         public let ownerId: String?
         /// The policy document associated with the endpoint, if applicable.
         public let policyDocument: String?
@@ -40053,7 +41681,7 @@ extension EC2 {
         public let serviceId: String?
         /// The ID of the VPC endpoint.
         public let vpcEndpointId: String?
-        /// The AWS account ID of the owner of the VPC endpoint.
+        /// The ID of the Amazon Web Services account that owns the VPC endpoint.
         public let vpcEndpointOwner: String?
         /// The state of the VPC endpoint.
         public let vpcEndpointState: State?
@@ -40090,7 +41718,7 @@ extension EC2 {
         public let ipv6CidrBlockState: VpcCidrBlockState?
         /// The ID of the IPv6 address pool from which the IPv6 CIDR block is allocated.
         public let ipv6Pool: String?
-        /// The name of the unique set of Availability Zones, Local Zones, or Wavelength Zones from which AWS advertises IP addresses, for example, us-east-1-wl1-bos-wlz-1.
+        /// The name of the unique set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses, for example, us-east-1-wl1-bos-wlz-1.
         public let networkBorderGroup: String?
 
         public init(associationId: String? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockState: VpcCidrBlockState? = nil, ipv6Pool: String? = nil, networkBorderGroup: String? = nil) {
@@ -40233,10 +41861,16 @@ extension EC2 {
 
         /// The category of the VPN connection. A value of VPN indicates an Amazon Web Services VPN connection. A value of VPN-Classic indicates an Amazon Web Services Classic VPN connection.
         public let category: String?
+        /// The ARN of the core network.
+        public let coreNetworkArn: String?
+        /// The ARN of the core network attachment.
+        public let coreNetworkAttachmentArn: String?
         /// The configuration information for the VPN connection's customer gateway (in the native XML format). This element is always present in the CreateVpnConnection response; however, it's present in the DescribeVpnConnections response only if the VPN connection is in the pending or available state.
         public let customerGatewayConfiguration: String?
         /// The ID of the customer gateway at your end of the VPN connection.
         public let customerGatewayId: String?
+        /// The current state of the gateway association.
+        public let gatewayAssociationState: GatewayAssociationState?
         /// The VPN connection options.
         public let options: VpnConnectionOptions?
         /// The static routes associated with the VPN connection.
@@ -40259,10 +41893,13 @@ extension EC2 {
         /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
-        public init(category: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, options: VpnConnectionOptions? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
+        public init(category: String? = nil, coreNetworkArn: String? = nil, coreNetworkAttachmentArn: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, gatewayAssociationState: GatewayAssociationState? = nil, options: VpnConnectionOptions? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.category = category
+            self.coreNetworkArn = coreNetworkArn
+            self.coreNetworkAttachmentArn = coreNetworkAttachmentArn
             self.customerGatewayConfiguration = customerGatewayConfiguration
             self.customerGatewayId = customerGatewayId
+            self.gatewayAssociationState = gatewayAssociationState
             self.options = options
             self.routes = routes
             self.state = state
@@ -40276,8 +41913,11 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case category
+            case coreNetworkArn
+            case coreNetworkAttachmentArn
             case customerGatewayConfiguration
             case customerGatewayId
+            case gatewayAssociationState
             case options
             case routes
             case state

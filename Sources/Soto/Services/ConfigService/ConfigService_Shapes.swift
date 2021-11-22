@@ -288,6 +288,7 @@ extension ConfigService {
         case awsNetworkfirewallFirewall = "AWS::NetworkFirewall::Firewall"
         case awsNetworkfirewallFirewallpolicy = "AWS::NetworkFirewall::FirewallPolicy"
         case awsNetworkfirewallRulegroup = "AWS::NetworkFirewall::RuleGroup"
+        case awsOpensearchDomain = "AWS::OpenSearch::Domain"
         case awsQldbLedger = "AWS::QLDB::Ledger"
         case awsRdsDbcluster = "AWS::RDS::DBCluster"
         case awsRdsDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"

@@ -35,6 +35,13 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthenticatedElement: String, CustomStringConvertible, Codable {
+        case createAndUpdate = "CREATE_AND_UPDATE"
+        case delete = "DELETE"
+        case read = "READ"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeliveryMethod: String, CustomStringConvertible, Codable {
         case email = "EMAIL"
         case sms = "SMS"
@@ -111,6 +118,11 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceName: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SignInMethod: String, CustomStringConvertible, Codable {
         case email = "EMAIL"
         case emailAndPhoneNumber = "EMAIL_AND_PHONE_NUMBER"
@@ -122,6 +134,13 @@ extension AmplifyBackend {
     public enum Status: String, CustomStringConvertible, Codable {
         case latest = "LATEST"
         case stale = "STALE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnAuthenticatedElement: String, CustomStringConvertible, Codable {
+        case createAndUpdate = "CREATE_AND_UPDATE"
+        case delete = "DELETE"
+        case read = "READ"
         public var description: String { return self.rawValue }
     }
 
@@ -311,6 +330,23 @@ extension AmplifyBackend {
             case operation
             case status
             case updateTime
+        }
+    }
+
+    public struct BackendStoragePermissions: AWSEncodableShape & AWSDecodableShape {
+        /// Lists all authenticated user read, write, and delete permissions for your S3 bucket.
+        public let authenticated: [AuthenticatedElement]
+        /// Lists all unauthenticated user read, write, and delete permissions for your S3 bucket.
+        public let unAuthenticated: [UnAuthenticatedElement]?
+
+        public init(authenticated: [AuthenticatedElement], unAuthenticated: [UnAuthenticatedElement]? = nil) {
+            self.authenticated = authenticated
+            self.unAuthenticated = unAuthenticated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticated
+            case unAuthenticated
         }
     }
 
@@ -712,7 +748,7 @@ extension AmplifyBackend {
         public let appName: String
         /// The name of the backend environment.
         public let backendEnvironmentName: String
-        /// The resource configuration for the create backend request.
+        /// The resource configuration for creating backend storage.
         public let resourceConfig: ResourceConfig?
         /// The name of the resource.
         public let resourceName: String?
@@ -763,6 +799,80 @@ extension AmplifyBackend {
             case error
             case jobId
             case operation
+            case status
+        }
+    }
+
+    public struct CreateBackendStorageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("AppId"))
+        ]
+
+        /// The app ID.
+        public let appId: String
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String
+        /// The resource configuration for creating backend storage.
+        public let resourceConfig: CreateBackendStorageResourceConfig
+        /// The name of the storage resource.
+        public let resourceName: String
+
+        public init(appId: String, backendEnvironmentName: String, resourceConfig: CreateBackendStorageResourceConfig, resourceName: String) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.resourceConfig = resourceConfig
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendEnvironmentName
+            case resourceConfig
+            case resourceName
+        }
+    }
+
+    public struct CreateBackendStorageResourceConfig: AWSEncodableShape {
+        /// The name of the S3 bucket.
+        public let bucketName: String?
+        /// The authorization configuration for the storage S3 bucket.
+        public let permissions: BackendStoragePermissions
+        /// The name of the storage service.
+        public let serviceName: ServiceName
+
+        public init(bucketName: String? = nil, permissions: BackendStoragePermissions, serviceName: ServiceName) {
+            self.bucketName = bucketName
+            self.permissions = permissions
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case permissions
+            case serviceName
+        }
+    }
+
+    public struct CreateBackendStorageResponse: AWSDecodableShape {
+        /// The app ID.
+        public let appId: String?
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String?
+        /// The ID for the job.
+        public let jobId: String?
+        /// The current status of the request.
+        public let status: String?
+
+        public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case backendEnvironmentName
+            case jobId
             case status
         }
     }
@@ -973,6 +1083,59 @@ extension AmplifyBackend {
             case error
             case jobId
             case operation
+            case status
+        }
+    }
+
+    public struct DeleteBackendStorageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
+        ]
+
+        /// The app ID.
+        public let appId: String
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String
+        /// The name of the storage resource.
+        public let resourceName: String
+        /// The name of the storage service.
+        public let serviceName: ServiceName
+
+        public init(appId: String, backendEnvironmentName: String, resourceName: String, serviceName: ServiceName) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.resourceName = resourceName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName
+            case serviceName
+        }
+    }
+
+    public struct DeleteBackendStorageResponse: AWSDecodableShape {
+        /// The app ID.
+        public let appId: String?
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String?
+        /// The ID for the job.
+        public let jobId: String?
+        /// The current status of the request.
+        public let status: String?
+
+        public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case backendEnvironmentName
+            case jobId
             case status
         }
     }
@@ -1319,6 +1482,8 @@ extension AmplifyBackend {
     }
 
     public struct GetBackendResponse: AWSDecodableShape {
+        /// A stringified version of the cli.json file for your Amplify project.
+        public let amplifyFeatureFlags: String?
         /// A stringified version of the current configs for your Amplify project.
         public let amplifyMetaConfig: String?
         /// The app ID.
@@ -1332,7 +1497,8 @@ extension AmplifyBackend {
         /// If the request failed, this is the returned error.
         public let error: String?
 
-        public init(amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
+        public init(amplifyFeatureFlags: String? = nil, amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
+            self.amplifyFeatureFlags = amplifyFeatureFlags
             self.amplifyMetaConfig = amplifyMetaConfig
             self.appId = appId
             self.appName = appName
@@ -1342,12 +1508,87 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amplifyFeatureFlags
             case amplifyMetaConfig
             case appId
             case appName
             case backendEnvironmentList
             case backendEnvironmentName
             case error
+        }
+    }
+
+    public struct GetBackendStorageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
+        ]
+
+        /// The app ID.
+        public let appId: String
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String
+        /// The name of the storage resource.
+        public let resourceName: String
+
+        public init(appId: String, backendEnvironmentName: String, resourceName: String) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName
+        }
+    }
+
+    public struct GetBackendStorageResourceConfig: AWSDecodableShape {
+        /// The name of the S3 bucket.
+        public let bucketName: String?
+        /// Returns True if the storage resource has been imported.
+        public let imported: Bool
+        /// The authorization configuration for the storage S3 bucket.
+        public let permissions: BackendStoragePermissions?
+        /// The name of the storage service.
+        public let serviceName: ServiceName
+
+        public init(bucketName: String? = nil, imported: Bool, permissions: BackendStoragePermissions? = nil, serviceName: ServiceName) {
+            self.bucketName = bucketName
+            self.imported = imported
+            self.permissions = permissions
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case imported
+            case permissions
+            case serviceName
+        }
+    }
+
+    public struct GetBackendStorageResponse: AWSDecodableShape {
+        /// The app ID.
+        public let appId: String?
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String?
+        /// The resource configuration for the backend storage resource.
+        public let resourceConfig: GetBackendStorageResourceConfig?
+        /// The name of the storage resource.
+        public let resourceName: String?
+
+        public init(appId: String? = nil, backendEnvironmentName: String? = nil, resourceConfig: GetBackendStorageResourceConfig? = nil, resourceName: String? = nil) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.resourceConfig = resourceConfig
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case backendEnvironmentName
+            case resourceConfig
+            case resourceName
         }
     }
 
@@ -1464,6 +1705,59 @@ extension AmplifyBackend {
         }
     }
 
+    public struct ImportBackendStorageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
+        ]
+
+        /// The app ID.
+        public let appId: String
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String
+        /// The name of the S3 bucket.
+        public let bucketName: String?
+        /// The name of the storage service.
+        public let serviceName: ServiceName
+
+        public init(appId: String, backendEnvironmentName: String, bucketName: String? = nil, serviceName: ServiceName) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.bucketName = bucketName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case serviceName
+        }
+    }
+
+    public struct ImportBackendStorageResponse: AWSDecodableShape {
+        /// The app ID.
+        public let appId: String?
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String?
+        /// The ID for the job.
+        public let jobId: String?
+        /// The current status of the request.
+        public let status: String?
+
+        public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case backendEnvironmentName
+            case jobId
+            case status
+        }
+    }
+
     public struct ListBackendJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("AppId")),
@@ -1522,6 +1816,36 @@ extension AmplifyBackend {
 
         private enum CodingKeys: String, CodingKey {
             case jobs
+            case nextToken
+        }
+    }
+
+    public struct ListS3BucketsRequest: AWSEncodableShape {
+        /// Reserved for future use.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+        }
+    }
+
+    public struct ListS3BucketsResponse: AWSDecodableShape {
+        /// The list of S3 buckets.
+        public let buckets: [S3BucketInfo]?
+        /// Reserved for future use.
+        public let nextToken: String?
+
+        public init(buckets: [S3BucketInfo]? = nil, nextToken: String? = nil) {
+            self.buckets = buckets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buckets
             case nextToken
         }
     }
@@ -1630,6 +1954,23 @@ extension AmplifyBackend {
 
     public struct ResourceConfig: AWSEncodableShape {
         public init() {}
+    }
+
+    public struct S3BucketInfo: AWSDecodableShape {
+        /// The creation date of the S3 bucket.
+        public let creationDate: String?
+        /// The name of the S3 bucket.
+        public let name: String?
+
+        public init(creationDate: String? = nil, name: String? = nil) {
+            self.creationDate = creationDate
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate
+            case name
+        }
     }
 
     public struct Settings: AWSEncodableShape & AWSDecodableShape {
@@ -2071,6 +2412,76 @@ extension AmplifyBackend {
             case operation
             case status
             case updateTime
+        }
+    }
+
+    public struct UpdateBackendStorageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("AppId")),
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri("BackendEnvironmentName"))
+        ]
+
+        /// The app ID.
+        public let appId: String
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String
+        /// The resource configuration for updating backend storage.
+        public let resourceConfig: UpdateBackendStorageResourceConfig
+        /// The name of the storage resource.
+        public let resourceName: String
+
+        public init(appId: String, backendEnvironmentName: String, resourceConfig: UpdateBackendStorageResourceConfig, resourceName: String) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.resourceConfig = resourceConfig
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceConfig
+            case resourceName
+        }
+    }
+
+    public struct UpdateBackendStorageResourceConfig: AWSEncodableShape {
+        /// The authorization configuration for the storage S3 bucket.
+        public let permissions: BackendStoragePermissions
+        /// The name of the storage service.
+        public let serviceName: ServiceName
+
+        public init(permissions: BackendStoragePermissions, serviceName: ServiceName) {
+            self.permissions = permissions
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions
+            case serviceName
+        }
+    }
+
+    public struct UpdateBackendStorageResponse: AWSDecodableShape {
+        /// The app ID.
+        public let appId: String?
+        /// The name of the backend environment.
+        public let backendEnvironmentName: String?
+        /// The ID for the job.
+        public let jobId: String?
+        /// The current status of the request.
+        public let status: String?
+
+        public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case backendEnvironmentName
+            case jobId
+            case status
         }
     }
 }

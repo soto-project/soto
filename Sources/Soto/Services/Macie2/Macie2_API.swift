@@ -338,7 +338,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "UpdateMacieSession", path: "/macie", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables an Amazon Macie administrator to suspend or re-enable a member account.
+    /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
     public func updateMemberSession(_ input: UpdateMemberSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMemberSessionResponse> {
         return self.client.execute(operation: "UpdateMemberSession", path: "/macie/members/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

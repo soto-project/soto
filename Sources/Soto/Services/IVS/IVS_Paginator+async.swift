@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension IVS {
-    ///  Gets summary information about all channels in your account, in the AWS region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
+    ///  Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension IVS {
         )
     }
 
-    ///  Gets summary information about all recording configurations in your account, in the AWS region where the API request is processed.
+    ///  Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -111,7 +111,29 @@ extension IVS {
         )
     }
 
-    ///  Gets summary information about live streams in your account, in the AWS region where the API request is processed.
+    ///  Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listStreamSessionsPaginator(
+        _ input: ListStreamSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListStreamSessionsRequest, ListStreamSessionsResponse> {
+        return .init(
+            input: input,
+            command: listStreamSessions,
+            inputKey: \ListStreamSessionsRequest.nextToken,
+            outputKey: \ListStreamSessionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -128,28 +150,6 @@ extension IVS {
             command: listStreams,
             inputKey: \ListStreamsRequest.nextToken,
             outputKey: \ListStreamsResponse.nextToken,
-            logger: logger,
-            on: eventLoop
-        )
-    }
-
-    ///  Gets information about AWS tags for the specified ARN.
-    /// Return PaginatorSequence for operation.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    public func listTagsForResourcePaginator(
-        _ input: ListTagsForResourceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> AWSClient.PaginatorSequence<ListTagsForResourceRequest, ListTagsForResourceResponse> {
-        return .init(
-            input: input,
-            command: listTagsForResource,
-            inputKey: \ListTagsForResourceRequest.nextToken,
-            outputKey: \ListTagsForResourceResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

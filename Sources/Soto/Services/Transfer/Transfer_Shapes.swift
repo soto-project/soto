@@ -62,6 +62,7 @@ extension Transfer {
     public enum IdentityProviderType: String, CustomStringConvertible, Codable {
         case apiGateway = "API_GATEWAY"
         case awsDirectoryService = "AWS_DIRECTORY_SERVICE"
+        case awsLambda = "AWS_LAMBDA"
         case serviceManaged = "SERVICE_MANAGED"
         public var description: String { return self.rawValue }
     }
@@ -228,7 +229,7 @@ extension Transfer {
         public let hostKey: String?
         /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
+        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use the LAMBDA value to directly use a Lambda function as your identity provider. If you choose this value, you must specify the ARN for the lambda function in the Function parameter for the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
         /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
@@ -993,7 +994,7 @@ extension Transfer {
         public let hostKeyFingerprint: String?
         /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of a server is AWS_DIRECTORY_SERVICE or SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
+        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use the LAMBDA value to directly use a Lambda function as your identity provider. If you choose this value, you must specify the ARN for the lambda function in the Function parameter for the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
         /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
@@ -1311,13 +1312,16 @@ extension Transfer {
     public struct IdentityProviderDetails: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the Amazon Web ServicesDirectory Service directory that you want to stop sharing.
         public let directoryId: String?
+        /// The ARN for a lambda function to use for the Identity provider.
+        public let function: String?
         /// Provides the type of InvocationRole used to authenticate the user account.
         public let invocationRole: String?
         /// Provides the location of the service endpoint used to authenticate users.
         public let url: String?
 
-        public init(directoryId: String? = nil, invocationRole: String? = nil, url: String? = nil) {
+        public init(directoryId: String? = nil, function: String? = nil, invocationRole: String? = nil, url: String? = nil) {
             self.directoryId = directoryId
+            self.function = function
             self.invocationRole = invocationRole
             self.url = url
         }
@@ -1326,6 +1330,9 @@ extension Transfer {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 12)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 12)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.function, name: "function", parent: name, max: 170)
+            try self.validate(self.function, name: "function", parent: name, min: 1)
+            try self.validate(self.function, name: "function", parent: name, pattern: "^arn:[a-z-]+:lambda:.*$")
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, max: 2048)
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, min: 20)
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, pattern: "^arn:.*role/")
@@ -1334,6 +1341,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
+            case function = "Function"
             case invocationRole = "InvocationRole"
             case url = "Url"
         }
@@ -1804,7 +1812,7 @@ extension Transfer {
         public let domain: Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
+        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use the LAMBDA value to directly use a Lambda function as your identity provider. If you choose this value, you must specify the ARN for the lambda function in the Function parameter for the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
         /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?

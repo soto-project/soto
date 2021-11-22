@@ -51,9 +51,9 @@ public struct AppRunnerErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// You can't perform this action when the resource is in its current state.
     public static var invalidStateException: Self { .init(.invalidStateException) }
-    /// A resource doesn't exist for the specified Amazon Resource Name (ARN) in your AWS account.
+    /// A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see AWS App Runner endpoints and quotas in the AWS General Reference.
+    /// App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see App Runner endpoints and quotas in the Amazon Web Services General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 

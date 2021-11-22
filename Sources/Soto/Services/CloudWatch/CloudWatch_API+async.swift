@@ -69,12 +69,18 @@ extension CloudWatch {
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type.
     /// 			If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned.
     /// 		       CloudWatch retains the history of an alarm even if you delete the alarm.
+    /// 		       To use this operation and return information about a composite alarm, you must be signed on with
+    /// 			the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information
+    /// 			about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
     public func describeAlarmHistory(_ input: DescribeAlarmHistoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAlarmHistoryOutput {
         return try await self.client.execute(operation: "DescribeAlarmHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the specified alarms. You can filter the results by specifying a prefix for the alarm
     /// 			name, the alarm state, or a prefix for any action.
+    /// 		       To use this operation and return information about composite alarms, you must be signed on with
+    /// 		the cloudwatch:DescribeAlarms permission that is scoped to *. You can't return information
+    /// 			about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
     public func describeAlarms(_ input: DescribeAlarmsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAlarmsOutput {
         return try await self.client.execute(operation: "DescribeAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -88,9 +94,13 @@ extension CloudWatch {
         return try await self.client.execute(operation: "DescribeAlarmsForMetric", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the anomaly detection models that you have created in your account. You can list all
-    /// 			models in your account or filter the results to only the models that are related to a
-    /// 			certain namespace, metric name, or metric dimension.
+    /// Lists the anomaly detection models that you have created in your account.
+    /// 			For single metric anomaly detectors,
+    /// 			you can list all of the models in your account or filter the results
+    /// 			to only the models that are related to a certain namespace, metric name, or metric dimension.
+    /// 			For metric math anomaly detectors,
+    /// 			you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array.
+    /// 			This will return all metric math anomaly detectors in your account.
     public func describeAnomalyDetectors(_ input: DescribeAnomalyDetectorsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAnomalyDetectorsOutput {
         return try await self.client.execute(operation: "DescribeAnomalyDetectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -318,6 +328,10 @@ extension CloudWatch {
     /// 		       When you update an existing alarm, its state is left unchanged, but the update
     /// 			completely overwrites the previous configuration of the alarm.
     ///
+    /// 		       To use this operation, you must be signed on with
+    /// 			the cloudwatch:PutCompositeAlarm permission that is scoped to *. You can't create a
+    /// 			composite alarms if your cloudwatch:PutCompositeAlarm permission has a narrower scope.
+    ///
     /// 		       If you are an IAM user, you must have iam:CreateServiceLinkedRole to create
     /// 			a composite alarm that has Systems Manager OpsItem actions.
     public func putCompositeAlarm(_ input: PutCompositeAlarmInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
@@ -377,7 +391,7 @@ extension CloudWatch {
     ///
     ///
     /// 		       The first time you create an alarm in the
-    /// 			Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch
+    /// 			Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch
     /// 			creates the necessary service-linked role for you. The service-linked roles
     /// 			are called AWSServiceRoleForCloudWatchEvents and
     /// 			AWSServiceRoleForCloudWatchAlarms_ActionSSM.

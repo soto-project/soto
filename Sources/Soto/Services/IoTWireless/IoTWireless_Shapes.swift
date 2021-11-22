@@ -42,6 +42,12 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum DlClass: String, CustomStringConvertible, Codable {
+        case classb = "ClassB"
+        case classc = "ClassC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Event: String, CustomStringConvertible, Codable {
         case ack
         case discovered
@@ -51,9 +57,49 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventNotificationPartnerType: String, CustomStringConvertible, Codable {
+        case sidewalk = "Sidewalk"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventNotificationTopicStatus: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExpressionType: String, CustomStringConvertible, Codable {
         case mqtttopic = "MqttTopic"
         case rulename = "RuleName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable {
+        case fragalgoUnsupported = "FragAlgo_unsupported"
+        case fragindexUnsupported = "FragIndex_unsupported"
+        case initial = "Initial"
+        case micerror = "MICError"
+        case memoryerror = "MemoryError"
+        case missingfrag = "MissingFrag"
+        case notEnoughMemory = "Not_enough_memory"
+        case packageNotSupported = "Package_Not_Supported"
+        case sessioncntReplay = "SessionCnt_replay"
+        case successful = "Successful"
+        case wrongDescriptor = "Wrong_descriptor"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FuotaTaskStatus: String, CustomStringConvertible, Codable {
+        case deleteWaiting = "Delete_Waiting"
+        case fuotadone = "FuotaDone"
+        case fuotasessionWaiting = "FuotaSession_Waiting"
+        case inFuotasession = "In_FuotaSession"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentifierType: String, CustomStringConvertible, Codable {
+        case partneraccountid = "PartnerAccountId"
         public var description: String { return self.rawValue }
     }
 
@@ -80,6 +126,14 @@ extension IoTWireless {
     public enum SigningAlg: String, CustomStringConvertible, Codable {
         case ed25519 = "Ed25519"
         case p256r1 = "P256r1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupportedRfRegion: String, CustomStringConvertible, Codable {
+        case as9231 = "AS923-1"
+        case au915 = "AU915"
+        case eu868 = "EU868"
+        case us915 = "US915"
         public var description: String { return self.rawValue }
     }
 
@@ -240,6 +294,87 @@ extension IoTWireless {
         }
     }
 
+    public struct AssociateMulticastGroupWithFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let multicastGroupId: String
+
+        public init(id: String, multicastGroupId: String) {
+            self.id = id
+            self.multicastGroupId = multicastGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.multicastGroupId, name: "multicastGroupId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastGroupId = "MulticastGroupId"
+        }
+    }
+
+    public struct AssociateMulticastGroupWithFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateWirelessDeviceWithFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let wirelessDeviceId: String
+
+        public init(id: String, wirelessDeviceId: String) {
+            self.id = id
+            self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.wirelessDeviceId, name: "wirelessDeviceId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wirelessDeviceId = "WirelessDeviceId"
+        }
+    }
+
+    public struct AssociateWirelessDeviceWithFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateWirelessDeviceWithMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let wirelessDeviceId: String
+
+        public init(id: String, wirelessDeviceId: String) {
+            self.id = id
+            self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.wirelessDeviceId, name: "wirelessDeviceId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wirelessDeviceId = "WirelessDeviceId"
+        }
+    }
+
+    public struct AssociateWirelessDeviceWithMulticastGroupResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AssociateWirelessDeviceWithThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -332,6 +467,28 @@ extension IoTWireless {
     }
 
     public struct AssociateWirelessGatewayWithThingResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CancelMulticastGroupSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelMulticastGroupSessionResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -463,6 +620,120 @@ extension IoTWireless {
         /// The Amazon Resource Name of the new resource.
         public let arn: String?
         /// The ID of the new device profile.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
+    public struct CreateFuotaTaskRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        public let description: String?
+        public let firmwareUpdateImage: String
+        public let firmwareUpdateRole: String
+        public let loRaWAN: LoRaWANFuotaTask?
+        public let name: String?
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(), description: String? = nil, firmwareUpdateImage: String, firmwareUpdateRole: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.firmwareUpdateImage = firmwareUpdateImage
+            self.firmwareUpdateRole = firmwareUpdateRole
+            self.loRaWAN = loRaWAN
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, max: 4096)
+            try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, min: 1)
+            try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, max: 2048)
+            try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case firmwareUpdateImage = "FirmwareUpdateImage"
+            case firmwareUpdateRole = "FirmwareUpdateRole"
+            case loRaWAN = "LoRaWAN"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFuotaTaskResponse: AWSDecodableShape {
+        public let arn: String?
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
+    public struct CreateMulticastGroupRequest: AWSEncodableShape {
+        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        public let clientRequestToken: String?
+        /// The description of the multicast group.
+        public let description: String?
+        public let loRaWAN: LoRaWANMulticast
+        public let name: String?
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateMulticastGroupRequest.idempotencyToken(), description: String? = nil, loRaWAN: LoRaWANMulticast, name: String? = nil, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.loRaWAN = loRaWAN
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case loRaWAN = "LoRaWAN"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMulticastGroupResponse: AWSDecodableShape {
+        public let arn: String?
         public let id: String?
 
         public init(arn: String? = nil, id: String? = nil) {
@@ -806,6 +1077,50 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct DeleteFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMulticastGroupResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteServiceProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -976,6 +1291,19 @@ extension IoTWireless {
         }
     }
 
+    public struct DeviceRegistrationStateEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Device registration state event configuration object for enabling or disabling Sidewalk related event topics.
+        public let sidewalk: SidewalkEventNotificationConfigurations?
+
+        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil) {
+            self.sidewalk = sidewalk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
+        }
+    }
+
     public struct DisassociateAwsAccountFromPartnerAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
@@ -1000,6 +1328,84 @@ extension IoTWireless {
     }
 
     public struct DisassociateAwsAccountFromPartnerAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateMulticastGroupFromFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "multicastGroupId", location: .uri("MulticastGroupId"))
+        ]
+
+        public let id: String
+        public let multicastGroupId: String
+
+        public init(id: String, multicastGroupId: String) {
+            self.id = id
+            self.multicastGroupId = multicastGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.multicastGroupId, name: "multicastGroupId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateMulticastGroupFromFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateWirelessDeviceFromFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri("WirelessDeviceId"))
+        ]
+
+        public let id: String
+        public let wirelessDeviceId: String
+
+        public init(id: String, wirelessDeviceId: String) {
+            self.id = id
+            self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.wirelessDeviceId, name: "wirelessDeviceId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateWirelessDeviceFromFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateWirelessDeviceFromMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri("WirelessDeviceId"))
+        ]
+
+        public let id: String
+        public let wirelessDeviceId: String
+
+        public init(id: String, wirelessDeviceId: String) {
+            self.id = id
+            self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.wirelessDeviceId, name: "wirelessDeviceId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateWirelessDeviceFromMulticastGroupResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1070,6 +1476,51 @@ extension IoTWireless {
 
     public struct DisassociateWirelessGatewayFromThingResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct FPorts: AWSEncodableShape & AWSDecodableShape {
+        public let clockSync: Int?
+        public let fuota: Int?
+        public let multicast: Int?
+
+        public init(clockSync: Int? = nil, fuota: Int? = nil, multicast: Int? = nil) {
+            self.clockSync = clockSync
+            self.fuota = fuota
+            self.multicast = multicast
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clockSync, name: "clockSync", parent: name, max: 223)
+            try self.validate(self.clockSync, name: "clockSync", parent: name, min: 1)
+            try self.validate(self.fuota, name: "fuota", parent: name, max: 223)
+            try self.validate(self.fuota, name: "fuota", parent: name, min: 1)
+            try self.validate(self.multicast, name: "multicast", parent: name, max: 223)
+            try self.validate(self.multicast, name: "multicast", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clockSync = "ClockSync"
+            case fuota = "Fuota"
+            case multicast = "Multicast"
+        }
+    }
+
+    public struct FuotaTask: AWSDecodableShape {
+        public let arn: String?
+        public let id: String?
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+        }
     }
 
     public struct GetDestinationRequest: AWSEncodableShape {
@@ -1169,6 +1620,60 @@ extension IoTWireless {
         }
     }
 
+    public struct GetFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFuotaTaskResponse: AWSDecodableShape {
+        public let arn: String?
+        public let createdAt: Date?
+        public let description: String?
+        public let firmwareUpdateImage: String?
+        public let firmwareUpdateRole: String?
+        public let id: String?
+        public let loRaWAN: LoRaWANFuotaTaskGetInfo?
+        public let name: String?
+        public let status: FuotaTaskStatus?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, id: String? = nil, loRaWAN: LoRaWANFuotaTaskGetInfo? = nil, name: String? = nil, status: FuotaTaskStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.firmwareUpdateImage = firmwareUpdateImage
+            self.firmwareUpdateRole = firmwareUpdateRole
+            self.id = id
+            self.loRaWAN = loRaWAN
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case firmwareUpdateImage = "FirmwareUpdateImage"
+            case firmwareUpdateRole = "FirmwareUpdateRole"
+            case id = "Id"
+            case loRaWAN = "LoRaWAN"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
     public struct GetLogLevelsByResourceTypesRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1188,6 +1693,84 @@ extension IoTWireless {
             case defaultLogLevel = "DefaultLogLevel"
             case wirelessDeviceLogOptions = "WirelessDeviceLogOptions"
             case wirelessGatewayLogOptions = "WirelessGatewayLogOptions"
+        }
+    }
+
+    public struct GetMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMulticastGroupResponse: AWSDecodableShape {
+        public let arn: String?
+        public let createdAt: Date?
+        public let description: String?
+        public let id: String?
+        public let loRaWAN: LoRaWANMulticastGet?
+        public let name: String?
+        public let status: String?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, loRaWAN: LoRaWANMulticastGet? = nil, name: String? = nil, status: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.loRaWAN = loRaWAN
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case id = "Id"
+            case loRaWAN = "LoRaWAN"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct GetMulticastGroupSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMulticastGroupSessionResponse: AWSDecodableShape {
+        public let loRaWAN: LoRaWANMulticastSession?
+
+        public init(loRaWAN: LoRaWANMulticastSession? = nil) {
+            self.loRaWAN = loRaWAN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
         }
     }
 
@@ -1228,6 +1811,50 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case accountLinked = "AccountLinked"
             case sidewalk = "Sidewalk"
+        }
+    }
+
+    public struct GetResourceEventConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType")),
+            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
+        ]
+
+        /// Resource identifier to opt in for event messaging.
+        public let identifier: String
+        /// Identifier type of the particular resource identifier for event configuration.
+        public let identifierType: IdentifierType
+        /// Partner type of the resource if the identifier type is PartnerAccountId.
+        public let partnerType: EventNotificationPartnerType?
+
+        public init(identifier: String, identifierType: IdentifierType, partnerType: EventNotificationPartnerType? = nil) {
+            self.identifier = identifier
+            self.identifierType = identifierType
+            self.partnerType = partnerType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourceEventConfigurationResponse: AWSDecodableShape {
+        /// Event configuration for the device registration state event
+        public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
+        /// Event configuration for the Proximity event
+        public let proximity: ProximityEventConfiguration?
+
+        public init(deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
+            self.deviceRegistrationState = deviceRegistrationState
+            self.proximity = proximity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceRegistrationState = "DeviceRegistrationState"
+            case proximity = "Proximity"
         }
     }
 
@@ -1806,6 +2433,130 @@ extension IoTWireless {
         }
     }
 
+    public struct ListFuotaTasksRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFuotaTasksResponse: AWSDecodableShape {
+        public let fuotaTaskList: [FuotaTask]?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(fuotaTaskList: [FuotaTask]? = nil, nextToken: String? = nil) {
+            self.fuotaTaskList = fuotaTaskList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fuotaTaskList = "FuotaTaskList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMulticastGroupsByFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        public let id: String
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMulticastGroupsByFuotaTaskResponse: AWSDecodableShape {
+        public let multicastGroupList: [MulticastGroupByFuotaTask]?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(multicastGroupList: [MulticastGroupByFuotaTask]? = nil, nextToken: String? = nil) {
+            self.multicastGroupList = multicastGroupList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastGroupList = "MulticastGroupList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMulticastGroupsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMulticastGroupsResponse: AWSDecodableShape {
+        public let multicastGroupList: [MulticastGroup]?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(multicastGroupList: [MulticastGroup]? = nil, nextToken: String? = nil) {
+            self.multicastGroupList = multicastGroupList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastGroupList = "MulticastGroupList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListPartnerAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -1927,7 +2678,9 @@ extension IoTWireless {
         public static var _encoding = [
             AWSMemberEncoding(label: "destinationName", location: .querystring("destinationName")),
             AWSMemberEncoding(label: "deviceProfileId", location: .querystring("deviceProfileId")),
+            AWSMemberEncoding(label: "fuotaTaskId", location: .querystring("fuotaTaskId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "multicastGroupId", location: .querystring("multicastGroupId")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
             AWSMemberEncoding(label: "serviceProfileId", location: .querystring("serviceProfileId")),
             AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("wirelessDeviceType"))
@@ -1937,8 +2690,10 @@ extension IoTWireless {
         public let destinationName: String?
         /// A filter to list only the wireless devices that use this device profile.
         public let deviceProfileId: String?
+        public let fuotaTaskId: String?
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
+        public let multicastGroupId: String?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// A filter to list only the wireless devices that use this service profile.
@@ -1946,10 +2701,12 @@ extension IoTWireless {
         /// A filter to list only the wireless devices that use this wireless device type.
         public let wirelessDeviceType: WirelessDeviceType?
 
-        public init(destinationName: String? = nil, deviceProfileId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceProfileId: String? = nil, wirelessDeviceType: WirelessDeviceType? = nil) {
+        public init(destinationName: String? = nil, deviceProfileId: String? = nil, fuotaTaskId: String? = nil, maxResults: Int? = nil, multicastGroupId: String? = nil, nextToken: String? = nil, serviceProfileId: String? = nil, wirelessDeviceType: WirelessDeviceType? = nil) {
             self.destinationName = destinationName
             self.deviceProfileId = deviceProfileId
+            self.fuotaTaskId = fuotaTaskId
             self.maxResults = maxResults
+            self.multicastGroupId = multicastGroupId
             self.nextToken = nextToken
             self.serviceProfileId = serviceProfileId
             self.wirelessDeviceType = wirelessDeviceType
@@ -1959,8 +2716,10 @@ extension IoTWireless {
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
+            try self.validate(self.fuotaTaskId, name: "fuotaTaskId", parent: name, max: 256)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.multicastGroupId, name: "multicastGroupId", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
         }
@@ -2082,6 +2841,7 @@ extension IoTWireless {
         public let devEui: String?
         /// The ID of the device profile for the new wireless device.
         public let deviceProfileId: String?
+        public let fPorts: FPorts?
         /// OTAA device object for create APIs for v1.0.x
         public let otaaV10X: OtaaV10X?
         /// OTAA device object for v1.1 for create APIs
@@ -2089,11 +2849,12 @@ extension IoTWireless {
         /// The ID of the service profile.
         public let serviceProfileId: String?
 
-        public init(abpV10X: AbpV10X? = nil, abpV11: AbpV11? = nil, devEui: String? = nil, deviceProfileId: String? = nil, otaaV10X: OtaaV10X? = nil, otaaV11: OtaaV11? = nil, serviceProfileId: String? = nil) {
+        public init(abpV10X: AbpV10X? = nil, abpV11: AbpV11? = nil, devEui: String? = nil, deviceProfileId: String? = nil, fPorts: FPorts? = nil, otaaV10X: OtaaV10X? = nil, otaaV11: OtaaV11? = nil, serviceProfileId: String? = nil) {
             self.abpV10X = abpV10X
             self.abpV11 = abpV11
             self.devEui = devEui
             self.deviceProfileId = deviceProfileId
+            self.fPorts = fPorts
             self.otaaV10X = otaaV10X
             self.otaaV11 = otaaV11
             self.serviceProfileId = serviceProfileId
@@ -2104,6 +2865,7 @@ extension IoTWireless {
             try self.abpV11?.validate(name: "\(name).abpV11")
             try self.validate(self.devEui, name: "devEui", parent: name, pattern: "^[a-fA-F0-9]{16}$")
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
+            try self.fPorts?.validate(name: "\(name).fPorts")
             try self.otaaV10X?.validate(name: "\(name).otaaV10X")
             try self.otaaV11?.validate(name: "\(name).otaaV11")
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
@@ -2114,6 +2876,7 @@ extension IoTWireless {
             case abpV11 = "AbpV1_1"
             case devEui = "DevEui"
             case deviceProfileId = "DeviceProfileId"
+            case fPorts = "FPorts"
             case otaaV10X = "OtaaV1_0_x"
             case otaaV11 = "OtaaV1_1"
             case serviceProfileId = "ServiceProfileId"
@@ -2268,6 +3031,34 @@ extension IoTWireless {
             case supportsClassB = "SupportsClassB"
             case supportsClassC = "SupportsClassC"
             case supportsJoin = "SupportsJoin"
+        }
+    }
+
+    public struct LoRaWANFuotaTask: AWSEncodableShape {
+        public let rfRegion: SupportedRfRegion?
+
+        public init(rfRegion: SupportedRfRegion? = nil) {
+            self.rfRegion = rfRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rfRegion = "RfRegion"
+        }
+    }
+
+    public struct LoRaWANFuotaTaskGetInfo: AWSDecodableShape {
+        public let rfRegion: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+
+        public init(rfRegion: String? = nil, startTime: Date? = nil) {
+            self.rfRegion = rfRegion
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rfRegion = "RfRegion"
+            case startTime = "StartTime"
         }
     }
 
@@ -2478,8 +3269,91 @@ extension IoTWireless {
         }
     }
 
+    public struct LoRaWANMulticast: AWSEncodableShape {
+        public let dlClass: DlClass?
+        public let rfRegion: SupportedRfRegion?
+
+        public init(dlClass: DlClass? = nil, rfRegion: SupportedRfRegion? = nil) {
+            self.dlClass = dlClass
+            self.rfRegion = rfRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dlClass = "DlClass"
+            case rfRegion = "RfRegion"
+        }
+    }
+
+    public struct LoRaWANMulticastGet: AWSDecodableShape {
+        public let dlClass: DlClass?
+        public let numberOfDevicesInGroup: Int?
+        public let numberOfDevicesRequested: Int?
+        public let rfRegion: SupportedRfRegion?
+
+        public init(dlClass: DlClass? = nil, numberOfDevicesInGroup: Int? = nil, numberOfDevicesRequested: Int? = nil, rfRegion: SupportedRfRegion? = nil) {
+            self.dlClass = dlClass
+            self.numberOfDevicesInGroup = numberOfDevicesInGroup
+            self.numberOfDevicesRequested = numberOfDevicesRequested
+            self.rfRegion = rfRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dlClass = "DlClass"
+            case numberOfDevicesInGroup = "NumberOfDevicesInGroup"
+            case numberOfDevicesRequested = "NumberOfDevicesRequested"
+            case rfRegion = "RfRegion"
+        }
+    }
+
+    public struct LoRaWANMulticastMetadata: AWSEncodableShape {
+        public let fPort: Int?
+
+        public init(fPort: Int? = nil) {
+            self.fPort = fPort
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fPort, name: "fPort", parent: name, max: 223)
+            try self.validate(self.fPort, name: "fPort", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fPort = "FPort"
+        }
+    }
+
+    public struct LoRaWANMulticastSession: AWSEncodableShape & AWSDecodableShape {
+        public let dlDr: Int?
+        public let dlFreq: Int?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var sessionStartTime: Date?
+        public let sessionTimeout: Int?
+
+        public init(dlDr: Int? = nil, dlFreq: Int? = nil, sessionStartTime: Date? = nil, sessionTimeout: Int? = nil) {
+            self.dlDr = dlDr
+            self.dlFreq = dlFreq
+            self.sessionStartTime = sessionStartTime
+            self.sessionTimeout = sessionTimeout
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dlDr, name: "dlDr", parent: name, max: 15)
+            try self.validate(self.dlDr, name: "dlDr", parent: name, min: 0)
+            try self.validate(self.dlFreq, name: "dlFreq", parent: name, max: 1_000_000_000)
+            try self.validate(self.dlFreq, name: "dlFreq", parent: name, min: 100_000_000)
+            try self.validate(self.sessionTimeout, name: "sessionTimeout", parent: name, max: 172_800)
+            try self.validate(self.sessionTimeout, name: "sessionTimeout", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dlDr = "DlDr"
+            case dlFreq = "DlFreq"
+            case sessionStartTime = "SessionStartTime"
+            case sessionTimeout = "SessionTimeout"
+        }
+    }
+
     public struct LoRaWANSendDataToDevice: AWSEncodableShape {
-        /// The Fport value.
         public let fPort: Int?
 
         public init(fPort: Int? = nil) {
@@ -2506,6 +3380,19 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case addGwMetadata = "AddGwMetadata"
+        }
+    }
+
+    public struct LoRaWANStartFuotaTask: AWSEncodableShape {
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+
+        public init(startTime: Date? = nil) {
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
         }
     }
 
@@ -2582,25 +3469,76 @@ extension IoTWireless {
         }
     }
 
+    public struct MulticastGroup: AWSDecodableShape {
+        public let arn: String?
+        public let id: String?
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct MulticastGroupByFuotaTask: AWSDecodableShape {
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct MulticastWirelessMetadata: AWSEncodableShape {
+        public let loRaWAN: LoRaWANMulticastMetadata?
+
+        public init(loRaWAN: LoRaWANMulticastMetadata? = nil) {
+            self.loRaWAN = loRaWAN
+        }
+
+        public func validate(name: String) throws {
+            try self.loRaWAN?.validate(name: "\(name).loRaWAN")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+        }
+    }
+
     public struct OtaaV10X: AWSEncodableShape & AWSDecodableShape {
         /// The AppEUI value.
         public let appEui: String?
         /// The AppKey value.
         public let appKey: String?
+        /// The GenAppKey value.
+        public let genAppKey: String?
 
-        public init(appEui: String? = nil, appKey: String? = nil) {
+        public init(appEui: String? = nil, appKey: String? = nil, genAppKey: String? = nil) {
             self.appEui = appEui
             self.appKey = appKey
+            self.genAppKey = genAppKey
         }
 
         public func validate(name: String) throws {
             try self.validate(self.appEui, name: "appEui", parent: name, pattern: "^[a-fA-F0-9]{16}$")
             try self.validate(self.appKey, name: "appKey", parent: name, pattern: "^[a-fA-F0-9]{32}$")
+            try self.validate(self.genAppKey, name: "genAppKey", parent: name, pattern: "^[a-fA-F0-9]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case appEui = "AppEui"
             case appKey = "AppKey"
+            case genAppKey = "GenAppKey"
         }
     }
 
@@ -2628,6 +3566,19 @@ extension IoTWireless {
             case appKey = "AppKey"
             case joinEui = "JoinEui"
             case nwkKey = "NwkKey"
+        }
+    }
+
+    public struct ProximityEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Proximity event configuration object for enabling or disabling Sidewalk related event topics.
+        public let sidewalk: SidewalkEventNotificationConfigurations?
+
+        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil) {
+            self.sidewalk = sidewalk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
         }
     }
 
@@ -2695,6 +3646,46 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct SendDataToMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let payloadData: String
+        public let wirelessMetadata: MulticastWirelessMetadata
+
+        public init(id: String, payloadData: String, wirelessMetadata: MulticastWirelessMetadata) {
+            self.id = id
+            self.payloadData = payloadData
+            self.wirelessMetadata = wirelessMetadata
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.payloadData, name: "payloadData", parent: name, max: 2048)
+            try self.validate(self.payloadData, name: "payloadData", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+            try self.wirelessMetadata.validate(name: "\(name).wirelessMetadata")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payloadData = "PayloadData"
+            case wirelessMetadata = "WirelessMetadata"
+        }
+    }
+
+    public struct SendDataToMulticastGroupResponse: AWSDecodableShape {
+        public let messageId: String?
+
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
     public struct SendDataToWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -2702,7 +3693,6 @@ extension IoTWireless {
 
         /// The ID of the wireless device to receive the data.
         public let id: String
-        /// The binary to be sent to the end device, encoded in base64.
         public let payloadData: String
         /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
         public let transmitMode: Int
@@ -2914,6 +3904,19 @@ extension IoTWireless {
         }
     }
 
+    public struct SidewalkEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
+        /// Enum to denote whether amazon id event topic is enabled or disabled.
+        public let amazonIdEventTopic: EventNotificationTopicStatus?
+
+        public init(amazonIdEventTopic: EventNotificationTopicStatus? = nil) {
+            self.amazonIdEventTopic = amazonIdEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonIdEventTopic = "AmazonIdEventTopic"
+        }
+    }
+
     public struct SidewalkListDevice: AWSDecodableShape {
         /// The Sidewalk Amazon ID.
         public let amazonId: String?
@@ -2977,6 +3980,127 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case appServerPrivateKey = "AppServerPrivateKey"
         }
+    }
+
+    public struct StartBulkAssociateWirelessDeviceWithMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let queryString: String?
+        public let tags: [Tag]?
+
+        public init(id: String, queryString: String? = nil, tags: [Tag]? = nil) {
+            self.id = id
+            self.queryString = queryString
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryString = "QueryString"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartBulkAssociateWirelessDeviceWithMulticastGroupResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let queryString: String?
+        public let tags: [Tag]?
+
+        public init(id: String, queryString: String? = nil, tags: [Tag]? = nil) {
+            self.id = id
+            self.queryString = queryString
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryString = "QueryString"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StartFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let loRaWAN: LoRaWANStartFuotaTask?
+
+        public init(id: String, loRaWAN: LoRaWANStartFuotaTask? = nil) {
+            self.id = id
+            self.loRaWAN = loRaWAN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+        }
+    }
+
+    public struct StartFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StartMulticastGroupSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let id: String
+        public let loRaWAN: LoRaWANMulticastSession
+
+        public init(id: String, loRaWAN: LoRaWANMulticastSession) {
+            self.id = id
+            self.loRaWAN = loRaWAN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.loRaWAN.validate(name: "\(name).loRaWAN")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+        }
+    }
+
+    public struct StartMulticastGroupSessionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
@@ -3145,6 +4269,50 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct UpdateFuotaTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let description: String?
+        public let firmwareUpdateImage: String?
+        public let firmwareUpdateRole: String?
+        public let id: String
+        public let loRaWAN: LoRaWANFuotaTask?
+        public let name: String?
+
+        public init(description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, id: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil) {
+            self.description = description
+            self.firmwareUpdateImage = firmwareUpdateImage
+            self.firmwareUpdateRole = firmwareUpdateRole
+            self.id = id
+            self.loRaWAN = loRaWAN
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, max: 4096)
+            try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, min: 1)
+            try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, max: 2048)
+            try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case firmwareUpdateImage = "FirmwareUpdateImage"
+            case firmwareUpdateRole = "FirmwareUpdateRole"
+            case loRaWAN = "LoRaWAN"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateFuotaTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLogLevelsByResourceTypesRequest: AWSEncodableShape {
         public let defaultLogLevel: LogLevel?
         public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
@@ -3164,6 +4332,40 @@ extension IoTWireless {
     }
 
     public struct UpdateLogLevelsByResourceTypesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateMulticastGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        public let description: String?
+        public let id: String
+        public let loRaWAN: LoRaWANMulticast?
+        public let name: String?
+
+        public init(description: String? = nil, id: String, loRaWAN: LoRaWANMulticast? = nil, name: String? = nil) {
+            self.description = description
+            self.id = id
+            self.loRaWAN = loRaWAN
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case loRaWAN = "LoRaWAN"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateMulticastGroupResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3197,6 +4399,46 @@ extension IoTWireless {
     }
 
     public struct UpdatePartnerAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateResourceEventConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType")),
+            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
+        ]
+
+        /// Event configuration for the device registration state event
+        public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
+        /// Resource identifier to opt in for event messaging.
+        public let identifier: String
+        /// Identifier type of the particular resource identifier for event configuration.
+        public let identifierType: IdentifierType
+        /// Partner type of the resource if the identifier type is PartnerAccountId
+        public let partnerType: EventNotificationPartnerType?
+        /// Event configuration for the Proximity event
+        public let proximity: ProximityEventConfiguration?
+
+        public init(deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, identifier: String, identifierType: IdentifierType, partnerType: EventNotificationPartnerType? = nil, proximity: ProximityEventConfiguration? = nil) {
+            self.deviceRegistrationState = deviceRegistrationState
+            self.identifier = identifier
+            self.identifierType = identifierType
+            self.partnerType = partnerType
+            self.proximity = proximity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceRegistrationState = "DeviceRegistrationState"
+            case proximity = "Proximity"
+        }
+    }
+
+    public struct UpdateResourceEventConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3383,12 +4625,16 @@ extension IoTWireless {
         public let arn: String?
         /// The name of the destination to which the device is assigned.
         public let destinationName: String?
+        public let fuotaDeviceStatus: FuotaDeviceStatus?
         /// The ID of the wireless device reporting the data.
         public let id: String?
         /// The date and time when the most recent uplink was received.
         public let lastUplinkReceivedAt: String?
         /// LoRaWAN device info.
         public let loRaWAN: LoRaWANListDevice?
+        public let mcGroupId: Int?
+        /// The status of the wireless device in the multicast group.
+        public let multicastDeviceStatus: String?
         /// The name of the resource.
         public let name: String?
         /// The Sidewalk account credentials.
@@ -3396,12 +4642,15 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType?
 
-        public init(arn: String? = nil, destinationName: String? = nil, id: String? = nil, lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANListDevice? = nil, name: String? = nil, sidewalk: SidewalkListDevice? = nil, type: WirelessDeviceType? = nil) {
+        public init(arn: String? = nil, destinationName: String? = nil, fuotaDeviceStatus: FuotaDeviceStatus? = nil, id: String? = nil, lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANListDevice? = nil, mcGroupId: Int? = nil, multicastDeviceStatus: String? = nil, name: String? = nil, sidewalk: SidewalkListDevice? = nil, type: WirelessDeviceType? = nil) {
             self.arn = arn
             self.destinationName = destinationName
+            self.fuotaDeviceStatus = fuotaDeviceStatus
             self.id = id
             self.lastUplinkReceivedAt = lastUplinkReceivedAt
             self.loRaWAN = loRaWAN
+            self.mcGroupId = mcGroupId
+            self.multicastDeviceStatus = multicastDeviceStatus
             self.name = name
             self.sidewalk = sidewalk
             self.type = type
@@ -3410,9 +4659,12 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case destinationName = "DestinationName"
+            case fuotaDeviceStatus = "FuotaDeviceStatus"
             case id = "Id"
             case lastUplinkReceivedAt = "LastUplinkReceivedAt"
             case loRaWAN = "LoRaWAN"
+            case mcGroupId = "McGroupId"
+            case multicastDeviceStatus = "MulticastDeviceStatus"
             case name = "Name"
             case sidewalk = "Sidewalk"
             case type = "Type"

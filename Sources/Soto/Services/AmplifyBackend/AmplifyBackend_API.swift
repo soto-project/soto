@@ -88,6 +88,11 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "CreateBackendConfig", path: "/backend/{AppId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a backend storage resource.
+    public func createBackendStorage(_ input: CreateBackendStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendStorageResponse> {
+        return self.client.execute(operation: "CreateBackendStorage", path: "/backend/{AppId}/storage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
     public func createToken(_ input: CreateTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
         return self.client.execute(operation: "CreateToken", path: "/backend/{AppId}/challenge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -106,6 +111,11 @@ public struct AmplifyBackend: AWSService {
     /// Deletes an existing backend authentication resource.
     public func deleteBackendAuth(_ input: DeleteBackendAuthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendAuthResponse> {
         return self.client.execute(operation: "DeleteBackendAuth", path: "/backend/{AppId}/auth/{BackendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes the specified backend storage resource.
+    public func deleteBackendStorage(_ input: DeleteBackendStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendStorageResponse> {
+        return self.client.execute(operation: "DeleteBackendStorage", path: "/backend/{AppId}/storage/{BackendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the challenge token based on the given appId and sessionId.
@@ -143,6 +153,11 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "GetBackendJob", path: "/backend/{AppId}/job/{BackendEnvironmentName}/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets details for a backend storage resource.
+    public func getBackendStorage(_ input: GetBackendStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendStorageResponse> {
+        return self.client.execute(operation: "GetBackendStorage", path: "/backend/{AppId}/storage/{BackendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the challenge token based on the given appId and sessionId.
     public func getToken(_ input: GetTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTokenResponse> {
         return self.client.execute(operation: "GetToken", path: "/backend/{AppId}/challenge/{SessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -153,9 +168,19 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "ImportBackendAuth", path: "/backend/{AppId}/auth/{BackendEnvironmentName}/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Imports an existing backend storage resource.
+    public func importBackendStorage(_ input: ImportBackendStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportBackendStorageResponse> {
+        return self.client.execute(operation: "ImportBackendStorage", path: "/backend/{AppId}/storage/{BackendEnvironmentName}/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the jobs for the backend of an Amplify app.
     public func listBackendJobs(_ input: ListBackendJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackendJobsResponse> {
         return self.client.execute(operation: "ListBackendJobs", path: "/backend/{AppId}/job/{BackendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The list of S3 buckets in your account.
+    public func listS3Buckets(_ input: ListS3BucketsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListS3BucketsResponse> {
+        return self.client.execute(operation: "ListS3Buckets", path: "/s3Buckets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes all backend environments from your Amplify project.
@@ -186,6 +211,11 @@ public struct AmplifyBackend: AWSService {
     /// Updates a specific job.
     public func updateBackendJob(_ input: UpdateBackendJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendJobResponse> {
         return self.client.execute(operation: "UpdateBackendJob", path: "/backend/{AppId}/job/{BackendEnvironmentName}/{JobId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing backend storage resource.
+    public func updateBackendStorage(_ input: UpdateBackendStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendStorageResponse> {
+        return self.client.execute(operation: "UpdateBackendStorage", path: "/backend/{AppId}/storage/{BackendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

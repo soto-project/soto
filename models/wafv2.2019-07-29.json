@@ -31,6 +31,24 @@
     "shapes": {
         "com.amazonaws.wafv2#AWSWAF_20190729": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "WAFV2",
+                    "arnNamespace": "wafv2",
+                    "cloudFormationName": "WAFv2",
+                    "cloudTrailEventSource": "wafv2.amazonaws.com",
+                    "endpointPrefix": "wafv2"
+                },
+                "aws.auth#sigv4": {
+                    "name": "wafv2"
+                },
+                "aws.protocols#awsJson1_1": {},
+                "smithy.api#documentation": "<fullname>WAF</fullname>\n         <note>\n            <p>This is the latest version of the <b>WAF</b> API,\n            released in November, 2019. The names of the entities that you use to access this API,\n            like endpoints and namespaces, all have the versioning information added, like \"V2\" or\n            \"v2\", to distinguish from the prior version. We recommend migrating your resources to\n            this version, because it has a number of significant improvements.</p>\n            <p>If you used WAF prior to this release, you can't use this WAFV2 API to access any\n            WAF resources that you created before. You can access your old rules, web ACLs, and\n            other WAF resources only through the WAF Classic APIs. The WAF Classic APIs\n            have retained the prior names, endpoints, and namespaces. </p>\n            <p>For information, including how to migrate your WAF resources to this version,\n            see the <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>\n         </note>\n         <p>WAF is a web application firewall that lets you monitor the HTTP and HTTPS\n         requests that are forwarded to Amazon CloudFront, an Amazon API Gateway REST API, an Application Load Balancer, or an AppSync\n         GraphQL API. WAF also lets you control access to your content. Based on conditions that\n         you specify, such as the IP addresses that requests originate from or the values of query\n         strings, the Amazon API Gateway REST API, CloudFront distribution, the Application Load Balancer, or the AppSync GraphQL\n         API responds to requests either with the requested content or with an HTTP 403 status code\n         (Forbidden). You also can configure CloudFront to return a custom error page when a request is\n         blocked.</p>\n         <p>This API guide is for developers who need detailed information about WAF API actions,\n         data types, and errors. For detailed information about WAF features and an overview of\n         how to use WAF, see the <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html\">WAF Developer\n         Guide</a>.</p>\n         <p>You can make calls using the endpoints listed in <a href=\"https://docs.aws.amazon.com/general/latest/gr/waf.html\">WAF endpoints and quotas</a>. </p>\n         <ul>\n            <li>\n               <p>For regional applications, you can use any of the endpoints in the list.\n               A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API. </p>\n            </li>\n            <li>\n               <p>For Amazon CloudFront applications, you must use the API endpoint listed for\n               US East (N. Virginia): us-east-1.</p>\n            </li>\n         </ul>\n         <p>Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the\n         programming language or platform that you're using. For more information, see <a href=\"http://aws.amazon.com/tools/#SDKs\">Amazon Web Services SDKs</a>.</p>\n         <p>We currently provide two versions of the WAF API: this API and the prior versions,\n         the classic WAF APIs. This new API provides the same functionality as the older versions,\n         with the following major improvements:</p>\n         <ul>\n            <li>\n               <p>You use one API for both global and regional applications. Where you need to\n               distinguish the scope, you specify a <code>Scope</code> parameter and set it to\n                  <code>CLOUDFRONT</code> or <code>REGIONAL</code>. </p>\n            </li>\n            <li>\n               <p>You can define a web ACL or rule group with a single call, and update it with a\n               single call. You define all rule specifications in JSON format, and pass them to your\n               rule group or web ACL calls.</p>\n            </li>\n            <li>\n               <p>The limits WAF places on the use of rules more closely reflects the cost of\n               running each type of rule. Rule groups include capacity settings, so you know the\n               maximum cost of a rule group when you use it.</p>\n            </li>\n         </ul>",
+                "smithy.api#title": "AWS WAFV2",
+                "smithy.api#xmlNamespace": {
+                    "uri": "http://waf.amazonaws.com/doc/2019-07-29/"
+                }
+            },
             "version": "2019-07-29",
             "operations": [
                 {
@@ -168,25 +186,7 @@
                 {
                     "target": "com.amazonaws.wafv2#UpdateWebACL"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "WAFV2",
-                    "arnNamespace": "wafv2",
-                    "cloudFormationName": "WAFv2",
-                    "cloudTrailEventSource": "wafv2.amazonaws.com",
-                    "endpointPrefix": "wafv2"
-                },
-                "aws.auth#sigv4": {
-                    "name": "wafv2"
-                },
-                "aws.protocols#awsJson1_1": {},
-                "smithy.api#documentation": "<fullname>WAF</fullname>\n         <note>\n            <p>This is the latest version of the <b>WAF</b> API,\n            released in November, 2019. The names of the entities that you use to access this API,\n            like endpoints and namespaces, all have the versioning information added, like \"V2\" or\n            \"v2\", to distinguish from the prior version. We recommend migrating your resources to\n            this version, because it has a number of significant improvements.</p>\n            <p>If you used WAF prior to this release, you can't use this WAFV2 API to access any\n            WAF resources that you created before. You can access your old rules, web ACLs, and\n            other WAF resources only through the WAF Classic APIs. The WAF Classic APIs\n            have retained the prior names, endpoints, and namespaces. </p>\n            <p>For information, including how to migrate your WAF resources to this version,\n            see the <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>\n         </note>\n         <p>WAF is a web application firewall that lets you monitor the HTTP and HTTPS\n         requests that are forwarded to Amazon CloudFront, an Amazon API Gateway REST API, an Application Load Balancer, or an AppSync\n         GraphQL API. WAF also lets you control access to your content. Based on conditions that\n         you specify, such as the IP addresses that requests originate from or the values of query\n         strings, the Amazon API Gateway REST API, CloudFront distribution, the Application Load Balancer, or the AppSync GraphQL\n         API responds to requests either with the requested content or with an HTTP 403 status code\n         (Forbidden). You also can configure CloudFront to return a custom error page when a request is\n         blocked.</p>\n         <p>This API guide is for developers who need detailed information about WAF API actions,\n         data types, and errors. For detailed information about WAF features and an overview of\n         how to use WAF, see the <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html\">WAF Developer\n         Guide</a>.</p>\n         <p>You can make calls using the endpoints listed in <a href=\"https://docs.aws.amazon.com/general/latest/gr/waf.html\">WAF endpoints and quotas</a>. </p>\n         <ul>\n            <li>\n               <p>For regional applications, you can use any of the endpoints in the list.\n               A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API. </p>\n            </li>\n            <li>\n               <p>For Amazon CloudFront applications, you must use the API endpoint listed for\n               US East (N. Virginia): us-east-1.</p>\n            </li>\n         </ul>\n         <p>Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the\n         programming language or platform that you're using. For more information, see <a href=\"http://aws.amazon.com/tools/#SDKs\">Amazon Web Services SDKs</a>.</p>\n         <p>We currently provide two versions of the WAF API: this API and the prior versions,\n         the classic WAF APIs. This new API provides the same functionality as the older versions,\n         with the following major improvements:</p>\n         <ul>\n            <li>\n               <p>You use one API for both global and regional applications. Where you need to\n               distinguish the scope, you specify a <code>Scope</code> parameter and set it to\n                  <code>CLOUDFRONT</code> or <code>REGIONAL</code>. </p>\n            </li>\n            <li>\n               <p>You can define a web ACL or rule group with a single call, and update it with a\n               single call. You define all rule specifications in JSON format, and pass them to your\n               rule group or web ACL calls.</p>\n            </li>\n            <li>\n               <p>The limits WAF places on the use of rules more closely reflects the cost of\n               running each type of rule. Rule groups include capacity settings, so you know the\n               maximum cost of a rule group when you use it.</p>\n            </li>\n         </ul>",
-                "smithy.api#title": "AWS WAFV2",
-                "smithy.api#xmlNamespace": {
-                    "uri": "http://waf.amazonaws.com/doc/2019-07-29/"
-                }
-            }
+            ]
         },
         "com.amazonaws.wafv2#Action": {
             "type": "string"
@@ -221,6 +221,14 @@
                     {
                         "value": "COUNT",
                         "name": "COUNT"
+                    },
+                    {
+                        "value": "CAPTCHA",
+                        "name": "CAPTCHA"
+                    },
+                    {
+                        "value": "EXCLUDED_AS_COUNT",
+                        "name": "EXCLUDED_AS_COUNT"
                     }
                 ]
             }
@@ -405,6 +413,60 @@
                 "smithy.api#range": {
                     "min": 1
                 }
+            }
+        },
+        "com.amazonaws.wafv2#CaptchaAction": {
+            "type": "structure",
+            "members": {
+                "CustomRequestHandling": {
+                    "target": "com.amazonaws.wafv2#CustomRequestHandling",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines custom handling for the web request.</p>\n         <p>For information about customizing web requests and responses, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html\">Customizing web requests and responses in WAF</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies that WAF should run a <code>CAPTCHA</code> check against the request: </p>\n         <ul>\n            <li>\n               <p>If the request includes a valid, unexpired <code>CAPTCHA</code> token,\n               WAF allows the web request inspection to \n                   proceed to the next rule, similar to a <code>CountAction</code>. </p>\n           </li>\n            <li>\n               <p>If the request doesn't include a valid, unexpired <code>CAPTCHA</code> token, WAF \n                   discontinues the web ACL evaluation of the request and blocks it from going to its intended destination.</p>\n               <p>WAF generates a response that it sends back to the client, which includes the following: </p>\n               <ul>\n                  <li>\n                       <p>The header <code>x-amzn-waf-action</code> with a value of <code>captcha</code>. </p>\n                   </li>\n                  <li>\n                       <p>The HTTP status code <code>405 Method Not Allowed</code>. </p>\n                   </li>\n                  <li>\n                       <p>If the request contains an <code>Accept</code> header with a value of <code>text/html</code>, the response includes a <code>CAPTCHA</code> challenge. </p>\n                   </li>\n               </ul>\n           </li>\n         </ul>\n         <p>You can configure the expiration time \n               in the <code>CaptchaConfig</code> \n            <code>ImmunityTimeProperty</code> setting at the rule and web ACL level. The rule setting overrides the web ACL setting. </p>\n         <p>This action option is available for rules. It isn't available for web ACL default actions. </p>\n         <p>This is used in the context of other settings, for example to specify values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>. </p>"
+            }
+        },
+        "com.amazonaws.wafv2#CaptchaConfig": {
+            "type": "structure",
+            "members": {
+                "ImmunityTimeProperty": {
+                    "target": "com.amazonaws.wafv2#ImmunityTimeProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Determines how long a <code>CAPTCHA</code> token remains valid after the client successfully solves a <code>CAPTCHA</code> puzzle. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies how WAF should handle <code>CAPTCHA</code> evaluations. This is available at the web ACL level and in each rule.  </p>"
+            }
+        },
+        "com.amazonaws.wafv2#CaptchaResponse": {
+            "type": "structure",
+            "members": {
+                "ResponseCode": {
+                    "target": "com.amazonaws.wafv2#ResponseCode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The HTTP response code indicating the status of the <code>CAPTCHA</code> token in the web request. If the token is missing, invalid, or expired, this code is <code>405 Method Not Allowed</code>.</p>"
+                    }
+                },
+                "SolveTimestamp": {
+                    "target": "com.amazonaws.wafv2#SolveTimestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that the <code>CAPTCHA</code> puzzle was solved for the supplied token. </p>"
+                    }
+                },
+                "FailureReason": {
+                    "target": "com.amazonaws.wafv2#FailureReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason for failure, populated when the evaluation of the token fails.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The result from the inspection of the web request for a valid <code>CAPTCHA</code> token. </p>"
             }
         },
         "com.amazonaws.wafv2#CheckCapacity": {
@@ -1976,6 +2038,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. </p> \n         <p>For information about customizing web requests and responses, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html\">Customizing web requests and responses in WAF</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>\n         <p>For information about the limits on count and size for custom request and response settings, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html\">WAF quotas</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>"
                     }
+                },
+                "CaptchaConfig": {
+                    "target": "com.amazonaws.wafv2#CaptchaConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules that don't have their own <code>CaptchaConfig</code> settings. If you don't specify this, WAF uses its default settings for <code>CaptchaConfig</code>. </p>"
+                    }
                 }
             }
         },
@@ -2779,19 +2847,34 @@
                 "Name": {
                     "target": "com.amazonaws.wafv2#EntityName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the rule to exclude.</p>",
+                        "smithy.api#documentation": "<p>The name of the rule whose action you want to override to <code>Count</code>.</p>",
                         "smithy.api#required": {}
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Specifies a single rule to exclude from the rule group. Excluding a rule overrides its\n         action setting for the rule group in the web ACL, setting it to <code>COUNT</code>. This\n         effectively excludes the rule from acting on web requests. </p>"
+                "smithy.api#documentation": "<p>Specifies a single rule in a rule group whose action you want to override to <code>Count</code>. When you exclude a rule, \n           WAF evaluates it exactly as it would if the rule action setting were <code>Count</code>. This is a useful option for \n           testing the rules in a rule group without modifying how they handle your web traffic. </p>"
             }
         },
         "com.amazonaws.wafv2#ExcludedRules": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.wafv2#ExcludedRule"
+            }
+        },
+        "com.amazonaws.wafv2#FailureReason": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "TOKEN_MISSING",
+                        "name": "TOKEN_MISSING"
+                    },
+                    {
+                        "value": "TOKEN_EXPIRED",
+                        "name": "TOKEN_EXPIRED"
+                    }
+                ]
             }
         },
         "com.amazonaws.wafv2#FallbackBehavior": {
@@ -2972,7 +3055,7 @@
                 "OverrideAction": {
                     "target": "com.amazonaws.wafv2#OverrideAction",
                     "traits": {
-                        "smithy.api#documentation": "<p>The override action to apply to the rules in a rule group. Used only for rule statements that reference a rule group, \n           like <code>RuleGroupReferenceStatement</code> and <code>ManagedRuleGroupStatement</code>. </p>\n        <p>Set the override action to none to leave the rule actions in effect. Set it to count to only count matches, regardless of the rule action settings. </p> \n        <p>In a <a>Rule</a>, you must specify either this <code>OverrideAction</code> setting or the rule <code>Action</code> setting, but not both:</p>\n         <ul>\n            <li>\n               <p>If the rule statement references a rule group, use this override action setting and not the action setting.  </p>\n            </li>\n            <li>\n               <p>If the rule statement does not reference a rule group, use the rule action setting and not this rule override action setting. </p> \n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only. </p>\n         <p>You can only use this for rule statements that reference a rule group, like <code>RuleGroupReferenceStatement</code> and <code>ManagedRuleGroupStatement</code>. </p>\n         <note>\n            <p>This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count  \n  matches, do not use this and instead exclude those rules in your rule group reference statement settings. </p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4007,6 +4090,21 @@
         "com.amazonaws.wafv2#IPString": {
             "type": "string"
         },
+        "com.amazonaws.wafv2#ImmunityTimeProperty": {
+            "type": "structure",
+            "members": {
+                "ImmunityTime": {
+                    "target": "com.amazonaws.wafv2#TimeWindowSecond",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The amount of time, in seconds, that a <code>CAPTCHA</code> token is valid. The default setting is 300.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Determines how long a <code>CAPTCHA</code> token remains valid after the client successfully solves a <code>CAPTCHA</code> puzzle. </p>"
+            }
+        },
         "com.amazonaws.wafv2#JsonBody": {
             "type": "structure",
             "members": {
@@ -4443,7 +4541,8 @@
                 "Scope": {
                     "target": "com.amazonaws.wafv2#Scope",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  </p>\n         <p>To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: </p>\n         <ul>\n            <li>\n               <p>CLI - Specify the Region when you use the CloudFront scope: <code>--scope=CLOUDFRONT --region=us-east-1</code>. </p>\n            </li>\n            <li>\n               <p>API and SDKs - For all calls, use the Region endpoint us-east-1. </p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.  </p>\n         <p>To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: </p>\n         <ul>\n            <li>\n               <p>CLI - Specify the Region when you use the CloudFront scope: <code>--scope=CLOUDFRONT --region=us-east-1</code>. </p>\n            </li>\n            <li>\n               <p>API and SDKs - For all calls, use the Region endpoint us-east-1. </p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
                     }
                 },
                 "NextMarker": {
@@ -4905,14 +5004,14 @@
                 "LogDestinationConfigs": {
                     "target": "com.amazonaws.wafv2#LogDestinationConfigs",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate\n         with the web ACL.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Names (ARNs) of the logging destinations that you want to associate\n         with the web ACL.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "RedactedFields": {
                     "target": "com.amazonaws.wafv2#RedactedFields",
                     "traits": {
-                        "smithy.api#documentation": "<p>The parts of the request that you want to keep out of the logs. For\n          example, if you redact the <code>SingleHeader</code> field, the <code>HEADER</code> field in the firehose will be <code>xxx</code>. </p>\n         <note>\n           <p>You can specify only the following fields for redaction: <code>UriPath</code>, <code>QueryString</code>, <code>SingleHeader</code>, <code>Method</code>, and <code>JsonBody</code>.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The parts of the request that you want to keep out of the logs. For\n          example, if you redact the <code>SingleHeader</code> field, the <code>HEADER</code> field in the logs will be <code>xxx</code>. </p>\n         <note>\n           <p>You can specify only the following fields for redaction: <code>UriPath</code>, <code>QueryString</code>, <code>SingleHeader</code>, <code>Method</code>, and <code>JsonBody</code>.</p>\n         </note>"
                     }
                 },
                 "ManagedByFirewallManager": {
@@ -4929,7 +5028,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Defines an association between Amazon Kinesis Data Firehose destinations and a web ACL\n         resource, for logging from WAF. As part of the association, you can specify parts of\n         the standard logging fields to keep out of the logs and you can specify filters so that you\n         log only a subset of the logging records. </p>"
+                "smithy.api#documentation": "<p>Defines an association between logging destinations and a web ACL\n         resource, for logging from WAF. As part of the association, you can specify parts of\n         the standard logging fields to keep out of the logs and you can specify filters so that you\n         log only a subset of the logging records. </p>\n         <p>For information about configuring web ACL logging destinations, see \n           <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/logging.html\">Logging web ACL traffic information</a> \n               in the <i>WAF Developer Guide</i>.</p>"
             }
         },
         "com.amazonaws.wafv2#LoggingConfigurations": {
@@ -4986,7 +5085,7 @@
                 "ExcludedRules": {
                     "target": "com.amazonaws.wafv2#ExcludedRules",
                     "traits": {
-                        "smithy.api#documentation": "<p>The rules whose actions are set to <code>COUNT</code> by the web ACL, regardless of the\n         action that is set on the rule. This effectively excludes the rule from acting on web\n         requests. </p>"
+                        "smithy.api#documentation": "<p>The rules in the referenced rule group whose actions are set to <code>Count</code>.  \n       When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were <code>Count</code>. \n       This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.</p>"
                     }
                 },
                 "ScopeDownStatement": {
@@ -5236,7 +5335,7 @@
             "type": "structure",
             "members": {},
             "traits": {
-                "smithy.api#documentation": "<p>Specifies that WAF should do nothing. This is generally used to try out a rule\n         without performing any actions. You set the <code>OverrideAction</code> on the <a>Rule</a>. </p>\n         <p>This is used in the context of other settings, for example to specify values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>. </p> \n         <p>JSON specification: <code>\"None\": {}</code>\n         </p>"
+                "smithy.api#documentation": "<p>Specifies that WAF should do nothing. This is used for the <code>OverrideAction</code> setting \n           on a <a>Rule</a> when the rule uses a rule group reference statement. </p>\n         <p>This is used in the context of other settings, for example to specify values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>. </p> \n         <p>JSON specification: <code>\"None\": {}</code>\n         </p>"
             }
         },
         "com.amazonaws.wafv2#NotStatement": {
@@ -5275,18 +5374,18 @@
                 "Count": {
                     "target": "com.amazonaws.wafv2#CountAction",
                     "traits": {
-                        "smithy.api#documentation": "<p>Override the rule action setting to count.</p>"
+                        "smithy.api#documentation": "<p>Override the rule group evaluation result to count only. </p>\n         <note>\n            <p>This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count  \n  matches, do not use this and instead exclude those rules in your rule group reference statement settings. </p>\n         </note>"
                     }
                 },
                 "None": {
                     "target": "com.amazonaws.wafv2#NoneAction",
                     "traits": {
-                        "smithy.api#documentation": "<p>Don't override the rule action setting.</p>"
+                        "smithy.api#documentation": "<p>Don't override the rule group evaluation result. This is the most common setting.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The override action to apply to the rules in a rule group. Used only for rule statements that reference a rule group, \n           like <code>RuleGroupReferenceStatement</code> and <code>ManagedRuleGroupStatement</code>. </p>\n        <p>Set the override action to none to leave the rule actions in effect. Set it to count to only count matches, regardless of the rule action settings. </p> \n        <p>In a <a>Rule</a>, you must specify either this <code>OverrideAction</code> setting or the rule <code>Action</code> setting, but not both:</p>\n         <ul>\n            <li>\n               <p>If the rule statement references a rule group, use this override action setting and not the action setting.  </p>\n            </li>\n            <li>\n               <p>If the rule statement does not reference a rule group, use the rule action setting and not this rule override action setting. </p> \n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only. </p>\n         <p>You can only use this for rule statements that reference a rule group, like <code>RuleGroupReferenceStatement</code> and <code>ManagedRuleGroupStatement</code>. </p>\n         <note>\n            <p>This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count  \n  matches, do not use this and instead exclude those rules in your rule group reference statement settings. </p>\n         </note>"
             }
         },
         "com.amazonaws.wafv2#PaginationLimit": {
@@ -5526,6 +5625,10 @@
                     {
                         "value": "ASSOCIABLE_RESOURCE",
                         "name": "ASSOCIABLE_RESOURCE"
+                    },
+                    {
+                        "value": "LOG_DESTINATION",
+                        "name": "LOG_DESTINATION"
                     }
                 ]
             }
@@ -5609,6 +5712,9 @@
                     "target": "com.amazonaws.wafv2#WAFLimitsExceededException"
                 },
                 {
+                    "target": "com.amazonaws.wafv2#WAFLogDestinationPermissionIssueException"
+                },
+                {
                     "target": "com.amazonaws.wafv2#WAFNonexistentItemException"
                 },
                 {
@@ -5619,7 +5725,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Enables the specified <a>LoggingConfiguration</a>, to start logging from a\n         web ACL, according to the configuration provided.</p>\n         <p>You can access information about all traffic that WAF inspects using the following\n         steps:</p>\n         <ol>\n            <li>\n               <p>Create an Amazon Kinesis Data Firehose. </p>\n               <p>Create the data firehose with a PUT source and in the Region that you are\n               operating. If you are capturing logs for Amazon CloudFront, always create the firehose in US\n               East (N. Virginia). </p>\n               <p>Give the data firehose a name that starts with the prefix\n                  <code>aws-waf-logs-</code>. For example,\n                  <code>aws-waf-logs-us-east-2-analytics</code>.</p>\n               <note>\n                  <p>Do not create the data firehose using a <code>Kinesis stream</code> as your\n                  source.</p>\n               </note>\n            </li>\n            <li>\n               <p>Associate that firehose to your web ACL using a\n                  <code>PutLoggingConfiguration</code> request.</p>\n            </li>\n         </ol>\n         <p>When you successfully enable logging using a <code>PutLoggingConfiguration</code>\n         request, WAF will create a service linked role with the necessary permissions to write\n         logs to the Amazon Kinesis Data Firehose. For more information, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/logging.html\">Logging Web ACL\n            Traffic Information</a> in the <i>WAF Developer\n         Guide</i>.</p>\n         <note>\n            <p>This operation completely replaces the mutable specifications that you already have for the logging configuration with the ones that you provide to this call. To modify the logging configuration, retrieve it by calling <a>GetLoggingConfiguration</a>, update the settings as needed, and then provide the complete logging configuration specification to this call.</p>\n         </note>"
+                "smithy.api#documentation": "<p>Enables the specified <a>LoggingConfiguration</a>, to start logging from a\n         web ACL, according to the configuration provided.</p>\n         <p>You can access information about all traffic that WAF inspects using the following\n         steps:</p>\n         <ol>\n            <li>\n               <p>Create your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose. \n                 For information about configuring logging destinations and the permissions that are required for each, see \n                 <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/logging.html\">Logging web ACL traffic information</a> \n                 in the <i>WAF Developer Guide</i>.</p>\n            </li>\n            <li>\n               <p>Associate your logging destination to your web ACL using a\n                  <code>PutLoggingConfiguration</code> request.</p>\n            </li>\n         </ol>\n         <p>When you successfully enable logging using a <code>PutLoggingConfiguration</code>\n          request, WAF creates an additional role or policy that is required to write\n              logs to the logging destination. For an Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group.\n          For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF creates a service-linked role.</p>\n         <note>\n            <p>This operation completely replaces the mutable specifications that you already have for the logging configuration with the ones that you provide to this call. To modify the logging configuration, retrieve it by calling <a>GetLoggingConfiguration</a>, update the settings as needed, and then provide the complete logging configuration specification to this call.</p>\n         </note>"
             }
         },
         "com.amazonaws.wafv2#PutLoggingConfigurationRequest": {
@@ -6081,6 +6187,12 @@
                 ]
             }
         },
+        "com.amazonaws.wafv2#ResponseCode": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#box": {}
+            }
+        },
         "com.amazonaws.wafv2#ResponseContent": {
             "type": "string",
             "traits": {
@@ -6116,7 +6228,7 @@
                 "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 200,
-                    "max": 600
+                    "max": 599
                 }
             }
         },
@@ -6153,7 +6265,7 @@
                 "OverrideAction": {
                     "target": "com.amazonaws.wafv2#OverrideAction",
                     "traits": {
-                        "smithy.api#documentation": "<p>The override action to apply to the rules in a rule group. Used only for rule statements that reference a rule group, \n           like <code>RuleGroupReferenceStatement</code> and <code>ManagedRuleGroupStatement</code>. </p>\n        <p>Set the override action to none to leave the rule actions in effect. Set it to count to only count matches, regardless of the rule action settings. </p> \n        <p>In a <a>Rule</a>, you must specify either this <code>OverrideAction</code> setting or the rule <code>Action</code> setting, but not both:</p>\n         <ul>\n            <li>\n               <p>If the rule statement references a rule group, use this override action setting and not the action setting.  </p>\n            </li>\n            <li>\n               <p>If the rule statement does not reference a rule group, use the rule action setting and not this rule override action setting. </p> \n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only. </p>\n         <p>You can only use this for rule statements that reference a rule group, like <code>RuleGroupReferenceStatement</code> and <code>ManagedRuleGroupStatement</code>. </p>\n         <note>\n            <p>This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count  \n  matches, do not use this and instead exclude those rules in your rule group reference statement settings. </p>\n         </note>"
                     }
                 },
                 "RuleLabels": {
@@ -6167,6 +6279,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Defines and enables Amazon CloudWatch metrics and web request sample collection.  </p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "CaptchaConfig": {
+                    "target": "com.amazonaws.wafv2#CaptchaConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how WAF should handle <code>CAPTCHA</code> evaluations. If you don't specify this, WAF uses the <code>CAPTCHA</code> configuration that's defined for the web ACL. </p>"
                     }
                 }
             },
@@ -6193,6 +6311,12 @@
                     "target": "com.amazonaws.wafv2#CountAction",
                     "traits": {
                         "smithy.api#documentation": "<p>Instructs WAF to count the web request and allow it.</p>"
+                    }
+                },
+                "Captcha": {
+                    "target": "com.amazonaws.wafv2#CaptchaAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Instructs WAF to run a <code>CAPTCHA</code> check against the web request.</p>"
                     }
                 }
             },
@@ -6292,7 +6416,7 @@
                 "ExcludedRules": {
                     "target": "com.amazonaws.wafv2#ExcludedRules",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names of rules that are in the referenced rule group, but that you want WAF to\n         exclude from processing for this rule statement. </p>"
+                        "smithy.api#documentation": "<p>The rules in the referenced rule group whose actions are set to <code>Count</code>.  \n       When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were <code>Count</code>. \n       This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.</p>"
                     }
                 }
             },
@@ -6418,7 +6542,7 @@
                 "Action": {
                     "target": "com.amazonaws.wafv2#Action",
                     "traits": {
-                        "smithy.api#documentation": "<p>The action for the <code>Rule</code> that the request matched: <code>ALLOW</code>,\n            <code>BLOCK</code>, or <code>COUNT</code>.</p>"
+                        "smithy.api#documentation": "<p>The action for the <code>Rule</code> that the request matched: <code>Allow</code>,\n            <code>Block</code>, or <code>Count</code>.</p>"
                     }
                 },
                 "RuleNameWithinRuleGroup": {
@@ -6443,6 +6567,12 @@
                     "target": "com.amazonaws.wafv2#Labels",
                     "traits": {
                         "smithy.api#documentation": "<p>Labels applied to the web request by matching rules. WAF applies fully qualified\n         labels to matching web requests. A fully qualified label is the concatenation of a label\n         namespace and a rule label. The rule's rule group or web ACL defines the label namespace. </p>\n         <p>For example,\n            <code>awswaf:111122223333:myRuleGroup:testRules:testNS1:testNS2:labelNameA</code> or\n            <code>awswaf:managed:aws:managed-rule-set:header:encoding:utf8</code>. </p>"
+                    }
+                },
+                "CaptchaResponse": {
+                    "target": "com.amazonaws.wafv2#CaptchaResponse",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>CAPTCHA</code> response for the request.</p>"
                     }
                 }
             },
@@ -6547,6 +6677,12 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. </p>\n         <p>If you configure WAF to inspect the request body, WAF inspects only the first 8192 bytes (8 KB). If the request body for your web requests never exceeds 8192 bytes, you can create a size constraint condition and block requests that have a request body greater than 8192 bytes.</p> \n         <p>If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI <code>/logo.jpg</code> is nine characters long.</p>"
+            }
+        },
+        "com.amazonaws.wafv2#SolveTimestamp": {
+            "type": "long",
+            "traits": {
+                "smithy.api#box": {}
             }
         },
         "com.amazonaws.wafv2#SqliMatchStatement": {
@@ -6977,6 +7113,16 @@
                 "smithy.api#box": {},
                 "smithy.api#range": {
                     "min": 1
+                }
+            }
+        },
+        "com.amazonaws.wafv2#TimeWindowSecond": {
+            "type": "long",
+            "traits": {
+                "smithy.api#box": {},
+                "smithy.api#range": {
+                    "min": 60,
+                    "max": 259200
                 }
             }
         },
@@ -7543,6 +7689,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. </p> \n         <p>For information about customizing web requests and responses, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html\">Customizing web requests and responses in WAF</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>\n         <p>For information about the limits on count and size for custom request and response settings, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html\">WAF quotas</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>"
                     }
+                },
+                "CaptchaConfig": {
+                    "target": "com.amazonaws.wafv2#CaptchaConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules that don't have their own <code>CaptchaConfig</code> settings. If you don't specify this, WAF uses its default settings for <code>CaptchaConfig</code>. </p>"
+                    }
                 }
             }
         },
@@ -7768,6 +7920,18 @@
                 "smithy.api#error": "client"
             }
         },
+        "com.amazonaws.wafv2#WAFLogDestinationPermissionIssueException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.wafv2#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The operation failed because you don't have the permissions that your logging configuration requires. For information, see \n           <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/logging.html\">Logging web ACL traffic information</a> \n               in the <i>WAF Developer Guide</i>.</p>",
+                "smithy.api#error": "client"
+            }
+        },
         "com.amazonaws.wafv2#WAFNonexistentItemException": {
             "type": "structure",
             "members": {
@@ -7936,6 +8100,12 @@
                     "target": "com.amazonaws.wafv2#CustomResponseBodies",
                     "traits": {
                         "smithy.api#documentation": "<p>A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. </p> \n         <p>For information about customizing web requests and responses, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html\">Customizing web requests and responses in WAF</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>\n         <p>For information about the limits on count and size for custom request and response settings, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html\">WAF quotas</a> in the \n         <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html\">WAF Developer Guide</a>. </p>"
+                    }
+                },
+                "CaptchaConfig": {
+                    "target": "com.amazonaws.wafv2#CaptchaConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules that don't have their own <code>CaptchaConfig</code> settings. If you don't specify this, WAF uses its default settings for <code>CaptchaConfig</code>. </p>"
                     }
                 }
             },

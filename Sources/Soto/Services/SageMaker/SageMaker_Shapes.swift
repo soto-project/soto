@@ -112,6 +112,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppSecurityGroupManagement: String, CustomStringConvertible, Codable {
+        case customer = "Customer"
+        case service = "Service"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppSortKey: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         public var description: String { return self.rawValue }
@@ -129,6 +135,8 @@ extension SageMaker {
     public enum AppType: String, CustomStringConvertible, Codable {
         case jupyterserver = "JupyterServer"
         case kernelgateway = "KernelGateway"
+        case rsessiongateway = "RSessionGateway"
+        case rstudioserverpro = "RStudioServerPro"
         case tensorboard = "TensorBoard"
         public var description: String { return self.rawValue }
     }
@@ -1139,6 +1147,21 @@ extension SageMaker {
         case deletefailed = "DeleteFailed"
         case deleteinprogress = "DeleteInProgress"
         case pending = "Pending"
+        case updatecompleted = "UpdateCompleted"
+        case updatefailed = "UpdateFailed"
+        case updateinprogress = "UpdateInProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RStudioServerProAccessStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RStudioServerProUserGroup: String, CustomStringConvertible, Codable {
+        case rStudioAdmin = "R_STUDIO_ADMIN"
+        case rStudioUser = "R_STUDIO_USER"
         public var description: String { return self.rawValue }
     }
 
@@ -1419,10 +1442,12 @@ extension SageMaker {
     public enum TrafficRoutingConfigType: String, CustomStringConvertible, Codable {
         case allAtOnce = "ALL_AT_ONCE"
         case canary = "CANARY"
+        case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
     public enum TrainingInputMode: String, CustomStringConvertible, Codable {
+        case fastfile = "FastFile"
         case file = "File"
         case pipe = "Pipe"
         public var description: String { return self.rawValue }
@@ -1569,6 +1594,15 @@ extension SageMaker {
         case datacaptureconfig = "DataCaptureConfig"
         case desiredinstancecount = "DesiredInstanceCount"
         case desiredweight = "DesiredWeight"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VariantStatus: String, CustomStringConvertible, Codable {
+        case activatingtraffic = "ActivatingTraffic"
+        case baking = "Baking"
+        case creating = "Creating"
+        case deleting = "Deleting"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -1791,6 +1825,7 @@ extension SageMaker {
     }
 
     public struct Alarm: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a CloudWatch alarm in your account.
         public let alarmName: String?
 
         public init(alarmName: String? = nil) {
@@ -1817,7 +1852,6 @@ extension SageMaker {
         public let metricDefinitions: [MetricDefinition]?
         /// The registry path of the Docker image that contains the training algorithm. For information about docker registry paths for built-in algorithms, see Algorithms Provided by Amazon SageMaker: Common Parameters. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
         public let trainingImage: String?
-        /// The input mode that the algorithm supports. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.  In File mode, make sure you provision ML storage volume with sufficient capacity to accommodate the data download from S3. In addition to the training data, the ML storage volume also stores the output model. The algorithm container use ML storage volume to also store intermediate information, if any.  For distributed algorithms using File mode, training data is distributed uniformly, and your training duration is predictable if the input data objects size is approximately same. Amazon SageMaker does not split the files any further for model training. If the object sizes are skewed, training won't be optimal as the data distribution is also skewed where one host in a training cluster is overloaded, thus becoming bottleneck in training.
         public let trainingInputMode: TrainingInputMode
 
         public init(algorithmName: String? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
@@ -2561,11 +2595,11 @@ extension SageMaker {
     }
 
     public struct AutoMLJobCompletionCriteria: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum runtime, in seconds, an AutoML job has to complete.
+        /// The maximum runtime, in seconds, an AutoML job has to complete. If an AutoML job exceeds the maximum runtime, the job is stopped automatically and its processing is ended gracefully. The AutoML job identifies the best model whose training was completed and marks it as the best-performing model. Any unfinished steps of the job, such as automatic one-click Autopilot model deployment, will not be completed.
         public let maxAutoMLJobRuntimeInSeconds: Int?
         /// The maximum number of times a training job is allowed to run.
         public let maxCandidates: Int?
-        /// The maximum time, in seconds, a training job is allowed to run as part of an AutoML job.
+        /// The maximum time, in seconds, that each training job is allowed to run as part of a hyperparameter tuning job. For more information, see the  used by the  action.
         public let maxRuntimePerTrainingJobInSeconds: Int?
 
         public init(maxAutoMLJobRuntimeInSeconds: Int? = nil, maxCandidates: Int? = nil, maxRuntimePerTrainingJobInSeconds: Int? = nil) {
@@ -2754,6 +2788,7 @@ extension SageMaker {
     }
 
     public struct AutoRollbackConfig: AWSEncodableShape & AWSDecodableShape {
+        /// List of CloudWatch alarms in your account that are configured to monitor metrics on an endpoint. If any alarms are tripped during a deployment, SageMaker rolls back the deployment.
         public let alarms: [Alarm]?
 
         public init(alarms: [Alarm]? = nil) {
@@ -2770,6 +2805,101 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case alarms = "Alarms"
+        }
+    }
+
+    public struct BatchDescribeModelPackageError: AWSDecodableShape {
+        public let errorCode: String
+        public let errorResponse: String
+
+        public init(errorCode: String, errorResponse: String) {
+            self.errorCode = errorCode
+            self.errorResponse = errorResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorResponse = "ErrorResponse"
+        }
+    }
+
+    public struct BatchDescribeModelPackageInput: AWSEncodableShape {
+        /// The list of Amazon Resource Name (ARN) of the model package groups.
+        public let modelPackageArnList: [String]
+
+        public init(modelPackageArnList: [String]) {
+            self.modelPackageArnList = modelPackageArnList
+        }
+
+        public func validate(name: String) throws {
+            try self.modelPackageArnList.forEach {
+                try validate($0, name: "modelPackageArnList[]", parent: name, max: 2048)
+                try validate($0, name: "modelPackageArnList[]", parent: name, min: 1)
+                try validate($0, name: "modelPackageArnList[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/")
+            }
+            try self.validate(self.modelPackageArnList, name: "modelPackageArnList", parent: name, max: 100)
+            try self.validate(self.modelPackageArnList, name: "modelPackageArnList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageArnList = "ModelPackageArnList"
+        }
+    }
+
+    public struct BatchDescribeModelPackageOutput: AWSDecodableShape {
+        /// A map of the resource and BatchDescribeModelPackageError objects  reporting the error associated with describing the model package.
+        public let batchDescribeModelPackageErrorMap: [String: BatchDescribeModelPackageError]?
+        /// The summaries for the model package versions
+        public let modelPackageSummaries: [String: BatchDescribeModelPackageSummary]?
+
+        public init(batchDescribeModelPackageErrorMap: [String: BatchDescribeModelPackageError]? = nil, modelPackageSummaries: [String: BatchDescribeModelPackageSummary]? = nil) {
+            self.batchDescribeModelPackageErrorMap = batchDescribeModelPackageErrorMap
+            self.modelPackageSummaries = modelPackageSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchDescribeModelPackageErrorMap = "BatchDescribeModelPackageErrorMap"
+            case modelPackageSummaries = "ModelPackageSummaries"
+        }
+    }
+
+    public struct BatchDescribeModelPackageSummary: AWSDecodableShape {
+        /// The creation time of the mortgage package summary.
+        public let creationTime: Date
+        public let inferenceSpecification: InferenceSpecification
+        /// The approval status of the model.
+        public let modelApprovalStatus: ModelApprovalStatus?
+        /// The Amazon Resource Name (ARN) of the model package.
+        public let modelPackageArn: String
+        /// The description of the model package.
+        public let modelPackageDescription: String?
+        /// The group name for the model package
+        public let modelPackageGroupName: String
+        /// The status of the mortgage package.
+        public let modelPackageStatus: ModelPackageStatus
+        /// The version number of a versioned model.
+        public let modelPackageVersion: Int?
+
+        public init(creationTime: Date, inferenceSpecification: InferenceSpecification, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageGroupName: String, modelPackageStatus: ModelPackageStatus, modelPackageVersion: Int? = nil) {
+            self.creationTime = creationTime
+            self.inferenceSpecification = inferenceSpecification
+            self.modelApprovalStatus = modelApprovalStatus
+            self.modelPackageArn = modelPackageArn
+            self.modelPackageDescription = modelPackageDescription
+            self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageStatus = modelPackageStatus
+            self.modelPackageVersion = modelPackageVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case inferenceSpecification = "InferenceSpecification"
+            case modelApprovalStatus = "ModelApprovalStatus"
+            case modelPackageArn = "ModelPackageArn"
+            case modelPackageDescription = "ModelPackageDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageStatus = "ModelPackageStatus"
+            case modelPackageVersion = "ModelPackageVersion"
         }
     }
 
@@ -2791,8 +2921,11 @@ extension SageMaker {
     }
 
     public struct BlueGreenUpdatePolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum execution timeout for the deployment. Note that the timeout value should be larger than the total waiting time specified in TerminationWaitInSeconds and WaitIntervalInSeconds.
         public let maximumExecutionTimeoutInSeconds: Int?
+        /// Additional waiting time in seconds after the completion of an endpoint deployment before terminating the old endpoint fleet. Default is 0.
         public let terminationWaitInSeconds: Int?
+        /// Defines the traffic routing strategy to shift traffic from the old fleet to the new fleet during an endpoint deployment.
         public let trafficRoutingConfiguration: TrafficRoutingConfig
 
         public init(maximumExecutionTimeoutInSeconds: Int? = nil, terminationWaitInSeconds: Int? = nil, trafficRoutingConfiguration: TrafficRoutingConfig) {
@@ -2881,8 +3014,9 @@ extension SageMaker {
     }
 
     public struct CapacitySize: AWSEncodableShape & AWSDecodableShape {
-        /// This API is not supported.
+        /// Specifies the endpoint capacity type.    INSTANCE_COUNT: The endpoint activates based on the number of instances.    CAPACITY_PERCENT: The endpoint activates based on the specified percentage of capacity.
         public let type: CapacitySizeType
+        /// Defines the capacity size, either as a number of instances or a capacity percentage.
         public let value: Int
 
         public init(type: CapacitySizeType, value: Int) {
@@ -4176,12 +4310,16 @@ extension SageMaker {
     public struct CreateDomainRequest: AWSEncodableShape {
         /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets
         public let appNetworkAccessType: AppNetworkAccessType?
+        /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+        public let appSecurityGroupManagement: AppSecurityGroupManagement?
         /// The mode of authentication that members use to access the domain.
         public let authMode: AuthMode
         /// The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
         public let defaultUserSettings: UserSettings
         /// A name for the domain.
         public let domainName: String
+        /// A collection of Domain settings.
+        public let domainSettings: DomainSettings?
         /// This member is deprecated and replaced with KmsKeyId.
         public let homeEfsFileSystemKmsKeyId: String?
         /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
@@ -4193,11 +4331,13 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
             self.appNetworkAccessType = appNetworkAccessType
+            self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
             self.defaultUserSettings = defaultUserSettings
             self.domainName = domainName
+            self.domainSettings = domainSettings
             self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
             self.kmsKeyId = kmsKeyId
             self.subnetIds = subnetIds
@@ -4209,6 +4349,7 @@ extension SageMaker {
             try self.defaultUserSettings.validate(name: "\(name).defaultUserSettings")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 63)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.domainSettings?.validate(name: "\(name).domainSettings")
             try self.validate(self.homeEfsFileSystemKmsKeyId, name: "homeEfsFileSystemKmsKeyId", parent: name, max: 2048)
             try self.validate(self.homeEfsFileSystemKmsKeyId, name: "homeEfsFileSystemKmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
@@ -4229,9 +4370,11 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case appNetworkAccessType = "AppNetworkAccessType"
+            case appSecurityGroupManagement = "AppSecurityGroupManagement"
             case authMode = "AuthMode"
             case defaultUserSettings = "DefaultUserSettings"
             case domainName = "DomainName"
+            case domainSettings = "DomainSettings"
             case homeEfsFileSystemKmsKeyId = "HomeEfsFileSystemKmsKeyId"
             case kmsKeyId = "KmsKeyId"
             case subnetIds = "SubnetIds"
@@ -4387,6 +4530,7 @@ extension SageMaker {
     }
 
     public struct CreateEndpointInput: AWSEncodableShape {
+        public let deploymentConfig: DeploymentConfig?
         /// The name of an endpoint configuration. For more information, see CreateEndpointConfig.
         public let endpointConfigName: String
         /// The name of the endpoint.The name must be unique within an Amazon Web Services Region in your Amazon Web Services account. The name is case-insensitive in CreateEndpoint, but the case is preserved and must be matched in .
@@ -4394,13 +4538,15 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
-        public init(endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
+        public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
+            self.deploymentConfig = deploymentConfig
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.deploymentConfig?.validate(name: "\(name).deploymentConfig")
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
@@ -4412,6 +4558,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentConfig = "DeploymentConfig"
             case endpointConfigName = "EndpointConfigName"
             case endpointName = "EndpointName"
             case tags = "Tags"
@@ -4493,7 +4640,7 @@ extension SageMaker {
         public let featureDefinitions: [FeatureDefinition]
         /// The name of the FeatureGroup. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name:   Must start and end with an alphanumeric character.   Can only contain alphanumeric character and hyphens. Spaces are not allowed.
         public let featureGroupName: String
-        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
+        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data catalog.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore. If KMS encryption key is not specified, by default we encrypt all data at rest using  Amazon Web Services KMS key. By defining your bucket-level key for SSE,  you can reduce Amazon Web Services KMS requests costs by up to 99 percent.   To learn more about this parameter, see OfflineStoreConfig.
         public let offlineStoreConfig: OfflineStoreConfig?
         /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore.
         public let onlineStoreConfig: OnlineStoreConfig?
@@ -5216,6 +5363,8 @@ extension SageMaker {
         public let certifyForMarketplace: Bool?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
+        /// The metadata properties associated with the model package versions.
+        public let customerMetadataProperties: [String: String]?
         /// Specifies details about inference jobs that can be run with models based on this model package, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the model package supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the model package supports for inference.
         public let inferenceSpecification: InferenceSpecification?
         public let metadataProperties: MetadataProperties?
@@ -5225,7 +5374,7 @@ extension SageMaker {
         public let modelMetrics: ModelMetrics?
         /// A description of the model package.
         public let modelPackageDescription: String?
-        /// The name of the model group that this model version belongs to. This parameter is required for versioned models, and does not apply to unversioned models.
+        /// The name or Amazon Resource Name (ARN) of the model package group that this model version belongs to. This parameter is required for versioned models, and does not apply to unversioned models.
         public let modelPackageGroupName: String?
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required for unversioned models. It is not applicable to versioned models.
         public let modelPackageName: String?
@@ -5236,9 +5385,10 @@ extension SageMaker {
         /// Specifies configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), customerMetadataProperties: [String: String]? = nil, inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.certifyForMarketplace = certifyForMarketplace
             self.clientToken = clientToken
+            self.customerMetadataProperties = customerMetadataProperties
             self.inferenceSpecification = inferenceSpecification
             self.metadataProperties = metadataProperties
             self.modelApprovalStatus = modelApprovalStatus
@@ -5255,14 +5405,24 @@ extension SageMaker {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.customerMetadataProperties?.forEach {
+                try validate($0.key, name: "customerMetadataProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "customerMetadataProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "customerMetadataProperties.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)${1,128}$")
+                try validate($0.value, name: "customerMetadataProperties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "customerMetadataProperties[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "customerMetadataProperties[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)${1,256}$")
+            }
+            try self.validate(self.customerMetadataProperties, name: "customerMetadataProperties", parent: name, max: 50)
+            try self.validate(self.customerMetadataProperties, name: "customerMetadataProperties", parent: name, min: 1)
             try self.inferenceSpecification?.validate(name: "\(name).inferenceSpecification")
             try self.metadataProperties?.validate(name: "\(name).metadataProperties")
             try self.modelMetrics?.validate(name: "\(name).modelMetrics")
             try self.validate(self.modelPackageDescription, name: "modelPackageDescription", parent: name, max: 1024)
             try self.validate(self.modelPackageDescription, name: "modelPackageDescription", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
-            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 63)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 170)
             try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
-            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, max: 63)
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, min: 1)
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
@@ -5277,6 +5437,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case certifyForMarketplace = "CertifyForMarketplace"
             case clientToken = "ClientToken"
+            case customerMetadataProperties = "CustomerMetadataProperties"
             case inferenceSpecification = "InferenceSpecification"
             case metadataProperties = "MetadataProperties"
             case modelApprovalStatus = "ModelApprovalStatus"
@@ -5850,7 +6011,7 @@ extension SageMaker {
         public let projectDescription: String?
         /// The name of the project.
         public let projectName: String
-        /// The product ID and provisioning artifact ID to provision a service catalog. For information, see What is Amazon Web Services Service Catalog.
+        /// The product ID and provisioning artifact ID to provision a service catalog. The provisioning  artifact ID will default to the latest provisioning artifact ID of the product, if you don't  provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog.
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails
         /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
@@ -6669,7 +6830,7 @@ extension SageMaker {
     public struct DataProcessing: AWSEncodableShape & AWSDecodableShape {
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features"
         public let inputFilter: String?
-        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input. The default value is None, which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input. You can specify OutputFilter as an additional filter to select a portion of the joined dataset and store it in the output file. For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV data, Amazon SageMaker takes each row as a JSON array and joins the transformed data with the input by appending each transformed row to the end of the input. The joined data has the original input data followed by the transformed data and the output is a CSV file. For information on how joining in applied, see Workflow for Associating Inferences with Input Records.
+        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input. The default value is None, which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input. You can specify OutputFilter as an additional filter to select a portion of the joined dataset and store it in the output file. For JSON or JSONLines objects, such as a JSON array, SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV data, SageMaker takes each row as a JSON array and joins the transformed data with the input by appending each transformed row to the end of the input. The joined data has the original input data followed by the transformed data and the output is a CSV file. For information on how joining in applied, see Workflow for Associating Inferences with Input Records.
         public let joinSource: JoinSource?
         /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want Amazon SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$['id','SageMakerOutput']"
         public let outputFilter: String?
@@ -7915,7 +8076,9 @@ extension SageMaker {
     }
 
     public struct DeploymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Automatic rollback configuration for handling endpoint deployment failures and recovery.
         public let autoRollbackConfiguration: AutoRollbackConfig?
+        /// Update policy for a blue/green deployment. If this update policy is specified, SageMaker creates a new fleet during the deployment while maintaining the old fleet. SageMaker flips traffic to the new fleet according to the specified traffic routing configuration. Only one update policy should be used in the deployment configuration. If no update policy is specified, SageMaker uses a blue/green deployment strategy with all at once traffic shifting by default.
         public let blueGreenUpdatePolicy: BlueGreenUpdatePolicy
 
         public init(autoRollbackConfiguration: AutoRollbackConfig? = nil, blueGreenUpdatePolicy: BlueGreenUpdatePolicy) {
@@ -8202,7 +8365,7 @@ extension SageMaker {
         public let failureReason: String?
         /// The timestamp of the last health check.
         public let lastHealthCheckTimestamp: Date?
-        /// The timestamp of the last user's activity.
+        /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
         public let lastUserActivityTimestamp: Date?
         /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let resourceSpec: ResourceSpec?
@@ -8784,6 +8947,8 @@ extension SageMaker {
     }
 
     public struct DescribeDeviceResponse: AWSDecodableShape {
+        /// Edge Manager agent version.
+        public let agentVersion: String?
         /// A description of the device.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the device.
@@ -8805,7 +8970,8 @@ extension SageMaker {
         /// The timestamp of the last registration or de-reregistration.
         public let registrationTime: Date
 
-        public init(description: String? = nil, deviceArn: String? = nil, deviceFleetName: String, deviceName: String, iotThingName: String? = nil, latestHeartbeat: Date? = nil, maxModels: Int? = nil, models: [EdgeModel]? = nil, nextToken: String? = nil, registrationTime: Date) {
+        public init(agentVersion: String? = nil, description: String? = nil, deviceArn: String? = nil, deviceFleetName: String, deviceName: String, iotThingName: String? = nil, latestHeartbeat: Date? = nil, maxModels: Int? = nil, models: [EdgeModel]? = nil, nextToken: String? = nil, registrationTime: Date) {
+            self.agentVersion = agentVersion
             self.description = description
             self.deviceArn = deviceArn
             self.deviceFleetName = deviceFleetName
@@ -8819,6 +8985,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
             case description = "Description"
             case deviceArn = "DeviceArn"
             case deviceFleetName = "DeviceFleetName"
@@ -8852,6 +9019,8 @@ extension SageMaker {
     public struct DescribeDomainResponse: AWSDecodableShape {
         /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets
         public let appNetworkAccessType: AppNetworkAccessType?
+        /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode.  Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+        public let appSecurityGroupManagement: AppSecurityGroupManagement?
         /// The domain's authentication mode.
         public let authMode: AuthMode?
         /// The creation time.
@@ -8864,6 +9033,8 @@ extension SageMaker {
         public let domainId: String?
         /// The domain name.
         public let domainName: String?
+        /// A collection of Domain settings.
+        public let domainSettings: DomainSettings?
         /// The failure reason.
         public let failureReason: String?
         /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
@@ -8874,6 +9045,8 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The last modified time.
         public let lastModifiedTime: Date?
+        /// The ID of the security group that authorizes traffic between the RSessionGateway apps and the RStudioServerPro app.
+        public let securityGroupIdForDomainBoundary: String?
         /// The SSO managed application instance ID.
         public let singleSignOnManagedApplicationInstanceId: String?
         /// The status.
@@ -8885,19 +9058,22 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String?
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
+            self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
             self.creationTime = creationTime
             self.defaultUserSettings = defaultUserSettings
             self.domainArn = domainArn
             self.domainId = domainId
             self.domainName = domainName
+            self.domainSettings = domainSettings
             self.failureReason = failureReason
             self.homeEfsFileSystemId = homeEfsFileSystemId
             self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
+            self.securityGroupIdForDomainBoundary = securityGroupIdForDomainBoundary
             self.singleSignOnManagedApplicationInstanceId = singleSignOnManagedApplicationInstanceId
             self.status = status
             self.subnetIds = subnetIds
@@ -8907,17 +9083,20 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case appNetworkAccessType = "AppNetworkAccessType"
+            case appSecurityGroupManagement = "AppSecurityGroupManagement"
             case authMode = "AuthMode"
             case creationTime = "CreationTime"
             case defaultUserSettings = "DefaultUserSettings"
             case domainArn = "DomainArn"
             case domainId = "DomainId"
             case domainName = "DomainName"
+            case domainSettings = "DomainSettings"
             case failureReason = "FailureReason"
             case homeEfsFileSystemId = "HomeEfsFileSystemId"
             case homeEfsFileSystemKmsKeyId = "HomeEfsFileSystemKmsKeyId"
             case kmsKeyId = "KmsKeyId"
             case lastModifiedTime = "LastModifiedTime"
+            case securityGroupIdForDomainBoundary = "SecurityGroupIdForDomainBoundary"
             case singleSignOnManagedApplicationInstanceId = "SingleSignOnManagedApplicationInstanceId"
             case status = "Status"
             case subnetIds = "SubnetIds"
@@ -9106,10 +9285,12 @@ extension SageMaker {
         public let lastDeploymentConfig: DeploymentConfig?
         /// A timestamp that shows when the endpoint was last modified.
         public let lastModifiedTime: Date
+        /// Returns the summary of an in-progress deployment. This field is only returned when the endpoint is creating or updating with a new endpoint configuration.
+        public let pendingDeploymentSummary: PendingDeploymentSummary?
         ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
         public let productionVariants: [ProductionVariantSummary]?
 
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, productionVariants: [ProductionVariantSummary]? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, pendingDeploymentSummary: PendingDeploymentSummary? = nil, productionVariants: [ProductionVariantSummary]? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
@@ -9120,6 +9301,7 @@ extension SageMaker {
             self.failureReason = failureReason
             self.lastDeploymentConfig = lastDeploymentConfig
             self.lastModifiedTime = lastModifiedTime
+            self.pendingDeploymentSummary = pendingDeploymentSummary
             self.productionVariants = productionVariants
         }
 
@@ -9134,6 +9316,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastDeploymentConfig = "LastDeploymentConfig"
             case lastModifiedTime = "LastModifiedTime"
+            case pendingDeploymentSummary = "PendingDeploymentSummary"
             case productionVariants = "ProductionVariants"
         }
     }
@@ -10007,6 +10190,8 @@ extension SageMaker {
         public let createdBy: UserContext?
         /// A timestamp specifying when the model package was created.
         public let creationTime: Date
+        /// The metadata properties associated with the model package versions.
+        public let customerMetadataProperties: [String: String]?
         /// Details about inference jobs that can be run with models based on this model package.
         public let inferenceSpecification: InferenceSpecification?
         public let lastModifiedBy: UserContext?
@@ -10033,14 +10218,15 @@ extension SageMaker {
         public let modelPackageVersion: Int?
         /// Details about the algorithm that was used to create the model package.
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
-        /// Configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
+        /// Configurations for one or more transform jobs that SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, modelPackageVersion: Int? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date, customerMetadataProperties: [String: String]? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, modelPackageVersion: Int? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
             self.createdBy = createdBy
             self.creationTime = creationTime
+            self.customerMetadataProperties = customerMetadataProperties
             self.inferenceSpecification = inferenceSpecification
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
@@ -10063,6 +10249,7 @@ extension SageMaker {
             case certifyForMarketplace = "CertifyForMarketplace"
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
+            case customerMetadataProperties = "CustomerMetadataProperties"
             case inferenceSpecification = "InferenceSpecification"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
@@ -10692,6 +10879,9 @@ extension SageMaker {
         public let createdBy: UserContext?
         /// The time when the project was created.
         public let creationTime: Date
+        public let lastModifiedBy: UserContext?
+        /// The timestamp when project was last modified.
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String
         /// The description of the project.
@@ -10707,9 +10897,11 @@ extension SageMaker {
         /// Information used to provision a service catalog product. For information, see What is Amazon Web Services Service Catalog.
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails
 
-        public init(createdBy: UserContext? = nil, creationTime: Date, projectArn: String, projectDescription: String? = nil, projectId: String, projectName: String, projectStatus: ProjectStatus, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails) {
+        public init(createdBy: UserContext? = nil, creationTime: Date, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String, projectDescription: String? = nil, projectId: String, projectName: String, projectStatus: ProjectStatus, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails) {
             self.createdBy = createdBy
             self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
             self.projectArn = projectArn
             self.projectDescription = projectDescription
             self.projectId = projectId
@@ -10722,6 +10914,8 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
             case projectArn = "ProjectArn"
             case projectDescription = "ProjectDescription"
             case projectId = "ProjectId"
@@ -10838,7 +11032,7 @@ extension SageMaker {
         public let algorithmSpecification: AlgorithmSpecification
         /// The Amazon Resource Name (ARN) of an AutoML job.
         public let autoMLJobArn: String?
-        /// The billable time in seconds. Billable time refers to the absolute wall-clock time. Multiply BillableTimeInSeconds by the number of instances (InstanceCount) in your training cluster to get the total compute time Amazon SageMaker will bill you if you run distributed training. The formula is as follows: BillableTimeInSeconds * InstanceCount . You can calculate the savings from using managed spot training using the formula (1 - BillableTimeInSeconds / TrainingTimeInSeconds) * 100. For example, if BillableTimeInSeconds is 100 and TrainingTimeInSeconds is 500, the savings is 80%.
+        /// The billable time in seconds. Billable time refers to the absolute wall-clock time. Multiply BillableTimeInSeconds by the number of instances (InstanceCount) in your training cluster to get the total compute time SageMaker will bill you if you run distributed training. The formula is as follows: BillableTimeInSeconds * InstanceCount . You can calculate the savings from using managed spot training using the formula (1 - BillableTimeInSeconds / TrainingTimeInSeconds) * 100. For example, if BillableTimeInSeconds is 100 and TrainingTimeInSeconds is 500, the savings is 80%.
         public let billableTimeInSeconds: Int?
         public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
@@ -11504,6 +11698,8 @@ extension SageMaker {
     }
 
     public struct DeviceSummary: AWSDecodableShape {
+        /// Edge Manager agent version.
+        public let agentVersion: String?
         /// A description of the device.
         public let description: String?
         /// Amazon Resource Name (ARN) of the device.
@@ -11521,7 +11717,8 @@ extension SageMaker {
         /// The timestamp of the last registration or de-reregistration.
         public let registrationTime: Date?
 
-        public init(description: String? = nil, deviceArn: String, deviceFleetName: String? = nil, deviceName: String, iotThingName: String? = nil, latestHeartbeat: Date? = nil, models: [EdgeModelSummary]? = nil, registrationTime: Date? = nil) {
+        public init(agentVersion: String? = nil, description: String? = nil, deviceArn: String, deviceFleetName: String? = nil, deviceName: String, iotThingName: String? = nil, latestHeartbeat: Date? = nil, models: [EdgeModelSummary]? = nil, registrationTime: Date? = nil) {
+            self.agentVersion = agentVersion
             self.description = description
             self.deviceArn = deviceArn
             self.deviceFleetName = deviceFleetName
@@ -11533,6 +11730,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
             case description = "Description"
             case deviceArn = "DeviceArn"
             case deviceFleetName = "DeviceFleetName"
@@ -11629,6 +11827,49 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case status = "Status"
             case url = "Url"
+        }
+    }
+
+    public struct DomainSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A collection of settings that configure the RStudioServerPro Domain-level app.
+        public let rStudioServerProDomainSettings: RStudioServerProDomainSettings?
+        /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
+        public let securityGroupIds: [String]?
+
+        public init(rStudioServerProDomainSettings: RStudioServerProDomainSettings? = nil, securityGroupIds: [String]? = nil) {
+            self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
+            self.securityGroupIds = securityGroupIds
+        }
+
+        public func validate(name: String) throws {
+            try self.rStudioServerProDomainSettings?.validate(name: "\(name).rStudioServerProDomainSettings")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 32)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rStudioServerProDomainSettings = "RStudioServerProDomainSettings"
+            case securityGroupIds = "SecurityGroupIds"
+        }
+    }
+
+    public struct DomainSettingsForUpdate: AWSEncodableShape {
+        /// A collection of RStudioServerPro Domain-level app settings to update.
+        public let rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate?
+
+        public init(rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil) {
+            self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.rStudioServerProDomainSettingsForUpdate?.validate(name: "\(name).rStudioServerProDomainSettingsForUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rStudioServerProDomainSettingsForUpdate = "RStudioServerProDomainSettingsForUpdate"
         }
     }
 
@@ -11903,7 +12144,7 @@ extension SageMaker {
         public let probabilityThresholdAttribute: Double?
         /// Whether input data distributed in Amazon S3 is fully replicated or sharded by an S3 key. Defaults to FullyReplicated
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
-        /// Whether the Pipe or File is used as the input mode for transfering data for the monitoring job. Pipe mode is recommended for large datasets. File mode is useful for small files that fit in memory. Defaults to File.
+        /// Whether the Pipe or File is used as the input mode for transferring data for the monitoring job. Pipe mode is recommended for large datasets. File mode is useful for small files that fit in memory. Defaults to File.
         public let s3InputMode: ProcessingS3InputMode?
         /// If specified, monitoring jobs substract this time from the start time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
         public let startTimeOffset: String?
@@ -12751,13 +12992,13 @@ extension SageMaker {
         public let preHumanTaskLambdaArn: String
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
-        /// The length of time that a task remains available for labeling by human workers. The default and maximum values for this parameter depend on the type of workforce you use.   If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43,200 seconds). The default is 6 hours (21,600 seconds).   If you choose a private or vendor workforce, the default value is 10 days (864,000 seconds). For most users, the maximum is also 10 days. If you want to change this limit, contact Amazon Web Services Support.
+        /// The length of time that a task remains available for labeling by human workers. The default and maximum values for this parameter depend on the type of workforce you use.   If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43,200 seconds). The default is 6 hours (21,600 seconds).   If you choose a private or vendor workforce, the default value is 30 days (2592,000 seconds) for non-AL mode. For most users, the maximum is also 30 days. If you want to change this limit, contact Amazon Web Services Support.
         public let taskAvailabilityLifetimeInSeconds: Int?
         /// A description of the task for your human workers.
         public let taskDescription: String
         /// Keywords used to describe the task so that workers on Amazon Mechanical Turk can discover the task.
         public let taskKeywords: [String]?
-        /// The amount of time that a worker has to complete a task.  If you create a custom labeling job, the maximum value for this parameter is 8 hours (28,800 seconds). If you create a labeling job using a built-in task type the maximum for this parameter depends on the task type you use:   For image and  text labeling jobs, the maximum is 8 hours (28,800 seconds).   For 3D point cloud and video frame labeling jobs, the maximum is 7 days (604,800 seconds). If you want to change these limits, contact Amazon Web Services Support.
+        /// The amount of time that a worker has to complete a task.  If you create a custom labeling job, the maximum value for this parameter is 8 hours (28,800 seconds). If you create a labeling job using a built-in task type the maximum for this parameter depends on the task type you use:   For image and  text labeling jobs, the maximum is 8 hours (28,800 seconds).   For 3D point cloud and video frame labeling jobs, the maximum is 30 days (2952,000 seconds) for non-AL mode. For most users, the maximum is also 30 days. If you want to change these limits, contact Amazon Web Services Support.
         public let taskTimeLimitInSeconds: Int
         /// A title for the task for your human workers.
         public let taskTitle: String
@@ -12854,7 +13095,6 @@ extension SageMaker {
         public let metricDefinitions: [MetricDefinition]?
         ///  The registry path of the Docker image that contains the training algorithm. For information about Docker registry paths for built-in algorithms, see Algorithms Provided by Amazon SageMaker: Common Parameters. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
         public let trainingImage: String?
-        /// The input mode that the algorithm supports: File or Pipe. In File input mode, Amazon SageMaker downloads the training data from Amazon S3 to the storage volume that is attached to the training instance and mounts the directory to the Docker volume for the training container. In Pipe input mode, Amazon SageMaker streams data directly from Amazon S3 to the container.  If you specify File mode, make sure that you provision the storage volume that is attached to the training instance with enough capacity to accommodate the training data downloaded from Amazon S3, the model artifacts, and intermediate information.  For more information about input modes, see Algorithms.
         public let trainingInputMode: TrainingInputMode
 
         public init(algorithmName: String? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
@@ -18058,6 +18298,8 @@ extension SageMaker {
         public let createdBy: UserContext?
         /// The time that the model package was created.
         public let creationTime: Date?
+        /// The metadata properties for the model package.
+        public let customerMetadataProperties: [String: String]?
         public let inferenceSpecification: InferenceSpecification?
         public let lastModifiedBy: UserContext?
         /// The last time the model package was modified.
@@ -18085,11 +18327,12 @@ extension SageMaker {
         public let tags: [Tag]?
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
             self.createdBy = createdBy
             self.creationTime = creationTime
+            self.customerMetadataProperties = customerMetadataProperties
             self.inferenceSpecification = inferenceSpecification
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
@@ -18113,6 +18356,7 @@ extension SageMaker {
             case certifyForMarketplace = "CertifyForMarketplace"
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
+            case customerMetadataProperties = "CustomerMetadataProperties"
             case inferenceSpecification = "InferenceSpecification"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
@@ -19770,6 +20014,72 @@ extension SageMaker {
         }
     }
 
+    public struct PendingDeploymentSummary: AWSDecodableShape {
+        /// The name of the endpoint configuration used in the deployment.
+        public let endpointConfigName: String
+        /// List of PendingProductionVariantSummary objects.
+        public let productionVariants: [PendingProductionVariantSummary]?
+        /// The start time of the deployment.
+        public let startTime: Date?
+
+        public init(endpointConfigName: String, productionVariants: [PendingProductionVariantSummary]? = nil, startTime: Date? = nil) {
+            self.endpointConfigName = endpointConfigName
+            self.productionVariants = productionVariants
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigName = "EndpointConfigName"
+            case productionVariants = "ProductionVariants"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct PendingProductionVariantSummary: AWSDecodableShape {
+        /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see Using Elastic Inference in Amazon SageMaker.
+        public let acceleratorType: ProductionVariantAcceleratorType?
+        /// The number of instances associated with the variant.
+        public let currentInstanceCount: Int?
+        /// The weight associated with the variant.
+        public let currentWeight: Float?
+        /// An array of DeployedImage objects that specify the Amazon EC2 Container Registry paths of the inference images deployed on instances of this ProductionVariant.
+        public let deployedImages: [DeployedImage]?
+        /// The number of instances requested in this deployment, as specified in the endpoint configuration for the endpoint. The value is taken from the request to the  CreateEndpointConfig operation.
+        public let desiredInstanceCount: Int?
+        /// The requested weight for the variant in this deployment, as specified in the endpoint configuration for the endpoint. The value is taken from the request to the  CreateEndpointConfig operation.
+        public let desiredWeight: Float?
+        /// The type of instances associated with the variant.
+        public let instanceType: ProductionVariantInstanceType?
+        /// The name of the variant.
+        public let variantName: String
+        /// The endpoint variant status which describes the current deployment stage status or operational status.
+        public let variantStatus: [ProductionVariantStatus]?
+
+        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, currentInstanceCount: Int? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, variantName: String, variantStatus: [ProductionVariantStatus]? = nil) {
+            self.acceleratorType = acceleratorType
+            self.currentInstanceCount = currentInstanceCount
+            self.currentWeight = currentWeight
+            self.deployedImages = deployedImages
+            self.desiredInstanceCount = desiredInstanceCount
+            self.desiredWeight = desiredWeight
+            self.instanceType = instanceType
+            self.variantName = variantName
+            self.variantStatus = variantStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorType = "AcceleratorType"
+            case currentInstanceCount = "CurrentInstanceCount"
+            case currentWeight = "CurrentWeight"
+            case deployedImages = "DeployedImages"
+            case desiredInstanceCount = "DesiredInstanceCount"
+            case desiredWeight = "DesiredWeight"
+            case instanceType = "InstanceType"
+            case variantName = "VariantName"
+            case variantStatus = "VariantStatus"
+        }
+    }
+
     public struct Pipeline: AWSDecodableShape {
         public let createdBy: UserContext?
         /// The creation time of the pipeline.
@@ -20506,6 +20816,27 @@ extension SageMaker {
         }
     }
 
+    public struct ProductionVariantStatus: AWSDecodableShape {
+        /// The start time of the current status change.
+        public let startTime: Date?
+        /// The endpoint variant status which describes the current deployment stage status or operational status.    Creating: Creating inference resources for the production variant.    Deleting: Terminating inference resources for the production variant.    Updating: Updating capacity for the production variant.    ActivatingTraffic: Turning on traffic for the production variant.    Baking: Waiting period to monitor the CloudWatch alarms in the automatic rollback configuration.
+        public let status: VariantStatus
+        /// A message that describes the status of the production variant.
+        public let statusMessage: String?
+
+        public init(startTime: Date? = nil, status: VariantStatus, statusMessage: String? = nil) {
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct ProductionVariantSummary: AWSDecodableShape {
         /// The number of instances associated with the variant.
         public let currentInstanceCount: Int?
@@ -20519,14 +20850,17 @@ extension SageMaker {
         public let desiredWeight: Float?
         /// The name of the variant.
         public let variantName: String
+        /// The endpoint variant status which describes the current deployment stage status or operational status.
+        public let variantStatus: [ProductionVariantStatus]?
 
-        public init(currentInstanceCount: Int? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredWeight: Float? = nil, variantName: String) {
+        public init(currentInstanceCount: Int? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredWeight: Float? = nil, variantName: String, variantStatus: [ProductionVariantStatus]? = nil) {
             self.currentInstanceCount = currentInstanceCount
             self.currentWeight = currentWeight
             self.deployedImages = deployedImages
             self.desiredInstanceCount = desiredInstanceCount
             self.desiredWeight = desiredWeight
             self.variantName = variantName
+            self.variantStatus = variantStatus
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20536,6 +20870,7 @@ extension SageMaker {
             case desiredInstanceCount = "DesiredInstanceCount"
             case desiredWeight = "DesiredWeight"
             case variantName = "VariantName"
+            case variantStatus = "VariantStatus"
         }
     }
 
@@ -20703,6 +21038,9 @@ extension SageMaker {
         public let createdBy: UserContext?
         /// A timestamp specifying when the project was created.
         public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// A timestamp container for when the project was last modified.
+        public let lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String?
         /// The description of the project.
@@ -20718,9 +21056,11 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
             self.projectArn = projectArn
             self.projectDescription = projectDescription
             self.projectId = projectId
@@ -20734,6 +21074,8 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
             case projectArn = "ProjectArn"
             case projectDescription = "ProjectDescription"
             case projectId = "ProjectId"
@@ -20887,6 +21229,81 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case modelPackageGroupArn = "ModelPackageGroupArn"
+        }
+    }
+
+    public struct RSessionAppSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RStudioServerProAppSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the current user has access to the RStudioServerPro app.
+        public let accessStatus: RStudioServerProAccessStatus?
+        /// The level of permissions that the user has within the RStudioServerPro app. This value defaults to `User`. The `Admin` value allows the user access to the RStudio Administrative Dashboard.
+        public let userGroup: RStudioServerProUserGroup?
+
+        public init(accessStatus: RStudioServerProAccessStatus? = nil, userGroup: RStudioServerProUserGroup? = nil) {
+            self.accessStatus = accessStatus
+            self.userGroup = userGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessStatus = "AccessStatus"
+            case userGroup = "UserGroup"
+        }
+    }
+
+    public struct RStudioServerProDomainSettings: AWSEncodableShape & AWSDecodableShape {
+        public let defaultResourceSpec: ResourceSpec?
+        /// The ARN of the execution role for the RStudioServerPro Domain-level app.
+        public let domainExecutionRoleArn: String
+        /// A URL pointing to an RStudio Connect server.
+        public let rStudioConnectUrl: String?
+        /// A URL pointing to an RStudio Package Manager server.
+        public let rStudioPackageManagerUrl: String?
+
+        public init(defaultResourceSpec: ResourceSpec? = nil, domainExecutionRoleArn: String, rStudioConnectUrl: String? = nil, rStudioPackageManagerUrl: String? = nil) {
+            self.defaultResourceSpec = defaultResourceSpec
+            self.domainExecutionRoleArn = domainExecutionRoleArn
+            self.rStudioConnectUrl = rStudioConnectUrl
+            self.rStudioPackageManagerUrl = rStudioPackageManagerUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+            try self.validate(self.domainExecutionRoleArn, name: "domainExecutionRoleArn", parent: name, max: 2048)
+            try self.validate(self.domainExecutionRoleArn, name: "domainExecutionRoleArn", parent: name, min: 20)
+            try self.validate(self.domainExecutionRoleArn, name: "domainExecutionRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultResourceSpec = "DefaultResourceSpec"
+            case domainExecutionRoleArn = "DomainExecutionRoleArn"
+            case rStudioConnectUrl = "RStudioConnectUrl"
+            case rStudioPackageManagerUrl = "RStudioPackageManagerUrl"
+        }
+    }
+
+    public struct RStudioServerProDomainSettingsForUpdate: AWSEncodableShape {
+        public let defaultResourceSpec: ResourceSpec?
+        /// The execution role for the RStudioServerPro Domain-level app.
+        public let domainExecutionRoleArn: String
+
+        public init(defaultResourceSpec: ResourceSpec? = nil, domainExecutionRoleArn: String) {
+            self.defaultResourceSpec = defaultResourceSpec
+            self.domainExecutionRoleArn = domainExecutionRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+            try self.validate(self.domainExecutionRoleArn, name: "domainExecutionRoleArn", parent: name, max: 2048)
+            try self.validate(self.domainExecutionRoleArn, name: "domainExecutionRoleArn", parent: name, min: 20)
+            try self.validate(self.domainExecutionRoleArn, name: "domainExecutionRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultResourceSpec = "DefaultResourceSpec"
+            case domainExecutionRoleArn = "DomainExecutionRoleArn"
         }
     }
 
@@ -21655,11 +22072,11 @@ extension SageMaker {
         /// The ID of the product to provision.
         public let productId: String
         /// The ID of the provisioning artifact.
-        public let provisioningArtifactId: String
+        public let provisioningArtifactId: String?
         /// A list of key value pairs that you specify when you provision a product.
         public let provisioningParameters: [ProvisioningParameter]?
 
-        public init(pathId: String? = nil, productId: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil) {
+        public init(pathId: String? = nil, productId: String, provisioningArtifactId: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil) {
             self.pathId = pathId
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -21684,6 +22101,32 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case pathId = "PathId"
             case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningParameters = "ProvisioningParameters"
+        }
+    }
+
+    public struct ServiceCatalogProvisioningUpdateDetails: AWSEncodableShape {
+        /// The ID of the provisioning artifact.
+        public let provisioningArtifactId: String?
+        /// A list of key value pairs that you specify when you provision a product.
+        public let provisioningParameters: [ProvisioningParameter]?
+
+        public init(provisioningArtifactId: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningParameters = provisioningParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*$")
+            try self.provisioningParameters?.forEach {
+                try $0.validate(name: "\(name).provisioningParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case provisioningArtifactId = "ProvisioningArtifactId"
             case provisioningParameters = "ProvisioningParameters"
         }
@@ -22304,24 +22747,32 @@ extension SageMaker {
     }
 
     public struct TrafficRoutingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Batch size for the first step to turn on traffic on the new endpoint fleet. Value must be less than or equal to 50% of the variant's total instance count.
         public let canarySize: CapacitySize?
+        /// Batch size for each step to turn on traffic on the new endpoint fleet. Value must be 10-50% of the variant's total instance count.
+        public let linearStepSize: CapacitySize?
+        /// Traffic routing strategy type.    ALL_AT_ONCE: Endpoint traffic shifts to the new fleet in a single step.     CANARY: Endpoint traffic shifts to the new fleet in two steps. The first step is the canary, which is a small portion of the traffic. The second step is the remainder of the traffic.     LINEAR: Endpoint traffic shifts to the new fleet in n steps of a configurable size.
         public let type: TrafficRoutingConfigType
+        /// The waiting time (in seconds) between incremental steps to turn on traffic on the new endpoint fleet.
         public let waitIntervalInSeconds: Int
 
-        public init(canarySize: CapacitySize? = nil, type: TrafficRoutingConfigType, waitIntervalInSeconds: Int) {
+        public init(canarySize: CapacitySize? = nil, linearStepSize: CapacitySize? = nil, type: TrafficRoutingConfigType, waitIntervalInSeconds: Int) {
             self.canarySize = canarySize
+            self.linearStepSize = linearStepSize
             self.type = type
             self.waitIntervalInSeconds = waitIntervalInSeconds
         }
 
         public func validate(name: String) throws {
             try self.canarySize?.validate(name: "\(name).canarySize")
+            try self.linearStepSize?.validate(name: "\(name).linearStepSize")
             try self.validate(self.waitIntervalInSeconds, name: "waitIntervalInSeconds", parent: name, max: 3600)
             try self.validate(self.waitIntervalInSeconds, name: "waitIntervalInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case canarySize = "CanarySize"
+            case linearStepSize = "LinearStepSize"
             case type = "Type"
             case waitIntervalInSeconds = "WaitIntervalInSeconds"
         }
@@ -22491,7 +22942,6 @@ extension SageMaker {
         public let resourceConfig: ResourceConfig
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts.
         public let stoppingCondition: StoppingCondition
-        /// The input mode used by the algorithm for the training job. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.
         public let trainingInputMode: TrainingInputMode
 
         public init(hyperParameters: [String: String]? = nil, inputDataConfig: [Channel], outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition, trainingInputMode: TrainingInputMode) {
@@ -23824,20 +24274,25 @@ extension SageMaker {
         public let defaultUserSettings: UserSettings?
         /// The ID of the domain to be updated.
         public let domainId: String
+        /// A collection of DomainSettings configuration values to update.
+        public let domainSettingsForUpdate: DomainSettingsForUpdate?
 
-        public init(defaultUserSettings: UserSettings? = nil, domainId: String) {
+        public init(defaultUserSettings: UserSettings? = nil, domainId: String, domainSettingsForUpdate: DomainSettingsForUpdate? = nil) {
             self.defaultUserSettings = defaultUserSettings
             self.domainId = domainId
+            self.domainSettingsForUpdate = domainSettingsForUpdate
         }
 
         public func validate(name: String) throws {
             try self.defaultUserSettings?.validate(name: "\(name).defaultUserSettings")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.domainSettingsForUpdate?.validate(name: "\(name).domainSettingsForUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultUserSettings = "DefaultUserSettings"
             case domainId = "DomainId"
+            case domainSettingsForUpdate = "DomainSettingsForUpdate"
         }
     }
 
@@ -23855,7 +24310,7 @@ extension SageMaker {
     }
 
     public struct UpdateEndpointInput: AWSEncodableShape {
-        /// The deployment configuration for the endpoint to be updated.
+        /// The deployment configuration for an endpoint, which contains the desired deployment strategy and rollback configurations.
         public let deploymentConfig: DeploymentConfig?
         /// The name of the new endpoint configuration.
         public let endpointConfigName: String
@@ -23865,13 +24320,16 @@ extension SageMaker {
         public let excludeRetainedVariantProperties: [VariantProperty]?
         /// When updating endpoint resources, enables or disables the retention of variant properties, such as the instance count or the variant weight. To retain the variant properties of an endpoint when updating it, set RetainAllVariantProperties to true. To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false. The default is false.
         public let retainAllVariantProperties: Bool?
+        /// Specifies whether to reuse the last deployment configuration. The default value is false (the configuration is not reused).
+        public let retainDeploymentConfig: Bool?
 
-        public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String, endpointName: String, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool? = nil) {
+        public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String, endpointName: String, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool? = nil, retainDeploymentConfig: Bool? = nil) {
             self.deploymentConfig = deploymentConfig
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
             self.excludeRetainedVariantProperties = excludeRetainedVariantProperties
             self.retainAllVariantProperties = retainAllVariantProperties
+            self.retainDeploymentConfig = retainDeploymentConfig
         }
 
         public func validate(name: String) throws {
@@ -23889,6 +24347,7 @@ extension SageMaker {
             case endpointName = "EndpointName"
             case excludeRetainedVariantProperties = "ExcludeRetainedVariantProperties"
             case retainAllVariantProperties = "RetainAllVariantProperties"
+            case retainDeploymentConfig = "RetainDeploymentConfig"
         }
     }
 
@@ -24055,13 +24514,19 @@ extension SageMaker {
     public struct UpdateModelPackageInput: AWSEncodableShape {
         /// A description for the approval status of the model.
         public let approvalDescription: String?
+        /// The metadata properties associated with the model package versions.
+        public let customerMetadataProperties: [String: String]?
+        /// The metadata properties associated with the model package versions to remove.
+        public let customerMetadataPropertiesToRemove: [String]?
         /// The approval status of the model.
-        public let modelApprovalStatus: ModelApprovalStatus
-        /// The Amazon Resource Name (ARN) of the model.
+        public let modelApprovalStatus: ModelApprovalStatus?
+        /// The Amazon Resource Name (ARN) of the model package.
         public let modelPackageArn: String
 
-        public init(approvalDescription: String? = nil, modelApprovalStatus: ModelApprovalStatus, modelPackageArn: String) {
+        public init(approvalDescription: String? = nil, customerMetadataProperties: [String: String]? = nil, customerMetadataPropertiesToRemove: [String]? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String) {
             self.approvalDescription = approvalDescription
+            self.customerMetadataProperties = customerMetadataProperties
+            self.customerMetadataPropertiesToRemove = customerMetadataPropertiesToRemove
             self.modelApprovalStatus = modelApprovalStatus
             self.modelPackageArn = modelPackageArn
         }
@@ -24069,6 +24534,21 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.approvalDescription, name: "approvalDescription", parent: name, max: 1024)
             try self.validate(self.approvalDescription, name: "approvalDescription", parent: name, pattern: ".*")
+            try self.customerMetadataProperties?.forEach {
+                try validate($0.key, name: "customerMetadataProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "customerMetadataProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "customerMetadataProperties.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)${1,128}$")
+                try validate($0.value, name: "customerMetadataProperties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "customerMetadataProperties[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "customerMetadataProperties[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)${1,256}$")
+            }
+            try self.validate(self.customerMetadataProperties, name: "customerMetadataProperties", parent: name, max: 50)
+            try self.validate(self.customerMetadataProperties, name: "customerMetadataProperties", parent: name, min: 1)
+            try self.customerMetadataPropertiesToRemove?.forEach {
+                try validate($0, name: "customerMetadataPropertiesToRemove[]", parent: name, max: 128)
+                try validate($0, name: "customerMetadataPropertiesToRemove[]", parent: name, min: 1)
+                try validate($0, name: "customerMetadataPropertiesToRemove[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)${1,128}$")
+            }
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, max: 2048)
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, min: 1)
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/")
@@ -24076,6 +24556,8 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case approvalDescription = "ApprovalDescription"
+            case customerMetadataProperties = "CustomerMetadataProperties"
+            case customerMetadataPropertiesToRemove = "CustomerMetadataPropertiesToRemove"
             case modelApprovalStatus = "ModelApprovalStatus"
             case modelPackageArn = "ModelPackageArn"
         }
@@ -24355,6 +24837,57 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineArn = "PipelineArn"
+        }
+    }
+
+    public struct UpdateProjectInput: AWSEncodableShape {
+        /// The description for the project.
+        public let projectDescription: String?
+        /// The name of the project.
+        public let projectName: String
+        /// The product ID and provisioning artifact ID to provision a service catalog.  The provisioning artifact ID will default to the latest provisioning artifact  ID of the product, if you don't provide the provisioning artifact ID. For more  information, see What is Amazon Web Services Service Catalog.
+        public let serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails?
+        /// An array of key-value pairs. You can use tags to categorize your  Amazon Web Services resources in different ways, for example, by purpose, owner, or  environment. For more information, see Tagging Amazon Web Services Resources.
+        public let tags: [Tag]?
+
+        public init(projectDescription: String? = nil, projectName: String, serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails? = nil, tags: [Tag]? = nil) {
+            self.projectDescription = projectDescription
+            self.projectName = projectName
+            self.serviceCatalogProvisioningUpdateDetails = serviceCatalogProvisioningUpdateDetails
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 1024)
+            try self.validate(self.projectDescription, name: "projectDescription", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 32)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}$")
+            try self.serviceCatalogProvisioningUpdateDetails?.validate(name: "\(name).serviceCatalogProvisioningUpdateDetails")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectDescription = "ProjectDescription"
+            case projectName = "ProjectName"
+            case serviceCatalogProvisioningUpdateDetails = "ServiceCatalogProvisioningUpdateDetails"
+            case tags = "Tags"
+        }
+    }
+
+    public struct UpdateProjectOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String
+
+        public init(projectArn: String) {
+            self.projectArn = projectArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "ProjectArn"
         }
     }
 
@@ -24741,6 +25274,10 @@ extension SageMaker {
         public let jupyterServerAppSettings: JupyterServerAppSettings?
         /// The kernel gateway app settings.
         public let kernelGatewayAppSettings: KernelGatewayAppSettings?
+        /// A collection of settings that configure the RSessionGateway app.
+        public let rSessionAppSettings: RSessionAppSettings?
+        /// A collection of settings that configure user interaction with the RStudioServerPro app.
+        public let rStudioServerProAppSettings: RStudioServerProAppSettings?
         /// The security groups for the Amazon Virtual Private Cloud (VPC) that Studio uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly. Amazon SageMaker adds a security group to allow NFS traffic from SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown.
         public let securityGroups: [String]?
         /// Specifies options for sharing SageMaker Studio notebooks.
@@ -24748,10 +25285,12 @@ extension SageMaker {
         /// The TensorBoard app settings.
         public let tensorBoardAppSettings: TensorBoardAppSettings?
 
-        public init(executionRole: String? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, securityGroups: [String]? = nil, sharingSettings: SharingSettings? = nil, tensorBoardAppSettings: TensorBoardAppSettings? = nil) {
+        public init(executionRole: String? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, rSessionAppSettings: RSessionAppSettings? = nil, rStudioServerProAppSettings: RStudioServerProAppSettings? = nil, securityGroups: [String]? = nil, sharingSettings: SharingSettings? = nil, tensorBoardAppSettings: TensorBoardAppSettings? = nil) {
             self.executionRole = executionRole
             self.jupyterServerAppSettings = jupyterServerAppSettings
             self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.rSessionAppSettings = rSessionAppSettings
+            self.rStudioServerProAppSettings = rStudioServerProAppSettings
             self.securityGroups = securityGroups
             self.sharingSettings = sharingSettings
             self.tensorBoardAppSettings = tensorBoardAppSettings
@@ -24776,6 +25315,8 @@ extension SageMaker {
             case executionRole = "ExecutionRole"
             case jupyterServerAppSettings = "JupyterServerAppSettings"
             case kernelGatewayAppSettings = "KernelGatewayAppSettings"
+            case rSessionAppSettings = "RSessionAppSettings"
+            case rStudioServerProAppSettings = "RStudioServerProAppSettings"
             case securityGroups = "SecurityGroups"
             case sharingSettings = "SharingSettings"
             case tensorBoardAppSettings = "TensorBoardAppSettings"

@@ -527,24 +527,29 @@ extension GreengrassV2 {
     }
 
     public struct ComponentRunWith: AWSEncodableShape & AWSDecodableShape {
-        /// The POSIX system user and (optional) group to use to run this component. Specify the user and group separated by a colon (:) in the following format: user:group. The group is optional. If you don't specify a group, the IoT Greengrass Core software uses the primary user for the group. If you omit this parameter, the IoT Greengrass Core software uses the default system user and group that you configure on the Greengrass nucleus component. For more information, see Configure the user and group that run components.
+        /// The POSIX system user and, optionally, group to use to run this component on Linux core devices. The user, and group if specified, must exist on each Linux core device. Specify the user and group separated by a colon (:) in the following format: user:group. The group is optional. If you don't specify a group, the IoT Greengrass Core software uses the primary user for the group. If you omit this parameter, the IoT Greengrass Core software uses the default system user and group that you configure on the Greengrass nucleus component. For more information, see Configure the user and group that run components.
         public let posixUser: String?
-        /// The system resource limits to apply to this component's process on the core device. If you omit this parameter, the IoT Greengrass Core software uses the default system resource limits that you configure on the Greengrass nucleus component. For more information, see Configure system resource limits for components.
+        /// The system resource limits to apply to this component's process on the core device. IoT Greengrass currently supports this feature on only Linux core devices. If you omit this parameter, the IoT Greengrass Core software uses the default system resource limits that you configure on the Greengrass nucleus component. For more information, see Configure system resource limits for components.
         public let systemResourceLimits: SystemResourceLimits?
+        /// The Windows user to use to run this component on Windows core devices. The user must exist on each Windows core device, and its name and password must be in the LocalSystem account's Credentials Manager instance. If you omit this parameter, the IoT Greengrass Core software uses the default Windows user that you configure on the Greengrass nucleus component. For more information, see Configure the user and group that run components.
+        public let windowsUser: String?
 
-        public init(posixUser: String? = nil, systemResourceLimits: SystemResourceLimits? = nil) {
+        public init(posixUser: String? = nil, systemResourceLimits: SystemResourceLimits? = nil, windowsUser: String? = nil) {
             self.posixUser = posixUser
             self.systemResourceLimits = systemResourceLimits
+            self.windowsUser = windowsUser
         }
 
         public func validate(name: String) throws {
             try self.validate(self.posixUser, name: "posixUser", parent: name, min: 1)
             try self.systemResourceLimits?.validate(name: "\(name).systemResourceLimits")
+            try self.validate(self.windowsUser, name: "windowsUser", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case posixUser
             case systemResourceLimits
+            case windowsUser
         }
     }
 

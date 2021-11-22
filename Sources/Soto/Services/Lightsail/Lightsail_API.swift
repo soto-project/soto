@@ -309,7 +309,8 @@ public struct Lightsail: AWSService {
         return self.client.execute(operation: "DeleteInstanceSnapshot", path: "/ls/api/2016-11-28/DeleteInstanceSnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a specific SSH key pair. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the Amazon Lightsail Developer Guide.
+    /// Deletes a specific SSH key pair.
+    ///  The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the Amazon Lightsail Developer Guide.
     public func deleteKeyPair(_ input: DeleteKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKeyPairResult> {
         return self.client.execute(operation: "DeleteKeyPair", path: "/ls/api/2016-11-28/DeleteKeyPair", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

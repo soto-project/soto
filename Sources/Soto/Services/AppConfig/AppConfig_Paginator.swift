@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension AppConfig {
-    ///  List all applications in your AWS account.
+    ///  Lists all applications in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension AppConfig {
         )
     }
 
-    ///  List deployment strategies.
+    ///  Lists deployment strategies.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension AppConfig {
         )
     }
 
-    ///  List the environments for an application.
+    ///  Lists the environments for an application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,7 @@ extension AppConfig {
         )
     }
 
-    ///  View a list of configurations stored in the AppConfig configuration store by version.
+    ///  Lists configurations stored in the AppConfig hosted configuration store by version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -353,7 +353,8 @@ extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateToken {
         return .init(
             applicationId: self.applicationId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            type: self.type
         )
     }
 }

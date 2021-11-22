@@ -427,6 +427,7 @@ extension SSM {
         case debian = "DEBIAN"
         case macos = "MACOS"
         case oracleLinux = "ORACLE_LINUX"
+        case raspbian = "RASPBIAN"
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
         case suse = "SUSE"
         case ubuntu = "UBUNTU"
@@ -897,7 +898,7 @@ extension SSM {
         public let overview: AssociationOverview?
         /// A cron expression that specifies a schedule when the association runs. The schedule runs in Coordinated Universal Time (UTC).
         public let scheduleExpression: String?
-        /// The instances targeted by the request to create an association.
+        /// The instances targeted by the request to create an association. You can target all instances in an Amazon Web Services account by specifying the InstanceIds key with a value of *.
         public let targets: [Target]?
 
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, name: String? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
@@ -936,7 +937,7 @@ extension SSM {
         public let associationName: String?
         /// The association version.
         public let associationVersion: String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
         public let automationTargetParameterName: String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar.
         public let calendarNames: [String]?
@@ -2450,7 +2451,7 @@ extension SSM {
         public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
         public let automationTargetParameterName: String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar.
         public let calendarNames: [String]?
@@ -2476,7 +2477,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
-        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an Amazon Web Services account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
+        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an Amazon Web Services account, or individual instance IDs. You can target all instances in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
         public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
@@ -10111,7 +10112,7 @@ extension SSM {
     }
 
     public struct ParameterStringFilter: AWSEncodableShape {
-        /// The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeActions, all of the listed patterns are valid except Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, DataType, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeParameters, all of the listed patterns are valid except Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, DataType, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
         public let key: String
         /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using Label as the Key name, the only valid option is Equals.)
         public let option: String?
@@ -11531,7 +11532,7 @@ extension SSM {
         public let outputS3BucketName: String?
         /// The S3 bucket subfolder.
         public let outputS3KeyPrefix: String?
-        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Amazon Web Services Systems Manager automatically determines the Region of the S3 bucket.
+        /// The Amazon Web Services Region of the S3 bucket.
         public let outputS3Region: String?
 
         public init(outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil) {
@@ -11785,10 +11786,14 @@ extension SSM {
         public let documentName: String?
         /// The date and time, in ISO-8601 Extended format, when the session was terminated.
         public let endDate: Date?
+        /// The maximum duration of a session before it terminates.
+        public let maxSessionDuration: String?
         /// Reserved for future use.
         public let outputUrl: SessionManagerOutputUrl?
         /// The ID of the Amazon Web Services user account that started the session.
         public let owner: String?
+        /// The reason for connecting to the instance.
+        public let reason: String?
         /// The ID of the session.
         public let sessionId: String?
         /// The date and time, in ISO-8601 Extended format, when the session began.
@@ -11798,12 +11803,14 @@ extension SSM {
         /// The instance that the Session Manager session connected to.
         public let target: String?
 
-        public init(details: String? = nil, documentName: String? = nil, endDate: Date? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
+        public init(details: String? = nil, documentName: String? = nil, endDate: Date? = nil, maxSessionDuration: String? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, reason: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
             self.details = details
             self.documentName = documentName
             self.endDate = endDate
+            self.maxSessionDuration = maxSessionDuration
             self.outputUrl = outputUrl
             self.owner = owner
+            self.reason = reason
             self.sessionId = sessionId
             self.startDate = startDate
             self.status = status
@@ -11814,8 +11821,10 @@ extension SSM {
             case details = "Details"
             case documentName = "DocumentName"
             case endDate = "EndDate"
+            case maxSessionDuration = "MaxSessionDuration"
             case outputUrl = "OutputUrl"
             case owner = "Owner"
+            case reason = "Reason"
             case sessionId = "SessionId"
             case startDate = "StartDate"
             case status = "Status"
@@ -12032,6 +12041,8 @@ extension SSM {
     }
 
     public struct StartChangeRequestExecutionRequest: AWSEncodableShape {
+        /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review.  Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
+        public let autoApprove: Bool?
         /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
         public let changeDetails: String?
         /// The name of the change request associated with the runbook workflow to be run.
@@ -12053,7 +12064,8 @@ extension SSM {
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
-        public init(changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+        public init(autoApprove: Bool? = nil, changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+            self.autoApprove = autoApprove
             self.changeDetails = changeDetails
             self.changeRequestName = changeRequestName
             self.clientToken = clientToken
@@ -12095,6 +12107,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoApprove = "AutoApprove"
             case changeDetails = "ChangeDetails"
             case changeRequestName = "ChangeRequestName"
             case clientToken = "ClientToken"
@@ -12126,12 +12139,15 @@ extension SSM {
         public let documentName: String?
         /// Reserved for future use.
         public let parameters: [String: [String]]?
+        /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session.
+        public let reason: String?
         /// The instance to connect to for the session.
         public let target: String
 
-        public init(documentName: String? = nil, parameters: [String: [String]]? = nil, target: String) {
+        public init(documentName: String? = nil, parameters: [String: [String]]? = nil, reason: String? = nil, target: String) {
             self.documentName = documentName
             self.parameters = parameters
+            self.reason = reason
             self.target = target
         }
 
@@ -12141,6 +12157,9 @@ extension SSM {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
             }
+            try self.validate(self.reason, name: "reason", parent: name, max: 256)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
+            try self.validate(self.reason, name: "reason", parent: name, pattern: "^.{1,256}$")
             try self.validate(self.target, name: "target", parent: name, max: 400)
             try self.validate(self.target, name: "target", parent: name, min: 1)
         }
@@ -12148,6 +12167,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case documentName = "DocumentName"
             case parameters = "Parameters"
+            case reason = "Reason"
             case target = "Target"
         }
     }
@@ -12508,7 +12528,7 @@ extension SSM {
         public let associationName: String?
         /// This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify $LATEST, or omit this parameter.
         public let associationVersion: String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
         public let automationTargetParameterName: String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar.
         public let calendarNames: [String]?
