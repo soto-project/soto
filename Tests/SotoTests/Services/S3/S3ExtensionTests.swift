@@ -292,7 +292,8 @@ class S3ExtensionTests: XCTestCase {
         let s3Euwest2 = S3(
             client: S3ExtensionTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT"),
+            timeout: .minutes(2)
         )
         let response = S3Tests.createBucket(name: name, s3: s3)
             .and(S3Tests.createBucket(name: name2, s3: s3Euwest2))
