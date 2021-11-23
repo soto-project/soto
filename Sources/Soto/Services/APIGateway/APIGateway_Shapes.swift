@@ -3163,7 +3163,7 @@ extension APIGateway {
         public let cacheTtlInSeconds: Int?
         /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
         public let cachingEnabled: Bool?
-        /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
+        /// Specifies whether full requests and responses are logged for this method, which affects the log entries pushed to Amazon CloudWatch Logs. This can be useful to troubleshoot APIs, but can result in logging sensitive data. We recommend that you don't enable this option for production APIs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
         public let dataTraceEnabled: Bool?
         /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO. Choose ERROR to write only error-level entries to CloudWatch Logs, or choose INFO to include all ERROR events as well as extra informational events.
         public let loggingLevel: String?

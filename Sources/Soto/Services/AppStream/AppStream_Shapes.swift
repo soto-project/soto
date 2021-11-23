@@ -36,6 +36,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationAttribute: String, CustomStringConvertible, Codable {
+        case launchParameters = "LAUNCH_PARAMETERS"
+        case workingDirectory = "WORKING_DIRECTORY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthenticationType: String, CustomStringConvertible, Codable {
         case api = "API"
         case saml = "SAML"
@@ -46,6 +52,7 @@ extension AppStream {
     public enum FleetAttribute: String, CustomStringConvertible, Codable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
+        case usbDeviceFilterStrings = "USB_DEVICE_FILTER_STRINGS"
         case vpcConfiguration = "VPC_CONFIGURATION"
         case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
         public var description: String { return self.rawValue }
@@ -95,6 +102,7 @@ extension AppStream {
 
     public enum FleetType: String, CustomStringConvertible, Codable {
         case alwaysOn = "ALWAYS_ON"
+        case elastic = "ELASTIC"
         case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
@@ -151,6 +159,7 @@ extension AppStream {
     }
 
     public enum PlatformType: String, CustomStringConvertible, Codable {
+        case amazonLinux2 = "AMAZON_LINUX2"
         case windows = "WINDOWS"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
         case windowsServer2019 = "WINDOWS_SERVER_2019"
@@ -254,13 +263,62 @@ extension AppStream {
         }
     }
 
+    public struct AppBlock: AWSDecodableShape {
+        /// The ARN of the app block.
+        public let arn: String
+        /// The created time of the app block.
+        public let createdTime: Date?
+        /// The description of the app block.
+        public let description: String?
+        /// The display name of the app block.
+        public let displayName: String?
+        /// The name of the app block.
+        public let name: String
+        /// The setup script details of the app block.
+        public let setupScriptDetails: ScriptDetails
+        /// The source S3 location of the app block.
+        public let sourceS3Location: S3Location?
+
+        public init(arn: String, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, name: String, setupScriptDetails: ScriptDetails, sourceS3Location: S3Location? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.displayName = displayName
+            self.name = name
+            self.setupScriptDetails = setupScriptDetails
+            self.sourceS3Location = sourceS3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case name = "Name"
+            case setupScriptDetails = "SetupScriptDetails"
+            case sourceS3Location = "SourceS3Location"
+        }
+    }
+
     public struct Application: AWSDecodableShape {
+        /// The app block ARN of the application.
+        public let appBlockArn: String?
+        /// The ARN of the application.
+        public let arn: String?
+        /// The time at which the application was created within the app block.
+        public let createdTime: Date?
+        /// The description of the application.
+        public let description: String?
         /// The application name to display.
         public let displayName: String?
         /// If there is a problem, the application can be disabled after image creation.
         public let enabled: Bool?
+        /// The S3 location of the application icon.
+        public let iconS3Location: S3Location?
         /// The URL for the application icon. This URL might be time-limited.
         public let iconURL: String?
+        /// The instance families for the application.
+        public let instanceFamilies: [String]?
         /// The arguments that are passed to the application at launch.
         public let launchParameters: String?
         /// The path to the application executable in the instance.
@@ -269,25 +327,62 @@ extension AppStream {
         public let metadata: [String: String]?
         /// The name of the application.
         public let name: String?
+        /// The platforms on which the application can run.
+        public let platforms: [PlatformType]?
+        /// The working directory for the application.
+        public let workingDirectory: String?
 
-        public init(displayName: String? = nil, enabled: Bool? = nil, iconURL: String? = nil, launchParameters: String? = nil, launchPath: String? = nil, metadata: [String: String]? = nil, name: String? = nil) {
+        public init(appBlockArn: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, enabled: Bool? = nil, iconS3Location: S3Location? = nil, iconURL: String? = nil, instanceFamilies: [String]? = nil, launchParameters: String? = nil, launchPath: String? = nil, metadata: [String: String]? = nil, name: String? = nil, platforms: [PlatformType]? = nil, workingDirectory: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
             self.displayName = displayName
             self.enabled = enabled
+            self.iconS3Location = iconS3Location
             self.iconURL = iconURL
+            self.instanceFamilies = instanceFamilies
             self.launchParameters = launchParameters
             self.launchPath = launchPath
             self.metadata = metadata
             self.name = name
+            self.platforms = platforms
+            self.workingDirectory = workingDirectory
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
             case displayName = "DisplayName"
             case enabled = "Enabled"
+            case iconS3Location = "IconS3Location"
             case iconURL = "IconURL"
+            case instanceFamilies = "InstanceFamilies"
             case launchParameters = "LaunchParameters"
             case launchPath = "LaunchPath"
             case metadata = "Metadata"
             case name = "Name"
+            case platforms = "Platforms"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct ApplicationFleetAssociation: AWSDecodableShape {
+        /// The ARN of the application associated with the fleet.
+        public let applicationArn: String
+        /// The name of the fleet associated with the application.
+        public let fleetName: String
+
+        public init(applicationArn: String, fleetName: String) {
+            self.applicationArn = applicationArn
+            self.fleetName = fleetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case fleetName = "FleetName"
         }
     }
 
@@ -330,6 +425,41 @@ extension AppStream {
             case enabled = "Enabled"
             case s3BucketName = "S3BucketName"
             case settingsGroup = "SettingsGroup"
+        }
+    }
+
+    public struct AssociateApplicationFleetRequest: AWSEncodableShape {
+        /// The ARN of the application.
+        public let applicationArn: String
+        /// The name of the fleet.
+        public let fleetName: String
+
+        public init(applicationArn: String, fleetName: String) {
+            self.applicationArn = applicationArn
+            self.fleetName = fleetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.fleetName, name: "fleetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case fleetName = "FleetName"
+        }
+    }
+
+    public struct AssociateApplicationFleetResult: AWSDecodableShape {
+        /// If fleet name is specified, this returns the list of applications that are associated to it. If application ARN is specified, this returns the list of fleets to which it is associated.
+        public let applicationFleetAssociation: ApplicationFleetAssociation?
+
+        public init(applicationFleetAssociation: ApplicationFleetAssociation? = nil) {
+            self.applicationFleetAssociation = applicationFleetAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationFleetAssociation = "ApplicationFleetAssociation"
         }
     }
 
@@ -511,6 +641,156 @@ extension AppStream {
         }
     }
 
+    public struct CreateAppBlockRequest: AWSEncodableShape {
+        /// The description of the app block.
+        public let description: String?
+        /// The display name of the app block. This is not displayed to the user.
+        public let displayName: String?
+        /// The name of the app block.
+        public let name: String
+        /// The setup script details of the app block.
+        public let setupScriptDetails: ScriptDetails
+        /// The source S3 location of the app block.
+        public let sourceS3Location: S3Location
+        /// The tags assigned to the app block.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, displayName: String? = nil, name: String, setupScriptDetails: ScriptDetails, sourceS3Location: S3Location, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.name = name
+            self.setupScriptDetails = setupScriptDetails
+            self.sourceS3Location = sourceS3Location
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.setupScriptDetails.validate(name: "\(name).setupScriptDetails")
+            try self.sourceS3Location.validate(name: "\(name).sourceS3Location")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case name = "Name"
+            case setupScriptDetails = "SetupScriptDetails"
+            case sourceS3Location = "SourceS3Location"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAppBlockResult: AWSDecodableShape {
+        /// The app block.
+        public let appBlock: AppBlock?
+
+        public init(appBlock: AppBlock? = nil) {
+            self.appBlock = appBlock
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlock = "AppBlock"
+        }
+    }
+
+    public struct CreateApplicationRequest: AWSEncodableShape {
+        /// The app block ARN to which the application should be associated
+        public let appBlockArn: String
+        /// The description of the application.
+        public let description: String?
+        /// The display name of the application. This name is visible to users in the application catalog.
+        public let displayName: String?
+        /// The location in S3 of the application icon.
+        public let iconS3Location: S3Location
+        /// The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4.
+        public let instanceFamilies: [String]
+        /// The launch parameters of the application.
+        public let launchParameters: String?
+        /// The launch path of the application.
+        public let launchPath: String
+        /// The name of the application. This name is visible to users when display name is not specified.
+        public let name: String
+        /// The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+        public let platforms: [PlatformType]
+        /// The tags assigned to the application.
+        public let tags: [String: String]?
+        /// The working directory of the application.
+        public let workingDirectory: String?
+
+        public init(appBlockArn: String, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location, instanceFamilies: [String], launchParameters: String? = nil, launchPath: String, name: String, platforms: [PlatformType], tags: [String: String]? = nil, workingDirectory: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.description = description
+            self.displayName = displayName
+            self.iconS3Location = iconS3Location
+            self.instanceFamilies = instanceFamilies
+            self.launchParameters = launchParameters
+            self.launchPath = launchPath
+            self.name = name
+            self.platforms = platforms
+            self.tags = tags
+            self.workingDirectory = workingDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.iconS3Location.validate(name: "\(name).iconS3Location")
+            try self.instanceFamilies.forEach {
+                try validate($0, name: "instanceFamilies[]", parent: name, min: 1)
+            }
+            try self.validate(self.launchParameters, name: "launchParameters", parent: name, min: 1)
+            try self.validate(self.launchPath, name: "launchPath", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.platforms, name: "platforms", parent: name, max: 4)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case iconS3Location = "IconS3Location"
+            case instanceFamilies = "InstanceFamilies"
+            case launchParameters = "LaunchParameters"
+            case launchPath = "LaunchPath"
+            case name = "Name"
+            case platforms = "Platforms"
+            case tags = "Tags"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct CreateApplicationResult: AWSDecodableShape {
+        public let application: Application?
+
+        public init(application: Application? = nil) {
+            self.application = application
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "Application"
+        }
+    }
+
     public struct CreateDirectoryConfigRequest: AWSEncodableShape {
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String
@@ -553,15 +833,15 @@ extension AppStream {
     }
 
     public struct CreateFleetRequest: AWSEncodableShape {
-        /// The desired capacity for the fleet.
-        public let computeCapacity: ComputeCapacity
+        /// The desired capacity for the fleet. This is not allowed for Elastic fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
+        public let computeCapacity: ComputeCapacity?
         /// The description to display.
         public let description: String?
         /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 360000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
         public let displayName: String?
-        /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the fleet.
         public let enableDefaultInternetAccess: Bool?
@@ -575,20 +855,26 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium
         public let instanceType: String
+        /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
+        public let maxConcurrentSessions: Int?
         /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
         public let name: String
+        /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+        public let platform: PlatformType?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
         /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
         public let tags: [String: String]?
-        /// The VPC configuration for the fleet.
+        /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
+        public let usbDeviceFilterStrings: [String]?
+        /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(computeCapacity: ComputeCapacity, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int? = nil, name: String, streamView: StreamView? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -601,10 +887,13 @@ extension AppStream {
             self.imageArn = imageArn
             self.imageName = imageName
             self.instanceType = instanceType
+            self.maxConcurrentSessions = maxConcurrentSessions
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
+            self.platform = platform
             self.streamView = streamView
             self.tags = tags
+            self.usbDeviceFilterStrings = usbDeviceFilterStrings
             self.vpcConfig = vpcConfig
         }
 
@@ -625,6 +914,11 @@ extension AppStream {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.usbDeviceFilterStrings?.forEach {
+                try validate($0, name: "usbDeviceFilterStrings[]", parent: name, max: 100)
+                try validate($0, name: "usbDeviceFilterStrings[]", parent: name, min: 0)
+                try validate($0, name: "usbDeviceFilterStrings[]", parent: name, pattern: "^((\\w*)\\s*(\\w*)\\s*\\,\\s*(\\w*)\\s*\\,\\s*\\*?(\\w*)\\s*\\,\\s*\\*?(\\w*)\\s*\\,\\s*\\*?\\d*\\s*\\,\\s*\\*?\\d*\\s*\\,\\s*[0-1]\\s*\\,\\s*[0-1]\\s*)$")
+            }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -641,10 +935,13 @@ extension AppStream {
             case imageArn = "ImageArn"
             case imageName = "ImageName"
             case instanceType = "InstanceType"
+            case maxConcurrentSessions = "MaxConcurrentSessions"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
+            case platform = "Platform"
             case streamView = "StreamView"
             case tags = "Tags"
+            case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -1087,6 +1384,48 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DeleteAppBlockRequest: AWSEncodableShape {
+        /// The name of the app block.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteAppBlockResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteApplicationRequest: AWSEncodableShape {
+        /// The name of the application.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteApplicationResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDirectoryConfigRequest: AWSEncodableShape {
         /// The name of the directory configuration.
         public let directoryName: String
@@ -1265,6 +1604,144 @@ extension AppStream {
 
     public struct DeleteUserResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeAppBlocksRequest: AWSEncodableShape {
+        /// The ARNs of the app blocks.
+        public let arns: [String]?
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(arns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.arns = arns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.arns?.forEach {
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arns = "Arns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlocksResult: AWSDecodableShape {
+        /// The app blocks in the list.
+        public let appBlocks: [AppBlock]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlocks: [AppBlock]? = nil, nextToken: String? = nil) {
+            self.appBlocks = appBlocks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlocks = "AppBlocks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationFleetAssociationsRequest: AWSEncodableShape {
+        /// The ARN of the application.
+        public let applicationArn: String?
+        /// The name of the fleet.
+        public let fleetName: String?
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(applicationArn: String? = nil, fleetName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationArn = applicationArn
+            self.fleetName = fleetName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.fleetName, name: "fleetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case fleetName = "FleetName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationFleetAssociationsResult: AWSDecodableShape {
+        /// The application fleet associations in the list.
+        public let applicationFleetAssociations: [ApplicationFleetAssociation]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(applicationFleetAssociations: [ApplicationFleetAssociation]? = nil, nextToken: String? = nil) {
+            self.applicationFleetAssociations = applicationFleetAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationFleetAssociations = "ApplicationFleetAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationsRequest: AWSEncodableShape {
+        /// The ARNs for the applications.
+        public let arns: [String]?
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(arns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.arns = arns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.arns?.forEach {
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arns = "Arns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationsResult: AWSDecodableShape {
+        /// The applications in the list.
+        public let applications: [Application]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(applications: [Application]? = nil, nextToken: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct DescribeDirectoryConfigsRequest: AWSEncodableShape {
@@ -1798,6 +2275,32 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DisassociateApplicationFleetRequest: AWSEncodableShape {
+        /// The ARN of the application.
+        public let applicationArn: String
+        /// The name of the fleet.
+        public let fleetName: String
+
+        public init(applicationArn: String, fleetName: String) {
+            self.applicationArn = applicationArn
+            self.fleetName = fleetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.fleetName, name: "fleetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case fleetName = "FleetName"
+        }
+    }
+
+    public struct DisassociateApplicationFleetResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
         public let fleetName: String
@@ -1924,18 +2427,24 @@ extension AppStream {
         public let imageName: String?
         /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
         public let instanceType: String
+        /// The maximum number of concurrent sessions for the fleet.
+        public let maxConcurrentSessions: Int?
         /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance.  Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int?
         /// The name of the fleet.
         public let name: String
+        /// The platform of the fleet.
+        public let platform: PlatformType?
         /// The current state for the fleet.
         public let state: FleetState
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
+        /// The USB device filter strings associated with the fleet.
+        public let usbDeviceFilterStrings: [String]?
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int? = nil, name: String, state: FleetState, streamView: StreamView? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, state: FleetState, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -1951,10 +2460,13 @@ extension AppStream {
             self.imageArn = imageArn
             self.imageName = imageName
             self.instanceType = instanceType
+            self.maxConcurrentSessions = maxConcurrentSessions
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
+            self.platform = platform
             self.state = state
             self.streamView = streamView
+            self.usbDeviceFilterStrings = usbDeviceFilterStrings
             self.vpcConfig = vpcConfig
         }
 
@@ -1974,10 +2486,13 @@ extension AppStream {
             case imageArn = "ImageArn"
             case imageName = "ImageName"
             case instanceType = "InstanceType"
+            case maxConcurrentSessions = "MaxConcurrentSessions"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
+            case platform = "Platform"
             case state = "State"
             case streamView = "StreamView"
+            case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -2370,6 +2885,62 @@ extension AppStream {
         }
     }
 
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket of the S3 object.
+        public let s3Bucket: String
+        /// The S3 key of the S3 object.
+        public let s3Key: String
+
+        public init(s3Bucket: String, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9a-z\\.\\-]*(?<!\\.)$")
+            try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
+            try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Key = "S3Key"
+        }
+    }
+
+    public struct ScriptDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The runtime parameters passed to the run path for the script.
+        public let executableParameters: String?
+        /// The run path for the script.
+        public let executablePath: String
+        /// The S3 object location for the script.
+        public let scriptS3Location: S3Location
+        /// The run timeout, in seconds, for the script.
+        public let timeoutInSeconds: Int
+
+        public init(executableParameters: String? = nil, executablePath: String, scriptS3Location: S3Location, timeoutInSeconds: Int) {
+            self.executableParameters = executableParameters
+            self.executablePath = executablePath
+            self.scriptS3Location = scriptS3Location
+            self.timeoutInSeconds = timeoutInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executableParameters, name: "executableParameters", parent: name, min: 1)
+            try self.validate(self.executablePath, name: "executablePath", parent: name, min: 1)
+            try self.scriptS3Location.validate(name: "\(name).scriptS3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executableParameters = "ExecutableParameters"
+            case executablePath = "ExecutablePath"
+            case scriptS3Location = "ScriptS3Location"
+            case timeoutInSeconds = "TimeoutInSeconds"
+        }
+    }
+
     public struct ServiceAccountCredentials: AWSEncodableShape & AWSDecodableShape {
         /// The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified.
         public let accountName: String
@@ -2741,6 +3312,75 @@ extension AppStream {
         public init() {}
     }
 
+    public struct UpdateApplicationRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String?
+        /// The attributes to delete for an application.
+        public let attributesToDelete: [ApplicationAttribute]?
+        /// The description of the application.
+        public let description: String?
+        /// The display name of the application. This name is visible to users in the application catalog.
+        public let displayName: String?
+        /// The icon S3 location of the application.
+        public let iconS3Location: S3Location?
+        /// The launch parameters of the application.
+        public let launchParameters: String?
+        /// The launch path of the application.
+        public let launchPath: String?
+        /// The name of the application. This name is visible to users when display name is not specified.
+        public let name: String
+        /// The working directory of the application.
+        public let workingDirectory: String?
+
+        public init(appBlockArn: String? = nil, attributesToDelete: [ApplicationAttribute]? = nil, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location? = nil, launchParameters: String? = nil, launchPath: String? = nil, name: String, workingDirectory: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.attributesToDelete = attributesToDelete
+            self.description = description
+            self.displayName = displayName
+            self.iconS3Location = iconS3Location
+            self.launchParameters = launchParameters
+            self.launchPath = launchPath
+            self.name = name
+            self.workingDirectory = workingDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.attributesToDelete, name: "attributesToDelete", parent: name, max: 2)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.iconS3Location?.validate(name: "\(name).iconS3Location")
+            try self.validate(self.launchParameters, name: "launchParameters", parent: name, min: 1)
+            try self.validate(self.launchPath, name: "launchPath", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case attributesToDelete = "AttributesToDelete"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case iconS3Location = "IconS3Location"
+            case launchParameters = "LaunchParameters"
+            case launchPath = "LaunchPath"
+            case name = "Name"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct UpdateApplicationResult: AWSDecodableShape {
+        public let application: Application?
+
+        public init(application: Application? = nil) {
+            self.application = application
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "Application"
+        }
+    }
+
     public struct UpdateDirectoryConfigRequest: AWSEncodableShape {
         /// The name of the Directory Config object.
         public let directoryName: String
@@ -2785,7 +3425,7 @@ extension AppStream {
     public struct UpdateFleetRequest: AWSEncodableShape {
         /// The fleet attributes to delete.
         public let attributesToDelete: [FleetAttribute]?
-        /// The desired capacity for the fleet.
+        /// The desired capacity for the fleet. This is not allowed for Elastic fleets.
         public let computeCapacity: ComputeCapacity?
         /// The description to display.
         public let description: String?
@@ -2805,18 +3445,24 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium
         public let instanceType: String?
+        /// The maximum number of concurrent sessions for a fleet.
+        public let maxConcurrentSessions: Int?
         /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
         public let name: String?
+        /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+        public let platform: PlatformType?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
-        /// The VPC configuration for the fleet.
+        /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
+        public let usbDeviceFilterStrings: [String]?
+        /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, streamView: StreamView? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.description = description
@@ -2829,9 +3475,12 @@ extension AppStream {
             self.imageArn = imageArn
             self.imageName = imageName
             self.instanceType = instanceType
+            self.maxConcurrentSessions = maxConcurrentSessions
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
+            self.platform = platform
             self.streamView = streamView
+            self.usbDeviceFilterStrings = usbDeviceFilterStrings
             self.vpcConfig = vpcConfig
         }
 
@@ -2844,6 +3493,11 @@ extension AppStream {
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.usbDeviceFilterStrings?.forEach {
+                try validate($0, name: "usbDeviceFilterStrings[]", parent: name, max: 100)
+                try validate($0, name: "usbDeviceFilterStrings[]", parent: name, min: 0)
+                try validate($0, name: "usbDeviceFilterStrings[]", parent: name, pattern: "^((\\w*)\\s*(\\w*)\\s*\\,\\s*(\\w*)\\s*\\,\\s*\\*?(\\w*)\\s*\\,\\s*\\*?(\\w*)\\s*\\,\\s*\\*?\\d*\\s*\\,\\s*\\*?\\d*\\s*\\,\\s*[0-1]\\s*\\,\\s*[0-1]\\s*)$")
+            }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -2860,9 +3514,12 @@ extension AppStream {
             case imageArn = "ImageArn"
             case imageName = "ImageName"
             case instanceType = "InstanceType"
+            case maxConcurrentSessions = "MaxConcurrentSessions"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
+            case platform = "Platform"
             case streamView = "StreamView"
+            case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
             case vpcConfig = "VpcConfig"
         }
     }

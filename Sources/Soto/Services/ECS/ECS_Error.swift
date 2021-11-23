@@ -63,53 +63,53 @@ public struct ECSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have authorization to perform the requested action.
+    /// You don't have authorization to perform the requested action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// You can apply up to 10 custom attributes per resource. You can view the attributes of a resource with ListAttributes. You can remove existing attributes on a resource with DeleteAttributes.
+    /// You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with ListAttributes. You can remove existing attributes on a resource with DeleteAttributes.
     public static var attributeLimitExceededException: Self { .init(.attributeLimitExceededException) }
-    /// Your Amazon Web Services account has been blocked. For more information, contact  Amazon Web Services Support.
+    /// Your Amazon Web Services account was blocked. For more information, contact  Amazon Web Services Support.
     public static var blockedException: Self { .init(.blockedException) }
-    /// These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an identifier that is not valid.
+    /// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
     public static var clientException: Self { .init(.clientException) }
-    /// You cannot delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see DeregisterContainerInstance.
+    /// You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see DeregisterContainerInstance.
     public static var clusterContainsContainerInstancesException: Self { .init(.clusterContainsContainerInstancesException) }
-    /// You cannot delete a cluster that contains services. First, update the service to reduce its desired task count to 0 and then delete the service. For more information, see UpdateService and DeleteService.
+    /// You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see UpdateService and DeleteService.
     public static var clusterContainsServicesException: Self { .init(.clusterContainsServicesException) }
-    /// You cannot delete a cluster that has active tasks.
+    /// You can't delete a cluster that has active tasks.
     public static var clusterContainsTasksException: Self { .init(.clusterContainsTasksException) }
-    /// The specified cluster could not be found. You can view your available clusters with ListClusters. Amazon ECS clusters are Region-specific.
+    /// The specified cluster wasn't found. You can view your available clusters with ListClusters. Amazon ECS clusters are Region specific.
     public static var clusterNotFoundException: Self { .init(.clusterNotFoundException) }
-    /// The specified parameter is invalid. Review the available parameters for the API request.
+    /// The specified parameter isn't valid. Review the available parameters for the API request.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// The limit for the resource has been exceeded.
+    /// The limit for the resource was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// Amazon ECS is unable to determine the current version of the Amazon ECS container agent on the container instance and does not have enough information to proceed with an update. This could be because the agent running on the container instance is an older or custom version that does not use our version information.
+    /// Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
     public static var missingVersionException: Self { .init(.missingVersionException) }
-    /// There is no update available for this Amazon ECS container agent. This could be because the agent is already running the latest version, or it is so old that there is no update path to the current version.
+    /// There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
     public static var noUpdateAvailableException: Self { .init(.noUpdateAvailableException) }
-    /// The specified platform version does not satisfy the task definition's required capabilities.
+    /// The specified platform version doesn't satisfy the required capabilities of the task definition.
     public static var platformTaskDefinitionIncompatibilityException: Self { .init(.platformTaskDefinitionIncompatibilityException) }
-    /// The specified platform version does not exist.
+    /// The specified platform version doesn't exist.
     public static var platformUnknownException: Self { .init(.platformUnknownException) }
-    /// The specified resource is in-use and cannot be removed.
+    /// The specified resource is in-use and can't be removed.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource could not be found.
+    /// The specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// These errors are usually caused by a server issue.
     public static var serverException: Self { .init(.serverException) }
-    /// The specified service is not active. You can't update a service that is inactive. If you have previously deleted a service, you can re-create it with CreateService.
+    /// The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with CreateService.
     public static var serviceNotActiveException: Self { .init(.serviceNotActiveException) }
-    /// The specified service could not be found. You can view your available services with ListServices. Amazon ECS services are cluster-specific and Region-specific.
+    /// The specified service wasn't found. You can view your available services with ListServices. Amazon ECS services are cluster specific and Region specific.
     public static var serviceNotFoundException: Self { .init(.serviceNotFoundException) }
-    /// The target container is not properly configured with the execute command agent or the container is no longer active or running.
+    /// The target container isn't properly configured with the execute command agent or the container is no longer active or running.
     public static var targetNotConnectedException: Self { .init(.targetNotConnectedException) }
-    /// The specified target could not be found. You can view your available container instances with ListContainerInstances. Amazon ECS container instances are cluster-specific and Region-specific.
+    /// The specified target wasn't found. You can view your available container instances with ListContainerInstances. Amazon ECS container instances are cluster-specific and Region-specific.
     public static var targetNotFoundException: Self { .init(.targetNotFoundException) }
-    /// The specified task set could not be found. You can view your available task sets with DescribeTaskSets. Task sets are specific to each cluster, service and Region.
+    /// The specified task set wasn't found. You can view your available task sets with DescribeTaskSets. Task sets are specific to each cluster, service and Region.
     public static var taskSetNotFoundException: Self { .init(.taskSetNotFoundException) }
-    /// The specified task is not supported in this Region.
+    /// The specified task isn't supported in this Region.
     public static var unsupportedFeatureException: Self { .init(.unsupportedFeatureException) }
-    /// There is already a current Amazon ECS container agent update in progress on the specified container instance. If the container agent becomes disconnected while it is in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
+    /// There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
     public static var updateInProgressException: Self { .init(.updateInProgressException) }
 }
 

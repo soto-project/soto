@@ -394,6 +394,7 @@ extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateToken {
 extension ApplicationInsights.ListProblemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListProblemsRequest {
         return .init(
+            componentName: self.componentName,
             endTime: self.endTime,
             maxResults: self.maxResults,
             nextToken: token,

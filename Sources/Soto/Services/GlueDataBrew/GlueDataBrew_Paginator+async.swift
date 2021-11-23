@@ -154,6 +154,28 @@ extension GlueDataBrew {
         )
     }
 
+    ///  List all rulesets available in the current account or rulesets associated with a specific resource (dataset).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRulesetsPaginator(
+        _ input: ListRulesetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRulesetsRequest, ListRulesetsResponse> {
+        return .init(
+            input: input,
+            command: listRulesets,
+            inputKey: \ListRulesetsRequest.nextToken,
+            outputKey: \ListRulesetsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the DataBrew schedules that are defined.
     /// Return PaginatorSequence for operation.
     ///

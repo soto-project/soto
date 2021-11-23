@@ -126,7 +126,7 @@ extension AppConfig {
 
         /// The configuration version.
         public let configurationVersion: String?
-        /// The content of the configuration or the configuration data.
+        /// The content of the configuration or the configuration data.  Compare the configuration version numbers of the configuration cached locally on your machine and the configuration number in the the header. If the configuration numbers are the same, the content can be ignored. The Content section only appears if the system finds new or updated configuration data. If the system doesn't find new or updated configuration data, then the Content section is not returned.
         public let content: AWSPayload?
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
@@ -157,16 +157,19 @@ extension AppConfig {
         public let name: String?
         /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
         public let retrievalRoleArn: String?
+        /// The type of configurations that the configuration profile contains. A configuration can be a feature flag used for enabling or disabling new features or a free-form configuration used for distributing configurations to your application.
+        public let type: String?
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
-        public init(applicationId: String? = nil, description: String? = nil, id: String? = nil, locationUri: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, validators: [Validator]? = nil) {
+        public init(applicationId: String? = nil, description: String? = nil, id: String? = nil, locationUri: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, type: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
             self.id = id
             self.locationUri = locationUri
             self.name = name
             self.retrievalRoleArn = retrievalRoleArn
+            self.type = type
             self.validators = validators
         }
 
@@ -177,6 +180,7 @@ extension AppConfig {
             case locationUri = "LocationUri"
             case name = "Name"
             case retrievalRoleArn = "RetrievalRoleArn"
+            case type = "Type"
             case validators = "Validators"
         }
     }
@@ -190,14 +194,17 @@ extension AppConfig {
         public let locationUri: String?
         /// The name of the configuration profile.
         public let name: String?
+        /// The type of configurations that the configuration profile contains. A configuration can be a feature flag used for enabling or disabling new features or a free-form configuration used to introduce changes to your application.
+        public let type: String?
         /// The types of validators in the configuration profile.
         public let validatorTypes: [ValidatorType]?
 
-        public init(applicationId: String? = nil, id: String? = nil, locationUri: String? = nil, name: String? = nil, validatorTypes: [ValidatorType]? = nil) {
+        public init(applicationId: String? = nil, id: String? = nil, locationUri: String? = nil, name: String? = nil, type: String? = nil, validatorTypes: [ValidatorType]? = nil) {
             self.applicationId = applicationId
             self.id = id
             self.locationUri = locationUri
             self.name = name
+            self.type = type
             self.validatorTypes = validatorTypes
         }
 
@@ -206,6 +213,7 @@ extension AppConfig {
             case id = "Id"
             case locationUri = "LocationUri"
             case name = "Name"
+            case type = "Type"
             case validatorTypes = "ValidatorTypes"
         }
     }
@@ -269,24 +277,27 @@ extension AppConfig {
         public let applicationId: String
         /// A description of the configuration profile.
         public let description: String?
-        /// A URI to locate the configuration. You can specify a Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For an SSM document, specify either the document name in the format ssm-document://&lt;Document_name&gt; or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter://&lt;Parameter_name&gt; or the ARN. For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
+        /// A URI to locate the configuration. You can specify the AppConfig hosted configuration store, Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For the hosted configuration store and for feature flags, specify hosted. For an SSM document, specify either the document name in the format ssm-document://&lt;Document_name&gt; or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter://&lt;Parameter_name&gt; or the ARN. For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
-        /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
+        /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.  A retrieval role ARN is not required for configurations stored in the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
         public let retrievalRoleArn: String?
         /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
+        /// The type of configurations that the configuration profile contains. A configuration can be a feature flag used for enabling or disabling new features or a free-form configuration used for distributing configurations to your application.
+        public let type: String?
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
-        public init(applicationId: String, description: String? = nil, locationUri: String, name: String, retrievalRoleArn: String? = nil, tags: [String: String]? = nil, validators: [Validator]? = nil) {
+        public init(applicationId: String, description: String? = nil, locationUri: String, name: String, retrievalRoleArn: String? = nil, tags: [String: String]? = nil, type: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
             self.locationUri = locationUri
             self.name = name
             self.retrievalRoleArn = retrievalRoleArn
             self.tags = tags
+            self.type = type
             self.validators = validators
         }
 
@@ -306,6 +317,7 @@ extension AppConfig {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z\\.]+")
             try self.validators?.forEach {
                 try $0.validate(name: "\(name).validators[]")
             }
@@ -319,6 +331,7 @@ extension AppConfig {
             case name = "Name"
             case retrievalRoleArn = "RetrievalRoleArn"
             case tags = "Tags"
+            case type = "Type"
             case validators = "Validators"
         }
     }
@@ -332,7 +345,7 @@ extension AppConfig {
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float
-        /// The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
+        /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
         /// A name for the deployment strategy.
         public let name: String
@@ -455,7 +468,7 @@ extension AppConfig {
         public let contentType: String
         /// A description of the configuration.
         public let description: String?
-        /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version of the latest hosted configuration version.
+        /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
         public let latestVersionNumber: Int?
 
         public init(applicationId: String, configurationProfileId: String, content: AWSPayload, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil) {
@@ -547,9 +560,9 @@ extension AppConfig {
             AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
-        /// The application ID that includes the environment you want to delete.
+        /// The application ID that includes the environment that you want to delete.
         public let applicationId: String
-        /// The ID of the environment you want to delete.
+        /// The ID of the environment that you want to delete.
         public let environmentId: String
 
         public init(applicationId: String, environmentId: String) {
@@ -619,7 +632,7 @@ extension AppConfig {
         public let environmentId: String?
         /// A list containing all events related to a deployment. The most recent events are displayed first.
         public let eventLog: [DeploymentEvent]?
-        /// The amount of time AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.
+        /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float?
@@ -677,14 +690,14 @@ extension AppConfig {
     }
 
     public struct DeploymentEvent: AWSDecodableShape {
-        /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
+        /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the Amazon CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
         public let description: String?
-        /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; the start or completion of a rollback.
+        /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; and the start or completion of a rollback.
         public let eventType: DeploymentEventType?
         /// The date and time the event occurred.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var occurredAt: Date?
-        /// The entity that triggered the deployment event. Events can be triggered by a user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error.
+        /// The entity that triggered the deployment event. Events can be triggered by a user, AppConfig, an Amazon CloudWatch alarm, or an internal error.
         public let triggeredBy: TriggeredBy?
 
         public init(description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: Date? = nil, triggeredBy: TriggeredBy? = nil) {
@@ -724,7 +737,7 @@ extension AppConfig {
         public let deploymentDurationInMinutes: Int?
         /// The description of the deployment strategy.
         public let description: String?
-        /// The amount of time AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.
+        /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets that received a deployed configuration during each interval.
         public let growthFactor: Float?
@@ -772,7 +785,7 @@ extension AppConfig {
         public let deploymentDurationInMinutes: Int?
         /// The sequence number of the deployment.
         public let deploymentNumber: Int?
-        /// The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.
+        /// The amount of time that AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float?
@@ -909,7 +922,7 @@ extension AppConfig {
 
         /// The ID of the application that includes the configuration profile you want to get.
         public let applicationId: String
-        /// The ID of the configuration profile you want to get.
+        /// The ID of the configuration profile that you want to get.
         public let configurationProfileId: String
 
         public init(applicationId: String, configurationProfileId: String) {
@@ -936,9 +949,9 @@ extension AppConfig {
 
         /// The application to get. Specify either the application name or the application ID.
         public let application: String
-        /// The configuration version returned in the most recent GetConfiguration response.  AWS AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AWS AppConfig User Guide.
+        /// The configuration version returned in the most recent GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AppConfig User Guide.
         public let clientConfigurationVersion: String?
-        /// A unique ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
+        /// The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
         public let clientId: String
         /// The configuration to get. Specify either the configuration name or the configuration ID.
         public let configuration: String
@@ -1024,7 +1037,7 @@ extension AppConfig {
 
         /// The ID of the application that includes the environment you want to get.
         public let applicationId: String
-        /// The ID of the environment you wnat to get.
+        /// The ID of the environment that you want to get.
         public let environmentId: String
 
         public init(applicationId: String, environmentId: String) {
@@ -1167,7 +1180,7 @@ extension AppConfig {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
-        /// A token to start the list. Use this token to get the next set of results.
+        /// A token to start the list. Next token is a pagination token generated by AppConfig to describe what page the previous List call ended on. For the first List request, the nextToken should not be set. On subsequent calls, the nextToken parameter should be set to the previous responses nextToken value. Use this token to get the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1189,7 +1202,8 @@ extension AppConfig {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token")),
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
         /// The application ID.
@@ -1198,11 +1212,14 @@ extension AppConfig {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
+        /// A filter based on the type of configurations that the configuration profile contains. A configuration can be a feature flag or a free-form configuration.
+        public let type: String?
 
-        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, type: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1211,6 +1228,7 @@ extension AppConfig {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z\\.]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1367,20 +1385,19 @@ extension AppConfig {
     }
 
     public struct Monitor: AWSEncodableShape & AWSDecodableShape {
-        /// ARN of the Amazon CloudWatch alarm.
-        public let alarmArn: String?
-        /// ARN of an IAM role for AppConfig to monitor AlarmArn.
+        /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+        public let alarmArn: String
+        /// ARN of an Identity and Access Management (IAM) role for AppConfig to monitor AlarmArn.
         public let alarmRoleArn: String?
 
-        public init(alarmArn: String? = nil, alarmRoleArn: String? = nil) {
+        public init(alarmArn: String, alarmRoleArn: String? = nil) {
             self.alarmArn = alarmArn
             self.alarmRoleArn = alarmRoleArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.alarmArn, name: "alarmArn", parent: name, max: 2048)
-            try self.validate(self.alarmArn, name: "alarmArn", parent: name, min: 20)
-            try self.validate(self.alarmArn, name: "alarmArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, min: 1)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, max: 2048)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, min: 20)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
@@ -1647,11 +1664,11 @@ extension AppConfig {
         public let deploymentStrategyId: String
         /// A description of the deployment strategy.
         public let description: String?
-        /// The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.
+        /// The amount of time that AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float?
-        /// The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
+        /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
 
         public init(deploymentDurationInMinutes: Int? = nil, deploymentStrategyId: String, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil) {
@@ -1761,7 +1778,7 @@ extension AppConfig {
     }
 
     public struct Validator: AWSEncodableShape & AWSDecodableShape {
-        /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS Lambda function.
+        /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function.
         public let content: String
         /// AppConfig supports validators of type JSON_SCHEMA and LAMBDA
         public let type: ValidatorType

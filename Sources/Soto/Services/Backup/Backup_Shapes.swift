@@ -417,18 +417,22 @@ extension Backup {
     }
 
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
+        public let conditions: Conditions?
         /// The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting". Assigns the backup plan to every resource with at least one matching tag.
         public let listOfTags: [Condition]?
+        public let notResources: [String]?
         /// An array of strings that contain Amazon Resource Names (ARNs) of resources to assign to a backup plan.
         public let resources: [String]?
         /// The display name of a resource selection document.
         public let selectionName: String
 
-        public init(iamRoleArn: String, listOfTags: [Condition]? = nil, resources: [String]? = nil, selectionName: String) {
+        public init(conditions: Conditions? = nil, iamRoleArn: String, listOfTags: [Condition]? = nil, notResources: [String]? = nil, resources: [String]? = nil, selectionName: String) {
+            self.conditions = conditions
             self.iamRoleArn = iamRoleArn
             self.listOfTags = listOfTags
+            self.notResources = notResources
             self.resources = resources
             self.selectionName = selectionName
         }
@@ -438,8 +442,10 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conditions = "Conditions"
             case iamRoleArn = "IamRoleArn"
             case listOfTags = "ListOfTags"
+            case notResources = "NotResources"
             case resources = "Resources"
             case selectionName = "SelectionName"
         }
@@ -562,6 +568,42 @@ extension Backup {
             case conditionKey = "ConditionKey"
             case conditionType = "ConditionType"
             case conditionValue = "ConditionValue"
+        }
+    }
+
+    public struct ConditionParameter: AWSEncodableShape & AWSDecodableShape {
+        public let conditionKey: String?
+        public let conditionValue: String?
+
+        public init(conditionKey: String? = nil, conditionValue: String? = nil) {
+            self.conditionKey = conditionKey
+            self.conditionValue = conditionValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionKey = "ConditionKey"
+            case conditionValue = "ConditionValue"
+        }
+    }
+
+    public struct Conditions: AWSEncodableShape & AWSDecodableShape {
+        public let stringEquals: [ConditionParameter]?
+        public let stringLike: [ConditionParameter]?
+        public let stringNotEquals: [ConditionParameter]?
+        public let stringNotLike: [ConditionParameter]?
+
+        public init(stringEquals: [ConditionParameter]? = nil, stringLike: [ConditionParameter]? = nil, stringNotEquals: [ConditionParameter]? = nil, stringNotLike: [ConditionParameter]? = nil) {
+            self.stringEquals = stringEquals
+            self.stringLike = stringLike
+            self.stringNotEquals = stringNotEquals
+            self.stringNotLike = stringNotLike
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringEquals = "StringEquals"
+            case stringLike = "StringLike"
+            case stringNotEquals = "StringNotEquals"
+            case stringNotLike = "StringNotLike"
         }
     }
 

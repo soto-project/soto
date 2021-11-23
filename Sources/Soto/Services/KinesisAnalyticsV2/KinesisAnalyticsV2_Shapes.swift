@@ -97,10 +97,12 @@ extension KinesisAnalyticsV2 {
 
     public enum RuntimeEnvironment: String, CustomStringConvertible, Codable {
         case flink111 = "FLINK-1_11"
+        case flink113 = "FLINK-1_13"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
         case sql10 = "SQL-1_0"
         case zeppelinFlink10 = "ZEPPELIN-FLINK-1_0"
+        case zeppelinFlink20 = "ZEPPELIN-FLINK-2_0"
         public var description: String { return self.rawValue }
     }
 
@@ -296,7 +298,7 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
-        /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an AWS Lambda function), and record the formation to use when writing to the destination.
+        /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination.
         public let output: Output
 
         public init(applicationName: String, currentApplicationVersionId: Int64, output: Output) {
@@ -897,7 +899,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CatalogConfiguration: AWSEncodableShape {
-        /// The configuration parameters for the default AWS Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Kinesis Data Analytics Studio notebook.
+        /// The configuration parameters for the default Amazon Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Kinesis Data Analytics Studio notebook.
         public let glueDataCatalogConfiguration: GlueDataCatalogConfiguration
 
         public init(glueDataCatalogConfiguration: GlueDataCatalogConfiguration) {
@@ -914,7 +916,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CatalogConfigurationDescription: AWSDecodableShape {
-        /// The configuration parameters for the default AWS Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+        /// The configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
         public let glueDataCatalogConfigurationDescription: GlueDataCatalogConfigurationDescription
 
         public init(glueDataCatalogConfigurationDescription: GlueDataCatalogConfigurationDescription) {
@@ -927,7 +929,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CatalogConfigurationUpdate: AWSEncodableShape {
-        /// Updates to the configuration parameters for the default AWS Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+        /// Updates to the configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
         public let glueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate
 
         public init(glueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate) {
@@ -1724,14 +1726,14 @@ extension KinesisAnalyticsV2 {
 
     public struct DeployAsApplicationConfigurationUpdate: AWSEncodableShape {
         /// Updates to the location that holds the data required to specify an Amazon Data Analytics application.
-        public let s3ContentLocationUpdate: S3ContentBaseLocationUpdate
+        public let s3ContentLocationUpdate: S3ContentBaseLocationUpdate?
 
-        public init(s3ContentLocationUpdate: S3ContentBaseLocationUpdate) {
+        public init(s3ContentLocationUpdate: S3ContentBaseLocationUpdate? = nil) {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
         }
 
         public func validate(name: String) throws {
-            try self.s3ContentLocationUpdate.validate(name: "\(name).s3ContentLocationUpdate")
+            try self.s3ContentLocationUpdate?.validate(name: "\(name).s3ContentLocationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2106,9 +2108,9 @@ extension KinesisAnalyticsV2 {
 
     public struct GlueDataCatalogConfigurationUpdate: AWSEncodableShape {
         /// The updated Amazon Resource Name (ARN) of the database.
-        public let databaseARNUpdate: String?
+        public let databaseARNUpdate: String
 
-        public init(databaseARNUpdate: String? = nil) {
+        public init(databaseARNUpdate: String) {
             self.databaseARNUpdate = databaseARNUpdate
         }
 
@@ -2213,7 +2215,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputLambdaProcessor: AWSEncodableShape {
-        /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
+        /// The ARN of the Amazon Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -2232,9 +2234,9 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputLambdaProcessorDescription: AWSDecodableShape {
-        /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
+        /// The ARN of the Amazon Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARN: String
-        /// The ARN of the IAM role that is used to access the AWS Lambda function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
+        /// The ARN of the IAM role that is used to access the Amazon Lambda function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
         public init(resourceARN: String, roleARN: String? = nil) {
@@ -2249,7 +2251,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputLambdaProcessorUpdate: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
+        /// The Amazon Resource Name (ARN) of the new Amazon Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
@@ -2687,7 +2689,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct LambdaOutput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
+        /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -2723,7 +2725,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct LambdaOutputUpdate: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
+        /// The Amazon Resource Name (ARN) of the destination Amazon Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
@@ -2794,7 +2796,7 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// The maximum number of versions to list in this invocation of the operation.
         public let limit: Int?
-        /// If a previous invocation of this operation returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
+        /// If a previous invocation of this operation returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
         public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil) {
@@ -2823,7 +2825,7 @@ extension KinesisAnalyticsV2 {
     public struct ListApplicationVersionsResponse: AWSDecodableShape {
         /// A list of the application versions and the associated configuration summaries. The list includes application versions that were rolled back. To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.
         public let applicationVersionSummaries: [ApplicationVersionSummary]?
-        /// The pagination token for the next set of results, or null if there are no additional results. To retrieve the next set of items, pass this token into a subsequent invocation of this operation. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
+        /// The pagination token for the next set of results, or null if there are no additional results. To retrieve the next set of items, pass this token into a subsequent invocation of this operation. For more information about pagination, see Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
         public init(applicationVersionSummaries: [ApplicationVersionSummary]? = nil, nextToken: String? = nil) {
@@ -2840,7 +2842,7 @@ extension KinesisAnalyticsV2 {
     public struct ListApplicationsRequest: AWSEncodableShape {
         /// The maximum number of applications to list.
         public let limit: Int?
-        /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
+        /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil) {
@@ -2865,7 +2867,7 @@ extension KinesisAnalyticsV2 {
     public struct ListApplicationsResponse: AWSDecodableShape {
         /// A list of ApplicationSummary objects.
         public let applicationSummaries: [ApplicationSummary]
-        /// The pagination token for the next set of results, or null if there are no additional results. Pass this token into a subsequent command to retrieve the next set of items For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
+        /// The pagination token for the next set of results, or null if there are no additional results. Pass this token into a subsequent command to retrieve the next set of items For more information about pagination, see Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
         public init(applicationSummaries: [ApplicationSummary], nextToken: String? = nil) {
@@ -3036,7 +3038,7 @@ extension KinesisAnalyticsV2 {
         public let kinesisFirehoseOutput: KinesisFirehoseOutput?
         /// Identifies a Kinesis data stream as the destination.
         public let kinesisStreamsOutput: KinesisStreamsOutput?
-        /// Identifies an AWS Lambda function as the destination.
+        /// Identifies an Amazon Lambda function as the destination.
         public let lambdaOutput: LambdaOutput?
         /// The name of the in-application stream.
         public let name: String
@@ -3107,7 +3109,7 @@ extension KinesisAnalyticsV2 {
         public let kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate?
         /// Describes a Kinesis data stream as the destination for the output.
         public let kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate?
-        /// Describes an AWS Lambda function as the destination for the output.
+        /// Describes an Amazon Lambda function as the destination for the output.
         public let lambdaOutputUpdate: LambdaOutputUpdate?
         /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
         public let nameUpdate: String?
@@ -3598,9 +3600,9 @@ extension KinesisAnalyticsV2 {
         /// The updated S3 bucket path.
         public let basePathUpdate: String?
         /// The updated Amazon Resource Name (ARN) of the S3 bucket.
-        public let bucketARNUpdate: String
+        public let bucketARNUpdate: String?
 
-        public init(basePathUpdate: String? = nil, bucketARNUpdate: String) {
+        public init(basePathUpdate: String? = nil, bucketARNUpdate: String? = nil) {
             self.basePathUpdate = basePathUpdate
             self.bucketARNUpdate = bucketARNUpdate
         }
@@ -4256,11 +4258,11 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ZeppelinApplicationConfiguration: AWSEncodableShape {
-        /// The AWS Glue Data Catalog that you use in queries in a Kinesis Data Analytics Studio notebook.
+        /// The Amazon Glue Data Catalog that you use in queries in a Kinesis Data Analytics Studio notebook.
         public let catalogConfiguration: CatalogConfiguration?
         /// Custom artifacts are dependency JARs and user-defined functions (UDF).
         public let customArtifactsConfiguration: [CustomArtifactConfiguration]?
-        /// The information required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state..
+        /// The information required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state.
         public let deployAsApplicationConfiguration: DeployAsApplicationConfiguration?
         /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
         public let monitoringConfiguration: ZeppelinMonitoringConfiguration?
@@ -4290,11 +4292,11 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ZeppelinApplicationConfigurationDescription: AWSDecodableShape {
-        /// The AWS Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
+        /// The Amazon Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
         public let catalogConfigurationDescription: CatalogConfigurationDescription?
         /// Custom artifacts are dependency JARs and user-defined functions (UDF).
         public let customArtifactsConfigurationDescription: [CustomArtifactConfigurationDescription]?
-        /// The parameters required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state..
+        /// The parameters required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state.
         public let deployAsApplicationConfigurationDescription: DeployAsApplicationConfigurationDescription?
         /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
         public let monitoringConfigurationDescription: ZeppelinMonitoringConfigurationDescription
@@ -4315,7 +4317,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ZeppelinApplicationConfigurationUpdate: AWSEncodableShape {
-        /// Updates to the configuration of the AWS Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
+        /// Updates to the configuration of the Amazon Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
         public let catalogConfigurationUpdate: CatalogConfigurationUpdate?
         /// Updates to the customer artifacts. Custom artifacts are dependency JAR files and user-defined functions (UDF).
         public let customArtifactsConfigurationUpdate: [CustomArtifactConfiguration]?

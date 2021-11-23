@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS NetworkManager service.
 ///
-/// Transit Gateway Network Manager (Network Manager) enables you to create a global network, in which you can monitor your AWS and on-premises networks that are built around transit gateways. The Network Manager APIs are supported in the US West (Oregon) Region only. You must specify the us-west-2 Region in all requests made to Network Manager.
+/// Transit Gateway Network Manager (Network Manager) enables you to create a global network, in which you can monitor your Amazon Web Services and on-premises networks that are built around transit gateways.
 public struct NetworkManager: AWSService {
     // MARK: Member variables
 
@@ -32,13 +32,11 @@ public struct NetworkManager: AWSService {
     /// Initialize the NetworkManager client
     /// - parameters:
     ///     - client: AWSClient used to process requests
-    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - timeout: Timeout value for HTTP requests
     public init(
         client: AWSClient,
-        region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         timeout: TimeAmount? = nil,
@@ -47,12 +45,14 @@ public struct NetworkManager: AWSService {
     ) {
         self.client = client
         self.config = AWSServiceConfig(
-            region: region,
-            partition: region?.partition ?? partition,
+            region: nil,
+            partition: partition,
             service: "networkmanager",
             serviceProtocol: .restjson,
             apiVersion: "2019-07-05",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "networkmanager.us-west-2.amazonaws.com", "aws-us-gov-global": "networkmanager.us-gov-west-1.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .uswest2), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
             errorType: NetworkManagerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -177,6 +177,36 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "GetLinks", path: "/global-networks/{globalNetworkId}/links", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the count of network resources, by resource type, for the specified global network.
+    public func getNetworkResourceCounts(_ input: GetNetworkResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourceCountsResponse> {
+        return self.client.execute(operation: "GetNetworkResourceCounts", path: "/global-networks/{globalNetworkId}/network-resource-count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the network resource relationships for the specified global network.
+    public func getNetworkResourceRelationships(_ input: GetNetworkResourceRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourceRelationshipsResponse> {
+        return self.client.execute(operation: "GetNetworkResourceRelationships", path: "/global-networks/{globalNetworkId}/network-resource-relationships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+    public func getNetworkResources(_ input: GetNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourcesResponse> {
+        return self.client.execute(operation: "GetNetworkResources", path: "/global-networks/{globalNetworkId}/network-resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the network routes of the specified global network.
+    public func getNetworkRoutes(_ input: GetNetworkRoutesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkRoutesResponse> {
+        return self.client.execute(operation: "GetNetworkRoutes", path: "/global-networks/{globalNetworkId}/network-routes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the network telemetry of the specified global network.
+    public func getNetworkTelemetry(_ input: GetNetworkTelemetryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkTelemetryResponse> {
+        return self.client.execute(operation: "GetNetworkTelemetry", path: "/global-networks/{globalNetworkId}/network-telemetry", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about the specified route analysis.
+    public func getRouteAnalysis(_ input: GetRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRouteAnalysisResponse> {
+        return self.client.execute(operation: "GetRouteAnalysis", path: "/global-networks/{globalNetworkId}/route-analyses/{routeAnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about one or more of your sites in a global network.
     public func getSites(_ input: GetSitesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSitesResponse> {
         return self.client.execute(operation: "GetSites", path: "/global-networks/{globalNetworkId}/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -197,9 +227,14 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a transit gateway in your global network. The transit gateway can be in any AWS Region, but it must be owned by the same AWS account that owns the global network. You cannot register a transit gateway in more than one global network.
+    /// Registers a transit gateway in your global network. The transit gateway can be in any Amazon Web Services Region, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network.
     public func registerTransitGateway(_ input: RegisterTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTransitGatewayResponse> {
         return self.client.execute(operation: "RegisterTransitGateway", path: "/global-networks/{globalNetworkId}/transit-gateway-registrations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts analyzing the routing path between the specified source and destination. For more information, see Route Analyzer.
+    public func startRouteAnalysis(_ input: StartRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartRouteAnalysisResponse> {
+        return self.client.execute(operation: "StartRouteAnalysis", path: "/global-networks/{globalNetworkId}/route-analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Tags a specified resource.
@@ -230,6 +265,11 @@ public struct NetworkManager: AWSService {
     /// Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
     public func updateLink(_ input: UpdateLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLinkResponse> {
         return self.client.execute(operation: "UpdateLink", path: "/global-networks/{globalNetworkId}/links/{linkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the resource metadata for the specified global network.
+    public func updateNetworkResourceMetadata(_ input: UpdateNetworkResourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkResourceMetadataResponse> {
+        return self.client.execute(operation: "UpdateNetworkResourceMetadata", path: "/global-networks/{globalNetworkId}/network-resources/{resourceArn}/metadata", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.

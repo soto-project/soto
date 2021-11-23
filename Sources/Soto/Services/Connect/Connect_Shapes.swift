@@ -45,6 +45,24 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContactFlowModuleState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactFlowModuleStatus: String, CustomStringConvertible, Codable {
+        case published = "PUBLISHED"
+        case saved = "SAVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactFlowState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContactFlowType: String, CustomStringConvertible, Codable {
         case agentHold = "AGENT_HOLD"
         case agentTransfer = "AGENT_TRANSFER"
@@ -55,6 +73,16 @@ extension Connect {
         case customerWhisper = "CUSTOMER_WHISPER"
         case outboundWhisper = "OUTBOUND_WHISPER"
         case queueTransfer = "QUEUE_TRANSFER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactInitiationMethod: String, CustomStringConvertible, Codable {
+        case api = "API"
+        case callback = "CALLBACK"
+        case inbound = "INBOUND"
+        case outbound = "OUTBOUND"
+        case queueTransfer = "QUEUE_TRANSFER"
+        case transfer = "TRANSFER"
         public var description: String { return self.rawValue }
     }
 
@@ -448,7 +476,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReferenceStatus: String, CustomStringConvertible, Codable {
+        case approved = "APPROVED"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReferenceType: String, CustomStringConvertible, Codable {
+        case attachment = "ATTACHMENT"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
@@ -502,6 +537,23 @@ extension Connect {
 
     // MARK: Shapes
 
+    public struct AgentInfo: AWSDecodableShape {
+        /// The timestamp when the contact was connected to the agent.
+        public let connectedToAgentTimestamp: Date?
+        /// The identifier of the agent who accepted the contact.
+        public let id: String?
+
+        public init(connectedToAgentTimestamp: Date? = nil, id: String? = nil) {
+            self.connectedToAgentTimestamp = connectedToAgentTimestamp
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedToAgentTimestamp = "ConnectedToAgentTimestamp"
+            case id = "Id"
+        }
+    }
+
     public struct AgentStatus: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the agent status.
         public let agentStatusARN: String?
@@ -515,7 +567,7 @@ extension Connect {
         public let name: String?
         /// The state of the agent status.
         public let state: AgentStatusState?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The type of agent status.
         public let type: AgentStatusType?
@@ -842,6 +894,27 @@ extension Connect {
         }
     }
 
+    public struct AttachmentReference: AWSDecodableShape {
+        /// Identifier of the attachment reference.
+        public let name: String?
+        /// Status of an attachment reference type.
+        public let status: ReferenceStatus?
+        /// Contains the location path of the attachment reference.
+        public let value: String?
+
+        public init(name: String? = nil, status: ReferenceStatus? = nil, value: String? = nil) {
+            self.name = name
+            self.status = status
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case status = "Status"
+            case value = "Value"
+        }
+    }
+
     public struct Attribute: AWSDecodableShape {
         /// The type of attribute.
         public let attributeType: InstanceAttributeType?
@@ -883,6 +956,89 @@ extension Connect {
         }
     }
 
+    public struct ChatStreamingConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversations.
+        public let streamingEndpointArn: String
+
+        public init(streamingEndpointArn: String) {
+            self.streamingEndpointArn = streamingEndpointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamingEndpointArn, name: "streamingEndpointArn", parent: name, max: 350)
+            try self.validate(self.streamingEndpointArn, name: "streamingEndpointArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingEndpointArn = "StreamingEndpointArn"
+        }
+    }
+
+    public struct Contact: AWSDecodableShape {
+        /// Information about the agent who accepted the contact.
+        public let agentInfo: AgentInfo?
+        /// The Amazon Resource Name (ARN) for the contact.
+        public let arn: String?
+        /// How the contact reached your contact center.
+        public let channel: Channel?
+        /// The description of the contact.
+        public let description: String?
+        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        public let disconnectTimestamp: Date?
+        /// The identifier for the contact.
+        public let id: String?
+        /// If this contact is related to other contacts, this is the ID of the initial contact.
+        public let initialContactId: String?
+        /// Indicates how the contact was initiated.
+        public let initiationMethod: ContactInitiationMethod?
+        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived.
+        public let initiationTimestamp: Date?
+        /// The timestamp when contact was last updated.
+        public let lastUpdateTimestamp: Date?
+        /// The name of the contact.
+        public let name: String?
+        /// If this contact is not the first contact, this is the ID of the previous contact.
+        public let previousContactId: String?
+        /// If this contact was queued, this contains information about the queue.
+        public let queueInfo: QueueInfo?
+        /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
+        public let scheduledTimestamp: Date?
+
+        public init(agentInfo: AgentInfo? = nil, arn: String? = nil, channel: Channel? = nil, description: String? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, queueInfo: QueueInfo? = nil, scheduledTimestamp: Date? = nil) {
+            self.agentInfo = agentInfo
+            self.arn = arn
+            self.channel = channel
+            self.description = description
+            self.disconnectTimestamp = disconnectTimestamp
+            self.id = id
+            self.initialContactId = initialContactId
+            self.initiationMethod = initiationMethod
+            self.initiationTimestamp = initiationTimestamp
+            self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.name = name
+            self.previousContactId = previousContactId
+            self.queueInfo = queueInfo
+            self.scheduledTimestamp = scheduledTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentInfo = "AgentInfo"
+            case arn = "Arn"
+            case channel = "Channel"
+            case description = "Description"
+            case disconnectTimestamp = "DisconnectTimestamp"
+            case id = "Id"
+            case initialContactId = "InitialContactId"
+            case initiationMethod = "InitiationMethod"
+            case initiationTimestamp = "InitiationTimestamp"
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case name = "Name"
+            case previousContactId = "PreviousContactId"
+            case queueInfo = "QueueInfo"
+            case scheduledTimestamp = "ScheduledTimestamp"
+        }
+    }
+
     public struct ContactFlow: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
@@ -894,17 +1050,20 @@ extension Connect {
         public let id: String?
         /// The name of the contact flow.
         public let name: String?
+        /// The type of contact flow.
+        public let state: ContactFlowState?
         /// One or more tags.
         public let tags: [String: String]?
         /// The type of the contact flow. For descriptions of the available types, see Choose a Contact Flow Type in the Amazon Connect Administrator Guide.
         public let type: ContactFlowType?
 
-        public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: ContactFlowType? = nil) {
+        public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowState? = nil, tags: [String: String]? = nil, type: ContactFlowType? = nil) {
             self.arn = arn
             self.content = content
             self.description = description
             self.id = id
             self.name = name
+            self.state = state
             self.tags = tags
             self.type = type
         }
@@ -915,8 +1074,75 @@ extension Connect {
             case description = "Description"
             case id = "Id"
             case name = "Name"
+            case state = "State"
             case tags = "Tags"
             case type = "Type"
+        }
+    }
+
+    public struct ContactFlowModule: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The content of the contact flow module.
+        public let content: String?
+        /// The description of the contact flow module.
+        public let description: String?
+        /// The identifier of the contact flow module.
+        public let id: String?
+        /// The name of the contact flow module.
+        public let name: String?
+        /// The type of contact flow module.
+        public let state: ContactFlowModuleState?
+        /// The status of the contact flow module.
+        public let status: ContactFlowModuleStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowModuleState? = nil, status: ContactFlowModuleStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.content = content
+            self.description = description
+            self.id = id
+            self.name = name
+            self.state = state
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case content = "Content"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case state = "State"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ContactFlowModuleSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the contact flow module.
+        public let arn: String?
+        /// The identifier of the contact flow module.
+        public let id: String?
+        /// The name of the contact flow module.
+        public let name: String?
+        /// The type of contact flow module.
+        public let state: ContactFlowModuleState?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowModuleState? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+            case state = "State"
         }
     }
 
@@ -924,14 +1150,17 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
         /// The type of contact flow.
+        public let contactFlowState: ContactFlowState?
+        /// The type of contact flow.
         public let contactFlowType: ContactFlowType?
         /// The identifier of the contact flow.
         public let id: String?
         /// The name of the contact flow.
         public let name: String?
 
-        public init(arn: String? = nil, contactFlowType: ContactFlowType? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, contactFlowState: ContactFlowState? = nil, contactFlowType: ContactFlowType? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
+            self.contactFlowState = contactFlowState
             self.contactFlowType = contactFlowType
             self.id = id
             self.name = name
@@ -939,6 +1168,7 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case contactFlowState = "ContactFlowState"
             case contactFlowType = "ContactFlowType"
             case id = "Id"
             case name = "Name"
@@ -960,7 +1190,7 @@ extension Connect {
         public let name: String
         /// The state of the status.
         public let state: AgentStatusState
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String, state: AgentStatusState, tags: [String: String]? = nil) {
@@ -1012,6 +1242,79 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case agentStatusARN = "AgentStatusARN"
             case agentStatusId = "AgentStatusId"
+        }
+    }
+
+    public struct CreateContactFlowModuleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The content of the contact flow module.
+        public let content: String
+        /// The description of the contact flow module.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the contact flow module.
+        public let name: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreateContactFlowModuleRequest.idempotencyToken(), content: String, description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.content = content
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.content, name: "content", parent: name, max: 256_000)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case content = "Content"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateContactFlowModuleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the contact flow module.
+        public let arn: String?
+        /// The identifier of the contact flow module.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
         }
     }
 
@@ -1093,7 +1396,7 @@ extension Connect {
         public let instanceId: String
         /// The name of the hours of operation.
         public let name: String
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The time zone of the hours of operation.
         public let timeZone: String
@@ -1230,7 +1533,7 @@ extension Connect {
         public let sourceApplicationUrl: String?
         /// The type of the data source. This field is only required for the EVENT integration type.
         public let sourceType: SourceType?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String? = nil, sourceApplicationUrl: String? = nil, sourceType: SourceType? = nil, tags: [String: String]? = nil) {
@@ -1305,7 +1608,7 @@ extension Connect {
         public let outboundCallerConfig: OutboundCallerConfig?
         /// The quick connects available to agents who are working the queue.
         public let quickConnectIds: [String]?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, hoursOfOperationId: String, instanceId: String, maxContacts: Int? = nil, name: String, outboundCallerConfig: OutboundCallerConfig? = nil, quickConnectIds: [String]? = nil, tags: [String: String]? = nil) {
@@ -1379,7 +1682,7 @@ extension Connect {
         public let name: String
         /// Configuration settings for the quick connect.
         public let quickConnectConfig: QuickConnectConfig
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, instanceId: String, name: String, quickConnectConfig: QuickConnectConfig, tags: [String: String]? = nil) {
@@ -1511,6 +1814,72 @@ extension Connect {
         }
     }
 
+    public struct CreateSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The description of the security profile.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// Permissions assigned to the security profile.
+        public let permissions: [String]?
+        /// The name of the security profile.
+        public let securityProfileName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.instanceId = instanceId
+            self.permissions = permissions
+            self.securityProfileName = securityProfileName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try validate($0, name: "permissions[]", parent: name, max: 128)
+                try validate($0, name: "permissions[]", parent: name, min: 1)
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 500)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case permissions = "Permissions"
+            case securityProfileName = "SecurityProfileName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSecurityProfileResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the security profile.
+        public let securityProfileArn: String?
+        /// The identifier for the security profle.
+        public let securityProfileId: String?
+
+        public init(securityProfileArn: String? = nil, securityProfileId: String? = nil) {
+            self.securityProfileArn = securityProfileArn
+            self.securityProfileId = securityProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileArn = "SecurityProfileArn"
+            case securityProfileId = "SecurityProfileId"
+        }
+    }
+
     public struct CreateUseCaseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -1521,7 +1890,7 @@ extension Connect {
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
         public let useCaseType: UseCaseType
@@ -1778,6 +2147,61 @@ extension Connect {
         }
     }
 
+    public struct DeleteContactFlowModuleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri(locationName: "ContactFlowModuleId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow module.
+        public let contactFlowModuleId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(contactFlowModuleId: String, instanceId: String) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactFlowModuleResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteContactFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(contactFlowId: String, instanceId: String) {
+            self.contactFlowId = contactFlowId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
@@ -1862,6 +2286,30 @@ extension Connect {
         public init(instanceId: String, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectId = quickConnectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri(locationName: "SecurityProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(instanceId: String, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.securityProfileId = securityProfileId
         }
 
         public func validate(name: String) throws {
@@ -1989,6 +2437,45 @@ extension Connect {
         }
     }
 
+    public struct DescribeContactFlowModuleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri(locationName: "ContactFlowModuleId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow module.
+        public let contactFlowModuleId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(contactFlowModuleId: String, instanceId: String) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeContactFlowModuleResponse: AWSDecodableShape {
+        /// Information about the contact flow module.
+        public let contactFlowModule: ContactFlowModule?
+
+        public init(contactFlowModule: ContactFlowModule? = nil) {
+            self.contactFlowModule = contactFlowModule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModule = "ContactFlowModule"
+        }
+    }
+
     public struct DescribeContactFlowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
@@ -2024,6 +2511,45 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case contactFlow = "ContactFlow"
+        }
+    }
+
+    public struct DescribeContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "ContactId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(contactId: String, instanceId: String) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeContactResponse: AWSDecodableShape {
+        /// Information about the contact.
+        public let contact: Contact?
+
+        public init(contact: Contact? = nil) {
+            self.contact = contact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contact = "Contact"
         }
     }
 
@@ -2285,6 +2811,43 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case routingProfile = "RoutingProfile"
+        }
+    }
+
+    public struct DescribeSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri(locationName: "SecurityProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(instanceId: String, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.securityProfileId = securityProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSecurityProfileResponse: AWSDecodableShape {
+        /// The security profile.
+        public let securityProfile: SecurityProfile?
+
+        public init(securityProfile: SecurityProfile? = nil) {
+            self.securityProfile = securityProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfile = "SecurityProfile"
         }
     }
 
@@ -2673,7 +3236,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channels, name: "channels", parent: name, max: 1)
+            try self.validate(self.channels, name: "channels", parent: name, max: 3)
             try self.validate(self.queues, name: "queues", parent: name, max: 100)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
         }
@@ -3133,7 +3696,7 @@ extension Connect {
         public let hoursOfOperationId: String?
         /// The name for the hours of operation.
         public let name: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The time zone for the hours of operation.
         public let timeZone: String?
@@ -3162,9 +3725,9 @@ extension Connect {
     public struct HoursOfOperationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The day that the hours of operation applies to.
         public let day: HoursOfOperationDays
-        /// The end time that your contact center is closes.
+        /// The end time that your contact center closes.
         public let endTime: HoursOfOperationTimeSlice
-        /// The start time that your contact center is open.
+        /// The start time that your contact center opens.
         public let startTime: HoursOfOperationTimeSlice
 
         public init(day: HoursOfOperationDays, endTime: HoursOfOperationTimeSlice, startTime: HoursOfOperationTimeSlice) {
@@ -3679,6 +4242,57 @@ extension Connect {
         }
     }
 
+    public struct ListContactFlowModulesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowModuleState", location: .querystring(locationName: "state")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The state of the contact flow module.
+        public let contactFlowModuleState: ContactFlowModuleState?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(contactFlowModuleState: ContactFlowModuleState? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contactFlowModuleState = contactFlowModuleState
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContactFlowModulesResponse: AWSDecodableShape {
+        /// Information about the contact flow module.
+        public let contactFlowModulesSummaryList: [ContactFlowModuleSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(contactFlowModulesSummaryList: [ContactFlowModuleSummary]? = nil, nextToken: String? = nil) {
+            self.contactFlowModulesSummaryList = contactFlowModulesSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModulesSummaryList = "ContactFlowModulesSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListContactFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")),
@@ -3728,6 +4342,58 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case contactFlowSummaryList = "ContactFlowSummaryList"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContactReferencesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "ContactId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "referenceTypes", location: .querystring(locationName: "referenceTypes"))
+        ]
+
+        /// The identifier of the initial contact.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.  This is not expected to be set, because the value returned in the previous response is always null.
+        public let nextToken: String?
+        /// The type of reference.
+        public let referenceTypes: [ReferenceType]
+
+        public init(contactId: String, instanceId: String, nextToken: String? = nil, referenceTypes: [ReferenceType]) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.nextToken = nextToken
+            self.referenceTypes = referenceTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.referenceTypes, name: "referenceTypes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContactReferencesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.  This is always returned as null in the response.
+        public let nextToken: String?
+        /// Information about the contact flows.
+        public let referenceSummaryList: [ReferenceSummary]?
+
+        public init(nextToken: String? = nil, referenceSummaryList: [ReferenceSummary]? = nil) {
+            self.nextToken = nextToken
+            self.referenceSummaryList = referenceSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case referenceSummaryList = "ReferenceSummaryList"
         }
     }
 
@@ -3927,6 +4593,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
+        /// The integration type.
         public let integrationType: IntegrationType?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -4023,7 +4690,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The maximum number of results to return per page.
+        /// The maximum number of results to return per page. If no value is specified, the default is 10.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -4465,6 +5132,57 @@ extension Connect {
         }
     }
 
+    public struct ListSecurityProfilePermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri(locationName: "SecurityProfileId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.securityProfileId = securityProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSecurityProfilePermissionsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The permissions granted to the security profile.
+        public let permissions: [String]?
+
+        public init(nextToken: String? = nil, permissions: [String]? = nil) {
+            self.nextToken = nextToken
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case permissions = "Permissions"
+        }
+    }
+
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -4834,7 +5552,7 @@ extension Connect {
         public let queueId: String?
         /// The status of the queue.
         public let status: QueueStatus?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, hoursOfOperationId: String? = nil, maxContacts: Int? = nil, name: String? = nil, outboundCallerConfig: OutboundCallerConfig? = nil, queueArn: String? = nil, queueId: String? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
@@ -4859,6 +5577,23 @@ extension Connect {
             case queueId = "QueueId"
             case status = "Status"
             case tags = "Tags"
+        }
+    }
+
+    public struct QueueInfo: AWSDecodableShape {
+        /// The timestamp when the contact was added to the queue.
+        public let enqueueTimestamp: Date?
+        /// The identifier of the agent who accepted the contact.
+        public let id: String?
+
+        public init(enqueueTimestamp: Date? = nil, id: String? = nil) {
+            self.enqueueTimestamp = enqueueTimestamp
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enqueueTimestamp = "EnqueueTimestamp"
+            case id = "Id"
         }
     }
 
@@ -4936,7 +5671,7 @@ extension Connect {
         public let quickConnectConfig: QuickConnectConfig?
         /// The identifier for the quick connect.
         public let quickConnectId: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, name: String? = nil, quickConnectARN: String? = nil, quickConnectConfig: QuickConnectConfig? = nil, quickConnectId: String? = nil, tags: [String: String]? = nil) {
@@ -5014,9 +5749,9 @@ extension Connect {
     }
 
     public struct Reference: AWSEncodableShape {
-        /// A valid URL.
+        /// The type of the reference. Only URL type can be added or updated on a contact.
         public let type: ReferenceType
-        /// A formatted URL that displays to an agent in the Contact Control Panel (CCP)
+        /// A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).
         public let value: String
 
         public init(type: ReferenceType, value: String) {
@@ -5032,6 +5767,23 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct ReferenceSummary: AWSDecodableShape {
+        /// Information about the attachment reference if the referenceType is ATTACHMENT. Otherwise, null.
+        public let attachment: AttachmentReference?
+        /// Information about the URL reference if the referenceType is URL. Otherwise, null.
+        public let url: UrlReference?
+
+        public init(attachment: AttachmentReference? = nil, url: UrlReference? = nil) {
+            self.attachment = attachment
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case url = "Url"
         }
     }
 
@@ -5259,6 +6011,39 @@ extension Connect {
         }
     }
 
+    public struct SecurityProfile: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the secruity profile.
+        public let arn: String?
+        /// The description of the security profile.
+        public let description: String?
+        /// The identifier for the security profile.
+        public let id: String?
+        /// The organization resource identifier for the security profile.
+        public let organizationResourceId: String?
+        /// The name for the security profile.
+        public let securityProfileName: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.organizationResourceId = organizationResourceId
+            self.securityProfileName = securityProfileName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case organizationResourceId = "OrganizationResourceId"
+            case securityProfileName = "SecurityProfileName"
+            case tags = "Tags"
+        }
+    }
+
     public struct SecurityProfileSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
@@ -5387,6 +6172,53 @@ extension Connect {
         public init() {}
     }
 
+    public struct StartContactStreamingRequest: AWSEncodableShape {
+        /// The streaming configuration, such as the Amazon SNS streaming endpoint.
+        public let chatStreamingConfiguration: ChatStreamingConfiguration
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(chatStreamingConfiguration: ChatStreamingConfiguration, clientToken: String = StartContactStreamingRequest.idempotencyToken(), contactId: String, instanceId: String) {
+            self.chatStreamingConfiguration = chatStreamingConfiguration
+            self.clientToken = clientToken
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.chatStreamingConfiguration.validate(name: "\(name).chatStreamingConfiguration")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatStreamingConfiguration = "ChatStreamingConfiguration"
+            case clientToken = "ClientToken"
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StartContactStreamingResponse: AWSDecodableShape {
+        /// The identifier of the streaming configuration enabled.
+        public let streamingId: String
+
+        public init(streamingId: String) {
+            self.streamingId = streamingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingId = "StreamingId"
+        }
+    }
+
     public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
         /// Configuration of the answering machine detection for this outbound call.
         public let answerMachineDetectionConfig: AnswerMachineDetectionConfig?
@@ -5481,8 +6313,10 @@ extension Connect {
         public let previousContactId: String?
         /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
         public let references: [String: Reference]?
+        /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
+        public let scheduledTime: Date?
 
-        public init(attributes: [String: String]? = nil, clientToken: String? = StartTaskContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, instanceId: String, name: String, previousContactId: String? = nil, references: [String: Reference]? = nil) {
+        public init(attributes: [String: String]? = nil, clientToken: String? = StartTaskContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, instanceId: String, name: String, previousContactId: String? = nil, references: [String: Reference]? = nil, scheduledTime: Date? = nil) {
             self.attributes = attributes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
@@ -5491,6 +6325,7 @@ extension Connect {
             self.name = name
             self.previousContactId = previousContactId
             self.references = references
+            self.scheduledTime = scheduledTime
         }
 
         public func validate(name: String) throws {
@@ -5526,6 +6361,7 @@ extension Connect {
             case name = "Name"
             case previousContactId = "PreviousContactId"
             case references = "References"
+            case scheduledTime = "ScheduledTime"
         }
     }
 
@@ -5601,6 +6437,40 @@ extension Connect {
     }
 
     public struct StopContactResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopContactStreamingRequest: AWSEncodableShape {
+        /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier of the streaming configuration enabled.
+        public let streamingId: String
+
+        public init(contactId: String, instanceId: String, streamingId: String) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.streamingId = streamingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.streamingId, name: "streamingId", parent: name, max: 100)
+            try self.validate(self.streamingId, name: "streamingId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+            case streamingId = "StreamingId"
+        }
+    }
+
+    public struct StopContactStreamingResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5832,6 +6702,131 @@ extension Connect {
         }
     }
 
+    public struct UpdateContactFlowMetadataRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The state of contact flow.
+        public let contactFlowState: ContactFlowState?
+        /// The description of the contact flow.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// TThe name of the contact flow.
+        public let name: String?
+
+        public init(contactFlowId: String, contactFlowState: ContactFlowState? = nil, description: String? = nil, instanceId: String, name: String? = nil) {
+            self.contactFlowId = contactFlowId
+            self.contactFlowState = contactFlowState
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowState = "ContactFlowState"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateContactFlowModuleContentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri(locationName: "ContactFlowModuleId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow module.
+        public let contactFlowModuleId: String
+        /// The content of the contact flow module.
+        public let content: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+
+        public init(contactFlowModuleId: String, content: String, instanceId: String) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.content = content
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.content, name: "content", parent: name, max: 256_000)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+        }
+    }
+
+    public struct UpdateContactFlowModuleContentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateContactFlowModuleMetadataRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactFlowModuleId", location: .uri(locationName: "ContactFlowModuleId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact flow module.
+        public let contactFlowModuleId: String
+        /// The description of the contact flow module.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the contact flow module.
+        public let name: String?
+        /// The state of contact flow module.
+        public let state: ContactFlowModuleState?
+
+        public init(contactFlowModuleId: String, description: String? = nil, instanceId: String, name: String? = nil, state: ContactFlowModuleState? = nil) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case state = "State"
+        }
+    }
+
+    public struct UpdateContactFlowModuleMetadataResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateContactFlowNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
@@ -5865,6 +6860,90 @@ extension Connect {
             case description = "Description"
             case name = "Name"
         }
+    }
+
+    public struct UpdateContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "ContactId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
+        public let contactId: String
+        /// The description of the contact.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the contact.
+        public let name: String?
+        /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
+        public let references: [String: Reference]?
+
+        public init(contactId: String, description: String? = nil, instanceId: String, name: String? = nil, references: [String: Reference]? = nil) {
+            self.contactId = contactId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.references = references
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 512)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.references?.forEach {
+                try validate($0.key, name: "references.key", parent: name, max: 4096)
+                try validate($0.key, name: "references.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).references[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case references = "References"
+        }
+    }
+
+    public struct UpdateContactResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateContactScheduleRequest: AWSEncodableShape {
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
+        public let scheduledTime: Date
+
+        public init(contactId: String, instanceId: String, scheduledTime: Date) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.scheduledTime = scheduledTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+            case scheduledTime = "ScheduledTime"
+        }
+    }
+
+    public struct UpdateContactScheduleResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateHoursOfOperationRequest: AWSEncodableShape {
@@ -6337,6 +7416,45 @@ extension Connect {
         }
     }
 
+    public struct UpdateSecurityProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "securityProfileId", location: .uri(locationName: "SecurityProfileId"))
+        ]
+
+        /// The description of the security profile.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The permissions granted to a security profile.
+        public let permissions: [String]?
+        /// The identifier for the security profle.
+        public let securityProfileId: String
+
+        public init(description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.permissions = permissions
+            self.securityProfileId = securityProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try validate($0, name: "permissions[]", parent: name, max: 128)
+                try validate($0, name: "permissions[]", parent: name, min: 1)
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case permissions = "Permissions"
+        }
+    }
+
     public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
@@ -6537,6 +7655,23 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case securityProfileIds = "SecurityProfileIds"
+        }
+    }
+
+    public struct UrlReference: AWSDecodableShape {
+        /// Identifier of the URL reference.
+        public let name: String?
+        /// A valid URL.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 

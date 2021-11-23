@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS SSMIncidents service.
 ///
-/// AWS Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their AWS-hosted applications. An incident is any unplanned interruption or reduction in quality of services.  Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
+/// Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their Amazon Web Services-hosted applications. An incident is any unplanned interruption or reduction in quality of services.  Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
 public struct SSMIncidents: AWSService {
     // MARK: Member variables
 
@@ -87,7 +87,7 @@ public struct SSMIncidents: AWSService {
         return self.client.execute(operation: "DeleteReplicationSet", path: "/deleteReplicationSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the resource policy that AWS Resource Access Manager uses to share your Incident Manager resource.
+    /// Deletes the resource policy that Resource Access Manager uses to share your Incident Manager resource.
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePolicyOutput> {
         return self.client.execute(operation: "DeleteResourcePolicy", path: "/deleteResourcePolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -102,7 +102,7 @@ public struct SSMIncidents: AWSService {
         return self.client.execute(operation: "DeleteTimelineEvent", path: "/deleteTimelineEvent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the details of the specified incident record.
+    /// Returns the details for the specified incident record.
     public func getIncidentRecord(_ input: GetIncidentRecordInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIncidentRecordOutput> {
         return self.client.execute(operation: "GetIncidentRecord", path: "/getIncidentRecord", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,7 +152,7 @@ public struct SSMIncidents: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists timeline events of the specified incident record.
+    /// Lists timeline events for the specified incident record.
     public func listTimelineEvents(_ input: ListTimelineEventsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTimelineEventsOutput> {
         return self.client.execute(operation: "ListTimelineEvents", path: "/listTimelineEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -182,7 +182,7 @@ public struct SSMIncidents: AWSService {
         return self.client.execute(operation: "UpdateDeletionProtection", path: "/updateDeletionProtection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update the details of an incident record. You can use this action to update an incident record from the defined chat channel. For more information about using actions in chat channels, see Interacting through chat.
+    /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see Interacting through chat.
     public func updateIncidentRecord(_ input: UpdateIncidentRecordInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIncidentRecordOutput> {
         return self.client.execute(operation: "UpdateIncidentRecord", path: "/updateIncidentRecord", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -44,6 +44,28 @@ extension FraudDetector {
         )
     }
 
+    ///  Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getBatchImportJobsPaginator(
+        _ input: GetBatchImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetBatchImportJobsRequest, GetBatchImportJobsResult> {
+        return .init(
+            input: input,
+            command: getBatchImportJobs,
+            inputKey: \GetBatchImportJobsRequest.nextToken,
+            outputKey: \GetBatchImportJobsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///

@@ -52,6 +52,11 @@ extension ChimeSDKIdentity {
         return try await self.client.execute(operation: "DeleteAppInstanceUser", path: "/app-instance-users/{appInstanceUserArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deregisters an AppInstanceUserEndpoint.
+    public func deregisterAppInstanceUserEndpoint(_ input: DeregisterAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeregisterAppInstanceUserEndpoint", path: "/app-instance-users/{appInstanceUserArn}/endpoints/{endpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the full details of an AppInstance.
     public func describeAppInstance(_ input: DescribeAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAppInstanceResponse {
         return try await self.client.execute(operation: "DescribeAppInstance", path: "/app-instances/{appInstanceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -67,6 +72,11 @@ extension ChimeSDKIdentity {
         return try await self.client.execute(operation: "DescribeAppInstanceUser", path: "/app-instance-users/{appInstanceUserArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the full details of an AppInstanceUserEndpoint.
+    public func describeAppInstanceUserEndpoint(_ input: DescribeAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAppInstanceUserEndpointResponse {
+        return try await self.client.execute(operation: "DescribeAppInstanceUserEndpoint", path: "/app-instance-users/{appInstanceUserArn}/endpoints/{endpointId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the retention settings for an AppInstance.
     public func getAppInstanceRetentionSettings(_ input: GetAppInstanceRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAppInstanceRetentionSettingsResponse {
         return try await self.client.execute(operation: "GetAppInstanceRetentionSettings", path: "/app-instances/{appInstanceArn}/retention-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -75,6 +85,11 @@ extension ChimeSDKIdentity {
     /// Returns a list of the administrators in the AppInstance.
     public func listAppInstanceAdmins(_ input: ListAppInstanceAdminsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAppInstanceAdminsResponse {
         return try await self.client.execute(operation: "ListAppInstanceAdmins", path: "/app-instances/{appInstanceArn}/admins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
+    public func listAppInstanceUserEndpoints(_ input: ListAppInstanceUserEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAppInstanceUserEndpointsResponse {
+        return try await self.client.execute(operation: "ListAppInstanceUserEndpoints", path: "/app-instance-users/{appInstanceUserArn}/endpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List all AppInstanceUsers created under a single AppInstance.
@@ -87,9 +102,29 @@ extension ChimeSDKIdentity {
         return try await self.client.execute(operation: "ListAppInstances", path: "/app-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the tags applied to an Amazon Chime SDK identity resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Sets the amount of time in days that a given AppInstance retains data.
     public func putAppInstanceRetentionSettings(_ input: PutAppInstanceRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAppInstanceRetentionSettingsResponse {
         return try await self.client.execute(operation: "PutAppInstanceRetentionSettings", path: "/app-instances/{appInstanceArn}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
+    public func registerAppInstanceUserEndpoint(_ input: RegisterAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterAppInstanceUserEndpointResponse {
+        return try await self.client.execute(operation: "RegisterAppInstanceUserEndpoint", path: "/app-instance-users/{appInstanceUserArn}/endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates AppInstance metadata.
@@ -100,6 +135,11 @@ extension ChimeSDKIdentity {
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
     public func updateAppInstanceUser(_ input: UpdateAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAppInstanceUserResponse {
         return try await self.client.execute(operation: "UpdateAppInstanceUser", path: "/app-instance-users/{appInstanceUserArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
+    public func updateAppInstanceUserEndpoint(_ input: UpdateAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAppInstanceUserEndpointResponse {
+        return try await self.client.execute(operation: "UpdateAppInstanceUserEndpoint", path: "/app-instance-users/{appInstanceUserArn}/endpoints/{endpointId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

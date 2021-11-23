@@ -32,6 +32,11 @@ extension MediaTailor {
         return try await self.client.execute(operation: "CreateChannel", path: "/channel/{channelName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new prefetch schedule for the specified playback configuration.
+    public func createPrefetchSchedule(_ input: CreatePrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePrefetchScheduleResponse {
+        return try await self.client.execute(operation: "CreatePrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a program.
     public func createProgram(_ input: CreateProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateProgramResponse {
         return try await self.client.execute(operation: "CreateProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -60,6 +65,11 @@ extension MediaTailor {
     /// Deletes the playback configuration for the specified name.
     public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePlaybackConfigurationResponse {
         return try await self.client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
+    public func deletePrefetchSchedule(_ input: DeletePrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePrefetchScheduleResponse {
+        return try await self.client.execute(operation: "DeletePrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a specific program on a specific channel.
@@ -112,6 +122,11 @@ extension MediaTailor {
         return try await self.client.execute(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the prefetch schedule for a specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
+    public func getPrefetchSchedule(_ input: GetPrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPrefetchScheduleResponse {
+        return try await self.client.execute(operation: "GetPrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of alerts for the given resource.
     public func listAlerts(_ input: ListAlertsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAlertsResponse {
         return try await self.client.execute(operation: "ListAlerts", path: "/alerts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -125,6 +140,11 @@ extension MediaTailor {
     /// Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful.
     public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPlaybackConfigurationsResponse {
         return try await self.client.execute(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new prefetch schedule.
+    public func listPrefetchSchedules(_ input: ListPrefetchSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPrefetchSchedulesResponse {
+        return try await self.client.execute(operation: "ListPrefetchSchedules", path: "/prefetchSchedule/{PlaybackConfigurationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of source locations.

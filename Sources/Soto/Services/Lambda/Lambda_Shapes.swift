@@ -26,6 +26,12 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthorizationType: String, CustomStringConvertible, Codable {
+        case awsIam = "AWS_IAM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CodeSigningPolicy: String, CustomStringConvertible, Codable {
         case enforce = "Enforce"
         case warn = "Warn"
@@ -132,8 +138,10 @@ extension Lambda {
 
     public enum SourceAccessType: String, CustomStringConvertible, Codable {
         case basicAuth = "BASIC_AUTH"
+        case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
         case saslScram256Auth = "SASL_SCRAM_256_AUTH"
         case saslScram512Auth = "SASL_SCRAM_512_AUTH"
+        case serverRootCaCertificate = "SERVER_ROOT_CA_CERTIFICATE"
         case virtualHost = "VIRTUAL_HOST"
         case vpcSecurityGroup = "VPC_SECURITY_GROUP"
         case vpcSubnet = "VPC_SUBNET"
@@ -507,6 +515,59 @@ extension Lambda {
         }
     }
 
+    public struct Cors: AWSEncodableShape & AWSDecodableShape {
+        public let allowCredentials: Bool?
+        public let allowHeaders: [String]?
+        public let allowMethods: [String]?
+        public let allowOrigins: [String]?
+        public let exposeHeaders: [String]?
+        public let maxAge: Int?
+
+        public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
+            self.allowCredentials = allowCredentials
+            self.allowHeaders = allowHeaders
+            self.allowMethods = allowMethods
+            self.allowOrigins = allowOrigins
+            self.exposeHeaders = exposeHeaders
+            self.maxAge = maxAge
+        }
+
+        public func validate(name: String) throws {
+            try self.allowHeaders?.forEach {
+                try validate($0, name: "allowHeaders[]", parent: name, max: 1024)
+                try validate($0, name: "allowHeaders[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.allowHeaders, name: "allowHeaders", parent: name, max: 100)
+            try self.allowMethods?.forEach {
+                try validate($0, name: "allowMethods[]", parent: name, max: 6)
+                try validate($0, name: "allowMethods[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.allowMethods, name: "allowMethods", parent: name, max: 6)
+            try self.allowOrigins?.forEach {
+                try validate($0, name: "allowOrigins[]", parent: name, max: 253)
+                try validate($0, name: "allowOrigins[]", parent: name, min: 1)
+                try validate($0, name: "allowOrigins[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.allowOrigins, name: "allowOrigins", parent: name, max: 100)
+            try self.exposeHeaders?.forEach {
+                try validate($0, name: "exposeHeaders[]", parent: name, max: 1024)
+                try validate($0, name: "exposeHeaders[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, max: 100)
+            try self.validate(self.maxAge, name: "maxAge", parent: name, max: 86400)
+            try self.validate(self.maxAge, name: "maxAge", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowCredentials = "AllowCredentials"
+            case allowHeaders = "AllowHeaders"
+            case allowMethods = "AllowMethods"
+            case allowOrigins = "AllowOrigins"
+            case exposeHeaders = "ExposeHeaders"
+            case maxAge = "MaxAge"
+        }
+    }
+
     public struct CreateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
@@ -754,7 +815,7 @@ extension Lambda {
         public let runtime: Runtime?
         /// A list of tags to apply to the function.
         public let tags: [String: String]?
-        /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
+        /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
         public let timeout: Int?
         /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
         public let tracingConfig: TracingConfig?
@@ -840,6 +901,64 @@ extension Lambda {
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct CreateFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
+        ]
+
+        public let authorizationType: AuthorizationType
+        public let cors: Cors?
+        public let functionName: String
+        public let qualifier: String?
+
+        public init(authorizationType: AuthorizationType, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
+            self.authorizationType = authorizationType
+            self.cors = cors
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.cors?.validate(name: "\(name).cors")
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case cors = "Cors"
+        }
+    }
+
+    public struct CreateFunctionUrlConfigResponse: AWSDecodableShape {
+        public let authorizationType: AuthorizationType
+        public let cors: Cors?
+        public let creationTime: String
+        public let functionArn: String
+        public let functionUrl: String
+
+        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String) {
+            self.authorizationType = authorizationType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
         }
     }
 
@@ -1020,6 +1139,32 @@ extension Lambda {
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
+        ]
+
+        public let functionName: String
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1361,7 +1506,7 @@ extension Lambda {
         public let handler: String?
         /// The function's image configuration values.
         public let imageConfigResponse: ImageConfigResponse?
-        /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed CMK.
+        /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed key.
         public let kMSKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
@@ -1373,7 +1518,7 @@ extension Lambda {
         public let lastUpdateStatusReasonCode: LastUpdateStatusReasonCode?
         /// The function's  layers.
         public let layers: [Layer]?
-        /// For Lambda@Edge functions, the ARN of the master function.
+        /// For Lambda@Edge functions, the ARN of the main function.
         public let masterArn: String?
         /// The amount of memory available to the function at runtime.
         public let memorySize: Int?
@@ -1501,6 +1646,33 @@ extension Lambda {
             case lastModified = "LastModified"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct FunctionUrlConfig: AWSDecodableShape {
+        public let authorizationType: AuthorizationType
+        public let cors: Cors?
+        public let creationTime: String
+        public let functionArn: String
+        public let functionUrl: String
+        public let lastModifiedTime: String
+
+        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+            self.authorizationType = authorizationType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 
@@ -1779,6 +1951,59 @@ extension Lambda {
             case concurrency = "Concurrency"
             case configuration = "Configuration"
             case tags = "Tags"
+        }
+    }
+
+    public struct GetFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
+        ]
+
+        public let functionName: String
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionUrlConfigResponse: AWSDecodableShape {
+        public let authorizationType: AuthorizationType
+        public let cors: Cors?
+        public let creationTime: String
+        public let functionArn: String
+        public let functionUrl: String
+        public let lastModifiedTime: String
+
+        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+            self.authorizationType = authorizationType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 
@@ -2554,6 +2779,49 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case functionEventInvokeConfigs = "FunctionEventInvokeConfigs"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListFunctionUrlConfigsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+        ]
+
+        public let functionName: String
+        public let marker: String?
+        public let maxItems: Int?
+
+        public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.functionName = functionName
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFunctionUrlConfigsResponse: AWSDecodableShape {
+        public let functionUrlConfigs: [FunctionUrlConfig]
+        public let nextMarker: String?
+
+        public init(functionUrlConfigs: [FunctionUrlConfig], nextMarker: String? = nil) {
+            self.functionUrlConfigs = functionUrlConfigs
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionUrlConfigs = "FunctionUrlConfigs"
             case nextMarker = "NextMarker"
         }
     }
@@ -3755,7 +4023,7 @@ extension Lambda {
         public let role: String?
         /// The identifier of the function's runtime.
         public let runtime: Runtime?
-        /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
+        /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
         public let timeout: Int?
         /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
         public let tracingConfig: TracingConfig?
@@ -3871,6 +4139,67 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct UpdateFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
+        ]
+
+        public let authorizationType: AuthorizationType?
+        public let cors: Cors?
+        public let functionName: String
+        public let qualifier: String?
+
+        public init(authorizationType: AuthorizationType? = nil, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
+            self.authorizationType = authorizationType
+            self.cors = cors
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.cors?.validate(name: "\(name).cors")
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case cors = "Cors"
+        }
+    }
+
+    public struct UpdateFunctionUrlConfigResponse: AWSDecodableShape {
+        public let authorizationType: AuthorizationType
+        public let cors: Cors?
+        public let creationTime: String
+        public let functionArn: String
+        public let functionUrl: String
+        public let lastModifiedTime: String
+
+        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+            self.authorizationType = authorizationType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 

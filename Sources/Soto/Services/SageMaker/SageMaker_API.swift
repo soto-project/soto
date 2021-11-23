@@ -79,6 +79,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "AssociateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This action batch describes a list of versioned model packages
+    public func batchDescribeModelPackage(_ input: BatchDescribeModelPackageInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDescribeModelPackageOutput> {
+        return self.client.execute(operation: "BatchDescribeModelPackage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
     public func createAction(_ input: CreateActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateActionResponse> {
         return self.client.execute(operation: "CreateAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -634,7 +639,7 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DescribeModelExplainabilityJobDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a description of the specified model package, which is used to create Amazon SageMaker models or list them on Amazon Web Services Marketplace. To create models in Amazon SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     public func describeModelPackage(_ input: DescribeModelPackageInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeModelPackageOutput> {
         return self.client.execute(operation: "DescribeModelPackage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1232,6 +1237,11 @@ public struct SageMaker: AWSService {
     /// Updates a pipeline execution.
     public func updatePipelineExecution(_ input: UpdatePipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePipelineExecutionResponse> {
         return self.client.execute(operation: "UpdatePipelineExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model.  You must not update a project that is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project.
+    public func updateProject(_ input: UpdateProjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProjectOutput> {
+        return self.client.execute(operation: "UpdateProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update a model training job to request a new Debugger profiling configuration.

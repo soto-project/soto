@@ -54,6 +54,7 @@ public struct ApplicationInsights: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-25",
             endpoint: endpoint,
+            serviceEndpoints: ["us-gov-east-1": "applicationinsights.us-gov-east-1.amazonaws.com", "us-gov-west-1": "applicationinsights.us-gov-west-1.amazonaws.com"],
             errorType: ApplicationInsightsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

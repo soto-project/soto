@@ -125,6 +125,165 @@ extension IoTWireless {
         )
     }
 
+    ///  Lists the FUOTA tasks registered to your AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFuotaTasksPaginator<Result>(
+        _ input: ListFuotaTasksRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFuotaTasksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFuotaTasks,
+            inputKey: \ListFuotaTasksRequest.nextToken,
+            outputKey: \ListFuotaTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFuotaTasksPaginator(
+        _ input: ListFuotaTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFuotaTasksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFuotaTasks,
+            inputKey: \ListFuotaTasksRequest.nextToken,
+            outputKey: \ListFuotaTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the multicast groups registered to your AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMulticastGroupsPaginator<Result>(
+        _ input: ListMulticastGroupsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMulticastGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMulticastGroups,
+            inputKey: \ListMulticastGroupsRequest.nextToken,
+            outputKey: \ListMulticastGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMulticastGroupsPaginator(
+        _ input: ListMulticastGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMulticastGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMulticastGroups,
+            inputKey: \ListMulticastGroupsRequest.nextToken,
+            outputKey: \ListMulticastGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List all multicast groups associated with a fuota task.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMulticastGroupsByFuotaTaskPaginator<Result>(
+        _ input: ListMulticastGroupsByFuotaTaskRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMulticastGroupsByFuotaTaskResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMulticastGroupsByFuotaTask,
+            inputKey: \ListMulticastGroupsByFuotaTaskRequest.nextToken,
+            outputKey: \ListMulticastGroupsByFuotaTaskResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMulticastGroupsByFuotaTaskPaginator(
+        _ input: ListMulticastGroupsByFuotaTaskRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMulticastGroupsByFuotaTaskResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMulticastGroupsByFuotaTask,
+            inputKey: \ListMulticastGroupsByFuotaTaskRequest.nextToken,
+            outputKey: \ListMulticastGroupsByFuotaTaskResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the service profiles registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -303,6 +462,34 @@ extension IoTWireless.ListDeviceProfilesRequest: AWSPaginateToken {
     }
 }
 
+extension IoTWireless.ListFuotaTasksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTWireless.ListFuotaTasksRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTWireless.ListMulticastGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTWireless.ListMulticastGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTWireless.ListMulticastGroupsByFuotaTaskRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTWireless.ListMulticastGroupsByFuotaTaskRequest {
+        return .init(
+            id: self.id,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoTWireless.ListServiceProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTWireless.ListServiceProfilesRequest {
         return .init(
@@ -317,7 +504,9 @@ extension IoTWireless.ListWirelessDevicesRequest: AWSPaginateToken {
         return .init(
             destinationName: self.destinationName,
             deviceProfileId: self.deviceProfileId,
+            fuotaTaskId: self.fuotaTaskId,
             maxResults: self.maxResults,
+            multicastGroupId: self.multicastGroupId,
             nextToken: token,
             serviceProfileId: self.serviceProfileId,
             wirelessDeviceType: self.wirelessDeviceType

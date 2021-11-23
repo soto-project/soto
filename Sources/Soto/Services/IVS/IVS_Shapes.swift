@@ -54,6 +54,31 @@ extension IVS {
 
     // MARK: Shapes
 
+    public struct AudioConfiguration: AWSDecodableShape {
+        /// Number of audio channels.
+        public let channels: Int64?
+        /// Codec used for the audio encoding.
+        public let codec: String?
+        /// Number of audio samples recorded per second.
+        public let sampleRate: Int64?
+        /// The expected ingest bitrate (bits per second). This is configured in the encoder.
+        public let targetBitrate: Int64?
+
+        public init(channels: Int64? = nil, codec: String? = nil, sampleRate: Int64? = nil, targetBitrate: Int64? = nil) {
+            self.channels = channels
+            self.codec = codec
+            self.sampleRate = sampleRate
+            self.targetBitrate = targetBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels
+            case codec
+            case sampleRate
+            case targetBitrate
+        }
+    }
+
     public struct BatchError: AWSDecodableShape {
         /// Channel ARN.
         public let arn: String?
@@ -169,7 +194,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 480p and bitrate can be up to 1.5 Mbps.
         public let type: ChannelType?
 
         public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackUrl: String? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -241,7 +266,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 480p and bitrate can be up to 1.5 Mbps.
         public let type: ChannelType?
 
         public init(authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -264,6 +289,7 @@ extension IVS {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -295,7 +321,7 @@ extension IVS {
     public struct CreateRecordingConfigurationRequest: AWSEncodableShape {
         /// A complex type that contains a destination configuration for where recorded video will be stored.
         public let destinationConfiguration: DestinationConfiguration
-        /// An arbitrary string (a nickname) that helps the customer identify that resource. The value does not need to be unique.
+        /// Recording-configuration name. The value does not need to be unique.
         public let name: String?
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
@@ -315,6 +341,7 @@ extension IVS {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -356,6 +383,7 @@ extension IVS {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -630,8 +658,47 @@ extension IVS {
         }
     }
 
+    public struct GetStreamSessionRequest: AWSEncodableShape {
+        /// ARN of the channel resource
+        public let channelArn: String
+        /// Unique identifier for a live or previously live stream in the specified channel. If no streamId is provided, this returns the most recent stream session for the channel, if it exists.
+        public let streamId: String?
+
+        public init(channelArn: String, streamId: String? = nil) {
+            self.channelArn = channelArn
+            self.streamId = streamId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 26)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 26)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^st-[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn
+            case streamId
+        }
+    }
+
+    public struct GetStreamSessionResponse: AWSDecodableShape {
+        /// List of stream details.
+        public let streamSession: StreamSession?
+
+        public init(streamSession: StreamSession? = nil) {
+            self.streamSession = streamSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamSession
+        }
+    }
+
     public struct ImportPlaybackKeyPairRequest: AWSEncodableShape {
-        /// An arbitrary string (a nickname) assigned to a playback key pair that helps the customer identify that resource. The value does not need to be unique.
+        /// Playback-key-pair name. The value does not need to be unique.
         public let name: String?
         /// The public portion of a customer-generated key pair.
         public let publicKeyMaterial: String
@@ -652,6 +719,7 @@ extension IVS {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -671,6 +739,23 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case keyPair
+        }
+    }
+
+    public struct IngestConfiguration: AWSDecodableShape {
+        /// Encoder settings for audio.
+        public let audio: AudioConfiguration?
+        /// Encoder settings for video.
+        public let video: VideoConfiguration?
+
+        public init(audio: AudioConfiguration? = nil, video: VideoConfiguration? = nil) {
+            self.audio = audio
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audio
+            case video
         }
     }
 
@@ -700,7 +785,7 @@ extension IVS {
             try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -743,7 +828,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -784,7 +869,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -831,7 +916,7 @@ extension IVS {
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -859,13 +944,63 @@ extension IVS {
         }
     }
 
-    public struct ListStreamsRequest: AWSEncodableShape {
+    public struct ListStreamSessionsRequest: AWSEncodableShape {
+        /// Channel ARN used to filter the list.
+        public let channelArn: String
         /// Maximum number of streams to return. Default: 50.
         public let maxResults: Int?
         /// The first stream to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.channelArn = channelArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListStreamSessionsResponse: AWSDecodableShape {
+        /// If there are more streams than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+        public let streamSessions: [StreamSessionSummary]
+
+        public init(nextToken: String? = nil, streamSessions: [StreamSessionSummary]) {
+            self.nextToken = nextToken
+            self.streamSessions = streamSessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case streamSessions
+        }
+    }
+
+    public struct ListStreamsRequest: AWSEncodableShape {
+        /// Filters the stream list to match the specified criterion.
+        public let filterBy: StreamFilters?
+        /// Maximum number of streams to return. Default: 50.
+        public let maxResults: Int?
+        /// The first stream to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        public init(filterBy: StreamFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterBy = filterBy
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -873,11 +1008,12 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterBy
             case maxResults
             case nextToken
         }
@@ -905,45 +1041,30 @@ extension IVS {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// Maximum number of tags to return. Default: 50.
-        public let maxResults: Int?
-        /// The first tag to retrieve. This is used for pagination; see the nextToken response field.
-        public let nextToken: String?
         /// The ARN of the resource to be retrieved.
         public let resourceArn: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// If there are more tags than maxResults, use nextToken in the request to get the next set.
-        public let nextToken: String?
         public let tags: [String: String]
 
-        public init(nextToken: String? = nil, tags: [String: String]) {
-            self.nextToken = nextToken
+        public init(tags: [String: String]) {
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
             case tags
         }
     }
@@ -953,7 +1074,7 @@ extension IVS {
         public let arn: String?
         /// Key-pair identifier.
         public let fingerprint: String?
-        /// An arbitrary string (a nickname) assigned to a playback key pair that helps the customer identify that resource. The value does not need to be unique.
+        /// Playback-key-pair name. The value does not need to be unique.
         public let name: String?
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
@@ -976,7 +1097,7 @@ extension IVS {
     public struct PlaybackKeyPairSummary: AWSDecodableShape {
         /// Key-pair ARN.
         public let arn: String?
-        /// An arbitrary string (a nickname) assigned to a playback key pair that helps the customer identify that resource. The value does not need to be unique.
+        /// Playback-key-pair name. The value does not need to be unique.
         public let name: String?
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
@@ -1023,7 +1144,7 @@ extension IVS {
         public let arn: String
         /// A complex type that contains information about where recorded video will be stored.
         public let destinationConfiguration: DestinationConfiguration
-        /// An arbitrary string (a nickname) assigned to a recording configuration that helps the customer identify that resource. The value does not need to be unique.
+        /// Recording-configuration name. The value does not need to be unique.
         public let name: String?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         public let state: RecordingConfigurationState
@@ -1052,7 +1173,7 @@ extension IVS {
         public let arn: String
         /// A complex type that contains information about where recorded video will be stored.
         public let destinationConfiguration: DestinationConfiguration
-        /// An arbitrary string (a nickname) assigned to a recording configuration that helps the customer identify that resource. The value does not need to be unique.
+        /// Recording-configuration name. The value does not need to be unique.
         public let name: String?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         public let state: RecordingConfigurationState
@@ -1125,20 +1246,23 @@ extension IVS {
         public let health: StreamHealth?
         /// URL of the master playlist, required by the video player to play the HLS stream.
         public let playbackUrl: String?
-        /// ISO-8601 formatted timestamp of the stream’s start.
+        /// Time of the stream’s start. This is an ISO 8601 timestamp returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
         /// The stream’s state.
         public let state: StreamState?
-        /// Number of current viewers of the stream. A value of -1 indicates that the request timed out; in this case, retry.
+        /// Unique identifier for a live or previously live stream in the specified channel.
+        public let streamId: String?
+        /// A count of concurrent views of the stream. Typically, a new view appears in viewerCount within 15 seconds of when video playback starts and a view is removed from viewerCount within 1 minute of when video playback ends. A value of -1 indicates that the request timed out; in this case, retry.
         public let viewerCount: Int64?
 
-        public init(channelArn: String? = nil, health: StreamHealth? = nil, playbackUrl: String? = nil, startTime: Date? = nil, state: StreamState? = nil, viewerCount: Int64? = nil) {
+        public init(channelArn: String? = nil, health: StreamHealth? = nil, playbackUrl: String? = nil, startTime: Date? = nil, state: StreamState? = nil, streamId: String? = nil, viewerCount: Int64? = nil) {
             self.channelArn = channelArn
             self.health = health
             self.playbackUrl = playbackUrl
             self.startTime = startTime
             self.state = state
+            self.streamId = streamId
             self.viewerCount = viewerCount
         }
 
@@ -1148,7 +1272,43 @@ extension IVS {
             case playbackUrl
             case startTime
             case state
+            case streamId
             case viewerCount
+        }
+    }
+
+    public struct StreamEvent: AWSDecodableShape {
+        /// UTC ISO-8601 formatted timestamp of when the event occurred.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var eventTime: Date?
+        /// Name that identifies the stream event within a type.
+        public let name: String?
+        /// Logical group for certain events.
+        public let type: String?
+
+        public init(eventTime: Date? = nil, name: String? = nil, type: String? = nil) {
+            self.eventTime = eventTime
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTime
+            case name
+            case type
+        }
+    }
+
+    public struct StreamFilters: AWSEncodableShape {
+        /// The stream’s health.
+        public let health: StreamHealth?
+
+        public init(health: StreamHealth? = nil) {
+            self.health = health
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case health
         }
     }
 
@@ -1198,24 +1358,93 @@ extension IVS {
         }
     }
 
+    public struct StreamSession: AWSDecodableShape {
+        /// The properties of the channel at the time of going live.
+        public let channel: Channel?
+        /// UTC ISO-8601 formatted timestamp of when the channel went offline. For live streams, this is NULL.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// The properties of the incoming RTMP stream for the stream.
+        public let ingestConfiguration: IngestConfiguration?
+        /// The properties of recording the live stream.
+        public let recordingConfiguration: RecordingConfiguration?
+        /// UTC ISO-8601 formatted timestamp of when the channel went live.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// Unique identifier for a live or previously live stream in the specified channel.
+        public let streamId: String?
+        /// List of Amazon IVS events that the stream encountered. The list is sorted by most recent events and contains up to 500 events. For Amazon IVS events, see Using Amazon EventBridge with Amazon IVS.
+        public let truncatedEvents: [StreamEvent]?
+
+        public init(channel: Channel? = nil, endTime: Date? = nil, ingestConfiguration: IngestConfiguration? = nil, recordingConfiguration: RecordingConfiguration? = nil, startTime: Date? = nil, streamId: String? = nil, truncatedEvents: [StreamEvent]? = nil) {
+            self.channel = channel
+            self.endTime = endTime
+            self.ingestConfiguration = ingestConfiguration
+            self.recordingConfiguration = recordingConfiguration
+            self.startTime = startTime
+            self.streamId = streamId
+            self.truncatedEvents = truncatedEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel
+            case endTime
+            case ingestConfiguration
+            case recordingConfiguration
+            case startTime
+            case streamId
+            case truncatedEvents
+        }
+    }
+
+    public struct StreamSessionSummary: AWSDecodableShape {
+        /// UTC ISO-8601 formatted timestamp of when the channel went offline. For live streams, this is NULL.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// If true, this stream encountered a quota breach or failure.
+        public let hasErrorEvent: Bool?
+        /// UTC ISO-8601 formatted timestamp of when the channel went live.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// Unique identifier for a live or previously live stream in the specified channel.
+        public let streamId: String?
+
+        public init(endTime: Date? = nil, hasErrorEvent: Bool? = nil, startTime: Date? = nil, streamId: String? = nil) {
+            self.endTime = endTime
+            self.hasErrorEvent = hasErrorEvent
+            self.startTime = startTime
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case hasErrorEvent
+            case startTime
+            case streamId
+        }
+    }
+
     public struct StreamSummary: AWSDecodableShape {
         /// Channel ARN for the stream.
         public let channelArn: String?
         /// The stream’s health.
         public let health: StreamHealth?
-        /// ISO-8601 formatted timestamp of the stream’s start.
+        /// Time of the stream’s start. This is an ISO 8601 timestamp returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
         /// The stream’s state.
         public let state: StreamState?
-        /// Number of current viewers of the stream. A value of -1 indicates that the request timed out; in this case, retry.
+        /// Unique identifier for a live or previously live stream in the specified channel.
+        public let streamId: String?
+        /// A count of concurrent views of the stream. Typically, a new view appears in viewerCount within 15 seconds of when video playback starts and a view is removed from viewerCount within 1 minute of when video playback ends. A value of -1 indicates that the request timed out; in this case, retry.
         public let viewerCount: Int64?
 
-        public init(channelArn: String? = nil, health: StreamHealth? = nil, startTime: Date? = nil, state: StreamState? = nil, viewerCount: Int64? = nil) {
+        public init(channelArn: String? = nil, health: StreamHealth? = nil, startTime: Date? = nil, state: StreamState? = nil, streamId: String? = nil, viewerCount: Int64? = nil) {
             self.channelArn = channelArn
             self.health = health
             self.startTime = startTime
             self.state = state
+            self.streamId = streamId
             self.viewerCount = viewerCount
         }
 
@@ -1224,6 +1453,7 @@ extension IVS {
             case health
             case startTime
             case state
+            case streamId
             case viewerCount
         }
     }
@@ -1251,6 +1481,7 @@ extension IVS {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -1309,7 +1540,7 @@ extension IVS {
         public let name: String?
         /// Recording-configuration ARN. If this is set to an empty string, recording is disabled. A value other than an empty string indicates that recording is enabled
         public let recordingConfigurationArn: String?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 480p and bitrate can be up to 1.5 Mbps.
         public let type: ChannelType?
 
         public init(arn: String, authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
@@ -1352,6 +1583,47 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case channel
+        }
+    }
+
+    public struct VideoConfiguration: AWSDecodableShape {
+        /// Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. For details, see the H.264 specification.
+        public let avcLevel: String?
+        /// Indicates to the decoder the requirements for decoding the stream. For definitions of the valid values, see the H.264 specification.
+        public let avcProfile: String?
+        /// Codec used for the video encoding.
+        public let codec: String?
+        /// Software or hardware used to encode the video.
+        public let encoder: String?
+        /// The expected ingest bitrate (bits per second). This is configured in the encoder.
+        public let targetBitrate: Int64?
+        /// The expected ingest framerate. This is configured in the encoder.
+        public let targetFramerate: Int64?
+        /// Video-resolution height in pixels.
+        public let videoHeight: Int64?
+        /// Video-resolution width in pixels.
+        public let videoWidth: Int64?
+
+        public init(avcLevel: String? = nil, avcProfile: String? = nil, codec: String? = nil, encoder: String? = nil, targetBitrate: Int64? = nil, targetFramerate: Int64? = nil, videoHeight: Int64? = nil, videoWidth: Int64? = nil) {
+            self.avcLevel = avcLevel
+            self.avcProfile = avcProfile
+            self.codec = codec
+            self.encoder = encoder
+            self.targetBitrate = targetBitrate
+            self.targetFramerate = targetFramerate
+            self.videoHeight = videoHeight
+            self.videoWidth = videoWidth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case avcLevel
+            case avcProfile
+            case codec
+            case encoder
+            case targetBitrate
+            case targetFramerate
+            case videoHeight
+            case videoWidth
         }
     }
 }

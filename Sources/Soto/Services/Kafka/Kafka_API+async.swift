@@ -102,7 +102,7 @@ extension Kafka {
         return try await self.client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of Kafka versions.
+    /// Returns a list of Apache Kafka versions.
     public func listKafkaVersions(_ input: ListKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListKafkaVersionsResponse {
         return try await self.client.execute(operation: "ListKafkaVersions", path: "/v1/kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -165,6 +165,11 @@ extension Kafka {
     /// Updates an existing MSK configuration. The configuration must be in the Active state.
     public func updateConfiguration(_ input: UpdateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateConfigurationResponse {
         return try await self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the connectivity configuration for the cluster.
+    public func updateConnectivity(_ input: UpdateConnectivityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateConnectivityResponse {
+        return try await self.client.execute(operation: "UpdateConnectivity", path: "/v1/clusters/{clusterArn}/connectivity", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.

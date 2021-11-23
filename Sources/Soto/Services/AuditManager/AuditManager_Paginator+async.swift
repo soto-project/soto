@@ -110,7 +110,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of evidence folders associated with a specified control of an assessment in Audit Manager.
+    ///   Returns a list of evidence folders that are associated with a specified control of an assessment in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -132,7 +132,51 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of the frameworks available in the Audit Manager framework library.
+    ///  Lists the latest analytics data for controls within a specific control domain and a specific active assessment.  Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssessmentControlInsightsByControlDomainPaginator(
+        _ input: ListAssessmentControlInsightsByControlDomainRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssessmentControlInsightsByControlDomainRequest, ListAssessmentControlInsightsByControlDomainResponse> {
+        return .init(
+            input: input,
+            command: listAssessmentControlInsightsByControlDomain,
+            inputKey: \ListAssessmentControlInsightsByControlDomainRequest.nextToken,
+            outputKey: \ListAssessmentControlInsightsByControlDomainResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns a list of sent or received share requests for custom frameworks in Audit Manager.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssessmentFrameworkShareRequestsPaginator(
+        _ input: ListAssessmentFrameworkShareRequestsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssessmentFrameworkShareRequestsRequest, ListAssessmentFrameworkShareRequestsResponse> {
+        return .init(
+            input: input,
+            command: listAssessmentFrameworkShareRequests,
+            inputKey: \ListAssessmentFrameworkShareRequestsRequest.nextToken,
+            outputKey: \ListAssessmentFrameworkShareRequestsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns a list of the frameworks that are available in the Audit Manager framework library.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -198,6 +242,72 @@ extension AuditManager {
         )
     }
 
+    ///  Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listControlDomainInsightsPaginator(
+        _ input: ListControlDomainInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListControlDomainInsightsRequest, ListControlDomainInsightsResponse> {
+        return .init(
+            input: input,
+            command: listControlDomainInsights,
+            inputKey: \ListControlDomainInsightsRequest.nextToken,
+            outputKey: \ListControlDomainInsightsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listControlDomainInsightsByAssessmentPaginator(
+        _ input: ListControlDomainInsightsByAssessmentRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListControlDomainInsightsByAssessmentRequest, ListControlDomainInsightsByAssessmentResponse> {
+        return .init(
+            input: input,
+            command: listControlDomainInsightsByAssessment,
+            inputKey: \ListControlDomainInsightsByAssessmentRequest.nextToken,
+            outputKey: \ListControlDomainInsightsByAssessmentResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the latest analytics data for controls within a specific control domain across all active assessments.  Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listControlInsightsByControlDomainPaginator(
+        _ input: ListControlInsightsByControlDomainRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListControlInsightsByControlDomainRequest, ListControlInsightsByControlDomainResponse> {
+        return .init(
+            input: input,
+            command: listControlInsightsByControlDomain,
+            inputKey: \ListControlInsightsByControlDomainRequest.nextToken,
+            outputKey: \ListControlInsightsByControlDomainResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///   Returns a list of controls from Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
@@ -220,7 +330,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of keywords that pre-mapped to the specified control data source.
+    ///   Returns a list of keywords that are pre-mapped to the specified control data source.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

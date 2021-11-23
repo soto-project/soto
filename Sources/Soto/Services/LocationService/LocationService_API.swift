@@ -97,7 +97,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "BatchUpdateDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 
-    ///  Calculates a route given the following required parameters: DeparturePostiton and DestinationPosition. Requires that you first create a route calculator resource  By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:    Specifying a departure time using either DepartureTime or DepartureNow. This calculates a route based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartureNow in a single request. Specifying both parameters returns an error message.     Specifying a travel mode using TravelMode. This lets you specify an additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
+    ///  Calculates a route given the following required parameters: DeparturePostiton and DestinationPosition. Requires that you first create a route calculator resource. By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:    Specifying a departure time using either DepartureTime or DepartureNow. This calculates a route based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartureNow in a single request. Specifying both parameters returns a validation error.     Specifying a travel mode using TravelMode. This lets you specify an additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
     public func calculateRoute(_ input: CalculateRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CalculateRouteResponse> {
         return self.client.execute(operation: "CalculateRoute", path: "/routes/v0/calculators/{CalculatorName}/calculate/route", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
@@ -112,7 +112,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "CreateMap", path: "/maps/v0/maps", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a place index resource in your AWS account, which supports functions with geospatial data sourced from your chosen data provider.
+    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation.
     public func createPlaceIndex(_ input: CreatePlaceIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePlaceIndexResponse> {
         return self.client.execute(operation: "CreatePlaceIndex", path: "/places/v0/indexes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
@@ -272,7 +272,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "SearchPlaceIndexForPosition", path: "/places/v0/indexes/{IndexName}/search/position", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Geocodes free-form text, such as an address, name, city, or region to allow you to search for Places or points of interest.  Includes the option to apply additional parameters to narrow your list of results.  You can search for places near a given position using BiasPosition, or filter results within a bounding box using FilterBBox. Providing both parameters simultaneously returns an error.
+    /// Geocodes free-form text, such as an address, name, city, or region to allow you to search for Places or points of interest.  Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe.  You can search for places near a given position using BiasPosition, or filter results within a bounding box using FilterBBox. Providing both parameters simultaneously returns an error.  Search results are returned in order of highest to lowest relevance.
     public func searchPlaceIndexForText(_ input: SearchPlaceIndexForTextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchPlaceIndexForTextResponse> {
         return self.client.execute(operation: "SearchPlaceIndexForText", path: "/places/v0/indexes/{IndexName}/search/text", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }

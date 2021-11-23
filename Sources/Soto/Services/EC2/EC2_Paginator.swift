@@ -973,7 +973,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs, private AFIs that you own, and AFIs owned by other AWS accounts for which you have load permissions.
+    ///  Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs, private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load permissions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4948,6 +4948,59 @@ extension EC2 {
         )
     }
 
+    ///  Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getInstanceTypesFromInstanceRequirementsPaginator<Result>(
+        _ input: GetInstanceTypesFromInstanceRequirementsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetInstanceTypesFromInstanceRequirementsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getInstanceTypesFromInstanceRequirements,
+            inputKey: \GetInstanceTypesFromInstanceRequirementsRequest.nextToken,
+            outputKey: \GetInstanceTypesFromInstanceRequirementsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getInstanceTypesFromInstanceRequirementsPaginator(
+        _ input: GetInstanceTypesFromInstanceRequirementsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetInstanceTypesFromInstanceRequirementsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getInstanceTypesFromInstanceRequirements,
+            inputKey: \GetInstanceTypesFromInstanceRequirementsRequest.nextToken,
+            outputKey: \GetInstanceTypesFromInstanceRequirementsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets information about the resources that are associated with the specified managed prefix list.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -5049,6 +5102,59 @@ extension EC2 {
             command: getManagedPrefixListEntries,
             inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
             outputKey: \GetManagedPrefixListEntriesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes. For more information, see Spot placement score in the Amazon EC2 User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getSpotPlacementScoresPaginator<Result>(
+        _ input: GetSpotPlacementScoresRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetSpotPlacementScoresResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getSpotPlacementScores,
+            inputKey: \GetSpotPlacementScoresRequest.nextToken,
+            outputKey: \GetSpotPlacementScoresResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getSpotPlacementScoresPaginator(
+        _ input: GetSpotPlacementScoresRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetSpotPlacementScoresResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getSpotPlacementScores,
+            inputKey: \GetSpotPlacementScoresRequest.nextToken,
+            outputKey: \GetSpotPlacementScoresResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -6609,6 +6715,19 @@ extension EC2.GetGroupsForCapacityReservationRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.GetInstanceTypesFromInstanceRequirementsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetInstanceTypesFromInstanceRequirementsRequest {
+        return .init(
+            architectureTypes: self.architectureTypes,
+            dryRun: self.dryRun,
+            instanceRequirements: self.instanceRequirements,
+            maxResults: self.maxResults,
+            nextToken: token,
+            virtualizationTypes: self.virtualizationTypes
+        )
+    }
+}
+
 extension EC2.GetManagedPrefixListAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetManagedPrefixListAssociationsRequest {
         return .init(
@@ -6628,6 +6747,22 @@ extension EC2.GetManagedPrefixListEntriesRequest: AWSPaginateToken {
             nextToken: token,
             prefixListId: self.prefixListId,
             targetVersion: self.targetVersion
+        )
+    }
+}
+
+extension EC2.GetSpotPlacementScoresRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetSpotPlacementScoresRequest {
+        return .init(
+            dryRun: self.dryRun,
+            instanceRequirementsWithMetadata: self.instanceRequirementsWithMetadata,
+            instanceTypes: self.instanceTypes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            regionNames: self.regionNames,
+            singleAvailabilityZone: self.singleAvailabilityZone,
+            targetCapacity: self.targetCapacity,
+            targetCapacityUnitType: self.targetCapacityUnitType
         )
     }
 }

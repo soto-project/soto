@@ -79,6 +79,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case noSuchPublicKey = "NoSuchPublicKey"
         case noSuchRealtimeLogConfig = "NoSuchRealtimeLogConfig"
         case noSuchResource = "NoSuchResource"
+        case noSuchResponseHeadersPolicy = "NoSuchResponseHeadersPolicy"
         case noSuchStreamingDistribution = "NoSuchStreamingDistribution"
         case originRequestPolicyAlreadyExists = "OriginRequestPolicyAlreadyExists"
         case originRequestPolicyInUse = "OriginRequestPolicyInUse"
@@ -90,6 +91,8 @@ public struct CloudFrontErrorType: AWSErrorType {
         case realtimeLogConfigInUse = "RealtimeLogConfigInUse"
         case realtimeLogConfigOwnerMismatch = "RealtimeLogConfigOwnerMismatch"
         case resourceInUse = "ResourceInUse"
+        case responseHeadersPolicyAlreadyExists = "ResponseHeadersPolicyAlreadyExists"
+        case responseHeadersPolicyInUse = "ResponseHeadersPolicyInUse"
         case streamingDistributionAlreadyExists = "StreamingDistributionAlreadyExists"
         case streamingDistributionNotDisabled = "StreamingDistributionNotDisabled"
         case testFunctionFailed = "TestFunctionFailed"
@@ -100,12 +103,14 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyCookieNamesInWhiteList = "TooManyCookieNamesInWhiteList"
         case tooManyCookiesInCachePolicy = "TooManyCookiesInCachePolicy"
         case tooManyCookiesInOriginRequestPolicy = "TooManyCookiesInOriginRequestPolicy"
+        case tooManyCustomHeadersInResponseHeadersPolicy = "TooManyCustomHeadersInResponseHeadersPolicy"
         case tooManyDistributionCNAMEs = "TooManyDistributionCNAMEs"
         case tooManyDistributions = "TooManyDistributions"
         case tooManyDistributionsAssociatedToCachePolicy = "TooManyDistributionsAssociatedToCachePolicy"
         case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig = "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig"
         case tooManyDistributionsAssociatedToKeyGroup = "TooManyDistributionsAssociatedToKeyGroup"
         case tooManyDistributionsAssociatedToOriginRequestPolicy = "TooManyDistributionsAssociatedToOriginRequestPolicy"
+        case tooManyDistributionsAssociatedToResponseHeadersPolicy = "TooManyDistributionsAssociatedToResponseHeadersPolicy"
         case tooManyDistributionsWithFunctionAssociations = "TooManyDistributionsWithFunctionAssociations"
         case tooManyDistributionsWithLambdaAssociations = "TooManyDistributionsWithLambdaAssociations"
         case tooManyDistributionsWithSingleFunctionARN = "TooManyDistributionsWithSingleFunctionARN"
@@ -134,6 +139,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyQueryStringsInCachePolicy = "TooManyQueryStringsInCachePolicy"
         case tooManyQueryStringsInOriginRequestPolicy = "TooManyQueryStringsInOriginRequestPolicy"
         case tooManyRealtimeLogConfigs = "TooManyRealtimeLogConfigs"
+        case tooManyResponseHeadersPolicies = "TooManyResponseHeadersPolicies"
         case tooManyStreamingDistributionCNAMEs = "TooManyStreamingDistributionCNAMEs"
         case tooManyStreamingDistributions = "TooManyStreamingDistributions"
         case tooManyTrustedSigners = "TooManyTrustedSigners"
@@ -190,7 +196,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var fieldLevelEncryptionProfileInUse: Self { .init(.fieldLevelEncryptionProfileInUse) }
     /// The maximum size of a profile for field-level encryption was exceeded.
     public static var fieldLevelEncryptionProfileSizeExceeded: Self { .init(.fieldLevelEncryptionProfileSizeExceeded) }
-    /// A function with the same name already exists in this account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
+    /// A function with the same name already exists in this Amazon Web Services account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
     public static var functionAlreadyExists: Self { .init(.functionAlreadyExists) }
     /// Cannot delete the function because it’s attached to one or more cache behaviors.
     public static var functionInUse: Self { .init(.functionInUse) }
@@ -280,6 +286,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchRealtimeLogConfig: Self { .init(.noSuchRealtimeLogConfig) }
     /// A resource that was specified is not valid.
     public static var noSuchResource: Self { .init(.noSuchResource) }
+    /// The response headers policy does not exist.
+    public static var noSuchResponseHeadersPolicy: Self { .init(.noSuchResponseHeadersPolicy) }
     /// The specified streaming distribution does not exist.
     public static var noSuchStreamingDistribution: Self { .init(.noSuchStreamingDistribution) }
     /// An origin request policy with this name already exists. You must provide a unique name. To modify an existing origin request policy, use UpdateOriginRequestPolicy.
@@ -298,10 +306,14 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var realtimeLogConfigAlreadyExists: Self { .init(.realtimeLogConfigAlreadyExists) }
     /// Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
     public static var realtimeLogConfigInUse: Self { .init(.realtimeLogConfigInUse) }
-    /// The specified real-time log configuration belongs to a different account.
+    /// The specified real-time log configuration belongs to a different Amazon Web Services account.
     public static var realtimeLogConfigOwnerMismatch: Self { .init(.realtimeLogConfigOwnerMismatch) }
     /// Cannot delete this resource because it is in use.
     public static var resourceInUse: Self { .init(.resourceInUse) }
+    /// A response headers policy with this name already exists. You must provide a unique name. To modify an existing response headers policy, use UpdateResponseHeadersPolicy.
+    public static var responseHeadersPolicyAlreadyExists: Self { .init(.responseHeadersPolicyAlreadyExists) }
+    /// Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
+    public static var responseHeadersPolicyInUse: Self { .init(.responseHeadersPolicyInUse) }
     /// The caller reference you attempted to create the streaming distribution with is associated with another distribution
     public static var streamingDistributionAlreadyExists: Self { .init(.streamingDistributionAlreadyExists) }
     /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
@@ -310,7 +322,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var testFunctionFailed: Self { .init(.testFunctionFailed) }
     /// You cannot create more cache behaviors for the distribution.
     public static var tooManyCacheBehaviors: Self { .init(.tooManyCacheBehaviors) }
-    /// You have reached the maximum number of cache policies for this account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCachePolicies: Self { .init(.tooManyCachePolicies) }
     /// You cannot create anymore custom SSL/TLS certificates.
     public static var tooManyCertificates: Self { .init(.tooManyCertificates) }
@@ -322,6 +334,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyCookiesInCachePolicy: Self { .init(.tooManyCookiesInCachePolicy) }
     /// The number of cookies in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCookiesInOriginRequestPolicy: Self { .init(.tooManyCookiesInOriginRequestPolicy) }
+    /// The number of custom headers in the response headers policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var tooManyCustomHeadersInResponseHeadersPolicy: Self { .init(.tooManyCustomHeadersInResponseHeadersPolicy) }
     /// Your request contains more CNAMEs than are allowed per distribution.
     public static var tooManyDistributionCNAMEs: Self { .init(.tooManyDistributionCNAMEs) }
     /// Processing your request would cause you to exceed the maximum number of distributions allowed.
@@ -334,6 +348,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyDistributionsAssociatedToKeyGroup: Self { .init(.tooManyDistributionsAssociatedToKeyGroup) }
     /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToOriginRequestPolicy: Self { .init(.tooManyDistributionsAssociatedToOriginRequestPolicy) }
+    /// The maximum number of distributions have been associated with the specified response headers policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var tooManyDistributionsAssociatedToResponseHeadersPolicy: Self { .init(.tooManyDistributionsAssociatedToResponseHeadersPolicy) }
     /// You have reached the maximum number of distributions that are associated with a CloudFront function. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsWithFunctionAssociations: Self { .init(.tooManyDistributionsWithFunctionAssociations) }
     /// Processing your request would cause the maximum number of distributions with Lambda@Edge function associations per owner to be exceeded.
@@ -354,7 +370,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyFieldLevelEncryptionQueryArgProfiles: Self { .init(.tooManyFieldLevelEncryptionQueryArgProfiles) }
     /// You have reached the maximum number of CloudFront function associations for this distribution. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyFunctionAssociations: Self { .init(.tooManyFunctionAssociations) }
-    /// You have reached the maximum number of CloudFront functions for this account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyFunctions: Self { .init(.tooManyFunctions) }
     /// The number of headers in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyHeadersInCachePolicy: Self { .init(.tooManyHeadersInCachePolicy) }
@@ -364,7 +380,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyHeadersInOriginRequestPolicy: Self { .init(.tooManyHeadersInOriginRequestPolicy) }
     /// You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
     public static var tooManyInvalidationsInProgress: Self { .init(.tooManyInvalidationsInProgress) }
-    /// You have reached the maximum number of key groups for this account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyKeyGroups: Self { .init(.tooManyKeyGroups) }
     /// The number of key groups referenced by this distribution is more than the maximum allowed. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyKeyGroupsAssociatedToDistribution: Self { .init(.tooManyKeyGroupsAssociatedToDistribution) }
@@ -374,7 +390,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyOriginCustomHeaders: Self { .init(.tooManyOriginCustomHeaders) }
     /// Processing your request would cause you to exceed the maximum number of origin groups allowed.
     public static var tooManyOriginGroupsPerDistribution: Self { .init(.tooManyOriginGroupsPerDistribution) }
-    /// You have reached the maximum number of origin request policies for this account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyOriginRequestPolicies: Self { .init(.tooManyOriginRequestPolicies) }
     /// You cannot create more origins for the distribution.
     public static var tooManyOrigins: Self { .init(.tooManyOrigins) }
@@ -388,8 +404,10 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyQueryStringsInCachePolicy: Self { .init(.tooManyQueryStringsInCachePolicy) }
     /// The number of query strings in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyQueryStringsInOriginRequestPolicy: Self { .init(.tooManyQueryStringsInOriginRequestPolicy) }
-    /// You have reached the maximum number of real-time log configurations for this account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyRealtimeLogConfigs: Self { .init(.tooManyRealtimeLogConfigs) }
+    /// You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var tooManyResponseHeadersPolicies: Self { .init(.tooManyResponseHeadersPolicies) }
     /// Your request contains more CNAMEs than are allowed per distribution.
     public static var tooManyStreamingDistributionCNAMEs: Self { .init(.tooManyStreamingDistributionCNAMEs) }
     /// Processing your request would cause you to exceed the maximum number of streaming distributions allowed.

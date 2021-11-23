@@ -72,6 +72,59 @@ extension FraudDetector {
         )
     }
 
+    ///  Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getBatchImportJobsPaginator<Result>(
+        _ input: GetBatchImportJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetBatchImportJobsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getBatchImportJobs,
+            inputKey: \GetBatchImportJobsRequest.nextToken,
+            outputKey: \GetBatchImportJobsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getBatchImportJobsPaginator(
+        _ input: GetBatchImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetBatchImportJobsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getBatchImportJobs,
+            inputKey: \GetBatchImportJobsRequest.nextToken,
+            outputKey: \GetBatchImportJobsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -663,6 +716,16 @@ extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateToken {
             modelId: self.modelId,
             modelType: self.modelType,
             modelVersionNumber: self.modelVersionNumber,
+            nextToken: token
+        )
+    }
+}
+
+extension FraudDetector.GetBatchImportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetBatchImportJobsRequest {
+        return .init(
+            jobId: self.jobId,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

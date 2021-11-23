@@ -109,6 +109,28 @@ extension Batch {
             on: eventLoop
         )
     }
+
+    ///  Returns a list of Batch scheduling policies.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSchedulingPoliciesPaginator(
+        _ input: ListSchedulingPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSchedulingPoliciesRequest, ListSchedulingPoliciesResponse> {
+        return .init(
+            input: input,
+            command: listSchedulingPolicies,
+            inputKey: \ListSchedulingPoliciesRequest.nextToken,
+            outputKey: \ListSchedulingPoliciesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5) && canImport(_Concurrency)

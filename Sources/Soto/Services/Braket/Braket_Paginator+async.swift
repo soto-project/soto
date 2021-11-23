@@ -44,6 +44,28 @@ extension Braket {
         )
     }
 
+    ///  Searches for Amazon Braket jobs that match the specified filter values.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchJobsPaginator(
+        _ input: SearchJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchJobsRequest, SearchJobsResponse> {
+        return .init(
+            input: input,
+            command: searchJobs,
+            inputKey: \SearchJobsRequest.nextToken,
+            outputKey: \SearchJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Searches for tasks that match the specified filter values.
     /// Return PaginatorSequence for operation.
     ///

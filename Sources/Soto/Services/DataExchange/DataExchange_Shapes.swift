@@ -21,6 +21,7 @@ extension DataExchange {
     // MARK: Enums
 
     public enum AssetType: String, CustomStringConvertible, Codable {
+        case redshiftDataShare = "REDSHIFT_DATA_SHARE"
         case s3Snapshot = "S3_SNAPSHOT"
         public var description: String { return self.rawValue }
     }
@@ -37,6 +38,7 @@ extension DataExchange {
     }
 
     public enum JobErrorLimitName: String, CustomStringConvertible, Codable {
+        case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
         case assetSizeInGb = "Asset size in GB"
         case assetsPerRevision = "Assets per revision"
         public var description: String { return self.rawValue }
@@ -76,6 +78,7 @@ extension DataExchange {
         case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
         case exportRevisionsToS3 = "EXPORT_REVISIONS_TO_S3"
         case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
+        case importAssetsFromRedshiftDataShares = "IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES"
         case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
         public var description: String { return self.rawValue }
     }
@@ -83,6 +86,7 @@ extension DataExchange {
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
+        /// Details for the export revision to Amazon S3 action.
         public let exportRevisionToS3: AutoExportRevisionToS3RequestDetails?
 
         public init(exportRevisionToS3: AutoExportRevisionToS3RequestDetails? = nil) {
@@ -116,13 +120,18 @@ extension DataExchange {
     }
 
     public struct AssetDetails: AWSDecodableShape {
+        /// The Amazon Redshift datashare that is the asset.
+        public let redshiftDataShareAsset: RedshiftDataShareAsset?
+        /// The S3 object that is the asset.
         public let s3SnapshotAsset: S3SnapshotAsset?
 
-        public init(s3SnapshotAsset: S3SnapshotAsset? = nil) {
+        public init(redshiftDataShareAsset: RedshiftDataShareAsset? = nil, s3SnapshotAsset: S3SnapshotAsset? = nil) {
+            self.redshiftDataShareAsset = redshiftDataShareAsset
             self.s3SnapshotAsset = s3SnapshotAsset
         }
 
         private enum CodingKeys: String, CodingKey {
+            case redshiftDataShareAsset = "RedshiftDataShareAsset"
             case s3SnapshotAsset = "S3SnapshotAsset"
         }
     }
@@ -130,9 +139,9 @@ extension DataExchange {
     public struct AssetEntry: AWSDecodableShape {
         /// The ARN for the asset.
         public let arn: String
-        /// Information about the asset, including its size.
+        /// Information about the asset.
         public let assetDetails: AssetDetails
-        /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
+        /// The type of asset that is added to a data set.
         public let assetType: AssetType
         /// The date and time that the asset was created, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
@@ -213,7 +222,9 @@ extension DataExchange {
     }
 
     public struct AutoExportRevisionToS3RequestDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Encryption configuration for the auto export job.
         public let encryption: ExportServerSideEncryption?
+        /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
         public let revisionDestination: AutoExportRevisionDestinationEntry
 
         public init(encryption: ExportServerSideEncryption? = nil, revisionDestination: AutoExportRevisionDestinationEntry) {
@@ -242,7 +253,7 @@ extension DataExchange {
     }
 
     public struct CreateDataSetRequest: AWSEncodableShape {
-        /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
+        /// The type of asset that is added to a data set.
         public let assetType: AssetType
         /// A description for the data set. This value can be up to 16,348 characters long.
         public let description: String
@@ -481,7 +492,7 @@ extension DataExchange {
     public struct DataSetEntry: AWSDecodableShape {
         /// The ARN for the data set.
         public let arn: String
-        /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
+        /// The type of asset that is added to a data set.
         public let assetType: AssetType
         /// The date and time that the data set was created, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
@@ -595,7 +606,9 @@ extension DataExchange {
     }
 
     public struct Details: AWSDecodableShape {
+        /// Information about the job error.
         public let importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails?
+        /// Information about the job error.
         public let importAssetsFromS3JobErrorDetails: [AssetSourceEntry]?
 
         public init(importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails? = nil, importAssetsFromS3JobErrorDetails: [AssetSourceEntry]? = nil) {
@@ -610,6 +623,7 @@ extension DataExchange {
     }
 
     public struct Event: AWSEncodableShape & AWSDecodableShape {
+        /// What occurs to start the revision publish action.
         public let revisionPublished: RevisionPublished?
 
         public init(revisionPublished: RevisionPublished? = nil) {
@@ -624,7 +638,7 @@ extension DataExchange {
     public struct EventActionEntry: AWSDecodableShape {
         /// What occurs after a certain event.
         public let action: Action
-        /// The ARN for the event action.
+        /// The Amazon Resource Name (ARN) for the event action.
         public let arn: String
         /// The date and time that the event action was created, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
@@ -783,7 +797,7 @@ extension DataExchange {
         public let dataSetId: String
         /// Encryption configuration of the export job.
         public let encryption: ExportServerSideEncryption?
-        /// The ARN for the event action.
+        /// The Amazon Resource Name (ARN) of the event action.
         public let eventActionArn: String?
         /// The destination in Amazon S3 where the revision is exported.
         public let revisionDestinations: [RevisionDestinationEntry]
@@ -1087,6 +1101,7 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlJobErrorDetails: AWSDecodableShape {
+        /// Information about the job error.
         public let assetName: String
 
         public init(assetName: String) {
@@ -1130,7 +1145,7 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlResponseDetails: AWSDecodableShape {
-        /// The name for the asset associated with this import response.
+        /// The name for the asset associated with this import job.
         public let assetName: String
         /// The unique identifier for the data set associated with this import job.
         public let dataSetId: String
@@ -1160,6 +1175,48 @@ extension DataExchange {
             case revisionId = "RevisionId"
             case signedUrl = "SignedUrl"
             case signedUrlExpiresAt = "SignedUrlExpiresAt"
+        }
+    }
+
+    public struct ImportAssetsFromRedshiftDataSharesRequestDetails: AWSEncodableShape {
+        /// A list of Amazon Redshift datashare assets.
+        public let assetSources: [RedshiftDataShareAssetSourceEntry]
+        /// The unique identifier for the data set associated with this import job.
+        public let dataSetId: String
+        /// The unique identifier for the revision associated with this import job.
+        public let revisionId: String
+
+        public init(assetSources: [RedshiftDataShareAssetSourceEntry], dataSetId: String, revisionId: String) {
+            self.assetSources = assetSources
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetSources = "AssetSources"
+            case dataSetId = "DataSetId"
+            case revisionId = "RevisionId"
+        }
+    }
+
+    public struct ImportAssetsFromRedshiftDataSharesResponseDetails: AWSDecodableShape {
+        /// A list of Amazon Redshift datashare asset sources.
+        public let assetSources: [RedshiftDataShareAssetSourceEntry]
+        /// The unique identifier for the data set associated with this import job.
+        public let dataSetId: String
+        /// The unique identifier for the revision associated with this import job.
+        public let revisionId: String
+
+        public init(assetSources: [RedshiftDataShareAssetSourceEntry], dataSetId: String, revisionId: String) {
+            self.assetSources = assetSources
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetSources = "AssetSources"
+            case dataSetId = "DataSetId"
+            case revisionId = "RevisionId"
         }
     }
 
@@ -1251,6 +1308,7 @@ extension DataExchange {
     public struct JobError: AWSDecodableShape {
         /// The code for the job error.
         public let code: Code
+        /// The details about the job error.
         public let details: Details?
         /// The name of the limit that was reached.
         public let limitName: JobErrorLimitName?
@@ -1517,6 +1575,7 @@ extension DataExchange {
     }
 
     public struct OriginDetails: AWSDecodableShape {
+        /// The product ID of the origin of the data set.
         public let productId: String
 
         public init(productId: String) {
@@ -1525,6 +1584,32 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case productId = "ProductId"
+        }
+    }
+
+    public struct RedshiftDataShareAsset: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the datashare asset.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct RedshiftDataShareAssetSourceEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the datashare asset.
+        public let dataShareArn: String
+
+        public init(dataShareArn: String) {
+            self.dataShareArn = dataShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataShareArn = "DataShareArn"
         }
     }
 
@@ -1537,14 +1622,17 @@ extension DataExchange {
         public let exportRevisionsToS3: ExportRevisionsToS3RequestDetails?
         /// Details about the import from signed URL request.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails?
+        /// Details from an import from Amazon Redshift datashare request.
+        public let importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails?
         /// Details about the import from Amazon S3 request.
         public let importAssetsFromS3: ImportAssetsFromS3RequestDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
+        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
+            self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
 
@@ -1557,6 +1645,7 @@ extension DataExchange {
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
             case exportRevisionsToS3 = "ExportRevisionsToS3"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
+            case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
             case importAssetsFromS3 = "ImportAssetsFromS3"
         }
     }
@@ -1570,14 +1659,17 @@ extension DataExchange {
         public let exportRevisionsToS3: ExportRevisionsToS3ResponseDetails?
         /// Details for the import from signed URL response.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails?
+        /// Details from an import from Amazon Redshift datashare response.
+        public let importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails?
         /// Details for the import from Amazon S3 response.
         public let importAssetsFromS3: ImportAssetsFromS3ResponseDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
+        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
+            self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
 
@@ -1586,6 +1678,7 @@ extension DataExchange {
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
             case exportRevisionsToS3 = "ExportRevisionsToS3"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
+            case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
             case importAssetsFromS3 = "ImportAssetsFromS3"
         }
     }
@@ -1655,6 +1748,7 @@ extension DataExchange {
     }
 
     public struct RevisionPublished: AWSEncodableShape & AWSDecodableShape {
+        /// The data set ID of the published revision.
         public let dataSetId: String
 
         public init(dataSetId: String) {

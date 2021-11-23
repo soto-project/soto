@@ -43,6 +43,12 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
+    public enum DiscoveryType: String, CustomStringConvertible, Codable {
+        case accountBased = "ACCOUNT_BASED"
+        case resourceGroupBased = "RESOURCE_GROUP_BASED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeedbackKey: String, CustomStringConvertible, Codable {
         case insightsFeedback = "INSIGHTS_FEEDBACK"
         public var description: String { return self.rawValue }
@@ -78,6 +84,7 @@ extension ApplicationInsights {
     public enum Status: String, CustomStringConvertible, Codable {
         case ignore = "IGNORE"
         case pending = "PENDING"
+        case recurring = "RECURRING"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
@@ -93,8 +100,12 @@ extension ApplicationInsights {
         case mysql = "MYSQL"
         case oracle = "ORACLE"
         case postgresql = "POSTGRESQL"
+        case sapHanaHighAvailability = "SAP_HANA_HIGH_AVAILABILITY"
+        case sapHanaMultiNode = "SAP_HANA_MULTI_NODE"
+        case sapHanaSingleNode = "SAP_HANA_SINGLE_NODE"
         case sqlServer = "SQL_SERVER"
         case sqlServerAlwaysonAvailabilityGroup = "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"
+        case sqlServerFailoverClusterInstance = "SQL_SERVER_FAILOVER_CLUSTER_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
@@ -138,8 +149,10 @@ extension ApplicationInsights {
     }
 
     public struct ApplicationInfo: AWSDecodableShape {
+        public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cWEMonitorEnabled: Bool?
+        public let discoveryType: DiscoveryType?
         /// The lifecycle of the application.
         public let lifeCycle: String?
         ///  Indicates whether Application Insights will create opsItems for any problem detected by Application Insights for an application.
@@ -151,8 +164,10 @@ extension ApplicationInsights {
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
 
-        public init(cWEMonitorEnabled: Bool? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+        public init(autoConfigEnabled: Bool? = nil, cWEMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+            self.autoConfigEnabled = autoConfigEnabled
             self.cWEMonitorEnabled = cWEMonitorEnabled
+            self.discoveryType = discoveryType
             self.lifeCycle = lifeCycle
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
@@ -161,7 +176,9 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoConfigEnabled = "AutoConfigEnabled"
             case cWEMonitorEnabled = "CWEMonitorEnabled"
+            case discoveryType = "DiscoveryType"
             case lifeCycle = "LifeCycle"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
@@ -204,6 +221,8 @@ extension ApplicationInsights {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+        public let autoConfigEnabled: Bool?
+        public let autoCreate: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cWEMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application.
@@ -211,11 +230,13 @@ extension ApplicationInsights {
         ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
         public let opsItemSNSTopicArn: String?
         /// The name of the resource group.
-        public let resourceGroupName: String
+        public let resourceGroupName: String?
         /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]?
 
-        public init(cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String, tags: [Tag]? = nil) {
+        public init(autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
+            self.autoConfigEnabled = autoConfigEnabled
+            self.autoCreate = autoCreate
             self.cWEMonitorEnabled = cWEMonitorEnabled
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
@@ -238,6 +259,8 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoConfigEnabled = "AutoConfigEnabled"
+            case autoCreate = "AutoCreate"
             case cWEMonitorEnabled = "CWEMonitorEnabled"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
@@ -1025,6 +1048,7 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsRequest: AWSEncodableShape {
+        public let componentName: String?
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
         public let endTime: Date?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1036,7 +1060,8 @@ extension ApplicationInsights {
         /// The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.
         public let startTime: Date?
 
-        public init(endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
+        public init(componentName: String? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
+            self.componentName = componentName
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1045,6 +1070,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1056,6 +1084,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentName = "ComponentName"
             case endTime = "EndTime"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1069,15 +1098,18 @@ extension ApplicationInsights {
         public let nextToken: String?
         /// The list of problems.
         public let problemList: [Problem]?
+        public let resourceGroupName: String?
 
-        public init(nextToken: String? = nil, problemList: [Problem]? = nil) {
+        public init(nextToken: String? = nil, problemList: [Problem]? = nil, resourceGroupName: String? = nil) {
             self.nextToken = nextToken
             self.problemList = problemList
+            self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case problemList = "ProblemList"
+            case resourceGroupName = "ResourceGroupName"
         }
     }
 
@@ -1338,6 +1370,8 @@ extension ApplicationInsights {
         public let id: String?
         /// A detailed analysis of the problem using machine learning.
         public let insights: String?
+        public let lastRecurrenceTime: Date?
+        public let recurringCount: Int64?
         /// The name of the resource group affected by the problem.
         public let resourceGroupName: String?
         /// A measure of the level of impact of the problem.
@@ -1349,12 +1383,14 @@ extension ApplicationInsights {
         /// The name of the problem.
         public let title: String?
 
-        public init(affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil) {
+        public init(affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, lastRecurrenceTime: Date? = nil, recurringCount: Int64? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil) {
             self.affectedResource = affectedResource
             self.endTime = endTime
             self.feedback = feedback
             self.id = id
             self.insights = insights
+            self.lastRecurrenceTime = lastRecurrenceTime
+            self.recurringCount = recurringCount
             self.resourceGroupName = resourceGroupName
             self.severityLevel = severityLevel
             self.startTime = startTime
@@ -1368,6 +1404,8 @@ extension ApplicationInsights {
             case feedback = "Feedback"
             case id = "Id"
             case insights = "Insights"
+            case lastRecurrenceTime = "LastRecurrenceTime"
+            case recurringCount = "RecurringCount"
             case resourceGroupName = "ResourceGroupName"
             case severityLevel = "SeverityLevel"
             case startTime = "StartTime"
@@ -1482,6 +1520,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+        public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cWEMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application.
@@ -1493,7 +1532,8 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+        public init(autoConfigEnabled: Bool? = nil, cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+            self.autoConfigEnabled = autoConfigEnabled
             self.cWEMonitorEnabled = cWEMonitorEnabled
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
@@ -1511,6 +1551,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoConfigEnabled = "AutoConfigEnabled"
             case cWEMonitorEnabled = "CWEMonitorEnabled"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
@@ -1533,6 +1574,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentConfigurationRequest: AWSEncodableShape {
+        public let autoConfigEnabled: Bool?
         /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration.
         public let componentConfiguration: String?
         /// The name of the component.
@@ -1544,7 +1586,8 @@ extension ApplicationInsights {
         /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT.
         public let tier: Tier?
 
-        public init(componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: Tier? = nil) {
+        public init(autoConfigEnabled: Bool? = nil, componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: Tier? = nil) {
+            self.autoConfigEnabled = autoConfigEnabled
             self.componentConfiguration = componentConfiguration
             self.componentName = componentName
             self.monitor = monitor
@@ -1565,6 +1608,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoConfigEnabled = "AutoConfigEnabled"
             case componentConfiguration = "ComponentConfiguration"
             case componentName = "ComponentName"
             case monitor = "Monitor"

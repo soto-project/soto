@@ -272,6 +272,7 @@ extension Glue {
     }
 
     public enum RecrawlBehavior: String, CustomStringConvertible, Codable {
+        case crawlEventMode = "CRAWL_EVENT_MODE"
         case crawlEverything = "CRAWL_EVERYTHING"
         case crawlNewFoldersOnly = "CRAWL_NEW_FOLDERS_ONLY"
         public var description: String { return self.rawValue }
@@ -9805,7 +9806,7 @@ extension Glue {
     }
 
     public struct RecrawlPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run.
+        /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run. A value of CRAWL_EVENT_MODE specifies crawling only the changes identified by Amazon S3 events.
         public let recrawlBehavior: RecrawlBehavior?
 
         public init(recrawlBehavior: RecrawlBehavior? = nil) {
@@ -10125,6 +10126,10 @@ extension Glue {
     public struct S3Target: AWSEncodableShape & AWSDecodableShape {
         /// The name of a connection which allows a job or crawler to access data in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
         public let connectionName: String?
+        /// A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue.
+        public let dlqEventQueueArn: String?
+        /// A valid Amazon SQS ARN. For example, arn:aws:sqs:region:account:sqs.
+        public let eventQueueArn: String?
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
         public let exclusions: [String]?
         /// The path to the Amazon S3 target.
@@ -10132,8 +10137,10 @@ extension Glue {
         /// Sets the number of files in each leaf folder to be crawled when crawling sample files in a dataset. If not set, all the files are crawled. A valid value is an integer between 1 and 249.
         public let sampleSize: Int?
 
-        public init(connectionName: String? = nil, exclusions: [String]? = nil, path: String? = nil, sampleSize: Int? = nil) {
+        public init(connectionName: String? = nil, dlqEventQueueArn: String? = nil, eventQueueArn: String? = nil, exclusions: [String]? = nil, path: String? = nil, sampleSize: Int? = nil) {
             self.connectionName = connectionName
+            self.dlqEventQueueArn = dlqEventQueueArn
+            self.eventQueueArn = eventQueueArn
             self.exclusions = exclusions
             self.path = path
             self.sampleSize = sampleSize
@@ -10141,6 +10148,8 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case dlqEventQueueArn = "DlqEventQueueArn"
+            case eventQueueArn = "EventQueueArn"
             case exclusions = "Exclusions"
             case path = "Path"
             case sampleSize = "SampleSize"

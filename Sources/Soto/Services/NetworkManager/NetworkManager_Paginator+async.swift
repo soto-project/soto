@@ -154,6 +154,94 @@ extension NetworkManager {
         )
     }
 
+    ///  Gets the count of network resources, by resource type, for the specified global network.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getNetworkResourceCountsPaginator(
+        _ input: GetNetworkResourceCountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetNetworkResourceCountsRequest, GetNetworkResourceCountsResponse> {
+        return .init(
+            input: input,
+            command: getNetworkResourceCounts,
+            inputKey: \GetNetworkResourceCountsRequest.nextToken,
+            outputKey: \GetNetworkResourceCountsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets the network resource relationships for the specified global network.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getNetworkResourceRelationshipsPaginator(
+        _ input: GetNetworkResourceRelationshipsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetNetworkResourceRelationshipsRequest, GetNetworkResourceRelationshipsResponse> {
+        return .init(
+            input: input,
+            command: getNetworkResourceRelationships,
+            inputKey: \GetNetworkResourceRelationshipsRequest.nextToken,
+            outputKey: \GetNetworkResourceRelationshipsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getNetworkResourcesPaginator(
+        _ input: GetNetworkResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetNetworkResourcesRequest, GetNetworkResourcesResponse> {
+        return .init(
+            input: input,
+            command: getNetworkResources,
+            inputKey: \GetNetworkResourcesRequest.nextToken,
+            outputKey: \GetNetworkResourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets the network telemetry of the specified global network.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getNetworkTelemetryPaginator(
+        _ input: GetNetworkTelemetryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetNetworkTelemetryRequest, GetNetworkTelemetryResponse> {
+        return .init(
+            input: input,
+            command: getNetworkTelemetry,
+            inputKey: \GetNetworkTelemetryRequest.nextToken,
+            outputKey: \GetNetworkTelemetryResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets information about one or more of your sites in a global network.
     /// Return PaginatorSequence for operation.
     ///

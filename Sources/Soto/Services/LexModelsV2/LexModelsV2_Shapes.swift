@@ -262,6 +262,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum VoiceEngine: String, CustomStringConvertible, Codable {
+        case neural
+        case standard
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AggregatedUtterancesFilter: AWSEncodableShape {
@@ -862,7 +868,7 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
-        /// The identifier of the bot to build. The identifier is returned in the response from the operation.
+        /// The identifier of the bot to build. The identifier is returned in the response from the CreateBot operation.
         public let botId: String
         /// The version of the bot to build. This can only be the draft version of the bot.
         public let botVersion: String
@@ -1089,7 +1095,7 @@ extension LexModelsV2 {
         public let botAliasName: String
         /// The unique identifier of the bot that the alias applies to.
         public let botId: String
-        /// The version of the bot that this alias points to. You can use the operation to change the bot version associated with the alias.
+        /// The version of the bot that this alias points to. You can use the UpdateBotAlias operation to change the bot version associated with the alias.
         public let botVersion: String?
         /// Specifies whether Amazon Lex logs text and audio for a conversation with the bot. When you enable conversation logs, text logs store text input, transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs store audio input in Amazon S3.
         public let conversationLogSettings: ConversationLogSettings?
@@ -1502,7 +1508,7 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// An identifier for a specific request to create an export.
         public let exportId: String?
-        /// The status of the export. When the status is Completed, you can use the operation to get the pre-signed S3 URL link to your exported bot or bot locale.
+        /// The status of the export. When the status is Completed, you can use the DescribeExport operation to get the pre-signed S3 URL link to your exported bot or bot locale.
         public let exportStatus: ExportStatus?
         /// The file format used for the bot or bot locale definition files.
         public let fileFormat: ImportExportFileFormat?
@@ -2065,7 +2071,7 @@ extension LexModelsV2 {
     }
 
     public struct CreateUploadUrlResponse: AWSDecodableShape {
-        /// An identifier for a unique import job. Use it when you call the operation.
+        /// An identifier for a unique import job. Use it when you call the StartImport operation.
         public let importId: String?
         /// A pre-signed S3 write URL. Upload the zip archive file that contains the definition of your bot or bot locale.
         public let uploadUrl: String?
@@ -2341,7 +2347,7 @@ extension LexModelsV2 {
     public struct DeleteExportResponse: AWSDecodableShape {
         /// The unique identifier of the deleted export.
         public let exportId: String?
-        /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the operation and calls to the with the export identifier will fail.
+        /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the ListExports operation and calls to the  DescribeExport operation with the export identifier will fail.
         public let exportStatus: ExportStatus?
 
         public init(exportId: String? = nil, exportStatus: ExportStatus? = nil) {
@@ -2379,7 +2385,7 @@ extension LexModelsV2 {
     public struct DeleteImportResponse: AWSDecodableShape {
         /// The unique identifier of the deleted import.
         public let importId: String?
-        /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the operation and calls to the with the import identifier will fail.
+        /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the ListImports operation and calls to the DescribeImport operation with the import identifier will fail.
         public let importStatus: ImportStatus?
 
         public init(importId: String? = nil, importStatus: ImportStatus? = nil) {
@@ -2627,7 +2633,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The identifier of the language and locale where the utterances were collected. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String?
-        /// The unique identifier of the session with the user. The ID is returned in the response from the and operations.
+        /// The unique identifier of the session with the user. The ID is returned in the response from the RecognizeText and RecognizeUtterance operations.
         public let sessionId: String?
 
         public init(botId: String, localeId: String? = nil, sessionId: String? = nil) {
@@ -5648,7 +5654,7 @@ extension LexModelsV2 {
     public struct StartImportRequest: AWSEncodableShape {
         /// The password used to encrypt the zip archive that contains the bot or bot locale definition. You should always encrypt the zip archive to protect it during transit between your site and Amazon Lex.
         public let filePassword: String?
-        /// The unique identifier for the import. It is included in the response from the operation.
+        /// The unique identifier for the import. It is included in the response from the CreateUploadUrl operation.
         public let importId: String
         /// The strategy to use when there is a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
         public let mergeStrategy: MergeStrategy
@@ -6751,14 +6757,18 @@ extension LexModelsV2 {
     }
 
     public struct VoiceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see Voices in Amazon Polly.
+        public let engine: VoiceEngine?
         /// The identifier of the Amazon Polly voice to use.
         public let voiceId: String
 
-        public init(voiceId: String) {
+        public init(engine: VoiceEngine? = nil, voiceId: String) {
+            self.engine = engine
             self.voiceId = voiceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case engine
             case voiceId
         }
     }

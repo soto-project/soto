@@ -110,6 +110,11 @@ extension NimbleStudio {
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleted = "DELETED"
         case ready = "READY"
+        case startFailed = "START_FAILED"
+        case startInProgress = "START_IN_PROGRESS"
+        case stopFailed = "STOP_FAILED"
+        case stopInProgress = "STOP_IN_PROGRESS"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -125,6 +130,10 @@ extension NimbleStudio {
         case streamingSessionDeleteInProgress = "STREAMING_SESSION_DELETE_IN_PROGRESS"
         case streamingSessionDeleted = "STREAMING_SESSION_DELETED"
         case streamingSessionReady = "STREAMING_SESSION_READY"
+        case streamingSessionStartInProgress = "STREAMING_SESSION_START_IN_PROGRESS"
+        case streamingSessionStarted = "STREAMING_SESSION_STARTED"
+        case streamingSessionStopInProgress = "STREAMING_SESSION_STOP_IN_PROGRESS"
+        case streamingSessionStopped = "STREAMING_SESSION_STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -250,8 +259,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The EULA ID.
         public let eulaIds: [String]?
+        /// A collection of EULA IDs.
         public let studioId: String
 
         public init(clientToken: String? = AcceptEulasRequest.idempotencyToken(), eulaIds: [String]? = nil, studioId: String) {
@@ -271,6 +283,7 @@ extension NimbleStudio {
     }
 
     public struct AcceptEulasResponse: AWSDecodableShape {
+        /// A collection of EULA acceptances.
         public let eulaAcceptances: [EulaAcceptance]?
 
         public init(eulaAcceptances: [EulaAcceptance]? = nil) {
@@ -283,7 +296,9 @@ extension NimbleStudio {
     }
 
     public struct ActiveDirectoryComputerAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The name for the LDAP attribute.
         public let name: String?
+        /// The value for the LDAP attribute.
         public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
@@ -305,8 +320,11 @@ extension NimbleStudio {
     }
 
     public struct ActiveDirectoryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A collection of custom attributes for an Active Directory computer.
         public let computerAttributes: [ActiveDirectoryComputerAttribute]?
+        /// The directory ID of the Directory Service for Microsoft Active Directory to access using this studio component.
         public let directoryId: String?
+        /// The distinguished name (DN) and organizational unit (OU) of an Active Directory computer.
         public let organizationalUnitDistinguishedName: String?
 
         public init(computerAttributes: [ActiveDirectoryComputerAttribute]? = nil, directoryId: String? = nil, organizationalUnitDistinguishedName: String? = nil) {
@@ -320,6 +338,7 @@ extension NimbleStudio {
                 try $0.validate(name: "\(name).computerAttributes[]")
             }
             try self.validate(self.computerAttributes, name: "computerAttributes", parent: name, max: 50)
+            try self.validate(self.computerAttributes, name: "computerAttributes", parent: name, min: 0)
             try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, max: 2000)
             try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, min: 1)
         }
@@ -332,7 +351,9 @@ extension NimbleStudio {
     }
 
     public struct ComputeFarmConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of an Active Directory user that is used on ComputeFarm worker instances.
         public let activeDirectoryUser: String?
+        /// The endpoint of the ComputeFarm that is accessed by the studio component resource.
         public let endpoint: String?
 
         public init(activeDirectoryUser: String? = nil, endpoint: String? = nil) {
@@ -352,14 +373,23 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The description.
         public let description: String?
+        /// Specifies the IDs of the EC2 subnets where streaming sessions will be accessible from. These subnets must support the specified instance types.
         public let ec2SubnetIds: [String]
+        /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]
+        /// The name for the launch profile.
         public let name: String
+        /// A configuration for a streaming session.
         public let streamConfiguration: StreamConfigurationCreate
+        /// Unique identifiers for a collection of studio components that can be used with this launch profile.
         public let studioComponentIds: [String]
+        /// The studio ID.
         public let studioId: String
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateLaunchProfileRequest.idempotencyToken(), description: String? = nil, ec2SubnetIds: [String], launchProfileProtocolVersions: [String], name: String, streamConfiguration: StreamConfigurationCreate, studioComponentIds: [String], studioId: String, tags: [String: String]? = nil) {
@@ -378,12 +408,16 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.ec2SubnetIds, name: "ec2SubnetIds", parent: name, max: 6)
+            try self.validate(self.ec2SubnetIds, name: "ec2SubnetIds", parent: name, min: 0)
             try self.launchProfileProtocolVersions.forEach {
                 try validate($0, name: "launchProfileProtocolVersions[]", parent: name, max: 10)
+                try validate($0, name: "launchProfileProtocolVersions[]", parent: name, min: 0)
                 try validate($0, name: "launchProfileProtocolVersions[]", parent: name, pattern: "^2021\\-03\\-31$")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.streamConfiguration.validate(name: "\(name).streamConfiguration")
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, max: 100)
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, min: 1)
@@ -401,6 +435,7 @@ extension NimbleStudio {
     }
 
     public struct CreateLaunchProfileResponse: AWSDecodableShape {
+        /// The launch profile.
         public let launchProfile: LaunchProfile?
 
         public init(launchProfile: LaunchProfile? = nil) {
@@ -418,11 +453,17 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// A human-readable description of the streaming image.
         public let description: String?
+        /// The ID of an EC2 machine image with which to create this streaming image.
         public let ec2ImageId: String
+        /// A friendly name for a streaming image resource.
         public let name: String
+        /// The studio ID.
         public let studioId: String
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateStreamingImageRequest.idempotencyToken(), description: String? = nil, ec2ImageId: String, name: String, studioId: String, tags: [String: String]? = nil) {
@@ -438,8 +479,10 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.ec2ImageId, name: "ec2ImageId", parent: name, pattern: "^ami-[0-9A-z]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -451,6 +494,7 @@ extension NimbleStudio {
     }
 
     public struct CreateStreamingImageResponse: AWSDecodableShape {
+        /// The streaming image.
         public let streamingImage: StreamingImage?
 
         public init(streamingImage: StreamingImage? = nil) {
@@ -468,12 +512,19 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The EC2 Instance type used for the streaming session.
         public let ec2InstanceType: StreamingInstanceType?
+        /// The launch profile ID.
         public let launchProfileId: String?
+        /// The user ID of the user that owns the streaming session.
         public let ownedBy: String?
+        /// The ID of the streaming image.
         public let streamingImageId: String?
+        /// The studio ID.
         public let studioId: String
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateStreamingSessionRequest.idempotencyToken(), ec2InstanceType: StreamingInstanceType? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, streamingImageId: String? = nil, studioId: String, tags: [String: String]? = nil) {
@@ -490,6 +541,7 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.streamingImageId, name: "streamingImageId", parent: name, max: 22)
+            try self.validate(self.streamingImageId, name: "streamingImageId", parent: name, min: 0)
             try self.validate(self.streamingImageId, name: "streamingImageId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
         }
 
@@ -503,6 +555,7 @@ extension NimbleStudio {
     }
 
     public struct CreateStreamingSessionResponse: AWSDecodableShape {
+        /// The session.
         public let session: StreamingSession?
 
         public init(session: StreamingSession? = nil) {
@@ -521,9 +574,13 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The expiration time in seconds.
         public let expirationInSeconds: Int?
+        /// The streaming session ID.
         public let sessionId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = CreateStreamingSessionStreamRequest.idempotencyToken(), expirationInSeconds: Int? = nil, sessionId: String, studioId: String) {
@@ -546,6 +603,7 @@ extension NimbleStudio {
     }
 
     public struct CreateStreamingSessionStreamResponse: AWSDecodableShape {
+        /// The stream.
         public let stream: StreamingSessionStream?
 
         public init(stream: StreamingSessionStream? = nil) {
@@ -563,16 +621,27 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
+        /// The description.
         public let description: String?
+        /// The EC2 security groups that control access to the studio component.
         public let ec2SecurityGroupIds: [String]?
+        /// Initialization scripts for studio components.
         public let initializationScripts: [StudioComponentInitializationScript]?
+        /// The name for the studio component.
         public let name: String
+        /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
+        /// The studio ID.
         public let studioId: String
+        /// The specific subtype of a studio component.
         public let subtype: StudioComponentSubtype?
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
+        /// The type of the studio component.
         public let type: StudioComponentType
 
         public init(clientToken: String? = CreateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String, scriptParameters: [ScriptParameterKeyValue]? = nil, studioId: String, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType) {
@@ -594,16 +663,19 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, max: 30)
             try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, min: 1)
             try self.initializationScripts?.forEach {
                 try $0.validate(name: "\(name).initializationScripts[]")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.scriptParameters?.forEach {
                 try $0.validate(name: "\(name).scriptParameters[]")
             }
             try self.validate(self.scriptParameters, name: "scriptParameters", parent: name, max: 30)
+            try self.validate(self.scriptParameters, name: "scriptParameters", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -620,6 +692,7 @@ extension NimbleStudio {
     }
 
     public struct CreateStudioComponentResponse: AWSDecodableShape {
+        /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
         public init(studioComponent: StudioComponent? = nil) {
@@ -636,12 +709,19 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token"))
         ]
 
+        /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// A friendly name for the studio.
         public let displayName: String
+        /// The studio encryption configuration.
         public let studioEncryptionConfiguration: StudioEncryptionConfiguration?
+        /// The studio name that is used in the URL of the Nimble Studio portal when accessed by Nimble Studio users.
         public let studioName: String
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
+        /// The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String
 
         public init(adminRoleArn: String, clientToken: String? = CreateStudioRequest.idempotencyToken(), displayName: String, studioEncryptionConfiguration: StudioEncryptionConfiguration? = nil, studioName: String, tags: [String: String]? = nil, userRoleArn: String) {
@@ -658,6 +738,7 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 0)
             try self.studioEncryptionConfiguration?.validate(name: "\(name).studioEncryptionConfiguration")
             try self.validate(self.studioName, name: "studioName", parent: name, max: 64)
             try self.validate(self.studioName, name: "studioName", parent: name, min: 3)
@@ -675,6 +756,7 @@ extension NimbleStudio {
     }
 
     public struct CreateStudioResponse: AWSDecodableShape {
+        /// Information about a studio.
         public let studio: Studio?
 
         public init(studio: Studio? = nil) {
@@ -694,9 +776,13 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteLaunchProfileMemberRequest.idempotencyToken(), launchProfileId: String, principalId: String, studioId: String) {
@@ -725,8 +811,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteLaunchProfileRequest.idempotencyToken(), launchProfileId: String, studioId: String) {
@@ -744,6 +833,7 @@ extension NimbleStudio {
     }
 
     public struct DeleteLaunchProfileResponse: AWSDecodableShape {
+        /// The launch profile.
         public let launchProfile: LaunchProfile?
 
         public init(launchProfile: LaunchProfile? = nil) {
@@ -762,8 +852,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The streaming image ID.
         public let streamingImageId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteStreamingImageRequest.idempotencyToken(), streamingImageId: String, studioId: String) {
@@ -781,6 +874,7 @@ extension NimbleStudio {
     }
 
     public struct DeleteStreamingImageResponse: AWSDecodableShape {
+        /// The streaming image.
         public let streamingImage: StreamingImage?
 
         public init(streamingImage: StreamingImage? = nil) {
@@ -799,8 +893,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The streaming session ID.
         public let sessionId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
@@ -818,6 +915,7 @@ extension NimbleStudio {
     }
 
     public struct DeleteStreamingSessionResponse: AWSDecodableShape {
+        /// The session.
         public let session: StreamingSession?
 
         public init(session: StreamingSession? = nil) {
@@ -836,8 +934,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The studio component ID.
         public let studioComponentId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteStudioComponentRequest.idempotencyToken(), studioComponentId: String, studioId: String) {
@@ -855,6 +956,7 @@ extension NimbleStudio {
     }
 
     public struct DeleteStudioComponentResponse: AWSDecodableShape {
+        /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
         public init(studioComponent: StudioComponent? = nil) {
@@ -873,8 +975,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteStudioMemberRequest.idempotencyToken(), principalId: String, studioId: String) {
@@ -901,7 +1006,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = DeleteStudioRequest.idempotencyToken(), studioId: String) {
@@ -918,9 +1025,10 @@ extension NimbleStudio {
     }
 
     public struct DeleteStudioResponse: AWSDecodableShape {
-        public let studio: Studio?
+        /// Information about a studio.
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 
@@ -930,11 +1038,16 @@ extension NimbleStudio {
     }
 
     public struct Eula: AWSDecodableShape {
+        /// The EULA content.
         public let content: String?
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The EULA ID.
         public let eulaId: String?
+        /// The name for the EULA.
         public let name: String?
+        /// The Unix epoch timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -956,11 +1069,16 @@ extension NimbleStudio {
     }
 
     public struct EulaAcceptance: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds for when the EULA was accepted.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var acceptedAt: Date?
+        /// The ID of the person who accepted the EULA.
         public let acceptedBy: String?
+        /// The ID of the acceptee.
         public let accepteeId: String?
+        /// The EULA acceptance ID.
         public let eulaAcceptanceId: String?
+        /// The EULA ID.
         public let eulaId: String?
 
         public init(acceptedAt: Date? = nil, acceptedBy: String? = nil, accepteeId: String? = nil, eulaAcceptanceId: String? = nil, eulaId: String? = nil) {
@@ -985,6 +1103,7 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "eulaId", location: .uri(locationName: "eulaId"))
         ]
 
+        /// The EULA ID.
         public let eulaId: String
 
         public init(eulaId: String) {
@@ -995,6 +1114,7 @@ extension NimbleStudio {
     }
 
     public struct GetEulaResponse: AWSDecodableShape {
+        /// The EULA.
         public let eula: Eula?
 
         public init(eula: Eula? = nil) {
@@ -1012,7 +1132,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(launchProfileId: String, studioId: String) {
@@ -1024,8 +1146,11 @@ extension NimbleStudio {
     }
 
     public struct GetLaunchProfileDetailsResponse: AWSDecodableShape {
+        /// The launch profile.
         public let launchProfile: LaunchProfile?
+        /// A collection of streaming images.
         public let streamingImages: [StreamingImage]?
+        /// A collection of studio component summaries.
         public let studioComponentSummaries: [StudioComponentSummary]?
 
         public init(launchProfile: LaunchProfile? = nil, streamingImages: [StreamingImage]? = nil, studioComponentSummaries: [StudioComponentSummary]? = nil) {
@@ -1050,10 +1175,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The launch profile protocol versions supported by the client.
         public let launchProfileProtocolVersions: [String]
+        /// The launch purpose.
         public let launchPurpose: String
+        /// The platform where this Launch Profile will be used, either WINDOWS or LINUX.
         public let platform: String
+        /// The studio ID.
         public let studioId: String
 
         public init(launchProfileId: String, launchProfileProtocolVersions: [String], launchPurpose: String, platform: String, studioId: String) {
@@ -1068,6 +1198,7 @@ extension NimbleStudio {
     }
 
     public struct GetLaunchProfileInitializationResponse: AWSDecodableShape {
+        /// The launch profile initialization.
         public let launchProfileInitialization: LaunchProfileInitialization?
 
         public init(launchProfileInitialization: LaunchProfileInitialization? = nil) {
@@ -1086,8 +1217,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(launchProfileId: String, principalId: String, studioId: String) {
@@ -1100,6 +1234,7 @@ extension NimbleStudio {
     }
 
     public struct GetLaunchProfileMemberResponse: AWSDecodableShape {
+        /// The member.
         public let member: LaunchProfileMembership?
 
         public init(member: LaunchProfileMembership? = nil) {
@@ -1117,7 +1252,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(launchProfileId: String, studioId: String) {
@@ -1129,6 +1266,7 @@ extension NimbleStudio {
     }
 
     public struct GetLaunchProfileResponse: AWSDecodableShape {
+        /// The launch profile.
         public let launchProfile: LaunchProfile?
 
         public init(launchProfile: LaunchProfile? = nil) {
@@ -1146,7 +1284,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The streaming image ID.
         public let streamingImageId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(streamingImageId: String, studioId: String) {
@@ -1158,6 +1298,7 @@ extension NimbleStudio {
     }
 
     public struct GetStreamingImageResponse: AWSDecodableShape {
+        /// The streaming image.
         public let streamingImage: StreamingImage?
 
         public init(streamingImage: StreamingImage? = nil) {
@@ -1175,7 +1316,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The streaming session ID.
         public let sessionId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(sessionId: String, studioId: String) {
@@ -1187,6 +1330,7 @@ extension NimbleStudio {
     }
 
     public struct GetStreamingSessionResponse: AWSDecodableShape {
+        /// The session.
         public let session: StreamingSession?
 
         public init(session: StreamingSession? = nil) {
@@ -1205,8 +1349,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The streaming session ID.
         public let sessionId: String
+        /// The streaming session stream ID.
         public let streamId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(sessionId: String, streamId: String, studioId: String) {
@@ -1219,6 +1366,7 @@ extension NimbleStudio {
     }
 
     public struct GetStreamingSessionStreamResponse: AWSDecodableShape {
+        /// The stream.
         public let stream: StreamingSessionStream?
 
         public init(stream: StreamingSessionStream? = nil) {
@@ -1236,7 +1384,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The studio component ID.
         public let studioComponentId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(studioComponentId: String, studioId: String) {
@@ -1248,6 +1398,7 @@ extension NimbleStudio {
     }
 
     public struct GetStudioComponentResponse: AWSDecodableShape {
+        /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
         public init(studioComponent: StudioComponent? = nil) {
@@ -1265,7 +1416,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(principalId: String, studioId: String) {
@@ -1277,6 +1430,7 @@ extension NimbleStudio {
     }
 
     public struct GetStudioMemberResponse: AWSDecodableShape {
+        /// The member.
         public let member: StudioMembership?
 
         public init(member: StudioMembership? = nil) {
@@ -1293,6 +1447,7 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The studio ID.
         public let studioId: String
 
         public init(studioId: String) {
@@ -1303,9 +1458,10 @@ extension NimbleStudio {
     }
 
     public struct GetStudioResponse: AWSDecodableShape {
-        public let studio: Studio?
+        /// Information about a studio.
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 
@@ -1315,23 +1471,39 @@ extension NimbleStudio {
     }
 
     public struct LaunchProfile: AWSDecodableShape {
+        /// The ARN of the resource.
         public let arn: String?
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The user ID of the user that created the launch profile.
         public let createdBy: String?
+        /// A human-readable description of the launch profile.
         public let description: String?
+        /// Unique identifiers for a collection of EC2 subnets.
         public let ec2SubnetIds: [String]?
+        /// The launch profile ID.
         public let launchProfileId: String?
+        /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]?
+        /// A friendly name for the launch profile.
         public let name: String?
+        /// The current state.
         public let state: LaunchProfileState?
+        /// The status code.
         public let statusCode: LaunchProfileStatusCode?
+        /// The status message for the launch profile.
         public let statusMessage: String?
+        /// A configuration for a streaming session.
         public let streamConfiguration: StreamConfiguration?
+        /// Unique identifiers for a collection of studio components that can be used with this launch profile.
         public let studioComponentIds: [String]?
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
+        /// The Unix epoch timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
+        /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SubnetIds: [String]? = nil, launchProfileId: String? = nil, launchProfileProtocolVersions: [String]? = nil, name: String? = nil, state: LaunchProfileState? = nil, statusCode: LaunchProfileStatusCode? = nil, statusMessage: String? = nil, streamConfiguration: StreamConfiguration? = nil, studioComponentIds: [String]? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
@@ -1374,14 +1546,23 @@ extension NimbleStudio {
     }
 
     public struct LaunchProfileInitialization: AWSDecodableShape {
+        /// A LaunchProfileInitializationActiveDirectory resource.
         public let activeDirectory: LaunchProfileInitializationActiveDirectory?
+        /// The EC2 security groups that control access to the studio component.
         public let ec2SecurityGroupIds: [String]?
+        /// The launch profile ID.
         public let launchProfileId: String?
+        /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersion: String?
+        /// The launch purpose.
         public let launchPurpose: String?
+        /// The name for the launch profile.
         public let name: String?
+        /// The platform of the launch platform, either WINDOWS or LINUX.
         public let platform: LaunchProfilePlatform?
+        /// The system initializtion scripts.
         public let systemInitializationScripts: [LaunchProfileInitializationScript]?
+        /// The user initializtion scripts.
         public let userInitializationScripts: [LaunchProfileInitializationScript]?
 
         public init(activeDirectory: LaunchProfileInitializationActiveDirectory? = nil, ec2SecurityGroupIds: [String]? = nil, launchProfileId: String? = nil, launchProfileProtocolVersion: String? = nil, launchPurpose: String? = nil, name: String? = nil, platform: LaunchProfilePlatform? = nil, systemInitializationScripts: [LaunchProfileInitializationScript]? = nil, userInitializationScripts: [LaunchProfileInitializationScript]? = nil) {
@@ -1410,12 +1591,19 @@ extension NimbleStudio {
     }
 
     public struct LaunchProfileInitializationActiveDirectory: AWSDecodableShape {
+        /// A collection of custom attributes for an Active Directory computer.
         public let computerAttributes: [ActiveDirectoryComputerAttribute]?
+        /// The directory ID of the Directory Service for Microsoft Active Directory to access using this launch profile.
         public let directoryId: String?
+        /// The directory name.
         public let directoryName: String?
+        /// The DNS IP address.
         public let dnsIpAddresses: [String]?
+        /// The name for the organizational unit distinguished name.
         public let organizationalUnitDistinguishedName: String?
+        /// The unique identifier for a studio component resource.
         public let studioComponentId: String?
+        /// The name for the studio component.
         public let studioComponentName: String?
 
         public init(computerAttributes: [ActiveDirectoryComputerAttribute]? = nil, directoryId: String? = nil, directoryName: String? = nil, dnsIpAddresses: [String]? = nil, organizationalUnitDistinguishedName: String? = nil, studioComponentId: String? = nil, studioComponentName: String? = nil) {
@@ -1440,8 +1628,11 @@ extension NimbleStudio {
     }
 
     public struct LaunchProfileInitializationScript: AWSDecodableShape {
+        /// The initialization script.
         public let script: String?
+        /// The unique identifier for a studio component resource.
         public let studioComponentId: String?
+        /// The name for the studio component.
         public let studioComponentName: String?
 
         public init(script: String? = nil, studioComponentId: String? = nil, studioComponentName: String? = nil) {
@@ -1458,24 +1649,32 @@ extension NimbleStudio {
     }
 
     public struct LaunchProfileMembership: AWSDecodableShape {
+        /// The ID of the identity store.
         public let identityStoreId: String?
+        /// The persona.
         public let persona: LaunchProfilePersona?
+        /// The principal ID.
         public let principalId: String?
+        /// The Active Directory Security Identifier for this user, if available.
+        public let sid: String?
 
-        public init(identityStoreId: String? = nil, persona: LaunchProfilePersona? = nil, principalId: String? = nil) {
+        public init(identityStoreId: String? = nil, persona: LaunchProfilePersona? = nil, principalId: String? = nil, sid: String? = nil) {
             self.identityStoreId = identityStoreId
             self.persona = persona
             self.principalId = principalId
+            self.sid = sid
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId
             case persona
             case principalId
+            case sid
         }
     }
 
     public struct LicenseServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The endpoint of the license service that is accessed by the studio component resource.
         public let endpoint: String?
 
         public init(endpoint: String? = nil) {
@@ -1494,8 +1693,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The list of EULA IDs that have been previously accepted.
         public let eulaIds: [String]?
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(eulaIds: [String]? = nil, nextToken: String? = nil, studioId: String) {
@@ -1508,7 +1710,9 @@ extension NimbleStudio {
     }
 
     public struct ListEulaAcceptancesResponse: AWSDecodableShape {
+        /// A collection of EULA acceptances.
         public let eulaAcceptances: [EulaAcceptance]?
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(eulaAcceptances: [EulaAcceptance]? = nil, nextToken: String? = nil) {
@@ -1528,7 +1732,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// The list of EULA IDs that should be returned
         public let eulaIds: [String]?
+        /// The token to request the next page of results.
         public let nextToken: String?
 
         public init(eulaIds: [String]? = nil, nextToken: String? = nil) {
@@ -1540,7 +1746,9 @@ extension NimbleStudio {
     }
 
     public struct ListEulasResponse: AWSDecodableShape {
+        /// A collection of EULA resources.
         public let eulas: [Eula]?
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(eulas: [Eula]? = nil, nextToken: String? = nil) {
@@ -1562,9 +1770,13 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The max number of results to return in the response.
         public let maxResults: Int?
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(launchProfileId: String, maxResults: Int? = nil, nextToken: String? = nil, studioId: String) {
@@ -1583,7 +1795,9 @@ extension NimbleStudio {
     }
 
     public struct ListLaunchProfileMembersResponse: AWSDecodableShape {
+        /// A list of members.
         public let members: [LaunchProfileMembership]?
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(members: [LaunchProfileMembership]? = nil, nextToken: String? = nil) {
@@ -1606,10 +1820,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The max number of results to return in the response.
         public let maxResults: Int?
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String?
+        /// Filter this request to launch profiles in any of the given states.
         public let states: [String]?
+        /// The studio ID.
         public let studioId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, states: [String]? = nil, studioId: String) {
@@ -1629,7 +1848,9 @@ extension NimbleStudio {
     }
 
     public struct ListLaunchProfilesResponse: AWSDecodableShape {
+        /// A collection of launch profiles.
         public let launchProfiles: [LaunchProfile]?
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(launchProfiles: [LaunchProfile]? = nil, nextToken: String? = nil) {
@@ -1650,8 +1871,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// Filter this request to streaming images with the given owner
         public let owner: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(nextToken: String? = nil, owner: String? = nil, studioId: String) {
@@ -1664,7 +1888,9 @@ extension NimbleStudio {
     }
 
     public struct ListStreamingImagesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
+        /// A collection of streaming images.
         public let streamingImages: [StreamingImage]?
 
         public init(nextToken: String? = nil, streamingImages: [StreamingImage]? = nil) {
@@ -1687,10 +1913,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Filters the request to streaming sessions created by the given user.
         public let createdBy: String?
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// Filters the request to streaming session owned by the given user
         public let ownedBy: String?
+        /// Filters the request to only the provided session IDs.
         public let sessionIds: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(createdBy: String? = nil, nextToken: String? = nil, ownedBy: String? = nil, sessionIds: String? = nil, studioId: String) {
@@ -1705,7 +1936,9 @@ extension NimbleStudio {
     }
 
     public struct ListStreamingSessionsResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
+        /// A collection of streaming sessions.
         public let sessions: [StreamingSession]?
 
         public init(nextToken: String? = nil, sessions: [StreamingSession]? = nil) {
@@ -1728,10 +1961,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "types", location: .querystring(locationName: "types"))
         ]
 
+        /// The max number of results to return in the response.
         public let maxResults: Int?
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// Filters the request to studio components that are in one of the given states.
         public let states: [String]?
+        /// The studio ID.
         public let studioId: String
+        /// Filters the request to studio components that are of one of the given types.
         public let types: [String]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, states: [String]? = nil, studioId: String, types: [String]? = nil) {
@@ -1751,7 +1989,9 @@ extension NimbleStudio {
     }
 
     public struct ListStudioComponentsResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
+        /// A collection of studio components.
         public let studioComponents: [StudioComponent]?
 
         public init(nextToken: String? = nil, studioComponents: [StudioComponent]? = nil) {
@@ -1772,8 +2012,11 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The max number of results to return in the response.
         public let maxResults: Int?
+        /// The token to request the next page of results.
         public let nextToken: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, studioId: String) {
@@ -1791,7 +2034,9 @@ extension NimbleStudio {
     }
 
     public struct ListStudioMembersResponse: AWSDecodableShape {
+        /// A list of members.
         public let members: [StudioMembership]?
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(members: [StudioMembership]? = nil, nextToken: String? = nil) {
@@ -1810,6 +2055,7 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// The token to request the next page of results.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -1820,10 +2066,12 @@ extension NimbleStudio {
     }
 
     public struct ListStudiosResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        public let studios: [Studio]?
+        /// A collection of studios.
+        public let studios: [Studio]
 
-        public init(nextToken: String? = nil, studios: [Studio]? = nil) {
+        public init(nextToken: String? = nil, studios: [Studio]) {
             self.nextToken = nextToken
             self.studios = studios
         }
@@ -1839,6 +2087,7 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
+        /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1849,6 +2098,7 @@ extension NimbleStudio {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -1861,7 +2111,9 @@ extension NimbleStudio {
     }
 
     public struct NewLaunchProfileMember: AWSEncodableShape {
+        /// The persona.
         public let persona: LaunchProfilePersona
+        /// The principal ID.
         public let principalId: String
 
         public init(persona: LaunchProfilePersona, principalId: String) {
@@ -1876,7 +2128,9 @@ extension NimbleStudio {
     }
 
     public struct NewStudioMember: AWSEncodableShape {
+        /// The persona.
         public let persona: StudioPersona
+        /// The principal ID.
         public let principalId: String
 
         public init(persona: StudioPersona, principalId: String) {
@@ -1897,10 +2151,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The ID of the identity store.
         public let identityStoreId: String
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// A list of members.
         public let members: [NewLaunchProfileMember]
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = PutLaunchProfileMembersRequest.idempotencyToken(), identityStoreId: String, launchProfileId: String, members: [NewLaunchProfileMember], studioId: String) {
@@ -1934,9 +2193,13 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The ID of the identity store.
         public let identityStoreId: String
+        /// A list of members.
         public let members: [NewStudioMember]
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = PutStudioMembersRequest.idempotencyToken(), identityStoreId: String, members: [NewStudioMember], studioId: String) {
@@ -1964,7 +2227,9 @@ extension NimbleStudio {
     }
 
     public struct ScriptParameterKeyValue: AWSEncodableShape & AWSDecodableShape {
+        /// A script parameter key.
         public let key: String?
+        /// A script parameter value.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -1987,10 +2252,15 @@ extension NimbleStudio {
     }
 
     public struct SharedFileSystemConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The endpoint of the shared file system that is accessed by the studio component resource.
         public let endpoint: String?
+        /// The unique identifier for a file system.
         public let fileSystemId: String?
+        /// The mount location for a shared file system on a Linux virtual workstation.
         public let linuxMountPoint: String?
+        /// The name of the file share.
         public let shareName: String?
+        /// The mount location for a shared file system on a Windows virtual workstation.
         public let windowsMountDrive: String?
 
         public init(endpoint: String? = nil, fileSystemId: String? = nil, linuxMountPoint: String? = nil, shareName: String? = nil, windowsMountDrive: String? = nil) {
@@ -2003,6 +2273,7 @@ extension NimbleStudio {
 
         public func validate(name: String) throws {
             try self.validate(self.linuxMountPoint, name: "linuxMountPoint", parent: name, max: 128)
+            try self.validate(self.linuxMountPoint, name: "linuxMountPoint", parent: name, min: 0)
             try self.validate(self.linuxMountPoint, name: "linuxMountPoint", parent: name, pattern: "^(/?|(\\$HOME)?(/[^/\\n\\s\\\\]+)*)$")
             try self.validate(self.windowsMountDrive, name: "windowsMountDrive", parent: name, pattern: "^[A-Z]$")
         }
@@ -2016,13 +2287,55 @@ extension NimbleStudio {
         }
     }
 
+    public struct StartStreamingSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The streaming session ID for the StartStreamingSessionRequest.
+        public let sessionId: String
+        /// The studio ID for the StartStreamingSessionRequest.
+        public let studioId: String
+
+        public init(clientToken: String? = StartStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+            self.clientToken = clientToken
+            self.sessionId = sessionId
+            self.studioId = studioId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartStreamingSessionResponse: AWSDecodableShape {
+        public let session: StreamingSession?
+
+        public init(session: StreamingSession? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session
+        }
+    }
+
     public struct StartStudioSSOConfigurationRepairRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = StartStudioSSOConfigurationRepairRequest.idempotencyToken(), studioId: String) {
@@ -2039,9 +2352,10 @@ extension NimbleStudio {
     }
 
     public struct StartStudioSSOConfigurationRepairResponse: AWSDecodableShape {
-        public let studio: Studio?
+        /// Information about a studio.
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 
@@ -2050,16 +2364,63 @@ extension NimbleStudio {
         }
     }
 
-    public struct StreamConfiguration: AWSDecodableShape {
-        public let clipboardMode: StreamingClipboardMode?
-        public let ec2InstanceTypes: [StreamingInstanceType]?
-        public let maxSessionLengthInMinutes: Int?
-        public let streamingImageIds: [String]?
+    public struct StopStreamingSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .header(locationName: "X-Amz-Client-Token")),
+            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
+            AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
+        ]
 
-        public init(clipboardMode: StreamingClipboardMode? = nil, ec2InstanceTypes: [StreamingInstanceType]? = nil, maxSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]? = nil) {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The streaming session ID for the StopStreamingSessionRequest.
+        public let sessionId: String
+        /// The studioId for the StopStreamingSessionRequest.
+        public let studioId: String
+
+        public init(clientToken: String? = StopStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+            self.clientToken = clientToken
+            self.sessionId = sessionId
+            self.studioId = studioId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopStreamingSessionResponse: AWSDecodableShape {
+        public let session: StreamingSession?
+
+        public init(session: StreamingSession? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session
+        }
+    }
+
+    public struct StreamConfiguration: AWSDecodableShape {
+        /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
+        public let clipboardMode: StreamingClipboardMode
+        /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
+        public let ec2InstanceTypes: [StreamingInstanceType]
+        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
+        public let maxSessionLengthInMinutes: Int?
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).
+        public let maxStoppedSessionLengthInMinutes: Int?
+        /// The streaming images that users can select from when launching a streaming session with this launch profile.
+        public let streamingImageIds: [String]
+
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
+            self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
             self.streamingImageIds = streamingImageIds
         }
 
@@ -2067,56 +2428,82 @@ extension NimbleStudio {
             case clipboardMode
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
+            case maxStoppedSessionLengthInMinutes
             case streamingImageIds
         }
     }
 
     public struct StreamConfigurationCreate: AWSEncodableShape {
+        /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
         public let clipboardMode: StreamingClipboardMode
+        /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
         public let ec2InstanceTypes: [StreamingInstanceType]
+        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
+        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
+        public let maxStoppedSessionLengthInMinutes: Int?
+        /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
+            self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
             self.streamingImageIds = streamingImageIds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.ec2InstanceTypes, name: "ec2InstanceTypes", parent: name, max: 30)
             try self.validate(self.ec2InstanceTypes, name: "ec2InstanceTypes", parent: name, min: 1)
-            try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, max: 690)
+            try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, max: 43200)
             try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, min: 1)
+            try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, max: 5760)
+            try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, min: 0)
             try self.streamingImageIds.forEach {
                 try validate($0, name: "streamingImageIds[]", parent: name, max: 22)
+                try validate($0, name: "streamingImageIds[]", parent: name, min: 0)
                 try validate($0, name: "streamingImageIds[]", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             }
             try self.validate(self.streamingImageIds, name: "streamingImageIds", parent: name, max: 20)
+            try self.validate(self.streamingImageIds, name: "streamingImageIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clipboardMode
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
+            case maxStoppedSessionLengthInMinutes
             case streamingImageIds
         }
     }
 
     public struct StreamingImage: AWSDecodableShape {
+        /// The ARN of the resource.
         public let arn: String?
+        /// A human-readable description of the streaming image.
         public let description: String?
+        /// The ID of an EC2 machine image with which to create the streaming image.
         public let ec2ImageId: String?
+        /// The encryption configuration.
         public let encryptionConfiguration: StreamingImageEncryptionConfiguration?
+        /// The list of EULAs that must be accepted before a Streaming Session can be started using this streaming image.
         public let eulaIds: [String]?
+        /// A friendly name for a streaming image resource.
         public let name: String?
+        /// The owner of the streaming image, either the studioId that contains the streaming image, or 'amazon' for images that are provided by Amazon Nimble Studio.
         public let owner: String?
+        /// The platform of the streaming image, either WINDOWS or LINUX.
         public let platform: String?
+        /// The current state.
         public let state: StreamingImageState?
+        /// The status code.
         public let statusCode: StreamingImageStatusCode?
+        /// The status message for the streaming image.
         public let statusMessage: String?
+        /// The ID of the streaming image.
         public let streamingImageId: String?
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, description: String? = nil, ec2ImageId: String? = nil, encryptionConfiguration: StreamingImageEncryptionConfiguration? = nil, eulaIds: [String]? = nil, name: String? = nil, owner: String? = nil, platform: String? = nil, state: StreamingImageState? = nil, statusCode: StreamingImageStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil) {
@@ -2153,7 +2540,9 @@ extension NimbleStudio {
     }
 
     public struct StreamingImageEncryptionConfiguration: AWSDecodableShape {
+        /// The ARN for a KMS key that is used to encrypt studio data.
         public let keyArn: String?
+        /// The type of KMS key that is used to encrypt studio data.
         public let keyType: StreamingImageEncryptionConfigurationKeyType
 
         public init(keyArn: String? = nil, keyType: StreamingImageEncryptionConfigurationKeyType) {
@@ -2168,26 +2557,54 @@ extension NimbleStudio {
     }
 
     public struct StreamingSession: AWSDecodableShape {
+        /// The ARN of the resource.
         public let arn: String?
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The user ID of the user that created the streaming session.
         public let createdBy: String?
+        /// The EC2 Instance type used for the streaming session.
         public let ec2InstanceType: String?
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String?
+        /// The user ID of the user that owns the streaming session.
         public let ownedBy: String?
+        /// The session ID.
         public let sessionId: String?
+        /// The time the session entered START_IN_PROGRESS state.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The user ID of the user that started the streaming session.
+        public let startedBy: String?
+        /// The current state.
         public let state: StreamingSessionState?
+        /// The status code.
         public let statusCode: StreamingSessionStatusCode?
+        /// The status message for the streaming session.
         public let statusMessage: String?
+        /// The time the streaming session will automatically be stopped if the user doesn’t stop the session themselves.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var stopAt: Date?
+        /// The time the session entered STOP_IN_PROGRESS state.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var stoppedAt: Date?
+        /// The user ID of the user that stopped the streaming session.
+        public let stoppedBy: String?
+        /// The ID of the streaming image.
         public let streamingImageId: String?
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
+        /// The time the streaming session will automatically terminate if not terminated by the user.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var terminateAt: Date?
+        /// The Unix epoch timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
+        /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, stopAt: Date? = nil, stoppedAt: Date? = nil, stoppedBy: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2195,9 +2612,14 @@ extension NimbleStudio {
             self.launchProfileId = launchProfileId
             self.ownedBy = ownedBy
             self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.startedBy = startedBy
             self.state = state
             self.statusCode = statusCode
             self.statusMessage = statusMessage
+            self.stopAt = stopAt
+            self.stoppedAt = stoppedAt
+            self.stoppedBy = stoppedBy
             self.streamingImageId = streamingImageId
             self.tags = tags
             self.terminateAt = terminateAt
@@ -2213,9 +2635,14 @@ extension NimbleStudio {
             case launchProfileId
             case ownedBy
             case sessionId
+            case startedAt
+            case startedBy
             case state
             case statusCode
             case statusMessage
+            case stopAt
+            case stoppedAt
+            case stoppedBy
             case streamingImageId
             case tags
             case terminateAt
@@ -2225,15 +2652,23 @@ extension NimbleStudio {
     }
 
     public struct StreamingSessionStream: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The user ID of the user that created the streaming session stream.
         public let createdBy: String?
+        /// The Unix epoch timestamp in seconds for when the resource expires.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expiresAt: Date?
+        /// The user ID of the user that owns the streaming session.
         public let ownedBy: String?
+        /// The current state.
         public let state: StreamingSessionStreamState?
+        /// The streaming session stream status code.
         public let statusCode: StreamingSessionStreamStatusCode?
+        /// The stream ID.
         public let streamId: String?
+        /// The URL to connect to this stream using the DCV client.
         public let url: String?
 
         public init(createdAt: Date? = nil, createdBy: String? = nil, expiresAt: Date? = nil, ownedBy: String? = nil, state: StreamingSessionStreamState? = nil, statusCode: StreamingSessionStreamStatusCode? = nil, streamId: String? = nil, url: String? = nil) {
@@ -2260,23 +2695,39 @@ extension NimbleStudio {
     }
 
     public struct Studio: AWSDecodableShape {
+        /// The IAM role that studio admins assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String?
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public let arn: String?
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// A friendly name for the studio.
         public let displayName: String?
+        /// The Amazon Web Services Region where the studio resource is located.
         public let homeRegion: String?
+        /// The Amazon Web Services SSO application client ID used to integrate with Amazon Web Services SSO to enable Amazon Web Services SSO users to log in to Nimble Studio portal.
         public let ssoClientId: String?
+        /// The current state of the studio resource.
         public let state: StudioState?
+        /// Status codes that provide additional detail on the studio state.
         public let statusCode: StudioStatusCode?
+        /// Additional detail on the studio state.
         public let statusMessage: String?
+        /// Configuration of the encryption method that is used for the studio.
         public let studioEncryptionConfiguration: StudioEncryptionConfiguration?
+        /// The unique identifier for a studio resource. In Nimble Studio, all other resources are contained in a studio resource.
         public let studioId: String?
+        /// The name of the studio, as included in the URL when accessing it in the Nimble Studio portal.
         public let studioName: String?
+        /// The address of the web page for the studio.
         public let studioUrl: String?
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
+        /// The Unix epoch timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
+        /// The IAM role that studio users assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String?
 
         public init(adminRoleArn: String? = nil, arn: String? = nil, createdAt: Date? = nil, displayName: String? = nil, homeRegion: String? = nil, ssoClientId: String? = nil, state: StudioState? = nil, statusCode: StudioStatusCode? = nil, statusMessage: String? = nil, studioEncryptionConfiguration: StudioEncryptionConfiguration? = nil, studioId: String? = nil, studioName: String? = nil, studioUrl: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, userRoleArn: String? = nil) {
@@ -2319,25 +2770,43 @@ extension NimbleStudio {
     }
 
     public struct StudioComponent: AWSDecodableShape {
+        /// The ARN of the resource.
         public let arn: String?
+        /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The user ID of the user that created the studio component.
         public let createdBy: String?
+        /// A human-readable description for the studio component resource.
         public let description: String?
+        /// The EC2 security groups that control access to the studio component.
         public let ec2SecurityGroupIds: [String]?
+        /// Initialization scripts for studio components.
         public let initializationScripts: [StudioComponentInitializationScript]?
+        /// A friendly name for the studio component resource.
         public let name: String?
+        /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
+        /// The current state.
         public let state: StudioComponentState?
+        /// The status code.
         public let statusCode: StudioComponentStatusCode?
+        /// The status message for the studio component.
         public let statusMessage: String?
+        /// The unique identifier for a studio component resource.
         public let studioComponentId: String?
+        /// The specific subtype of a studio component.
         public let subtype: StudioComponentSubtype?
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
+        /// The type of the studio component.
         public let type: StudioComponentType?
+        /// The Unix epoch timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
+        /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
         public init(arn: String? = nil, configuration: StudioComponentConfiguration? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, state: StudioComponentState? = nil, statusCode: StudioComponentStatusCode? = nil, statusMessage: String? = nil, studioComponentId: String? = nil, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
@@ -2384,9 +2853,13 @@ extension NimbleStudio {
     }
 
     public struct StudioComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for a Microsoft Active Directory (Microsoft AD) studio resource.
         public let activeDirectoryConfiguration: ActiveDirectoryConfiguration?
+        /// The configuration for a render farm that is associated with a studio resource.
         public let computeFarmConfiguration: ComputeFarmConfiguration?
+        /// The configuration for a license service that is associated with a studio resource.
         public let licenseServiceConfiguration: LicenseServiceConfiguration?
+        /// The configuration for a shared file storage system that is associated with a studio resource.
         public let sharedFileSystemConfiguration: SharedFileSystemConfiguration?
 
         public init(activeDirectoryConfiguration: ActiveDirectoryConfiguration? = nil, computeFarmConfiguration: ComputeFarmConfiguration? = nil, licenseServiceConfiguration: LicenseServiceConfiguration? = nil, sharedFileSystemConfiguration: SharedFileSystemConfiguration? = nil) {
@@ -2410,9 +2883,13 @@ extension NimbleStudio {
     }
 
     public struct StudioComponentInitializationScript: AWSEncodableShape & AWSDecodableShape {
+        /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersion: String?
+        /// The platform of the initialization script, either WINDOWS or LINUX.
         public let platform: LaunchProfilePlatform?
+        /// The method to use when running the initialization script.
         public let runContext: StudioComponentInitializationScriptRunContext?
+        /// The initialization script.
         public let script: String?
 
         public init(launchProfileProtocolVersion: String? = nil, platform: LaunchProfilePlatform? = nil, runContext: StudioComponentInitializationScriptRunContext? = nil, script: String? = nil) {
@@ -2424,6 +2901,7 @@ extension NimbleStudio {
 
         public func validate(name: String) throws {
             try self.validate(self.launchProfileProtocolVersion, name: "launchProfileProtocolVersion", parent: name, max: 10)
+            try self.validate(self.launchProfileProtocolVersion, name: "launchProfileProtocolVersion", parent: name, min: 0)
             try self.validate(self.launchProfileProtocolVersion, name: "launchProfileProtocolVersion", parent: name, pattern: "^2021\\-03\\-31$")
             try self.validate(self.script, name: "script", parent: name, max: 5120)
             try self.validate(self.script, name: "script", parent: name, min: 1)
@@ -2438,16 +2916,25 @@ extension NimbleStudio {
     }
 
     public struct StudioComponentSummary: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The user ID of the user that created the studio component.
         public let createdBy: String?
+        /// The description.
         public let description: String?
+        /// The name for the studio component.
         public let name: String?
+        /// The unique identifier for a studio component resource.
         public let studioComponentId: String?
+        /// The specific subtype of a studio component.
         public let subtype: StudioComponentSubtype?
+        /// The type of the studio component.
         public let type: StudioComponentType?
+        /// The Unix epoch timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
+        /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, name: String? = nil, studioComponentId: String? = nil, subtype: StudioComponentSubtype? = nil, type: StudioComponentType? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
@@ -2476,7 +2963,9 @@ extension NimbleStudio {
     }
 
     public struct StudioEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN for a KMS key that is used to encrypt studio data.
         public let keyArn: String?
+        /// The type of KMS key that is used to encrypt studio data.
         public let keyType: StudioEncryptionConfigurationKeyType
 
         public init(keyArn: String? = nil, keyType: StudioEncryptionConfigurationKeyType) {
@@ -2496,20 +2985,27 @@ extension NimbleStudio {
     }
 
     public struct StudioMembership: AWSDecodableShape {
+        /// The ID of the identity store.
         public let identityStoreId: String?
+        /// The persona.
         public let persona: StudioPersona?
+        /// The principal ID.
         public let principalId: String?
+        /// The Active Directory Security Identifier for this user, if available.
+        public let sid: String?
 
-        public init(identityStoreId: String? = nil, persona: StudioPersona? = nil, principalId: String? = nil) {
+        public init(identityStoreId: String? = nil, persona: StudioPersona? = nil, principalId: String? = nil, sid: String? = nil) {
             self.identityStoreId = identityStoreId
             self.persona = persona
             self.principalId = principalId
+            self.sid = sid
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId
             case persona
             case principalId
+            case sid
         }
     }
 
@@ -2518,7 +3014,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
+        ///  The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceArn: String
+        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(resourceArn: String, tags: [String: String]? = nil) {
@@ -2541,7 +3039,9 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
+        /// Identifies the Amazon Resource Name(ARN) key from which you are removing tags.
         public let resourceArn: String
+        /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2564,10 +3064,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The persona.
         public let persona: LaunchProfilePersona
+        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = UpdateLaunchProfileMemberRequest.idempotencyToken(), launchProfileId: String, persona: LaunchProfilePersona, principalId: String, studioId: String) {
@@ -2589,6 +3094,7 @@ extension NimbleStudio {
     }
 
     public struct UpdateLaunchProfileMemberResponse: AWSDecodableShape {
+        /// The updated member.
         public let member: LaunchProfileMembership?
 
         public init(member: LaunchProfileMembership? = nil) {
@@ -2607,13 +3113,21 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The description.
         public let description: String?
+        /// The Launch Profile ID.
         public let launchProfileId: String
+        /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]?
+        /// The name for the launch profile.
         public let name: String?
+        /// A configuration for a streaming session.
         public let streamConfiguration: StreamConfigurationCreate?
+        /// Unique identifiers for a collection of studio components that can be used with this launch profile.
         public let studioComponentIds: [String]?
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = UpdateLaunchProfileRequest.idempotencyToken(), description: String? = nil, launchProfileId: String, launchProfileProtocolVersions: [String]? = nil, name: String? = nil, streamConfiguration: StreamConfigurationCreate? = nil, studioComponentIds: [String]? = nil, studioId: String) {
@@ -2631,11 +3145,14 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.launchProfileProtocolVersions?.forEach {
                 try validate($0, name: "launchProfileProtocolVersions[]", parent: name, max: 10)
+                try validate($0, name: "launchProfileProtocolVersions[]", parent: name, min: 0)
                 try validate($0, name: "launchProfileProtocolVersions[]", parent: name, pattern: "^2021\\-03\\-31$")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.streamConfiguration?.validate(name: "\(name).streamConfiguration")
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, max: 100)
             try self.validate(self.studioComponentIds, name: "studioComponentIds", parent: name, min: 1)
@@ -2651,6 +3168,7 @@ extension NimbleStudio {
     }
 
     public struct UpdateLaunchProfileResponse: AWSDecodableShape {
+        /// The launch profile.
         public let launchProfile: LaunchProfile?
 
         public init(launchProfile: LaunchProfile? = nil) {
@@ -2669,10 +3187,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The description.
         public let description: String?
+        /// The name for the streaming image.
         public let name: String?
+        /// The streaming image ID.
         public let streamingImageId: String
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = UpdateStreamingImageRequest.idempotencyToken(), description: String? = nil, name: String? = nil, streamingImageId: String, studioId: String) {
@@ -2687,7 +3210,9 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2715,16 +3240,27 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
+        /// The description.
         public let description: String?
+        /// The EC2 security groups that control access to the studio component.
         public let ec2SecurityGroupIds: [String]?
+        /// Initialization scripts for studio components.
         public let initializationScripts: [StudioComponentInitializationScript]?
+        /// The name for the studio component.
         public let name: String?
+        /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
+        /// The studio component ID.
         public let studioComponentId: String
+        /// The studio ID.
         public let studioId: String
+        /// The specific subtype of a studio component.
         public let subtype: StudioComponentSubtype?
+        /// The type of the studio component.
         public let type: StudioComponentType?
 
         public init(clientToken: String? = UpdateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, studioComponentId: String, studioId: String, subtype: StudioComponentSubtype? = nil, type: StudioComponentType? = nil) {
@@ -2746,16 +3282,19 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, max: 30)
             try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, min: 1)
             try self.initializationScripts?.forEach {
                 try $0.validate(name: "\(name).initializationScripts[]")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.scriptParameters?.forEach {
                 try $0.validate(name: "\(name).scriptParameters[]")
             }
             try self.validate(self.scriptParameters, name: "scriptParameters", parent: name, max: 30)
+            try self.validate(self.scriptParameters, name: "scriptParameters", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2771,6 +3310,7 @@ extension NimbleStudio {
     }
 
     public struct UpdateStudioComponentResponse: AWSDecodableShape {
+        /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
         public init(studioComponent: StudioComponent? = nil) {
@@ -2788,10 +3328,15 @@ extension NimbleStudio {
             AWSMemberEncoding(label: "studioId", location: .uri(locationName: "studioId"))
         ]
 
+        /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
+        /// A friendly name for the studio.
         public let displayName: String?
+        /// The studio ID.
         public let studioId: String
+        /// The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String?
 
         public init(adminRoleArn: String? = nil, clientToken: String? = UpdateStudioRequest.idempotencyToken(), displayName: String? = nil, studioId: String, userRoleArn: String? = nil) {
@@ -2806,6 +3351,7 @@ extension NimbleStudio {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2816,9 +3362,10 @@ extension NimbleStudio {
     }
 
     public struct UpdateStudioResponse: AWSDecodableShape {
-        public let studio: Studio?
+        /// Information about a studio.
+        public let studio: Studio
 
-        public init(studio: Studio? = nil) {
+        public init(studio: Studio) {
             self.studio = studio
         }
 

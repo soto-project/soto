@@ -52,6 +52,28 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum HdfsAuthenticationType: String, CustomStringConvertible, Codable {
+        case kerberos = "KERBEROS"
+        case simple = "SIMPLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HdfsDataTransferProtection: String, CustomStringConvertible, Codable {
+        case authentication = "AUTHENTICATION"
+        case disabled = "DISABLED"
+        case integrity = "INTEGRITY"
+        case privacy = "PRIVACY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HdfsRpcProtection: String, CustomStringConvertible, Codable {
+        case authentication = "AUTHENTICATION"
+        case disabled = "DISABLED"
+        case integrity = "INTEGRITY"
+        case privacy = "PRIVACY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocationFilterName: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         case locationtype = "LocationType"
@@ -451,6 +473,115 @@ extension DataSync {
         }
     }
 
+    public struct CreateLocationHdfsRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the agents that are used to connect to the HDFS cluster.
+        public let agentArns: [String]
+        /// The type of authentication used to determine the identity of the user.
+        public let authenticationType: HdfsAuthenticationType
+        /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
+        public let blockSize: Int?
+        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you're using the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
+        public let kerberosKeytab: Data?
+        /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
+        public let kerberosKrb5Conf: Data?
+        /// The Kerberos principal with access to the files and folders on the HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is required.
+        public let kerberosPrincipal: String?
+        /// The URI of the HDFS cluster's Key Management Server (KMS).
+        public let kmsKeyProviderUri: String?
+        /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+        public let nameNodes: [HdfsNameNode]
+        /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the Hadoop Distributed File System (HDFS) cluster. If QopConfiguration isn't specified, RpcProtection and DataTransferProtection default to PRIVACY. If you set RpcProtection or DataTransferProtection, the other parameter assumes the same value.
+        public let qopConfiguration: QopConfiguration?
+        /// The number of DataNodes to replicate the data to when writing to the HDFS cluster. By default, data is replicated to three DataNodes.
+        public let replicationFactor: Int?
+        /// The user name used to identify the client on the host operating system.   If SIMPLE is specified for AuthenticationType, this parameter is required.
+        public let simpleUser: String?
+        /// A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster. If the subdirectory isn't specified, it will default to /.
+        public let subdirectory: String?
+        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        public let tags: [TagListEntry]?
+
+        public init(agentArns: [String], authenticationType: HdfsAuthenticationType, blockSize: Int? = nil, kerberosKeytab: Data? = nil, kerberosKrb5Conf: Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, nameNodes: [HdfsNameNode], qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.blockSize = blockSize
+            self.kerberosKeytab = kerberosKeytab
+            self.kerberosKrb5Conf = kerberosKrb5Conf
+            self.kerberosPrincipal = kerberosPrincipal
+            self.kmsKeyProviderUri = kmsKeyProviderUri
+            self.nameNodes = nameNodes
+            self.qopConfiguration = qopConfiguration
+            self.replicationFactor = replicationFactor
+            self.simpleUser = simpleUser
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1_073_741_824)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1_048_576)
+            try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
+            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131_072)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, min: 1)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, pattern: "^.+$")
+            try self.validate(self.kmsKeyProviderUri, name: "kmsKeyProviderUri", parent: name, max: 255)
+            try self.validate(self.kmsKeyProviderUri, name: "kmsKeyProviderUri", parent: name, min: 1)
+            try self.validate(self.kmsKeyProviderUri, name: "kmsKeyProviderUri", parent: name, pattern: "^kms:\\/\\/http[s]?@(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(;(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9]))*:[0-9]{1,5}\\/kms$")
+            try self.nameNodes.forEach {
+                try $0.validate(name: "\(name).nameNodes[]")
+            }
+            try self.validate(self.nameNodes, name: "nameNodes", parent: name, min: 1)
+            try self.validate(self.replicationFactor, name: "replicationFactor", parent: name, max: 512)
+            try self.validate(self.replicationFactor, name: "replicationFactor", parent: name, min: 1)
+            try self.validate(self.simpleUser, name: "simpleUser", parent: name, max: 256)
+            try self.validate(self.simpleUser, name: "simpleUser", parent: name, min: 1)
+            try self.validate(self.simpleUser, name: "simpleUser", parent: name, pattern: "^[_.A-Za-z0-9][-_.A-Za-z0-9]*$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case blockSize = "BlockSize"
+            case kerberosKeytab = "KerberosKeytab"
+            case kerberosKrb5Conf = "KerberosKrb5Conf"
+            case kerberosPrincipal = "KerberosPrincipal"
+            case kmsKeyProviderUri = "KmsKeyProviderUri"
+            case nameNodes = "NameNodes"
+            case qopConfiguration = "QopConfiguration"
+            case replicationFactor = "ReplicationFactor"
+            case simpleUser = "SimpleUser"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationHdfsResponse: AWSDecodableShape {
+        /// The ARN of the source HDFS cluster location that's created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
     public struct CreateLocationNfsRequest: AWSEncodableShape {
         /// The NFS mount options that DataSync can use to mount your NFS share.
         public let mountOptions: NfsMountOptions?
@@ -742,7 +873,7 @@ extension DataSync {
         public let destinationLocationArn: String
         /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
-        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        /// A list of filter rules that determines which files to include when running a task. The pattern contains a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let includes: [FilterRule]?
         /// The name of a task. This value is a text reference that is used to identify the task in the console.
         public let name: String?
@@ -1033,6 +1164,81 @@ extension DataSync {
             case locationUri = "LocationUri"
             case securityGroupArns = "SecurityGroupArns"
             case user = "User"
+        }
+    }
+
+    public struct DescribeLocationHdfsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the HDFS cluster location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationHdfsResponse: AWSDecodableShape {
+        /// The ARNs of the agents that are used to connect to the HDFS cluster.
+        public let agentArns: [String]?
+        /// The type of authentication used to determine the identity of the user.
+        public let authenticationType: HdfsAuthenticationType?
+        /// The size of the data blocks to write into the HDFS cluster.
+        public let blockSize: Int?
+        /// The time that the HDFS location was created.
+        public let creationTime: Date?
+        /// The Kerberos principal with access to the files and folders on the HDFS cluster. This parameter is used if the AuthenticationType is defined as KERBEROS.
+        public let kerberosPrincipal: String?
+        ///  The URI of the HDFS cluster's Key Management Server (KMS).
+        public let kmsKeyProviderUri: String?
+        /// The ARN of the HDFS cluster location.
+        public let locationArn: String?
+        /// The URI of the HDFS cluster location.
+        public let locationUri: String?
+        /// The NameNode that manage the HDFS namespace.
+        public let nameNodes: [HdfsNameNode]?
+        /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the Hadoop Distributed File System (HDFS) cluster.
+        public let qopConfiguration: QopConfiguration?
+        /// The number of DataNodes to replicate the data to when writing to the HDFS cluster.
+        public let replicationFactor: Int?
+        /// The user name used to identify the client on the host operating system. This parameter is used if the AuthenticationType is defined as SIMPLE.
+        public let simpleUser: String?
+
+        public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, creationTime: Date? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String? = nil, locationUri: String? = nil, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil) {
+            self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.blockSize = blockSize
+            self.creationTime = creationTime
+            self.kerberosPrincipal = kerberosPrincipal
+            self.kmsKeyProviderUri = kmsKeyProviderUri
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.nameNodes = nameNodes
+            self.qopConfiguration = qopConfiguration
+            self.replicationFactor = replicationFactor
+            self.simpleUser = simpleUser
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case blockSize = "BlockSize"
+            case creationTime = "CreationTime"
+            case kerberosPrincipal = "KerberosPrincipal"
+            case kmsKeyProviderUri = "KmsKeyProviderUri"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case nameNodes = "NameNodes"
+            case qopConfiguration = "QopConfiguration"
+            case replicationFactor = "ReplicationFactor"
+            case simpleUser = "SimpleUser"
         }
     }
 
@@ -1343,15 +1549,15 @@ extension DataSync {
         public let currentTaskExecutionArn: String?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services storage resource's location.
         public let destinationLocationArn: String?
-        /// The Amazon Resource Name (ARN) of the destination ENIs (Elastic Network Interface) that was created for your subnet.
+        /// The Amazon Resource Names (ARNs) of the destination elastic network interfaces (ENIs) that were created for your subnet.
         public let destinationNetworkInterfaceArns: [String]?
         /// Errors that DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public let errorCode: String?
         /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues.
         public let errorDetail: String?
-        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
-        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        /// A list of filter rules that determines which files to include when running a task. The pattern contains a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let includes: [FilterRule]?
         /// The name of the task that was described.
         public let name: String?
@@ -1361,7 +1567,7 @@ extension DataSync {
         public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the source file system's location.
         public let sourceLocationArn: String?
-        /// The Amazon Resource Name (ARN) of the source ENIs (Elastic Network Interface) that was created for your subnet.
+        /// The Amazon Resource Names (ARNs) of the source elastic network interfaces (ENIs) that were created for your subnet.
         public let sourceNetworkInterfaceArns: [String]?
         /// The status of the task that was described. For detailed information about task execution statuses, see Understanding Task Statuses in the DataSync User Guide.
         public let status: TaskStatus?
@@ -1454,6 +1660,31 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case filterType = "FilterType"
             case value = "Value"
+        }
+    }
+
+    public struct HdfsNameNode: AWSEncodableShape & AWSDecodableShape {
+        /// The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network.
+        public let hostname: String
+        /// The port that the NameNode uses to listen to client requests.
+        public let port: Int
+
+        public init(hostname: String, port: Int) {
+            self.hostname = hostname
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostname, name: "hostname", parent: name, max: 255)
+            try self.validate(self.hostname, name: "hostname", parent: name, min: 1)
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try self.validate(self.port, name: "port", parent: name, max: 65536)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "Hostname"
+            case port = "Port"
         }
     }
 
@@ -1735,7 +1966,7 @@ extension DataSync {
     }
 
     public struct NfsMountOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The specific NFS version that you want DataSync to use to mount your NFS share. If the server refuses to use the version specified, the sync will fail. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server. You can specify the following NFS versions:     NFSv3  - stateless protocol version that allows for asynchronous writes on the server.     NFSv4.0  - stateful, firewall-friendly protocol version that supports delegations and pseudo filesystems.     NFSv4.1  - stateful protocol version that supports sessions, directory delegations, and parallel data processing. Version 4.1 also includes all features available in version 4.0.
+        /// The specific NFS version that you want DataSync to use to mount your NFS share. If the server refuses to use the version specified, the sync will fail. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server. You can specify the following NFS versions:     NFSv3  - stateless protocol version that allows for asynchronous writes on the server.     NFSv4.0  - stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.     NFSv4.1  - stateful protocol version that supports sessions, directory delegations, and parallel data processing. Version 4.1 also includes all features available in version 4.0.
         public let version: NfsVersion?
 
         public init(version: NfsVersion? = nil) {
@@ -1863,6 +2094,23 @@ extension DataSync {
         }
     }
 
+    public struct QopConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The data transfer protection setting configured on the HDFS cluster. This setting corresponds to your dfs.data.transfer.protection setting in the hdfs-site.xml file on your Hadoop cluster.
+        public let dataTransferProtection: HdfsDataTransferProtection?
+        /// The RPC protection setting configured on the HDFS cluster. This setting corresponds to your hadoop.rpc.protection setting in your core-site.xml file on your Hadoop cluster.
+        public let rpcProtection: HdfsRpcProtection?
+
+        public init(dataTransferProtection: HdfsDataTransferProtection? = nil, rpcProtection: HdfsRpcProtection? = nil) {
+            self.dataTransferProtection = dataTransferProtection
+            self.rpcProtection = rpcProtection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTransferProtection = "DataTransferProtection"
+            case rpcProtection = "RpcProtection"
+        }
+    }
+
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation.
         public let bucketAccessRoleArn: String
@@ -1895,9 +2143,9 @@ extension DataSync {
     }
 
     public struct StartTaskExecutionRequest: AWSEncodableShape {
-        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
+        /// A list of filter rules that determines which files to exclude from a task. The list contains a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
-        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let includes: [FilterRule]?
         public let overrideOptions: Options?
         /// The Amazon Resource Name (ARN) of the task to start.
@@ -2196,6 +2444,103 @@ extension DataSync {
         public init() {}
     }
 
+    public struct UpdateLocationHdfsRequest: AWSEncodableShape {
+        /// The ARNs of the agents that are used to connect to the HDFS cluster.
+        public let agentArns: [String]?
+        /// The type of authentication used to determine the identity of the user.
+        public let authenticationType: HdfsAuthenticationType?
+        /// The size of the data blocks to write into the HDFS cluster.
+        public let blockSize: Int?
+        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the AWS CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
+        public let kerberosKeytab: Data?
+        /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the AWS CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
+        public let kerberosKrb5Conf: Data?
+        /// The Kerberos principal with access to the files and folders on the HDFS cluster.
+        public let kerberosPrincipal: String?
+        /// The URI of the HDFS cluster's Key Management Server (KMS).
+        public let kmsKeyProviderUri: String?
+        /// The Amazon Resource Name (ARN) of the source HDFS cluster location.
+        public let locationArn: String
+        /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+        public let nameNodes: [HdfsNameNode]?
+        /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop Distributed File System (HDFS) cluster.
+        public let qopConfiguration: QopConfiguration?
+        /// The number of DataNodes to replicate the data to when writing to the HDFS cluster.
+        public let replicationFactor: Int?
+        /// The user name used to identify the client on the host operating system.
+        public let simpleUser: String?
+        /// A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster.
+        public let subdirectory: String?
+
+        public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, kerberosKeytab: Data? = nil, kerberosKrb5Conf: Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil) {
+            self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.blockSize = blockSize
+            self.kerberosKeytab = kerberosKeytab
+            self.kerberosKrb5Conf = kerberosKrb5Conf
+            self.kerberosPrincipal = kerberosPrincipal
+            self.kmsKeyProviderUri = kmsKeyProviderUri
+            self.locationArn = locationArn
+            self.nameNodes = nameNodes
+            self.qopConfiguration = qopConfiguration
+            self.replicationFactor = replicationFactor
+            self.simpleUser = simpleUser
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1_073_741_824)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1_048_576)
+            try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
+            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131_072)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, min: 1)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, pattern: "^.+$")
+            try self.validate(self.kmsKeyProviderUri, name: "kmsKeyProviderUri", parent: name, max: 255)
+            try self.validate(self.kmsKeyProviderUri, name: "kmsKeyProviderUri", parent: name, min: 1)
+            try self.validate(self.kmsKeyProviderUri, name: "kmsKeyProviderUri", parent: name, pattern: "^kms:\\/\\/http[s]?@(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(;(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9]))*:[0-9]{1,5}\\/kms$")
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.nameNodes?.forEach {
+                try $0.validate(name: "\(name).nameNodes[]")
+            }
+            try self.validate(self.nameNodes, name: "nameNodes", parent: name, min: 1)
+            try self.validate(self.replicationFactor, name: "replicationFactor", parent: name, max: 512)
+            try self.validate(self.replicationFactor, name: "replicationFactor", parent: name, min: 1)
+            try self.validate(self.simpleUser, name: "simpleUser", parent: name, max: 256)
+            try self.validate(self.simpleUser, name: "simpleUser", parent: name, min: 1)
+            try self.validate(self.simpleUser, name: "simpleUser", parent: name, pattern: "^[_.A-Za-z0-9][-_.A-Za-z0-9]*$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case blockSize = "BlockSize"
+            case kerberosKeytab = "KerberosKeytab"
+            case kerberosKrb5Conf = "KerberosKrb5Conf"
+            case kerberosPrincipal = "KerberosPrincipal"
+            case kmsKeyProviderUri = "KmsKeyProviderUri"
+            case locationArn = "LocationArn"
+            case nameNodes = "NameNodes"
+            case qopConfiguration = "QopConfiguration"
+            case replicationFactor = "ReplicationFactor"
+            case simpleUser = "SimpleUser"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationHdfsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLocationNfsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the NFS location to update.
         public let locationArn: String
@@ -2379,11 +2724,11 @@ extension DataSync {
     }
 
     public struct UpdateTaskRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource name of the CloudWatch LogGroup.
+        /// The Amazon Resource Name (ARN) of the resource name of the Amazon CloudWatch log group.
         public let cloudWatchLogGroupArn: String?
-        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
-        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"
+        /// A list of filter rules that determines which files to include when running a task. The pattern contains a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let includes: [FilterRule]?
         /// The name of the task to update.
         public let name: String?

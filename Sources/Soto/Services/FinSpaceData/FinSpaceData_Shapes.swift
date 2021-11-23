@@ -27,37 +27,66 @@ extension FinSpaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangesetStatus: String, CustomStringConvertible, Codable {
+    public enum ColumnDataType: String, CustomStringConvertible, Codable {
+        case bigint = "BIGINT"
+        case binary = "BINARY"
+        case boolean = "BOOLEAN"
+        case char = "CHAR"
+        case date = "DATE"
+        case datetime = "DATETIME"
+        case double = "DOUBLE"
+        case float = "FLOAT"
+        case integer = "INTEGER"
+        case smallint = "SMALLINT"
+        case string = "STRING"
+        case tinyint = "TINYINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataViewStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case failedCleanupFailed = "FAILED_CLEANUP_FAILED"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case success = "SUCCESS"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetKind: String, CustomStringConvertible, Codable {
+        case nonTabular = "NON_TABULAR"
+        case tabular = "TABULAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case pending = "PENDING"
         case running = "RUNNING"
-        case stopRequested = "STOP_REQUESTED"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum ErrorCategory: String, CustomStringConvertible, Codable {
-        case aUserRecoverableErrorHasOccurred = "A_user_recoverable_error_has_occurred"
-        case anInternalErrorHasOccurred = "An_internal_error_has_occurred"
-        case cancelled = "Cancelled"
-        case missingRequiredPermissionToPerformThisRequest = "Missing_required_permission_to_perform_this_request"
-        case oneOrMoreInputsToThisRequestWereNotFound = "One_or_more_inputs_to_this_request_were_not_found"
-        case serviceLimitsHaveBeenExceeded = "Service_limits_have_been_exceeded"
-        case theInputsToThisRequestAreInvalid = "The_inputs_to_this_request_are_invalid"
-        case theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest = "The_system_temporarily_lacks_sufficient_resources_to_process_the_request"
+        case accessDenied = "ACCESS_DENIED"
+        case cancelled = "CANCELLED"
+        case internalServiceException = "INTERNAL_SERVICE_EXCEPTION"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case serviceQuotaExceeded = "SERVICE_QUOTA_EXCEEDED"
+        case throttling = "THROTTLING"
+        case userRecoverable = "USER_RECOVERABLE"
+        case validation = "VALIDATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormatType: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case json = "JSON"
-        case parquet = "PARQUET"
-        case xml = "XML"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
+    public enum IngestionStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case stopRequested = "STOP_REQUESTED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -69,68 +98,105 @@ extension FinSpaceData {
 
     // MARK: Shapes
 
-    public struct ChangesetInfo: AWSDecodableShape {
-        /// The ARN identifier of the changeset.
+    public struct ChangesetErrorInfo: AWSDecodableShape {
+        /// The category of the error.    VALIDATION -The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED - Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED - Missing required permission to perform this request.    RESOURCE_NOT_FOUND - One or more inputs to this request were not found.    THROTTLING - The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION - An internal service error has occurred.    CANCELLED - Cancelled.    USER_RECOVERABLE - A user recoverable error has occurred.
+        public let errorCategory: ErrorCategory?
+        /// The text of the error message.
+        public let errorMessage: String?
+
+        public init(errorCategory: ErrorCategory? = nil, errorMessage: String? = nil) {
+            self.errorCategory = errorCategory
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCategory
+            case errorMessage
+        }
+    }
+
+    public struct ChangesetSummary: AWSDecodableShape {
+        /// Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let activeUntilTimestamp: Int64?
+        /// The ARN identifier of the Changeset.
         public let changesetArn: String?
-        /// Tags associated with the changeset.
-        public let changesetLabels: [String: String]?
-        /// Change type indicates how a changeset is applied to a dataset.    REPLACE - Changeset is considered as a replacement to all prior loaded changesets.    APPEND - Changeset is considered as an addition to the end of all prior loaded changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested changeset.
+        /// The unique identifier for a Changeset.
+        public let changesetId: String?
+        /// Type that indicates how a Changeset is applied to a Dataset.    REPLACE - Changeset is considered as a replacement to all prior loaded Changesets.    APPEND - Changeset is considered as an addition to the end of all prior loaded Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType?
-        /// The timestamp at which the changeset was created in FinSpace.
-        public let createTimestamp: Date?
-        /// The unique identifier for the FinSpace dataset in which the changeset is created.
+        /// The timestamp at which the Changeset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let createTime: Int64?
+        /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
         public let datasetId: String?
         /// The structure with error messages.
-        public let errorInfo: ErrorInfo?
-        /// Structure of the source file(s).
+        public let errorInfo: ChangesetErrorInfo?
+        /// Options that define the structure of the source file(s).
         public let formatParams: [String: String]?
-        /// Format type of the input files loaded into the changeset.
-        public let formatType: FormatType?
-        /// Unique identifier for a changeset.
-        public let id: String?
-        /// Source path from which the files to create the changeset are sourced.
+        /// Options that define the location of the data being ingested.
         public let sourceParams: [String: String]?
-        /// Type of the data source from which the files to create the changeset are sourced.    S3 - Amazon S3.
-        public let sourceType: SourceType?
-        /// The status of changeset creation operation.
-        public let status: ChangesetStatus?
-        /// Unique identifier of the changeset that is updated a changeset.
+        /// Status of the Changeset ingestion.    PENDING - Changeset is pending creation.    FAILED - Changeset creation has failed.    SUCCESS - Changeset creation has succeeded.    RUNNING - Changeset creation is running.    STOP_REQUESTED - User requested Changeset creation to stop.
+        public let status: IngestionStatus?
+        /// The unique identifier of the updated Changeset.
         public let updatedByChangesetId: String?
-        /// Unique identifier of the changeset that is updated.
+        /// The unique identifier of the Changeset that is updated.
         public let updatesChangesetId: String?
 
-        public init(changesetArn: String? = nil, changesetLabels: [String: String]? = nil, changeType: ChangeType? = nil, createTimestamp: Date? = nil, datasetId: String? = nil, errorInfo: ErrorInfo? = nil, formatParams: [String: String]? = nil, formatType: FormatType? = nil, id: String? = nil, sourceParams: [String: String]? = nil, sourceType: SourceType? = nil, status: ChangesetStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+        public init(activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+            self.activeUntilTimestamp = activeUntilTimestamp
             self.changesetArn = changesetArn
-            self.changesetLabels = changesetLabels
+            self.changesetId = changesetId
             self.changeType = changeType
-            self.createTimestamp = createTimestamp
+            self.createTime = createTime
             self.datasetId = datasetId
             self.errorInfo = errorInfo
             self.formatParams = formatParams
-            self.formatType = formatType
-            self.id = id
             self.sourceParams = sourceParams
-            self.sourceType = sourceType
             self.status = status
             self.updatedByChangesetId = updatedByChangesetId
             self.updatesChangesetId = updatesChangesetId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeUntilTimestamp
             case changesetArn
-            case changesetLabels
+            case changesetId
             case changeType
-            case createTimestamp
+            case createTime
             case datasetId
             case errorInfo
             case formatParams
-            case formatType
-            case id
             case sourceParams
-            case sourceType
             case status
             case updatedByChangesetId
             case updatesChangesetId
+        }
+    }
+
+    public struct ColumnDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Description for a column.
+        public let columnDescription: String?
+        /// Name for a column.
+        public let columnName: String?
+        /// Data type of a column.    STRING - A String data type.  CHAR - A char data type.  INTEGER - An integer data type.  TINYINT - A tinyint data type.  SMALLINT - A smallint data type.  BIGINT - A bigint data type.  FLOAT - A float data type.  DOUBLE - A double data type.  DATE - A date data type.  DATETIME - A datetime data type.  BOOLEAN - A boolean data type.  BINARY - A binary data type.
+        public let dataType: ColumnDataType?
+
+        public init(columnDescription: String? = nil, columnName: String? = nil, dataType: ColumnDataType? = nil) {
+            self.columnDescription = columnDescription
+            self.columnName = columnName
+            self.dataType = dataType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnDescription, name: "columnDescription", parent: name, max: 512)
+            try self.validate(self.columnDescription, name: "columnDescription", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            try self.validate(self.columnName, name: "columnName", parent: name, max: 126)
+            try self.validate(self.columnName, name: "columnName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnDescription
+            case columnName
+            case dataType
         }
     }
 
@@ -139,56 +205,214 @@ extension FinSpaceData {
             AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
         ]
 
-        /// Option to indicate how a changeset will be applied to a dataset.    REPLACE - Changeset will be considered as a replacement to all prior loaded changesets.    APPEND - Changeset will be considered as an addition to the end of all prior loaded changesets.
+        /// Option to indicate how a Changeset will be applied to a Dataset.    REPLACE - Changeset will be considered as a replacement to all prior loaded Changesets.    APPEND - Changeset will be considered as an addition to the end of all prior loaded Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType
-        /// The unique identifier for the FinSpace dataset in which the changeset will be created.
+        /// A token used to ensure idempotency.
+        public let clientToken: String?
+        /// The unique identifier for the FinSpace Dataset where the Changeset will be created.
         public let datasetId: String
-        /// Options that define the structure of the source file(s).
-        public let formatParams: [String: String]?
-        /// Format type of the input files being loaded into the changeset.
-        public let formatType: FormatType?
-        /// Source path from which the files to create the changeset will be sourced.
+        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET - Parquet source file format.    CSV - CSV source file format.    JSON - JSON source file format.    XML - XML source file format.    For example, you could specify the following for formatParams:
+        public let formatParams: [String: String]
+        /// Options that define the location of the data being ingested.
         public let sourceParams: [String: String]
-        /// Type of the data source from which the files to create the changeset will be sourced.    S3 - Amazon S3.
-        public let sourceType: SourceType
-        /// Metadata tags to apply to this changeset.
-        public let tags: [String: String]?
 
-        public init(changeType: ChangeType, datasetId: String, formatParams: [String: String]? = nil, formatType: FormatType? = nil, sourceParams: [String: String], sourceType: SourceType, tags: [String: String]? = nil) {
+        public init(changeType: ChangeType, clientToken: String? = CreateChangesetRequest.idempotencyToken(), datasetId: String, formatParams: [String: String], sourceParams: [String: String]) {
             self.changeType = changeType
+            self.clientToken = clientToken
             self.datasetId = datasetId
             self.formatParams = formatParams
-            self.formatType = formatType
             self.sourceParams = sourceParams
-            self.sourceType = sourceType
-            self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.formatParams.forEach {
+                try validate($0.key, name: "formatParams.key", parent: name, max: 128)
+                try validate($0.key, name: "formatParams.key", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+                try validate($0.value, name: "formatParams[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "formatParams[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            }
+            try self.sourceParams.forEach {
+                try validate($0.key, name: "sourceParams.key", parent: name, max: 128)
+                try validate($0.key, name: "sourceParams.key", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+                try validate($0.value, name: "sourceParams[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "sourceParams[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeType
+            case clientToken
             case formatParams
-            case formatType
             case sourceParams
-            case sourceType
-            case tags
         }
     }
 
     public struct CreateChangesetResponse: AWSDecodableShape {
-        /// Returns the changeset details.
-        public let changeset: ChangesetInfo?
+        /// The unique identifier of the Changeset that is created.
+        public let changesetId: String?
+        /// The unique identifier for the FinSpace Dataset where the Changeset is created.
+        public let datasetId: String?
 
-        public init(changeset: ChangesetInfo? = nil) {
-            self.changeset = changeset
+        public init(changesetId: String? = nil, datasetId: String? = nil) {
+            self.changesetId = changesetId
+            self.datasetId = datasetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeset
+            case changesetId
+            case datasetId
+        }
+    }
+
+    public struct CreateDataViewRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+        ]
+
+        /// Beginning time to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let asOfTimestamp: Int64?
+        /// Flag to indicate Dataview should be updated automatically.
+        public let autoUpdate: Bool?
+        /// A token used to ensure idempotency.
+        public let clientToken: String?
+        /// The unique Dataset identifier that is used to create a Dataview.
+        public let datasetId: String
+        /// Options that define the destination type for the Dataview.
+        public let destinationTypeParams: DataViewDestinationTypeParams
+        /// Ordered set of column names used to partition data.
+        public let partitionColumns: [String]?
+        /// Columns to be used for sorting the data.
+        public let sortColumns: [String]?
+
+        public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, clientToken: String? = CreateDataViewRequest.idempotencyToken(), datasetId: String, destinationTypeParams: DataViewDestinationTypeParams, partitionColumns: [String]? = nil, sortColumns: [String]? = nil) {
+            self.asOfTimestamp = asOfTimestamp
+            self.autoUpdate = autoUpdate
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+            self.destinationTypeParams = destinationTypeParams
+            self.partitionColumns = partitionColumns
+            self.sortColumns = sortColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.partitionColumns?.forEach {
+                try validate($0, name: "partitionColumns[]", parent: name, max: 255)
+                try validate($0, name: "partitionColumns[]", parent: name, min: 1)
+                try validate($0, name: "partitionColumns[]", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            }
+            try self.sortColumns?.forEach {
+                try validate($0, name: "sortColumns[]", parent: name, max: 255)
+                try validate($0, name: "sortColumns[]", parent: name, min: 1)
+                try validate($0, name: "sortColumns[]", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asOfTimestamp
+            case autoUpdate
+            case clientToken
+            case destinationTypeParams
+            case partitionColumns
+            case sortColumns
+        }
+    }
+
+    public struct CreateDataViewResponse: AWSDecodableShape {
+        /// The unique identifier of the Dataset used for the Dataview.
+        public let datasetId: String?
+        /// The unique identifier for the created Dataview.
+        public let dataViewId: String?
+
+        public init(datasetId: String? = nil, dataViewId: String? = nil) {
+            self.datasetId = datasetId
+            self.dataViewId = dataViewId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId
+            case dataViewId
+        }
+    }
+
+    public struct CreateDatasetRequest: AWSEncodableShape {
+        /// The unique resource identifier for a Dataset.
+        public let alias: String
+        /// A token used to ensure idempotency.
+        public let clientToken: String?
+        /// Description of a Dataset.
+        public let datasetDescription: String
+        /// Display title for a FinSpace Dataset.
+        public let datasetTitle: String
+        /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        public let kind: DatasetKind
+        /// Contact information for a Dataset owner.
+        public let ownerInfo: DatasetOwnerInfo?
+        /// Permission group parameters for Dataset permissions.
+        public let permissionGroupParams: PermissionGroupParams
+        /// Definition for a schema on a tabular Dataset.
+        public let schemaDefinition: SchemaUnion?
+
+        public init(alias: String, clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetDescription: String, datasetTitle: String, kind: DatasetKind, ownerInfo: DatasetOwnerInfo? = nil, permissionGroupParams: PermissionGroupParams, schemaDefinition: SchemaUnion? = nil) {
+            self.alias = alias
+            self.clientToken = clientToken
+            self.datasetDescription = datasetDescription
+            self.datasetTitle = datasetTitle
+            self.kind = kind
+            self.ownerInfo = ownerInfo
+            self.permissionGroupParams = permissionGroupParams
+            self.schemaDefinition = schemaDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 255)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^alias\\/\\S+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 256)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, max: 255)
+            try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, min: 1)
+            try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, pattern: ".*\\S.*")
+            try self.ownerInfo?.validate(name: "\(name).ownerInfo")
+            try self.permissionGroupParams.validate(name: "\(name).permissionGroupParams")
+            try self.schemaDefinition?.validate(name: "\(name).schemaDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case clientToken
+            case datasetDescription
+            case datasetTitle
+            case kind
+            case ownerInfo
+            case permissionGroupParams
+            case schemaDefinition
+        }
+    }
+
+    public struct CreateDatasetResponse: AWSDecodableShape {
+        /// The unique identifier for the created Dataset.
+        public let datasetId: String?
+
+        public init(datasetId: String? = nil) {
+            self.datasetId = datasetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId
         }
     }
 
@@ -213,8 +437,21 @@ extension FinSpaceData {
         }
     }
 
-    public struct ErrorInfo: AWSDecodableShape {
-        /// The category of the error.    VALIDATION -The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED - Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED - Missing required permission to perform this request.    RESOURCE_NOT_FOUND - One or more inputs to this request were not found.    THROTTLING - The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION - An internal service error has occurred.    CANCELLED - A user recoverable error has occurred.
+    public struct DataViewDestinationTypeParams: AWSEncodableShape & AWSDecodableShape {
+        /// Destination type for a Dataview.    GLUE_TABLE - Glue table destination type.
+        public let destinationType: String
+
+        public init(destinationType: String) {
+            self.destinationType = destinationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationType
+        }
+    }
+
+    public struct DataViewErrorInfo: AWSDecodableShape {
+        /// The category of the error.    VALIDATION -The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED - Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED - Missing required permission to perform this request.    RESOURCE_NOT_FOUND - One or more inputs to this request were not found.    THROTTLING - The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION - An internal service error has occurred.    CANCELLED - Cancelled.    USER_RECOVERABLE - A user recoverable error has occurred.
         public let errorCategory: ErrorCategory?
         /// The text of the error message.
         public let errorMessage: String?
@@ -230,6 +467,421 @@ extension FinSpaceData {
         }
     }
 
+    public struct DataViewSummary: AWSDecodableShape {
+        /// Time range to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let asOfTimestamp: Int64?
+        /// The flag to indicate Dataview should be updated automatically.
+        public let autoUpdate: Bool?
+        /// The timestamp at which the Dataview was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let createTime: Int64?
+        /// Th unique identifier for the Dataview Dataset.
+        public let datasetId: String?
+        /// The ARN identifier of the Dataview.
+        public let dataViewArn: String?
+        /// The unique identifier for the Dataview.
+        public let dataViewId: String?
+        /// Information about the Dataview destination.
+        public let destinationTypeProperties: DataViewDestinationTypeParams?
+        /// The structure with error messages.
+        public let errorInfo: DataViewErrorInfo?
+        /// The last time that a Dataview was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let lastModifiedTime: Int64?
+        /// Ordered set of column names used to partition data.
+        public let partitionColumns: [String]?
+        /// Columns to be used for sorting the data.
+        public let sortColumns: [String]?
+        /// The status of a Dataview creation.    RUNNING - Dataview creation is running.    STARTING - Dataview creation is starting.    FAILED - Dataview creation has failed.    CANCELLED - Dataview creation has been cancelled.    TIMEOUT - Dataview creation has timed out.    SUCCESS - Dataview creation has succeeded.    PENDING - Dataview creation is pending.    FAILED_CLEANUP_FAILED - Dataview creation failed and resource cleanup failed.
+        public let status: DataViewStatus?
+
+        public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeProperties: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
+            self.asOfTimestamp = asOfTimestamp
+            self.autoUpdate = autoUpdate
+            self.createTime = createTime
+            self.datasetId = datasetId
+            self.dataViewArn = dataViewArn
+            self.dataViewId = dataViewId
+            self.destinationTypeProperties = destinationTypeProperties
+            self.errorInfo = errorInfo
+            self.lastModifiedTime = lastModifiedTime
+            self.partitionColumns = partitionColumns
+            self.sortColumns = sortColumns
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asOfTimestamp
+            case autoUpdate
+            case createTime
+            case datasetId
+            case dataViewArn
+            case dataViewId
+            case destinationTypeProperties
+            case errorInfo
+            case lastModifiedTime
+            case partitionColumns
+            case sortColumns
+            case status
+        }
+    }
+
+    public struct Dataset: AWSDecodableShape {
+        /// The unique resource identifier for a Dataset.
+        public let alias: String?
+        /// The timestamp at which the Dataset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let createTime: Int64?
+        /// The ARN identifier of the Dataset.
+        public let datasetArn: String?
+        /// Description for a Dataset.
+        public let datasetDescription: String?
+        /// An identifier for a Dataset.
+        public let datasetId: String?
+        /// Display title for a Dataset.
+        public let datasetTitle: String?
+        /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        public let kind: DatasetKind?
+        /// The last time that the Dataset was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let lastModifiedTime: Int64?
+        /// Contact information for a Dataset owner.
+        public let ownerInfo: DatasetOwnerInfo?
+        /// Definition for a schema on a tabular Dataset.
+        public let schemaDefinition: SchemaUnion?
+
+        public init(alias: String? = nil, createTime: Int64? = nil, datasetArn: String? = nil, datasetDescription: String? = nil, datasetId: String? = nil, datasetTitle: String? = nil, kind: DatasetKind? = nil, lastModifiedTime: Int64? = nil, ownerInfo: DatasetOwnerInfo? = nil, schemaDefinition: SchemaUnion? = nil) {
+            self.alias = alias
+            self.createTime = createTime
+            self.datasetArn = datasetArn
+            self.datasetDescription = datasetDescription
+            self.datasetId = datasetId
+            self.datasetTitle = datasetTitle
+            self.kind = kind
+            self.lastModifiedTime = lastModifiedTime
+            self.ownerInfo = ownerInfo
+            self.schemaDefinition = schemaDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case createTime
+            case datasetArn
+            case datasetDescription
+            case datasetId
+            case datasetTitle
+            case kind
+            case lastModifiedTime
+            case ownerInfo
+            case schemaDefinition
+        }
+    }
+
+    public struct DatasetOwnerInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Email address for the Dataset owner.
+        public let email: String?
+        /// Name of the Dataset owner.
+        public let name: String?
+        /// Phone number for the Dataset owner.
+        public let phoneNumber: String?
+
+        public init(email: String? = nil, name: String? = nil, phoneNumber: String? = nil) {
+            self.email = email
+            self.name = name
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.email, name: "email", parent: name, max: 320)
+            try self.validate(self.email, name: "email", parent: name, min: 4)
+            try self.validate(self.email, name: "email", parent: name, pattern: "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
+            try self.validate(self.name, name: "name", parent: name, max: 250)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 10)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email
+            case name
+            case phoneNumber
+        }
+    }
+
+    public struct DeleteDatasetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+        ]
+
+        /// A token used to ensure idempotency.
+        public let clientToken: String?
+        /// The unique identifier of the Dataset to be deleted.
+        public let datasetId: String
+
+        public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetId: String) {
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDatasetResponse: AWSDecodableShape {
+        /// The unique identifier for the deleted Dataset.
+        public let datasetId: String?
+
+        public init(datasetId: String? = nil) {
+            self.datasetId = datasetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId
+        }
+    }
+
+    public struct GetChangesetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "changesetId", location: .uri(locationName: "changesetId")),
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+        ]
+
+        /// The unique identifier of the Changeset for which to get data.
+        public let changesetId: String
+        /// The unique identifier for the FinSpace Dataset where the Changeset is created.
+        public let datasetId: String
+
+        public init(changesetId: String, datasetId: String) {
+            self.changesetId = changesetId
+            self.datasetId = datasetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changesetId, name: "changesetId", parent: name, max: 26)
+            try self.validate(self.changesetId, name: "changesetId", parent: name, min: 1)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChangesetResponse: AWSDecodableShape {
+        /// Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let activeUntilTimestamp: Int64?
+        /// The ARN identifier of the Changeset.
+        public let changesetArn: String?
+        /// The unique identifier for a Changeset.
+        public let changesetId: String?
+        /// Type that indicates how a Changeset is applied to a Dataset.    REPLACE - Changeset is considered as a replacement to all prior loaded Changesets.    APPEND - Changeset is considered as an addition to the end of all prior loaded Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested Changeset.
+        public let changeType: ChangeType?
+        /// The timestamp at which the Changeset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let createTime: Int64?
+        /// The unique identifier for the FinSpace Dataset where the Changeset is created.
+        public let datasetId: String?
+        /// The structure with error messages.
+        public let errorInfo: ChangesetErrorInfo?
+        /// Structure of the source file(s).
+        public let formatParams: [String: String]?
+        /// Options that define the location of the data being ingested.
+        public let sourceParams: [String: String]?
+        /// The status of Changeset creation operation.
+        public let status: IngestionStatus?
+        /// The unique identifier of the updated Changeset.
+        public let updatedByChangesetId: String?
+        /// The unique identifier of the Changeset that is being updated.
+        public let updatesChangesetId: String?
+
+        public init(activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+            self.activeUntilTimestamp = activeUntilTimestamp
+            self.changesetArn = changesetArn
+            self.changesetId = changesetId
+            self.changeType = changeType
+            self.createTime = createTime
+            self.datasetId = datasetId
+            self.errorInfo = errorInfo
+            self.formatParams = formatParams
+            self.sourceParams = sourceParams
+            self.status = status
+            self.updatedByChangesetId = updatedByChangesetId
+            self.updatesChangesetId = updatesChangesetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeUntilTimestamp
+            case changesetArn
+            case changesetId
+            case changeType
+            case createTime
+            case datasetId
+            case errorInfo
+            case formatParams
+            case sourceParams
+            case status
+            case updatedByChangesetId
+            case updatesChangesetId
+        }
+    }
+
+    public struct GetDataViewRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId")),
+            AWSMemberEncoding(label: "dataViewId", location: .uri(locationName: "dataviewId"))
+        ]
+
+        /// The unique identifier for the Dataset used in the Dataview.
+        public let datasetId: String
+        /// The unique identifier for the Dataview.
+        public let dataViewId: String
+
+        public init(datasetId: String, dataViewId: String) {
+            self.datasetId = datasetId
+            self.dataViewId = dataViewId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.validate(self.dataViewId, name: "dataViewId", parent: name, max: 26)
+            try self.validate(self.dataViewId, name: "dataViewId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataViewResponse: AWSDecodableShape {
+        /// Time range to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let asOfTimestamp: Int64?
+        /// Flag to indicate Dataview should be updated automatically.
+        public let autoUpdate: Bool?
+        /// The timestamp at which the Dataview was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let createTime: Int64?
+        /// The unique identifier for the Dataset used in the Dataview.
+        public let datasetId: String?
+        /// The ARN identifier of the Dataview.
+        public let dataViewArn: String?
+        /// The unique identifier for the Dataview.
+        public let dataViewId: String?
+        /// Options that define the destination type for the Dataview.
+        public let destinationTypeParams: DataViewDestinationTypeParams?
+        /// Information about an error that occurred for the Dataview.
+        public let errorInfo: DataViewErrorInfo?
+        /// The last time that a Dataview was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let lastModifiedTime: Int64?
+        /// Ordered set of column names used to partition data.
+        public let partitionColumns: [String]?
+        /// Columns to be used for sorting the data.
+        public let sortColumns: [String]?
+        /// The status of a Dataview creation.    RUNNING - Dataview creation is running.    STARTING - Dataview creation is starting.    FAILED - Dataview creation has failed.    CANCELLED - Dataview creation has been cancelled.    TIMEOUT - Dataview creation has timed out.    SUCCESS - Dataview creation has succeeded.    PENDING - Dataview creation is pending.    FAILED_CLEANUP_FAILED - Dataview creation failed and resource cleanup failed.
+        public let status: DataViewStatus?
+
+        public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeParams: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
+            self.asOfTimestamp = asOfTimestamp
+            self.autoUpdate = autoUpdate
+            self.createTime = createTime
+            self.datasetId = datasetId
+            self.dataViewArn = dataViewArn
+            self.dataViewId = dataViewId
+            self.destinationTypeParams = destinationTypeParams
+            self.errorInfo = errorInfo
+            self.lastModifiedTime = lastModifiedTime
+            self.partitionColumns = partitionColumns
+            self.sortColumns = sortColumns
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asOfTimestamp
+            case autoUpdate
+            case createTime
+            case datasetId
+            case dataViewArn
+            case dataViewId
+            case destinationTypeParams
+            case errorInfo
+            case lastModifiedTime
+            case partitionColumns
+            case sortColumns
+            case status
+        }
+    }
+
+    public struct GetDatasetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+        ]
+
+        /// The unique identifier for a Dataset.
+        public let datasetId: String
+
+        public init(datasetId: String) {
+            self.datasetId = datasetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 255)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDatasetResponse: AWSDecodableShape {
+        /// The unique resource identifier for a Dataset.
+        public let alias: String?
+        /// The timestamp at which the Dataset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let createTime: Int64?
+        /// The ARN identifier of the Dataset.
+        public let datasetArn: String?
+        /// A description of the Dataset.
+        public let datasetDescription: String?
+        /// The unique identifier for a Dataset.
+        public let datasetId: String?
+        /// Display title for a Dataset.
+        public let datasetTitle: String?
+        /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        public let kind: DatasetKind?
+        /// The last time that the Dataset was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public let lastModifiedTime: Int64?
+        /// Definition for a schema on a tabular Dataset.
+        public let schemaDefinition: SchemaUnion?
+        /// Status of the Dataset creation.    PENDING - Dataset is pending creation.    FAILED - Dataset creation has failed.    SUCCESS - Dataset creation has succeeded.    RUNNING - Dataset creation is running.
+        public let status: DatasetStatus?
+
+        public init(alias: String? = nil, createTime: Int64? = nil, datasetArn: String? = nil, datasetDescription: String? = nil, datasetId: String? = nil, datasetTitle: String? = nil, kind: DatasetKind? = nil, lastModifiedTime: Int64? = nil, schemaDefinition: SchemaUnion? = nil, status: DatasetStatus? = nil) {
+            self.alias = alias
+            self.createTime = createTime
+            self.datasetArn = datasetArn
+            self.datasetDescription = datasetDescription
+            self.datasetId = datasetId
+            self.datasetTitle = datasetTitle
+            self.kind = kind
+            self.lastModifiedTime = lastModifiedTime
+            self.schemaDefinition = schemaDefinition
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case createTime
+            case datasetArn
+            case datasetDescription
+            case datasetId
+            case datasetTitle
+            case kind
+            case lastModifiedTime
+            case schemaDefinition
+            case status
+        }
+    }
+
     public struct GetProgrammaticAccessCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "durationInMinutes", location: .querystring(locationName: "durationInMinutes")),
@@ -238,7 +890,7 @@ extension FinSpaceData {
 
         /// The time duration in which the credentials remain valid.
         public let durationInMinutes: Int64?
-        /// The habanero environment identifier.
+        /// The FinSpace environment identifier.
         public let environmentId: String
 
         public init(durationInMinutes: Int64? = nil, environmentId: String) {
@@ -274,7 +926,7 @@ extension FinSpaceData {
     }
 
     public struct GetWorkingLocationRequest: AWSEncodableShape {
-        /// Specify the type of the working location.    SAGEMAKER - Use the Amazon S3 location as a temporary location to store data content when working with FinSpace Notebooks that run on SageMaker studio.    INGESTION - Use the Amazon S3 location as a staging location to copy your data content and then use the location with the changeset creation operation.
+        /// Specify the type of the working location.    SAGEMAKER - Use the Amazon S3 location as a temporary location to store data content when working with FinSpace Notebooks that run on SageMaker studio.    INGESTION - Use the Amazon S3 location as a staging location to copy your data content and then use the location with the Changeset creation operation.
         public let locationType: LocationType?
 
         public init(locationType: LocationType? = nil) {
@@ -304,6 +956,371 @@ extension FinSpaceData {
             case s3Bucket
             case s3Path
             case s3Uri
+        }
+    }
+
+    public struct ListChangesetsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The unique identifier for the FinSpace Dataset to which the Changeset belongs.
+        public let datasetId: String
+        /// The maximum number of results per page.
+        public let maxResults: Int?
+        /// A token indicating where a results page should begin.
+        public let nextToken: String?
+
+        public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetId = datasetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChangesetsResponse: AWSDecodableShape {
+        /// List of Changesets found.
+        public let changesets: [ChangesetSummary]?
+        /// A token indicating where a results page should begin.
+        public let nextToken: String?
+
+        public init(changesets: [ChangesetSummary]? = nil, nextToken: String? = nil) {
+            self.changesets = changesets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changesets
+            case nextToken
+        }
+    }
+
+    public struct ListDataViewsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The unique identifier of the Dataset for which to retrieve Dataviews.
+        public let datasetId: String
+        /// The maximum number of results per page.
+        public let maxResults: Int?
+        /// A token indicating where a results page should begin.
+        public let nextToken: String?
+
+        public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetId = datasetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataViewsResponse: AWSDecodableShape {
+        /// A list of Dataviews.
+        public let dataViews: [DataViewSummary]?
+        /// A token indicating where a results page should begin.
+        public let nextToken: String?
+
+        public init(dataViews: [DataViewSummary]? = nil, nextToken: String? = nil) {
+            self.dataViews = dataViews
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataViews
+            case nextToken
+        }
+    }
+
+    public struct ListDatasetsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results per page.
+        public let maxResults: Int?
+        /// A token indicating where a results page should begin.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDatasetsResponse: AWSDecodableShape {
+        /// List of Datasets.
+        public let datasets: [Dataset]?
+        /// A token indicating where a results page should begin.
+        public let nextToken: String?
+
+        public init(datasets: [Dataset]? = nil, nextToken: String? = nil) {
+            self.datasets = datasets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasets
+            case nextToken
+        }
+    }
+
+    public struct PermissionGroupParams: AWSEncodableShape {
+        /// List of resource permissions.
+        public let datasetPermissions: [ResourcePermission]?
+        /// The unique identifier of the PermissionGroup.
+        public let permissionGroupId: String?
+
+        public init(datasetPermissions: [ResourcePermission]? = nil, permissionGroupId: String? = nil) {
+            self.datasetPermissions = datasetPermissions
+            self.permissionGroupId = permissionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetPermissions?.forEach {
+                try $0.validate(name: "\(name).datasetPermissions[]")
+            }
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetPermissions
+            case permissionGroupId
+        }
+    }
+
+    public struct ResourcePermission: AWSEncodableShape {
+        /// Permission for a resource.
+        public let permission: String?
+
+        public init(permission: String? = nil) {
+            self.permission = permission
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.permission, name: "permission", parent: name, max: 250)
+            try self.validate(self.permission, name: "permission", parent: name, min: 1)
+            try self.validate(self.permission, name: "permission", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permission
+        }
+    }
+
+    public struct SchemaDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// List of column definitions.
+        public let columns: [ColumnDefinition]?
+        /// List of column names used for primary key.
+        public let primaryKeyColumns: [String]?
+
+        public init(columns: [ColumnDefinition]? = nil, primaryKeyColumns: [String]? = nil) {
+            self.columns = columns
+            self.primaryKeyColumns = primaryKeyColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.primaryKeyColumns?.forEach {
+                try validate($0, name: "primaryKeyColumns[]", parent: name, max: 126)
+                try validate($0, name: "primaryKeyColumns[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns
+            case primaryKeyColumns
+        }
+    }
+
+    public struct SchemaUnion: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for a schema on a tabular Dataset.
+        public let tabularSchemaConfig: SchemaDefinition?
+
+        public init(tabularSchemaConfig: SchemaDefinition? = nil) {
+            self.tabularSchemaConfig = tabularSchemaConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.tabularSchemaConfig?.validate(name: "\(name).tabularSchemaConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tabularSchemaConfig
+        }
+    }
+
+    public struct UpdateChangesetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "changesetId", location: .uri(locationName: "changesetId")),
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+        ]
+
+        /// The unique identifier for the Changeset to update.
+        public let changesetId: String
+        /// A token used to ensure idempotency.
+        public let clientToken: String?
+        /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
+        public let datasetId: String
+        /// Options that define the structure of the source file(s).
+        public let formatParams: [String: String]
+        /// Options that define the location of the data being ingested.
+        public let sourceParams: [String: String]
+
+        public init(changesetId: String, clientToken: String? = UpdateChangesetRequest.idempotencyToken(), datasetId: String, formatParams: [String: String], sourceParams: [String: String]) {
+            self.changesetId = changesetId
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+            self.formatParams = formatParams
+            self.sourceParams = sourceParams
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changesetId, name: "changesetId", parent: name, max: 26)
+            try self.validate(self.changesetId, name: "changesetId", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.formatParams.forEach {
+                try validate($0.key, name: "formatParams.key", parent: name, max: 128)
+                try validate($0.key, name: "formatParams.key", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+                try validate($0.value, name: "formatParams[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "formatParams[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            }
+            try self.sourceParams.forEach {
+                try validate($0.key, name: "sourceParams.key", parent: name, max: 128)
+                try validate($0.key, name: "sourceParams.key", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+                try validate($0.value, name: "sourceParams[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "sourceParams[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case formatParams
+            case sourceParams
+        }
+    }
+
+    public struct UpdateChangesetResponse: AWSDecodableShape {
+        /// The unique identifier for the Changeset to update.
+        public let changesetId: String?
+        /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
+        public let datasetId: String?
+
+        public init(changesetId: String? = nil, datasetId: String? = nil) {
+            self.changesetId = changesetId
+            self.datasetId = datasetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changesetId
+            case datasetId
+        }
+    }
+
+    public struct UpdateDatasetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri(locationName: "datasetId"))
+        ]
+
+        /// The unique resource identifier for a Dataset.
+        public let alias: String
+        /// A token used to ensure idempotency.
+        public let clientToken: String?
+        /// A description for the Dataset.
+        public let datasetDescription: String?
+        /// The unique identifier for the Dataset to update.
+        public let datasetId: String
+        /// A display title for the Dataset.
+        public let datasetTitle: String
+        /// The format in which the Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        public let kind: DatasetKind
+        /// Definition for a schema on a tabular Dataset.
+        public let schemaDefinition: SchemaUnion?
+
+        public init(alias: String, clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String, datasetTitle: String, kind: DatasetKind, schemaDefinition: SchemaUnion? = nil) {
+            self.alias = alias
+            self.clientToken = clientToken
+            self.datasetDescription = datasetDescription
+            self.datasetId = datasetId
+            self.datasetTitle = datasetTitle
+            self.kind = kind
+            self.schemaDefinition = schemaDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 255)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^alias\\/\\S+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 256)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, max: 255)
+            try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, min: 1)
+            try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, pattern: ".*\\S.*")
+            try self.schemaDefinition?.validate(name: "\(name).schemaDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case clientToken
+            case datasetDescription
+            case datasetTitle
+            case kind
+            case schemaDefinition
+        }
+    }
+
+    public struct UpdateDatasetResponse: AWSDecodableShape {
+        /// The unique identifier for updated Dataset.
+        public let datasetId: String?
+
+        public init(datasetId: String? = nil) {
+            self.datasetId = datasetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId
         }
     }
 }

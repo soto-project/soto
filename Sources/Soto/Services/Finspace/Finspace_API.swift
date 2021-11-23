@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Finspace service.
 ///
-/// The FinSpace management service provides the APIs for managing the FinSpace environments.
+/// The FinSpace management service provides the APIs for managing FinSpace environments.
 public struct Finspace: AWSService {
     // MARK: Member variables
 

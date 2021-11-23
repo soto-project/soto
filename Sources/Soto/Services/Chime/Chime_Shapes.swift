@@ -279,6 +279,16 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
+    public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable {
+        case pii = "PII"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeContentRedactionType: String, CustomStringConvertible, Codable {
+        case pii = "PII"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable {
         case deDe = "de-DE"
         case enAu = "en-AU"
@@ -292,6 +302,11 @@ extension Chime {
         case koKr = "ko-KR"
         case ptBr = "pt-BR"
         case zhCn = "zh-CN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribeMedicalContentIdentificationType: String, CustomStringConvertible, Codable {
+        case phi = "PHI"
         public var description: String { return self.rawValue }
     }
 
@@ -324,6 +339,13 @@ extension Chime {
     public enum TranscribeMedicalType: String, CustomStringConvertible, Codable {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable {
+        case high
+        case low
+        case medium
         public var description: String { return self.rawValue }
     }
 
@@ -4230,6 +4252,8 @@ extension Chime {
     }
 
     public struct EngineTranscribeMedicalSettings: AWSEncodableShape {
+        /// Set this field to PHI to identify personal health information in the transcription output.
+        public let contentIdentificationType: TranscribeMedicalContentIdentificationType?
         /// The language code specified for the Amazon Transcribe Medical engine.
         public let languageCode: TranscribeMedicalLanguageCode
         /// The AWS Region passed to Amazon Transcribe Medical. If you don't specify a Region, Amazon Chime uses the meeting's Region.
@@ -4241,7 +4265,8 @@ extension Chime {
         /// The name of the vocabulary passed to Amazon Transcribe Medical.
         public let vocabularyName: String?
 
-        public init(languageCode: TranscribeMedicalLanguageCode, region: TranscribeMedicalRegion? = nil, specialty: TranscribeMedicalSpecialty, type: TranscribeMedicalType, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: TranscribeMedicalContentIdentificationType? = nil, languageCode: TranscribeMedicalLanguageCode, region: TranscribeMedicalRegion? = nil, specialty: TranscribeMedicalSpecialty, type: TranscribeMedicalType, vocabularyName: String? = nil) {
+            self.contentIdentificationType = contentIdentificationType
             self.languageCode = languageCode
             self.region = region
             self.specialty = specialty
@@ -4250,6 +4275,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contentIdentificationType = "ContentIdentificationType"
             case languageCode = "LanguageCode"
             case region = "Region"
             case specialty = "Specialty"
@@ -4259,8 +4285,20 @@ extension Chime {
     }
 
     public struct EngineTranscribeSettings: AWSEncodableShape {
+        /// Set this field to PII to identify personal health information in the transcription output.
+        public let contentIdentificationType: TranscribeContentIdentificationType?
+        /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.
+        public let contentRedactionType: TranscribeContentRedactionType?
+        /// Generates partial transcription results that are less likely to change as meeting attendees speak. It does so by only allowing the last few words from the partial results to change.
+        public let enablePartialResultsStabilization: Bool?
         /// The language code specified for the Amazon Transcribe engine.
         public let languageCode: TranscribeLanguageCode
+        /// The name of the language model used during transcription.
+        public let languageModelName: String?
+        /// The stabity level of a partial results transcription. Determines how stable you want the transcription results to be. A higher level means the transcription results are less likely to change.
+        public let partialResultsStability: TranscribePartialResultsStability?
+        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType.  PIIEntityTypes must be comma-separated. The available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, and ALL.  PiiEntityTypes is an optional parameter with a default value of ALL.
+        public let piiEntityTypes: String?
         /// The AWS Region passed to Amazon Transcribe. If you don't specify a Region, Amazon Chime uses the meeting's Region.
         public let region: TranscribeRegion?
         /// The filtering method passed to Amazon Transcribe.
@@ -4270,16 +4308,37 @@ extension Chime {
         /// The name of the vocabulary passed to Amazon Transcribe.
         public let vocabularyName: String?
 
-        public init(languageCode: TranscribeLanguageCode, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: TranscribeContentIdentificationType? = nil, contentRedactionType: TranscribeContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: TranscribeLanguageCode, languageModelName: String? = nil, partialResultsStability: TranscribePartialResultsStability? = nil, piiEntityTypes: String? = nil, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.contentIdentificationType = contentIdentificationType
+            self.contentRedactionType = contentRedactionType
+            self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.languageCode = languageCode
+            self.languageModelName = languageModelName
+            self.partialResultsStability = partialResultsStability
+            self.piiEntityTypes = piiEntityTypes
             self.region = region
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
             self.vocabularyName = vocabularyName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 300)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, min: 1)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, pattern: "^[A-Z_, ]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case contentIdentificationType = "ContentIdentificationType"
+            case contentRedactionType = "ContentRedactionType"
+            case enablePartialResultsStabilization = "EnablePartialResultsStabilization"
             case languageCode = "LanguageCode"
+            case languageModelName = "LanguageModelName"
+            case partialResultsStability = "PartialResultsStability"
+            case piiEntityTypes = "PiiEntityTypes"
             case region = "Region"
             case vocabularyFilterMethod = "VocabularyFilterMethod"
             case vocabularyFilterName = "VocabularyFilterName"
@@ -8742,6 +8801,7 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.transcriptionConfiguration.validate(name: "\(name).transcriptionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9013,6 +9073,10 @@ extension Chime {
         public init(engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings? = nil, engineTranscribeSettings: EngineTranscribeSettings? = nil) {
             self.engineTranscribeMedicalSettings = engineTranscribeMedicalSettings
             self.engineTranscribeSettings = engineTranscribeSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.engineTranscribeSettings?.validate(name: "\(name).engineTranscribeSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10198,16 +10262,19 @@ extension Chime {
         /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The ARN of the specified Amazon Chime Voice Connector.
+        public let voiceConnectorArn: String?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String?
 
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
             self.updatedTimestamp = updatedTimestamp
+            self.voiceConnectorArn = voiceConnectorArn
             self.voiceConnectorId = voiceConnectorId
         }
 
@@ -10218,6 +10285,7 @@ extension Chime {
             case outboundHostName = "OutboundHostName"
             case requireEncryption = "RequireEncryption"
             case updatedTimestamp = "UpdatedTimestamp"
+            case voiceConnectorArn = "VoiceConnectorArn"
             case voiceConnectorId = "VoiceConnectorId"
         }
     }
@@ -10231,15 +10299,18 @@ extension Chime {
         /// The updated Amazon Chime Voice Connector group time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The ARN of the specified Amazon Chime Voice Connector group.
+        public let voiceConnectorGroupArn: String?
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String?
         /// The Amazon Chime Voice Connectors to which to route inbound calls.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
-        public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+        public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp
+            self.voiceConnectorGroupArn = voiceConnectorGroupArn
             self.voiceConnectorGroupId = voiceConnectorGroupId
             self.voiceConnectorItems = voiceConnectorItems
         }
@@ -10248,6 +10319,7 @@ extension Chime {
             case createdTimestamp = "CreatedTimestamp"
             case name = "Name"
             case updatedTimestamp = "UpdatedTimestamp"
+            case voiceConnectorGroupArn = "VoiceConnectorGroupArn"
             case voiceConnectorGroupId = "VoiceConnectorGroupId"
             case voiceConnectorItems = "VoiceConnectorItems"
         }

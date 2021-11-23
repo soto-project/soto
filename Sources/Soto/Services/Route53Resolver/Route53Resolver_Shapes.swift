@@ -27,6 +27,12 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutodefinedReverseFlag: String, CustomStringConvertible, Codable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BlockOverrideDnsType: String, CustomStringConvertible, Codable {
         case cname = "CNAME"
         public var description: String { return self.rawValue }
@@ -97,6 +103,14 @@ extension Route53Resolver {
     public enum MutationProtectionStatus: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverAutodefinedReverseStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
         public var description: String { return self.rawValue }
     }
 
@@ -1550,6 +1564,37 @@ extension Route53Resolver {
         }
     }
 
+    public struct GetResolverConfigRequest: AWSEncodableShape {
+        /// Resource ID of the Amazon VPC that you want to get information about.
+        public let resourceId: String
+
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct GetResolverConfigResponse: AWSDecodableShape {
+        /// Information about the behavior configuration of Route 53 Resolver behavior for the VPC you specified in the GetResolverConfig request.
+        public let resolverConfig: ResolverConfig?
+
+        public init(resolverConfig: ResolverConfig? = nil) {
+            self.resolverConfig = resolverConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverConfig = "ResolverConfig"
+        }
+    }
+
     public struct GetResolverDnssecConfigRequest: AWSEncodableShape {
         /// The ID of the virtual private cloud (VPC) for the DNSSEC validation status.
         public let resourceId: String
@@ -2215,6 +2260,45 @@ extension Route53Resolver {
         }
     }
 
+    public struct ListResolverConfigsRequest: AWSEncodableShape {
+        /// The maximum number of Resolver configurations that you want to return in the response to a ListResolverConfigs request. If you don't specify a value for MaxResults, up to 100 Resolver configurations are returned.
+        public let maxResults: Int?
+        /// (Optional) If the current Amazon Web Services account has more than MaxResults Resolver configurations, use NextToken to get the second and subsequent pages of results. For the first ListResolverConfigs request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResolverConfigsResponse: AWSDecodableShape {
+        /// If a response includes the last of the Resolver configurations that are associated with the current Amazon Web Services account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListResolverConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
+        public let nextToken: String?
+        /// An array that contains one ResolverConfigs element for each Resolver configuration that is associated with the current Amazon Web Services account.
+        public let resolverConfigs: [ResolverConfig]?
+
+        public init(nextToken: String? = nil, resolverConfigs: [ResolverConfig]? = nil) {
+            self.nextToken = nextToken
+            self.resolverConfigs = resolverConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resolverConfigs = "ResolverConfigs"
+        }
+    }
+
     public struct ListResolverDnssecConfigsRequest: AWSEncodableShape {
         /// An optional specification to return a subset of objects.
         public let filters: [Filter]?
@@ -2647,7 +2731,7 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 255)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.firewallRuleGroupPolicy, name: "firewallRuleGroupPolicy", parent: name, max: 5000)
+            try self.validate(self.firewallRuleGroupPolicy, name: "firewallRuleGroupPolicy", parent: name, max: 30000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2682,7 +2766,7 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 255)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.resolverQueryLogConfigPolicy, name: "resolverQueryLogConfigPolicy", parent: name, max: 5000)
+            try self.validate(self.resolverQueryLogConfigPolicy, name: "resolverQueryLogConfigPolicy", parent: name, max: 30000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2737,6 +2821,31 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case returnValue = "ReturnValue"
+        }
+    }
+
+    public struct ResolverConfig: AWSDecodableShape {
+        ///  The status of whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. The status can be one of following:  Status of the rules generated by VPCs based on CIDR/Region for reverse DNS resolution. The status can be one of following:    ENABLING: Autodefined rules for reverse DNS lookups are being enabled but are not complete.    ENABLED: Autodefined rules for reverse DNS lookups are enabled.    DISABLING: Autodefined rules for reverse DNS lookups are being disabled but are not complete.    DISABLED: Autodefined rules for reverse DNS lookups are disabled.
+        public let autodefinedReverse: ResolverAutodefinedReverseStatus?
+        /// ID for the Resolver configuration.
+        public let id: String?
+        /// The owner account ID of the Amazon Virtual Private Cloud VPC.
+        public let ownerId: String?
+        /// The ID of the Amazon Virtual Private Cloud VPC that you're configuring Resolver for.
+        public let resourceId: String?
+
+        public init(autodefinedReverse: ResolverAutodefinedReverseStatus? = nil, id: String? = nil, ownerId: String? = nil, resourceId: String? = nil) {
+            self.autodefinedReverse = autodefinedReverse
+            self.id = id
+            self.ownerId = ownerId
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autodefinedReverse = "AutodefinedReverse"
+            case id = "Id"
+            case ownerId = "OwnerId"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -3349,6 +3458,41 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case firewallRule = "FirewallRule"
+        }
+    }
+
+    public struct UpdateResolverConfigRequest: AWSEncodableShape {
+        /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide.  It can take some time for the status change to be completed.
+        public let autodefinedReverseFlag: AutodefinedReverseFlag
+        /// Resource ID of the Amazon VPC that you want to update the Resolver configuration for.
+        public let resourceId: String
+
+        public init(autodefinedReverseFlag: AutodefinedReverseFlag, resourceId: String) {
+            self.autodefinedReverseFlag = autodefinedReverseFlag
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autodefinedReverseFlag = "AutodefinedReverseFlag"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct UpdateResolverConfigResponse: AWSDecodableShape {
+        /// An array that contains settings for the specified Resolver configuration.
+        public let resolverConfig: ResolverConfig?
+
+        public init(resolverConfig: ResolverConfig? = nil) {
+            self.resolverConfig = resolverConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverConfig = "ResolverConfig"
         }
     }
 

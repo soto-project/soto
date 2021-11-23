@@ -20,7 +20,9 @@ import SotoCore
 public struct FinSpaceDataErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case limitExceededException = "LimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
@@ -46,8 +48,12 @@ public struct FinSpaceDataErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request conflicts with an existing resource.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// A limit has exceeded.
+    public static var limitExceededException: Self { .init(.limitExceededException) }
     /// One or more resources can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.

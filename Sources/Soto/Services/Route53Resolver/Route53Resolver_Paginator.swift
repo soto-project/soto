@@ -337,6 +337,59 @@ extension Route53Resolver {
         )
     }
 
+    ///  Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listResolverConfigsPaginator<Result>(
+        _ input: ListResolverConfigsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListResolverConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listResolverConfigs,
+            inputKey: \ListResolverConfigsRequest.nextToken,
+            outputKey: \ListResolverConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listResolverConfigsPaginator(
+        _ input: ListResolverConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListResolverConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listResolverConfigs,
+            inputKey: \ListResolverConfigsRequest.nextToken,
+            outputKey: \ListResolverConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -820,6 +873,15 @@ extension Route53Resolver.ListFirewallRulesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             priority: self.priority
+        )
+    }
+}
+
+extension Route53Resolver.ListResolverConfigsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverConfigsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

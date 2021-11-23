@@ -46,12 +46,19 @@ public struct NimbleStudioErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You are not authorized to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Another operation is in progress.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An internal error has occurred. Please retry your request.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use AWS Service Quotas to request an increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request throughput limit was exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// One of the parameters in the request is invalid.
     public static var validationException: Self { .init(.validationException) }
 }
 

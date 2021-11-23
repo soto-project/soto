@@ -188,6 +188,11 @@ public struct Route53Resolver: AWSService {
         return self.client.execute(operation: "GetFirewallRuleGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
+    public func getResolverConfig(_ input: GetResolverConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverConfigResponse> {
+        return self.client.execute(operation: "GetResolverConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets DNSSEC validation information for a specified resource.
     public func getResolverDnssecConfig(_ input: GetResolverDnssecConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResolverDnssecConfigResponse> {
         return self.client.execute(operation: "GetResolverDnssecConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -261,6 +266,11 @@ public struct Route53Resolver: AWSService {
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
     public func listFirewallRules(_ input: ListFirewallRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFirewallRulesResponse> {
         return self.client.execute(operation: "ListFirewallRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+    public func listResolverConfigs(_ input: ListResolverConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResolverConfigsResponse> {
+        return self.client.execute(operation: "ListResolverConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
@@ -346,6 +356,11 @@ public struct Route53Resolver: AWSService {
     /// Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
     public func updateFirewallRuleGroupAssociation(_ input: UpdateFirewallRuleGroupAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFirewallRuleGroupAssociationResponse> {
         return self.client.execute(operation: "UpdateFirewallRuleGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
+    public func updateResolverConfig(_ input: UpdateResolverConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResolverConfigResponse> {
+        return self.client.execute(operation: "UpdateResolverConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.

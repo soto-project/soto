@@ -463,6 +463,19 @@ extension S3Control {
         }
     }
 
+    public struct CloudWatchMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// A container that indicates whether CloudWatch publishing for S3 Storage Lens metrics is enabled. A value of true indicates that CloudWatch publishing for S3 Storage Lens metrics is enabled.
+        public let isEnabled: Bool
+
+        public init(isEnabled: Bool) {
+            self.isEnabled = isEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEnabled = "IsEnabled"
+        }
+    }
+
     public struct CreateAccessPointForObjectLambdaRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
@@ -4361,18 +4374,22 @@ extension S3Control {
     }
 
     public struct StorageLensDataExport: AWSEncodableShape & AWSDecodableShape {
+        /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens metrics.
+        public let cloudWatchMetrics: CloudWatchMetrics?
         /// A container for the bucket where the S3 Storage Lens metrics export will be located.  This bucket must be located in the same Region as the storage lens configuration.
-        public let s3BucketDestination: S3BucketDestination
+        public let s3BucketDestination: S3BucketDestination?
 
-        public init(s3BucketDestination: S3BucketDestination) {
+        public init(cloudWatchMetrics: CloudWatchMetrics? = nil, s3BucketDestination: S3BucketDestination? = nil) {
+            self.cloudWatchMetrics = cloudWatchMetrics
             self.s3BucketDestination = s3BucketDestination
         }
 
         public func validate(name: String) throws {
-            try self.s3BucketDestination.validate(name: "\(name).s3BucketDestination")
+            try self.s3BucketDestination?.validate(name: "\(name).s3BucketDestination")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchMetrics = "CloudWatchMetrics"
             case s3BucketDestination = "S3BucketDestination"
         }
     }

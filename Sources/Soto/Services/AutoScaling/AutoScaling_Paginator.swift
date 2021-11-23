@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension AutoScaling {
-    ///  Gets information about the Auto Scaling groups in the account and Region. This operation returns information about instances in Auto Scaling groups. To retrieve information about the instances in a warm pool, you must call the DescribeWarmPool API.
+    ///  Gets information about the Auto Scaling groups in the account and Region. If you specify Auto Scaling group names, the output includes information for only the specified Auto Scaling groups. If you specify filters, the output includes information for only those Auto Scaling groups that meet the filter criteria. If you do not specify group names or filters, the output includes information for all Auto Scaling groups.  This operation also returns information about instances in Auto Scaling groups. To retrieve information about the instances in a warm pool, you must call the DescribeWarmPool API.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -448,6 +448,7 @@ extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.AutoScalingGroupNamesType {
         return .init(
             autoScalingGroupNames: self.autoScalingGroupNames,
+            filters: self.filters,
             maxRecords: self.maxRecords,
             nextToken: token
         )

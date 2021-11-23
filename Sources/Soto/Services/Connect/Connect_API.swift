@@ -112,6 +112,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a contact flow module for the specified Amazon Connect instance.
+    public func createContactFlowModule(_ input: CreateContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactFlowModuleResponse> {
+        return self.client.execute(operation: "CreateContactFlowModule", path: "/contact-flow-modules/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
     public func createHoursOfOperation(_ input: CreateHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHoursOfOperationResponse> {
         return self.client.execute(operation: "CreateHoursOfOperation", path: "/hours-of-operations/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -142,6 +147,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Creates a security profile.
+    public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSecurityProfileResponse> {
+        return self.client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a use case for an integration association.
     public func createUseCase(_ input: CreateUseCaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUseCaseResponse> {
         return self.client.execute(operation: "CreateUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -155,6 +165,16 @@ public struct Connect: AWSService {
     /// Creates a new user hierarchy group.
     public func createUserHierarchyGroup(_ input: CreateUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserHierarchyGroupResponse> {
         return self.client.execute(operation: "CreateUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a contact flow for the specified Amazon Connect instance.
+    @discardableResult public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified contact flow module.
+    public func deleteContactFlowModule(_ input: DeleteContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactFlowModuleResponse> {
+        return self.client.execute(operation: "DeleteContactFlowModule", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
@@ -177,6 +197,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DeleteQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
+    @discardableResult public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a use case from an integration association.
     @discardableResult public func deleteUseCase(_ input: DeleteUseCaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -197,9 +222,19 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DescribeAgentStatus", path: "/agent-status/{InstanceId}/{AgentStatusId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Contact information remains available in Amazon Connect for 24 months, and then it is deleted.
+    public func describeContact(_ input: DescribeContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContactResponse> {
+        return self.client.execute(operation: "DescribeContact", path: "/contacts/{InstanceId}/{ContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
     public func describeContactFlow(_ input: DescribeContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContactFlowResponse> {
         return self.client.execute(operation: "DescribeContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the specified contact flow module.
+    public func describeContactFlowModule(_ input: DescribeContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContactFlowModuleResponse> {
+        return self.client.execute(operation: "DescribeContactFlowModule", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
@@ -235,6 +270,11 @@ public struct Connect: AWSService {
     /// Describes the specified routing profile.
     public func describeRoutingProfile(_ input: DescribeRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRoutingProfileResponse> {
         return self.client.execute(operation: "DescribeRoutingProfile", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Gets basic information about the security profle.
+    public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSecurityProfileResponse> {
+        return self.client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the specified user account. You can find the instance ID in the console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
@@ -327,9 +367,19 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListBots", path: "/instance/{InstanceId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides information about the contact flow modules for the specified Amazon Connect instance.
+    public func listContactFlowModules(_ input: ListContactFlowModulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactFlowModulesResponse> {
+        return self.client.execute(operation: "ListContactFlowModules", path: "/contact-flow-modules-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
     public func listContactFlows(_ input: ListContactFlowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactFlowsResponse> {
         return self.client.execute(operation: "ListContactFlows", path: "/contact-flows-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    public func listContactReferences(_ input: ListContactReferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactReferencesResponse> {
+        return self.client.execute(operation: "ListContactReferences", path: "/contact/references/{InstanceId}/{ContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
@@ -407,6 +457,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListSecurityKeys", path: "/instance/{InstanceId}/security-keys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    public func listSecurityProfilePermissions(_ input: ListSecurityProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfilePermissionsResponse> {
+        return self.client.execute(operation: "ListSecurityProfilePermissions", path: "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfilesResponse> {
         return self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -447,6 +502,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Initiates real-time message streaming for a new chat contact.  For more information about message streaming, see Enable real-time chat message streaming in the Amazon Connect Administrator Guide.
+    public func startContactStreaming(_ input: StartContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartContactStreamingResponse> {
+        return self.client.execute(operation: "StartContactStreaming", path: "/contact/start-streaming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the contact flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
         return self.client.execute(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -465,6 +525,11 @@ public struct Connect: AWSService {
     /// Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
     public func stopContactRecording(_ input: StopContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopContactRecordingResponse> {
         return self.client.execute(operation: "StopContactRecording", path: "/contact/stop-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming API.
+    public func stopContactStreaming(_ input: StopContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopContactStreamingResponse> {
+        return self.client.execute(operation: "StopContactStreaming", path: "/contact/stop-streaming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording.  The period of time that the recording is suspended is filled with silence in the final recording.  Only voice recordings are supported at this time.
@@ -487,6 +552,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateAgentStatus", path: "/agent-status/{InstanceId}/{AgentStatusId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
+    public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactResponse> {
+        return self.client.execute(operation: "UpdateContact", path: "/contacts/{InstanceId}/{ContactId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about CTR retention and the maximum size of the CTR attributes section, see Feature specifications in the Amazon Connect Administrator Guide.   Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, which was September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
     public func updateContactAttributes(_ input: UpdateContactAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactAttributesResponse> {
         return self.client.execute(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -497,9 +567,29 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates metadata about specified contact flow.
+    @discardableResult public func updateContactFlowMetadata(_ input: UpdateContactFlowMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateContactFlowMetadata", path: "/contact-flows/{InstanceId}/{ContactFlowId}/metadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates specified contact flow module for the specified Amazon Connect instance.
+    public func updateContactFlowModuleContent(_ input: UpdateContactFlowModuleContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactFlowModuleContentResponse> {
+        return self.client.execute(operation: "UpdateContactFlowModuleContent", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates metadata about specified contact flow module.
+    public func updateContactFlowModuleMetadata(_ input: UpdateContactFlowModuleMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactFlowModuleMetadataResponse> {
+        return self.client.execute(operation: "UpdateContactFlowModuleMetadata", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/metadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// The name of the contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
     @discardableResult public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the scheduled time of a task contact that is already scheduled.
+    public func updateContactSchedule(_ input: UpdateContactScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactScheduleResponse> {
+        return self.client.execute(operation: "UpdateContactSchedule", path: "/contact/schedule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
@@ -570,6 +660,11 @@ public struct Connect: AWSService {
     /// Updates the properties associated with a set of queues for a routing profile.
     @discardableResult public func updateRoutingProfileQueues(_ input: UpdateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
+    @discardableResult public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Assigns the specified hierarchy group to the specified user.

@@ -133,6 +133,13 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum NniPartnerType: String, CustomStringConvertible, Codable {
+        case nonpartner = "nonPartner"
+        case v1
+        case v2
+        public var description: String { return self.rawValue }
+    }
+
     public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
         case available
         case confirming
@@ -149,7 +156,7 @@ extension DirectConnect {
     // MARK: Shapes
 
     public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
-        /// The ID of the account that owns the virtual private gateway or transit gateway.
+        /// The ID of the Amazon Web Services account that owns the virtual private gateway or transit gateway.
         public let associatedGatewayOwnerAccount: String
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
@@ -192,7 +199,7 @@ extension DirectConnect {
         public let connectionName: String
         /// The ID of the interconnect on which the connection will be provisioned.
         public let interconnectId: String
-        /// The ID of the account of the customer for whom the connection will be provisioned.
+        /// The ID of the Amazon Web Services account of the customer for whom the connection will be provisioned.
         public let ownerAccount: String
         /// The dedicated VLAN provisioned to the connection.
         public let vlan: Int
@@ -221,7 +228,7 @@ extension DirectConnect {
         public let connectionId: String
         /// The name of the hosted connection.
         public let connectionName: String
-        /// The ID of the account ID of the customer for the connection.
+        /// The ID of the Amazon Web Services account ID of the customer for the connection.
         public let ownerAccount: String
         /// The tags associated with the connection.
         public let tags: [Tag]?
@@ -259,7 +266,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the private virtual interface.
         public let newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation
-        /// The ID of the account that owns the virtual private interface.
+        /// The ID of the Amazon Web Services account that owns the virtual private interface.
         public let ownerAccount: String
 
         public init(connectionId: String, newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation, ownerAccount: String) {
@@ -284,7 +291,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the public virtual interface.
         public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
-        /// The ID of the account that owns the public virtual interface.
+        /// The ID of the Amazon Web Services account that owns the public virtual interface.
         public let ownerAccount: String
 
         public init(connectionId: String, newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation, ownerAccount: String) {
@@ -309,7 +316,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the transit virtual interface.
         public let newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation
-        /// The ID of the account that owns the transit virtual interface.
+        /// The ID of the Amazon Web Services account that owns the transit virtual interface.
         public let ownerAccount: String
 
         public init(connectionId: String, newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation, ownerAccount: String) {
@@ -437,7 +444,7 @@ extension DirectConnect {
     public struct AssociatedGateway: AWSDecodableShape {
         /// The ID of the associated gateway.
         public let id: String?
-        /// The ID of the account that owns the associated virtual private gateway or transit gateway.
+        /// The ID of the Amazon Web Services account that owns the associated virtual private gateway or transit gateway.
         public let ownerAccount: String?
         /// The Region where the associated gateway is located.
         public let region: String?
@@ -531,6 +538,36 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case connectionState
+        }
+    }
+
+    public struct ConfirmCustomerAgreementRequest: AWSEncodableShape {
+        ///  The name of the customer agreement.
+        public let agreementName: String?
+
+        public init(agreementName: String? = nil) {
+            self.agreementName = agreementName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementName, name: "agreementName", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementName
+        }
+    }
+
+    public struct ConfirmCustomerAgreementResponse: AWSDecodableShape {
+        ///  The status of the customer agreement when the connection was created. This will be either signed or unsigned.
+        public let status: String?
+
+        public init(status: String? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
         }
     }
 
@@ -655,7 +692,7 @@ extension DirectConnect {
         public let macSecCapable: Bool?
         /// The MAC Security (MACsec) security keys associated with the connection.
         public let macSecKeys: [MacSecKey]?
-        /// The ID of the account that owns the connection.
+        /// The ID of the Amazon Web Services account that owns the connection.
         public let ownerAccount: String?
         /// The name of the Direct Connect service provider associated with the connection.
         public let partnerName: String?
@@ -663,7 +700,7 @@ extension DirectConnect {
         public let portEncryptionStatus: String?
         /// The name of the service provider associated with the connection.
         public let providerName: String?
-        /// The Region where the connection is located.
+        /// The Amazon Web Services Region where the connection is located.
         public let region: String?
         /// The tags associated with the connection.
         public let tags: [Tag]?
@@ -813,7 +850,7 @@ extension DirectConnect {
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
-        /// The ID of the account that owns the Direct Connect gateway.
+        /// The ID of the Amazon Web Services account that owns the Direct Connect gateway.
         public let directConnectGatewayOwnerAccount: String
         /// The ID of the virtual private gateway or transit gateway.
         public let gatewayId: String
@@ -1089,6 +1126,23 @@ extension DirectConnect {
         }
     }
 
+    public struct CustomerAgreement: AWSDecodableShape {
+        /// The name of the agreement.
+        public let agreementName: String?
+        /// The status of the customer agreement. This will be either signed or unsigned
+        public let status: String?
+
+        public init(agreementName: String? = nil, status: String? = nil) {
+            self.agreementName = agreementName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementName
+            case status
+        }
+    }
+
     public struct DeleteBGPPeerRequest: AWSEncodableShape {
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
         public let asn: Int?
@@ -1348,6 +1402,23 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case connectionId
+        }
+    }
+
+    public struct DescribeCustomerMetadataResponse: AWSDecodableShape {
+        /// The list of customer agreements.
+        public let agreements: [CustomerAgreement]?
+        /// The type of network-to-network interface (NNI) partner. The partner type will be one of the following:   V1: This partner can only allocate 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps subgigabit connections.   V2: This partner can only allocate 1GB, 2GB, 5GB, or 10GB hosted connections.   nonPartner: The customer is not a partner.
+        public let nniPartnerType: NniPartnerType?
+
+        public init(agreements: [CustomerAgreement]? = nil, nniPartnerType: NniPartnerType? = nil) {
+            self.agreements = agreements
+            self.nniPartnerType = nniPartnerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreements
+            case nniPartnerType
         }
     }
 
@@ -1621,6 +1692,48 @@ extension DirectConnect {
         }
     }
 
+    public struct DescribeRouterConfigurationRequest: AWSEncodableShape {
+        /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
+        public let routerTypeIdentifier: String?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String
+
+        public init(routerTypeIdentifier: String? = nil, virtualInterfaceId: String) {
+            self.routerTypeIdentifier = routerTypeIdentifier
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerTypeIdentifier
+            case virtualInterfaceId
+        }
+    }
+
+    public struct DescribeRouterConfigurationResponse: AWSDecodableShape {
+        /// The customer router configuration.
+        public let customerRouterConfig: String?
+        /// The details about the router.
+        public let router: RouterType?
+        /// The ID assigned to the virtual interface.
+        public let virtualInterfaceId: String?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String?
+
+        public init(customerRouterConfig: String? = nil, router: RouterType? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil) {
+            self.customerRouterConfig = customerRouterConfig
+            self.router = router
+            self.virtualInterfaceId = virtualInterfaceId
+            self.virtualInterfaceName = virtualInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerRouterConfig
+            case router
+            case virtualInterfaceId
+            case virtualInterfaceName
+        }
+    }
+
     public struct DescribeTagsRequest: AWSEncodableShape {
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]
@@ -1673,7 +1786,7 @@ extension DirectConnect {
         public let directConnectGatewayName: String?
         /// The state of the Direct Connect gateway. The following are the possible values:    pending: The initial state after calling CreateDirectConnectGateway.    available: The Direct Connect gateway is ready for use.    deleting: The initial state after calling DeleteDirectConnectGateway.    deleted: The Direct Connect gateway is deleted and cannot pass traffic.
         public let directConnectGatewayState: DirectConnectGatewayState?
-        /// The ID of the account that owns the Direct Connect gateway.
+        /// The ID of the Amazon Web Services account that owns the Direct Connect gateway.
         public let ownerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
@@ -1708,15 +1821,15 @@ extension DirectConnect {
         public let associationState: DirectConnectGatewayAssociationState?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The ID of the account that owns the associated gateway.
+        /// The ID of the Amazon Web Services account that owns the associated gateway.
         public let directConnectGatewayOwnerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
         /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
         public let virtualGatewayId: String?
-        /// The ID of the account that owns the virtual private gateway.
+        /// The ID of the Amazon Web Services account that owns the virtual private gateway.
         public let virtualGatewayOwnerAccount: String?
-        /// The Region where the virtual private gateway is located.
+        /// The Amazon Web Services Region where the virtual private gateway is located.
         public let virtualGatewayRegion: String?
 
         public init(allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associatedGateway: AssociatedGateway? = nil, associationId: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
@@ -1751,7 +1864,7 @@ extension DirectConnect {
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The ID of the account that owns the Direct Connect gateway.
+        /// The ID of the Amazon Web Services account that owns the Direct Connect gateway.
         public let directConnectGatewayOwnerAccount: String?
         /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
         public let existingAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -1794,9 +1907,9 @@ extension DirectConnect {
         public let stateChangeError: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        /// The ID of the account that owns the virtual interface.
+        /// The ID of the Amazon Web Services account that owns the virtual interface.
         public let virtualInterfaceOwnerAccount: String?
-        /// The Region where the virtual interface is located.
+        /// The Amazon Web Services Region where the virtual interface is located.
         public let virtualInterfaceRegion: String?
 
         public init(attachmentState: DirectConnectGatewayAttachmentState? = nil, attachmentType: DirectConnectGatewayAttachmentType? = nil, directConnectGatewayId: String? = nil, stateChangeError: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, virtualInterfaceRegion: String? = nil) {
@@ -1898,7 +2011,7 @@ extension DirectConnect {
         public let location: String?
         /// The name of the service provider associated with the interconnect.
         public let providerName: String?
-        /// The Region where the connection is located.
+        /// The Amazon Web Services Region where the connection is located.
         public let region: String?
         /// The tags associated with the interconnect.
         public let tags: [Tag]?
@@ -1988,11 +2101,11 @@ extension DirectConnect {
         public let minimumLinks: Int?
         /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
         public let numberOfConnections: Int?
-        /// The ID of the account that owns the LAG.
+        /// The ID of the Amazon Web Services account that owns the LAG.
         public let ownerAccount: String?
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
-        /// The Region where the connection is located.
+        /// The Amazon Web Services Region where the connection is located.
         public let region: String?
         /// The tags associated with the LAG.
         public let tags: [Tag]?
@@ -2137,7 +2250,7 @@ extension DirectConnect {
         public let locationCode: String?
         /// The name of the location. This includes the name of the colocation partner and the physical site of the building.
         public let locationName: String?
-        /// The Region for the location.
+        /// The Amazon Web Services Region for the location.
         public let region: String?
 
         public init(availableMacSecPortSpeeds: [String]? = nil, availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
@@ -2580,6 +2693,39 @@ extension DirectConnect {
         }
     }
 
+    public struct RouterType: AWSDecodableShape {
+        /// The virtual interface router platform.
+        public let platform: String?
+        /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
+        public let routerTypeIdentifier: String?
+        /// The router software.
+        public let software: String?
+        /// The vendor for the virtual interface's router.
+        public let vendor: String?
+        /// The template for the virtual interface's router.
+        public let xsltTemplateName: String?
+        /// The MAC Security (MACsec) template for the virtual interface's router.
+        public let xsltTemplateNameForMacSec: String?
+
+        public init(platform: String? = nil, routerTypeIdentifier: String? = nil, software: String? = nil, vendor: String? = nil, xsltTemplateName: String? = nil, xsltTemplateNameForMacSec: String? = nil) {
+            self.platform = platform
+            self.routerTypeIdentifier = routerTypeIdentifier
+            self.software = software
+            self.vendor = vendor
+            self.xsltTemplateName = xsltTemplateName
+            self.xsltTemplateNameForMacSec = xsltTemplateNameForMacSec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platform
+            case routerTypeIdentifier
+            case software
+            case vendor
+            case xsltTemplateName
+            case xsltTemplateNameForMacSec
+        }
+    }
+
     public struct StartBgpFailoverTestRequest: AWSEncodableShape {
         /// The BGP peers to place in the DOWN state.
         public let bgpPeers: [String]?
@@ -2777,6 +2923,35 @@ extension DirectConnect {
         }
     }
 
+    public struct UpdateDirectConnectGatewayRequest: AWSEncodableShape {
+        /// The ID of the Direct Connect gateway to update.
+        public let directConnectGatewayId: String
+        /// The new name for the Direct Connect gateway.
+        public let newDirectConnectGatewayName: String
+
+        public init(directConnectGatewayId: String, newDirectConnectGatewayName: String) {
+            self.directConnectGatewayId = directConnectGatewayId
+            self.newDirectConnectGatewayName = newDirectConnectGatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayId
+            case newDirectConnectGatewayName
+        }
+    }
+
+    public struct UpdateDirectConnectGatewayResponse: AWSDecodableShape {
+        public let directConnectGateway: DirectConnectGateway?
+
+        public init(directConnectGateway: DirectConnectGateway? = nil) {
+            self.directConnectGateway = directConnectGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGateway
+        }
+    }
+
     public struct UpdateLagRequest: AWSEncodableShape {
         /// The LAG MAC Security (MACsec) encryption mode. Amazon Web Services applies the value to all connections which are part of the LAG.
         public let encryptionMode: String?
@@ -2880,9 +3055,9 @@ extension DirectConnect {
         public let location: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
-        /// The ID of the account that owns the virtual interface.
+        /// The ID of the Amazon Web Services account that owns the virtual interface.
         public let ownerAccount: String?
-        /// The Region where the virtual interface is located.
+        /// The Amazon Web Services Region where the virtual interface is located.
         public let region: String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?

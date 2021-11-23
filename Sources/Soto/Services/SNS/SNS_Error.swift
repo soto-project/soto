@@ -20,10 +20,14 @@ import SotoCore
 public struct SNSErrorType: AWSErrorType {
     enum Code: String {
         case authorizationErrorException = "AuthorizationError"
+        case batchEntryIdsNotDistinctException = "BatchEntryIdsNotDistinct"
+        case batchRequestTooLongException = "BatchRequestTooLong"
         case concurrentAccessException = "ConcurrentAccess"
+        case emptyBatchRequestException = "EmptyBatchRequest"
         case endpointDisabledException = "EndpointDisabled"
         case filterPolicyLimitExceededException = "FilterPolicyLimitExceeded"
         case internalErrorException = "InternalError"
+        case invalidBatchEntryIdException = "InvalidBatchEntryId"
         case invalidParameterException = "InvalidParameter"
         case invalidParameterValueException = "ParameterValueInvalid"
         case invalidSecurityException = "InvalidSecurity"
@@ -42,6 +46,7 @@ public struct SNSErrorType: AWSErrorType {
         case tagLimitExceededException = "TagLimitExceeded"
         case tagPolicyException = "TagPolicy"
         case throttledException = "Throttled"
+        case tooManyEntriesInBatchRequestException = "TooManyEntriesInBatchRequest"
         case topicLimitExceededException = "TopicLimitExceeded"
         case userErrorException = "UserError"
         case validationException = "ValidationException"
@@ -68,14 +73,22 @@ public struct SNSErrorType: AWSErrorType {
 
     /// Indicates that the user has been denied access to the requested resource.
     public static var authorizationErrorException: Self { .init(.authorizationErrorException) }
+    /// Two or more batch entries in the request have the same Id.
+    public static var batchEntryIdsNotDistinctException: Self { .init(.batchEntryIdsNotDistinctException) }
+    /// The length of all the batch messages put together is more than the limit.
+    public static var batchRequestTooLongException: Self { .init(.batchRequestTooLongException) }
     /// Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
     public static var concurrentAccessException: Self { .init(.concurrentAccessException) }
+    /// The batch request doesn't contain any entries.
+    public static var emptyBatchRequestException: Self { .init(.emptyBatchRequestException) }
     /// Exception error indicating endpoint disabled.
     public static var endpointDisabledException: Self { .init(.endpointDisabledException) }
-    /// Indicates that the number of filter polices in your account exceeds the limit. To add more filter polices, submit an SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
     public static var filterPolicyLimitExceededException: Self { .init(.filterPolicyLimitExceededException) }
     /// Indicates an internal service error.
     public static var internalErrorException: Self { .init(.internalErrorException) }
+    /// The Id of a batch entry in a batch request doesn't abide by the specification.
+    public static var invalidBatchEntryIdException: Self { .init(.invalidBatchEntryIdException) }
     /// Indicates that a request parameter does not comply with the associated constraints.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// Indicates that a request parameter does not comply with the associated constraints.
@@ -96,7 +109,7 @@ public struct SNSErrorType: AWSErrorType {
     public static var kMSThrottlingException: Self { .init(.kMSThrottlingException) }
     /// Indicates that the requested resource does not exist.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// Indicates that the specified phone number opted out of receiving SMS messages from your account. You can't send SMS messages to phone numbers that opt out.
+    /// Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.
     public static var optedOutException: Self { .init(.optedOutException) }
     /// Exception error indicating platform application disabled.
     public static var platformApplicationDisabledException: Self { .init(.platformApplicationDisabledException) }
@@ -110,8 +123,10 @@ public struct SNSErrorType: AWSErrorType {
     public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
     /// The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
-    /// Indicates that the rate at which requests have been submitted for this action exceeds the limit for your account.
+    /// Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public static var throttledException: Self { .init(.throttledException) }
+    /// The batch request contains more entries than permissible.
+    public static var tooManyEntriesInBatchRequestException: Self { .init(.tooManyEntriesInBatchRequestException) }
     /// Indicates that the customer already owns the maximum allowed number of topics.
     public static var topicLimitExceededException: Self { .init(.topicLimitExceededException) }
     /// Indicates that a request parameter does not comply with the associated constraints.

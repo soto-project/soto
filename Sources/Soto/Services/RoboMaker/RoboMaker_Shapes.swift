@@ -27,6 +27,19 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case cpu = "CPU"
+        case gpuAndCpu = "GPU_AND_CPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case archive = "Archive"
+        case file = "File"
+        case prefix = "Prefix"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
         case badlambdaassociated = "BadLambdaAssociated"
         case badpermissionerror = "BadPermissionError"
@@ -94,6 +107,7 @@ extension RoboMaker {
     }
 
     public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable {
+        case general = "General"
         case ros = "ROS"
         case ros2 = "ROS2"
         public var description: String { return self.rawValue }
@@ -188,6 +202,7 @@ extension RoboMaker {
     public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable {
         case gazebo = "Gazebo"
         case rosbagplay = "RosbagPlay"
+        case simulationruntime = "SimulationRuntime"
         public var description: String { return self.rawValue }
     }
 
@@ -449,32 +464,50 @@ extension RoboMaker {
     }
 
     public struct Compute: AWSEncodableShape & AWSDecodableShape {
-        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15.
+        /// Compute type information for the simulation job.
+        public let computeType: ComputeType?
+        /// Compute GPU unit limit for the simulation job. It is the same as the number of GPUs allocated to the SimulationJob.
+        public let gpuUnitLimit: Int?
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximum value provided. The default is 15.
         public let simulationUnitLimit: Int?
 
-        public init(simulationUnitLimit: Int? = nil) {
+        public init(computeType: ComputeType? = nil, gpuUnitLimit: Int? = nil, simulationUnitLimit: Int? = nil) {
+            self.computeType = computeType
+            self.gpuUnitLimit = gpuUnitLimit
             self.simulationUnitLimit = simulationUnitLimit
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gpuUnitLimit, name: "gpuUnitLimit", parent: name, max: 1)
+            try self.validate(self.gpuUnitLimit, name: "gpuUnitLimit", parent: name, min: 0)
             try self.validate(self.simulationUnitLimit, name: "simulationUnitLimit", parent: name, max: 15)
             try self.validate(self.simulationUnitLimit, name: "simulationUnitLimit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeType
+            case gpuUnitLimit
             case simulationUnitLimit
         }
     }
 
     public struct ComputeResponse: AWSDecodableShape {
-        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15.
+        /// Compute type response information for the simulation job.
+        public let computeType: ComputeType?
+        /// Compute GPU unit limit for the simulation job. It is the same as the number of GPUs allocated to the SimulationJob.
+        public let gpuUnitLimit: Int?
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximum value provided. The default is 15.
         public let simulationUnitLimit: Int?
 
-        public init(simulationUnitLimit: Int? = nil) {
+        public init(computeType: ComputeType? = nil, gpuUnitLimit: Int? = nil, simulationUnitLimit: Int? = nil) {
+            self.computeType = computeType
+            self.gpuUnitLimit = gpuUnitLimit
             self.simulationUnitLimit = simulationUnitLimit
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeType
+            case gpuUnitLimit
             case simulationUnitLimit
         }
     }
@@ -1518,41 +1551,58 @@ extension RoboMaker {
     }
 
     public struct DataSource: AWSDecodableShape {
+        /// The location where your files are mounted in the container image. If you've specified the type of the data source as an Archive, you must provide an Amazon S3 object key to your archive. The object key must point to either a .zip or .tar.gz file. If you've specified the type of the data source as a Prefix, you provide the Amazon S3 prefix that points to the files that you are using for your data source. If you've specified the type of the data source as a File, you provide the Amazon S3 path to the file that you're using as your data source.
+        public let destination: String?
         /// The name of the data source.
         public let name: String?
         /// The S3 bucket where the data files are located.
         public let s3Bucket: String?
         /// The list of S3 keys identifying the data source files.
         public let s3Keys: [S3KeyOutput]?
+        /// The data type for the data source that you're using for your container image or simulation job. You can use this field to specify whether your data source is an Archive, an Amazon S3 prefix, or a file. If you don't specify a field, the default value is File.
+        public let type: DataSourceType?
 
-        public init(name: String? = nil, s3Bucket: String? = nil, s3Keys: [S3KeyOutput]? = nil) {
+        public init(destination: String? = nil, name: String? = nil, s3Bucket: String? = nil, s3Keys: [S3KeyOutput]? = nil, type: DataSourceType? = nil) {
+            self.destination = destination
             self.name = name
             self.s3Bucket = s3Bucket
             self.s3Keys = s3Keys
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case destination
             case name
             case s3Bucket
             case s3Keys
+            case type
         }
     }
 
     public struct DataSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The location where your files are mounted in the container image. If you've specified the type of the data source as an Archive, you must provide an Amazon S3 object key to your archive. The object key must point to either a .zip or .tar.gz file. If you've specified the type of the data source as a Prefix, you provide the Amazon S3 prefix that points to the files that you are using for your data source. If you've specified the type of the data source as a File, you provide the Amazon S3 path to the file that you're using as your data source.
+        public let destination: String?
         /// The name of the data source.
         public let name: String
         /// The S3 bucket where the data files are located.
         public let s3Bucket: String
         /// The list of S3 keys identifying the data source files.
         public let s3Keys: [String]
+        /// The data type for the data source that you're using for your container image or simulation job. You can use this field to specify whether your data source is an Archive, an Amazon S3 prefix, or a file. If you don't specify a field, the default value is File.
+        public let type: DataSourceType?
 
-        public init(name: String, s3Bucket: String, s3Keys: [String]) {
+        public init(destination: String? = nil, name: String, s3Bucket: String, s3Keys: [String], type: DataSourceType? = nil) {
+            self.destination = destination
             self.name = name
             self.s3Bucket = s3Bucket
             self.s3Keys = s3Keys
+            self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, max: 1024)
+            try self.validate(self.destination, name: "destination", parent: name, min: 1)
+            try self.validate(self.destination, name: "destination", parent: name, pattern: ".*")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
@@ -1561,7 +1611,7 @@ extension RoboMaker {
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
             try self.s3Keys.forEach {
                 try validate($0, name: "s3Keys[]", parent: name, max: 1024)
-                try validate($0, name: "s3Keys[]", parent: name, min: 1)
+                try validate($0, name: "s3Keys[]", parent: name, min: 0)
                 try validate($0, name: "s3Keys[]", parent: name, pattern: ".*")
             }
             try self.validate(self.s3Keys, name: "s3Keys", parent: name, max: 100)
@@ -1569,9 +1619,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case destination
             case name
             case s3Bucket
             case s3Keys
+            case type
         }
     }
 
@@ -2878,18 +2930,21 @@ extension RoboMaker {
     }
 
     public struct LaunchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// If you've specified General as the value for your RobotSoftwareSuite, you can use this field to specify a list of commands for your container image. If you've specified SimulationRuntime as the value for your SimulationSoftwareSuite, you can use this field to specify a list of commands for your container image.
+        public let command: [String]?
         /// The environment variables for the application launch.
         public let environmentVariables: [String: String]?
         /// The launch file name.
-        public let launchFile: String
+        public let launchFile: String?
         /// The package name.
-        public let packageName: String
+        public let packageName: String?
         /// The port forwarding configuration.
         public let portForwardingConfig: PortForwardingConfig?
         /// Boolean indicating whether a streaming session will be configured for the application. If True, AWS RoboMaker will configure a connection so you can interact with your application as it is running in the simulation. You must configure and launch the component. It must have a graphical user interface.
         public let streamUI: Bool?
 
-        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, portForwardingConfig: PortForwardingConfig? = nil, streamUI: Bool? = nil) {
+        public init(command: [String]? = nil, environmentVariables: [String: String]? = nil, launchFile: String? = nil, packageName: String? = nil, portForwardingConfig: PortForwardingConfig? = nil, streamUI: Bool? = nil) {
+            self.command = command
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
             self.packageName = packageName
@@ -2898,6 +2953,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.command?.forEach {
+                try validate($0, name: "command[]", parent: name, max: 255)
+                try validate($0, name: "command[]", parent: name, min: 1)
+                try validate($0, name: "command[]", parent: name, pattern: ".+")
+            }
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 1024)
                 try validate($0.key, name: "environmentVariables.key", parent: name, min: 1)
@@ -2916,6 +2976,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case command
             case environmentVariables
             case launchFile
             case packageName
@@ -4275,6 +4336,8 @@ extension RoboMaker {
     public struct SimulationJobSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
+        /// The compute type for the simulation job summary.
+        public let computeType: ComputeType?
         /// The names of the data sources.
         public let dataSourceNames: [String]?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
@@ -4288,8 +4351,9 @@ extension RoboMaker {
         /// The status of the simulation job.
         public let status: SimulationJobStatus?
 
-        public init(arn: String? = nil, dataSourceNames: [String]? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
+        public init(arn: String? = nil, computeType: ComputeType? = nil, dataSourceNames: [String]? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
             self.arn = arn
+            self.computeType = computeType
             self.dataSourceNames = dataSourceNames
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4300,6 +4364,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case computeType
             case dataSourceNames
             case lastUpdatedAt
             case name

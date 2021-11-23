@@ -1057,6 +1057,8 @@ extension MediaPackage {
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?
         public let encryption: HlsEncryption?
+        /// When enabled, MediaPackage passes through digital video broadcasting (DVB) subtitles into the output.
+        public let includeDvbSubtitles: Bool?
         /// When enabled, an I-Frame only stream will be included in the output.
         public let includeIframeOnlyStream: Bool?
         /// The HTTP Live Streaming (HLS) playlist type.
@@ -1082,11 +1084,12 @@ extension MediaPackage {
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
-        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: HlsEncryption? = nil, includeIframeOnlyStream: Bool? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, segmentDurationSeconds: Int? = nil, streamSelection: StreamSelection? = nil, useAudioRenditionGroup: Bool? = nil) {
+        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: HlsEncryption? = nil, includeDvbSubtitles: Bool? = nil, includeIframeOnlyStream: Bool? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, segmentDurationSeconds: Int? = nil, streamSelection: StreamSelection? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
             self.encryption = encryption
+            self.includeDvbSubtitles = includeDvbSubtitles
             self.includeIframeOnlyStream = includeIframeOnlyStream
             self.playlistType = playlistType
             self.playlistWindowSeconds = playlistWindowSeconds
@@ -1101,6 +1104,7 @@ extension MediaPackage {
             case adsOnDeliveryRestrictions
             case adTriggers
             case encryption
+            case includeDvbSubtitles
             case includeIframeOnlyStream
             case playlistType
             case playlistWindowSeconds
