@@ -88,6 +88,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TargetGroupIpAddressTypeEnum: String, CustomStringConvertible, Codable {
+        case ipv4
+        case ipv6
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable {
         case elbInitialhealthchecking = "Elb.InitialHealthChecking"
         case elbInternalerror = "Elb.InternalError"
@@ -613,6 +619,8 @@ extension ElasticLoadBalancingV2 {
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For target groups with a protocol of HTTP or HTTPS, the default is 5. For target groups with a protocol of TCP, TLS, or GENEVE, the default is 3. If the target type is lambda, the default is 5.
         public let healthyThresholdCount: Int?
+        /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        public let ipAddressType: TargetGroupIpAddressTypeEnum?
         /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
         /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
@@ -633,7 +641,7 @@ extension ElasticLoadBalancingV2 {
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
         public let vpcId: String?
 
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, name: String, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, tags: [Tag]? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, matcher: Matcher? = nil, name: String, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, tags: [Tag]? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -641,6 +649,7 @@ extension ElasticLoadBalancingV2 {
             self.healthCheckProtocol = healthCheckProtocol
             self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
             self.healthyThresholdCount = healthyThresholdCount
+            self.ipAddressType = ipAddressType
             self.matcher = matcher
             self.name = name
             self.port = port
@@ -679,6 +688,7 @@ extension ElasticLoadBalancingV2 {
             case healthCheckProtocol = "HealthCheckProtocol"
             case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
             case healthyThresholdCount = "HealthyThresholdCount"
+            case ipAddressType = "IpAddressType"
             case matcher = "Matcher"
             case name = "Name"
             case port = "Port"
@@ -1061,6 +1071,8 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct DescribeSSLPoliciesInput: AWSEncodableShape {
+        ///  The type of load balancer. The default lists the SSL policies for all load balancers.
+        public let loadBalancerType: LoadBalancerTypeEnum?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the policies.
@@ -1069,7 +1081,8 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
-        public init(marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil) {
+        public init(loadBalancerType: LoadBalancerTypeEnum? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil) {
+            self.loadBalancerType = loadBalancerType
             self.marker = marker
             self.names = names
             self.pageSize = pageSize
@@ -1081,6 +1094,7 @@ extension ElasticLoadBalancingV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case loadBalancerType = "LoadBalancerType"
             case marker = "Marker"
             case names = "Names"
             case pageSize = "PageSize"
@@ -1539,7 +1553,7 @@ extension ElasticLoadBalancingV2 {
     public struct Matcher: AWSEncodableShape & AWSDecodableShape {
         /// You can specify values between 0 and 99. You can specify multiple values (for example, "0,1") or a range of values (for example, "0-5"). The default value is 12.
         public let grpcCode: String?
-        /// For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers and Gateway Load Balancers, this must be "200–399".
+        /// For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers and Gateway Load Balancers, this must be "200–399". Note that when using shorthand syntax, some values such as commas need to be escaped.
         public let httpCode: String?
 
         public init(grpcCode: String? = nil, httpCode: String? = nil) {
@@ -2245,17 +2259,22 @@ extension ElasticLoadBalancingV2 {
         /// The protocols.
         @OptionalCustomCoding<StandardArrayCoder>
         public var sslProtocols: [String]?
+        ///  The supported load balancers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var supportedLoadBalancerTypes: [String]?
 
-        public init(ciphers: [Cipher]? = nil, name: String? = nil, sslProtocols: [String]? = nil) {
+        public init(ciphers: [Cipher]? = nil, name: String? = nil, sslProtocols: [String]? = nil, supportedLoadBalancerTypes: [String]? = nil) {
             self.ciphers = ciphers
             self.name = name
             self.sslProtocols = sslProtocols
+            self.supportedLoadBalancerTypes = supportedLoadBalancerTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case ciphers = "Ciphers"
             case name = "Name"
             case sslProtocols = "SslProtocols"
+            case supportedLoadBalancerTypes = "SupportedLoadBalancerTypes"
         }
     }
 
@@ -2368,6 +2387,8 @@ extension ElasticLoadBalancingV2 {
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public let healthyThresholdCount: Int?
+        /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        public let ipAddressType: TargetGroupIpAddressTypeEnum?
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancerArns: [String]?
@@ -2390,7 +2411,7 @@ extension ElasticLoadBalancingV2 {
         /// The ID of the VPC for the targets.
         public let vpcId: String?
 
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -2398,6 +2419,7 @@ extension ElasticLoadBalancingV2 {
             self.healthCheckProtocol = healthCheckProtocol
             self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
             self.healthyThresholdCount = healthyThresholdCount
+            self.ipAddressType = ipAddressType
             self.loadBalancerArns = loadBalancerArns
             self.matcher = matcher
             self.port = port
@@ -2418,6 +2440,7 @@ extension ElasticLoadBalancingV2 {
             case healthCheckProtocol = "HealthCheckProtocol"
             case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
             case healthyThresholdCount = "HealthyThresholdCount"
+            case ipAddressType = "IpAddressType"
             case loadBalancerArns = "LoadBalancerArns"
             case matcher = "Matcher"
             case port = "Port"

@@ -1902,7 +1902,7 @@
         "com.amazonaws.mediaconvert#BurnInSubtitleStylePassthrough": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Ignore this setting unless your output captions are burned in. Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.",
                 "smithy.api#enum": [
                     {
                         "value": "ENABLED",
@@ -1921,159 +1921,159 @@
                 "Alignment": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleAlignment",
                     "traits": {
-                        "smithy.api#documentation": "If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates.",
                         "smithy.api#jsonName": "alignment"
                     }
                 },
                 "ApplyFontColor": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleApplyFontColor",
                     "traits": {
-                        "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are burned in. Specify how the service applies the color specified in the setting Font color (BurninSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                        "smithy.api#documentation": "Ignore this setting unless Style passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.",
                         "smithy.api#jsonName": "applyFontColor"
                     }
                 },
                 "BackgroundColor": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleBackgroundColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the color of the rectangle behind the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.",
                         "smithy.api#jsonName": "backgroundColor"
                     }
                 },
                 "BackgroundOpacity": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max255",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions.",
                         "smithy.api#jsonName": "backgroundOpacity"
                     }
                 },
                 "FallbackFont": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleFallbackFont",
                     "traits": {
-                        "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                        "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
                         "smithy.api#jsonName": "fallbackFont"
                     }
                 },
                 "FontColor": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleFontColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the color of the burned-in captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the color of the burned-in captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present.",
                         "smithy.api#jsonName": "fontColor"
                     }
                 },
                 "FontOpacity": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max255",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.",
                         "smithy.api#jsonName": "fontOpacity"
                     }
                 },
                 "FontResolution": {
                     "target": "com.amazonaws.mediaconvert#__integerMin96Max600",
                     "traits": {
-                        "smithy.api#documentation": "Font resolution in DPI (dots per inch); default is 96 dpi.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the Font resolution (FontResolution) in DPI (dots per inch).",
                         "smithy.api#jsonName": "fontResolution"
                     }
                 },
                 "FontScript": {
                     "target": "com.amazonaws.mediaconvert#FontScript",
                     "traits": {
-                        "smithy.api#documentation": "Provide the font script, using an ISO 15924 script code, if the LanguageCode is not sufficient for determining the script type. Where LanguageCode or CustomLanguageCode is sufficient, use \"AUTOMATIC\" or leave unset. This is used to help determine the appropriate font for rendering burn-in captions.",
+                        "smithy.api#documentation": "Set Font script (FontScript) to Automatically determined (AUTOMATIC), or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese.",
                         "smithy.api#jsonName": "fontScript"
                     }
                 },
                 "FontSize": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max96",
                     "traits": {
-                        "smithy.api#documentation": "A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the Font size (FontSize) in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size.",
                         "smithy.api#jsonName": "fontSize"
                     }
                 },
                 "HexFontColor": {
                     "target": "com.amazonaws.mediaconvert#__stringMin6Max8Pattern09aFAF609aFAF2",
                     "traits": {
-                        "smithy.api#documentation": "Ignore this setting unless your BurninSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.",
+                        "smithy.api#documentation": "Ignore this setting unless your Font color is set to Hex. Enter either six or eight hexidecimal digits, representing red, green, and blue, with two optional extra digits for alpha. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.",
                         "smithy.api#jsonName": "hexFontColor"
                     }
                 },
                 "OutlineColor": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleOutlineColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present.",
                         "smithy.api#jsonName": "outlineColor"
                     }
                 },
                 "OutlineSize": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max10",
                     "traits": {
-                        "smithy.api#documentation": "Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave Outline size blank and set Style passthrough (StylePassthrough) to enabled to use the outline size data from your input captions, if present.",
                         "smithy.api#jsonName": "outlineSize"
                     }
                 },
                 "ShadowColor": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleShadowColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the color of the shadow cast by the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present.",
                         "smithy.api#jsonName": "shadowColor"
                     }
                 },
                 "ShadowOpacity": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max255",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions.",
                         "smithy.api#jsonName": "shadowOpacity"
                     }
                 },
                 "ShadowXOffset": {
                     "target": "com.amazonaws.mediaconvert#__integerMinNegative2147483648Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the horizontal offset of the shadow, relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.",
                         "smithy.api#jsonName": "shadowXOffset"
                     }
                 },
                 "ShadowYOffset": {
                     "target": "com.amazonaws.mediaconvert#__integerMinNegative2147483648Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow y-offset data from your input captions, if present.",
                         "smithy.api#jsonName": "shadowYOffset"
                     }
                 },
                 "StylePassthrough": {
                     "target": "com.amazonaws.mediaconvert#BurnInSubtitleStylePassthrough",
                     "traits": {
-                        "smithy.api#documentation": "Ignore this setting unless your output captions are burned in. Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                        "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.",
                         "smithy.api#jsonName": "stylePassthrough"
                     }
                 },
                 "TeletextSpacing": {
                     "target": "com.amazonaws.mediaconvert#BurninSubtitleTeletextSpacing",
                     "traits": {
-                        "smithy.api#documentation": "Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.",
+                        "smithy.api#documentation": "Specify whether the text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions.",
                         "smithy.api#jsonName": "teletextSpacing"
                     }
                 },
                 "XPosition": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the horizontal position (XPosition) of the captions, relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter.",
                         "smithy.api#jsonName": "xPosition"
                     }
                 },
                 "YPosition": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the vertical position (YPosition) of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output.",
                         "smithy.api#jsonName": "yPosition"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "Settings related to burn-in captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN."
+                "smithy.api#documentation": "Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN."
             }
         },
         "com.amazonaws.mediaconvert#BurninSubtitleAlignment": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates.",
                 "smithy.api#enum": [
                     {
                         "value": "CENTERED",
@@ -2093,7 +2093,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleApplyFontColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are burned in. Specify how the service applies the color specified in the setting Font color (BurninSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                "smithy.api#documentation": "Ignore this setting unless Style passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.",
                 "smithy.api#enum": [
                     {
                         "value": "WHITE_TEXT_ONLY",
@@ -2109,7 +2109,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleBackgroundColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies the color of the rectangle behind the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.",
                 "smithy.api#enum": [
                     {
                         "value": "NONE",
@@ -2133,7 +2133,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleFallbackFont": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
                 "smithy.api#enum": [
                     {
                         "value": "BEST_MATCH",
@@ -2161,7 +2161,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleFontColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies the color of the burned-in captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the color of the burned-in captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present.",
                 "smithy.api#enum": [
                     {
                         "value": "WHITE",
@@ -2201,7 +2201,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleOutlineColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present.",
                 "smithy.api#enum": [
                     {
                         "value": "BLACK",
@@ -2237,7 +2237,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleShadowColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies the color of the shadow cast by the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present.",
                 "smithy.api#enum": [
                     {
                         "value": "NONE",
@@ -2261,7 +2261,7 @@
         "com.amazonaws.mediaconvert#BurninSubtitleTeletextSpacing": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.",
+                "smithy.api#documentation": "Specify whether the text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions.",
                 "smithy.api#enum": [
                     {
                         "value": "FIXED_GRID",
@@ -2417,7 +2417,7 @@
                 "BurninDestinationSettings": {
                     "target": "com.amazonaws.mediaconvert#BurninDestinationSettings",
                     "traits": {
-                        "smithy.api#documentation": "Settings related to burn-in captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN.",
+                        "smithy.api#documentation": "Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN.",
                         "smithy.api#jsonName": "burninDestinationSettings"
                     }
                 },
@@ -2459,7 +2459,7 @@
                 "SrtDestinationSettings": {
                     "target": "com.amazonaws.mediaconvert#SrtDestinationSettings",
                     "traits": {
-                        "smithy.api#documentation": "SRT Destination Settings",
+                        "smithy.api#documentation": "Settings related to SRT captions. SRT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to SRT.",
                         "smithy.api#jsonName": "srtDestinationSettings"
                     }
                 },
@@ -2480,7 +2480,7 @@
                 "WebvttDestinationSettings": {
                     "target": "com.amazonaws.mediaconvert#WebvttDestinationSettings",
                     "traits": {
-                        "smithy.api#documentation": "WEBVTT Destination Settings",
+                        "smithy.api#documentation": "Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to WebVTT.",
                         "smithy.api#jsonName": "webvttDestinationSettings"
                     }
                 }
@@ -2593,7 +2593,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps."
+                "smithy.api#documentation": "Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction. When you work directly in your JSON job specification, use the settings framerateNumerator and framerateDenominator. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps."
             }
         },
         "com.amazonaws.mediaconvert#CaptionSourceSettings": {
@@ -3453,7 +3453,7 @@
                 "AudioRenditionSets": {
                     "target": "com.amazonaws.mediaconvert#__string",
                     "traits": {
-                        "smithy.api#documentation": "List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs \"audio_aac_1\" and \"audio_dolby\". Then you would specify this value: \"audio_aac_1, audio_dolby\". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID (AudioGroupId) for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is \"amazing_video_1.m3u8\". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO=\"audio_aac_1\"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO=\"audio_dolby\"... amazing_video_1.m3u8",
+                        "smithy.api#documentation": "List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs \"audio_aac_1\" and \"audio_dolby\". Then you would specify this value: \"audio_aac_1,audio_dolby\". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID (AudioGroupId) for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is \"amazing_video_1.m3u8\". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO=\"audio_aac_1\"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO=\"audio_dolby\"... amazing_video_1.m3u8",
                         "smithy.api#jsonName": "audioRenditionSets"
                     }
                 },
@@ -4830,6 +4830,51 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.mediaconvert#DeletePolicy": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mediaconvert#DeletePolicyRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mediaconvert#DeletePolicyResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mediaconvert#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#ForbiddenException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#InternalServerErrorException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#TooManyRequestsException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Permanently delete a policy that you created.",
+                "smithy.api#http": {
+                    "method": "DELETE",
+                    "uri": "/2017-08-29/policy",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#DeletePolicyRequest": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.mediaconvert#DeletePolicyResponse": {
+            "type": "structure",
+            "members": {}
+        },
         "com.amazonaws.mediaconvert#DeletePreset": {
             "type": "operation",
             "input": {
@@ -5284,28 +5329,28 @@
                 "Alignment": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleAlignment",
                     "traits": {
-                        "smithy.api#documentation": "If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "alignment"
                     }
                 },
                 "ApplyFontColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleApplyFontColor",
                     "traits": {
-                        "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are DVB-SUB. Specify how the service applies the color specified in the setting Font color (DvbSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                        "smithy.api#documentation": "Ignore this setting unless Style Passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.",
                         "smithy.api#jsonName": "applyFontColor"
                     }
                 },
                 "BackgroundColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleBackgroundColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the color of the rectangle behind the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.",
                         "smithy.api#jsonName": "backgroundColor"
                     }
                 },
                 "BackgroundOpacity": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max255",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "backgroundOpacity"
                     }
                 },
@@ -5333,42 +5378,42 @@
                 "FallbackFont": {
                     "target": "com.amazonaws.mediaconvert#DvbSubSubtitleFallbackFont",
                     "traits": {
-                        "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                        "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
                         "smithy.api#jsonName": "fallbackFont"
                     }
                 },
                 "FontColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleFontColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the color of the DVB-SUB captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the color of the captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "fontColor"
                     }
                 },
                 "FontOpacity": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max255",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.\nWithin your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "fontOpacity"
                     }
                 },
                 "FontResolution": {
                     "target": "com.amazonaws.mediaconvert#__integerMin96Max600",
                     "traits": {
-                        "smithy.api#documentation": "Font resolution in DPI (dots per inch); default is 96 dpi.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the Font resolution (FontResolution) in DPI (dots per inch).\nWithin your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "fontResolution"
                     }
                 },
                 "FontScript": {
                     "target": "com.amazonaws.mediaconvert#FontScript",
                     "traits": {
-                        "smithy.api#documentation": "Provide the font script, using an ISO 15924 script code, if the LanguageCode is not sufficient for determining the script type. Where LanguageCode or CustomLanguageCode is sufficient, use \"AUTOMATIC\" or leave unset. This is used to help determine the appropriate font for rendering DVB-Sub captions.",
+                        "smithy.api#documentation": "Set Font script (FontScript) to Automatically determined (AUTOMATIC), or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "fontScript"
                     }
                 },
                 "FontSize": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max96",
                     "traits": {
-                        "smithy.api#documentation": "A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the Font size (FontSize) in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "fontSize"
                     }
                 },
@@ -5382,56 +5427,56 @@
                 "HexFontColor": {
                     "target": "com.amazonaws.mediaconvert#__stringMin6Max8Pattern09aFAF609aFAF2",
                     "traits": {
-                        "smithy.api#documentation": "Ignore this setting unless your DvbSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.",
+                        "smithy.api#documentation": "Ignore this setting unless your Font color is set to Hex. Enter either six or eight hexidecimal digits, representing red, green, and blue, with two optional extra digits for alpha. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.",
                         "smithy.api#jsonName": "hexFontColor"
                     }
                 },
                 "OutlineColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleOutlineColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "outlineColor"
                     }
                 },
                 "OutlineSize": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max10",
                     "traits": {
-                        "smithy.api#documentation": "Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave Outline size blank and set Style passthrough (StylePassthrough) to enabled to use the outline size data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "outlineSize"
                     }
                 },
                 "ShadowColor": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleShadowColor",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the color of the shadow cast by the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "shadowColor"
                     }
                 },
                 "ShadowOpacity": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max255",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "shadowOpacity"
                     }
                 },
                 "ShadowXOffset": {
                     "target": "com.amazonaws.mediaconvert#__integerMinNegative2147483648Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the horizontal offset of the shadow, relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "shadowXOffset"
                     }
                 },
                 "ShadowYOffset": {
                     "target": "com.amazonaws.mediaconvert#__integerMinNegative2147483648Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow y-offset data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "shadowYOffset"
                     }
                 },
                 "StylePassthrough": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleStylePassthrough",
                     "traits": {
-                        "smithy.api#documentation": "Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                        "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.",
                         "smithy.api#jsonName": "stylePassthrough"
                     }
                 },
@@ -5445,7 +5490,7 @@
                 "TeletextSpacing": {
                     "target": "com.amazonaws.mediaconvert#DvbSubtitleTeletextSpacing",
                     "traits": {
-                        "smithy.api#documentation": "Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.",
+                        "smithy.api#documentation": "Specify whether the Text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "teletextSpacing"
                     }
                 },
@@ -5459,14 +5504,14 @@
                 "XPosition": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the horizontal position (XPosition) of the captions, relative to the left side of the outputin pixels. A value of 10 would result in the captions starting 10 pixels from the left ofthe output. If no explicit x_position is provided, the horizontal caption position will bedetermined by the alignment parameter. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "xPosition"
                     }
                 },
                 "YPosition": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                        "smithy.api#documentation": "Specify the vertical position (YPosition) of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. Within your job settings, all of your DVB-Sub settings must be identical.",
                         "smithy.api#jsonName": "yPosition"
                     }
                 }
@@ -5493,7 +5538,7 @@
         "com.amazonaws.mediaconvert#DvbSubSubtitleFallbackFont": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
+                "smithy.api#documentation": "Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.",
                 "smithy.api#enum": [
                     {
                         "value": "BEST_MATCH",
@@ -5521,7 +5566,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleAlignment": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Within your job settings, all of your DVB-Sub settings must be identical.",
                 "smithy.api#enum": [
                     {
                         "value": "CENTERED",
@@ -5541,7 +5586,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleApplyFontColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are DVB-SUB. Specify how the service applies the color specified in the setting Font color (DvbSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.",
+                "smithy.api#documentation": "Ignore this setting unless Style Passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.",
                 "smithy.api#enum": [
                     {
                         "value": "WHITE_TEXT_ONLY",
@@ -5557,7 +5602,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleBackgroundColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies the color of the rectangle behind the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.",
                 "smithy.api#enum": [
                     {
                         "value": "NONE",
@@ -5581,7 +5626,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleFontColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies the color of the DVB-SUB captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the color of the captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                 "smithy.api#enum": [
                     {
                         "value": "WHITE",
@@ -5621,7 +5666,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleOutlineColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                 "smithy.api#enum": [
                     {
                         "value": "BLACK",
@@ -5657,7 +5702,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleShadowColor": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Specifies the color of the shadow cast by the captions.\nAll burn-in and DVB-Sub font settings must match.",
+                "smithy.api#documentation": "Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.",
                 "smithy.api#enum": [
                     {
                         "value": "NONE",
@@ -5681,7 +5726,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleStylePassthrough": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.",
+                "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.",
                 "smithy.api#enum": [
                     {
                         "value": "ENABLED",
@@ -5697,7 +5742,7 @@
         "com.amazonaws.mediaconvert#DvbSubtitleTeletextSpacing": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.",
+                "smithy.api#documentation": "Specify whether the Text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions. Within your job settings, all of your DVB-Sub settings must be identical.",
                 "smithy.api#enum": [
                     {
                         "value": "FIXED_GRID",
@@ -6823,7 +6868,7 @@
                 "Framerate": {
                     "target": "com.amazonaws.mediaconvert#CaptionSourceFramerate",
                     "traits": {
-                        "smithy.api#documentation": "Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.",
+                        "smithy.api#documentation": "Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction. When you work directly in your JSON job specification, use the settings framerateNumerator and framerateDenominator. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.",
                         "smithy.api#jsonName": "framerate"
                     }
                 },
@@ -6837,13 +6882,36 @@
                 "TimeDelta": {
                     "target": "com.amazonaws.mediaconvert#__integerMinNegative2147483648Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Specifies a time delta in seconds to offset the captions from the source file.",
+                        "smithy.api#documentation": "Optional. Use this setting when you need to adjust the sync between your sidecar captions and your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/time-delta-use-cases.html. Enter a positive or negative number to modify the times in the captions file. For example, type 15 to add 15 seconds to all the times in the captions file. Type -5 to subtract 5 seconds from the times in the captions file. You can optionally specify your time delta in milliseconds instead of seconds. When you do so, set the related setting, Time delta units (TimeDeltaUnits) to Milliseconds (MILLISECONDS). Note that, when you specify a time delta for timecode-based caption sources, such as SCC and STL, and your time delta isn't a multiple of the input frame rate, MediaConvert snaps the captions to the nearest frame. For example, when your input video frame rate is 25 fps and you specify 1010ms for time delta, MediaConvert delays your captions by 1000 ms.",
                         "smithy.api#jsonName": "timeDelta"
+                    }
+                },
+                "TimeDeltaUnits": {
+                    "target": "com.amazonaws.mediaconvert#FileSourceTimeDeltaUnits",
+                    "traits": {
+                        "smithy.api#documentation": "When you use the setting Time delta (TimeDelta) to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units (TimeDeltaUnits), MediaConvert uses seconds by default.",
+                        "smithy.api#jsonName": "timeDeltaUnits"
                     }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings."
+            }
+        },
+        "com.amazonaws.mediaconvert#FileSourceTimeDeltaUnits": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "When you use the setting Time delta (TimeDelta) to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units (TimeDeltaUnits), MediaConvert uses seconds by default.",
+                "smithy.api#enum": [
+                    {
+                        "value": "SECONDS",
+                        "name": "SECONDS"
+                    },
+                    {
+                        "value": "MILLISECONDS",
+                        "name": "MILLISECONDS"
+                    }
+                ]
             }
         },
         "com.amazonaws.mediaconvert#FontScript": {
@@ -7038,6 +7106,59 @@
                     "traits": {
                         "smithy.api#documentation": "A job template is a pre-made set of encoding instructions that you can use to quickly create a job.",
                         "smithy.api#jsonName": "jobTemplate"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#GetPolicy": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mediaconvert#GetPolicyRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mediaconvert#GetPolicyResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mediaconvert#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#ForbiddenException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#InternalServerErrorException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#TooManyRequestsException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Retrieve the JSON for your policy.",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/2017-08-29/policy",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#GetPolicyRequest": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.mediaconvert#GetPolicyResponse": {
+            "type": "structure",
+            "members": {
+                "Policy": {
+                    "target": "com.amazonaws.mediaconvert#Policy",
+                    "traits": {
+                        "smithy.api#documentation": "A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html",
+                        "smithy.api#jsonName": "policy"
                     }
                 }
             }
@@ -7433,7 +7554,7 @@
         "com.amazonaws.mediaconvert#H264GopSizeUnits": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Indicates if the GOP Size in H264 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.",
+                "smithy.api#documentation": "Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).",
                 "smithy.api#enum": [
                     {
                         "value": "FRAMES",
@@ -7442,6 +7563,10 @@
                     {
                         "value": "SECONDS",
                         "name": "SECONDS"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -7708,21 +7833,21 @@
                 "GopClosedCadence": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.",
+                        "smithy.api#documentation": "Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.",
                         "smithy.api#jsonName": "gopClosedCadence"
                     }
                 },
                 "GopSize": {
                     "target": "com.amazonaws.mediaconvert#__doubleMin0",
                     "traits": {
-                        "smithy.api#documentation": "GOP Length (keyframe interval) in frames or seconds. Must be greater than zero.",
+                        "smithy.api#documentation": "Use this setting only when you set GOP mode control (GopSizeUnits) to Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control (GopSizeUnits). If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto (AUTO). If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.",
                         "smithy.api#jsonName": "gopSize"
                     }
                 },
                 "GopSizeUnits": {
                     "target": "com.amazonaws.mediaconvert#H264GopSizeUnits",
                     "traits": {
-                        "smithy.api#documentation": "Indicates if the GOP Size in H264 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.",
+                        "smithy.api#documentation": "Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).",
                         "smithy.api#jsonName": "gopSizeUnits"
                     }
                 },
@@ -7757,14 +7882,14 @@
                 "MinIInterval": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max30",
                     "traits": {
-                        "smithy.api#documentation": "Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1",
+                        "smithy.api#documentation": "Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.",
                         "smithy.api#jsonName": "minIInterval"
                     }
                 },
                 "NumberBFramesBetweenReferenceFrames": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max7",
                     "traits": {
-                        "smithy.api#documentation": "Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.",
+                        "smithy.api#documentation": "This setting to determines the number of B-frames that MediaConvert puts between reference frames in this output. We recommend that you use automatic behavior to allow the transcoder to choose the best value based on characteristics of your input video. In the console, choose AUTO to select this automatic behavior. When you manually edit your JSON job specification, leave this setting out to choose automatic behavior. When you want to specify this number explicitly, choose a whole number from 0 through 7.",
                         "smithy.api#jsonName": "numberBFramesBetweenReferenceFrames"
                     }
                 },
@@ -8238,7 +8363,7 @@
         "com.amazonaws.mediaconvert#H265GopSizeUnits": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Indicates if the GOP Size in H265 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.",
+                "smithy.api#documentation": "Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).",
                 "smithy.api#enum": [
                     {
                         "value": "FRAMES",
@@ -8247,6 +8372,10 @@
                     {
                         "value": "SECONDS",
                         "name": "SECONDS"
+                    },
+                    {
+                        "value": "AUTO",
+                        "name": "AUTO"
                     }
                 ]
             }
@@ -8510,21 +8639,21 @@
                 "GopClosedCadence": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.",
+                        "smithy.api#documentation": "Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.",
                         "smithy.api#jsonName": "gopClosedCadence"
                     }
                 },
                 "GopSize": {
                     "target": "com.amazonaws.mediaconvert#__doubleMin0",
                     "traits": {
-                        "smithy.api#documentation": "GOP Length (keyframe interval) in frames or seconds. Must be greater than zero.",
+                        "smithy.api#documentation": "Use this setting only when you set GOP mode control (GopSizeUnits) to Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control (GopSizeUnits). If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto (AUTO). If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.",
                         "smithy.api#jsonName": "gopSize"
                     }
                 },
                 "GopSizeUnits": {
                     "target": "com.amazonaws.mediaconvert#H265GopSizeUnits",
                     "traits": {
-                        "smithy.api#documentation": "Indicates if the GOP Size in H265 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.",
+                        "smithy.api#documentation": "Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).",
                         "smithy.api#jsonName": "gopSizeUnits"
                     }
                 },
@@ -8559,7 +8688,7 @@
                 "MinIInterval": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max30",
                     "traits": {
-                        "smithy.api#documentation": "Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1",
+                        "smithy.api#documentation": "Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.",
                         "smithy.api#jsonName": "minIInterval"
                     }
                 },
@@ -10201,6 +10330,22 @@
                 ]
             }
         },
+        "com.amazonaws.mediaconvert#InputPolicy": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "An input policy allows or disallows a job you submit to run based on the conditions that you specify.",
+                "smithy.api#enum": [
+                    {
+                        "value": "ALLOWED",
+                        "name": "ALLOWED"
+                    },
+                    {
+                        "value": "DISALLOWED",
+                        "name": "DISALLOWED"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.mediaconvert#InputPsiControl": {
             "type": "string",
             "traits": {
@@ -10248,7 +10393,7 @@
         "com.amazonaws.mediaconvert#InputSampleRange": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Use this setting when your input video codec is AVC-Intra. Ignore this setting for all other inputs. If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.",
+                "smithy.api#documentation": "If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.",
                 "smithy.api#enum": [
                     {
                         "value": "FOLLOW",
@@ -13175,6 +13320,21 @@
         },
         "com.amazonaws.mediaconvert#MediaConvert": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "MediaConvert",
+                    "arnNamespace": "mediaconvert",
+                    "cloudFormationName": "MediaConvert",
+                    "cloudTrailEventSource": "mediaconvert.amazonaws.com",
+                    "endpointPrefix": "mediaconvert"
+                },
+                "aws.auth#sigv4": {
+                    "name": "mediaconvert"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#documentation": "AWS Elemental MediaConvert",
+                "smithy.api#title": "AWS Elemental MediaConvert"
+            },
             "version": "2017-08-29",
             "operations": [
                 {
@@ -13199,6 +13359,9 @@
                     "target": "com.amazonaws.mediaconvert#DeleteJobTemplate"
                 },
                 {
+                    "target": "com.amazonaws.mediaconvert#DeletePolicy"
+                },
+                {
                     "target": "com.amazonaws.mediaconvert#DeletePreset"
                 },
                 {
@@ -13215,6 +13378,9 @@
                 },
                 {
                     "target": "com.amazonaws.mediaconvert#GetJobTemplate"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#GetPolicy"
                 },
                 {
                     "target": "com.amazonaws.mediaconvert#GetPreset"
@@ -13238,6 +13404,9 @@
                     "target": "com.amazonaws.mediaconvert#ListTagsForResource"
                 },
                 {
+                    "target": "com.amazonaws.mediaconvert#PutPolicy"
+                },
+                {
                     "target": "com.amazonaws.mediaconvert#TagResource"
                 },
                 {
@@ -13252,22 +13421,7 @@
                 {
                     "target": "com.amazonaws.mediaconvert#UpdateQueue"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "MediaConvert",
-                    "arnNamespace": "mediaconvert",
-                    "cloudFormationName": "MediaConvert",
-                    "cloudTrailEventSource": "mediaconvert.amazonaws.com",
-                    "endpointPrefix": "mediaconvert"
-                },
-                "aws.auth#sigv4": {
-                    "name": "mediaconvert"
-                },
-                "aws.protocols#restJson1": {},
-                "smithy.api#documentation": "AWS Elemental MediaConvert",
-                "smithy.api#title": "AWS Elemental MediaConvert"
-            }
+            ]
         },
         "com.amazonaws.mediaconvert#MotionImageInserter": {
             "type": "structure",
@@ -14168,7 +14322,7 @@
                 "GopClosedCadence": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max2147483647",
                     "traits": {
-                        "smithy.api#documentation": "Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.",
+                        "smithy.api#documentation": "Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. When you create a streaming output, we recommend that you keep the default value, 1, so that players starting mid-stream receive an IDR frame as quickly as possible. Don't set this value to 0; that would break output segmenting.",
                         "smithy.api#jsonName": "gopClosedCadence"
                     }
                 },
@@ -14224,7 +14378,7 @@
                 "MinIInterval": {
                     "target": "com.amazonaws.mediaconvert#__integerMin0Max30",
                     "traits": {
-                        "smithy.api#documentation": "Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1",
+                        "smithy.api#documentation": "Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. When you specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.",
                         "smithy.api#jsonName": "minIInterval"
                     }
                 },
@@ -15401,6 +15555,35 @@
                 "smithy.api#documentation": "If you work with a third party video watermarking partner, use the group of settings that correspond with your watermarking partner to include watermarks in your output."
             }
         },
+        "com.amazonaws.mediaconvert#Policy": {
+            "type": "structure",
+            "members": {
+                "HttpInputs": {
+                    "target": "com.amazonaws.mediaconvert#InputPolicy",
+                    "traits": {
+                        "smithy.api#documentation": "Allow or disallow jobs that specify HTTP inputs.",
+                        "smithy.api#jsonName": "httpInputs"
+                    }
+                },
+                "HttpsInputs": {
+                    "target": "com.amazonaws.mediaconvert#InputPolicy",
+                    "traits": {
+                        "smithy.api#documentation": "Allow or disallow jobs that specify HTTPS inputs.",
+                        "smithy.api#jsonName": "httpsInputs"
+                    }
+                },
+                "S3Inputs": {
+                    "target": "com.amazonaws.mediaconvert#InputPolicy",
+                    "traits": {
+                        "smithy.api#documentation": "Allow or disallow jobs that specify Amazon S3 inputs.",
+                        "smithy.api#jsonName": "s3Inputs"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html"
+            }
+        },
         "com.amazonaws.mediaconvert#Preset": {
             "type": "structure",
             "members": {
@@ -15812,6 +15995,68 @@
                         "name": "HARD"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.mediaconvert#PutPolicy": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mediaconvert#PutPolicyRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mediaconvert#PutPolicyResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mediaconvert#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#ForbiddenException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#InternalServerErrorException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.mediaconvert#TooManyRequestsException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html",
+                "smithy.api#http": {
+                    "method": "PUT",
+                    "uri": "/2017-08-29/policy",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#PutPolicyRequest": {
+            "type": "structure",
+            "members": {
+                "Policy": {
+                    "target": "com.amazonaws.mediaconvert#Policy",
+                    "traits": {
+                        "smithy.api#documentation": "A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html",
+                        "smithy.api#jsonName": "policy",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.mediaconvert#PutPolicyResponse": {
+            "type": "structure",
+            "members": {
+                "Policy": {
+                    "target": "com.amazonaws.mediaconvert#Policy",
+                    "traits": {
+                        "smithy.api#documentation": "A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html",
+                        "smithy.api#jsonName": "policy"
+                    }
+                }
             }
         },
         "com.amazonaws.mediaconvert#Queue": {
@@ -16464,19 +16709,19 @@
                 "StylePassthrough": {
                     "target": "com.amazonaws.mediaconvert#SrtStylePassthrough",
                     "traits": {
-                        "smithy.api#documentation": "Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and position information from the captions source in the input. Keep the default value, Disabled (DISABLED), for simplified output captions.",
+                        "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.",
                         "smithy.api#jsonName": "stylePassthrough"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "SRT Destination Settings"
+                "smithy.api#documentation": "Settings related to SRT captions. SRT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to SRT."
             }
         },
         "com.amazonaws.mediaconvert#SrtStylePassthrough": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and position information from the captions source in the input. Keep the default value, Disabled (DISABLED), for simplified output captions.",
+                "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.",
                 "smithy.api#enum": [
                     {
                         "value": "ENABLED",
@@ -17936,7 +18181,7 @@
                 "SampleRange": {
                     "target": "com.amazonaws.mediaconvert#InputSampleRange",
                     "traits": {
-                        "smithy.api#documentation": "Use this setting when your input video codec is AVC-Intra. Ignore this setting for all other inputs. If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.",
+                        "smithy.api#documentation": "If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.",
                         "smithy.api#jsonName": "sampleRange"
                     }
                 }
@@ -18434,13 +18679,13 @@
                 "StylePassthrough": {
                     "target": "com.amazonaws.mediaconvert#WebvttStylePassthrough",
                     "traits": {
-                        "smithy.api#documentation": "Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and position information from the captions source in the input. Keep the default value, Disabled (DISABLED), for simplified output captions.",
+                        "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.",
                         "smithy.api#jsonName": "stylePassthrough"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "WEBVTT Destination Settings"
+                "smithy.api#documentation": "Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to WebVTT."
             }
         },
         "com.amazonaws.mediaconvert#WebvttHlsSourceSettings": {
@@ -18475,7 +18720,7 @@
         "com.amazonaws.mediaconvert#WebvttStylePassthrough": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and position information from the captions source in the input. Keep the default value, Disabled (DISABLED), for simplified output captions.",
+                "smithy.api#documentation": "Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.",
                 "smithy.api#enum": [
                     {
                         "value": "ENABLED",

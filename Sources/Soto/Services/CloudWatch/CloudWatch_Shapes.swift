@@ -34,6 +34,12 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyDetectorType: String, CustomStringConvertible, Codable {
+        case metricMath = "METRIC_MATH"
+        case singleMetric = "SINGLE_METRIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
@@ -167,20 +173,26 @@ extension CloudWatch {
         /// The metric dimensions associated with the anomaly detection model.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [Dimension]?
+        /// The CloudWatch metric math expression for this anomaly detector.
+        public let metricMathAnomalyDetector: MetricMathAnomalyDetector?
         /// The name of the metric associated with the anomaly detection model.
         public let metricName: String?
         /// The namespace of the metric associated with the anomaly detection model.
         public let namespace: String?
+        /// The CloudWatch metric and statistic for this anomaly detector.
+        public let singleMetricAnomalyDetector: SingleMetricAnomalyDetector?
         /// The statistic associated with the anomaly detection model.
         public let stat: String?
         /// The current status of the anomaly detector's training. The possible values are TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA
         public let stateValue: AnomalyDetectorStateValue?
 
-        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
+            self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = metricName
             self.namespace = namespace
+            self.singleMetricAnomalyDetector = singleMetricAnomalyDetector
             self.stat = stat
             self.stateValue = stateValue
         }
@@ -188,8 +200,10 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
             case dimensions = "Dimensions"
+            case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
             case metricName = "MetricName"
             case namespace = "Namespace"
+            case singleMetricAnomalyDetector = "SingleMetricAnomalyDetector"
             case stat = "Stat"
             case stateValue = "StateValue"
         }
@@ -400,17 +414,36 @@ extension CloudWatch {
         /// The metric dimensions associated with the anomaly detection model to delete.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [Dimension]?
+        /// The metric math anomaly detector to be deleted.
+        /// 		       When using MetricMathAnomalyDetector, you cannot include following parameters in the same operation:
+        ///
+        /// 		          Dimensions,    MetricName     Namespace     Stat    the SingleMetricAnomalyDetector parameters of DeleteAnomalyDetectorInput
+        ///
+        /// 		       Instead, specify the metric math anomaly detector attributes as part of the
+        /// 			MetricMathAnomalyDetector property.
+        public let metricMathAnomalyDetector: MetricMathAnomalyDetector?
         /// The metric name associated with the anomaly detection model to delete.
-        public let metricName: String
+        public let metricName: String?
         /// The namespace associated with the anomaly detection model to delete.
-        public let namespace: String
+        public let namespace: String?
+        /// A single metric anomaly detector to be deleted.
+        /// 		       When using SingleMetricAnomalyDetector,
+        /// 			you cannot include the following parameters in the same operation:
+        ///
+        /// 		          Dimensions,    MetricName     Namespace     Stat    the MetricMathAnomalyDetector parameters of DeleteAnomalyDetectorInput
+        ///
+        /// 		       Instead, specify the single metric anomaly detector attributes
+        /// 			as part of the SingleMetricAnomalyDetector property.
+        public let singleMetricAnomalyDetector: SingleMetricAnomalyDetector?
         /// The statistic associated with the anomaly detection model to delete.
-        public let stat: String
+        public let stat: String?
 
-        public init(dimensions: [Dimension]? = nil, metricName: String, namespace: String, stat: String) {
+        public init(dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.dimensions = dimensions
+            self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = metricName
             self.namespace = namespace
+            self.singleMetricAnomalyDetector = singleMetricAnomalyDetector
             self.stat = stat
         }
 
@@ -419,18 +452,23 @@ extension CloudWatch {
                 try $0.validate(name: "\(name).dimensions[]")
             }
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricMathAnomalyDetector?.validate(name: "\(name).metricMathAnomalyDetector")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^:]")
-            try self.validate(self.stat, name: "stat", parent: name, pattern: "^(SampleCount|Average|Sum|Minimum|Maximum|p(\\d{1,2}|100)(\\.\\d{0,2})?|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?$")
+            try self.singleMetricAnomalyDetector?.validate(name: "\(name).singleMetricAnomalyDetector")
+            try self.validate(self.stat, name: "stat", parent: name, max: 50)
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^(SampleCount|Average|Sum|Minimum|Maximum|IQM|(p|tc|tm|ts|wm)(\\d{1,2}(\\.\\d{0,10})?|100)|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?|(TM|TC|TS|WM)\\(((((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%)?:((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%|((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%:(((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%)?)\\)|(TM|TC|TS|WM|PR)\\(((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)):((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))?|((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))?:(\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))\\)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
+            case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
             case metricName = "MetricName"
             case namespace = "Namespace"
+            case singleMetricAnomalyDetector = "SingleMetricAnomalyDetector"
             case stat = "Stat"
         }
     }
@@ -775,6 +813,10 @@ extension CloudWatch {
     }
 
     public struct DescribeAnomalyDetectorsInput: AWSEncodableShape {
+        /// The anomaly detector types to request when using DescribeAnomalyDetectorsInput.
+        /// 			If empty, defaults to SINGLE_METRIC.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var anomalyDetectorTypes: [AnomalyDetectorType]?
         /// Limits the results to only the anomaly detection models that are associated with the
         /// 			specified metric dimensions. If there are multiple metrics that have these dimensions
         /// 			and have anomaly detection models associated, they're all returned.
@@ -795,7 +837,8 @@ extension CloudWatch {
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
 
-        public init(dimensions: [Dimension]? = nil, maxResults: Int? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil) {
+        public init(anomalyDetectorTypes: [AnomalyDetectorType]? = nil, dimensions: [Dimension]? = nil, maxResults: Int? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil) {
+            self.anomalyDetectorTypes = anomalyDetectorTypes
             self.dimensions = dimensions
             self.maxResults = maxResults
             self.metricName = metricName
@@ -804,6 +847,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorTypes, name: "anomalyDetectorTypes", parent: name, max: 2)
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
@@ -817,6 +861,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorTypes = "AnomalyDetectorTypes"
             case dimensions = "Dimensions"
             case maxResults = "MaxResults"
             case metricName = "MetricName"
@@ -1568,7 +1613,7 @@ extension CloudWatch {
         public let definition: String
         /// The name of the rule.
         public let name: String
-        /// For rules that you create, this is always {"Name": "CloudWatchLogRule", "Version": 1}. For built-in rules,
+        /// For rules that you create, this is always {"Name": "CloudWatchLogRule", "Version": 1}. For managed rules,
         /// 			this is {"Name": "ServiceLogRule", "Version": 1}
         public let schema: String
         /// Indicates whether the rule is enabled or disabled.
@@ -2278,6 +2323,37 @@ extension CloudWatch {
         }
     }
 
+    public struct MetricMathAnomalyDetector: AWSEncodableShape & AWSDecodableShape {
+        /// An array of metric data query structures
+        /// 			that enables you to create an anomaly detector
+        /// 			based on the result of a metric math expression.
+        /// 			Each item in MetricDataQueries gets a metric or performs a math expression.
+        /// 			One item in MetricDataQueries is the expression
+        /// 			that provides the time series
+        /// 			that the anomaly detector uses as input.
+        /// 			Designate the expression by setting ReturnData to True
+        /// 			for this object in the array.
+        /// 			For all other expressions and metrics, set ReturnData to False.
+        /// 			The designated expression must return
+        /// 			a single time series.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var metricDataQueries: [MetricDataQuery]?
+
+        public init(metricDataQueries: [MetricDataQuery]? = nil) {
+            self.metricDataQueries = metricDataQueries
+        }
+
+        public func validate(name: String) throws {
+            try self.metricDataQueries?.forEach {
+                try $0.validate(name: "\(name).metricDataQueries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataQueries = "MetricDataQueries"
+        }
+    }
+
     public struct MetricStat: AWSEncodableShape & AWSDecodableShape {
         /// The metric to return, including the metric name, namespace, and dimensions.
         public let metric: Metric
@@ -2411,18 +2487,38 @@ extension CloudWatch {
         /// The metric dimensions to create the anomaly detection model for.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [Dimension]?
+        /// The metric math anomaly detector to be created.
+        ///
+        /// 		       When using MetricMathAnomalyDetector, you cannot include the following parameters in the same operation:
+        ///
+        /// 		          Dimensions     MetricName     Namespace     Stat    the SingleMetricAnomalyDetector parameters of PutAnomalyDetectorInput
+        ///
+        /// 		       Instead, specify the metric math anomaly detector attributes
+        /// 			as part of the property MetricMathAnomalyDetector.
+        public let metricMathAnomalyDetector: MetricMathAnomalyDetector?
         /// The name of the metric to create the anomaly detection model for.
-        public let metricName: String
+        public let metricName: String?
         /// The namespace of the metric to create the anomaly detection model for.
-        public let namespace: String
+        public let namespace: String?
+        /// A single metric anomaly detector to be created.
+        /// 		       When using SingleMetricAnomalyDetector,
+        /// 			you cannot include the following parameters in the same operation:
+        ///
+        /// 		          Dimensions     MetricName     Namespace     Stat    the MetricMatchAnomalyDetector parameters of PutAnomalyDetectorInput
+        ///
+        /// 		       Instead, specify the single metric anomaly detector attributes
+        /// 			as part of the property SingleMetricAnomalyDetector.
+        public let singleMetricAnomalyDetector: SingleMetricAnomalyDetector?
         /// The statistic to use for the metric and the anomaly detection model.
-        public let stat: String
+        public let stat: String?
 
-        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String, namespace: String, stat: String) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
+            self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = metricName
             self.namespace = namespace
+            self.singleMetricAnomalyDetector = singleMetricAnomalyDetector
             self.stat = stat
         }
 
@@ -2432,19 +2528,24 @@ extension CloudWatch {
                 try $0.validate(name: "\(name).dimensions[]")
             }
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricMathAnomalyDetector?.validate(name: "\(name).metricMathAnomalyDetector")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^:]")
-            try self.validate(self.stat, name: "stat", parent: name, pattern: "^(SampleCount|Average|Sum|Minimum|Maximum|p(\\d{1,2}|100)(\\.\\d{0,2})?|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?$")
+            try self.singleMetricAnomalyDetector?.validate(name: "\(name).singleMetricAnomalyDetector")
+            try self.validate(self.stat, name: "stat", parent: name, max: 50)
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^(SampleCount|Average|Sum|Minimum|Maximum|IQM|(p|tc|tm|ts|wm)(\\d{1,2}(\\.\\d{0,10})?|100)|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?|(TM|TC|TS|WM)\\(((((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%)?:((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%|((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%:(((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%)?)\\)|(TM|TC|TS|WM|PR)\\(((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)):((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))?|((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))?:(\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))\\)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
             case dimensions = "Dimensions"
+            case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
             case metricName = "MetricName"
             case namespace = "Namespace"
+            case singleMetricAnomalyDetector = "SingleMetricAnomalyDetector"
             case stat = "Stat"
         }
     }
@@ -3107,6 +3208,46 @@ extension CloudWatch {
             case stateReason = "StateReason"
             case stateReasonData = "StateReasonData"
             case stateValue = "StateValue"
+        }
+    }
+
+    public struct SingleMetricAnomalyDetector: AWSEncodableShape & AWSDecodableShape {
+        /// The metric dimensions to create the anomaly detection model for.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dimensions: [Dimension]?
+        /// The name of the metric to create the anomaly detection model for.
+        public let metricName: String?
+        /// The namespace of the metric to create the anomaly detection model for.
+        public let namespace: String?
+        /// The statistic to use for the metric and anomaly detection model.
+        public let stat: String?
+
+        public init(dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.stat = stat
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^:]")
+            try self.validate(self.stat, name: "stat", parent: name, max: 50)
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^(SampleCount|Average|Sum|Minimum|Maximum|IQM|(p|tc|tm|ts|wm)(\\d{1,2}(\\.\\d{0,10})?|100)|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?|(TM|TC|TS|WM)\\(((((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%)?:((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%|((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%:(((\\d{1,2})(\\.\\d{0,10})?|100(\\.0{0,10})?)%)?)\\)|(TM|TC|TS|WM|PR)\\(((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)):((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))?|((\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))?:(\\d+(\\.\\d{0,10})?|(\\d+(\\.\\d{0,10})?[Ee][+-]?\\d+)))\\)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case stat = "Stat"
         }
     }
 

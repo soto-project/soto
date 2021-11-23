@@ -179,6 +179,59 @@ extension WorkMail {
         )
     }
 
+    ///  Lists the mail domains in a given Amazon WorkMail organization.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMailDomainsPaginator<Result>(
+        _ input: ListMailDomainsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMailDomainsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMailDomains,
+            inputKey: \ListMailDomainsRequest.nextToken,
+            outputKey: \ListMailDomainsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMailDomainsPaginator(
+        _ input: ListMailDomainsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMailDomainsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMailDomains,
+            inputKey: \ListMailDomainsRequest.nextToken,
+            outputKey: \ListMailDomainsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -575,6 +628,16 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateToken {
 
 extension WorkMail.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId
+        )
+    }
+}
+
+extension WorkMail.ListMailDomainsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListMailDomainsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,

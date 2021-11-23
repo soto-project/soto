@@ -232,7 +232,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of Kafka versions.
+    ///  Returns a list of Apache Kafka versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

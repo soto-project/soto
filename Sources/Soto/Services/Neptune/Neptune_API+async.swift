@@ -23,7 +23,7 @@ import SotoCore
 extension Neptune {
     // MARK: Async API Calls
 
-    /// Associates an Identity and Access Management (IAM) role from an Neptune DB cluster.
+    /// Associates an Identity and Access Management (IAM) role with an Neptune DB cluster.
     public func addRoleToDBCluster(_ input: AddRoleToDBClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "AddRoleToDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -333,7 +333,7 @@ extension Neptune {
         return try await self.client.execute(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an Amazon Neptune  DB cluster that was stopped using the AWS console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
+    /// Starts an Amazon Neptune  DB cluster that was stopped using the Amazon console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
     public func startDBCluster(_ input: StartDBClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartDBClusterResult {
         return try await self.client.execute(operation: "StartDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

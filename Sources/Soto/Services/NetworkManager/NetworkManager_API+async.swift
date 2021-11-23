@@ -138,6 +138,36 @@ extension NetworkManager {
         return try await self.client.execute(operation: "GetLinks", path: "/global-networks/{GlobalNetworkId}/links", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the count of network resources, by resource type, for the specified global network.
+    public func getNetworkResourceCounts(_ input: GetNetworkResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkResourceCountsResponse {
+        return try await self.client.execute(operation: "GetNetworkResourceCounts", path: "/global-networks/{GlobalNetworkId}/network-resource-count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the network resource relationships for the specified global network.
+    public func getNetworkResourceRelationships(_ input: GetNetworkResourceRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkResourceRelationshipsResponse {
+        return try await self.client.execute(operation: "GetNetworkResourceRelationships", path: "/global-networks/{GlobalNetworkId}/network-resource-relationships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+    public func getNetworkResources(_ input: GetNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkResourcesResponse {
+        return try await self.client.execute(operation: "GetNetworkResources", path: "/global-networks/{GlobalNetworkId}/network-resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the network routes of the specified global network.
+    public func getNetworkRoutes(_ input: GetNetworkRoutesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkRoutesResponse {
+        return try await self.client.execute(operation: "GetNetworkRoutes", path: "/global-networks/{GlobalNetworkId}/network-routes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the network telemetry of the specified global network.
+    public func getNetworkTelemetry(_ input: GetNetworkTelemetryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkTelemetryResponse {
+        return try await self.client.execute(operation: "GetNetworkTelemetry", path: "/global-networks/{GlobalNetworkId}/network-telemetry", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about the specified route analysis.
+    public func getRouteAnalysis(_ input: GetRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRouteAnalysisResponse {
+        return try await self.client.execute(operation: "GetRouteAnalysis", path: "/global-networks/{GlobalNetworkId}/route-analyses/{RouteAnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about one or more of your sites in a global network.
     public func getSites(_ input: GetSitesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSitesResponse {
         return try await self.client.execute(operation: "GetSites", path: "/global-networks/{GlobalNetworkId}/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -158,9 +188,14 @@ extension NetworkManager {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a transit gateway in your global network. The transit gateway can be in any AWS Region, but it must be owned by the same AWS account that owns the global network. You cannot register a transit gateway in more than one global network.
+    /// Registers a transit gateway in your global network. The transit gateway can be in any Amazon Web Services Region, but it must be owned by the same Amazon Web Services account that owns  the global network. You cannot register a transit gateway in more than one global network.
     public func registerTransitGateway(_ input: RegisterTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterTransitGatewayResponse {
         return try await self.client.execute(operation: "RegisterTransitGateway", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts analyzing the routing path between the specified source and destination. For more information,  see Route Analyzer.
+    public func startRouteAnalysis(_ input: StartRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartRouteAnalysisResponse {
+        return try await self.client.execute(operation: "StartRouteAnalysis", path: "/global-networks/{GlobalNetworkId}/route-analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Tags a specified resource.
@@ -191,6 +226,11 @@ extension NetworkManager {
     /// Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
     public func updateLink(_ input: UpdateLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLinkResponse {
         return try await self.client.execute(operation: "UpdateLink", path: "/global-networks/{GlobalNetworkId}/links/{LinkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the resource metadata for the specified global network.
+    public func updateNetworkResourceMetadata(_ input: UpdateNetworkResourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateNetworkResourceMetadataResponse {
+        return try await self.client.execute(operation: "UpdateNetworkResourceMetadata", path: "/global-networks/{GlobalNetworkId}/network-resources/{ResourceArn}/metadata", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.

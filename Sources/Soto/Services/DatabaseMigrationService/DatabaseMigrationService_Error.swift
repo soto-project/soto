@@ -75,7 +75,7 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
     /// The ciphertext references a key that doesn't exist or that the DMS account doesn't have access to.
     public static var kMSAccessDeniedFault: Self { .init(.kMSAccessDeniedFault) }
-    /// The specified master key (CMK) isn't enabled.
+    /// The specified KMS key isn't enabled.
     public static var kMSDisabledFault: Self { .init(.kMSDisabledFault) }
     /// An Key Management Service (KMS) error is preventing access to KMS.
     public static var kMSFault: Self { .init(.kMSFault) }

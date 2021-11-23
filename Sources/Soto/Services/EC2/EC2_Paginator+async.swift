@@ -67,6 +67,28 @@ extension EC2 {
         )
     }
 
+    ///  Describes one or more Capacity Reservation Fleets.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeCapacityReservationFleetsPaginator(
+        _ input: DescribeCapacityReservationFleetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityReservationFleetsRequest, DescribeCapacityReservationFleetsResult> {
+        return .init(
+            input: input,
+            command: describeCapacityReservationFleets,
+            inputKey: \DescribeCapacityReservationFleetsRequest.nextToken,
+            outputKey: \DescribeCapacityReservationFleetsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the
     ///  		    	Amazon Web Services Region that you're currently using.
     /// Return PaginatorSequence for operation.
@@ -404,7 +426,7 @@ extension EC2 {
     }
 
     ///  Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs,
-    ///  			private AFIs that you own, and AFIs owned by other AWS accounts for which you have load
+    ///  			private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load
     ///  			permissions.
     /// Return PaginatorSequence for operation.
     ///
@@ -2070,6 +2092,28 @@ extension EC2 {
         )
     }
 
+    ///  Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getInstanceTypesFromInstanceRequirementsPaginator(
+        _ input: GetInstanceTypesFromInstanceRequirementsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetInstanceTypesFromInstanceRequirementsRequest, GetInstanceTypesFromInstanceRequirementsResult> {
+        return .init(
+            input: input,
+            command: getInstanceTypesFromInstanceRequirements,
+            inputKey: \GetInstanceTypesFromInstanceRequirementsRequest.nextToken,
+            outputKey: \GetInstanceTypesFromInstanceRequirementsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets information about the resources that are associated with the specified managed prefix list.
     /// Return PaginatorSequence for operation.
     ///
@@ -2109,6 +2153,28 @@ extension EC2 {
             command: getManagedPrefixListEntries,
             inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
             outputKey: \GetManagedPrefixListEntriesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes. For more information, see Spot placement score in the Amazon EC2 User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getSpotPlacementScoresPaginator(
+        _ input: GetSpotPlacementScoresRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetSpotPlacementScoresRequest, GetSpotPlacementScoresResult> {
+        return .init(
+            input: input,
+            command: getSpotPlacementScores,
+            inputKey: \GetSpotPlacementScoresRequest.nextToken,
+            outputKey: \GetSpotPlacementScoresResult.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -73,7 +73,7 @@ extension SNS {
         )
     }
 
-    ///  Lists the calling account's dedicated origination numbers and their metadata. For more information about origination numbers, see Origination numbers in the Amazon SNS Developer Guide.
+    ///  Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata. For more information about origination numbers, see Origination numbers in the Amazon SNS Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension SNS {
         )
     }
 
-    ///  Lists the calling account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for  you to try Amazon SNS features without risking your reputation as an SMS sender. While your  account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send  SMS messages only to verified destination phone numbers. For more information, including how to  move out of the sandbox to send messages without restrictions,  see SMS sandbox in  the Amazon SNS Developer Guide.
+    ///  Lists the calling Amazon Web Services account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for  you to try Amazon SNS features without risking your reputation as an SMS sender. While your  Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send  SMS messages only to verified destination phone numbers. For more information, including how to  move out of the sandbox to send messages without restrictions,  see SMS sandbox in  the Amazon SNS Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

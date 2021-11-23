@@ -94,7 +94,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct FailureInfo: AWSDecodableShape {
-        /// The code of the common error. Valid values include InternalServiceException, InvalidParameterException, and any valid error code returned by the AWS service that hosts the resource that you want to tag.
+        /// The code of the common error. Valid values include InternalServiceException, InvalidParameterException, and any valid error code returned by the Amazon Web Services service that hosts the resource that you want to tag.
         public let errorCode: ErrorCode?
         /// The message of the common error.
         public let errorMessage: String?
@@ -121,9 +121,9 @@ extension ResourceGroupsTaggingAPI {
         public let maxResults: Int?
         /// Specifies a PaginationToken response value from a  previous request to indicate that you want the next page of results. Leave this parameter empty  in your initial request.
         public let paginationToken: String?
-        /// Specifies a list of AWS Regions to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources in the specified Regions.
+        /// Specifies a list of Amazon Web Services Regions to limit the output to. If you use this parameter, the count of returned noncompliant resources includes only resources in the specified Regions.
         public let regionFilters: [String]?
-        /// Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the AWS General Reference for the following:   For a list of service name strings, see AWS Service Namespaces.   For resource type strings, see Example ARNs.   For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.   You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
+        /// Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances. The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the  Amazon Web Services General Reference  for the following:   For a list of service name strings, see Amazon Web Services Service Namespaces.   For resource type strings, see Example ARNs.   For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.   You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
         public let resourceTypeFilters: [String]?
         /// Specifies that you want the response to include information for only resources that have tags with the specified tag keys. If you use this parameter, the count of returned noncompliant resources includes only resources that have the specified tag keys.
         public let tagKeyFilters: [String]?
@@ -144,29 +144,29 @@ extension ResourceGroupsTaggingAPI {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
-            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.regionFilters?.forEach {
                 try validate($0, name: "regionFilters[]", parent: name, max: 256)
                 try validate($0, name: "regionFilters[]", parent: name, min: 1)
-                try validate($0, name: "regionFilters[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "regionFilters[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.regionFilters, name: "regionFilters", parent: name, max: 100)
             try self.validate(self.regionFilters, name: "regionFilters", parent: name, min: 1)
             try self.resourceTypeFilters?.forEach {
                 try validate($0, name: "resourceTypeFilters[]", parent: name, max: 256)
-                try validate($0, name: "resourceTypeFilters[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "resourceTypeFilters[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.tagKeyFilters?.forEach {
                 try validate($0, name: "tagKeyFilters[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyFilters[]", parent: name, min: 1)
-                try validate($0, name: "tagKeyFilters[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "tagKeyFilters[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.tagKeyFilters, name: "tagKeyFilters", parent: name, max: 50)
             try self.validate(self.tagKeyFilters, name: "tagKeyFilters", parent: name, min: 1)
             try self.targetIdFilters?.forEach {
                 try validate($0, name: "targetIdFilters[]", parent: name, max: 68)
                 try validate($0, name: "targetIdFilters[]", parent: name, min: 6)
-                try validate($0, name: "targetIdFilters[]", parent: name, pattern: "[a-zA-Z0-9-]*")
+                try validate($0, name: "targetIdFilters[]", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             }
             try self.validate(self.targetIdFilters, name: "targetIdFilters", parent: name, max: 100)
             try self.validate(self.targetIdFilters, name: "targetIdFilters", parent: name, min: 1)
@@ -207,15 +207,15 @@ extension ResourceGroupsTaggingAPI {
         public let includeComplianceDetails: Bool?
         /// Specifies a PaginationToken response value from a  previous request to indicate that you want the next page of results. Leave this parameter empty  in your initial request.
         public let paginationToken: String?
-        /// Specifies a list of ARNs of resources for which you want to retrieve tag data. You can't specify both this parameter and any of the pagination parameters (ResourcesPerPage, TagsPerPage, PaginationToken) in the same request. If you specify both, you get an Invalid Parameter exception. If a resource specified by this parameter doesn't exist, it doesn't generate an error; it simply isn't included in the response. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Specifies a list of ARNs of resources for which you want to retrieve tag data. You can't specify both this parameter and any of the pagination parameters (ResourcesPerPage, TagsPerPage, PaginationToken) in the same request. If you specify both, you get an Invalid Parameter exception. If a resource specified by this parameter doesn't exist, it doesn't generate an error; it simply isn't included in the response. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let resourceARNList: [String]?
         /// Specifies the maximum number of results to be returned in each page. A  query can return fewer than this maximum, even if there are more results still to return. You should always check the PaginationToken response value to see if there are more results. You can specify a minimum of 1 and a maximum value of 100.
         public let resourcesPerPage: Int?
-        /// Specifies the resource types that you want included in the response. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the AWS General Reference for the following: For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
+        /// Specifies the resource types that you want included in the response. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). For the list of services whose resources you can use in this parameter, see Services that support the Resource Groups Tagging API. You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter. For example, the following string would limit the response to only Amazon EC2 instances, Amazon S3 buckets, or any Audit Manager resource:  ec2:instance,s3:bucket,auditmanager
         public let resourceTypeFilters: [String]?
-        /// Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have the specified tag and, if included, the specified value. Each TagFilter must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values.  Note the following when deciding how to use TagFilters:   If you don't specify a TagFilter, the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: "Tags": [].   If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.   If you specify a filter that contains more than one value for a key, the response returns resources that match any of the specified values for that key.   If you don't specify any values for a key, the response returns resources that are tagged with that key and any or no value. For example, for the following filters: filter1= {keyA,{value1}}, filter2={keyB,{value2,value3,value4}}, filter3= {keyC}:    GetResources({filter1}) returns resources tagged with key1=value1     GetResources({filter2}) returns resources tagged with key2=value2 or key2=value3 or key2=value4     GetResources({filter3}) returns resources tagged with any tag with the key key3, and with any or no value    GetResources({filter1,filter2,filter3}) returns resources tagged with (key1=value1) and (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)
+        /// Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have tags with the specified keys and, if included, the specified values. Each TagFilter must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values.  Note the following when deciding how to use TagFilters:   If you don't specify a TagFilter, the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: "Tags": [].   If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.   If you specify a filter that contains more than one value for a key, the response returns resources that match any of the specified values for that key.   If you don't specify a value for a key, the response returns all resources that are tagged with that key, with any or no value. For example, for the following filters: filter1= {keyA,{value1}}, filter2={keyB,{value2,value3,value4}}, filter3= {keyC}:    GetResources({filter1}) returns resources tagged with key1=value1     GetResources({filter2}) returns resources tagged with key2=value2 or key2=value3 or key2=value4     GetResources({filter3}) returns resources tagged with any tag with the key key3, and with any or no value    GetResources({filter1,filter2,filter3}) returns resources tagged with (key1=value1) and (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)
         public let tagFilters: [TagFilter]?
-        /// AWS recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
+        /// Amazon Web Services recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
         public let tagsPerPage: Int?
 
         public init(excludeCompliantResources: Bool? = nil, includeComplianceDetails: Bool? = nil, paginationToken: String? = nil, resourceARNList: [String]? = nil, resourcesPerPage: Int? = nil, resourceTypeFilters: [String]? = nil, tagFilters: [TagFilter]? = nil, tagsPerPage: Int? = nil) {
@@ -231,17 +231,17 @@ extension ResourceGroupsTaggingAPI {
 
         public func validate(name: String) throws {
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
-            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.resourceARNList?.forEach {
                 try validate($0, name: "resourceARNList[]", parent: name, max: 1011)
                 try validate($0, name: "resourceARNList[]", parent: name, min: 1)
-                try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "resourceARNList[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 100)
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.resourceTypeFilters?.forEach {
                 try validate($0, name: "resourceTypeFilters[]", parent: name, max: 256)
-                try validate($0, name: "resourceTypeFilters[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "resourceTypeFilters[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.tagFilters?.forEach {
                 try $0.validate(name: "\(name).tagFilters[]")
@@ -264,7 +264,7 @@ extension ResourceGroupsTaggingAPI {
     public struct GetResourcesOutput: AWSDecodableShape {
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value  as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
-        /// A list of resource ARNs and the tags (keys and values) associated with those ARNs.
+        /// A list of resource ARNs and the tags (keys and values) associated with  each.
         public let resourceTagMappingList: [ResourceTagMapping]?
 
         public init(paginationToken: String? = nil, resourceTagMappingList: [ResourceTagMapping]? = nil) {
@@ -288,7 +288,7 @@ extension ResourceGroupsTaggingAPI {
 
         public func validate(name: String) throws {
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
-            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -299,7 +299,7 @@ extension ResourceGroupsTaggingAPI {
     public struct GetTagKeysOutput: AWSDecodableShape {
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value  as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
-        /// A list of all tag keys in the AWS account.
+        /// A list of all tag keys in the Amazon Web Services account.
         public let tagKeys: [String]?
 
         public init(paginationToken: String? = nil, tagKeys: [String]? = nil) {
@@ -314,7 +314,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesInput: AWSEncodableShape {
-        /// Specifies the tag key for which you want to list all existing values that are currently used in the specified AWS Region for the calling AWS account.
+        /// Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account.
         public let key: String
         /// Specifies a PaginationToken response value from a  previous request to indicate that you want the next page of results. Leave this parameter empty  in your initial request.
         public let paginationToken: String?
@@ -327,9 +327,9 @@ extension ResourceGroupsTaggingAPI {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
-            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,7 +341,7 @@ extension ResourceGroupsTaggingAPI {
     public struct GetTagValuesOutput: AWSDecodableShape {
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value  as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
-        /// A list of all tag values for the specified key currently used in the specified AWS Region for the calling AWS account.
+        /// A list of all tag values for the specified key currently used in the specified Amazon Web Services Region for the calling account.
         public let tagValues: [String]?
 
         public init(paginationToken: String? = nil, tagValues: [String]? = nil) {
@@ -360,7 +360,7 @@ extension ResourceGroupsTaggingAPI {
         public let complianceDetails: ComplianceDetails?
         /// The ARN of the resource.
         public let resourceARN: String?
-        /// The tags that have been applied to one or more AWS resources.
+        /// The tags that have been applied to one or more Amazon Web Services resources.
         public let tags: [Tag]?
 
         public init(complianceDetails: ComplianceDetails? = nil, resourceARN: String? = nil, tags: [Tag]? = nil) {
@@ -387,7 +387,7 @@ extension ResourceGroupsTaggingAPI {
         public func validate(name: String) throws {
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
-            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9.-]*")
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9.-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -404,11 +404,11 @@ extension ResourceGroupsTaggingAPI {
         public let lastUpdated: String?
         /// The count of noncompliant resources.
         public let nonCompliantResources: Int64?
-        /// The AWS Region that the summary applies to.
+        /// The Amazon Web Services Region that the summary applies to.
         public let region: String?
-        /// The AWS resource type.
+        /// The Amazon Web Services resource type.
         public let resourceType: String?
-        /// The account identifier or the root identifier of the organization. If you don't know the root ID, you can call the AWS Organizations ListRoots API.
+        /// The account identifier or the root identifier of the organization. If you don't know the root ID, you can call the Organizations ListRoots API.
         public let targetId: String?
         /// Whether the target is an account, an OU, or the organization root.
         public let targetIdType: TargetIdType?
@@ -433,9 +433,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct Tag: AWSDecodableShape {
-        /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
+        /// One part of a key-value pair that makes up a tag. A key is a general label  that acts like a category for more specific tag values.
         public let key: String
-        /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
+        /// One part of a key-value pair that make up a tag. A value acts as a  descriptor within a tag category (key). The value can be empty or null.
         public let value: String
 
         public init(key: String, value: String) {
@@ -450,9 +450,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagFilter: AWSEncodableShape {
-        /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
+        /// One part of a key-value pair that makes up a tag. A key is a general label  that acts like a category for more specific tag values.
         public let key: String?
-        /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
+        /// One part of a key-value pair that make up a tag. A value acts as a  descriptor within a tag category (key). The value can be empty or null.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -463,10 +463,10 @@ extension ResourceGroupsTaggingAPI {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\s\\S]*$")
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
-                try validate($0, name: "values[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
         }
@@ -478,7 +478,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagResourcesInput: AWSEncodableShape {
-        /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let resourceARNList: [String]
         /// Specifies a list of tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
         public let tags: [String: String]
@@ -492,16 +492,16 @@ extension ResourceGroupsTaggingAPI {
             try self.resourceARNList.forEach {
                 try validate($0, name: "resourceARNList[]", parent: name, max: 1011)
                 try validate($0, name: "resourceARNList[]", parent: name, min: 1)
-                try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "resourceARNList[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 20)
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "[\\s\\S]*")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[\\s\\S]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -527,7 +527,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesInput: AWSEncodableShape {
-        /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let resourceARNList: [String]
         /// Specifies a list of tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
@@ -541,14 +541,14 @@ extension ResourceGroupsTaggingAPI {
             try self.resourceARNList.forEach {
                 try validate($0, name: "resourceARNList[]", parent: name, max: 1011)
                 try validate($0, name: "resourceARNList[]", parent: name, min: 1)
-                try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "resourceARNList[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 20)
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\s\\S]*")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)

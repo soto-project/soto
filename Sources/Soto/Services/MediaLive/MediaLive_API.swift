@@ -93,6 +93,11 @@ public struct MediaLive: AWSService {
         return self.client.execute(operation: "CancelInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
+    public func claimDevice(_ input: ClaimDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClaimDeviceResponse> {
+        return self.client.execute(operation: "ClaimDevice", path: "/prod/claimDevice", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new channel
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
         return self.client.execute(operation: "CreateChannel", path: "/prod/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

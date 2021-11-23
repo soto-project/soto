@@ -38,7 +38,7 @@ extension IVS {
         return try await self.client.execute(operation: "CreateChannel", path: "/CreateChannel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new recording configuration, used to enable recording to Amazon S3.  Known issue: In the us-east-1 region, if you use the AWS CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.)  Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
+    /// Creates a new recording configuration, used to enable recording to Amazon S3.  Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.)  Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
     public func createRecordingConfiguration(_ input: CreateRecordingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRecordingConfigurationResponse {
         return try await self.client.execute(operation: "CreateRecordingConfiguration", path: "/CreateRecordingConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -93,12 +93,17 @@ extension IVS {
         return try await self.client.execute(operation: "GetStreamKey", path: "/GetStreamKey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets metadata on a specified stream.
+    public func getStreamSession(_ input: GetStreamSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStreamSessionResponse {
+        return try await self.client.execute(operation: "GetStreamSession", path: "/GetStreamSession", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide.
     public func importPlaybackKeyPair(_ input: ImportPlaybackKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportPlaybackKeyPairResponse {
         return try await self.client.execute(operation: "ImportPlaybackKeyPair", path: "/ImportPlaybackKeyPair", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets summary information about all channels in your account, in the AWS region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
+    /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListChannelsResponse {
         return try await self.client.execute(operation: "ListChannels", path: "/ListChannels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -108,7 +113,7 @@ extension IVS {
         return try await self.client.execute(operation: "ListPlaybackKeyPairs", path: "/ListPlaybackKeyPairs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets summary information about all recording configurations in your account, in the AWS region where the API request is processed.
+    /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     public func listRecordingConfigurations(_ input: ListRecordingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRecordingConfigurationsResponse {
         return try await self.client.execute(operation: "ListRecordingConfigurations", path: "/ListRecordingConfigurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -118,19 +123,22 @@ extension IVS {
         return try await self.client.execute(operation: "ListStreamKeys", path: "/ListStreamKeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets summary information about live streams in your account, in the AWS region where the API request is processed.
+    /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
+    public func listStreamSessions(_ input: ListStreamSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStreamSessionsResponse {
+        return try await self.client.execute(operation: "ListStreamSessions", path: "/ListStreamSessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     public func listStreams(_ input: ListStreamsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStreamsResponse {
         return try await self.client.execute(operation: "ListStreams", path: "/ListStreams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about AWS tags for the specified ARN.
+    /// Gets information about Amazon Web Services tags for the specified ARN.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Inserts metadata into the active stream of the specified channel. A maximum of 5 requests per second per channel is allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.)
-    ///  Also see Embedding Metadata
-    ///  within a Video Stream in the Amazon IVS User Guide.
+    /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide.
     public func putMetadata(_ input: PutMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "PutMetadata", path: "/PutMetadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -140,7 +148,7 @@ extension IVS {
         return try await self.client.execute(operation: "StopStream", path: "/StopStream", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates tags for the AWS resource with the specified ARN.
+    /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

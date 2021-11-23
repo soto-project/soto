@@ -55,6 +55,7 @@ public struct ComputeOptimizer: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-11-01",
             endpoint: endpoint,
+            serviceEndpoints: ["ap-northeast-1": "compute-optimizer.ap-northeast-1.amazonaws.com", "ap-northeast-2": "compute-optimizer.ap-northeast-2.amazonaws.com", "ap-south-1": "compute-optimizer.ap-south-1.amazonaws.com", "ap-southeast-1": "compute-optimizer.ap-southeast-1.amazonaws.com", "ap-southeast-2": "compute-optimizer.ap-southeast-2.amazonaws.com", "ca-central-1": "compute-optimizer.ca-central-1.amazonaws.com", "cn-north-1": "compute-optimizer.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "compute-optimizer.cn-northwest-1.amazonaws.com.cn", "eu-central-1": "compute-optimizer.eu-central-1.amazonaws.com", "eu-north-1": "compute-optimizer.eu-north-1.amazonaws.com", "eu-west-1": "compute-optimizer.eu-west-1.amazonaws.com", "eu-west-2": "compute-optimizer.eu-west-2.amazonaws.com", "eu-west-3": "compute-optimizer.eu-west-3.amazonaws.com", "sa-east-1": "compute-optimizer.sa-east-1.amazonaws.com", "us-east-1": "compute-optimizer.us-east-1.amazonaws.com", "us-east-2": "compute-optimizer.us-east-2.amazonaws.com", "us-west-1": "compute-optimizer.us-west-1.amazonaws.com", "us-west-2": "compute-optimizer.us-west-2.amazonaws.com"],
             errorType: ComputeOptimizerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

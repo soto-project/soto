@@ -29,6 +29,18 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case down = "DOWN"
+        case up = "UP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case bgp = "BGP"
+        case ipsec = "IPSEC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
@@ -69,6 +81,51 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteAnalysisCompletionReasonCode: String, CustomStringConvertible, Codable {
+        case blackholeRouteForDestinationFound = "BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND"
+        case cyclicPathDetected = "CYCLIC_PATH_DETECTED"
+        case inactiveRouteForDestinationFound = "INACTIVE_ROUTE_FOR_DESTINATION_FOUND"
+        case maxHopsExceeded = "MAX_HOPS_EXCEEDED"
+        case noDestinationArnProvided = "NO_DESTINATION_ARN_PROVIDED"
+        case possibleMiddlebox = "POSSIBLE_MIDDLEBOX"
+        case routeNotFound = "ROUTE_NOT_FOUND"
+        case transitGatewayAttachmentAttachArnNoMatch = "TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH"
+        case transitGatewayAttachmentNotFound = "TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND"
+        case transitGatewayAttachmentNotInTransitGateway = "TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY"
+        case transitGatewayAttachmentStableRouteTableNotFound = "TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteAnalysisCompletionResultCode: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case notConnected = "NOT_CONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteAnalysisStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case blackhole = "BLACKHOLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTableType: String, CustomStringConvertible, Codable {
+        case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteType: String, CustomStringConvertible, Codable {
+        case propagated = "PROPAGATED"
+        case `static` = "STATIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SiteState: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
@@ -97,9 +154,9 @@ extension NetworkManager {
     // MARK: Shapes
 
     public struct AWSLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the subnet the device is located in.
+        /// The Amazon Resource Name (ARN) of the subnet that the device is located in.
         public let subnetArn: String?
-        /// The Zone the device is located in. This can be the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
+        /// The Zone that the device is located in. Specify the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
         public let zone: String?
 
         public init(subnetArn: String? = nil, zone: String? = nil) {
@@ -118,7 +175,7 @@ extension NetworkManager {
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
+        /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String
         /// The ID of the device.
         public let deviceId: String
@@ -302,6 +359,27 @@ extension NetworkManager {
         }
     }
 
+    public struct ConnectionHealth: AWSDecodableShape {
+        /// The connection status.
+        public let status: ConnectionStatus?
+        /// The time the status was last updated.
+        public let timestamp: Date?
+        /// The connection type.
+        public let type: ConnectionType?
+
+        public init(status: ConnectionStatus? = nil, timestamp: Date? = nil, type: ConnectionType? = nil) {
+            self.status = status
+            self.timestamp = timestamp
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case timestamp = "Timestamp"
+            case type = "Type"
+        }
+    }
+
     public struct CreateConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
@@ -360,17 +438,17 @@ extension NetworkManager {
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
         ]
 
-        /// The AWS location of the device.
+        /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
         public let aWSLocation: AWSLocation?
-        /// A description of the device. Length Constraints: Maximum length of 256 characters.
+        /// A description of the device. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The location of the device.
         public let location: Location?
-        /// The model of the device. Length Constraints: Maximum length of 128 characters.
+        /// The model of the device. Constraints: Maximum length of 128 characters.
         public let model: String?
-        /// The serial number of the device. Length Constraints: Maximum length of 128 characters.
+        /// The serial number of the device. Constraints: Maximum length of 128 characters.
         public let serialNumber: String?
         /// The ID of the site.
         public let siteId: String?
@@ -378,7 +456,7 @@ extension NetworkManager {
         public let tags: [Tag]?
         /// The type of the device.
         public let type: String?
-        /// The vendor of the device. Length Constraints: Maximum length of 128 characters.
+        /// The vendor of the device. Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
         public init(aWSLocation: AWSLocation? = nil, description: String? = nil, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
@@ -421,7 +499,7 @@ extension NetworkManager {
     }
 
     public struct CreateGlobalNetworkRequest: AWSEncodableShape {
-        /// A description of the global network. Length Constraints: Maximum length of 256 characters.
+        /// A description of the global network. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
@@ -457,17 +535,17 @@ extension NetworkManager {
 
         ///  The upload speed and download speed in Mbps.
         public let bandwidth: Bandwidth
-        /// A description of the link. Length Constraints: Maximum length of 256 characters.
+        /// A description of the link. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
         public let globalNetworkId: String
-        /// The provider of the link. Constraints: Cannot include the following characters: | \ ^ Length Constraints: Maximum length of 128 characters.
+        /// The provider of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | \ ^
         public let provider: String?
         /// The ID of the site.
         public let siteId: String
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
-        /// The type of the link. Constraints: Cannot include the following characters: | \ ^ Length Constraints: Maximum length of 128 characters.
+        /// The type of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | \ ^
         public let type: String?
 
         public init(bandwidth: Bandwidth, description: String? = nil, globalNetworkId: String, provider: String? = nil, siteId: String, tags: [Tag]? = nil, type: String? = nil) {
@@ -508,7 +586,7 @@ extension NetworkManager {
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
         ]
 
-        /// A description of your site. Length Constraints: Maximum length of 256 characters.
+        /// A description of your site. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
         public let globalNetworkId: String
@@ -807,7 +885,7 @@ extension NetworkManager {
     }
 
     public struct Device: AWSDecodableShape {
-        /// The AWS location of the device.
+        /// The Amazon Web Services location of the device.
         public let aWSLocation: AWSLocation?
         /// The date and time that the site was created.
         public let createdAt: Date?
@@ -877,7 +955,7 @@ extension NetworkManager {
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
+        /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String
         /// The ID of the global network.
         public let globalNetworkId: String
@@ -1032,7 +1110,7 @@ extension NetworkManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// One or more customer gateway Amazon Resource Names (ARNs). For more information, see Resources Defined by Amazon EC2. The maximum is 10.
+        /// One or more customer gateway Amazon Resource Names (ARNs). The maximum is 10.
         public let customerGatewayArns: [String]?
         /// The ID of the global network.
         public let globalNetworkId: String
@@ -1237,6 +1315,369 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case links = "Links"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetNetworkResourceCountsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
+        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        public let resourceType: String?
+
+        public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetNetworkResourceCountsResponse: AWSDecodableShape {
+        /// The count of resources.
+        public let networkResourceCounts: [NetworkResourceCount]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(networkResourceCounts: [NetworkResourceCount]? = nil, nextToken: String? = nil) {
+            self.networkResourceCounts = networkResourceCounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkResourceCounts = "NetworkResourceCounts"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetNetworkResourceRelationshipsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "awsRegion", location: .querystring("awsRegion")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registeredGatewayArn", location: .querystring("registeredGatewayArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// The Amazon Web Services Region.
+        public let awsRegion: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ARN of the registered gateway.
+        public let registeredGatewayArn: String?
+        /// The ARN of the gateway.
+        public let resourceArn: String?
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
+        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        public let resourceType: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registeredGatewayArn = registeredGatewayArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetNetworkResourceRelationshipsResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The resource relationships.
+        public let relationships: [Relationship]?
+
+        public init(nextToken: String? = nil, relationships: [Relationship]? = nil) {
+            self.nextToken = nextToken
+            self.relationships = relationships
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case relationships = "Relationships"
+        }
+    }
+
+    public struct GetNetworkResourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "awsRegion", location: .querystring("awsRegion")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registeredGatewayArn", location: .querystring("registeredGatewayArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// The Amazon Web Services Region.
+        public let awsRegion: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ARN of the gateway.
+        public let registeredGatewayArn: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The definition model is DirectConnectGateway.    dx-vif - The definition model is VirtualInterface.    The following are the supported resource types for Network Manager:    connection - The definition model is Connection.    device - The definition model is Device.    link - The definition model is Link.    site - The definition model is Site.    The following are the supported resource types for Amazon VPC:    customer-gateway - The definition model is CustomerGateway.    transit-gateway - The definition model is TransitGateway.    transit-gateway-attachment - The definition model is TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
+        public let resourceType: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registeredGatewayArn = registeredGatewayArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetNetworkResourcesResponse: AWSDecodableShape {
+        /// The network resources.
+        public let networkResources: [NetworkResource]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(networkResources: [NetworkResource]? = nil, nextToken: String? = nil) {
+            self.networkResources = networkResources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkResources = "NetworkResources"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetNetworkRoutesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
+        ]
+
+        /// Filter by route table destination. Possible Values: TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
+        public let destinationFilters: [String: [String]]?
+        /// An exact CIDR block.
+        public let exactCidrMatches: [String]?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The most specific route that matches the traffic (longest prefix match).
+        public let longestPrefixMatches: [String]?
+        /// The IDs of the prefix lists.
+        public let prefixListIds: [String]?
+        /// The ID of the route table.
+        public let routeTableIdentifier: RouteTableIdentifier
+        /// The route states.
+        public let states: [RouteState]?
+        /// The routes with a subnet that match the specified CIDR filter.
+        public let subnetOfMatches: [String]?
+        /// The routes with a CIDR that encompasses the CIDR filter. Example: If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29.
+        public let supernetOfMatches: [String]?
+        /// The route types.
+        public let types: [RouteType]?
+
+        public init(destinationFilters: [String: [String]]? = nil, exactCidrMatches: [String]? = nil, globalNetworkId: String, longestPrefixMatches: [String]? = nil, prefixListIds: [String]? = nil, routeTableIdentifier: RouteTableIdentifier, states: [RouteState]? = nil, subnetOfMatches: [String]? = nil, supernetOfMatches: [String]? = nil, types: [RouteType]? = nil) {
+            self.destinationFilters = destinationFilters
+            self.exactCidrMatches = exactCidrMatches
+            self.globalNetworkId = globalNetworkId
+            self.longestPrefixMatches = longestPrefixMatches
+            self.prefixListIds = prefixListIds
+            self.routeTableIdentifier = routeTableIdentifier
+            self.states = states
+            self.subnetOfMatches = subnetOfMatches
+            self.supernetOfMatches = supernetOfMatches
+            self.types = types
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationFilters?.forEach {
+                try validate($0.key, name: "destinationFilters.key", parent: name, max: 128)
+                try validate($0.key, name: "destinationFilters.key", parent: name, pattern: "^[0-9a-zA-Z\\.-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationFilters = "DestinationFilters"
+            case exactCidrMatches = "ExactCidrMatches"
+            case longestPrefixMatches = "LongestPrefixMatches"
+            case prefixListIds = "PrefixListIds"
+            case routeTableIdentifier = "RouteTableIdentifier"
+            case states = "States"
+            case subnetOfMatches = "SubnetOfMatches"
+            case supernetOfMatches = "SupernetOfMatches"
+            case types = "Types"
+        }
+    }
+
+    public struct GetNetworkRoutesResponse: AWSDecodableShape {
+        /// The network routes.
+        public let networkRoutes: [NetworkRoute]?
+        /// The ARN of the route table.
+        public let routeTableArn: String?
+        /// The route table creation time.
+        public let routeTableTimestamp: Date?
+        /// The route table type.
+        public let routeTableType: RouteTableType?
+
+        public init(networkRoutes: [NetworkRoute]? = nil, routeTableArn: String? = nil, routeTableTimestamp: Date? = nil, routeTableType: RouteTableType? = nil) {
+            self.networkRoutes = networkRoutes
+            self.routeTableArn = routeTableArn
+            self.routeTableTimestamp = routeTableTimestamp
+            self.routeTableType = routeTableType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkRoutes = "NetworkRoutes"
+            case routeTableArn = "RouteTableArn"
+            case routeTableTimestamp = "RouteTableTimestamp"
+            case routeTableType = "RouteTableType"
+        }
+    }
+
+    public struct GetNetworkTelemetryRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "awsRegion", location: .querystring("awsRegion")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "registeredGatewayArn", location: .querystring("registeredGatewayArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// The Amazon Web Services Region.
+        public let awsRegion: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ARN of the gateway.
+        public let registeredGatewayArn: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
+        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        public let resourceType: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registeredGatewayArn = registeredGatewayArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetNetworkTelemetryResponse: AWSDecodableShape {
+        /// The network telemetry.
+        public let networkTelemetry: [NetworkTelemetry]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(networkTelemetry: [NetworkTelemetry]? = nil, nextToken: String? = nil) {
+            self.networkTelemetry = networkTelemetry
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkTelemetry = "NetworkTelemetry"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetRouteAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
+            AWSMemberEncoding(label: "routeAnalysisId", location: .uri("RouteAnalysisId"))
+        ]
+
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The ID of the route analysis.
+        public let routeAnalysisId: String
+
+        public init(globalNetworkId: String, routeAnalysisId: String) {
+            self.globalNetworkId = globalNetworkId
+            self.routeAnalysisId = routeAnalysisId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRouteAnalysisResponse: AWSDecodableShape {
+        /// The route analysis.
+        public let routeAnalysis: RouteAnalysis?
+
+        public init(routeAnalysis: RouteAnalysis? = nil) {
+            self.routeAnalysis = routeAnalysis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeAnalysis = "RouteAnalysis"
         }
     }
 
@@ -1547,6 +1988,218 @@ extension NetworkManager {
         }
     }
 
+    public struct NetworkResource: AWSDecodableShape {
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// The Amazon Web Services Region.
+        public let awsRegion: String?
+        /// Information about the resource, in JSON format. Network Manager gets this information by describing the resource using its Describe API call.
+        public let definition: String?
+        /// The time that the resource definition was retrieved.
+        public let definitionTimestamp: Date?
+        /// The resource metadata.
+        public let metadata: [String: String]?
+        /// The ARN of the gateway.
+        public let registeredGatewayArn: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
+        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        public let resourceType: String?
+        /// The tags.
+        public let tags: [Tag]?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, definition: String? = nil, definitionTimestamp: Date? = nil, metadata: [String: String]? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil, tags: [Tag]? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.definition = definition
+            self.definitionTimestamp = definitionTimestamp
+            self.metadata = metadata
+            self.registeredGatewayArn = registeredGatewayArn
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case awsRegion = "AwsRegion"
+            case definition = "Definition"
+            case definitionTimestamp = "DefinitionTimestamp"
+            case metadata = "Metadata"
+            case registeredGatewayArn = "RegisteredGatewayArn"
+            case resourceArn = "ResourceArn"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct NetworkResourceCount: AWSDecodableShape {
+        /// The resource count.
+        public let count: Int?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(count: Int? = nil, resourceType: String? = nil) {
+            self.count = count
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct NetworkResourceSummary: AWSDecodableShape {
+        /// Information about the resource, in JSON format. Network Manager gets this information by describing the resource using its Describe API call.
+        public let definition: String?
+        /// Indicates whether this is a middlebox appliance.
+        public let isMiddlebox: Bool?
+        /// The value for the Name tag.
+        public let nameTag: String?
+        /// The ARN of the gateway.
+        public let registeredGatewayArn: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(definition: String? = nil, isMiddlebox: Bool? = nil, nameTag: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+            self.definition = definition
+            self.isMiddlebox = isMiddlebox
+            self.nameTag = nameTag
+            self.registeredGatewayArn = registeredGatewayArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+            case isMiddlebox = "IsMiddlebox"
+            case nameTag = "NameTag"
+            case registeredGatewayArn = "RegisteredGatewayArn"
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct NetworkRoute: AWSDecodableShape {
+        /// A unique identifier for the route, such as a CIDR block.
+        public let destinationCidrBlock: String?
+        /// The destinations.
+        public let destinations: [NetworkRouteDestination]?
+        /// The ID of the prefix list.
+        public let prefixListId: String?
+        /// The route state. The possible values are active and blackhole.
+        public let state: RouteState?
+        /// The route type. The possible values are propagated and static.
+        public let type: RouteType?
+
+        public init(destinationCidrBlock: String? = nil, destinations: [NetworkRouteDestination]? = nil, prefixListId: String? = nil, state: RouteState? = nil, type: RouteType? = nil) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinations = destinations
+            self.prefixListId = prefixListId
+            self.state = state
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case destinations = "Destinations"
+            case prefixListId = "PrefixListId"
+            case state = "State"
+            case type = "Type"
+        }
+    }
+
+    public struct NetworkRouteDestination: AWSDecodableShape {
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The resource type.
+        public let resourceType: String?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+
+        public init(resourceId: String? = nil, resourceType: String? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct NetworkTelemetry: AWSDecodableShape {
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// The address.
+        public let address: String?
+        /// The Amazon Web Services Region.
+        public let awsRegion: String?
+        /// The connection health.
+        public let health: ConnectionHealth?
+        /// The ARN of the gateway.
+        public let registeredGatewayArn: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(accountId: String? = nil, address: String? = nil, awsRegion: String? = nil, health: ConnectionHealth? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.accountId = accountId
+            self.address = address
+            self.awsRegion = awsRegion
+            self.health = health
+            self.registeredGatewayArn = registeredGatewayArn
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case address = "Address"
+            case awsRegion = "AwsRegion"
+            case health = "Health"
+            case registeredGatewayArn = "RegisteredGatewayArn"
+            case resourceArn = "ResourceArn"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct PathComponent: AWSDecodableShape {
+        /// The destination CIDR block in the route table.
+        public let destinationCidrBlock: String?
+        /// The resource.
+        public let resource: NetworkResourceSummary?
+        /// The sequence number in the path. The destination is 0.
+        public let sequence: Int?
+
+        public init(destinationCidrBlock: String? = nil, resource: NetworkResourceSummary? = nil, sequence: Int? = nil) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.resource = resource
+            self.sequence = sequence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case resource = "Resource"
+            case sequence = "Sequence"
+        }
+    }
+
     public struct RegisterTransitGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
@@ -1554,7 +2207,7 @@ extension NetworkManager {
 
         /// The ID of the global network.
         public let globalNetworkId: String
-        /// The Amazon Resource Name (ARN) of the transit gateway. For more information, see Resources Defined by Amazon EC2.
+        /// The Amazon Resource Name (ARN) of the transit gateway.
         public let transitGatewayArn: String
 
         public init(globalNetworkId: String, transitGatewayArn: String) {
@@ -1577,6 +2230,165 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case transitGatewayRegistration = "TransitGatewayRegistration"
+        }
+    }
+
+    public struct Relationship: AWSDecodableShape {
+        /// The ARN of the resource.
+        public let from: String?
+        /// The ARN of the resource.
+        public let to: String?
+
+        public init(from: String? = nil, to: String? = nil) {
+            self.from = from
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case to = "To"
+        }
+    }
+
+    public struct RouteAnalysis: AWSDecodableShape {
+        /// The destination.
+        public let destination: RouteAnalysisEndpointOptions?
+        /// The forward path.
+        public let forwardPath: RouteAnalysisPath?
+        /// The ID of the global network.
+        public let globalNetworkId: String?
+        /// Indicates whether to analyze the return path. The return path is not analyzed if the forward path analysis does not succeed.
+        public let includeReturnPath: Bool?
+        /// The ID of the AWS account that created the route analysis.
+        public let ownerAccountId: String?
+        /// The return path.
+        public let returnPath: RouteAnalysisPath?
+        /// The ID of the route analysis.
+        public let routeAnalysisId: String?
+        /// The source.
+        public let source: RouteAnalysisEndpointOptions?
+        /// The time that the analysis started.
+        public let startTimestamp: Date?
+        /// The status of the route analysis.
+        public let status: RouteAnalysisStatus?
+        /// Indicates whether to include the location of middlebox appliances in the route analysis.
+        public let useMiddleboxes: Bool?
+
+        public init(destination: RouteAnalysisEndpointOptions? = nil, forwardPath: RouteAnalysisPath? = nil, globalNetworkId: String? = nil, includeReturnPath: Bool? = nil, ownerAccountId: String? = nil, returnPath: RouteAnalysisPath? = nil, routeAnalysisId: String? = nil, source: RouteAnalysisEndpointOptions? = nil, startTimestamp: Date? = nil, status: RouteAnalysisStatus? = nil, useMiddleboxes: Bool? = nil) {
+            self.destination = destination
+            self.forwardPath = forwardPath
+            self.globalNetworkId = globalNetworkId
+            self.includeReturnPath = includeReturnPath
+            self.ownerAccountId = ownerAccountId
+            self.returnPath = returnPath
+            self.routeAnalysisId = routeAnalysisId
+            self.source = source
+            self.startTimestamp = startTimestamp
+            self.status = status
+            self.useMiddleboxes = useMiddleboxes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case forwardPath = "ForwardPath"
+            case globalNetworkId = "GlobalNetworkId"
+            case includeReturnPath = "IncludeReturnPath"
+            case ownerAccountId = "OwnerAccountId"
+            case returnPath = "ReturnPath"
+            case routeAnalysisId = "RouteAnalysisId"
+            case source = "Source"
+            case startTimestamp = "StartTimestamp"
+            case status = "Status"
+            case useMiddleboxes = "UseMiddleboxes"
+        }
+    }
+
+    public struct RouteAnalysisCompletion: AWSDecodableShape {
+        /// The reason code. Available only if a connection is not found.    BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND - Found a black hole route with the destination CIDR block.    CYCLIC_PATH_DETECTED - Found the same resource multiple times while traversing the path.    INACTIVE_ROUTE_FOR_DESTINATION_FOUND - Found an inactive route with the destination CIDR block.    MAX_HOPS_EXCEEDED - Analysis exceeded 64 hops without finding the destination.    ROUTE_NOT_FOUND - Cannot find a route table with the destination CIDR block.    TGW_ATTACH_ARN_NO_MATCH - Found an attachment, but not with the correct destination ARN.    TGW_ATTACH_NOT_FOUND - Cannot find an attachment.    TGW_ATTACH_NOT_IN_TGW - Found an attachment, but not to the correct transit gateway.    TGW_ATTACH_STABLE_ROUTE_TABLE_NOT_FOUND - The state of the route table association is not associated.
+        public let reasonCode: RouteAnalysisCompletionReasonCode?
+        /// Additional information about the path. Available only if a connection is not found.
+        public let reasonContext: [String: String]?
+        /// The result of the analysis. If the status is NOT_CONNECTED, check the  reason code.
+        public let resultCode: RouteAnalysisCompletionResultCode?
+
+        public init(reasonCode: RouteAnalysisCompletionReasonCode? = nil, reasonContext: [String: String]? = nil, resultCode: RouteAnalysisCompletionResultCode? = nil) {
+            self.reasonCode = reasonCode
+            self.reasonContext = reasonContext
+            self.resultCode = resultCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reasonCode = "ReasonCode"
+            case reasonContext = "ReasonContext"
+            case resultCode = "ResultCode"
+        }
+    }
+
+    public struct RouteAnalysisEndpointOptions: AWSDecodableShape {
+        /// The IP address.
+        public let ipAddress: String?
+        /// The ARN of the transit gateway.
+        public let transitGatewayArn: String?
+        /// The ARN of the transit gateway attachment.
+        public let transitGatewayAttachmentArn: String?
+
+        public init(ipAddress: String? = nil, transitGatewayArn: String? = nil, transitGatewayAttachmentArn: String? = nil) {
+            self.ipAddress = ipAddress
+            self.transitGatewayArn = transitGatewayArn
+            self.transitGatewayAttachmentArn = transitGatewayAttachmentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case transitGatewayArn = "TransitGatewayArn"
+            case transitGatewayAttachmentArn = "TransitGatewayAttachmentArn"
+        }
+    }
+
+    public struct RouteAnalysisEndpointOptionsSpecification: AWSEncodableShape {
+        /// The IP address.
+        public let ipAddress: String?
+        /// The ARN of the transit gateway attachment.
+        public let transitGatewayAttachmentArn: String?
+
+        public init(ipAddress: String? = nil, transitGatewayAttachmentArn: String? = nil) {
+            self.ipAddress = ipAddress
+            self.transitGatewayAttachmentArn = transitGatewayAttachmentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case transitGatewayAttachmentArn = "TransitGatewayAttachmentArn"
+        }
+    }
+
+    public struct RouteAnalysisPath: AWSDecodableShape {
+        /// The status of the analysis at completion.
+        public let completionStatus: RouteAnalysisCompletion?
+        /// The route analysis path.
+        public let path: [PathComponent]?
+
+        public init(completionStatus: RouteAnalysisCompletion? = nil, path: [PathComponent]? = nil) {
+            self.completionStatus = completionStatus
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionStatus = "CompletionStatus"
+            case path = "Path"
+        }
+    }
+
+    public struct RouteTableIdentifier: AWSEncodableShape {
+        /// The ARN of the transit gateway route table.
+        public let transitGatewayRouteTableArn: String?
+
+        public init(transitGatewayRouteTableArn: String? = nil) {
+            self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
         }
     }
 
@@ -1621,10 +2433,55 @@ extension NetworkManager {
         }
     }
 
+    public struct StartRouteAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
+        ]
+
+        /// The destination.
+        public let destination: RouteAnalysisEndpointOptionsSpecification
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// Indicates whether to analyze the return path. The default is false.
+        public let includeReturnPath: Bool?
+        /// The source from which traffic originates.
+        public let source: RouteAnalysisEndpointOptionsSpecification
+        /// Indicates whether to include the location of middlebox appliances in the route analysis. The default is false.
+        public let useMiddleboxes: Bool?
+
+        public init(destination: RouteAnalysisEndpointOptionsSpecification, globalNetworkId: String, includeReturnPath: Bool? = nil, source: RouteAnalysisEndpointOptionsSpecification, useMiddleboxes: Bool? = nil) {
+            self.destination = destination
+            self.globalNetworkId = globalNetworkId
+            self.includeReturnPath = includeReturnPath
+            self.source = source
+            self.useMiddleboxes = useMiddleboxes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case includeReturnPath = "IncludeReturnPath"
+            case source = "Source"
+            case useMiddleboxes = "UseMiddleboxes"
+        }
+    }
+
+    public struct StartRouteAnalysisResponse: AWSDecodableShape {
+        /// The route analysis.
+        public let routeAnalysis: RouteAnalysis?
+
+        public init(routeAnalysis: RouteAnalysis? = nil) {
+            self.routeAnalysis = routeAnalysis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeAnalysis = "RouteAnalysis"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The tag key. Length Constraints: Maximum length of 128 characters.
+        /// The tag key. Constraints: Maximum length of 128 characters.
         public let key: String?
-        /// The tag value. Length Constraints: Maximum length of 256 characters.
+        /// The tag value. Constraints: Maximum length of 256 characters.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -1803,24 +2660,24 @@ extension NetworkManager {
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
         ]
 
-        /// The AWS location of the device.
+        /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
         public let aWSLocation: AWSLocation?
-        /// A description of the device. Length Constraints: Maximum length of 256 characters.
+        /// A description of the device. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the device.
         public let deviceId: String
         /// The ID of the global network.
         public let globalNetworkId: String
         public let location: Location?
-        /// The model of the device. Length Constraints: Maximum length of 128 characters.
+        /// The model of the device. Constraints: Maximum length of 128 characters.
         public let model: String?
-        /// The serial number of the device. Length Constraints: Maximum length of 128 characters.
+        /// The serial number of the device. Constraints: Maximum length of 128 characters.
         public let serialNumber: String?
         /// The ID of the site.
         public let siteId: String?
         /// The type of the device.
         public let type: String?
-        /// The vendor of the device. Length Constraints: Maximum length of 128 characters.
+        /// The vendor of the device. Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
         public init(aWSLocation: AWSLocation? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, type: String? = nil, vendor: String? = nil) {
@@ -1866,7 +2723,7 @@ extension NetworkManager {
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId"))
         ]
 
-        /// A description of the global network. Length Constraints: Maximum length of 256 characters.
+        /// A description of the global network. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of your global network.
         public let globalNetworkId: String
@@ -1902,15 +2759,15 @@ extension NetworkManager {
 
         /// The upload and download speed in Mbps.
         public let bandwidth: Bandwidth?
-        /// A description of the link. Length Constraints: Maximum length of 256 characters.
+        /// A description of the link. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The ID of the link.
         public let linkId: String
-        /// The provider of the link. Length Constraints: Maximum length of 128 characters.
+        /// The provider of the link. Constraints: Maximum length of 128 characters.
         public let provider: String?
-        /// The type of the link. Length Constraints: Maximum length of 128 characters.
+        /// The type of the link. Constraints: Maximum length of 128 characters.
         public let type: String?
 
         public init(bandwidth: Bandwidth? = nil, description: String? = nil, globalNetworkId: String, linkId: String, provider: String? = nil, type: String? = nil) {
@@ -1943,13 +2800,54 @@ extension NetworkManager {
         }
     }
 
+    public struct UpdateNetworkResourceMetadataRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
+        ]
+
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The resource metadata.
+        public let metadata: [String: String]
+        /// The ARN of the resource.
+        public let resourceArn: String
+
+        public init(globalNetworkId: String, metadata: [String: String], resourceArn: String) {
+            self.globalNetworkId = globalNetworkId
+            self.metadata = metadata
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+        }
+    }
+
+    public struct UpdateNetworkResourceMetadataResponse: AWSDecodableShape {
+        /// The updated resource metadata.
+        public let metadata: [String: String]?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+
+        public init(metadata: [String: String]? = nil, resourceArn: String? = nil) {
+            self.metadata = metadata
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct UpdateSiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        /// A description of your site. Length Constraints: Maximum length of 256 characters.
+        /// A description of your site. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
         public let globalNetworkId: String

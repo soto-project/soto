@@ -266,7 +266,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DB log files for the DB instance.
+    ///  Returns a list of DB log files for the DB instance. This command doesn't apply to RDS Custom.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -772,7 +772,7 @@ extension RDS {
         )
     }
 
-    ///  Downloads all or a portion of the specified log file, up to 1 MB in size.
+    ///  Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -29,6 +29,7 @@ public struct WAFV2ErrorType: AWSErrorType {
         case wAFInvalidPermissionPolicyException = "WAFInvalidPermissionPolicyException"
         case wAFInvalidResourceException = "WAFInvalidResourceException"
         case wAFLimitsExceededException = "WAFLimitsExceededException"
+        case wAFLogDestinationPermissionIssueException = "WAFLogDestinationPermissionIssueException"
         case wAFNonexistentItemException = "WAFNonexistentItemException"
         case wAFOptimisticLockException = "WAFOptimisticLockException"
         case wAFServiceLinkedRoleErrorException = "WAFServiceLinkedRoleErrorException"
@@ -74,6 +75,8 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wAFInvalidResourceException: Self { .init(.wAFInvalidResourceException) }
     /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see WAF quotas in the WAF Developer Guide.
     public static var wAFLimitsExceededException: Self { .init(.wAFLimitsExceededException) }
+    /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see  Logging web ACL traffic information  in the WAF Developer Guide.
+    public static var wAFLogDestinationPermissionIssueException: Self { .init(.wAFLogDestinationPermissionIssueException) }
     /// WAF couldn’t perform the operation because your resource doesn’t exist.
     public static var wAFNonexistentItemException: Self { .init(.wAFNonexistentItemException) }
     /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.

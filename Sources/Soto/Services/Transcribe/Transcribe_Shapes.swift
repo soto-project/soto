@@ -305,7 +305,7 @@ extension Transcribe {
         public let completionTime: Date?
         /// A timestamp that shows when the analytics job was created.
         public let creationTime: Date?
-        /// The Amazon Resource Number (ARN) that you use to get access to the analytics job.
+        /// The Amazon Resource Number (ARN) that you use to access the analytics job. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id.
         public let dataAccessRoleArn: String?
         /// If the AnalyticsJobStatus is FAILED, this field contains information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format: The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format: The media  format of the audio file doesn't match the format specified in the MediaFormat field in the request.  Check the media format of your media file and make sure the two values match.    Invalid sample rate for audio file: The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample rate: The sample rate  in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the  request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large: The size of your audio file is larger than what Amazon Transcribe Medical can process. For more information, see Guidelines and Quotas in the Amazon Transcribe Medical  Guide.    Invalid number of channels: number of channels too large: Your audio contains more channels than Amazon Transcribe Medical is configured to process. To request additional channels, see Amazon Transcribe Medical Endpoints and Quotas in the Amazon Web Services General  Reference.
         public let failureReason: String?
@@ -363,6 +363,8 @@ extension Transcribe {
 
     public struct CallAnalyticsJobSettings: AWSEncodableShape & AWSDecodableShape {
         public let contentRedaction: ContentRedaction?
+        /// The language identification settings associated with your call analytics job. These settings include VocabularyName, VocabularyFilterName, and  LanguageModelName.
+        public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
         /// The structure used to describe a custom language model.
         public let languageModelName: String?
         /// When you run a call analytics job, you can specify the language spoken in the audio, or you can have Amazon Transcribe identify the language for you. To specify a language, specify an array with one language code. If you don't know the language, you can leave this  field blank and Amazon Transcribe will use machine learning to identify the language for you. To improve the ability of Amazon Transcribe to  correctly identify the language, you can provide an array of the languages that can be present in the audio. Refer to  Supported languages and language-specific features for additional information.
@@ -374,8 +376,9 @@ extension Transcribe {
         /// The name of a vocabulary to use when processing the call analytics job.
         public let vocabularyName: String?
 
-        public init(contentRedaction: ContentRedaction? = nil, languageModelName: String? = nil, languageOptions: [LanguageCode]? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(contentRedaction: ContentRedaction? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageModelName: String? = nil, languageOptions: [LanguageCode]? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.contentRedaction = contentRedaction
+            self.languageIdSettings = languageIdSettings
             self.languageModelName = languageModelName
             self.languageOptions = languageOptions
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -384,6 +387,11 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
+            try self.languageIdSettings?.forEach {
+                try $0.value.validate(name: "\(name).languageIdSettings[\"\($0.key)\"]")
+            }
+            try self.validate(self.languageIdSettings, name: "languageIdSettings", parent: name, max: 5)
+            try self.validate(self.languageIdSettings, name: "languageIdSettings", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
@@ -398,6 +406,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case contentRedaction = "ContentRedaction"
+            case languageIdSettings = "LanguageIdSettings"
             case languageModelName = "LanguageModelName"
             case languageOptions = "LanguageOptions"
             case vocabularyFilterMethod = "VocabularyFilterMethod"
@@ -1347,7 +1356,7 @@ extension Transcribe {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies the permissions you've given Amazon Transcribe to access your  Amazon S3 buckets containing your media files or text data.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the permissions you've given Amazon Transcribe to access your  Amazon S3 buckets containing your media files or text data. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id.
         public let dataAccessRoleArn: String
         /// The Amazon S3 prefix you specify to access the plain text files that you use to train your custom language model.
         public let s3Uri: String
@@ -1418,7 +1427,7 @@ extension Transcribe {
     public struct JobExecutionSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a  LimitExceededException exception. Note that job queuing is enabled by default for call analytics jobs. If you specify the AllowDeferredExecution field, you must specify the  DataAccessRoleArn field.
         public let allowDeferredExecution: Bool?
-        /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket that contains the input files. Amazon Transcribe assumes this role to read queued media files. If you have specified an output S3 bucket for the transcription results, this role should have access to the output bucket as well. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
+        /// The Amazon Resource Name (ARN), in the form arn:partition:service:region:account-id:resource-type/resource-id, of a role  that has access to the S3 bucket that contains the input files. Amazon Transcribe assumes this role to read queued media files. If you have specified an output S3 bucket for the transcription results, this role should  have access to the output bucket as well.       If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let dataAccessRoleArn: String?
 
         public init(allowDeferredExecution: Bool? = nil, dataAccessRoleArn: String? = nil) {
@@ -1435,6 +1444,39 @@ extension Transcribe {
         private enum CodingKeys: String, CodingKey {
             case allowDeferredExecution = "AllowDeferredExecution"
             case dataAccessRoleArn = "DataAccessRoleArn"
+        }
+    }
+
+    public struct LanguageIdSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the language model you want to use when transcribing your audio. The model you specify must have the same language code as the transcription job; if the languages don't match, the language model  won't be applied.
+        public let languageModelName: String?
+        /// The name of the vocabulary filter you want to use when transcribing your audio. The filter you specify  must have the same language code as the transcription job; if the languages don't match, the vocabulary  filter won't be applied.
+        public let vocabularyFilterName: String?
+        /// The name of the vocabulary you want to use when processing your transcription job. The  vocabulary you specify must have the same language code as the transcription job; if the languages don't  match, the vocabulary won't be applied.
+        public let vocabularyName: String?
+
+        public init(languageModelName: String? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.languageModelName = languageModelName
+            self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageModelName = "LanguageModelName"
+            case vocabularyFilterName = "VocabularyFilterName"
+            case vocabularyName = "VocabularyName"
         }
     }
 
@@ -1759,7 +1801,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// Lists all tags associated with a given Amazon Resource Name (ARN).
+        /// Lists all tags associated with a given Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id (for example, arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid  values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2435,7 +2477,7 @@ extension Transcribe {
         public let medicalTranscriptionJobName: String
         /// The Amazon S3 location where the transcription is stored. You must set OutputBucketName for Amazon Transcribe Medical to store the transcription results. Your transcript  appears in the S3 location you specify. When you call the GetMedicalTranscriptionJob, the operation  returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe Medical to put files in the bucket. For more information, see Permissions Required for IAM User Roles. You can specify an Amazon Web Services Key Management Service (KMS) key to encrypt the output of your  transcription using the OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe Medical  uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket.
         public let outputBucketName: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (KMS) key used to  encrypt the output of the transcription job. The user calling the StartMedicalTranscriptionJob  operation must have permission to use the specified KMS key. You use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS key in the current account or another account: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the medical transcription job is encrypted with the default Amazon S3  key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the  OutputBucketName parameter.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (KMS) key used to  encrypt the output of the transcription job. The user calling the StartMedicalTranscriptionJob  operation must have permission to use the specified KMS key. You use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS key in the current account or another account: "arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the medical transcription job is encrypted with the default Amazon S3  key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the  OutputBucketName parameter.
         public let outputEncryptionKMSKeyId: String?
         /// You can specify a location in an Amazon S3 bucket to store the output of your medical transcription job. If you don't specify an output key, Amazon Transcribe Medical stores the output of your transcription job in the Amazon S3 bucket you  specified. By default, the object key is "your-transcription-job-name.json". You can use output keys to specify the Amazon S3 prefix and file name of the transcription output. For example,  specifying the Amazon S3 prefix, "folder1/folder2/", as an output key would lead to the output being stored as "folder1/folder2/your-transcription-job-name.json". If you specify "my-other-job-name.json" as the output key, the object key is changed to "my-other-job-name.json". You can use an output key to change both the prefix and the file name, for example "folder/my-other-job-name.json". If you specify an output key, you must also specify an S3 bucket in the OutputBucketName  parameter.
         public let outputKey: String?
@@ -2543,6 +2585,8 @@ extension Transcribe {
         public let kMSEncryptionContext: [String: String]?
         /// The language code for the language used in the input media file. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be encoded at a sample  rate of 16,000 Hz or higher.
         public let languageCode: LanguageCode?
+        /// The language identification settings associated with your transcription job. These settings include VocabularyName, VocabularyFilterName, and  LanguageModelName.
+        public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
         /// An object containing a list of languages that might be present in your collection of audio files. Automatic language identification chooses a language that best matches the source audio from that list. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be encoded at a sample  rate of 16,000 Hz or higher.
         public let languageOptions: [LanguageCode]?
         /// An object that describes the input media for a transcription job.
@@ -2555,7 +2599,7 @@ extension Transcribe {
         public let modelSettings: ModelSettings?
         /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcript in the specified S3 bucket. When  you call the GetTranscriptionJob operation, the operation returns this location in the  TranscriptFileUri field. If you enable content redaction, the redacted transcript appears in RedactedTranscriptFileUri. If you enable content redaction and choose to output an unredacted transcript, that transcript's location still appears in the TranscriptFileUri. The S3 bucket must have  permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for  IAM User Roles. You can specify an Amazon Web Services Key Management Service (KMS) key to encrypt the output of your  transcription using the OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe  uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that  provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL  to download the transcription.
         public let outputBucketName: String?
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (KMS) key used to  encrypt the output of the transcription job. The user calling the StartTranscriptionJob  operation must have permission to use the specified KMS key. You can use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the transcription job is encrypted with the default  Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the  OutputBucketName parameter.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (KMS) key used to  encrypt the output of the transcription job. The user calling the StartTranscriptionJob  operation must have permission to use the specified KMS key. You can use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account-ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the transcription job is encrypted with the default  Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the  OutputBucketName parameter.
         public let outputEncryptionKMSKeyId: String?
         /// You can specify a location in an Amazon S3 bucket to store the output of your transcription job. If you don't specify an output key, Amazon Transcribe stores the output of your transcription job in the Amazon S3 bucket you specified. By default, the object key is "your-transcription-job-name.json". You can use output keys to specify the Amazon S3 prefix and file name of the transcription output. For example,  specifying the Amazon S3 prefix, "folder1/folder2/", as an output key would lead to the output being stored as "folder1/folder2/your-transcription-job-name.json". If you specify "my-other-job-name.json" as the output key, the  object key is changed to "my-other-job-name.json". You can use an output key to change both the prefix and the file  name, for example "folder/my-other-job-name.json". If you specify an output key, you must also specify an S3 bucket in the OutputBucketName  parameter.
         public let outputKey: String?
@@ -2568,12 +2612,13 @@ extension Transcribe {
         /// The name of the job. You can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you try to create a transcription job with the same name as a previous transcription job, you get a ConflictException error.
         public let transcriptionJobName: String
 
-        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kMSEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kMSEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
             self.identifyLanguage = identifyLanguage
             self.jobExecutionSettings = jobExecutionSettings
             self.kMSEncryptionContext = kMSEncryptionContext
             self.languageCode = languageCode
+            self.languageIdSettings = languageIdSettings
             self.languageOptions = languageOptions
             self.media = media
             self.mediaFormat = mediaFormat
@@ -2600,6 +2645,11 @@ extension Transcribe {
             }
             try self.validate(self.kMSEncryptionContext, name: "kMSEncryptionContext", parent: name, max: 10)
             try self.validate(self.kMSEncryptionContext, name: "kMSEncryptionContext", parent: name, min: 1)
+            try self.languageIdSettings?.forEach {
+                try $0.value.validate(name: "\(name).languageIdSettings[\"\($0.key)\"]")
+            }
+            try self.validate(self.languageIdSettings, name: "languageIdSettings", parent: name, max: 5)
+            try self.validate(self.languageIdSettings, name: "languageIdSettings", parent: name, min: 1)
             try self.validate(self.languageOptions, name: "languageOptions", parent: name, min: 1)
             try self.media.validate(name: "\(name).media")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
@@ -2630,6 +2680,7 @@ extension Transcribe {
             case jobExecutionSettings = "JobExecutionSettings"
             case kMSEncryptionContext = "KMSEncryptionContext"
             case languageCode = "LanguageCode"
+            case languageIdSettings = "LanguageIdSettings"
             case languageOptions = "LanguageOptions"
             case media = "Media"
             case mediaFormat = "MediaFormat"
@@ -2715,7 +2766,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to tag.
+        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to tag. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id (for example, arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid  values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
         public let resourceArn: String
         /// The tags you are assigning to a given Amazon Transcribe resource.
         public let tags: [Tag]
@@ -2823,6 +2874,8 @@ extension Transcribe {
         public let jobExecutionSettings: JobExecutionSettings?
         /// The language code for the input speech.
         public let languageCode: LanguageCode?
+        /// Language-specific settings that can be specified when language identification is enabled for your transcription  job. These settings include VocabularyName, VocabularyFilterName, and  LanguageModelNameLanguageModelName.
+        public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
         /// An object that shows the optional array of languages inputted for transcription jobs  with automatic language identification enabled.
         public let languageOptions: [LanguageCode]?
         /// An object that describes the input media for the transcription job.
@@ -2848,7 +2901,7 @@ extension Transcribe {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -2857,6 +2910,7 @@ extension Transcribe {
             self.identifyLanguage = identifyLanguage
             self.jobExecutionSettings = jobExecutionSettings
             self.languageCode = languageCode
+            self.languageIdSettings = languageIdSettings
             self.languageOptions = languageOptions
             self.media = media
             self.mediaFormat = mediaFormat
@@ -2880,6 +2934,7 @@ extension Transcribe {
             case identifyLanguage = "IdentifyLanguage"
             case jobExecutionSettings = "JobExecutionSettings"
             case languageCode = "LanguageCode"
+            case languageIdSettings = "LanguageIdSettings"
             case languageOptions = "LanguageOptions"
             case media = "Media"
             case mediaFormat = "MediaFormat"
@@ -2956,7 +3011,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from.
+        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from.  ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id (for example, arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid  values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
         public let resourceArn: String
         /// A list of tag keys you want to remove from a specified Amazon Transcribe resource.
         public let tagKeys: [String]

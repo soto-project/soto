@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension AppConfig {
-    ///  List all applications in your AWS account.
+    ///  Lists all applications in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension AppConfig {
         )
     }
 
-    ///  List deployment strategies.
+    ///  Lists deployment strategies.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -111,7 +111,7 @@ extension AppConfig {
         )
     }
 
-    ///  List the environments for an application.
+    ///  Lists the environments for an application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -133,7 +133,7 @@ extension AppConfig {
         )
     }
 
-    ///  View a list of configurations stored in the AppConfig configuration store by version.
+    ///  Lists configurations stored in the AppConfig hosted configuration store by version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

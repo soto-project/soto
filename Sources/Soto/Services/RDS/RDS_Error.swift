@@ -28,6 +28,9 @@ public struct RDSErrorType: AWSErrorType {
         case customAvailabilityZoneAlreadyExistsFault = "CustomAvailabilityZoneAlreadyExists"
         case customAvailabilityZoneNotFoundFault = "CustomAvailabilityZoneNotFound"
         case customAvailabilityZoneQuotaExceededFault = "CustomAvailabilityZoneQuotaExceeded"
+        case customDBEngineVersionAlreadyExistsFault = "CustomDBEngineVersionAlreadyExistsFault"
+        case customDBEngineVersionNotFoundFault = "CustomDBEngineVersionNotFoundFault"
+        case customDBEngineVersionQuotaExceededFault = "CustomDBEngineVersionQuotaExceededFault"
         case dBClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
         case dBClusterBacktrackNotFoundFault = "DBClusterBacktrackNotFoundFault"
         case dBClusterEndpointAlreadyExistsFault = "DBClusterEndpointAlreadyExistsFault"
@@ -90,6 +93,7 @@ public struct RDSErrorType: AWSErrorType {
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
         case insufficientDBInstanceCapacityFault = "InsufficientDBInstanceCapacity"
         case insufficientStorageClusterCapacityFault = "InsufficientStorageClusterCapacity"
+        case invalidCustomDBEngineVersionStateFault = "InvalidCustomDBEngineVersionStateFault"
         case invalidDBClusterCapacityFault = "InvalidDBClusterCapacityFault"
         case invalidDBClusterEndpointStateFault = "InvalidDBClusterEndpointStateFault"
         case invalidDBClusterSnapshotStateFault = "InvalidDBClusterSnapshotStateFault"
@@ -172,6 +176,12 @@ public struct RDSErrorType: AWSErrorType {
     public static var customAvailabilityZoneNotFoundFault: Self { .init(.customAvailabilityZoneNotFoundFault) }
     /// You have exceeded the maximum number of custom Availability Zones.
     public static var customAvailabilityZoneQuotaExceededFault: Self { .init(.customAvailabilityZoneQuotaExceededFault) }
+    /// A CEV with the specified name already exists.
+    public static var customDBEngineVersionAlreadyExistsFault: Self { .init(.customDBEngineVersionAlreadyExistsFault) }
+    /// The specified CEV was not found.
+    public static var customDBEngineVersionNotFoundFault: Self { .init(.customDBEngineVersionNotFoundFault) }
+    /// You have exceeded your CEV quota.
+    public static var customDBEngineVersionQuotaExceededFault: Self { .init(.customDBEngineVersionQuotaExceededFault) }
     /// The user already has a DB cluster with the given identifier.
     public static var dBClusterAlreadyExistsFault: Self { .init(.dBClusterAlreadyExistsFault) }
     ///  BacktrackIdentifier doesn't refer to an existing backtrack.
@@ -296,6 +306,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var insufficientDBInstanceCapacityFault: Self { .init(.insufficientDBInstanceCapacityFault) }
     /// There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
     public static var insufficientStorageClusterCapacityFault: Self { .init(.insufficientStorageClusterCapacityFault) }
+    /// You can't delete the CEV.
+    public static var invalidCustomDBEngineVersionStateFault: Self { .init(.invalidCustomDBEngineVersionStateFault) }
     ///  Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16,  32, 64, 128, and 256.
     public static var invalidDBClusterCapacityFault: Self { .init(.invalidDBClusterCapacityFault) }
     /// The requested operation can't be performed on the endpoint while the endpoint is in this state.

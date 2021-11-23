@@ -31,6 +31,7 @@ extension Forecast {
     }
 
     public enum AutoMLOverrideStrategy: String, CustomStringConvertible, Codable {
+        case accuracyoptimized = "AccuracyOptimized"
         case latencyoptimized = "LatencyOptimized"
         public var description: String { return self.rawValue }
     }
@@ -87,7 +88,88 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
+    public enum State: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimePointGranularity: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case specific = "SPECIFIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeSeriesGranularity: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case specific = "SPECIFIC"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AdditionalDataset: AWSEncodableShape & AWSDecodableShape {
+        ///  Weather Index  To enable the Weather Index, do not specify a value for Configuration.  Holidays  To enable Holidays, specify a country with one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
+        public let configuration: [String: [String]]?
+        /// The name of the additional dataset. Valid names: "holiday" and "weather".
+        public let name: String
+
+        public init(configuration: [String: [String]]? = nil, name: String) {
+            self.configuration = configuration
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.forEach {
+                try validate($0.key, name: "configuration.key", parent: name, max: 63)
+                try validate($0.key, name: "configuration.key", parent: name, min: 1)
+                try validate($0.key, name: "configuration.key", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, max: 20)
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case name = "Name"
+        }
+    }
+
+    public struct AttributeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the attribute as specified in the schema. Amazon Forecast supports the target field of the target time series and the related time series datasets. For example, for the RETAIL domain, the target is demand.
+        public let attributeName: String
+        /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Default values are bolded.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max
+        ///  The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max    To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "backfill_value":"2".
+        public let transformations: [String: String]
+
+        public init(attributeName: String, transformations: [String: String]) {
+            self.attributeName = attributeName
+            self.transformations = transformations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 63)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.transformations.forEach {
+                try validate($0.key, name: "transformations.key", parent: name, max: 63)
+                try validate($0.key, name: "transformations.key", parent: name, min: 1)
+                try validate($0.key, name: "transformations.key", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "transformations[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "transformations[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]+$")
+            }
+            try self.validate(self.transformations, name: "transformations", parent: name, max: 20)
+            try self.validate(self.transformations, name: "transformations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case transformations = "Transformations"
+        }
+    }
 
     public struct CategoricalParameterRange: AWSEncodableShape & AWSDecodableShape {
         /// The name of the categorical hyperparameter to tune.
@@ -146,6 +228,101 @@ extension Forecast {
             case minValue = "MinValue"
             case name = "Name"
             case scalingType = "ScalingType"
+        }
+    }
+
+    public struct CreateAutoPredictorRequest: AWSEncodableShape {
+        /// The data configuration for your dataset group and any additional datasets.
+        public let dataConfig: DataConfig?
+        public let encryptionConfig: EncryptionConfig?
+        public let explainPredictor: Bool?
+        /// An array of dimension (field) names that specify how to group the generated forecast. For example, if you are generating forecasts for item sales across all your stores, and your dataset contains a store_id field, you would specify store_id as a dimension to group sales forecasts for each store.
+        public let forecastDimensions: [String]?
+        /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes. The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
+        public let forecastFrequency: String?
+        /// The number of time-steps that the model predicts. The forecast horizon is also called the prediction length.
+        public let forecastHorizon: Int?
+        /// The forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify the mean forecast with mean.
+        public let forecastTypes: [String]?
+        /// The accuracy metric used to optimize the predictor.
+        public let optimizationMetric: OptimizationMetric?
+        /// A unique name for the predictor
+        public let predictorName: String
+        /// The ARN of the predictor to retrain or upgrade. This parameter is only used when retraining or upgrading a predictor. When creating a new predictor, do not specify a value for this parameter. When upgrading or retraining a predictor, only specify values for the ReferencePredictorArn and PredictorName. The value for PredictorName must be a unique predictor name.
+        public let referencePredictorArn: String?
+        /// Optional metadata to help you categorize and organize your predictors. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
+        public let tags: [Tag]?
+
+        public init(dataConfig: DataConfig? = nil, encryptionConfig: EncryptionConfig? = nil, explainPredictor: Bool? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, optimizationMetric: OptimizationMetric? = nil, predictorName: String, referencePredictorArn: String? = nil, tags: [Tag]? = nil) {
+            self.dataConfig = dataConfig
+            self.encryptionConfig = encryptionConfig
+            self.explainPredictor = explainPredictor
+            self.forecastDimensions = forecastDimensions
+            self.forecastFrequency = forecastFrequency
+            self.forecastHorizon = forecastHorizon
+            self.forecastTypes = forecastTypes
+            self.optimizationMetric = optimizationMetric
+            self.predictorName = predictorName
+            self.referencePredictorArn = referencePredictorArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.dataConfig?.validate(name: "\(name).dataConfig")
+            try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
+            try self.forecastDimensions?.forEach {
+                try validate($0, name: "forecastDimensions[]", parent: name, max: 63)
+                try validate($0, name: "forecastDimensions[]", parent: name, min: 1)
+                try validate($0, name: "forecastDimensions[]", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            }
+            try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, max: 10)
+            try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, min: 1)
+            try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, max: 5)
+            try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, min: 1)
+            try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, pattern: "^Y|M|W|D|H|30min|15min|10min|5min|1min$")
+            try self.forecastTypes?.forEach {
+                try validate($0, name: "forecastTypes[]", parent: name, max: 4)
+                try validate($0, name: "forecastTypes[]", parent: name, min: 2)
+                try validate($0, name: "forecastTypes[]", parent: name, pattern: "^(^0?\\.\\d\\d?$|^mean$)$")
+            }
+            try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
+            try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
+            try self.validate(self.predictorName, name: "predictorName", parent: name, max: 63)
+            try self.validate(self.predictorName, name: "predictorName", parent: name, min: 1)
+            try self.validate(self.predictorName, name: "predictorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.referencePredictorArn, name: "referencePredictorArn", parent: name, max: 256)
+            try self.validate(self.referencePredictorArn, name: "referencePredictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataConfig = "DataConfig"
+            case encryptionConfig = "EncryptionConfig"
+            case explainPredictor = "ExplainPredictor"
+            case forecastDimensions = "ForecastDimensions"
+            case forecastFrequency = "ForecastFrequency"
+            case forecastHorizon = "ForecastHorizon"
+            case forecastTypes = "ForecastTypes"
+            case optimizationMetric = "OptimizationMetric"
+            case predictorName = "PredictorName"
+            case referencePredictorArn = "ReferencePredictorArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAutoPredictorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the predictor.
+        public let predictorArn: String?
+
+        public init(predictorArn: String? = nil) {
+            self.predictorArn = predictorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorArn = "PredictorArn"
         }
     }
 
@@ -301,6 +478,8 @@ extension Forecast {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataFrequency, name: "dataFrequency", parent: name, max: 5)
+            try self.validate(self.dataFrequency, name: "dataFrequency", parent: name, min: 1)
             try self.validate(self.dataFrequency, name: "dataFrequency", parent: name, pattern: "^Y|M|W|D|H|30min|15min|10min|5min|1min$")
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 63)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
@@ -334,6 +513,130 @@ extension Forecast {
 
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "DatasetArn"
+        }
+    }
+
+    public struct CreateExplainabilityExportRequest: AWSEncodableShape {
+        public let destination: DataDestination
+        /// The Amazon Resource Name (ARN) of the Explainability to export.
+        public let explainabilityArn: String
+        /// A unique name for the Explainability export.
+        public let explainabilityExportName: String
+        /// Optional metadata to help you categorize and organize your resources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
+        public let tags: [Tag]?
+
+        public init(destination: DataDestination, explainabilityArn: String, explainabilityExportName: String, tags: [Tag]? = nil) {
+            self.destination = destination
+            self.explainabilityArn = explainabilityArn
+            self.explainabilityExportName = explainabilityExportName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, max: 256)
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, max: 63)
+            try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, min: 1)
+            try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case explainabilityArn = "ExplainabilityArn"
+            case explainabilityExportName = "ExplainabilityExportName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateExplainabilityExportResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the export.
+        public let explainabilityExportArn: String?
+
+        public init(explainabilityExportArn: String? = nil) {
+            self.explainabilityExportArn = explainabilityExportArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityExportArn = "ExplainabilityExportArn"
+        }
+    }
+
+    public struct CreateExplainabilityRequest: AWSEncodableShape {
+        public let dataSource: DataSource?
+        /// Create an Expainability visualization that is viewable within the AWS console.
+        public let enableVisualization: Bool?
+        /// If TimePointGranularity is set to SPECIFIC, define the last time point for the Explainability.
+        public let endDateTime: String?
+        /// The configuration settings that define the granularity of time series and time points for the Explainability.
+        public let explainabilityConfig: ExplainabilityConfig
+        /// A unique name for the Explainability.
+        public let explainabilityName: String
+        /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability.
+        public let resourceArn: String
+        public let schema: Schema?
+        /// If TimePointGranularity is set to SPECIFIC, define the first point for the Explainability.
+        public let startDateTime: String?
+        /// Optional metadata to help you categorize and organize your resources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
+        public let tags: [Tag]?
+
+        public init(dataSource: DataSource? = nil, enableVisualization: Bool? = nil, endDateTime: String? = nil, explainabilityConfig: ExplainabilityConfig, explainabilityName: String, resourceArn: String, schema: Schema? = nil, startDateTime: String? = nil, tags: [Tag]? = nil) {
+            self.dataSource = dataSource
+            self.enableVisualization = enableVisualization
+            self.endDateTime = endDateTime
+            self.explainabilityConfig = explainabilityConfig
+            self.explainabilityName = explainabilityName
+            self.resourceArn = resourceArn
+            self.schema = schema
+            self.startDateTime = startDateTime
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource?.validate(name: "\(name).dataSource")
+            try self.validate(self.endDateTime, name: "endDateTime", parent: name, max: 19)
+            try self.validate(self.endDateTime, name: "endDateTime", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
+            try self.validate(self.explainabilityName, name: "explainabilityName", parent: name, max: 63)
+            try self.validate(self.explainabilityName, name: "explainabilityName", parent: name, min: 1)
+            try self.validate(self.explainabilityName, name: "explainabilityName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.schema?.validate(name: "\(name).schema")
+            try self.validate(self.startDateTime, name: "startDateTime", parent: name, max: 19)
+            try self.validate(self.startDateTime, name: "startDateTime", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case enableVisualization = "EnableVisualization"
+            case endDateTime = "EndDateTime"
+            case explainabilityConfig = "ExplainabilityConfig"
+            case explainabilityName = "ExplainabilityName"
+            case resourceArn = "ResourceArn"
+            case schema = "Schema"
+            case startDateTime = "StartDateTime"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateExplainabilityResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Explainability.
+        public let explainabilityArn: String?
+
+        public init(explainabilityArn: String? = nil) {
+            self.explainabilityArn = explainabilityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityArn = "ExplainabilityArn"
         }
     }
 
@@ -410,6 +713,8 @@ extension Forecast {
             try self.validate(self.forecastName, name: "forecastName", parent: name, min: 1)
             try self.validate(self.forecastName, name: "forecastName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.forecastTypes?.forEach {
+                try validate($0, name: "forecastTypes[]", parent: name, max: 4)
+                try validate($0, name: "forecastTypes[]", parent: name, min: 2)
                 try validate($0, name: "forecastTypes[]", parent: name, pattern: "^(^0?\\.\\d\\d?$|^mean$)$")
             }
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
@@ -506,7 +811,7 @@ extension Forecast {
         public let featurizationConfig: FeaturizationConfig
         /// Specifies the number of time-steps that the model is trained to predict. The forecast horizon is also called the prediction length. For example, if you configure a dataset for daily data collection (using the DataFrequency parameter of the CreateDataset operation) and set the forecast horizon to 10, the model returns predictions for 10 days. The maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length.
         public let forecastHorizon: Int
-        /// Specifies the forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify  the mean forecast with mean.  The default value is ["0.10", "0.50", "0.9"].
+        /// Specifies the forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify the mean forecast with mean.  The default value is ["0.10", "0.50", "0.9"].
         public let forecastTypes: [String]?
         /// Provides hyperparameter override values for the algorithm. If you don't provide this parameter, Amazon Forecast uses default values. The individual algorithms specify which hyperparameters support hyperparameter optimization (HPO). For more information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you must set PerformHPO to true.
         public let hPOConfig: HyperParameterTuningJobConfig?
@@ -549,6 +854,8 @@ extension Forecast {
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
             try self.featurizationConfig.validate(name: "\(name).featurizationConfig")
             try self.forecastTypes?.forEach {
+                try validate($0, name: "forecastTypes[]", parent: name, max: 4)
+                try validate($0, name: "forecastTypes[]", parent: name, min: 2)
                 try validate($0, name: "forecastTypes[]", parent: name, pattern: "^(^0?\\.\\d\\d?$|^mean$)$")
             }
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
@@ -600,6 +907,42 @@ extension Forecast {
 
         private enum CodingKeys: String, CodingKey {
             case predictorArn = "PredictorArn"
+        }
+    }
+
+    public struct DataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Additional built-in datasets like Holidays and the Weather Index.
+        public let additionalDatasets: [AdditionalDataset]?
+        /// Aggregation and filling options for attributes in your dataset group.
+        public let attributeConfigs: [AttributeConfig]?
+        /// The ARN of the dataset group used to train the predictor.
+        public let datasetGroupArn: String
+
+        public init(additionalDatasets: [AdditionalDataset]? = nil, attributeConfigs: [AttributeConfig]? = nil, datasetGroupArn: String) {
+            self.additionalDatasets = additionalDatasets
+            self.attributeConfigs = attributeConfigs
+            self.datasetGroupArn = datasetGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalDatasets?.forEach {
+                try $0.validate(name: "\(name).additionalDatasets[]")
+            }
+            try self.validate(self.additionalDatasets, name: "additionalDatasets", parent: name, max: 2)
+            try self.validate(self.additionalDatasets, name: "additionalDatasets", parent: name, min: 1)
+            try self.attributeConfigs?.forEach {
+                try $0.validate(name: "\(name).attributeConfigs[]")
+            }
+            try self.validate(self.attributeConfigs, name: "attributeConfigs", parent: name, max: 50)
+            try self.validate(self.attributeConfigs, name: "attributeConfigs", parent: name, min: 1)
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDatasets = "AdditionalDatasets"
+            case attributeConfigs = "AttributeConfigs"
+            case datasetGroupArn = "DatasetGroupArn"
         }
     }
 
@@ -786,6 +1129,42 @@ extension Forecast {
         }
     }
 
+    public struct DeleteExplainabilityExportRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Explainability export to delete.
+        public let explainabilityExportArn: String
+
+        public init(explainabilityExportArn: String) {
+            self.explainabilityExportArn = explainabilityExportArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, max: 256)
+            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityExportArn = "ExplainabilityExportArn"
+        }
+    }
+
+    public struct DeleteExplainabilityRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Explainability resource to delete.
+        public let explainabilityArn: String
+
+        public init(explainabilityArn: String) {
+            self.explainabilityArn = explainabilityArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, max: 256)
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityArn = "ExplainabilityArn"
+        }
+    }
+
     public struct DeleteForecastExportJobRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the forecast export job to delete.
         public let forecastExportJobArn: String
@@ -873,6 +1252,95 @@ extension Forecast {
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DescribeAutoPredictorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the predictor.
+        public let predictorArn: String
+
+        public init(predictorArn: String) {
+            self.predictorArn = predictorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorArn = "PredictorArn"
+        }
+    }
+
+    public struct DescribeAutoPredictorResponse: AWSDecodableShape {
+        /// The timestamp of the CreateAutoPredictor request.
+        public let creationTime: Date?
+        /// The data configuration for your dataset group and any additional datasets.
+        public let dataConfig: DataConfig?
+        /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
+        public let datasetImportJobArns: [String]?
+        public let encryptionConfig: EncryptionConfig?
+        /// The estimated time remaining in minutes for the predictor training job to complete.
+        public let estimatedTimeRemainingInMinutes: Int64?
+        public let explainabilityInfo: ExplainabilityInfo?
+        /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes.
+        public let forecastFrequency: String?
+        /// The number of time-steps that the model predicts. The forecast horizon is also called the prediction length.
+        public let forecastHorizon: Int?
+        /// The forecast types used during predictor training. Default value is ["0.1","0.5","0.9"].
+        public let forecastTypes: [String]?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// In the event of an error, a message detailing the cause of the error.
+        public let message: String?
+        /// The accuracy metric used to optimize the predictor.
+        public let optimizationMetric: OptimizationMetric?
+        /// The Amazon Resource Name (ARN) of the predictor
+        public let predictorArn: String?
+        /// The name of the predictor.
+        public let predictorName: String?
+        /// The ARN and state of the reference predictor. This parameter is only valid for retrained or upgraded predictors.
+        public let referencePredictorSummary: ReferencePredictorSummary?
+        /// The status of the predictor. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, dataConfig: DataConfig? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityInfo: ExplainabilityInfo? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.dataConfig = dataConfig
+            self.datasetImportJobArns = datasetImportJobArns
+            self.encryptionConfig = encryptionConfig
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
+            self.explainabilityInfo = explainabilityInfo
+            self.forecastFrequency = forecastFrequency
+            self.forecastHorizon = forecastHorizon
+            self.forecastTypes = forecastTypes
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.optimizationMetric = optimizationMetric
+            self.predictorArn = predictorArn
+            self.predictorName = predictorName
+            self.referencePredictorSummary = referencePredictorSummary
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case dataConfig = "DataConfig"
+            case datasetImportJobArns = "DatasetImportJobArns"
+            case encryptionConfig = "EncryptionConfig"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
+            case explainabilityInfo = "ExplainabilityInfo"
+            case forecastFrequency = "ForecastFrequency"
+            case forecastHorizon = "ForecastHorizon"
+            case forecastTypes = "ForecastTypes"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case optimizationMetric = "OptimizationMetric"
+            case predictorArn = "PredictorArn"
+            case predictorName = "PredictorName"
+            case referencePredictorSummary = "ReferencePredictorSummary"
+            case status = "Status"
         }
     }
 
@@ -1081,6 +1549,145 @@ extension Forecast {
             case encryptionConfig = "EncryptionConfig"
             case lastModificationTime = "LastModificationTime"
             case schema = "Schema"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeExplainabilityExportRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Explainability export.
+        public let explainabilityExportArn: String
+
+        public init(explainabilityExportArn: String) {
+            self.explainabilityExportArn = explainabilityExportArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, max: 256)
+            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityExportArn = "ExplainabilityExportArn"
+        }
+    }
+
+    public struct DescribeExplainabilityExportResponse: AWSDecodableShape {
+        /// When the Explainability export was created.
+        public let creationTime: Date?
+        public let destination: DataDestination?
+        /// The Amazon Resource Name (ARN) of the Explainability.
+        public let explainabilityArn: String?
+        /// The Amazon Resource Name (ARN) of the Explainability export.
+        public let explainabilityExportArn: String?
+        /// The name of the Explainability export.
+        public let explainabilityExportName: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// Information about any errors that occurred during the export.
+        public let message: String?
+        /// The status of the Explainability export. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, explainabilityArn: String? = nil, explainabilityExportArn: String? = nil, explainabilityExportName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.destination = destination
+            self.explainabilityArn = explainabilityArn
+            self.explainabilityExportArn = explainabilityExportArn
+            self.explainabilityExportName = explainabilityExportName
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destination = "Destination"
+            case explainabilityArn = "ExplainabilityArn"
+            case explainabilityExportArn = "ExplainabilityExportArn"
+            case explainabilityExportName = "ExplainabilityExportName"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeExplainabilityRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Explaianability to describe.
+        public let explainabilityArn: String
+
+        public init(explainabilityArn: String) {
+            self.explainabilityArn = explainabilityArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, max: 256)
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityArn = "ExplainabilityArn"
+        }
+    }
+
+    public struct DescribeExplainabilityResponse: AWSDecodableShape {
+        /// When the Explainability resource was created.
+        public let creationTime: Date?
+        public let dataSource: DataSource?
+        /// Whether the visualization was enabled for the Explainability resource.
+        public let enableVisualization: Bool?
+        /// If TimePointGranularity is set to SPECIFIC, the last time point in the Explainability.
+        public let endDateTime: String?
+        /// The estimated time remaining in minutes for the CreateExplainability job to complete.
+        public let estimatedTimeRemainingInMinutes: Int64?
+        /// The Amazon Resource Name (ARN) of the Explainability.
+        public let explainabilityArn: String?
+        /// The configuration settings that define the granularity of time series and time points for the Explainability.
+        public let explainabilityConfig: ExplainabilityConfig?
+        /// The name of the Explainability.
+        public let explainabilityName: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, a message about the error.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability resource.
+        public let resourceArn: String?
+        public let schema: Schema?
+        /// If TimePointGranularity is set to SPECIFIC, the first time point in the Explainability.
+        public let startDateTime: String?
+        /// The status of the Explainability resource. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, dataSource: DataSource? = nil, enableVisualization: Bool? = nil, endDateTime: String? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityArn: String? = nil, explainabilityConfig: ExplainabilityConfig? = nil, explainabilityName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, resourceArn: String? = nil, schema: Schema? = nil, startDateTime: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.dataSource = dataSource
+            self.enableVisualization = enableVisualization
+            self.endDateTime = endDateTime
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
+            self.explainabilityArn = explainabilityArn
+            self.explainabilityConfig = explainabilityConfig
+            self.explainabilityName = explainabilityName
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.resourceArn = resourceArn
+            self.schema = schema
+            self.startDateTime = startDateTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case dataSource = "DataSource"
+            case enableVisualization = "EnableVisualization"
+            case endDateTime = "EndDateTime"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
+            case explainabilityArn = "ExplainabilityArn"
+            case explainabilityConfig = "ExplainabilityConfig"
+            case explainabilityName = "ExplainabilityName"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case resourceArn = "ResourceArn"
+            case schema = "Schema"
+            case startDateTime = "StartDateTime"
             case status = "Status"
         }
     }
@@ -1314,6 +1921,8 @@ extension Forecast {
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig?
+        /// Whether the predictor was created with CreateAutoPredictor.
+        public let isAutoPredictor: Bool?
         /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
@@ -1335,7 +1944,7 @@ extension Forecast {
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, isAutoPredictor: Bool? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
@@ -1349,6 +1958,7 @@ extension Forecast {
             self.forecastTypes = forecastTypes
             self.hPOConfig = hPOConfig
             self.inputDataConfig = inputDataConfig
+            self.isAutoPredictor = isAutoPredictor
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.optimizationMetric = optimizationMetric
@@ -1375,6 +1985,7 @@ extension Forecast {
             case forecastTypes = "ForecastTypes"
             case hPOConfig = "HPOConfig"
             case inputDataConfig = "InputDataConfig"
+            case isAutoPredictor = "IsAutoPredictor"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case optimizationMetric = "OptimizationMetric"
@@ -1475,6 +2086,115 @@ extension Forecast {
         }
     }
 
+    public struct ExplainabilityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// To create an Explainability for all time points in your forecast horizon, use ALL. To create an Explainability for specific time points in your forecast horizon, use SPECIFIC. Specify time points with the StartDateTime and EndDateTime parameters within the CreateExplainability operation.
+        public let timePointGranularity: TimePointGranularity
+        /// To create an Explainability for all time series in your datasets, use ALL. To create an Explainability for specific time series in your datasets, use SPECIFIC. Specify time series by uploading a CSV file to an Amazon S3 bucket and set the location within the DataDestination data type.
+        public let timeSeriesGranularity: TimeSeriesGranularity
+
+        public init(timePointGranularity: TimePointGranularity, timeSeriesGranularity: TimeSeriesGranularity) {
+            self.timePointGranularity = timePointGranularity
+            self.timeSeriesGranularity = timeSeriesGranularity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timePointGranularity = "TimePointGranularity"
+            case timeSeriesGranularity = "TimeSeriesGranularity"
+        }
+    }
+
+    public struct ExplainabilityExportSummary: AWSDecodableShape {
+        /// When the Explainability was created.
+        public let creationTime: Date?
+        public let destination: DataDestination?
+        /// The Amazon Resource Name (ARN) of the Explainability export.
+        public let explainabilityExportArn: String?
+        /// The name of the Explainability export
+        public let explainabilityExportName: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// Information about any errors that may have occurred during the Explainability export.
+        public let message: String?
+        /// The status of the Explainability export. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, explainabilityExportArn: String? = nil, explainabilityExportName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.destination = destination
+            self.explainabilityExportArn = explainabilityExportArn
+            self.explainabilityExportName = explainabilityExportName
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destination = "Destination"
+            case explainabilityExportArn = "ExplainabilityExportArn"
+            case explainabilityExportName = "ExplainabilityExportName"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+        }
+    }
+
+    public struct ExplainabilityInfo: AWSDecodableShape {
+        public let explainabilityArn: String?
+        public let status: String?
+
+        public init(explainabilityArn: String? = nil, status: String? = nil) {
+            self.explainabilityArn = explainabilityArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityArn = "ExplainabilityArn"
+            case status = "Status"
+        }
+    }
+
+    public struct ExplainabilitySummary: AWSDecodableShape {
+        /// When the Explainability was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the Explainability.
+        public let explainabilityArn: String?
+        /// The configuration settings that define the granularity of time series and time points for the Explainability.
+        public let explainabilityConfig: ExplainabilityConfig?
+        /// The name of the Explainability.
+        public let explainabilityName: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// Information about any errors that may have occurred during the Explainability creation process.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability.
+        public let resourceArn: String?
+        /// The status of the Explainability. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, explainabilityArn: String? = nil, explainabilityConfig: ExplainabilityConfig? = nil, explainabilityName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, resourceArn: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.explainabilityArn = explainabilityArn
+            self.explainabilityConfig = explainabilityConfig
+            self.explainabilityName = explainabilityName
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.resourceArn = resourceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case explainabilityArn = "ExplainabilityArn"
+            case explainabilityConfig = "ExplainabilityConfig"
+            case explainabilityName = "ExplainabilityName"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case resourceArn = "ResourceArn"
+            case status = "Status"
+        }
+    }
+
     public struct Featurization: AWSEncodableShape & AWSDecodableShape {
         /// The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the target field of  the TARGET_TIME_SERIES and the RELATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value. For more information, see howitworks-missing-values.
         public let attributeName: String
@@ -1528,8 +2248,10 @@ extension Forecast {
                 try validate($0, name: "forecastDimensions[]", parent: name, min: 1)
                 try validate($0, name: "forecastDimensions[]", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             }
-            try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, max: 5)
+            try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, max: 10)
             try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, min: 1)
+            try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, max: 5)
+            try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, min: 1)
             try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, pattern: "^Y|M|W|D|H|30min|15min|10min|5min|1min$")
         }
 
@@ -1635,6 +2357,7 @@ extension Forecast {
     }
 
     public struct ForecastSummary: AWSDecodableShape {
+        public let createdUsingAutoPredictor: Bool?
         /// When the forecast creation task was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that provided the data used to train the predictor.
@@ -1652,7 +2375,8 @@ extension Forecast {
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
-        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+        public init(createdUsingAutoPredictor: Bool? = nil, creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+            self.createdUsingAutoPredictor = createdUsingAutoPredictor
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.forecastArn = forecastArn
@@ -1664,6 +2388,7 @@ extension Forecast {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdUsingAutoPredictor = "CreatedUsingAutoPredictor"
             case creationTime = "CreationTime"
             case datasetGroupArn = "DatasetGroupArn"
             case forecastArn = "ForecastArn"
@@ -1696,19 +2421,23 @@ extension Forecast {
     public struct GetAccuracyMetricsResponse: AWSDecodableShape {
         ///  The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges.   The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
         public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
+        /// Whether the predictor was created with CreateAutoPredictor.
+        public let isAutoPredictor: Bool?
         /// The accuracy metric used to optimize the predictor.
         public let optimizationMetric: OptimizationMetric?
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
 
-        public init(autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, optimizationMetric: OptimizationMetric? = nil, predictorEvaluationResults: [EvaluationResult]? = nil) {
+        public init(autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, isAutoPredictor: Bool? = nil, optimizationMetric: OptimizationMetric? = nil, predictorEvaluationResults: [EvaluationResult]? = nil) {
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
+            self.isAutoPredictor = isAutoPredictor
             self.optimizationMetric = optimizationMetric
             self.predictorEvaluationResults = predictorEvaluationResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoMLOverrideStrategy = "AutoMLOverrideStrategy"
+            case isAutoPredictor = "IsAutoPredictor"
             case optimizationMetric = "OptimizationMetric"
             case predictorEvaluationResults = "PredictorEvaluationResults"
         }
@@ -1805,6 +2534,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1852,6 +2582,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1894,6 +2625,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1915,6 +2647,104 @@ extension Forecast {
 
         private enum CodingKeys: String, CodingKey {
             case datasets = "Datasets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExplainabilitiesRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
+        public let filters: [Filter]?
+        /// The number of items returned in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExplainabilitiesResponse: AWSDecodableShape {
+        /// An array of objects that summarize the properties of each Explainability resource.
+        public let explainabilities: [ExplainabilitySummary]?
+        /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
+        public let nextToken: String?
+
+        public init(explainabilities: [ExplainabilitySummary]? = nil, nextToken: String? = nil) {
+            self.explainabilities = explainabilities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilities = "Explainabilities"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExplainabilityExportsRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
+        public let filters: [Filter]?
+        /// The number of items to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExplainabilityExportsResponse: AWSDecodableShape {
+        /// An array of objects that summarize the properties of each Explainability export.
+        public let explainabilityExports: [ExplainabilityExportSummary]?
+        /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
+        public let nextToken: String?
+
+        public init(explainabilityExports: [ExplainabilityExportSummary]? = nil, nextToken: String? = nil) {
+            self.explainabilityExports = explainabilityExports
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainabilityExports = "ExplainabilityExports"
             case nextToken = "NextToken"
         }
     }
@@ -1941,6 +2771,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1989,6 +2820,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2037,6 +2869,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2085,6 +2918,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2277,6 +3111,8 @@ extension Forecast {
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
         public let datasetGroupArn: String?
+        /// Whether AutoPredictor was used to create the predictor.
+        public let isAutoPredictor: Bool?
         /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
@@ -2285,27 +3121,50 @@ extension Forecast {
         public let predictorArn: String?
         /// The name of the predictor.
         public let predictorName: String?
+        /// A summary of the reference predictor used if the predictor was retrained or upgraded.
+        public let referencePredictorSummary: ReferencePredictorSummary?
         /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
 
-        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, isAutoPredictor: Bool? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
+            self.isAutoPredictor = isAutoPredictor
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.predictorArn = predictorArn
             self.predictorName = predictorName
+            self.referencePredictorSummary = referencePredictorSummary
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case datasetGroupArn = "DatasetGroupArn"
+            case isAutoPredictor = "IsAutoPredictor"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case predictorArn = "PredictorArn"
             case predictorName = "PredictorName"
+            case referencePredictorSummary = "ReferencePredictorSummary"
             case status = "Status"
+        }
+    }
+
+    public struct ReferencePredictorSummary: AWSDecodableShape {
+        /// The ARN of the reference predictor.
+        public let arn: String?
+        /// Whether the reference predictor is Active or Deleted.
+        public let state: State?
+
+        public init(arn: String? = nil, state: State? = nil) {
+            self.arn = arn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case state = "State"
         }
     }
 
@@ -2326,6 +3185,8 @@ extension Forecast {
         public func validate(name: String) throws {
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, max: 256)
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "^arn:aws:kms:.*:key/")
+            try self.validate(self.path, name: "path", parent: name, max: 4096)
+            try self.validate(self.path, name: "path", parent: name, min: 7)
             try self.validate(self.path, name: "path", parent: name, pattern: "^s3://[a-z0-9].+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")

@@ -32,6 +32,23 @@
         "com.amazonaws.connect#ARN": {
             "type": "string"
         },
+        "com.amazonaws.connect#AccessDeniedException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.connect#Message"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "AccessDeniedException",
+                    "httpResponseCode": 403
+                },
+                "smithy.api#documentation": "<p>You do not have sufficient access to perform this action.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 403
+            }
+        },
         "com.amazonaws.connect#AfterContactWorkTimeLimit": {
             "type": "integer",
             "traits": {
@@ -49,12 +66,41 @@
                 }
             }
         },
+        "com.amazonaws.connect#AgentInfo": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.connect#AgentResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the agent who accepted the contact.</p>"
+                    }
+                },
+                "ConnectedToAgentTimestamp": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when the contact was connected to the agent.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the agent who accepted the contact.</p>"
+            }
+        },
         "com.amazonaws.connect#AgentLastName": {
             "type": "string",
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
                     "max": 100
+                }
+            }
+        },
+        "com.amazonaws.connect#AgentResourceId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
                 }
             }
         },
@@ -249,6 +295,21 @@
         },
         "com.amazonaws.connect#AmazonConnectService": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Connect",
+                    "arnNamespace": "connect",
+                    "cloudFormationName": "Connect",
+                    "cloudTrailEventSource": "connect.amazonaws.com",
+                    "endpointPrefix": "connect"
+                },
+                "aws.auth#sigv4": {
+                    "name": "connect"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#documentation": "<p>Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer\n   contact center and provide reliable customer engagement at any scale.</p>\n         <p>Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing.\n   You can also resolve customer issues more efficiently by getting customers in touch with the\n   appropriate agents.</p>\n         <p>There are limits to the number of Amazon Connect resources that you can create. There are also limits\n   to the number of requests that you can make per second. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect\n    Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>.</p>\n         <p>You can\n   connect\n   programmatically to an AWS service by using an endpoint. For a list of Amazon Connect endpoints, see\n    <a href=\"https://docs.aws.amazon.com/general/latest/gr/connect_region.html\">Amazon Connect\n   Endpoints</a>.</p>\n         <note>\n            <p>Working with contact flows? Check out the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p>\n         </note>",
+                "smithy.api#title": "Amazon Connect Service"
+            },
             "version": "2017-08-08",
             "operations": [
                 {
@@ -300,6 +361,9 @@
                     "target": "com.amazonaws.connect#CreateRoutingProfile"
                 },
                 {
+                    "target": "com.amazonaws.connect#CreateSecurityProfile"
+                },
+                {
                     "target": "com.amazonaws.connect#CreateUseCase"
                 },
                 {
@@ -321,6 +385,9 @@
                     "target": "com.amazonaws.connect#DeleteQuickConnect"
                 },
                 {
+                    "target": "com.amazonaws.connect#DeleteSecurityProfile"
+                },
+                {
                     "target": "com.amazonaws.connect#DeleteUseCase"
                 },
                 {
@@ -331,6 +398,9 @@
                 },
                 {
                     "target": "com.amazonaws.connect#DescribeAgentStatus"
+                },
+                {
+                    "target": "com.amazonaws.connect#DescribeContact"
                 },
                 {
                     "target": "com.amazonaws.connect#DescribeContactFlow"
@@ -355,6 +425,9 @@
                 },
                 {
                     "target": "com.amazonaws.connect#DescribeRoutingProfile"
+                },
+                {
+                    "target": "com.amazonaws.connect#DescribeSecurityProfile"
                 },
                 {
                     "target": "com.amazonaws.connect#DescribeUser"
@@ -414,6 +487,9 @@
                     "target": "com.amazonaws.connect#ListContactFlows"
                 },
                 {
+                    "target": "com.amazonaws.connect#ListContactReferences"
+                },
+                {
                     "target": "com.amazonaws.connect#ListHoursOfOperations"
                 },
                 {
@@ -459,6 +535,9 @@
                     "target": "com.amazonaws.connect#ListSecurityKeys"
                 },
                 {
+                    "target": "com.amazonaws.connect#ListSecurityProfilePermissions"
+                },
+                {
                     "target": "com.amazonaws.connect#ListSecurityProfiles"
                 },
                 {
@@ -483,6 +562,9 @@
                     "target": "com.amazonaws.connect#StartContactRecording"
                 },
                 {
+                    "target": "com.amazonaws.connect#StartContactStreaming"
+                },
+                {
                     "target": "com.amazonaws.connect#StartOutboundVoiceContact"
                 },
                 {
@@ -493,6 +575,9 @@
                 },
                 {
                     "target": "com.amazonaws.connect#StopContactRecording"
+                },
+                {
+                    "target": "com.amazonaws.connect#StopContactStreaming"
                 },
                 {
                     "target": "com.amazonaws.connect#SuspendContactRecording"
@@ -507,6 +592,9 @@
                     "target": "com.amazonaws.connect#UpdateAgentStatus"
                 },
                 {
+                    "target": "com.amazonaws.connect#UpdateContact"
+                },
+                {
                     "target": "com.amazonaws.connect#UpdateContactAttributes"
                 },
                 {
@@ -514,6 +602,9 @@
                 },
                 {
                     "target": "com.amazonaws.connect#UpdateContactFlowName"
+                },
+                {
+                    "target": "com.amazonaws.connect#UpdateContactSchedule"
                 },
                 {
                     "target": "com.amazonaws.connect#UpdateHoursOfOperation"
@@ -558,6 +649,9 @@
                     "target": "com.amazonaws.connect#UpdateRoutingProfileQueues"
                 },
                 {
+                    "target": "com.amazonaws.connect#UpdateSecurityProfile"
+                },
+                {
                     "target": "com.amazonaws.connect#UpdateUserHierarchy"
                 },
                 {
@@ -578,22 +672,7 @@
                 {
                     "target": "com.amazonaws.connect#UpdateUserSecurityProfiles"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "Connect",
-                    "arnNamespace": "connect",
-                    "cloudFormationName": "Connect",
-                    "cloudTrailEventSource": "connect.amazonaws.com",
-                    "endpointPrefix": "connect"
-                },
-                "aws.auth#sigv4": {
-                    "name": "connect"
-                },
-                "aws.protocols#restJson1": {},
-                "smithy.api#documentation": "<p>Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer\n   contact center and provide reliable customer engagement at any scale.</p>\n         <p>Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing.\n   You can also resolve customer issues more efficiently by getting customers in touch with the\n   appropriate agents.</p>\n         <p>There are limits to the number of Amazon Connect resources that you can create. There are also limits\n   to the number of requests that you can make per second. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect\n    Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>.</p>\n         <p>You can\n   connect\n   programmatically to an AWS service by using an endpoint. For a list of Amazon Connect endpoints, see\n    <a href=\"https://docs.aws.amazon.com/general/latest/gr/connect_region.html\">Amazon Connect\n   Endpoints</a>.</p>\n         <note>\n            <p>Working with contact flows? Check out the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p>\n         </note>",
-                "smithy.api#title": "Amazon Connect Service"
-            }
+            ]
         },
         "com.amazonaws.connect#AnswerMachineDetectionConfig": {
             "type": "structure",
@@ -1121,6 +1200,32 @@
                 }
             }
         },
+        "com.amazonaws.connect#AttachmentReference": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.connect#ReferenceKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Identifier of the attachment reference.</p>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.connect#ReferenceValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains the location path of the attachment reference.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.connect#ReferenceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Status of an attachment reference type.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the attachment reference if the <code>referenceType</code> is <code>ATTACHMENT</code>. Otherwise, null.</p>"
+            }
+        },
         "com.amazonaws.connect#Attribute": {
             "type": "structure",
             "members": {
@@ -1234,7 +1339,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 1
+                    "max": 3
                 }
             }
         },
@@ -1278,6 +1383,30 @@
                 "smithy.api#documentation": "<p>A chat message.</p>"
             }
         },
+        "com.amazonaws.connect#ChatStreamingConfiguration": {
+            "type": "structure",
+            "members": {
+                "StreamingEndpointArn": {
+                    "target": "com.amazonaws.connect#ChatStreamingEndpointARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used\n   to publish real-time message streaming for chat conversations.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The streaming configuration, such as the Amazon SNS streaming endpoint.</p>"
+            }
+        },
+        "com.amazonaws.connect#ChatStreamingEndpointARN": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 350
+                }
+            }
+        },
         "com.amazonaws.connect#ClientToken": {
             "type": "string",
             "traits": {
@@ -1314,6 +1443,98 @@
                     "min": 1,
                     "max": 10
                 }
+            }
+        },
+        "com.amazonaws.connect#Contact": {
+            "type": "structure",
+            "members": {
+                "Arn": {
+                    "target": "com.amazonaws.connect#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the contact.</p>"
+                    }
+                },
+                "Id": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the contact.</p>"
+                    }
+                },
+                "InitialContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If this contact is related to other contacts, this is the ID of the initial contact.</p>"
+                    }
+                },
+                "PreviousContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If this contact is not the first contact, this is the ID of the previous contact.</p>"
+                    }
+                },
+                "InitiationMethod": {
+                    "target": "com.amazonaws.connect#ContactInitiationMethod",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates how the contact was initiated.</p>"
+                    }
+                },
+                "Name": {
+                    "target": "com.amazonaws.connect#Name",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the contact.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.connect#Description",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the contact.</p>"
+                    }
+                },
+                "Channel": {
+                    "target": "com.amazonaws.connect#Channel",
+                    "traits": {
+                        "smithy.api#documentation": "<p>How the contact reached your contact center.</p>"
+                    }
+                },
+                "QueueInfo": {
+                    "target": "com.amazonaws.connect#QueueInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If this contact was queued, this contains information about the queue. </p>"
+                    }
+                },
+                "AgentInfo": {
+                    "target": "com.amazonaws.connect#AgentInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the agent who accepted the contact.</p>"
+                    }
+                },
+                "InitiationTimestamp": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time this contact was initiated, in UTC time. For <code>INBOUND</code>, this is when the\n   contact arrived. For <code>OUTBOUND</code>, this is when the agent began dialing. For <code>CALLBACK</code>, this is when\n   the callback contact was created. For <code>TRANSFER</code> and <code>QUEUE_TRANSFER</code>, this is when the transfer was\n   initiated. For <code>API</code>, this is when the request arrived.</p>"
+                    }
+                },
+                "DisconnectTimestamp": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when the customer endpoint disconnected from Amazon Connect.</p>"
+                    }
+                },
+                "LastUpdateTimestamp": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when contact was last updated.</p>"
+                    }
+                },
+                "ScheduledTimestamp": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp, in Unix epoch time format, at which to start running the inbound flow. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about a contact.</p>"
             }
         },
         "com.amazonaws.connect#ContactFlow": {
@@ -1502,6 +1723,37 @@
                     "min": 1,
                     "max": 256
                 }
+            }
+        },
+        "com.amazonaws.connect#ContactInitiationMethod": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "INBOUND",
+                        "name": "INBOUND"
+                    },
+                    {
+                        "value": "OUTBOUND",
+                        "name": "OUTBOUND"
+                    },
+                    {
+                        "value": "TRANSFER",
+                        "name": "TRANSFER"
+                    },
+                    {
+                        "value": "QUEUE_TRANSFER",
+                        "name": "QUEUE_TRANSFER"
+                    },
+                    {
+                        "value": "CALLBACK",
+                        "name": "CALLBACK"
+                    },
+                    {
+                        "value": "API",
+                        "name": "API"
+                    }
+                ]
             }
         },
         "com.amazonaws.connect#ContactNotFoundException": {
@@ -1774,7 +2026,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Creates hours of operation. </p>",
+                "smithy.api#documentation": "<p>Creates hours of operation. </p>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/hours-of-operations/{InstanceId}",
@@ -2248,7 +2500,7 @@
                 "QuickConnectId": {
                     "target": "com.amazonaws.connect#QuickConnectId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier for the quick connect. \n  </p>"
+                        "smithy.api#documentation": "<p>The identifier for the quick connect. </p>"
                     }
                 }
             }
@@ -2359,6 +2611,101 @@
                     "target": "com.amazonaws.connect#RoutingProfileId",
                     "traits": {
                         "smithy.api#documentation": "<p>The identifier of the routing profile.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#CreateSecurityProfile": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#CreateSecurityProfileRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#CreateSecurityProfileResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#DuplicateResourceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Creates a security profile.</p>",
+                "smithy.api#http": {
+                    "method": "PUT",
+                    "uri": "/security-profiles/{InstanceId}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#CreateSecurityProfileRequest": {
+            "type": "structure",
+            "members": {
+                "SecurityProfileName": {
+                    "target": "com.amazonaws.connect#SecurityProfileName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the security profile.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.connect#SecurityProfileDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the security profile.</p>"
+                    }
+                },
+                "Permissions": {
+                    "target": "com.amazonaws.connect#PermissionsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Permissions assigned to the security profile.</p>"
+                    }
+                },
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.connect#TagMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>One or more tags.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#CreateSecurityProfileResponse": {
+            "type": "structure",
+            "members": {
+                "SecurityProfileId": {
+                    "target": "com.amazonaws.connect#SecurityProfileId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the security profle.</p>"
+                    }
+                },
+                "SecurityProfileArn": {
+                    "target": "com.amazonaws.connect#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the security profile.</p>"
                     }
                 }
             }
@@ -2862,7 +3209,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Deletes an hours of operation.</p>",
+                "smithy.api#documentation": "<p>Deletes an hours of operation.</p>",
                 "smithy.api#http": {
                     "method": "DELETE",
                     "uri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
@@ -3024,6 +3371,64 @@
                     "target": "com.amazonaws.connect#QuickConnectId",
                     "traits": {
                         "smithy.api#documentation": "<p>The identifier for the quick connect.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#DeleteSecurityProfile": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#DeleteSecurityProfileRequest"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceInUseException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Deletes a security profile.</p>",
+                "smithy.api#http": {
+                    "method": "DELETE",
+                    "uri": "/security-profiles/{InstanceId}/{SecurityProfileId}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#DeleteSecurityProfileRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "SecurityProfileId": {
+                    "target": "com.amazonaws.connect#SecurityProfileId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the security profle.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3260,6 +3665,40 @@
                 }
             }
         },
+        "com.amazonaws.connect#DescribeContact": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#DescribeContactRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#DescribeContactResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Describes the specified contact. </p>\n         <important>\n            <p>Contact information is available in Amazon Connect for 24 months, and then it is deleted.</p>\n         </important>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/contacts/{InstanceId}/{ContactId}",
+                    "code": 200
+                }
+            }
+        },
         "com.amazonaws.connect#DescribeContactFlow": {
             "type": "operation",
             "input": {
@@ -3329,6 +3768,38 @@
                 }
             }
         },
+        "com.amazonaws.connect#DescribeContactRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the initial contact.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#DescribeContactResponse": {
+            "type": "structure",
+            "members": {
+                "Contact": {
+                    "target": "com.amazonaws.connect#Contact",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the contact.</p>"
+                    }
+                }
+            }
+        },
         "com.amazonaws.connect#DescribeHoursOfOperation": {
             "type": "operation",
             "input": {
@@ -3355,7 +3826,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Describes the hours of operation.</p>",
+                "smithy.api#documentation": "<p>Describes the hours of operation.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
@@ -3781,6 +4252,72 @@
                     "target": "com.amazonaws.connect#RoutingProfile",
                     "traits": {
                         "smithy.api#documentation": "<p>The routing profile.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#DescribeSecurityProfile": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#DescribeSecurityProfileRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#DescribeSecurityProfileResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Gets basic information about the security profle.</p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/security-profiles/{InstanceId}/{SecurityProfileId}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#DescribeSecurityProfileRequest": {
+            "type": "structure",
+            "members": {
+                "SecurityProfileId": {
+                    "target": "com.amazonaws.connect#SecurityProfileId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the security profle.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#DescribeSecurityProfileResponse": {
+            "type": "structure",
+            "members": {
+                "SecurityProfile": {
+                    "target": "com.amazonaws.connect#SecurityProfile",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The security profile.</p>"
                     }
                 }
             }
@@ -4730,7 +5267,7 @@
                 "CurrentMetrics": {
                     "target": "com.amazonaws.connect#CurrentMetrics",
                     "traits": {
-                        "smithy.api#documentation": "<p>The metrics to retrieve. Specify the name and unit for each metric. The following metrics\n   are available. For a description of all the metrics, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html\">Real-time Metrics\n    Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.</p>\n         <dl>\n            <dt>AGENTS_AFTER_CONTACT_WORK</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time\">ACW</a>\n               </p>\n\n            </dd>\n            <dt>AGENTS_AVAILABLE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time\">Available</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ERROR</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time\">Error</a>\n               </p>\n            </dd>\n            <dt>AGENTS_NON_PRODUCTIVE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time\">NPT (Non-Productive Time)</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ON_CALL</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On\n       contact</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ON_CONTACT</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On\n       contact</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ONLINE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time\">Online</a>\n               </p>\n            </dd>\n            <dt>AGENTS_STAFFED</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time\">Staffed</a>\n               </p>\n            </dd>\n            <dt>CONTACTS_IN_QUEUE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time\">In\n       queue</a>\n               </p>\n            </dd>\n            <dt>CONTACTS_SCHEDULED</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time\">Scheduled</a>\n               </p>\n            </dd>\n            <dt>OLDEST_CONTACT_AGE</dt>\n            <dd>\n               <p>Unit: SECONDS</p>\n               <p>When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. </p>\n               <p>When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For\n      example, if you get a response like this:</p>\n               <p>\n                  <code>{ \"Metric\": { \"Name\": \"OLDEST_CONTACT_AGE\", \"Unit\": \"SECONDS\" }, \"Value\": 24113.0\n     </code>}</p>\n               <p>The actual OLDEST_CONTACT_AGE is 24 seconds.</p>\n\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time\">Oldest</a>\n               </p>\n            </dd>\n            <dt>SLOTS_ACTIVE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time\">Active</a>\n               </p>\n            </dd>\n            <dt>SLOTS_AVAILABLE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time\">Availability</a>\n               </p>\n            </dd>\n         </dl>",
+                        "smithy.api#documentation": "<p>The metrics to retrieve. Specify the name and unit for each metric. The following metrics\n   are available. For a description of all the metrics, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html\">Real-time Metrics\n    Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.</p>\n         <dl>\n            <dt>AGENTS_AFTER_CONTACT_WORK</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time\">ACW</a>\n               </p>\n\n            </dd>\n            <dt>AGENTS_AVAILABLE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time\">Available</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ERROR</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time\">Error</a>\n               </p>\n            </dd>\n            <dt>AGENTS_NON_PRODUCTIVE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time\">NPT (Non-Productive Time)</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ON_CALL</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On\n       contact</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ON_CONTACT</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On\n       contact</a>\n               </p>\n            </dd>\n            <dt>AGENTS_ONLINE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time\">Online</a>\n               </p>\n            </dd>\n            <dt>AGENTS_STAFFED</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time\">Staffed</a>\n               </p>\n            </dd>\n            <dt>CONTACTS_IN_QUEUE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time\">In\n       queue</a>\n               </p>\n            </dd>\n            <dt>CONTACTS_SCHEDULED</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time\">Scheduled</a>\n               </p>\n            </dd>\n            <dt>OLDEST_CONTACT_AGE</dt>\n            <dd>\n               <p>Unit: SECONDS</p>\n               <p>When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. </p>\n               <p>When you do not use groupings, Unit says SECONDS but the Value is returned in\n      MILLISECONDS. For example, if you get a response like this:</p>\n               <p>\n                  <code>{ \"Metric\": { \"Name\": \"OLDEST_CONTACT_AGE\", \"Unit\": \"SECONDS\" }, \"Value\": 24113.0\n      </code>}</p>\n               <p>The actual OLDEST_CONTACT_AGE is 24 seconds.</p>\n\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time\">Oldest</a>\n               </p>\n            </dd>\n            <dt>SLOTS_ACTIVE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time\">Active</a>\n               </p>\n            </dd>\n            <dt>SLOTS_AVAILABLE</dt>\n            <dd>\n               <p>Unit: COUNT</p>\n               <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time\">Availability</a>\n               </p>\n            </dd>\n         </dl>",
                         "smithy.api#required": {}
                     }
                 },
@@ -5493,14 +6030,14 @@
                 "StartTime": {
                     "target": "com.amazonaws.connect#HoursOfOperationTimeSlice",
                     "traits": {
-                        "smithy.api#documentation": "<p>The start time that your contact center is open.</p>",
+                        "smithy.api#documentation": "<p>The start time that your contact center opens.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "EndTime": {
                     "target": "com.amazonaws.connect#HoursOfOperationTimeSlice",
                     "traits": {
-                        "smithy.api#documentation": "<p>The end time that your contact center is closes.</p>",
+                        "smithy.api#documentation": "<p>The end time that your contact center closes.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -6474,7 +7011,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the\n   instance. </p>",
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently\n   associated with the instance. </p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/instance/{InstanceId}/bots",
@@ -6628,6 +7165,98 @@
                     "target": "com.amazonaws.connect#NextToken",
                     "traits": {
                         "smithy.api#documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#ListContactReferences": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#ListContactReferencesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#ListContactReferencesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>For the specified <code>referenceTypes</code>, returns a list of references associated with\n   the contact. </p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/contact/references/{InstanceId}/{ContactId}",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "ReferenceSummaryList"
+                }
+            }
+        },
+        "com.amazonaws.connect#ListContactReferencesRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the initial contact.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "ReferenceTypes": {
+                    "target": "com.amazonaws.connect#ReferenceTypes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of reference.</p>",
+                        "smithy.api#httpQuery": "referenceTypes",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.connect#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token for the next set of results. Use the value returned in the previous \nresponse in the next request to retrieve the next set of results.</p>\n         <important>\n            <p>This is not expected to be set since the value returned in the previous response is always\n    null.</p>\n         </important>",
+                        "smithy.api#httpQuery": "nextToken"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#ListContactReferencesResponse": {
+            "type": "structure",
+            "members": {
+                "ReferenceSummaryList": {
+                    "target": "com.amazonaws.connect#ReferenceSummaryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the contact flows.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.connect#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If there are additional results, this is the token for the next set of results.</p>\n         <important>\n            <p>This is always returned as null in the response.</p>\n         </important>"
                     }
                 }
             }
@@ -7198,7 +7827,7 @@
                     "target": "com.amazonaws.connect#MaxResult25",
                     "traits": {
                         "smithy.api#box": {},
-                        "smithy.api#documentation": "<p>The maximum number of results to return per page.</p>",
+                        "smithy.api#documentation": "<p>The maximum number of results to return per page. If no value is specified, the default is 10.\n   </p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
                 }
@@ -7943,6 +8572,99 @@
                 }
             }
         },
+        "com.amazonaws.connect#ListSecurityProfilePermissions": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#ListSecurityProfilePermissionsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#ListSecurityProfilePermissionsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Lists the permissions granted to a security profile.</p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "Permissions",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.connect#ListSecurityProfilePermissionsRequest": {
+            "type": "structure",
+            "members": {
+                "SecurityProfileId": {
+                    "target": "com.amazonaws.connect#SecurityProfileId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the security profle.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.connect#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token for the next set of results. Use the value returned in the previous \nresponse in the next request to retrieve the next set of results.</p>",
+                        "smithy.api#httpQuery": "nextToken"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.connect#MaxResult1000",
+                    "traits": {
+                        "smithy.api#box": {},
+                        "smithy.api#documentation": "<p>The maximum number of results to return per page.</p>",
+                        "smithy.api#httpQuery": "maxResults"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#ListSecurityProfilePermissionsResponse": {
+            "type": "structure",
+            "members": {
+                "Permissions": {
+                    "target": "com.amazonaws.connect#PermissionsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The permissions granted to the security profile.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.connect#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+                    }
+                }
+            }
+        },
         "com.amazonaws.connect#ListSecurityProfiles": {
             "type": "operation",
             "input": {
@@ -8577,6 +9299,18 @@
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\S]{8,64}$/$"
+            }
+        },
+        "com.amazonaws.connect#PermissionsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#SecurityProfilePermission"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 500
+                }
             }
         },
         "com.amazonaws.connect#PhoneNumber": {
@@ -9831,6 +10565,26 @@
         "com.amazonaws.connect#QueueId": {
             "type": "string"
         },
+        "com.amazonaws.connect#QueueInfo": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.connect#QueueId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the agent who accepted the contact.</p>"
+                    }
+                },
+                "EnqueueTimestamp": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when the contact was added to the queue.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>If this contact was queued, this contains information about the queue. </p>"
+            }
+        },
         "com.amazonaws.connect#QueueMaxContacts": {
             "type": "integer",
             "traits": {
@@ -10167,14 +10921,14 @@
                 "Value": {
                     "target": "com.amazonaws.connect#ReferenceValue",
                     "traits": {
-                        "smithy.api#documentation": "<p>A formatted URL that displays to an agent in the Contact Control Panel (CCP)</p>",
+                        "smithy.api#documentation": "<p>A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "Type": {
                     "target": "com.amazonaws.connect#ReferenceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>A valid\n   URL.</p>",
+                        "smithy.api#documentation": "<p>The type of the reference. Only <code>URL</code> type can be added or updated on a contact.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -10192,6 +10946,47 @@
                 }
             }
         },
+        "com.amazonaws.connect#ReferenceStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "APPROVED",
+                        "name": "APPROVED"
+                    },
+                    {
+                        "value": "REJECTED",
+                        "name": "REJECTED"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.connect#ReferenceSummary": {
+            "type": "union",
+            "members": {
+                "Url": {
+                    "target": "com.amazonaws.connect#UrlReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about Url reference if the <code>referenceType</code> is <code>URL</code>. Otherwise, null.</p>"
+                    }
+                },
+                "Attachment": {
+                    "target": "com.amazonaws.connect#AttachmentReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the attachment reference if the <code>referenceType</code> is <code>ATTACHMENT</code>. Otherwise, null.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains summary information about a reference. <code>ReferenceSummary</code> contains only one non null field between the URL and attachment based on the reference type.</p>"
+            }
+        },
+        "com.amazonaws.connect#ReferenceSummaryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#ReferenceSummary"
+            }
+        },
         "com.amazonaws.connect#ReferenceType": {
             "type": "string",
             "traits": {
@@ -10199,8 +10994,24 @@
                     {
                         "value": "URL",
                         "name": "URL"
+                    },
+                    {
+                        "value": "ATTACHMENT",
+                        "name": "ATTACHMENT"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.connect#ReferenceTypes": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#ReferenceType"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 2
+                }
             }
         },
         "com.amazonaws.connect#ReferenceValue": {
@@ -10655,6 +11466,59 @@
                 "target": "com.amazonaws.connect#SecurityKey"
             }
         },
+        "com.amazonaws.connect#SecurityProfile": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.connect#SecurityProfileId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the security profile.</p>"
+                    }
+                },
+                "OrganizationResourceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The organization resource identifier for the security profile.</p>"
+                    }
+                },
+                "Arn": {
+                    "target": "com.amazonaws.connect#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the secruity profile.</p>"
+                    }
+                },
+                "SecurityProfileName": {
+                    "target": "com.amazonaws.connect#SecurityProfileName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name for the security profile.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.connect#SecurityProfileDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the security profile.</p>"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.connect#TagMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>One or more tags.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about a security profile.</p>"
+            }
+        },
+        "com.amazonaws.connect#SecurityProfileDescription": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 250
+                }
+            }
+        },
         "com.amazonaws.connect#SecurityProfileId": {
             "type": "string"
         },
@@ -10672,6 +11536,15 @@
         },
         "com.amazonaws.connect#SecurityProfileName": {
             "type": "string"
+        },
+        "com.amazonaws.connect#SecurityProfilePermission": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                }
+            }
         },
         "com.amazonaws.connect#SecurityProfileSummary": {
             "type": "structure",
@@ -10919,6 +11792,86 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.connect#StartContactStreaming": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#StartContactStreamingRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#StartContactStreamingResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p> Initiates real-time message streaming for a new chat contact.</p>\n         <p> For more information about message streaming, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html\">Enable real-time chat message\n    streaming</a> in the <i>Amazon Connect Administrator Guide</i>.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/contact/start-streaming",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#StartContactStreamingRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the contact. This is the identifier of the contact associated with the\n   first interaction with the contact center.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ChatStreamingConfiguration": {
+                    "target": "com.amazonaws.connect#ChatStreamingConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The streaming configuration, such as the Amazon SNS streaming endpoint.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ClientToken": {
+                    "target": "com.amazonaws.connect#ClientToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n            request.</p>",
+                        "smithy.api#idempotencyToken": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#StartContactStreamingResponse": {
+            "type": "structure",
+            "members": {
+                "StreamingId": {
+                    "target": "com.amazonaws.connect#StreamingId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the streaming configuration enabled. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
         "com.amazonaws.connect#StartOutboundVoiceContact": {
             "type": "operation",
             "input": {
@@ -10951,7 +11904,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Places an outbound call to a contact, and then initiates the contact flow. It performs the\n   actions in the contact flow that's specified (in <code>ContactFlowId</code>).</p>\n  \n         <p>Agents do not initiate the outbound API, which means that they do not dial the contact. If\n   the contact flow places an outbound call to a contact, and then puts the contact in queue, the\n   call is then routed to the agent, like any other inbound case.</p>\n\n         <p>There is a 60-second dialing timeout for this operation. If the call is not connected after\n   60 seconds, it fails.</p>\n         <note>\n            <p>UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK\n    mobile numbers, you must submit a service quota increase request. For more information, see\n     <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>. </p>\n         </note>\n         <note>\n            <p>Campaign calls are not allowed by default. Before you can make a call with \n    <code>TrafficType</code> = <code>CAMPAIGN</code>, you must submit a service quota increase request. For more information, see \n    <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>. </p>\n         </note>",
+                "smithy.api#documentation": "<p>Places an outbound call to a contact, and then initiates the contact flow. It performs the\n   actions in the contact flow that's specified (in <code>ContactFlowId</code>).</p>\n\n         <p>Agents do not initiate the outbound API, which means that they do not dial the contact. If\n   the contact flow places an outbound call to a contact, and then puts the contact in queue, the\n   call is then routed to the agent, like any other inbound case.</p>\n\n         <p>There is a 60-second dialing timeout for this operation. If the call is not connected after\n   60 seconds, it fails.</p>\n         <note>\n            <p>UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK\n    mobile numbers, you must submit a service quota increase request. For more information, see\n     <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>. </p>\n         </note>\n         <note>\n            <p>Campaign calls are not allowed by default. Before you can make a call with\n     <code>TrafficType</code> = <code>CAMPAIGN</code>, you must submit a service quota increase\n    request. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a>\n    in the <i>Amazon Connect Administrator Guide</i>. </p>\n         </note>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/contact/outbound-voice",
@@ -11023,7 +11976,7 @@
                 "TrafficType": {
                     "target": "com.amazonaws.connect#TrafficType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Denotes the class of traffic. Calls with different traffic types are handled differently by\n   Amazon Connect. The default value is <code>GENERAL</code>. Use <code>CAMPAIGN</code> if\n   <code>EnableAnswerMachineDetection</code> is set to <code>true</code>. For all other cases, use\n   <code>GENERAL</code>. </p>"
+                        "smithy.api#documentation": "<p>Denotes the class of traffic. Calls with different traffic types are handled differently by\n   Amazon Connect. The default value is <code>GENERAL</code>. Use <code>CAMPAIGN</code> if\n    <code>EnableAnswerMachineDetection</code> is set to <code>true</code>. For all other cases, use\n    <code>GENERAL</code>. </p>"
                     }
                 }
             }
@@ -11068,7 +12021,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Initiates a contact flow to start a new task.</p>",
+                "smithy.api#documentation": "<p>Initiates a contact flow to start a new task immediately or at a future date and\n   time.</p>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/contact/task",
@@ -11129,6 +12082,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n   request.</p>",
                         "smithy.api#idempotencyToken": {}
+                    }
+                },
+                "ScheduledTime": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future. </p>"
                     }
                 }
             }
@@ -11278,6 +12237,67 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.connect#StopContactStreaming": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#StopContactStreamingRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#StopContactStreamingResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p> Ends message streaming on a specified contact. To restart message streaming on that\n   contact, call the <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html\">StartContactStreaming</a>\n   API. </p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/contact/stop-streaming",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#StopContactStreamingRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the contact. This is the identifier of the contact that is associated with\n   the first interaction with the contact center.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "StreamingId": {
+                    "target": "com.amazonaws.connect#StreamingId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the streaming configuration enabled. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#StopContactStreamingResponse": {
+            "type": "structure",
+            "members": {}
+        },
         "com.amazonaws.connect#StorageType": {
             "type": "string",
             "traits": {
@@ -11299,6 +12319,15 @@
                         "name": "KINESIS_FIREHOSE"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.connect#StreamingId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                }
             }
         },
         "com.amazonaws.connect#String": {
@@ -11422,7 +12451,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Adds the specified tags to the specified resource.</p>\n         <p>The supported resource types are users, routing profiles, queues, quick connects, \n   contact flows, agent status, and hours of operation.</p>\n         <p>For sample policies that use tags, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html\">Amazon Connect Identity-Based\n    Policy Examples</a> in the <i>Amazon Connect Administrator Guide</i>.</p>",
+                "smithy.api#documentation": "<p>Adds the specified tags to the specified resource.</p>\n         <p>The supported resource types are users, routing profiles, queues, quick connects, contact\n   flows, agent status, and hours of operation.</p>\n         <p>For sample policies that use tags, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html\">Amazon Connect Identity-Based\n    Policy Examples</a> in the <i>Amazon Connect Administrator Guide</i>.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/tags/{resourceArn}",
@@ -11702,6 +12731,40 @@
                 }
             }
         },
+        "com.amazonaws.connect#UpdateContact": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#UpdateContactRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#UpdateContactResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Adds or updates user defined contact information associated with the specified contact. At\n   least one field to be updated must be present in the request.</p>\n         <important>\n            <p>You can add or update user-defined contact information for both ongoing and completed\n    contacts.</p>\n         </important>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/contacts/{InstanceId}/{ContactId}",
+                    "code": 200
+                }
+            }
+        },
         "com.amazonaws.connect#UpdateContactAttributes": {
             "type": "operation",
             "input": {
@@ -11892,6 +12955,116 @@
                 }
             }
         },
+        "com.amazonaws.connect#UpdateContactRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the contact. This is the identifier of the contact associated with the\n   first interaction with your contact center.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "Name": {
+                    "target": "com.amazonaws.connect#Name",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the contact.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.connect#Description",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the contact.</p>"
+                    }
+                },
+                "References": {
+                    "target": "com.amazonaws.connect#ContactReferences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A formatted URL that is shown to an agent in the Contact Control Panel (CCP).</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#UpdateContactResponse": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.connect#UpdateContactSchedule": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#UpdateContactScheduleRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#UpdateContactScheduleResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates the scheduled time of a task contact that is already scheduled.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/contact/schedule",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#UpdateContactScheduleRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the contact.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ScheduledTime": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#UpdateContactScheduleResponse": {
+            "type": "structure",
+            "members": {}
+        },
         "com.amazonaws.connect#UpdateHoursOfOperation": {
             "type": "operation",
             "input": {
@@ -11918,7 +13091,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Updates the hours of operation.</p>",
+                "smithy.api#documentation": "<p>Updates the hours of operation.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
@@ -12025,7 +13198,7 @@
                 "AttributeType": {
                     "target": "com.amazonaws.connect#InstanceAttributeType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of attribute.</p>\n         <note>\n            <p>Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The type of attribute.</p>\n         <note>\n            <p>Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature,\n    contact AWS Support for allowlisting.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -12784,6 +13957,70 @@
                 }
             }
         },
+        "com.amazonaws.connect#UpdateSecurityProfile": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#UpdateSecurityProfileRequest"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p>\n         <p>Updates a security profile.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/security-profiles/{InstanceId}/{SecurityProfileId}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#UpdateSecurityProfileRequest": {
+            "type": "structure",
+            "members": {
+                "Description": {
+                    "target": "com.amazonaws.connect#SecurityProfileDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the security profile.</p>"
+                    }
+                },
+                "Permissions": {
+                    "target": "com.amazonaws.connect#PermissionsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The permissions granted to a security profile.</p>"
+                    }
+                },
+                "SecurityProfileId": {
+                    "target": "com.amazonaws.connect#SecurityProfileId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the security profle.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
         "com.amazonaws.connect#UpdateUserHierarchy": {
             "type": "operation",
             "input": {
@@ -13192,6 +14429,26 @@
                         "smithy.api#required": {}
                     }
                 }
+            }
+        },
+        "com.amazonaws.connect#UrlReference": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.connect#ReferenceKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Identifier of the URL reference.</p>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.connect#ReferenceValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A valid URL.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The URL reference.</p>"
             }
         },
         "com.amazonaws.connect#UseCase": {

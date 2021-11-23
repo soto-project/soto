@@ -21,6 +21,13 @@ import SotoCore
 extension ChimeSDKMessaging {
     // MARK: Enums
 
+    public enum AllowNotifications: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case filtered = "FILTERED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChannelMembershipType: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case hidden = "HIDDEN"
@@ -30,6 +37,14 @@ extension ChimeSDKMessaging {
     public enum ChannelMessagePersistenceType: String, CustomStringConvertible, Codable {
         case nonPersistent = "NON_PERSISTENT"
         case persistent = "PERSISTENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelMessageStatus: String, CustomStringConvertible, Codable {
+        case denied = "DENIED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case sent = "SENT"
         public var description: String { return self.rawValue }
     }
 
@@ -70,6 +85,23 @@ extension ChimeSDKMessaging {
         public var description: String { return self.rawValue }
     }
 
+    public enum FallbackAction: String, CustomStringConvertible, Codable {
+        case abort = "ABORT"
+        case `continue` = "CONTINUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvocationType: String, CustomStringConvertible, Codable {
+        case async = "ASYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PushNotificationType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case voip = "VOIP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrder: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
@@ -92,6 +124,42 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: String, CodingKey {
             case readMarkerTimestamp = "ReadMarkerTimestamp"
             case type = "Type"
+        }
+    }
+
+    public struct AssociateChannelFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
+        ]
+
+        /// The ARN of the channel.
+        public let channelArn: String
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String
+        /// The AppInstanceUserArn of the user making the API call.
+        public let chimeBearer: String
+
+        public init(channelArn: String, channelFlowArn: String, chimeBearer: String) {
+            self.channelArn = channelArn
+            self.channelFlowArn = channelFlowArn
+            self.chimeBearer = chimeBearer
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, max: 1600)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, min: 5)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlowArn = "ChannelFlowArn"
         }
     }
 
@@ -125,7 +193,7 @@ extension ChimeSDKMessaging {
         public let errorCode: ErrorCode?
         /// The error message.
         public let errorMessage: String?
-        /// The ARN of the member that the service couldn't add.
+        /// The AppInstanceUserArn of the member that the service couldn't add.
         public let memberArn: String?
 
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, memberArn: String? = nil) {
@@ -151,7 +219,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
-        /// The ARNs of the members you want to add to the channel.
+        /// The AppInstanceUserArns of the members you want to add to the channel.
         public let memberArns: [String]
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType?
@@ -205,6 +273,8 @@ extension ChimeSDKMessaging {
     public struct Channel: AWSDecodableShape {
         /// The ARN of a channel.
         public let channelArn: String?
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String?
         /// The AppInstanceUser who created the channel.
         public let createdBy: Identity?
         /// The time at which the AppInstanceUser created the channel.
@@ -222,8 +292,9 @@ extension ChimeSDKMessaging {
         /// The channel's privacy setting.
         public let privacy: ChannelPrivacy?
 
-        public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
+        public init(channelArn: String? = nil, channelFlowArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
+            self.channelFlowArn = channelFlowArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
             self.lastMessageTimestamp = lastMessageTimestamp
@@ -236,10 +307,40 @@ extension ChimeSDKMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
+            case channelFlowArn = "ChannelFlowArn"
             case createdBy = "CreatedBy"
             case createdTimestamp = "CreatedTimestamp"
             case lastMessageTimestamp = "LastMessageTimestamp"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case metadata = "Metadata"
+            case mode = "Mode"
+            case name = "Name"
+            case privacy = "Privacy"
+        }
+    }
+
+    public struct ChannelAssociatedWithFlowSummary: AWSDecodableShape {
+        /// The ARN of the channel.
+        public let channelArn: String?
+        /// The channel's metadata.
+        public let metadata: String?
+        /// The mode of the channel.
+        public let mode: ChannelMode?
+        /// The name of the channel flow.
+        public let name: String?
+        /// The channel's privacy setting.
+        public let privacy: ChannelPrivacy?
+
+        public init(channelArn: String? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
+            self.channelArn = channelArn
+            self.metadata = metadata
+            self.mode = mode
+            self.name = name
+            self.privacy = privacy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "ChannelArn"
             case metadata = "Metadata"
             case mode = "Mode"
             case name = "Name"
@@ -282,6 +383,110 @@ extension ChimeSDKMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case member = "Member"
+        }
+    }
+
+    public struct ChannelFlow: AWSDecodableShape {
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String?
+        /// The time at which the channel flow was created.
+        public let createdTimestamp: Date?
+        /// The time at which a channel flow was updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The name of the channel flow.
+        public let name: String?
+        /// Information about the processor Lambda functions.
+        public let processors: [Processor]?
+
+        public init(channelFlowArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, name: String? = nil, processors: [Processor]? = nil) {
+            self.channelFlowArn = channelFlowArn
+            self.createdTimestamp = createdTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.name = name
+            self.processors = processors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlowArn = "ChannelFlowArn"
+            case createdTimestamp = "CreatedTimestamp"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case name = "Name"
+            case processors = "Processors"
+        }
+    }
+
+    public struct ChannelFlowCallbackRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn"))
+        ]
+
+        /// The identifier passed to the processor by the service when invoked. Use the identifier to call back the service.
+        public let callbackId: String
+        /// The ARN of the channel.
+        public let channelArn: String
+        /// Stores information about the processed message.
+        public let channelMessage: ChannelMessageCallback
+        /// When a processor determines that a message needs to be DENIED, pass this parameter with a value of true.
+        public let deleteResource: Bool?
+
+        public init(callbackId: String = ChannelFlowCallbackRequest.idempotencyToken(), channelArn: String, channelMessage: ChannelMessageCallback, deleteResource: Bool? = nil) {
+            self.callbackId = callbackId
+            self.channelArn = channelArn
+            self.channelMessage = channelMessage
+            self.deleteResource = deleteResource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.callbackId, name: "callbackId", parent: name, max: 64)
+            try self.validate(self.callbackId, name: "callbackId", parent: name, min: 32)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.channelMessage.validate(name: "\(name).channelMessage")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callbackId = "CallbackId"
+            case channelMessage = "ChannelMessage"
+            case deleteResource = "DeleteResource"
+        }
+    }
+
+    public struct ChannelFlowCallbackResponse: AWSDecodableShape {
+        /// The call back ID passed in the request.
+        public let callbackId: String?
+        /// The ARN of the channel.
+        public let channelArn: String?
+
+        public init(callbackId: String? = nil, channelArn: String? = nil) {
+            self.callbackId = callbackId
+            self.channelArn = channelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callbackId = "CallbackId"
+            case channelArn = "ChannelArn"
+        }
+    }
+
+    public struct ChannelFlowSummary: AWSDecodableShape {
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String?
+        /// The name of the channel flow.
+        public let name: String?
+        /// Information about the processor Lambda functions.
+        public let processors: [Processor]?
+
+        public init(channelFlowArn: String? = nil, name: String? = nil, processors: [Processor]? = nil) {
+            self.channelFlowArn = channelFlowArn
+            self.name = name
+            self.processors = processors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlowArn = "ChannelFlowArn"
+            case name = "Name"
+            case processors = "Processors"
         }
     }
 
@@ -335,6 +540,23 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct ChannelMembershipPreferences: AWSEncodableShape & AWSDecodableShape {
+        /// The push notification configuration of a message.
+        public let pushNotifications: PushNotificationPreferences?
+
+        public init(pushNotifications: PushNotificationPreferences? = nil) {
+            self.pushNotifications = pushNotifications
+        }
+
+        public func validate(name: String) throws {
+            try self.pushNotifications?.validate(name: "\(name).pushNotifications")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pushNotifications = "PushNotifications"
+        }
+    }
+
     public struct ChannelMembershipSummary: AWSDecodableShape {
         /// A member's summary data.
         public let member: Identity?
@@ -359,6 +581,8 @@ extension ChimeSDKMessaging {
         public let lastEditedTimestamp: Date?
         /// The time at which a message was updated.
         public let lastUpdatedTimestamp: Date?
+        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        public let messageAttributes: [String: MessageAttributeValue]?
         /// The ID of a message.
         public let messageId: String?
         /// The message metadata.
@@ -369,20 +593,24 @@ extension ChimeSDKMessaging {
         public let redacted: Bool?
         /// The message sender.
         public let sender: Identity?
+        /// The status of the channel message.
+        public let status: ChannelMessageStatusStructure?
         /// The message type.
         public let type: ChannelMessageType?
 
-        public init(channelArn: String? = nil, content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, type: ChannelMessageType? = nil) {
+        public init(channelArn: String? = nil, content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, type: ChannelMessageType? = nil) {
             self.channelArn = channelArn
             self.content = content
             self.createdTimestamp = createdTimestamp
             self.lastEditedTimestamp = lastEditedTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.messageAttributes = messageAttributes
             self.messageId = messageId
             self.metadata = metadata
             self.persistence = persistence
             self.redacted = redacted
             self.sender = sender
+            self.status = status
             self.type = type
         }
 
@@ -392,12 +620,62 @@ extension ChimeSDKMessaging {
             case createdTimestamp = "CreatedTimestamp"
             case lastEditedTimestamp = "LastEditedTimestamp"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case messageAttributes = "MessageAttributes"
             case messageId = "MessageId"
             case metadata = "Metadata"
             case persistence = "Persistence"
             case redacted = "Redacted"
             case sender = "Sender"
+            case status = "Status"
             case type = "Type"
+        }
+    }
+
+    public struct ChannelMessageCallback: AWSEncodableShape {
+        /// The message content.
+        public let content: String?
+        /// The message ID.
+        public let messageId: String
+        /// The message metadata.
+        public let metadata: String?
+
+        public init(content: String? = nil, messageId: String, metadata: String? = nil) {
+            self.content = content
+            self.messageId = messageId
+            self.metadata = metadata
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.content, name: "content", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
+            try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
+            try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case messageId = "MessageId"
+            case metadata = "Metadata"
+        }
+    }
+
+    public struct ChannelMessageStatusStructure: AWSDecodableShape {
+        /// Contains more details about the messasge status.
+        public let detail: String?
+        /// The message status value.
+        public let value: ChannelMessageStatus?
+
+        public init(detail: String? = nil, value: ChannelMessageStatus? = nil) {
+            self.detail = detail
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detail = "Detail"
+            case value = "Value"
         }
     }
 
@@ -410,6 +688,8 @@ extension ChimeSDKMessaging {
         public let lastEditedTimestamp: Date?
         /// The time at which a message was last updated.
         public let lastUpdatedTimestamp: Date?
+        /// The message attribues listed in a the summary of a channel message.
+        public let messageAttributes: [String: MessageAttributeValue]?
         /// The ID of the message.
         public let messageId: String?
         /// The metadata of the message.
@@ -418,18 +698,22 @@ extension ChimeSDKMessaging {
         public let redacted: Bool?
         /// The message sender.
         public let sender: Identity?
+        /// The message status. The status value is SENT for messages sent to a channel without a channel flow. For channels associated with channel flow, the value determines the  processing stage.
+        public let status: ChannelMessageStatusStructure?
         /// The type of message.
         public let type: ChannelMessageType?
 
-        public init(content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, type: ChannelMessageType? = nil) {
+        public init(content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, type: ChannelMessageType? = nil) {
             self.content = content
             self.createdTimestamp = createdTimestamp
             self.lastEditedTimestamp = lastEditedTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.messageAttributes = messageAttributes
             self.messageId = messageId
             self.metadata = metadata
             self.redacted = redacted
             self.sender = sender
+            self.status = status
             self.type = type
         }
 
@@ -438,10 +722,12 @@ extension ChimeSDKMessaging {
             case createdTimestamp = "CreatedTimestamp"
             case lastEditedTimestamp = "LastEditedTimestamp"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case messageAttributes = "MessageAttributes"
             case messageId = "MessageId"
             case metadata = "Metadata"
             case redacted = "Redacted"
             case sender = "Sender"
+            case status = "Status"
             case type = "Type"
         }
     }
@@ -540,7 +826,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
-        /// The ARN of the member being banned.
+        /// The AppInstanceUserArn of the member being banned.
         public let memberArn: String
 
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
@@ -583,6 +869,70 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct CreateChannelFlowRequest: AWSEncodableShape {
+        /// The ARN of the channel flow request.
+        public let appInstanceArn: String
+        /// The client token for the request. An Idempotency token.
+        public let clientRequestToken: String
+        /// The name of the channel flow.
+        public let name: String
+        /// Information about the processor Lambda functions.
+        public let processors: [Processor]
+        /// The tags for the creation request.
+        public let tags: [Tag]?
+
+        public init(appInstanceArn: String, clientRequestToken: String, name: String, processors: [Processor], tags: [Tag]? = nil) {
+            self.appInstanceArn = appInstanceArn
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.processors = processors
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*$")
+            try self.processors.forEach {
+                try $0.validate(name: "\(name).processors[]")
+            }
+            try self.validate(self.processors, name: "processors", parent: name, max: 3)
+            try self.validate(self.processors, name: "processors", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceArn = "AppInstanceArn"
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case processors = "Processors"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateChannelFlowResponse: AWSDecodableShape {
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String?
+
+        public init(channelFlowArn: String? = nil) {
+            self.channelFlowArn = channelFlowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlowArn = "ChannelFlowArn"
+        }
+    }
+
     public struct CreateChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
@@ -593,7 +943,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
-        /// The ARN of the member you want to add to the channel.
+        /// The AppInstanceUserArn of the member you want to add to the channel.
         public let memberArn: String
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType
@@ -648,7 +998,7 @@ extension ChimeSDKMessaging {
 
         /// The ARN of the channel.
         public let channelArn: String
-        /// The ARN of the moderator.
+        /// The AppInstanceUserArn of the moderator.
         public let channelModeratorArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
@@ -807,6 +1157,27 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteChannelFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn"))
+        ]
+
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String
+
+        public init(channelFlowArn: String) {
+            self.channelFlowArn = channelFlowArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, max: 1600)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, min: 5)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
@@ -818,7 +1189,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
-        /// The ARN of the member that you're removing from the channel.
+        /// The AppInstanceUserArn of the member that you're removing from the channel.
         public let memberArn: String
 
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
@@ -886,7 +1257,7 @@ extension ChimeSDKMessaging {
 
         /// The ARN of the channel.
         public let channelArn: String
-        /// The ARN of the moderator being deleted.
+        /// The AppInstanceUserArn of the moderator being deleted.
         public let channelModeratorArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
@@ -951,7 +1322,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
-        /// The ARN of the member being banned.
+        /// The AppInstanceUserArn of the member being banned.
         public let memberArn: String
 
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
@@ -985,6 +1356,40 @@ extension ChimeSDKMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case channelBan = "ChannelBan"
+        }
+    }
+
+    public struct DescribeChannelFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn"))
+        ]
+
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String
+
+        public init(channelFlowArn: String) {
+            self.channelFlowArn = channelFlowArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, max: 1600)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, min: 5)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeChannelFlowResponse: AWSDecodableShape {
+        /// The channel flow details.
+        public let channelFlow: ChannelFlow?
+
+        public init(channelFlow: ChannelFlow? = nil) {
+            self.channelFlow = channelFlow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlow = "ChannelFlow"
         }
     }
 
@@ -1047,7 +1452,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
-        /// The ARN of the member.
+        /// The AppInstanceUserArn of the member.
         public let memberArn: String
 
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
@@ -1141,7 +1546,7 @@ extension ChimeSDKMessaging {
 
         /// The ARN of the channel.
         public let channelArn: String
-        /// The ARN of the channel moderator.
+        /// The AppInstanceUserArn of the channel moderator.
         public let channelModeratorArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
@@ -1221,6 +1626,96 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct DisassociateChannelFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
+        ]
+
+        /// The ARN of the channel.
+        public let channelArn: String
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String
+        /// The AppInstanceUserArn of the user making the API call.
+        public let chimeBearer: String
+
+        public init(channelArn: String, channelFlowArn: String, chimeBearer: String) {
+            self.channelArn = channelArn
+            self.channelFlowArn = channelFlowArn
+            self.chimeBearer = chimeBearer
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, max: 1600)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, min: 5)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelMembershipPreferencesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
+        ]
+
+        /// The ARN of the channel.
+        public let channelArn: String
+        /// The AppInstanceUserARN of the user making the API call.
+        public let chimeBearer: String
+        /// The AppInstanceUserArn of the member retrieving the preferences.
+        public let memberArn: String
+
+        public init(channelArn: String, chimeBearer: String, memberArn: String) {
+            self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
+            self.memberArn = memberArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
+            try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
+            try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelMembershipPreferencesResponse: AWSDecodableShape {
+        /// The ARN of the channel.
+        public let channelArn: String?
+        public let member: Identity?
+        /// The channel membership preferences for an AppInstanceUser .
+        public let preferences: ChannelMembershipPreferences?
+
+        public init(channelArn: String? = nil, member: Identity? = nil, preferences: ChannelMembershipPreferences? = nil) {
+            self.channelArn = channelArn
+            self.member = member
+            self.preferences = preferences
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "ChannelArn"
+            case member = "Member"
+            case preferences = "Preferences"
+        }
+    }
+
     public struct GetChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
@@ -1269,6 +1764,54 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct GetChannelMessageStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
+        ]
+
+        /// The ARN of the channel
+        public let channelArn: String
+        /// The AppInstanceUserArn of the user making the API call.
+        public let chimeBearer: String
+        /// The ID of the message.
+        public let messageId: String
+
+        public init(channelArn: String, chimeBearer: String, messageId: String) {
+            self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
+            self.messageId = messageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
+            try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelMessageStatusResponse: AWSDecodableShape {
+        /// The message status and details.
+        public let status: ChannelMessageStatusStructure?
+
+        public init(status: ChannelMessageStatusStructure? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct GetMessagingSessionEndpointRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1300,6 +1843,29 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case name = "Name"
+        }
+    }
+
+    public struct LambdaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Controls how the Lambda function is invoked.
+        public let invocationType: InvocationType
+        /// The ARN of the Lambda message processing function.
+        public let resourceArn: String
+
+        public init(invocationType: InvocationType, resourceArn: String) {
+            self.invocationType = invocationType
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 15)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9\\-_\\.]+(:(\\$LATEST|[a-zA-Z0-9\\-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationType = "InvocationType"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -1360,6 +1926,56 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case channelBans = "ChannelBans"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListChannelFlowsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The ARN of the app instance.
+        public let appInstanceArn: String
+        /// The maximum number of channel flows that you want to return.
+        public let maxResults: Int?
+        /// The token passed by previous API calls until all requested channel flows are returned.
+        public let nextToken: String?
+
+        public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appInstanceArn = appInstanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelFlowsResponse: AWSDecodableShape {
+        /// The information about each channel flow.
+        public let channelFlows: [ChannelFlowSummary]?
+        /// The token passed by previous API calls until all requested channels are returned.
+        public let nextToken: String?
+
+        public init(channelFlows: [ChannelFlowSummary]? = nil, nextToken: String? = nil) {
+            self.channelFlows = channelFlows
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlows = "ChannelFlows"
             case nextToken = "NextToken"
         }
     }
@@ -1620,6 +2236,56 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct ListChannelsAssociatedWithChannelFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelFlowArn", location: .querystring("channel-flow-arn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String
+        /// The maximum number of channels that you want to return.
+        public let maxResults: Int?
+        /// The token passed by previous API calls until all requested channels are returned.
+        public let nextToken: String?
+
+        public init(channelFlowArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.channelFlowArn = channelFlowArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, max: 1600)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, min: 5)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelsAssociatedWithChannelFlowResponse: AWSDecodableShape {
+        /// The information about each channel.
+        public let channels: [ChannelAssociatedWithFlowSummary]?
+        /// The token passed by previous API calls until all requested channels are returned.
+        public let nextToken: String?
+
+        public init(channels: [ChannelAssociatedWithFlowSummary]? = nil, nextToken: String? = nil) {
+            self.channels = channels
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "Channels"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListChannelsModeratedByAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring("app-instance-user-arn")),
@@ -1738,6 +2404,61 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 5)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tag key-value pairs.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct MessageAttributeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The strings in a message attribute value.
+        public let stringValues: [String]?
+
+        public init(stringValues: [String]? = nil) {
+            self.stringValues = stringValues
+        }
+
+        public func validate(name: String) throws {
+            try self.stringValues?.forEach {
+                try validate($0, name: "stringValues[]", parent: name, max: 512)
+                try validate($0, name: "stringValues[]", parent: name, min: 1)
+                try validate($0, name: "stringValues[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringValues = "StringValues"
+        }
+    }
+
     public struct MessagingSessionEndpoint: AWSDecodableShape {
         /// The endpoint to which you establish a websocket connection.
         public let url: String?
@@ -1748,6 +2469,168 @@ extension ChimeSDKMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case url = "Url"
+        }
+    }
+
+    public struct Processor: AWSEncodableShape & AWSDecodableShape {
+        /// The information about the type of processor and its identifier.
+        public let configuration: ProcessorConfiguration
+        /// The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the sequence.  At this point, we support only 1 processor within a flow.
+        public let executionOrder: Int
+        /// Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and  communication with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence  has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel.
+        public let fallbackAction: FallbackAction
+        /// The name of the channel flow.
+        public let name: String
+
+        public init(configuration: ProcessorConfiguration, executionOrder: Int, fallbackAction: FallbackAction, name: String) {
+            self.configuration = configuration
+            self.executionOrder = executionOrder
+            self.fallbackAction = fallbackAction
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.executionOrder, name: "executionOrder", parent: name, max: 3)
+            try self.validate(self.executionOrder, name: "executionOrder", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case executionOrder = "ExecutionOrder"
+            case fallbackAction = "FallbackAction"
+            case name = "Name"
+        }
+    }
+
+    public struct ProcessorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates that the processor is of type Lambda.
+        public let lambda: LambdaConfiguration
+
+        public init(lambda: LambdaConfiguration) {
+            self.lambda = lambda
+        }
+
+        public func validate(name: String) throws {
+            try self.lambda.validate(name: "\(name).lambda")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambda = "Lambda"
+        }
+    }
+
+    public struct PushNotificationConfiguration: AWSEncodableShape {
+        /// The body of the push notification.
+        public let body: String
+        /// The title of the push notification.
+        public let title: String
+        /// Enum value that indicates the type of the push notification for a message. DEFAULT: Normal mobile push notification. VOIP: VOIP mobile push notification.
+        public let type: PushNotificationType
+
+        public init(body: String, title: String, type: PushNotificationType) {
+            self.body = body
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 150)
+            try self.validate(self.body, name: "body", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.title, name: "title", parent: name, max: 50)
+            try self.validate(self.title, name: "title", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct PushNotificationPreferences: AWSEncodableShape & AWSDecodableShape {
+        /// Enum value that indicates which push notifications to send to the requested member of a channel. ALL sends all push notifications, NONE sends no push notifications, FILTERED sends only filtered push notifications.
+        public let allowNotifications: AllowNotifications
+        /// The simple JSON object used to send a subset of a push notification to the requsted member.
+        public let filterRule: String?
+
+        public init(allowNotifications: AllowNotifications, filterRule: String? = nil) {
+            self.allowNotifications = allowNotifications
+            self.filterRule = filterRule
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterRule, name: "filterRule", parent: name, min: 1)
+            try self.validate(self.filterRule, name: "filterRule", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowNotifications = "AllowNotifications"
+            case filterRule = "FilterRule"
+        }
+    }
+
+    public struct PutChannelMembershipPreferencesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
+        ]
+
+        /// The ARN of the channel.
+        public let channelArn: String
+        /// The AppInstanceUserARN  of the user making the API call.
+        public let chimeBearer: String
+        /// The AppInstanceUserArn of the member setting the preferences.
+        public let memberArn: String
+        /// The channel membership preferences of an AppInstanceUser .
+        public let preferences: ChannelMembershipPreferences
+
+        public init(channelArn: String, chimeBearer: String, memberArn: String, preferences: ChannelMembershipPreferences) {
+            self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
+            self.memberArn = memberArn
+            self.preferences = preferences
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
+            try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
+            try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.preferences.validate(name: "\(name).preferences")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferences = "Preferences"
+        }
+    }
+
+    public struct PutChannelMembershipPreferencesResponse: AWSDecodableShape {
+        /// The ARN of the channel.
+        public let channelArn: String?
+        public let member: Identity?
+        /// The ARN and metadata of the member being added.
+        public let preferences: ChannelMembershipPreferences?
+
+        public init(channelArn: String? = nil, member: Identity? = nil, preferences: ChannelMembershipPreferences? = nil) {
+            self.channelArn = channelArn
+            self.member = member
+            self.preferences = preferences
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "ChannelArn"
+            case member = "Member"
+            case preferences = "Preferences"
         }
     }
 
@@ -1817,20 +2700,26 @@ extension ChimeSDKMessaging {
         public let clientRequestToken: String
         /// The content of the message.
         public let content: String
+        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        public let messageAttributes: [String: MessageAttributeValue]?
         /// The optional metadata for each message.
         public let metadata: String?
         /// Boolean that controls whether the message is persisted on the back end. Required.
         public let persistence: ChannelMessagePersistenceType
+        /// The push notification configuration of the message.
+        public let pushNotification: PushNotificationConfiguration?
         /// The type of message, STANDARD or CONTROL.
         public let type: ChannelMessageType
 
-        public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, metadata: String? = nil, persistence: ChannelMessagePersistenceType, type: ChannelMessageType) {
+        public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, messageAttributes: [String: MessageAttributeValue]? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType, pushNotification: PushNotificationConfiguration? = nil, type: ChannelMessageType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
             self.content = content
+            self.messageAttributes = messageAttributes
             self.metadata = metadata
             self.persistence = persistence
+            self.pushNotification = pushNotification
             self.type = type
         }
 
@@ -1846,15 +2735,24 @@ extension ChimeSDKMessaging {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "^[\\s\\S]*$")
+            try self.messageAttributes?.forEach {
+                try validate($0.key, name: "messageAttributes.key", parent: name, max: 64)
+                try validate($0.key, name: "messageAttributes.key", parent: name, min: 1)
+                try validate($0.key, name: "messageAttributes.key", parent: name, pattern: "^[\\s\\S]*$")
+                try $0.value.validate(name: "\(name).messageAttributes[\"\($0.key)\"]")
+            }
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.pushNotification?.validate(name: "\(name).pushNotification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case content = "Content"
+            case messageAttributes = "MessageAttributes"
             case metadata = "Metadata"
             case persistence = "Persistence"
+            case pushNotification = "PushNotification"
             case type = "Type"
         }
     }
@@ -1864,22 +2762,26 @@ extension ChimeSDKMessaging {
         public let channelArn: String?
         /// The ID string assigned to each message.
         public let messageId: String?
+        /// The status of the channel message.
+        public let status: ChannelMessageStatusStructure?
 
-        public init(channelArn: String? = nil, messageId: String? = nil) {
+        public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case messageId = "MessageId"
+            case status = "Status"
         }
     }
 
-    public struct Tag: AWSEncodableShape {
-        /// The key of the tag.
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key in a tag.
         public let key: String
-        /// The value of the tag.
+        /// The value in a tag.
         public let value: String
 
         public init(key: String, value: String) {
@@ -1897,6 +2799,114 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 5)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 5)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UpdateChannelFlowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelFlowArn", location: .uri("ChannelFlowArn"))
+        ]
+
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String
+        /// The name of the channel flow.
+        public let name: String
+        /// Information about the processor Lambda functions
+        public let processors: [Processor]
+
+        public init(channelFlowArn: String, name: String, processors: [Processor]) {
+            self.channelFlowArn = channelFlowArn
+            self.name = name
+            self.processors = processors
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, max: 1600)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, min: 5)
+            try self.validate(self.channelFlowArn, name: "channelFlowArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*$")
+            try self.processors.forEach {
+                try $0.validate(name: "\(name).processors[]")
+            }
+            try self.validate(self.processors, name: "processors", parent: name, max: 3)
+            try self.validate(self.processors, name: "processors", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case processors = "Processors"
+        }
+    }
+
+    public struct UpdateChannelFlowResponse: AWSDecodableShape {
+        /// The ARN of the channel flow.
+        public let channelFlowArn: String?
+
+        public init(channelFlowArn: String? = nil) {
+            self.channelFlowArn = channelFlowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelFlowArn = "ChannelFlowArn"
         }
     }
 
@@ -1953,15 +2963,19 @@ extension ChimeSDKMessaging {
         public let channelArn: String?
         /// The ID string of the message being updated.
         public let messageId: String?
+        /// The status of the message update.
+        public let status: ChannelMessageStatusStructure?
 
-        public init(channelArn: String? = nil, messageId: String? = nil) {
+        public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case messageId = "MessageId"
+            case status = "Status"
         }
     }
 

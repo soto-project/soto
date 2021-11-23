@@ -123,7 +123,7 @@ extension Nimble {
         return try await self.client.execute(operation: "GetStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
+    /// Gets StreamingSession resource. anvoke this operation to poll for a streaming session state while creating or deleting a session.
     public func getStreamingSession(_ input: GetStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStreamingSessionResponse {
         return try await self.client.execute(operation: "GetStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -208,9 +208,19 @@ extension Nimble {
         return try await self.client.execute(operation: "PutStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Repairs the SSO configuration for a given studio. If the studio has a valid Amazon Web Services SSO configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid Amazon Web Services SSO configuration currently associated with it, then a new Amazon Web Services SSO application is created for the studio and the studio is changed to the READY state. After the Amazon Web Services SSO application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
+    ///  Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS state is the intermediate state between the STOPPED and READY states.
+    public func startStreamingSession(_ input: StartStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartStreamingSessionResponse {
+        return try await self.client.execute(operation: "StartStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Repairs the Amazon Web Services SSO configuration for a given studio. If the studio has a valid Amazon Web Services SSO configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid Amazon Web Services SSO configuration currently associated with it, then a new Amazon Web Services SSO application is created for the studio and the studio is changed to the READY state. After the Amazon Web Services SSO application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
     public func startStudioSSOConfigurationRepair(_ input: StartStudioSSOConfigurationRepairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartStudioSSOConfigurationRepairResponse {
         return try await self.client.execute(operation: "StartStudioSSOConfigurationRepair", path: "/2020-08-01/studios/{studioId}/sso-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Transitions sessions from the READY state into the STOPPED state. The STOP_IN_PROGRESS state is the intermediate state between the READY and STOPPED states.
+    public func stopStreamingSession(_ input: StopStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopStreamingSessionResponse {
+        return try await self.client.execute(operation: "StopStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates tags for a resource, given its ARN.

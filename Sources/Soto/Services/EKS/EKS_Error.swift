@@ -20,6 +20,7 @@ import SotoCore
 /// Error enum for EKS
 public struct EKSErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case badRequestException = "BadRequestException"
         case clientException = "ClientException"
         case invalidParameterException = "InvalidParameterException"
@@ -51,6 +52,8 @@ public struct EKSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.

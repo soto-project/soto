@@ -20,7 +20,64 @@ import SotoCore
 // MARK: Paginators
 
 extension DevOpsGuru {
-    ///   		Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in  		resource collections in your account. You specify the type of AWS resources collection. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze  	only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+    ///  Provides an overview of your system's health. If additional member accounts are part
+    ///  			of your organization, you can filter those accounts using the AccountIds
+    ///  			field.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeOrganizationResourceCollectionHealthPaginator<Result>(
+        _ input: DescribeOrganizationResourceCollectionHealthRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeOrganizationResourceCollectionHealthResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeOrganizationResourceCollectionHealth,
+            inputKey: \DescribeOrganizationResourceCollectionHealthRequest.nextToken,
+            outputKey: \DescribeOrganizationResourceCollectionHealthResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeOrganizationResourceCollectionHealthPaginator(
+        _ input: DescribeOrganizationResourceCollectionHealthRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOrganizationResourceCollectionHealthResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeOrganizationResourceCollectionHealth,
+            inputKey: \DescribeOrganizationResourceCollectionHealthRequest.nextToken,
+            outputKey: \DescribeOrganizationResourceCollectionHealthResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
+    ///  			for all closed insights in resource collections in your account. You specify the type of
+    ///  			Amazon Web Services resources collection. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +130,7 @@ extension DevOpsGuru {
         )
     }
 
-    ///  Returns an estimate of the monthly cost for DevOps Guru to analyze your AWS resources.
+    ///  Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
     ///  			For more information,
     ///  			see Estimate your
     ///  			Amazon DevOps Guru costs and
@@ -130,7 +187,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns lists AWS resources that are of the specified resource collection type. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze  	only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+    ///   Returns lists Amazon Web Services resources that are of the specified resource collection type.
+    ///  			The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -183,7 +241,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of the anomalies that belong to an insight that you specify using its ID.
+    ///   Returns a list of the anomalies that belong to an insight that you specify using its
+    ///  			ID.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -236,7 +295,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You can use filters to specify which events are returned.
+    ///   Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
+    ///  			You can use filters to specify which events are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -289,7 +349,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of insights in your AWS account. You can specify which insights are returned by their start time and  		status (ONGOING, CLOSED, or ANY).
+    ///   Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+    ///  			returned by their start time and status (ONGOING, CLOSED, or
+    ///  				ANY).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -342,7 +404,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when  		DevOps Guru generates an insight that contains information about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
+    ///   Returns a list of notification channels configured for DevOps Guru. Each notification
+    ///  			channel is used to notify you when DevOps Guru generates an insight that contains information
+    ///  			about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -395,7 +459,61 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events.
+    ///  Returns a list of insights associated with the account or OU Id.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listOrganizationInsightsPaginator<Result>(
+        _ input: ListOrganizationInsightsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listOrganizationInsights,
+            inputKey: \ListOrganizationInsightsRequest.nextToken,
+            outputKey: \ListOrganizationInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listOrganizationInsightsPaginator(
+        _ input: ListOrganizationInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listOrganizationInsights,
+            inputKey: \ListOrganizationInsightsRequest.nextToken,
+            outputKey: \ListOrganizationInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns a list of a specified insight's recommendations. Each recommendation includes
+    ///  			a list of related metrics and a list of related events.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -448,7 +566,14 @@ extension DevOpsGuru {
         )
     }
 
-    ///   		Returns a list of insights in your AWS account. You can specify which insights are returned by their start time, one or more statuses  		(ONGOING, CLOSED, and CLOSED), one or more severities (LOW, MEDIUM,  		and HIGH), and type (REACTIVE or PROACTIVE). 	 	      		Use the Filters parameter to specify status and severity  		search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
+    ///   Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+    ///  			returned by their start time, one or more statuses (ONGOING,
+    ///  				CLOSED, and CLOSED), one or more severities
+    ///  				(LOW, MEDIUM, and HIGH), and type
+    ///  				(REACTIVE or PROACTIVE).
+    ///  		        Use the Filters parameter to specify status and severity search
+    ///  			parameters. Use the Type parameter to specify REACTIVE or
+    ///  				PROACTIVE in your search.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -500,6 +625,78 @@ extension DevOpsGuru {
             onPage: onPage
         )
     }
+
+    ///   Returns a list of insights in your organization. You can specify which insights are
+    ///  			returned by their start time, one or more statuses (ONGOING,
+    ///  				CLOSED, and CLOSED), one or more severities
+    ///  				(LOW, MEDIUM, and HIGH), and type
+    ///  				(REACTIVE or PROACTIVE).
+    ///  		        Use the Filters parameter to specify status and severity search
+    ///  			parameters. Use the Type parameter to specify REACTIVE or
+    ///  				PROACTIVE in your search.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchOrganizationInsightsPaginator<Result>(
+        _ input: SearchOrganizationInsightsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchOrganizationInsights,
+            inputKey: \SearchOrganizationInsightsRequest.nextToken,
+            outputKey: \SearchOrganizationInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchOrganizationInsightsPaginator(
+        _ input: SearchOrganizationInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchOrganizationInsights,
+            inputKey: \SearchOrganizationInsightsRequest.nextToken,
+            outputKey: \SearchOrganizationInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+}
+
+extension DevOpsGuru.DescribeOrganizationResourceCollectionHealthRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DevOpsGuru.DescribeOrganizationResourceCollectionHealthRequest {
+        return .init(
+            accountIds: self.accountIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds,
+            organizationResourceCollectionType: self.organizationResourceCollectionType
+        )
+    }
 }
 
 extension DevOpsGuru.DescribeResourceCollectionHealthRequest: AWSPaginateToken {
@@ -531,6 +728,7 @@ extension DevOpsGuru.GetResourceCollectionRequest: AWSPaginateToken {
 extension DevOpsGuru.ListAnomaliesForInsightRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListAnomaliesForInsightRequest {
         return .init(
+            accountId: self.accountId,
             insightId: self.insightId,
             maxResults: self.maxResults,
             nextToken: token,
@@ -542,6 +740,7 @@ extension DevOpsGuru.ListAnomaliesForInsightRequest: AWSPaginateToken {
 extension DevOpsGuru.ListEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListEventsRequest {
         return .init(
+            accountId: self.accountId,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
@@ -567,9 +766,22 @@ extension DevOpsGuru.ListNotificationChannelsRequest: AWSPaginateToken {
     }
 }
 
+extension DevOpsGuru.ListOrganizationInsightsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListOrganizationInsightsRequest {
+        return .init(
+            accountIds: self.accountIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds,
+            statusFilter: self.statusFilter
+        )
+    }
+}
+
 extension DevOpsGuru.ListRecommendationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListRecommendationsRequest {
         return .init(
+            accountId: self.accountId,
             insightId: self.insightId,
             locale: self.locale,
             nextToken: token
@@ -580,6 +792,19 @@ extension DevOpsGuru.ListRecommendationsRequest: AWSPaginateToken {
 extension DevOpsGuru.SearchInsightsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.SearchInsightsRequest {
         return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTimeRange: self.startTimeRange,
+            type: self.type
+        )
+    }
+}
+
+extension DevOpsGuru.SearchOrganizationInsightsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DevOpsGuru.SearchOrganizationInsightsRequest {
+        return .init(
+            accountIds: self.accountIds,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,

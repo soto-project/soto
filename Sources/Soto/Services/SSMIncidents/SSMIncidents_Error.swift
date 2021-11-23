@@ -47,19 +47,19 @@ public struct SSMIncidentsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don't have sufficient access to perform this action.
+    /// You don't have sufficient access to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Updating or deleting a resource causes an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Request references a resource which does not exist.
+    /// Request references a resource which doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

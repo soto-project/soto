@@ -44,6 +44,11 @@ extension DataSync {
         return try await self.client.execute(operation: "CreateLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
+    public func createLocationHdfs(_ input: CreateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocationHdfsResponse {
+        return try await self.client.execute(operation: "CreateLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Defines a file system on a Network File System (NFS) server that can be read from or written to.
     public func createLocationNfs(_ input: CreateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocationNfsResponse {
         return try await self.client.execute(operation: "CreateLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -98,6 +103,11 @@ extension DataSync {
     /// Returns metadata, such as the path information about an Amazon FSx for Windows File Server location.
     public func describeLocationFsxWindows(_ input: DescribeLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationFsxWindowsResponse {
         return try await self.client.execute(operation: "DescribeLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns metadata, such as the authentication information about the Hadoop Distributed File System (HDFS) location.
+    public func describeLocationHdfs(_ input: DescribeLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationHdfsResponse {
+        return try await self.client.execute(operation: "DescribeLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns metadata, such as the path information, about an NFS location.
@@ -173,6 +183,11 @@ extension DataSync {
     /// Updates the name of an agent.
     public func updateAgent(_ input: UpdateAgentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAgentResponse {
         return try await self.client.execute(operation: "UpdateAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
+    public func updateLocationHdfs(_ input: UpdateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLocationHdfsResponse {
+        return try await self.client.execute(operation: "UpdateLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see Creating a location for NFS.

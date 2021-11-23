@@ -1086,6 +1086,8 @@ extension CloudFormation {
         public let description: String?
         /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets.
         public let executionRoleName: String?
+        /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
+        public let managedExecution: ManagedExecution?
         /// The input parameters for the stack set template.
         @OptionalCustomCoding<StandardArrayCoder>
         public var parameters: [Parameter]?
@@ -1103,7 +1105,7 @@ extension CloudFormation {
         /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information, see Template Anatomy in the CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
 
-        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = CreateStackSetInput.idempotencyToken(), description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackId: String? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
+        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = CreateStackSetInput.idempotencyToken(), description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackId: String? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
             self.callAs = callAs
@@ -1111,6 +1113,7 @@ extension CloudFormation {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.executionRoleName = executionRoleName
+            self.managedExecution = managedExecution
             self.parameters = parameters
             self.permissionModel = permissionModel
             self.stackId = stackId
@@ -1148,6 +1151,7 @@ extension CloudFormation {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case executionRoleName = "ExecutionRoleName"
+            case managedExecution = "ManagedExecution"
             case parameters = "Parameters"
             case permissionModel = "PermissionModel"
             case stackId = "StackId"
@@ -3203,7 +3207,7 @@ extension CloudFormation {
     public struct ListTypesInput: AWSEncodableShape {
         /// The deprecation status of the extension that you want to get summary information about. Valid values include:    LIVE: The extension is registered for use in CloudFormation operations.    DEPRECATED: The extension has been deregistered and can no longer be used in CloudFormation operations.
         public let deprecatedStatus: DeprecatedStatus?
-        /// Filter criteria to use in determining which extensions to return. If you specify a filter, CloudFormation ignores any specified Visibility value when returning the list of types.
+        /// Filter criteria to use in determining which extensions to return. Filters must be compatible with Visibility to return valid results. For example, specifying AWS_TYPES for Category and PRIVATE for Visibility returns an empty list of types, but specifying PUBLIC for Visibility returns the desired list.
         public let filters: TypeFilters?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -3286,6 +3290,19 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case logGroupName = "LogGroupName"
             case logRoleArn = "LogRoleArn"
+        }
+    }
+
+    public struct ManagedExecution: AWSEncodableShape & AWSDecodableShape {
+        /// When true, StackSets performs non-conflicting operations concurrently and queues conflicting operations. After conflicting operations finish, StackSets starts queued operations in request order.  If there are already running or queued operations, StackSets queues all incoming operations even if they are non-conflicting. You can't modify your stack set's execution configuration while there are running or queued operations for that stack set.  When false (default), StackSets performs one operation at a time in request order.
+        public let active: Bool?
+
+        public init(active: Bool? = nil) {
+            self.active = active
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "Active"
         }
     }
 
@@ -3448,7 +3465,7 @@ extension CloudFormation {
     public struct PublishTypeInput: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of the extension. Conditional: You must specify Arn, or TypeName and Type.
         public let arn: String?
-        /// The version number to assign to this version of the extension. Use the following format, and adhere to semantic versioning when assigning a version number to your extension:   MAJOR.MINOR.PATCH  For more information, see Semantic Versioning 2.0.0. If you do not specify a version number, CloudFormation increments the version number by one minor version release. The first time you publish a type, CloudFormation sets the version number to 1.0.0, regardless of the value you specify.
+        /// The version number to assign to this version of the extension. Use the following format, and adhere to semantic versioning when assigning a version number to your extension:   MAJOR.MINOR.PATCH  For more information, see Semantic Versioning 2.0.0. If you do not specify a version number, CloudFormation increments the version number by one minor version release. You cannot specify a version number the first time you publish a type. CloudFormation automatically sets the first version number to be 1.0.0.
         public let publicVersionNumber: String?
         /// The type of the extension. Conditional: You must specify Arn, or TypeName and Type.
         public let type: ThirdPartyType?
@@ -4640,6 +4657,8 @@ extension CloudFormation {
         public let description: String?
         /// The name of the IAM execution role used to create or update the stack set.  Use customized execution roles to control which stack resources users and groups can include in their stack sets.
         public let executionRoleName: String?
+        /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
+        public let managedExecution: ManagedExecution?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         @OptionalCustomCoding<StandardArrayCoder>
         public var organizationalUnitIds: [String]?
@@ -4664,12 +4683,13 @@ extension CloudFormation {
         /// The structure that contains the body of the template that was used to create or update the stack set.
         public let templateBody: String?
 
-        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, organizationalUnitIds: [String]? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackSetARN: String? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
+        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, organizationalUnitIds: [String]? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackSetARN: String? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
             self.capabilities = capabilities
             self.description = description
             self.executionRoleName = executionRoleName
+            self.managedExecution = managedExecution
             self.organizationalUnitIds = organizationalUnitIds
             self.parameters = parameters
             self.permissionModel = permissionModel
@@ -4688,6 +4708,7 @@ extension CloudFormation {
             case capabilities = "Capabilities"
             case description = "Description"
             case executionRoleName = "ExecutionRoleName"
+            case managedExecution = "ManagedExecution"
             case organizationalUnitIds = "OrganizationalUnitIds"
             case parameters = "Parameters"
             case permissionModel = "PermissionModel"
@@ -4916,6 +4937,8 @@ extension CloudFormation {
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection has not yet been performed.
         public let lastDriftCheckTimestamp: Date?
+        /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
+        public let managedExecution: ManagedExecution?
         /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
         public let permissionModel: PermissionModels?
         /// The ID of the stack set.
@@ -4925,11 +4948,12 @@ extension CloudFormation {
         /// The status of the stack set.
         public let status: StackSetStatus?
 
-        public init(autoDeployment: AutoDeployment? = nil, description: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, permissionModel: PermissionModels? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
+        public init(autoDeployment: AutoDeployment? = nil, description: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, managedExecution: ManagedExecution? = nil, permissionModel: PermissionModels? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
             self.autoDeployment = autoDeployment
             self.description = description
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
+            self.managedExecution = managedExecution
             self.permissionModel = permissionModel
             self.stackSetId = stackSetId
             self.stackSetName = stackSetName
@@ -4941,6 +4965,7 @@ extension CloudFormation {
             case description = "Description"
             case driftStatus = "DriftStatus"
             case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
+            case managedExecution = "ManagedExecution"
             case permissionModel = "PermissionModel"
             case stackSetId = "StackSetId"
             case stackSetName = "StackSetName"
@@ -5563,6 +5588,8 @@ extension CloudFormation {
         public let description: String?
         /// The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets.  If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
         public let executionRoleName: String?
+        /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
+        public let managedExecution: ManagedExecution?
         /// The unique ID for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, CloudFormation generates one automatically. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED.
         public let operationId: String?
         /// Preferences for how CloudFormation performs this stack set operation.
@@ -5587,7 +5614,7 @@ extension CloudFormation {
         /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
 
-        public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, deploymentTargets: DeploymentTargets? = nil, description: String? = nil, executionRoleName: String? = nil, operationId: String? = UpdateStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, deploymentTargets: DeploymentTargets? = nil, description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, operationId: String? = UpdateStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.accounts = accounts
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
@@ -5596,6 +5623,7 @@ extension CloudFormation {
             self.deploymentTargets = deploymentTargets
             self.description = description
             self.executionRoleName = executionRoleName
+            self.managedExecution = managedExecution
             self.operationId = operationId
             self.operationPreferences = operationPreferences
             self.parameters = parameters
@@ -5645,6 +5673,7 @@ extension CloudFormation {
             case deploymentTargets = "DeploymentTargets"
             case description = "Description"
             case executionRoleName = "ExecutionRoleName"
+            case managedExecution = "ManagedExecution"
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
             case parameters = "Parameters"

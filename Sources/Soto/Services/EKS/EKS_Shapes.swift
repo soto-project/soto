@@ -25,6 +25,8 @@ extension EKS {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
+        case bottlerocketArm64 = "BOTTLEROCKET_ARM_64"
+        case bottlerocketX8664 = "BOTTLEROCKET_x86_64"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
@@ -592,7 +594,7 @@ extension EKS {
         public let activationId: String?
         /// The cluster's cloud service provider.
         public let provider: String?
-        /// The Amazon Resource Name (ARN) of the role that is used by the EKS connector to communicate with AWS services from the connected Kubernetes cluster.
+        /// The Amazon Resource Name (ARN) of the role to communicate with services from the connected Kubernetes cluster.
         public let roleArn: String?
 
         public init(activationCode: String? = nil, activationExpiry: Date? = nil, activationId: String? = nil, provider: String? = nil, roleArn: String? = nil) {
@@ -1544,7 +1546,7 @@ extension EKS {
     }
 
     public struct KubernetesNetworkConfigRequest: AWSEncodableShape {
-        /// The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created.
+        /// The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created.
         public let serviceIpv4Cidr: String?
 
         public init(serviceIpv4Cidr: String? = nil) {
@@ -2061,7 +2063,7 @@ extension EKS {
     }
 
     public struct NodegroupScalingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The current number of nodes that the managed node group should maintain.
+        /// The current number of nodes that the managed node group should maintain.  If you use Cluster Autoscaler, you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down.  Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value.  When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let Cluster Autoscaler reduce the number if there are too many. When Cluster Autoscaler is used, the desiredSize parameter is altered by Cluster Autoscaler (but can be out-of-date for short periods of time). Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
         public let desiredSize: Int?
         /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service quotas in the Amazon EKS User Guide.
         public let maxSize: Int?
@@ -2248,25 +2250,36 @@ extension EKS {
         public let clientRequestToken: String?
         /// The configuration settings required to connect the Kubernetes cluster to the Amazon EKS control plane.
         public let connectorConfig: ConnectorConfigRequest
-        /// Define a unique name for this cluster within your AWS account.
+        /// Define a unique name for this cluster for your Region.
         public let name: String
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster.
+        public let tags: [String: String]?
 
-        public init(clientRequestToken: String? = RegisterClusterRequest.idempotencyToken(), connectorConfig: ConnectorConfigRequest, name: String) {
+        public init(clientRequestToken: String? = RegisterClusterRequest.idempotencyToken(), connectorConfig: ConnectorConfigRequest, name: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.connectorConfig = connectorConfig
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken
             case connectorConfig
             case name
+            case tags
         }
     }
 

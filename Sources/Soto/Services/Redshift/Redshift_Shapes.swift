@@ -408,7 +408,7 @@ extension Redshift {
     }
 
     public struct AuthorizeDataShareMessage: AWSEncodableShape {
-        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an AWS account ID.
+        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID.
         public let consumerIdentifier: String
         /// The Amazon Resource Name (ARN) of the datashare that producers are to authorize sharing for.
         public let dataShareArn: String
@@ -682,6 +682,8 @@ extension Redshift {
         public let dataTransferProgress: DataTransferProgress?
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default.
         public let dBName: String?
+        /// The Amazon Resource Name (ARN) for the IAM role set as default for the cluster.
+        public let defaultIamRoleArn: String?
         /// Describes a group of DeferredMaintenanceWindow objects.
         @OptionalCustomCoding<ArrayCoder<_DeferredMaintenanceWindowsEncoding, DeferredMaintenanceWindow>>
         public var deferredMaintenanceWindows: [DeferredMaintenanceWindow]?
@@ -748,7 +750,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -769,6 +771,7 @@ extension Redshift {
             self.clusterVersion = clusterVersion
             self.dataTransferProgress = dataTransferProgress
             self.dBName = dBName
+            self.defaultIamRoleArn = defaultIamRoleArn
             self.deferredMaintenanceWindows = deferredMaintenanceWindows
             self.elasticIpStatus = elasticIpStatus
             self.elasticResizeNumberOfNodeOptions = elasticResizeNumberOfNodeOptions
@@ -822,6 +825,7 @@ extension Redshift {
             case clusterVersion = "ClusterVersion"
             case dataTransferProgress = "DataTransferProgress"
             case dBName = "DBName"
+            case defaultIamRoleArn = "DefaultIamRoleArn"
             case deferredMaintenanceWindows = "DeferredMaintenanceWindows"
             case elasticIpStatus = "ElasticIpStatus"
             case elasticResizeNumberOfNodeOptions = "ElasticResizeNumberOfNodeOptions"
@@ -1442,6 +1446,8 @@ extension Redshift {
         public let clusterVersion: String?
         /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Amazon Redshift Database Developer Guide.  Default: dev  Constraints:   Must contain 1 to 64 alphanumeric characters.   Must contain only lowercase letters.   Cannot be a word that is reserved by the service. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let dBName: String?
+        /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was created.
+        public let defaultIamRoleArn: String?
         /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
         public let elasticIp: String?
         /// If true, the data in the cluster is encrypted at rest.  Default: false
@@ -1485,7 +1491,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -1499,6 +1505,7 @@ extension Redshift {
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
             self.dBName = dBName
+            self.defaultIamRoleArn = defaultIamRoleArn
             self.elasticIp = elasticIp
             self.encrypted = encrypted
             self.enhancedVpcRouting = enhancedVpcRouting
@@ -1532,6 +1539,7 @@ extension Redshift {
             try self.validate(self.clusterType, name: "clusterType", parent: name, max: 2_147_483_647)
             try self.validate(self.clusterVersion, name: "clusterVersion", parent: name, max: 2_147_483_647)
             try self.validate(self.dBName, name: "dBName", parent: name, max: 2_147_483_647)
+            try self.validate(self.defaultIamRoleArn, name: "defaultIamRoleArn", parent: name, max: 2_147_483_647)
             try self.validate(self.elasticIp, name: "elasticIp", parent: name, max: 2_147_483_647)
             try self.validate(self.hsmClientCertificateIdentifier, name: "hsmClientCertificateIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.hsmConfigurationIdentifier, name: "hsmConfigurationIdentifier", parent: name, max: 2_147_483_647)
@@ -1567,6 +1575,7 @@ extension Redshift {
             case clusterType = "ClusterType"
             case clusterVersion = "ClusterVersion"
             case dBName = "DBName"
+            case defaultIamRoleArn = "DefaultIamRoleArn"
             case elasticIp = "ElasticIp"
             case encrypted = "Encrypted"
             case enhancedVpcRouting = "EnhancedVpcRouting"
@@ -2334,7 +2343,7 @@ extension Redshift {
     }
 
     public struct DeauthorizeDataShareMessage: AWSEncodableShape {
-        /// The identifier of the data consumer that is to have authorization removed from the datashare.  This identifier is an AWS account ID.
+        /// The identifier of the data consumer that is to have authorization removed from the datashare.  This identifier is an Amazon Web Services account ID.
         public let consumerIdentifier: String
         /// The Amazon Resource Name (ARN) of the datashare to remove authorization from.
         public let dataShareArn: String
@@ -3149,7 +3158,7 @@ extension Redshift {
     public struct DescribeDataSharesForConsumerMessage: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the consumer that returns in the list of datashares.
         public let consumerArn: String?
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
         public let maxRecords: Int?
@@ -3180,7 +3189,7 @@ extension Redshift {
         /// Shows the results of datashares available for consumers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dataShares: [DataShare]?
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
         public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
@@ -3195,7 +3204,7 @@ extension Redshift {
     }
 
     public struct DescribeDataSharesForProducerMessage: AWSEncodableShape {
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
         public let maxRecords: Int?
@@ -3228,7 +3237,7 @@ extension Redshift {
         /// Shows the results of datashares available for producers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dataShares: [DataShare]?
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
         public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
@@ -3245,7 +3254,7 @@ extension Redshift {
     public struct DescribeDataSharesMessage: AWSEncodableShape {
         /// The identifier of the datashare to describe details of.
         public let dataShareArn: String?
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
         public let maxRecords: Int?
@@ -3272,7 +3281,7 @@ extension Redshift {
         /// The results returned from describing datashares.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dataShares: [DataShare]?
-        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
         public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
@@ -5076,13 +5085,16 @@ extension Redshift {
         public var addIamRoles: [String]?
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
         public let clusterIdentifier: String
+        /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified.
+        public let defaultIamRoleArn: String?
         /// Zero or more IAM roles in ARN format to disassociate from the cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
         @OptionalCustomCoding<ArrayCoder<_RemoveIamRolesEncoding, String>>
         public var removeIamRoles: [String]?
 
-        public init(addIamRoles: [String]? = nil, clusterIdentifier: String, removeIamRoles: [String]? = nil) {
+        public init(addIamRoles: [String]? = nil, clusterIdentifier: String, defaultIamRoleArn: String? = nil, removeIamRoles: [String]? = nil) {
             self.addIamRoles = addIamRoles
             self.clusterIdentifier = clusterIdentifier
+            self.defaultIamRoleArn = defaultIamRoleArn
             self.removeIamRoles = removeIamRoles
         }
 
@@ -5091,6 +5103,7 @@ extension Redshift {
                 try validate($0, name: "addIamRoles[]", parent: name, max: 2_147_483_647)
             }
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.defaultIamRoleArn, name: "defaultIamRoleArn", parent: name, max: 2_147_483_647)
             try self.removeIamRoles?.forEach {
                 try validate($0, name: "removeIamRoles[]", parent: name, max: 2_147_483_647)
             }
@@ -5099,6 +5112,7 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case addIamRoles = "AddIamRoles"
             case clusterIdentifier = "ClusterIdentifier"
+            case defaultIamRoleArn = "DefaultIamRoleArn"
             case removeIamRoles = "RemoveIamRoles"
         }
     }
@@ -6508,6 +6522,8 @@ extension Redshift {
         public var clusterSecurityGroups: [String]?
         /// The name of the subnet group where you want to cluster restored. A snapshot of cluster in VPC can be restored only in VPC. Therefore, you must provide subnet group name where you want the cluster restored.
         public let clusterSubnetGroupName: String?
+        /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified while it was restored from a snapshot.
+        public let defaultIamRoleArn: String?
         /// The elastic IP (EIP) address for the cluster.
         public let elasticIp: String?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
@@ -6547,7 +6563,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -6558,6 +6574,7 @@ extension Redshift {
             self.clusterParameterGroupName = clusterParameterGroupName
             self.clusterSecurityGroups = clusterSecurityGroups
             self.clusterSubnetGroupName = clusterSubnetGroupName
+            self.defaultIamRoleArn = defaultIamRoleArn
             self.elasticIp = elasticIp
             self.enhancedVpcRouting = enhancedVpcRouting
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
@@ -6587,6 +6604,7 @@ extension Redshift {
                 try validate($0, name: "clusterSecurityGroups[]", parent: name, max: 2_147_483_647)
             }
             try self.validate(self.clusterSubnetGroupName, name: "clusterSubnetGroupName", parent: name, max: 2_147_483_647)
+            try self.validate(self.defaultIamRoleArn, name: "defaultIamRoleArn", parent: name, max: 2_147_483_647)
             try self.validate(self.elasticIp, name: "elasticIp", parent: name, max: 2_147_483_647)
             try self.validate(self.hsmClientCertificateIdentifier, name: "hsmClientCertificateIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.hsmConfigurationIdentifier, name: "hsmConfigurationIdentifier", parent: name, max: 2_147_483_647)
@@ -6617,6 +6635,7 @@ extension Redshift {
             case clusterParameterGroupName = "ClusterParameterGroupName"
             case clusterSecurityGroups = "ClusterSecurityGroups"
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case defaultIamRoleArn = "DefaultIamRoleArn"
             case elasticIp = "ElasticIp"
             case enhancedVpcRouting = "EnhancedVpcRouting"
             case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"

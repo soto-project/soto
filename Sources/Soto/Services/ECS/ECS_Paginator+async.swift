@@ -49,9 +49,9 @@ extension ECS {
     ///  			When you specify a target type and cluster, ListAttributes returns a list
     ///  			of attribute objects, one for each attribute on each resource. You can filter the list
     ///  			of results to a single attribute name to only return results that have that name. You
-    ///  			can also filter the results by attribute name and value, for example, to see which
-    ///  			container instances in a cluster are running a Linux AMI
-    ///  			(ecs.os-type=linux).
+    ///  			can also filter the results by attribute name and value. You can do this, for example,
+    ///  			to see which container instances in a cluster are running a Linux AMI
+    ///  				(ecs.os-type=linux).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -143,12 +143,12 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of task definition families that are registered to your account (which
-    ///  			may include task definition families that no longer have any ACTIVE task
-    ///  			definition revisions).
-    ///  		       You can filter out task definition families that do not contain any
-    ///  				ACTIVE task definition revisions by setting the status
-    ///  			parameter to ACTIVE. You can also filter the results with the
+    ///  Returns a list of task definition families that are registered to your account. This
+    ///  			list includes task definition families that no longer have any ACTIVE task
+    ///  			definition revisions.
+    ///  		       You can filter out task definition families that don't contain any ACTIVE
+    ///  			task definition revisions by setting the status parameter to
+    ///  				ACTIVE. You can also filter the results with the
     ///  				familyPrefix parameter.
     /// Return PaginatorSequence for operation.
     ///

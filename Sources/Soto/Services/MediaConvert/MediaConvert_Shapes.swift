@@ -1066,6 +1066,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum FileSourceTimeDeltaUnits: String, CustomStringConvertible, Codable {
+        case milliseconds = "MILLISECONDS"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FontScript: String, CustomStringConvertible, Codable {
         case automatic = "AUTOMATIC"
         case hans = "HANS"
@@ -1160,6 +1166,7 @@ extension MediaConvert {
     }
 
     public enum H264GopSizeUnits: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
@@ -1328,6 +1335,7 @@ extension MediaConvert {
     }
 
     public enum H265GopSizeUnits: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
@@ -1609,6 +1617,12 @@ extension MediaConvert {
         case auto = "AUTO"
         case disable = "DISABLE"
         case force = "FORCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputPolicy: String, CustomStringConvertible, Codable {
+        case allowed = "ALLOWED"
+        case disallowed = "DISALLOWED"
         public var description: String { return self.rawValue }
     }
 
@@ -3514,51 +3528,47 @@ extension MediaConvert {
     }
 
     public struct BurninDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates.
         public let alignment: BurninSubtitleAlignment?
-        /// Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are burned in. Specify how the service applies the color specified in the setting Font color (BurninSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.
+        /// Ignore this setting unless Style passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
         public let applyFontColor: BurninSubtitleApplyFontColor?
-        /// Specifies the color of the rectangle behind the captions.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.
         public let backgroundColor: BurninSubtitleBackgroundColor?
-        /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.
+        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions.
         public let backgroundOpacity: Int?
-        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
+        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
         public let fallbackFont: BurninSubtitleFallbackFont?
-        /// Specifies the color of the burned-in captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the color of the burned-in captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present.
         public let fontColor: BurninSubtitleFontColor?
-        /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
         public let fontOpacity: Int?
-        /// Font resolution in DPI (dots per inch); default is 96 dpi.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
         public let fontResolution: Int?
-        /// Provide the font script, using an ISO 15924 script code, if the LanguageCode is not sufficient for determining the script type. Where LanguageCode or CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset. This is used to help determine the appropriate font for rendering burn-in captions.
+        /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese.
         public let fontScript: FontScript?
-        /// A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.
+        /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size.
         public let fontSize: Int?
-        /// Ignore this setting unless your BurninSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
+        /// Ignore this setting unless your Font color is set to Hex. Enter either six or eight hexidecimal digits, representing red, green, and blue, with two optional extra digits for alpha. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
         public let hexFontColor: String?
-        /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present.
         public let outlineColor: BurninSubtitleOutlineColor?
-        /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave Outline size blank and set Style passthrough (StylePassthrough) to enabled to use the outline size data from your input captions, if present.
         public let outlineSize: Int?
-        /// Specifies the color of the shadow cast by the captions.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present.
         public let shadowColor: BurninSubtitleShadowColor?
-        /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.
+        /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions.
         public let shadowOpacity: Int?
-        /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. All burn-in and DVB-Sub font settings must match.
+        /// Specify the horizontal offset of the shadow, relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.
         public let shadowXOffset: Int?
-        /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
+        /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow y-offset data from your input captions, if present.
         public let shadowYOffset: Int?
-        /// Ignore this setting unless your output captions are burned in. Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.
+        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
         public let stylePassthrough: BurnInSubtitleStylePassthrough?
-        /// Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.
+        /// Specify whether the text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions.
         public let teletextSpacing: BurninSubtitleTeletextSpacing?
-        /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the horizontal position (XPosition) of the captions, relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter.
         public let xPosition: Int?
-        /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the vertical position (YPosition) of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output.
         public let yPosition: Int?
 
         public init(alignment: BurninSubtitleAlignment? = nil, applyFontColor: BurninSubtitleApplyFontColor? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fallbackFont: BurninSubtitleFallbackFont? = nil, fontColor: BurninSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, hexFontColor: String? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: BurnInSubtitleStylePassthrough? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
@@ -3721,7 +3731,7 @@ extension MediaConvert {
     }
 
     public struct CaptionDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Settings related to burn-in captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN.
+        /// Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN.
         public let burninDestinationSettings: BurninDestinationSettings?
         /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Note that your choice of video output container constrains your choice of output captions format. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html. If you are using SCTE-20 and you want to create an output that complies with the SCTE-43 spec, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED). To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
         public let destinationType: CaptionDestinationType?
@@ -3733,13 +3743,13 @@ extension MediaConvert {
         public let imscDestinationSettings: ImscDestinationSettings?
         /// Settings related to SCC captions. SCC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to SCC.
         public let sccDestinationSettings: SccDestinationSettings?
-        /// SRT Destination Settings
+        /// Settings related to SRT captions. SRT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to SRT.
         public let srtDestinationSettings: SrtDestinationSettings?
         /// Settings related to teletext captions. Set up teletext captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to TELETEXT.
         public let teletextDestinationSettings: TeletextDestinationSettings?
         /// Settings related to TTML captions. TTML is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to TTML.
         public let ttmlDestinationSettings: TtmlDestinationSettings?
-        /// WEBVTT Destination Settings
+        /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to WebVTT.
         public let webvttDestinationSettings: WebvttDestinationSettings?
 
         public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, imscDestinationSettings: ImscDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, srtDestinationSettings: SrtDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil) {
@@ -4132,7 +4142,7 @@ extension MediaConvert {
         public let audioDuration: CmfcAudioDuration?
         /// Specify the audio rendition group for this audio rendition. Specify up to one value for each audio output in your output group. This value appears in your HLS parent manifest in the EXT-X-MEDIA tag of TYPE=AUDIO, as the value for the GROUP-ID attribute. For example, if you specify "audio_aac_1" for Audio group ID, it appears in your manifest like this: #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio_aac_1". Related setting: To associate the rendition group that this audio track belongs to with a video rendition, include the same value that you provide here for that video output's setting Audio rendition sets (audioRenditionSets).
         public let audioGroupId: String?
-        /// List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs "audio_aac_1" and "audio_dolby". Then you would specify this value: "audio_aac_1, audio_dolby". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID (AudioGroupId) for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is "amazing_video_1.m3u8". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
+        /// List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs "audio_aac_1" and "audio_dolby". Then you would specify this value: "audio_aac_1,audio_dolby". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID (AudioGroupId) for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is "amazing_video_1.m3u8". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
         public let audioRenditionSets: String?
         /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default (ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT) to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default (ALTERNATE_AUDIO_AUTO_SELECT) to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
         public let audioTrackType: CmfcAudioTrackType?
@@ -4741,6 +4751,14 @@ extension MediaConvert {
         public init() {}
     }
 
+    public struct DeletePolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeletePolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePresetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri("Name"))
@@ -4967,14 +4985,13 @@ extension MediaConvert {
     }
 
     public struct DvbSubDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Within your job settings, all of your DVB-Sub settings must be identical.
         public let alignment: DvbSubtitleAlignment?
-        /// Ignore this setting unless your input captions are STL, any type of 608, teletext, or TTML, and your output captions are DVB-SUB. Specify how the service applies the color specified in the setting Font color (DvbSubtitleFontColor). By default, this color is white. When you choose WHITE_TEXT_ONLY, the service uses the specified font color only for text that is white in the input. When you choose ALL_TEXT, the service uses the specified font color for all output captions text. If you leave both settings at their default value, your output font color is the same as your input font color.
+        /// Ignore this setting unless Style Passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
         public let applyFontColor: DvbSubtitleApplyFontColor?
-        /// Specifies the color of the rectangle behind the captions.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.
         public let backgroundColor: DvbSubtitleBackgroundColor?
-        /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.
+        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.
         public let backgroundOpacity: Int?
         /// Specify how MediaConvert handles the display definition segment (DDS). Keep the default, None (NONE), to exclude the DDS from this set of captions. Choose No display window (NO_DISPLAY_WINDOW) to have MediaConvert include the DDS but not include display window data. In this case, MediaConvert writes that information to the page composition segment (PCS) instead. Choose Specify (SPECIFIED) to have MediaConvert set up the display window based on the values that you specify in related job settings. For video resolutions that are 576 pixels or smaller in height, MediaConvert doesn't include the DDS, regardless of the value you choose for DDS handling (ddsHandling). In this case, it doesn't write the display window data to the PCS either. Related settings: Use the settings DDS x-coordinate (ddsXCoordinate) and DDS y-coordinate (ddsYCoordinate) to specify the offset between the top left corner of the display window and the top left corner of the video frame. All burn-in and DVB-Sub font settings must match.
         public let ddsHandling: DvbddsHandling?
@@ -4982,48 +4999,47 @@ extension MediaConvert {
         public let ddsXCoordinate: Int?
         /// Use this setting, along with DDS x-coordinate (ddsXCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the top of the frame and the top of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
         public let ddsYCoordinate: Int?
-        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you keep the default value, Best match (BEST_MATCH), MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
+        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
         public let fallbackFont: DvbSubSubtitleFallbackFont?
-        /// Specifies the color of the DVB-SUB captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the color of the captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontColor: DvbSubtitleFontColor?
-        /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
+        /// Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontOpacity: Int?
-        /// Font resolution in DPI (dots per inch); default is 96 dpi.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
+        /// Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontResolution: Int?
-        /// Provide the font script, using an ISO 15924 script code, if the LanguageCode is not sufficient for determining the script type. Where LanguageCode or CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset. This is used to help determine the appropriate font for rendering DVB-Sub captions.
+        /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese. Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontScript: FontScript?
-        /// A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.
+        /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size. Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontSize: Int?
         /// Specify the height, in pixels, of this set of DVB-Sub captions. The default value is 576 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
         public let height: Int?
-        /// Ignore this setting unless your DvbSubtitleFontColor setting is HEX. Format is six or eight hexidecimal digits, representing the red, green, and blue components, with the two extra digits used for an optional alpha value. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
+        /// Ignore this setting unless your Font color is set to Hex. Enter either six or eight hexidecimal digits, representing red, green, and blue, with two optional extra digits for alpha. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
         public let hexFontColor: String?
-        /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let outlineColor: DvbSubtitleOutlineColor?
-        /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave Outline size blank and set Style passthrough (StylePassthrough) to enabled to use the outline size data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let outlineSize: Int?
-        /// Specifies the color of the shadow cast by the captions.
-        /// All burn-in and DVB-Sub font settings must match.
+        /// Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowColor: DvbSubtitleShadowColor?
-        /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.
+        /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowOpacity: Int?
-        /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. All burn-in and DVB-Sub font settings must match.
+        /// Specify the horizontal offset of the shadow, relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowXOffset: Int?
-        /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
+        /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow y-offset data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowYOffset: Int?
-        /// Choose which set of style and position values the service applies to your output captions. When you choose ENABLED, the service uses the input style and position information from your input. When you choose DISABLED, the service uses any style values that you specify in your output settings. If you don't specify values, the service uses default style and position values. When you choose DISABLED, the service ignores all style and position values from your input.
+        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
         public let stylePassthrough: DvbSubtitleStylePassthrough?
         /// Specify whether your DVB subtitles are standard or for hearing impaired. Choose hearing impaired if your subtitles include audio descriptions and dialogue. Choose standard if your subtitles include only dialogue.
         public let subtitlingType: DvbSubtitlingType?
-        /// Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.
+        /// Specify whether the Text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions. Within your job settings, all of your DVB-Sub settings must be identical.
         public let teletextSpacing: DvbSubtitleTeletextSpacing?
         /// Specify the width, in pixels, of this set of DVB-Sub captions. The default value is 720 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
         public let width: Int?
-        /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the horizontal position (XPosition) of the captions, relative to the left side of the outputin pixels. A value of 10 would result in the captions starting 10 pixels from the left ofthe output. If no explicit x_position is provided, the horizontal caption position will bedetermined by the alignment parameter. Within your job settings, all of your DVB-Sub settings must be identical.
         public let xPosition: Int?
-        /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
+        /// Specify the vertical position (YPosition) of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. Within your job settings, all of your DVB-Sub settings must be identical.
         public let yPosition: Int?
 
         public init(alignment: DvbSubtitleAlignment? = nil, applyFontColor: DvbSubtitleApplyFontColor? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, ddsHandling: DvbddsHandling? = nil, ddsXCoordinate: Int? = nil, ddsYCoordinate: Int? = nil, fallbackFont: DvbSubSubtitleFallbackFont? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, height: Int? = nil, hexFontColor: String? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: DvbSubtitleStylePassthrough? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
@@ -5531,18 +5547,21 @@ extension MediaConvert {
     public struct FileSourceSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
-        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
+        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction. When you work directly in your JSON job specification, use the settings framerateNumerator and framerateDenominator. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
         public let framerate: CaptionSourceFramerate?
         /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', 'smi', 'webvtt', and 'vtt'.
         public let sourceFile: String?
-        /// Specifies a time delta in seconds to offset the captions from the source file.
+        /// Optional. Use this setting when you need to adjust the sync between your sidecar captions and your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/time-delta-use-cases.html. Enter a positive or negative number to modify the times in the captions file. For example, type 15 to add 15 seconds to all the times in the captions file. Type -5 to subtract 5 seconds from the times in the captions file. You can optionally specify your time delta in milliseconds instead of seconds. When you do so, set the related setting, Time delta units (TimeDeltaUnits) to Milliseconds (MILLISECONDS). Note that, when you specify a time delta for timecode-based caption sources, such as SCC and STL, and your time delta isn't a multiple of the input frame rate, MediaConvert snaps the captions to the nearest frame. For example, when your input video frame rate is 25 fps and you specify 1010ms for time delta, MediaConvert delays your captions by 1000 ms.
         public let timeDelta: Int?
+        /// When you use the setting Time delta (TimeDelta) to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units (TimeDeltaUnits), MediaConvert uses seconds by default.
+        public let timeDeltaUnits: FileSourceTimeDeltaUnits?
 
-        public init(convert608To708: FileSourceConvert608To708? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil) {
+        public init(convert608To708: FileSourceConvert608To708? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil, timeDeltaUnits: FileSourceTimeDeltaUnits? = nil) {
             self.convert608To708 = convert608To708
             self.framerate = framerate
             self.sourceFile = sourceFile
             self.timeDelta = timeDelta
+            self.timeDeltaUnits = timeDeltaUnits
         }
 
         public func validate(name: String) throws {
@@ -5558,6 +5577,7 @@ extension MediaConvert {
             case framerate
             case sourceFile
             case timeDelta
+            case timeDeltaUnits
         }
     }
 
@@ -5650,6 +5670,23 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case jobTemplate
+        }
+    }
+
+    public struct GetPolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetPolicyResponse: AWSDecodableShape {
+        /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
         }
     }
 
@@ -5764,11 +5801,11 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// If enable, use reference B frames for GOP structures that have B frames > 1.
         public let gopBReference: H264GopBReference?
-        /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
+        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.
         public let gopClosedCadence: Int?
-        /// GOP Length (keyframe interval) in frames or seconds. Must be greater than zero.
+        /// Use this setting only when you set GOP mode control (GopSizeUnits) to Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control (GopSizeUnits). If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto (AUTO). If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.
         public let gopSize: Double?
-        /// Indicates if the GOP Size in H264 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.
+        /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).
         public let gopSizeUnits: H264GopSizeUnits?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let hrdBufferInitialFillPercentage: Int?
@@ -5778,9 +5815,9 @@ extension MediaConvert {
         public let interlaceMode: H264InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
-        /// Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+        /// Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
         public let minIInterval: Int?
-        /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
+        /// This setting to determines the number of B-frames that MediaConvert puts between reference frames in this output. We recommend that you use automatic behavior to allow the transcoder to choose the best value based on characteristics of your input video. In the console, choose AUTO to select this automatic behavior. When you manually edit your JSON job specification, leave this setting out to choose automatic behavior. When you want to specify this number explicitly, choose a whole number from 0 through 7.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
@@ -5991,11 +6028,11 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// If enable, use reference B frames for GOP structures that have B frames > 1.
         public let gopBReference: H265GopBReference?
-        /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
+        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.
         public let gopClosedCadence: Int?
-        /// GOP Length (keyframe interval) in frames or seconds. Must be greater than zero.
+        /// Use this setting only when you set GOP mode control (GopSizeUnits) to Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control (GopSizeUnits). If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto (AUTO). If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.
         public let gopSize: Double?
-        /// Indicates if the GOP Size in H265 is specified in frames or seconds. If seconds the system will convert the GOP Size into a frame count at run time.
+        /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).
         public let gopSizeUnits: H265GopSizeUnits?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let hrdBufferInitialFillPercentage: Int?
@@ -6005,7 +6042,7 @@ extension MediaConvert {
         public let interlaceMode: H265InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
-        /// Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+        /// Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
         public let minIInterval: Int?
         /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
@@ -8352,7 +8389,7 @@ extension MediaConvert {
         public let framerateDenominator: Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateNumerator: Int?
-        /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
+        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. When you create a streaming output, we recommend that you keep the default value, 1, so that players starting mid-stream receive an IDR frame as quickly as possible. Don't set this value to 0; that would break output segmenting.
         public let gopClosedCadence: Int?
         /// Specify the interval between keyframes, in seconds or frames, for this output. Default: 12 Related settings: When you specify the GOP size in seconds, set GOP mode control (GopSizeUnits) to Specified, seconds (SECONDS). The default value for GOP mode control (GopSizeUnits) is Frames (FRAMES).
         public let gopSize: Double?
@@ -8368,7 +8405,7 @@ extension MediaConvert {
         public let intraDcPrecision: Mpeg2IntraDcPrecision?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let maxBitrate: Int?
-        /// Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. This setting is only used when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+        /// Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. When you specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
         public let minIInterval: Int?
         /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
@@ -9119,6 +9156,27 @@ extension MediaConvert {
         }
     }
 
+    public struct Policy: AWSEncodableShape & AWSDecodableShape {
+        /// Allow or disallow jobs that specify HTTP inputs.
+        public let httpInputs: InputPolicy?
+        /// Allow or disallow jobs that specify HTTPS inputs.
+        public let httpsInputs: InputPolicy?
+        /// Allow or disallow jobs that specify Amazon S3 inputs.
+        public let s3Inputs: InputPolicy?
+
+        public init(httpInputs: InputPolicy? = nil, httpsInputs: InputPolicy? = nil, s3Inputs: InputPolicy? = nil) {
+            self.httpInputs = httpInputs
+            self.httpsInputs = httpsInputs
+            self.s3Inputs = s3Inputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpInputs
+            case httpsInputs
+            case s3Inputs
+        }
+    }
+
     public struct Preset: AWSDecodableShape {
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -9267,6 +9325,32 @@ extension MediaConvert {
             case scanTypeConversionMode
             case slowPal
             case telecine
+        }
+    }
+
+    public struct PutPolicyRequest: AWSEncodableShape {
+        /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        public let policy: Policy
+
+        public init(policy: Policy) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
+        }
+    }
+
+    public struct PutPolicyResponse: AWSDecodableShape {
+        /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
         }
     }
 
@@ -9637,7 +9721,7 @@ extension MediaConvert {
     }
 
     public struct SrtDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and position information from the captions source in the input. Keep the default value, Disabled (DISABLED), for simplified output captions.
+        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.
         public let stylePassthrough: SrtStylePassthrough?
 
         public init(stylePassthrough: SrtStylePassthrough? = nil) {
@@ -10345,7 +10429,7 @@ extension MediaConvert {
         public let programNumber: Int?
         /// Use Rotate (InputRotate) to specify how the service rotates your video. You can choose automatic rotation or specify a rotation. You can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If your input video container is .mov or .mp4 and your input has rotation metadata, you can choose Automatic to have the service rotate your video according to the rotation specified in the metadata. The rotation must be within one degree of 90, 180, or 270 degrees. If the rotation metadata specifies any other rotation, the service will default to no rotation. By default, the service does no rotation, even if your input video has rotation metadata. The service doesn't pass through rotation metadata.
         public let rotate: InputRotate?
-        /// Use this setting when your input video codec is AVC-Intra. Ignore this setting for all other inputs. If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
+        /// If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
         public let sampleRange: InputSampleRange?
 
         public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil) {
@@ -10600,7 +10684,7 @@ extension MediaConvert {
     }
 
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and position information from the captions source in the input. Keep the default value, Disabled (DISABLED), for simplified output captions.
+        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.
         public let stylePassthrough: WebvttStylePassthrough?
 
         public init(stylePassthrough: WebvttStylePassthrough? = nil) {

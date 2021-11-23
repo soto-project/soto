@@ -273,6 +273,7 @@ extension Glue {
     }
 
     public enum RecrawlBehavior: String, CustomStringConvertible, Codable {
+        case crawlEventMode = "CRAWL_EVENT_MODE"
         case crawlEverything = "CRAWL_EVERYTHING"
         case crawlNewFoldersOnly = "CRAWL_NEW_FOLDERS_ONLY"
         public var description: String { return self.rawValue }
@@ -2384,10 +2385,13 @@ extension Glue {
         public let catalogId: String?
         /// A ConnectionInput object defining the connection to create.
         public let connectionInput: ConnectionInput
+        /// The tags you assign to the connection.
+        public let tags: [String: String]?
 
-        public init(catalogId: String? = nil, connectionInput: ConnectionInput) {
+        public init(catalogId: String? = nil, connectionInput: ConnectionInput, tags: [String: String]? = nil) {
             self.catalogId = catalogId
             self.connectionInput = connectionInput
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2395,11 +2399,18 @@ extension Glue {
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.connectionInput.validate(name: "\(name).connectionInput")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case connectionInput = "ConnectionInput"
+            case tags = "Tags"
         }
     }
 
@@ -6605,6 +6616,7 @@ extension Glue {
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
         public let databaseName: String
+        /// When true, specifies not returning the partition column schema. Useful when you are interested only in other partition attributes such as partition values or location. This approach avoids the problem of a large response by not returning duplicate data.
         public let excludeColumnSchema: Bool?
         /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.    Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a  b) is true.  >  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a > b) is not true.    Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a   >=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a >= b) is not true.    Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a   AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.     string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an type is encountered that is not valid, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.    Sample API Call:
         public let expression: String?
@@ -9904,6 +9916,8 @@ extension Glue {
         /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run.
         ///
         /// 	        A value of CRAWL_EVERYTHING specifies crawling the entire dataset again.  A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run.
+        ///
+        /// 	        A value of CRAWL_EVENT_MODE specifies crawling only the changes identified by Amazon S3 events.
         public let recrawlBehavior: RecrawlBehavior?
 
         public init(recrawlBehavior: RecrawlBehavior? = nil) {
@@ -10224,6 +10238,10 @@ extension Glue {
     public struct S3Target: AWSEncodableShape & AWSDecodableShape {
         /// The name of a connection which allows a job or crawler to access data in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
         public let connectionName: String?
+        /// A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue.
+        public let dlqEventQueueArn: String?
+        /// A valid Amazon SQS ARN. For example, arn:aws:sqs:region:account:sqs.
+        public let eventQueueArn: String?
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
         public let exclusions: [String]?
         /// The path to the Amazon S3 target.
@@ -10231,8 +10249,10 @@ extension Glue {
         /// Sets the number of files in each leaf folder to be crawled when crawling sample files in a dataset. If not set, all the files are crawled. A valid value is an integer between 1 and 249.
         public let sampleSize: Int?
 
-        public init(connectionName: String? = nil, exclusions: [String]? = nil, path: String? = nil, sampleSize: Int? = nil) {
+        public init(connectionName: String? = nil, dlqEventQueueArn: String? = nil, eventQueueArn: String? = nil, exclusions: [String]? = nil, path: String? = nil, sampleSize: Int? = nil) {
             self.connectionName = connectionName
+            self.dlqEventQueueArn = dlqEventQueueArn
+            self.eventQueueArn = eventQueueArn
             self.exclusions = exclusions
             self.path = path
             self.sampleSize = sampleSize
@@ -10240,6 +10260,8 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case dlqEventQueueArn = "DlqEventQueueArn"
+            case eventQueueArn = "EventQueueArn"
             case exclusions = "Exclusions"
             case path = "Path"
             case sampleSize = "SampleSize"

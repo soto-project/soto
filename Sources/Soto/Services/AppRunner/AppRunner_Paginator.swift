@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension AppRunner {
-    ///  Return a description of custom domain names that are associated with an AWS App Runner service.
+    ///  Return a description of custom domain names that are associated with an App Runner service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of AWS App Runner automatic scaling configurations in your AWS account. You can query the revisions for a specific configuration name or the revisions for all configurations in your account. You can optionally query only the latest revision of each requested name.
+    ///  Returns a list of App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all configurations in your account. You can optionally query only the latest revision of each requested name.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of AWS App Runner connections that are associated with your AWS account.
+    ///  Returns a list of App Runner connections that are associated with your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,7 +179,7 @@ extension AppRunner {
         )
     }
 
-    ///  Return a list of operations that occurred on an AWS App Runner service. The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
+    ///  Return a list of operations that occurred on an App Runner service. The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of running AWS App Runner services in your AWS account.
+    ///  Returns a list of running App Runner services in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
