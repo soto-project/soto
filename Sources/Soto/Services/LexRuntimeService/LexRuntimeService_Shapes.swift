@@ -507,6 +507,28 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
+        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSPayload? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+            self.activeContexts = activeContexts
+            self.alternativeIntents = alternativeIntents
+            self.audioStream = audioStream
+            self.botVersion = botVersion
+            self.contentType = contentType
+            self.dialogState = dialogState
+            self.encodedInputTranscript = encodedInputTranscript
+            self.encodedMessage = encodedMessage
+            self.inputTranscript = nil
+            self.intentName = intentName
+            self.message = nil
+            self.messageFormat = messageFormat
+            self.nluIntentConfidence = nluIntentConfidence
+            self.sentimentResponse = sentimentResponse
+            self.sessionAttributes = sessionAttributes
+            self.sessionId = sessionId
+            self.slots = slots
+            self.slotToElicit = slotToElicit
+        }
+
+        @available(*, deprecated, message: "Members inputTranscript, message have been deprecated")
         public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSPayload? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
@@ -791,6 +813,22 @@ extension LexRuntimeService {
         /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
+        public init(activeContexts: String? = nil, audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+            self.activeContexts = activeContexts
+            self.audioStream = audioStream
+            self.contentType = contentType
+            self.dialogState = dialogState
+            self.encodedMessage = encodedMessage
+            self.intentName = intentName
+            self.message = nil
+            self.messageFormat = messageFormat
+            self.sessionAttributes = sessionAttributes
+            self.sessionId = sessionId
+            self.slots = slots
+            self.slotToElicit = slotToElicit
+        }
+
+        @available(*, deprecated, message: "Members message have been deprecated")
         public init(activeContexts: String? = nil, audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.audioStream = audioStream

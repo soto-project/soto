@@ -1832,6 +1832,16 @@ extension MTurk {
         ///  DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. This should not be used in combination with the ActionsGuarded field.
         public let requiredToPreview: Bool?
 
+        public init(actionsGuarded: HITAccessActions? = nil, comparator: Comparator, integerValues: [Int]? = nil, localeValues: [Locale]? = nil, qualificationTypeId: String) {
+            self.actionsGuarded = actionsGuarded
+            self.comparator = comparator
+            self.integerValues = integerValues
+            self.localeValues = localeValues
+            self.qualificationTypeId = qualificationTypeId
+            self.requiredToPreview = nil
+        }
+
+        @available(*, deprecated, message: "Members requiredToPreview have been deprecated")
         public init(actionsGuarded: HITAccessActions? = nil, comparator: Comparator, integerValues: [Int]? = nil, localeValues: [Locale]? = nil, qualificationTypeId: String, requiredToPreview: Bool? = nil) {
             self.actionsGuarded = actionsGuarded
             self.comparator = comparator

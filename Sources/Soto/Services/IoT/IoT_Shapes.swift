@@ -3992,6 +3992,17 @@ extension IoT {
         /// Metadata that can be used to manage the security profile.
         public let tags: [Tag]?
 
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
+            self.additionalMetricsToRetain = nil
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
+            self.alertTargets = alertTargets
+            self.behaviors = behaviors
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileName = securityProfileName
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -6480,6 +6491,20 @@ extension IoT {
         /// The version of the security profile. A new version is generated whenever the security profile is updated.
         public let version: Int64?
 
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+            self.additionalMetricsToRetain = nil
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
+            self.alertTargets = alertTargets
+            self.behaviors = behaviors
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.securityProfileArn = securityProfileArn
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileName = securityProfileName
+            self.version = version
+        }
+
+        @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -12370,6 +12395,14 @@ extension IoT {
         /// The status of the register certificate request.
         public let status: CertificateStatus?
 
+        public init(caCertificatePem: String? = nil, certificatePem: String, status: CertificateStatus? = nil) {
+            self.caCertificatePem = caCertificatePem
+            self.certificatePem = certificatePem
+            self.setAsActive = nil
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members setAsActive have been deprecated")
         public init(caCertificatePem: String? = nil, certificatePem: String, setAsActive: Bool? = nil, status: CertificateStatus? = nil) {
             self.caCertificatePem = caCertificatePem
             self.certificatePem = certificatePem
@@ -15567,6 +15600,20 @@ extension IoT {
         /// The name of the security profile you want to update.
         public let securityProfileName: String
 
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, expectedVersion: Int64? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
+            self.additionalMetricsToRetain = nil
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
+            self.alertTargets = alertTargets
+            self.behaviors = behaviors
+            self.deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetain
+            self.deleteAlertTargets = deleteAlertTargets
+            self.deleteBehaviors = deleteBehaviors
+            self.expectedVersion = expectedVersion
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileName = securityProfileName
+        }
+
+        @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, expectedVersion: Int64? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -15632,6 +15679,20 @@ extension IoT {
         /// The updated version of the security profile.
         public let version: Int64?
 
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+            self.additionalMetricsToRetain = nil
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
+            self.alertTargets = alertTargets
+            self.behaviors = behaviors
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.securityProfileArn = securityProfileArn
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileName = securityProfileName
+            self.version = version
+        }
+
+        @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2

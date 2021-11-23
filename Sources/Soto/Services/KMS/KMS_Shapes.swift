@@ -439,6 +439,20 @@ extension KMS {
         /// Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see Using ABAC in KMS in the Key Management Service Developer Guide.  To use this parameter, you must have kms:TagResource permission in an IAM policy. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one.  When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see Tagging Keys.
         public let tags: [Tag]?
 
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customKeyStoreId: String? = nil, description: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.customerMasterKeySpec = nil
+            self.customKeyStoreId = customKeyStoreId
+            self.description = description
+            self.keySpec = keySpec
+            self.keyUsage = keyUsage
+            self.multiRegion = multiRegion
+            self.origin = origin
+            self.policy = policy
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, description: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.customerMasterKeySpec = customerMasterKeySpec
@@ -1349,6 +1363,17 @@ extension KMS {
         /// The signing algorithms that KMS supports for this key. This field appears in the response only when the KeyUsage of the public key is SIGN_VERIFY.
         public let signingAlgorithms: [SigningAlgorithmSpec]?
 
+        public init(encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
+            self.customerMasterKeySpec = nil
+            self.encryptionAlgorithms = encryptionAlgorithms
+            self.keyId = keyId
+            self.keySpec = keySpec
+            self.keyUsage = keyUsage
+            self.publicKey = publicKey
+            self.signingAlgorithms = signingAlgorithms
+        }
+
+        @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
         public init(customerMasterKeySpec: CustomerMasterKeySpec? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
             self.customerMasterKeySpec = customerMasterKeySpec
             self.encryptionAlgorithms = encryptionAlgorithms
@@ -1537,6 +1562,32 @@ extension KMS {
         /// The time at which the imported key material expires. When the key material expires, KMS deletes the key material and the KMS key becomes unusable. This value is present only for KMS keys whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: Date?
 
+        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
+            self.arn = arn
+            self.aWSAccountId = aWSAccountId
+            self.cloudHsmClusterId = cloudHsmClusterId
+            self.creationDate = creationDate
+            self.customerMasterKeySpec = nil
+            self.customKeyStoreId = customKeyStoreId
+            self.deletionDate = deletionDate
+            self.description = description
+            self.enabled = enabled
+            self.encryptionAlgorithms = encryptionAlgorithms
+            self.expirationModel = expirationModel
+            self.keyId = keyId
+            self.keyManager = keyManager
+            self.keySpec = keySpec
+            self.keyState = keyState
+            self.keyUsage = keyUsage
+            self.multiRegion = multiRegion
+            self.multiRegionConfiguration = multiRegionConfiguration
+            self.origin = origin
+            self.pendingDeletionWindowInDays = pendingDeletionWindowInDays
+            self.signingAlgorithms = signingAlgorithms
+            self.validTo = validTo
+        }
+
+        @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
         public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
             self.arn = arn
             self.aWSAccountId = aWSAccountId

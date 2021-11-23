@@ -138,6 +138,12 @@ extension ResourceGroups {
         /// Deprecated - don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        public init(group: String? = nil) {
+            self.group = group
+            self.groupName = nil
+        }
+
+        @available(*, deprecated, message: "Members groupName have been deprecated")
         public init(group: String? = nil, groupName: String? = nil) {
             self.group = group
             self.groupName = groupName
@@ -230,6 +236,12 @@ extension ResourceGroups {
         /// Deprecated - don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        public init(group: String? = nil) {
+            self.group = group
+            self.groupName = nil
+        }
+
+        @available(*, deprecated, message: "Members groupName have been deprecated")
         public init(group: String? = nil, groupName: String? = nil) {
             self.group = group
             self.groupName = groupName
@@ -269,6 +281,12 @@ extension ResourceGroups {
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        public init(group: String? = nil) {
+            self.group = group
+            self.groupName = nil
+        }
+
+        @available(*, deprecated, message: "Members groupName have been deprecated")
         public init(group: String? = nil, groupName: String? = nil) {
             self.group = group
             self.groupName = groupName
@@ -571,6 +589,15 @@ extension ResourceGroups {
         /// call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
+        public init(filters: [ResourceFilter]? = nil, group: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.group = group
+            self.groupName = nil
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        @available(*, deprecated, message: "Members groupName have been deprecated")
         public init(filters: [ResourceFilter]? = nil, group: String? = nil, groupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.group = group
@@ -633,6 +660,14 @@ extension ResourceGroups {
         /// An array of resources from which you can determine each resource's identity, type, and group membership status.
         public let resources: [ListGroupResourcesItem]?
 
+        public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resources: [ListGroupResourcesItem]? = nil) {
+            self.nextToken = nextToken
+            self.queryErrors = queryErrors
+            self.resourceIdentifiers = nil
+            self.resources = resources
+        }
+
+        @available(*, deprecated, message: "Members resourceIdentifiers have been deprecated")
         public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil, resources: [ListGroupResourcesItem]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
@@ -703,6 +738,13 @@ extension ResourceGroups {
         /// until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        public init(groupIdentifiers: [GroupIdentifier]? = nil, nextToken: String? = nil) {
+            self.groupIdentifiers = groupIdentifiers
+            self.groups = nil
+            self.nextToken = nextToken
+        }
+
+        @available(*, deprecated, message: "Members groups have been deprecated")
         public init(groupIdentifiers: [GroupIdentifier]? = nil, groups: [Group]? = nil, nextToken: String? = nil) {
             self.groupIdentifiers = groupIdentifiers
             self.groups = groups
@@ -1074,6 +1116,13 @@ extension ResourceGroups {
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        public init(description: String? = nil, group: String? = nil) {
+            self.description = description
+            self.group = group
+            self.groupName = nil
+        }
+
+        @available(*, deprecated, message: "Members groupName have been deprecated")
         public init(description: String? = nil, group: String? = nil, groupName: String? = nil) {
             self.description = description
             self.group = group
@@ -1119,6 +1168,13 @@ extension ResourceGroups {
         /// The resource query to determine which AWS resources are members of this resource group.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
         public let resourceQuery: ResourceQuery
 
+        public init(group: String? = nil, resourceQuery: ResourceQuery) {
+            self.group = group
+            self.groupName = nil
+            self.resourceQuery = resourceQuery
+        }
+
+        @available(*, deprecated, message: "Members groupName have been deprecated")
         public init(group: String? = nil, groupName: String? = nil, resourceQuery: ResourceQuery) {
             self.group = group
             self.groupName = groupName

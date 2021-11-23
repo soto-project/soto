@@ -4539,6 +4539,19 @@ extension S3 {
         /// Specifies when an Amazon S3 object transitions to a specified storage class.
         public let transitions: [Transition]?
 
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
+            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
+            self.expiration = expiration
+            self.filter = filter
+            self.id = id
+            self.noncurrentVersionExpiration = noncurrentVersionExpiration
+            self.noncurrentVersionTransitions = noncurrentVersionTransitions
+            self.prefix = nil
+            self.status = status
+            self.transitions = transitions
+        }
+
+        @available(*, deprecated, message: "Members prefix have been deprecated")
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, prefix: String? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
@@ -7194,6 +7207,19 @@ extension S3 {
         /// Specifies whether the rule is enabled.
         public let status: ReplicationRuleStatus
 
+        public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, existingObjectReplication: ExistingObjectReplication? = nil, filter: ReplicationRuleFilter? = nil, id: String? = nil, priority: Int? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
+            self.deleteMarkerReplication = deleteMarkerReplication
+            self.destination = destination
+            self.existingObjectReplication = existingObjectReplication
+            self.filter = filter
+            self.id = id
+            self.prefix = nil
+            self.priority = priority
+            self.sourceSelectionCriteria = sourceSelectionCriteria
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members prefix have been deprecated")
         public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, existingObjectReplication: ExistingObjectReplication? = nil, filter: ReplicationRuleFilter? = nil, id: String? = nil, prefix: String? = nil, priority: Int? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
             self.deleteMarkerReplication = deleteMarkerReplication
             self.destination = destination

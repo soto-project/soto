@@ -5872,6 +5872,31 @@ extension EC2 {
         /// The protocol used by the VPN session.
         public let vpnProtocol: VpnProtocol?
 
+        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
+            self.associatedTargetNetworks = nil
+            self.authenticationOptions = authenticationOptions
+            self.clientCidrBlock = clientCidrBlock
+            self.clientConnectOptions = clientConnectOptions
+            self.clientVpnEndpointId = clientVpnEndpointId
+            self.connectionLogOptions = connectionLogOptions
+            self.creationTime = creationTime
+            self.deletionTime = deletionTime
+            self.description = description
+            self.dnsName = dnsName
+            self.dnsServers = dnsServers
+            self.securityGroupIds = securityGroupIds
+            self.selfServicePortalUrl = selfServicePortalUrl
+            self.serverCertificateArn = serverCertificateArn
+            self.splitTunnel = splitTunnel
+            self.status = status
+            self.tags = tags
+            self.transportProtocol = transportProtocol
+            self.vpcId = vpcId
+            self.vpnPort = vpnPort
+            self.vpnProtocol = vpnProtocol
+        }
+
+        @available(*, deprecated, message: "Members associatedTargetNetworks have been deprecated")
         public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = associatedTargetNetworks
             self.authenticationOptions = authenticationOptions

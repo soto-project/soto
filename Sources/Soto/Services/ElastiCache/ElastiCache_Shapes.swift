@@ -3722,6 +3722,35 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToRemove: [String]?
 
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
+            self.applyImmediately = applyImmediately
+            self.authToken = authToken
+            self.authTokenUpdateStrategy = authTokenUpdateStrategy
+            self.automaticFailoverEnabled = automaticFailoverEnabled
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.cacheNodeType = cacheNodeType
+            self.cacheParameterGroupName = cacheParameterGroupName
+            self.cacheSecurityGroupNames = cacheSecurityGroupNames
+            self.engineVersion = engineVersion
+            self.logDeliveryConfigurations = logDeliveryConfigurations
+            self.multiAZEnabled = multiAZEnabled
+            self.nodeGroupId = nil
+            self.notificationTopicArn = notificationTopicArn
+            self.notificationTopicStatus = notificationTopicStatus
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.primaryClusterId = primaryClusterId
+            self.removeUserGroups = removeUserGroups
+            self.replicationGroupDescription = replicationGroupDescription
+            self.replicationGroupId = replicationGroupId
+            self.securityGroupIds = securityGroupIds
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.snapshottingClusterId = snapshottingClusterId
+            self.snapshotWindow = snapshotWindow
+            self.userGroupIdsToAdd = userGroupIdsToAdd
+            self.userGroupIdsToRemove = userGroupIdsToRemove
+        }
+
+        @available(*, deprecated, message: "Members nodeGroupId have been deprecated")
         public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupId: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken

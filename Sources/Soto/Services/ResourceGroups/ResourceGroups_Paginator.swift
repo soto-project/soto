@@ -185,7 +185,6 @@ extension ResourceGroups.ListGroupResourcesInput: AWSPaginateToken {
         return .init(
             filters: self.filters,
             group: self.group,
-            groupName: self.groupName,
             maxResults: self.maxResults,
             nextToken: token
         )

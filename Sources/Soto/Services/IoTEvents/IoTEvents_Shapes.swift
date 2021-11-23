@@ -2316,6 +2316,13 @@ extension IoTEvents {
         /// The name of the timer.
         public let timerName: String
 
+        public init(durationExpression: String? = nil, timerName: String) {
+            self.durationExpression = durationExpression
+            self.seconds = nil
+            self.timerName = timerName
+        }
+
+        @available(*, deprecated, message: "Members seconds have been deprecated")
         public init(durationExpression: String? = nil, seconds: Int? = nil, timerName: String) {
             self.durationExpression = durationExpression
             self.seconds = seconds

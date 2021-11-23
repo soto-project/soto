@@ -263,6 +263,23 @@ extension CloudTrail {
         /// Specifies the ARN of the trail that was created. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.isOrganizationTrail = isOrganizationTrail
+            self.kmsKeyId = kmsKeyId
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.name = name
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.snsTopicARN = snsTopicARN
+            self.snsTopicName = nil
+            self.trailARN = trailARN
+        }
+
+        @available(*, deprecated, message: "Members snsTopicName have been deprecated")
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -1043,6 +1060,26 @@ extension CloudTrail {
         /// Specifies the ARN of the trail. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, hasInsightSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.hasCustomEventSelectors = hasCustomEventSelectors
+            self.hasInsightSelectors = hasInsightSelectors
+            self.homeRegion = homeRegion
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.isOrganizationTrail = isOrganizationTrail
+            self.kmsKeyId = kmsKeyId
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.name = name
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.snsTopicARN = snsTopicARN
+            self.snsTopicName = nil
+            self.trailARN = trailARN
+        }
+
+        @available(*, deprecated, message: "Members snsTopicName have been deprecated")
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, hasInsightSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -1184,6 +1221,23 @@ extension CloudTrail {
         /// Specifies the ARN of the trail that was updated. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.isOrganizationTrail = isOrganizationTrail
+            self.kmsKeyId = kmsKeyId
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.name = name
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.snsTopicARN = snsTopicARN
+            self.snsTopicName = nil
+            self.trailARN = trailARN
+        }
+
+        @available(*, deprecated, message: "Members snsTopicName have been deprecated")
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn

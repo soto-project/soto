@@ -2859,6 +2859,29 @@ extension Glue {
         /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
+        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+            self.allocatedCapacity = nil
+            self.command = command
+            self.connections = connections
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.executionProperty = executionProperty
+            self.glueVersion = glueVersion
+            self.logUri = logUri
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.name = name
+            self.nonOverridableArguments = nonOverridableArguments
+            self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.tags = tags
+            self.timeout = timeout
+            self.workerType = workerType
+        }
+
+        @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         public init(allocatedCapacity: Int? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
@@ -8017,6 +8040,30 @@ extension Glue {
         /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+            self.allocatedCapacity = nil
+            self.command = command
+            self.connections = connections
+            self.createdOn = createdOn
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.executionProperty = executionProperty
+            self.glueVersion = glueVersion
+            self.lastModifiedOn = lastModifiedOn
+            self.logUri = logUri
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.name = name
+            self.nonOverridableArguments = nonOverridableArguments
+            self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+            self.workerType = workerType
+        }
+
+        @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         public init(allocatedCapacity: Int? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
@@ -8212,6 +8259,32 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+            self.allocatedCapacity = nil
+            self.arguments = arguments
+            self.attempt = attempt
+            self.completedOn = completedOn
+            self.errorMessage = errorMessage
+            self.executionTime = executionTime
+            self.glueVersion = glueVersion
+            self.id = id
+            self.jobName = jobName
+            self.jobRunState = jobRunState
+            self.lastModifiedOn = lastModifiedOn
+            self.logGroupName = logGroupName
+            self.maxCapacity = maxCapacity
+            self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
+            self.predecessorRuns = predecessorRuns
+            self.previousRunId = previousRunId
+            self.securityConfiguration = securityConfiguration
+            self.startedOn = startedOn
+            self.timeout = timeout
+            self.triggerName = triggerName
+            self.workerType = workerType
+        }
+
+        @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
@@ -8305,6 +8378,27 @@ extension Glue {
         /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+            self.allocatedCapacity = nil
+            self.command = command
+            self.connections = connections
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.executionProperty = executionProperty
+            self.glueVersion = glueVersion
+            self.logUri = logUri
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.nonOverridableArguments = nonOverridableArguments
+            self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+            self.workerType = workerType
+        }
+
+        @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         public init(allocatedCapacity: Int? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
@@ -10893,6 +10987,20 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
+        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+            self.allocatedCapacity = nil
+            self.arguments = arguments
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.maxCapacity = maxCapacity
+            self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+            self.workerType = workerType
+        }
+
+        @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments

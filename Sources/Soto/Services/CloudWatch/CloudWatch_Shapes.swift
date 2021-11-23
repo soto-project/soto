@@ -186,6 +186,18 @@ extension CloudWatch {
         /// The current status of the anomaly detector's training. The possible values are TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA
         public let stateValue: AnomalyDetectorStateValue?
 
+        public init(configuration: AnomalyDetectorConfiguration? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
+            self.configuration = configuration
+            self.dimensions = nil
+            self.metricMathAnomalyDetector = metricMathAnomalyDetector
+            self.metricName = nil
+            self.namespace = nil
+            self.singleMetricAnomalyDetector = singleMetricAnomalyDetector
+            self.stat = nil
+            self.stateValue = stateValue
+        }
+
+        @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
         public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
@@ -438,6 +450,16 @@ extension CloudWatch {
         /// The statistic associated with the anomaly detection model to delete.
         public let stat: String?
 
+        public init(metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil) {
+            self.dimensions = nil
+            self.metricMathAnomalyDetector = metricMathAnomalyDetector
+            self.metricName = nil
+            self.namespace = nil
+            self.singleMetricAnomalyDetector = singleMetricAnomalyDetector
+            self.stat = nil
+        }
+
+        @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
         public init(dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.dimensions = dimensions
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
@@ -2512,6 +2534,17 @@ extension CloudWatch {
         /// The statistic to use for the metric and the anomaly detection model.
         public let stat: String?
 
+        public init(configuration: AnomalyDetectorConfiguration? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil) {
+            self.configuration = configuration
+            self.dimensions = nil
+            self.metricMathAnomalyDetector = metricMathAnomalyDetector
+            self.metricName = nil
+            self.namespace = nil
+            self.singleMetricAnomalyDetector = singleMetricAnomalyDetector
+            self.stat = nil
+        }
+
+        @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
         public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions

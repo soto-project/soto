@@ -1038,6 +1038,19 @@ extension CloudWatchLogs {
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         public let startTime: Int64?
 
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
+            self.endTime = endTime
+            self.filterPattern = filterPattern
+            self.interleaved = nil
+            self.limit = limit
+            self.logGroupName = logGroupName
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logStreamNames = logStreamNames
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        @available(*, deprecated, message: "Members interleaved have been deprecated")
         public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
@@ -1433,6 +1446,18 @@ extension CloudWatchLogs {
         /// The sequence token.
         public let uploadSequenceToken: String?
 
+        public init(arn: String? = nil, creationTime: Int64? = nil, firstEventTimestamp: Int64? = nil, lastEventTimestamp: Int64? = nil, lastIngestionTime: Int64? = nil, logStreamName: String? = nil, uploadSequenceToken: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.firstEventTimestamp = firstEventTimestamp
+            self.lastEventTimestamp = lastEventTimestamp
+            self.lastIngestionTime = lastIngestionTime
+            self.logStreamName = logStreamName
+            self.storedBytes = nil
+            self.uploadSequenceToken = uploadSequenceToken
+        }
+
+        @available(*, deprecated, message: "Members storedBytes have been deprecated")
         public init(arn: String? = nil, creationTime: Int64? = nil, firstEventTimestamp: Int64? = nil, lastEventTimestamp: Int64? = nil, lastIngestionTime: Int64? = nil, logStreamName: String? = nil, storedBytes: Int64? = nil, uploadSequenceToken: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime

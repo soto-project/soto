@@ -183,6 +183,34 @@ extension OpsWorksCM {
         ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups.
         public let userArn: String?
 
+        public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: Date? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
+            self.backupArn = backupArn
+            self.backupId = backupId
+            self.backupType = backupType
+            self.createdAt = createdAt
+            self.description = description
+            self.engine = engine
+            self.engineModel = engineModel
+            self.engineVersion = engineVersion
+            self.instanceProfileArn = instanceProfileArn
+            self.instanceType = instanceType
+            self.keyPair = keyPair
+            self.preferredBackupWindow = preferredBackupWindow
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.s3DataSize = nil
+            self.s3DataUrl = nil
+            self.s3LogUrl = s3LogUrl
+            self.securityGroupIds = securityGroupIds
+            self.serverName = serverName
+            self.serviceRoleArn = serviceRoleArn
+            self.status = status
+            self.statusDescription = statusDescription
+            self.subnetIds = subnetIds
+            self.toolsVersion = toolsVersion
+            self.userArn = userArn
+        }
+
+        @available(*, deprecated, message: "Members s3DataSize, s3DataUrl have been deprecated")
         public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: Date? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3DataSize: Int? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
             self.backupArn = backupArn
             self.backupId = backupId

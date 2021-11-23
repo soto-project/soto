@@ -4331,6 +4331,21 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String
 
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+            self.appNetworkAccessType = appNetworkAccessType
+            self.appSecurityGroupManagement = appSecurityGroupManagement
+            self.authMode = authMode
+            self.defaultUserSettings = defaultUserSettings
+            self.domainName = domainName
+            self.domainSettings = domainSettings
+            self.homeEfsFileSystemKmsKeyId = nil
+            self.kmsKeyId = kmsKeyId
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -9058,6 +9073,30 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String?
 
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+            self.appNetworkAccessType = appNetworkAccessType
+            self.appSecurityGroupManagement = appSecurityGroupManagement
+            self.authMode = authMode
+            self.creationTime = creationTime
+            self.defaultUserSettings = defaultUserSettings
+            self.domainArn = domainArn
+            self.domainId = domainId
+            self.domainName = domainName
+            self.domainSettings = domainSettings
+            self.failureReason = failureReason
+            self.homeEfsFileSystemId = homeEfsFileSystemId
+            self.homeEfsFileSystemKmsKeyId = nil
+            self.kmsKeyId = kmsKeyId
+            self.lastModifiedTime = lastModifiedTime
+            self.securityGroupIdForDomainBoundary = securityGroupIdForDomainBoundary
+            self.singleSignOnManagedApplicationInstanceId = singleSignOnManagedApplicationInstanceId
+            self.status = status
+            self.subnetIds = subnetIds
+            self.url = url
+            self.vpcId = vpcId
+        }
+
+        @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
