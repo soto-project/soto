@@ -99,7 +99,7 @@ class SQSTests: XCTestCase {
     func testGetQueueAttributes() {
         let name = TestEnvironment.generateResourceName()
         let response = self.testQueue(name: name) { queueUrl in
-            let request = SQS.GetQueueAttributesRequest(attributeNames: [.queuearn], queueUrl: queueUrl)
+            let request = SQS.GetQueueAttributesRequest(attributeNames: [.all], queueUrl: queueUrl)
             return Self.sqs.getQueueAttributes(request)
                 .map { response in
                     XCTAssertNotNil(response.attributes?[.queuearn])

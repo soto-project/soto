@@ -81,6 +81,9 @@ extension API {
         ],
         "SageMaker": [
             RemovePatch(PatchKeyPath3(\Self.shapes["ListFeatureGroupsResponse"], \.type.structure, \.required), value: "NextToken"),
+        ],
+        "SQS": [
+            AddPatch(PatchKeyPath3(\Self.shapes["QueueAttributeName"], \.type.enum, \.cases), value: "SqsManagedSseEnabled"),
         ]
     ]
 
