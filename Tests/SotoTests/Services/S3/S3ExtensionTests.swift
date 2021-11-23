@@ -282,8 +282,8 @@ class S3ExtensionTests: XCTestCase {
         let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let name2 = name + "2"
-        let filename = "S3MultipartUploadTest"
-        let filename2 = "S3MultipartUploadTest2"
+        let filename = "testMultipartCopy"
+        let filename2 = "testMultipartCopy2"
 
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
@@ -291,7 +291,7 @@ class S3ExtensionTests: XCTestCase {
         }
         let s3Euwest2 = S3(
             client: S3ExtensionTests.client,
-            region: .useast1,
+            region: .uswest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT"),
             timeout: .minutes(2)
         )
@@ -313,7 +313,9 @@ class S3ExtensionTests: XCTestCase {
                 return s3Euwest2.multipartCopy(request, objectSize: 6 * 1024 * 1024, partSize: 5 * 1024 * 1024)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-                return s3Euwest2.getObject(.init(bucket: name2, key: filename2))
+                return s3Euwest2.waitUntilObjectExists(.init(bucket: name2, key: filename2)).flatMap { _ in
+                    s3Euwest2.getObject(.init(bucket: name2, key: filename2))
+                }
             }
             .map { response -> Void in
                 XCTAssertEqual(response.body?.asData(), data)
