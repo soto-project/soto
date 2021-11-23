@@ -6891,6 +6891,19 @@ extension SecurityHub {
         /// The user associated with the IAM access key related to a finding. The UserName parameter has been replaced with the PrincipalName parameter because access keys can also be assigned to principals that are not IAM users.
         public let userName: String?
 
+        public init(accessKeyId: String? = nil, accountId: String? = nil, createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, sessionContext: AwsIamAccessKeySessionContext? = nil, status: AwsIamAccessKeyStatus? = nil) {
+            self.accessKeyId = accessKeyId
+            self.accountId = accountId
+            self.createdAt = createdAt
+            self.principalId = principalId
+            self.principalName = principalName
+            self.principalType = principalType
+            self.sessionContext = sessionContext
+            self.status = status
+            self.userName = nil
+        }
+
+        @available(*, deprecated, message: "Members userName have been deprecated")
         public init(accessKeyId: String? = nil, accountId: String? = nil, createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, sessionContext: AwsIamAccessKeySessionContext? = nil, status: AwsIamAccessKeyStatus? = nil, userName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
@@ -11264,6 +11277,104 @@ extension SecurityHub {
         /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:   The record state changes from ARCHIVED to ACTIVE.   The compliance status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.
         public let workflowStatus: [StringFilter]?
 
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.companyName = companyName
+            self.complianceStatus = complianceStatus
+            self.confidence = confidence
+            self.createdAt = createdAt
+            self.criticality = criticality
+            self.description = description
+            self.findingProviderFieldsConfidence = findingProviderFieldsConfidence
+            self.findingProviderFieldsCriticality = findingProviderFieldsCriticality
+            self.findingProviderFieldsRelatedFindingsId = findingProviderFieldsRelatedFindingsId
+            self.findingProviderFieldsRelatedFindingsProductArn = findingProviderFieldsRelatedFindingsProductArn
+            self.findingProviderFieldsSeverityLabel = findingProviderFieldsSeverityLabel
+            self.findingProviderFieldsSeverityOriginal = findingProviderFieldsSeverityOriginal
+            self.findingProviderFieldsTypes = findingProviderFieldsTypes
+            self.firstObservedAt = firstObservedAt
+            self.generatorId = generatorId
+            self.id = id
+            self.keyword = nil
+            self.lastObservedAt = lastObservedAt
+            self.malwareName = malwareName
+            self.malwarePath = malwarePath
+            self.malwareState = malwareState
+            self.malwareType = malwareType
+            self.networkDestinationDomain = networkDestinationDomain
+            self.networkDestinationIpV4 = networkDestinationIpV4
+            self.networkDestinationIpV6 = networkDestinationIpV6
+            self.networkDestinationPort = networkDestinationPort
+            self.networkDirection = networkDirection
+            self.networkProtocol = networkProtocol
+            self.networkSourceDomain = networkSourceDomain
+            self.networkSourceIpV4 = networkSourceIpV4
+            self.networkSourceIpV6 = networkSourceIpV6
+            self.networkSourceMac = networkSourceMac
+            self.networkSourcePort = networkSourcePort
+            self.noteText = noteText
+            self.noteUpdatedAt = noteUpdatedAt
+            self.noteUpdatedBy = noteUpdatedBy
+            self.processLaunchedAt = processLaunchedAt
+            self.processName = processName
+            self.processParentPid = processParentPid
+            self.processPath = processPath
+            self.processPid = processPid
+            self.processTerminatedAt = processTerminatedAt
+            self.productArn = productArn
+            self.productFields = productFields
+            self.productName = productName
+            self.recommendationText = recommendationText
+            self.recordState = recordState
+            self.region = region
+            self.relatedFindingsId = relatedFindingsId
+            self.relatedFindingsProductArn = relatedFindingsProductArn
+            self.resourceAwsEc2InstanceIamInstanceProfileArn = resourceAwsEc2InstanceIamInstanceProfileArn
+            self.resourceAwsEc2InstanceImageId = resourceAwsEc2InstanceImageId
+            self.resourceAwsEc2InstanceIpV4Addresses = resourceAwsEc2InstanceIpV4Addresses
+            self.resourceAwsEc2InstanceIpV6Addresses = resourceAwsEc2InstanceIpV6Addresses
+            self.resourceAwsEc2InstanceKeyName = resourceAwsEc2InstanceKeyName
+            self.resourceAwsEc2InstanceLaunchedAt = resourceAwsEc2InstanceLaunchedAt
+            self.resourceAwsEc2InstanceSubnetId = resourceAwsEc2InstanceSubnetId
+            self.resourceAwsEc2InstanceType = resourceAwsEc2InstanceType
+            self.resourceAwsEc2InstanceVpcId = resourceAwsEc2InstanceVpcId
+            self.resourceAwsIamAccessKeyCreatedAt = resourceAwsIamAccessKeyCreatedAt
+            self.resourceAwsIamAccessKeyPrincipalName = resourceAwsIamAccessKeyPrincipalName
+            self.resourceAwsIamAccessKeyStatus = resourceAwsIamAccessKeyStatus
+            self.resourceAwsIamAccessKeyUserName = nil
+            self.resourceAwsIamUserUserName = resourceAwsIamUserUserName
+            self.resourceAwsS3BucketOwnerId = resourceAwsS3BucketOwnerId
+            self.resourceAwsS3BucketOwnerName = resourceAwsS3BucketOwnerName
+            self.resourceContainerImageId = resourceContainerImageId
+            self.resourceContainerImageName = resourceContainerImageName
+            self.resourceContainerLaunchedAt = resourceContainerLaunchedAt
+            self.resourceContainerName = resourceContainerName
+            self.resourceDetailsOther = resourceDetailsOther
+            self.resourceId = resourceId
+            self.resourcePartition = resourcePartition
+            self.resourceRegion = resourceRegion
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+            self.severityLabel = severityLabel
+            self.severityNormalized = nil
+            self.severityProduct = nil
+            self.sourceUrl = sourceUrl
+            self.threatIntelIndicatorCategory = threatIntelIndicatorCategory
+            self.threatIntelIndicatorLastObservedAt = threatIntelIndicatorLastObservedAt
+            self.threatIntelIndicatorSource = threatIntelIndicatorSource
+            self.threatIntelIndicatorSourceUrl = threatIntelIndicatorSourceUrl
+            self.threatIntelIndicatorType = threatIntelIndicatorType
+            self.threatIntelIndicatorValue = threatIntelIndicatorValue
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+            self.userDefinedFields = userDefinedFields
+            self.verificationState = verificationState
+            self.workflowState = workflowState
+            self.workflowStatus = workflowStatus
+        }
+
+        @available(*, deprecated, message: "Members keyword, resourceAwsIamAccessKeyUserName, severityNormalized, severityProduct have been deprecated")
         public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
@@ -14559,6 +14670,17 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        public init(accountId: String? = nil, administratorId: String? = nil, email: String? = nil, invitedAt: Date? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
+            self.accountId = accountId
+            self.administratorId = administratorId
+            self.email = email
+            self.invitedAt = invitedAt
+            self.masterId = nil
+            self.memberStatus = memberStatus
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members masterId have been deprecated")
         public init(accountId: String? = nil, administratorId: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId

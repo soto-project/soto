@@ -2975,6 +2975,20 @@ extension Lightsail {
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail Developer Guide.
         public let userData: String?
 
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+            self.addOns = addOns
+            self.availabilityZone = availabilityZone
+            self.blueprintId = blueprintId
+            self.bundleId = bundleId
+            self.customImageName = nil
+            self.instanceNames = instanceNames
+            self.ipAddressType = ipAddressType
+            self.keyPairName = keyPairName
+            self.tags = tags
+            self.userData = userData
+        }
+
+        @available(*, deprecated, message: "Members customImageName have been deprecated")
         public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, customImageName: String? = nil, instanceNames: [String], ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.addOns = addOns
             self.availabilityZone = availabilityZone
@@ -4234,6 +4248,27 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, createdAt: Date? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+            self.addOns = addOns
+            self.arn = arn
+            self.attachedTo = attachedTo
+            self.attachmentState = nil
+            self.createdAt = createdAt
+            self.gbInUse = nil
+            self.iops = iops
+            self.isAttached = isAttached
+            self.isSystemDisk = isSystemDisk
+            self.location = location
+            self.name = name
+            self.path = path
+            self.resourceType = resourceType
+            self.sizeInGb = sizeInGb
+            self.state = state
+            self.supportCode = supportCode
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members attachmentState, gbInUse have been deprecated")
         public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, attachmentState: String? = nil, createdAt: Date? = nil, gbInUse: Int? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.addOns = addOns
             self.arn = arn
@@ -4488,6 +4523,16 @@ extension Lightsail {
         /// The type of domain entry, such as address for IPv4 (A), address for IPv6 (AAAA), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     AAAA     CNAME     MX     NS     SOA     SRV     TXT
         public let type: String?
 
+        public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, target: String? = nil, type: String? = nil) {
+            self.id = id
+            self.isAlias = isAlias
+            self.name = name
+            self.options = nil
+            self.target = target
+            self.type = type
+        }
+
+        @available(*, deprecated, message: "Members options have been deprecated")
         public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, options: [String: String]? = nil, target: String? = nil, type: String? = nil) {
             self.id = id
             self.isAlias = isAlias
@@ -6316,6 +6361,13 @@ extension Lightsail {
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
+        public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
+            self.nextPageCount = nil
+            self.nextPageToken = nextPageToken
+            self.operations = operations
+        }
+
+        @available(*, deprecated, message: "Members nextPageCount have been deprecated")
         public init(nextPageCount: String? = nil, nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageCount = nextPageCount
             self.nextPageToken = nextPageToken

@@ -3902,6 +3902,33 @@ extension DatabaseMigrationService {
         /// The VPC security group for the instance.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.availabilityZone = availabilityZone
+            self.dnsNameServers = dnsNameServers
+            self.engineVersion = engineVersion
+            self.freeUntil = freeUntil
+            self.instanceCreateTime = instanceCreateTime
+            self.kmsKeyId = kmsKeyId
+            self.multiAZ = multiAZ
+            self.pendingModifiedValues = pendingModifiedValues
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.publiclyAccessible = publiclyAccessible
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationInstanceClass = replicationInstanceClass
+            self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.replicationInstancePrivateIpAddress = nil
+            self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
+            self.replicationInstancePublicIpAddress = nil
+            self.replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses
+            self.replicationInstanceStatus = replicationInstanceStatus
+            self.replicationSubnetGroup = replicationSubnetGroup
+            self.secondaryAvailabilityZone = secondaryAvailabilityZone
+            self.vpcSecurityGroups = vpcSecurityGroups
+        }
+
+        @available(*, deprecated, message: "Members replicationInstancePrivateIpAddress, replicationInstancePublicIpAddress have been deprecated")
         public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade

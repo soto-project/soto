@@ -531,6 +531,22 @@ extension Firehose {
         ///  You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
 
+        public init(amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+            self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
+            self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
+            self.deliveryStreamName = deliveryStreamName
+            self.deliveryStreamType = deliveryStreamType
+            self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
+            self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
+            self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
+            self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
+            self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
+            self.s3DestinationConfiguration = nil
+            self.splunkDestinationConfiguration = splunkDestinationConfiguration
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members s3DestinationConfiguration have been deprecated")
         public init(amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
@@ -3075,6 +3091,20 @@ extension Firehose {
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?
 
+        public init(amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+            self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
+            self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
+            self.deliveryStreamName = deliveryStreamName
+            self.destinationId = destinationId
+            self.elasticsearchDestinationUpdate = elasticsearchDestinationUpdate
+            self.extendedS3DestinationUpdate = extendedS3DestinationUpdate
+            self.httpEndpointDestinationUpdate = httpEndpointDestinationUpdate
+            self.redshiftDestinationUpdate = redshiftDestinationUpdate
+            self.s3DestinationUpdate = nil
+            self.splunkDestinationUpdate = splunkDestinationUpdate
+        }
+
+        @available(*, deprecated, message: "Members s3DestinationUpdate have been deprecated")
         public init(amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
             self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId

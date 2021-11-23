@@ -275,6 +275,19 @@ extension EMRContainers {
         /// The ID of the virtual cluster for which a managed endpoint is created.
         public let virtualClusterId: String
 
+        public init(clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
+            self.certificateArn = nil
+            self.clientToken = clientToken
+            self.configurationOverrides = configurationOverrides
+            self.executionRoleArn = executionRoleArn
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.tags = tags
+            self.type = type
+            self.virtualClusterId = virtualClusterId
+        }
+
+        @available(*, deprecated, message: "Members certificateArn have been deprecated")
         public init(certificateArn: String? = nil, clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
             self.certificateArn = certificateArn
             self.clientToken = clientToken
@@ -673,6 +686,28 @@ extension EMRContainers {
         /// The ID of the endpoint's virtual cluster.
         public let virtualClusterId: String?
 
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
+            self.arn = arn
+            self.certificateArn = nil
+            self.certificateAuthority = certificateAuthority
+            self.configurationOverrides = configurationOverrides
+            self.createdAt = createdAt
+            self.executionRoleArn = executionRoleArn
+            self.failureReason = failureReason
+            self.id = id
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.securityGroup = securityGroup
+            self.serverUrl = serverUrl
+            self.state = state
+            self.stateDetails = stateDetails
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.type = type
+            self.virtualClusterId = virtualClusterId
+        }
+
+        @available(*, deprecated, message: "Members certificateArn have been deprecated")
         public init(arn: String? = nil, certificateArn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.certificateArn = certificateArn

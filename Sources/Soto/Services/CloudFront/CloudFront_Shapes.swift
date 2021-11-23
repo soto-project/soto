@@ -522,6 +522,29 @@ extension CloudFront {
         ///
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+            self.allowedMethods = allowedMethods
+            self.cachePolicyId = cachePolicyId
+            self.compress = compress
+            self.defaultTTL = nil
+            self.fieldLevelEncryptionId = fieldLevelEncryptionId
+            self.forwardedValues = nil
+            self.functionAssociations = functionAssociations
+            self.lambdaFunctionAssociations = lambdaFunctionAssociations
+            self.maxTTL = nil
+            self.minTTL = nil
+            self.originRequestPolicyId = originRequestPolicyId
+            self.pathPattern = pathPattern
+            self.realtimeLogConfigArn = realtimeLogConfigArn
+            self.responseHeadersPolicyId = responseHeadersPolicyId
+            self.smoothStreaming = smoothStreaming
+            self.targetOriginId = targetOriginId
+            self.trustedKeyGroups = trustedKeyGroups
+            self.trustedSigners = trustedSigners
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+        }
+
+        @available(*, deprecated, message: "Members defaultTTL, forwardedValues, maxTTL, minTTL have been deprecated")
         public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
@@ -2235,6 +2258,28 @@ extension CloudFront {
         ///
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+            self.allowedMethods = allowedMethods
+            self.cachePolicyId = cachePolicyId
+            self.compress = compress
+            self.defaultTTL = nil
+            self.fieldLevelEncryptionId = fieldLevelEncryptionId
+            self.forwardedValues = nil
+            self.functionAssociations = functionAssociations
+            self.lambdaFunctionAssociations = lambdaFunctionAssociations
+            self.maxTTL = nil
+            self.minTTL = nil
+            self.originRequestPolicyId = originRequestPolicyId
+            self.realtimeLogConfigArn = realtimeLogConfigArn
+            self.responseHeadersPolicyId = responseHeadersPolicyId
+            self.smoothStreaming = smoothStreaming
+            self.targetOriginId = targetOriginId
+            self.trustedKeyGroups = trustedKeyGroups
+            self.trustedSigners = trustedSigners
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+        }
+
+        @available(*, deprecated, message: "Members defaultTTL, forwardedValues, maxTTL, minTTL have been deprecated")
         public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
@@ -8760,6 +8805,17 @@ extension CloudFront {
         /// 			d111111abcdef8.cloudfront.net, don’t set a value for this field.
         public let sSLSupportMethod: SSLSupportMethod?
 
+        public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
+            self.aCMCertificateArn = aCMCertificateArn
+            self.certificate = nil
+            self.certificateSource = nil
+            self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
+            self.iAMCertificateId = iAMCertificateId
+            self.minimumProtocolVersion = minimumProtocolVersion
+            self.sSLSupportMethod = sSLSupportMethod
+        }
+
+        @available(*, deprecated, message: "Members certificate, certificateSource have been deprecated")
         public init(aCMCertificateArn: String? = nil, certificate: String? = nil, certificateSource: CertificateSource? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
             self.aCMCertificateArn = aCMCertificateArn
             self.certificate = certificate

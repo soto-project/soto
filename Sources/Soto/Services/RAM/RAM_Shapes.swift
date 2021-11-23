@@ -1164,6 +1164,19 @@ extension RAM {
         /// The status of the invitation.
         public let status: ResourceShareInvitationStatus?
 
+        public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, receiverArn: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
+            self.invitationTimestamp = invitationTimestamp
+            self.receiverAccountId = receiverAccountId
+            self.receiverArn = receiverArn
+            self.resourceShareArn = resourceShareArn
+            self.resourceShareAssociations = nil
+            self.resourceShareInvitationArn = resourceShareInvitationArn
+            self.resourceShareName = resourceShareName
+            self.senderAccountId = senderAccountId
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members resourceShareAssociations have been deprecated")
         public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, receiverArn: String? = nil, resourceShareArn: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId

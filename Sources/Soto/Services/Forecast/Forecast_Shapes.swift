@@ -2986,6 +2986,14 @@ extension Forecast {
         /// An array of weighted quantile losses. Quantiles divide a probability distribution into regions of equal probability. The distribution in this case is the loss function.
         public let weightedQuantileLosses: [WeightedQuantileLoss]?
 
+        public init(averageWeightedQuantileLoss: Double? = nil, errorMetrics: [ErrorMetric]? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
+            self.averageWeightedQuantileLoss = averageWeightedQuantileLoss
+            self.errorMetrics = errorMetrics
+            self.rmse = nil
+            self.weightedQuantileLosses = weightedQuantileLosses
+        }
+
+        @available(*, deprecated, message: "Members rmse have been deprecated")
         public init(averageWeightedQuantileLoss: Double? = nil, errorMetrics: [ErrorMetric]? = nil, rmse: Double? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
             self.averageWeightedQuantileLoss = averageWeightedQuantileLoss
             self.errorMetrics = errorMetrics

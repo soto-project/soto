@@ -455,7 +455,6 @@ extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateToken {
         return .init(
             endTime: self.endTime,
             filterPattern: self.filterPattern,
-            interleaved: self.interleaved,
             limit: self.limit,
             logGroupName: self.logGroupName,
             logStreamNamePrefix: self.logStreamNamePrefix,

@@ -248,6 +248,13 @@ extension ElasticTranscoder {
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain:  Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
 
+        public init(captionFormats: [CaptionFormat]? = nil) {
+            self.captionFormats = captionFormats
+            self.captionSources = nil
+            self.mergePolicy = nil
+        }
+
+        @available(*, deprecated, message: "Members captionSources, mergePolicy have been deprecated")
         public init(captionFormats: [CaptionFormat]? = nil, captionSources: [CaptionSource]? = nil, mergePolicy: String? = nil) {
             self.captionFormats = captionFormats
             self.captionSources = captionSources
@@ -315,6 +322,21 @@ extension ElasticTranscoder {
         /// Information about the watermarks that you want Elastic Transcoder to add to the video during transcoding.  You can specify up to four watermarks for each output. Settings for each watermark must be defined  in the preset for the current output.
         public let watermarks: [JobWatermark]?
 
+        public init(albumArt: JobAlbumArt? = nil, captions: Captions? = nil, encryption: Encryption? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil) {
+            self.albumArt = albumArt
+            self.captions = captions
+            self.composition = nil
+            self.encryption = encryption
+            self.key = key
+            self.presetId = presetId
+            self.rotate = rotate
+            self.segmentDuration = segmentDuration
+            self.thumbnailEncryption = thumbnailEncryption
+            self.thumbnailPattern = thumbnailPattern
+            self.watermarks = watermarks
+        }
+
+        @available(*, deprecated, message: "Members composition have been deprecated")
         public init(albumArt: JobAlbumArt? = nil, captions: Captions? = nil, composition: [Clip]? = nil, encryption: Encryption? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil) {
             self.albumArt = albumArt
             self.captions = captions
@@ -995,6 +1017,31 @@ extension ElasticTranscoder {
         /// Specifies the width of the output file in pixels.
         public let width: Int?
 
+        public init(albumArt: JobAlbumArt? = nil, appliedColorSpaceConversion: String? = nil, captions: Captions? = nil, duration: Int64? = nil, durationMillis: Int64? = nil, encryption: Encryption? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, id: String? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, status: String? = nil, statusDetail: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil, width: Int? = nil) {
+            self.albumArt = albumArt
+            self.appliedColorSpaceConversion = appliedColorSpaceConversion
+            self.captions = captions
+            self.composition = nil
+            self.duration = duration
+            self.durationMillis = durationMillis
+            self.encryption = encryption
+            self.fileSize = fileSize
+            self.frameRate = frameRate
+            self.height = height
+            self.id = id
+            self.key = key
+            self.presetId = presetId
+            self.rotate = rotate
+            self.segmentDuration = segmentDuration
+            self.status = status
+            self.statusDetail = statusDetail
+            self.thumbnailEncryption = thumbnailEncryption
+            self.thumbnailPattern = thumbnailPattern
+            self.watermarks = watermarks
+            self.width = width
+        }
+
+        @available(*, deprecated, message: "Members composition have been deprecated")
         public init(albumArt: JobAlbumArt? = nil, appliedColorSpaceConversion: String? = nil, captions: Captions? = nil, composition: [Clip]? = nil, duration: Int64? = nil, durationMillis: Int64? = nil, encryption: Encryption? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, id: String? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, status: String? = nil, statusDetail: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil, width: Int? = nil) {
             self.albumArt = albumArt
             self.appliedColorSpaceConversion = appliedColorSpaceConversion

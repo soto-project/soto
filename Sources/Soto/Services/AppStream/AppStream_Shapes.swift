@@ -3471,6 +3471,30 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+            self.attributesToDelete = attributesToDelete
+            self.computeCapacity = computeCapacity
+            self.deleteVpcConfig = nil
+            self.description = description
+            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
+            self.displayName = displayName
+            self.domainJoinInfo = domainJoinInfo
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
+            self.imageArn = imageArn
+            self.imageName = imageName
+            self.instanceType = instanceType
+            self.maxConcurrentSessions = maxConcurrentSessions
+            self.maxUserDurationInSeconds = maxUserDurationInSeconds
+            self.name = name
+            self.platform = platform
+            self.streamView = streamView
+            self.usbDeviceFilterStrings = usbDeviceFilterStrings
+            self.vpcConfig = vpcConfig
+        }
+
+        @available(*, deprecated, message: "Members deleteVpcConfig have been deprecated")
         public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
@@ -3603,6 +3627,22 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+            self.accessEndpoints = accessEndpoints
+            self.applicationSettings = applicationSettings
+            self.attributesToDelete = attributesToDelete
+            self.deleteStorageConnectors = nil
+            self.description = description
+            self.displayName = displayName
+            self.embedHostDomains = embedHostDomains
+            self.feedbackURL = feedbackURL
+            self.name = name
+            self.redirectURL = redirectURL
+            self.storageConnectors = storageConnectors
+            self.userSettings = userSettings
+        }
+
+        @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
         public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings

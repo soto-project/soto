@@ -390,6 +390,27 @@ extension Batch {
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute Environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 Spot Fleet role in the Batch User Guide.
         public let type: CRType
 
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
+            self.allocationStrategy = allocationStrategy
+            self.bidPercentage = bidPercentage
+            self.desiredvCpus = desiredvCpus
+            self.ec2Configuration = ec2Configuration
+            self.ec2KeyPair = ec2KeyPair
+            self.imageId = nil
+            self.instanceRole = instanceRole
+            self.instanceTypes = instanceTypes
+            self.launchTemplate = launchTemplate
+            self.maxvCpus = maxvCpus
+            self.minvCpus = minvCpus
+            self.placementGroup = placementGroup
+            self.securityGroupIds = securityGroupIds
+            self.spotIamFleetRole = spotIamFleetRole
+            self.subnets = subnets
+            self.tags = tags
+            self.type = type
+        }
+
+        @available(*, deprecated, message: "Members imageId have been deprecated")
         public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
@@ -593,6 +614,16 @@ extension Batch {
         /// This parameter is deprecated, use resourceRequirements to override the vcpus parameter that's set in the job definition. It's not supported for jobs that run on Fargate resources. For jobs run on EC2 resources, it overrides the vcpus parameter set in the job definition, but doesn't override any vCPU requirement specified in the resourceRequirements structure in the job definition. To override vCPU requirements that are specified in the resourceRequirements structure in the job definition, resourceRequirements must be specified in the SubmitJob request, with type set to VCPU and value set to the new value. For more information, see Can't override job definition resource requirements in the Batch User Guide.
         public let vcpus: Int?
 
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
+            self.command = command
+            self.environment = environment
+            self.instanceType = instanceType
+            self.memory = nil
+            self.resourceRequirements = resourceRequirements
+            self.vcpus = nil
+        }
+
+        @available(*, deprecated, message: "Members memory, vcpus have been deprecated")
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int? = nil) {
             self.command = command
             self.environment = environment
@@ -654,6 +685,30 @@ extension Batch {
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumes: [Volume]? = nil) {
+            self.command = command
+            self.environment = environment
+            self.executionRoleArn = executionRoleArn
+            self.fargatePlatformConfiguration = fargatePlatformConfiguration
+            self.image = image
+            self.instanceType = instanceType
+            self.jobRoleArn = jobRoleArn
+            self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
+            self.memory = nil
+            self.mountPoints = mountPoints
+            self.networkConfiguration = networkConfiguration
+            self.privileged = privileged
+            self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.resourceRequirements = resourceRequirements
+            self.secrets = secrets
+            self.ulimits = ulimits
+            self.user = user
+            self.vcpus = nil
+            self.volumes = volumes
+        }
+
+        @available(*, deprecated, message: "Members memory, vcpus have been deprecated")
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment

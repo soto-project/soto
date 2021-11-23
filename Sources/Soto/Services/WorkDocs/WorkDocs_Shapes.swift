@@ -1740,6 +1740,13 @@ extension WorkDocs {
         /// The users.
         public let users: [User]?
 
+        public init(marker: String? = nil, users: [User]? = nil) {
+            self.marker = marker
+            self.totalNumberOfUsers = nil
+            self.users = users
+        }
+
+        @available(*, deprecated, message: "Members totalNumberOfUsers have been deprecated")
         public init(marker: String? = nil, totalNumberOfUsers: Int64? = nil, users: [User]? = nil) {
             self.marker = marker
             self.totalNumberOfUsers = totalNumberOfUsers

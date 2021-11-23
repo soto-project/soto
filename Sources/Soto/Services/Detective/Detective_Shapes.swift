@@ -505,6 +505,23 @@ extension Detective {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var volumeUsageUpdatedTime: Date?
 
+        public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
+            self.accountId = accountId
+            self.administratorId = administratorId
+            self.disabledReason = disabledReason
+            self.emailAddress = emailAddress
+            self.graphArn = graphArn
+            self.invitedTime = invitedTime
+            self.masterId = nil
+            self.percentOfGraphUtilization = nil
+            self.percentOfGraphUtilizationUpdatedTime = nil
+            self.status = status
+            self.updatedTime = updatedTime
+            self.volumeUsageInBytes = volumeUsageInBytes
+            self.volumeUsageUpdatedTime = volumeUsageUpdatedTime
+        }
+
+        @available(*, deprecated, message: "Members masterId, percentOfGraphUtilization, percentOfGraphUtilizationUpdatedTime have been deprecated")
         public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId

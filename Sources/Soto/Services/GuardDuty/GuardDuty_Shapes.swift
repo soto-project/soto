@@ -482,6 +482,22 @@ extension GuardDuty {
         /// Represents a not equal condition to be applied to a single field when querying for findings.
         public let notEquals: [String]?
 
+        public init(equals: [String]? = nil, greaterThan: Int64? = nil, greaterThanOrEqual: Int64? = nil, lessThan: Int64? = nil, lessThanOrEqual: Int64? = nil, notEquals: [String]? = nil) {
+            self.eq = nil
+            self.equals = equals
+            self.greaterThan = greaterThan
+            self.greaterThanOrEqual = greaterThanOrEqual
+            self.gt = nil
+            self.gte = nil
+            self.lessThan = lessThan
+            self.lessThanOrEqual = lessThanOrEqual
+            self.lt = nil
+            self.lte = nil
+            self.neq = nil
+            self.notEquals = notEquals
+        }
+
+        @available(*, deprecated, message: "Members eq, gt, gte, lt, lte, neq have been deprecated")
         public init(eq: [String]? = nil, equals: [String]? = nil, greaterThan: Int64? = nil, greaterThanOrEqual: Int64? = nil, gt: Int? = nil, gte: Int? = nil, lessThan: Int64? = nil, lessThanOrEqual: Int64? = nil, lt: Int? = nil, lte: Int? = nil, neq: [String]? = nil, notEquals: [String]? = nil) {
             self.eq = eq
             self.equals = equals

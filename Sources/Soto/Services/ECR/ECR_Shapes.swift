@@ -871,6 +871,11 @@ extension ECR {
         /// A list of Amazon Web Services account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
 
+        public init() {
+            self.registryIds = nil
+        }
+
+        @available(*, deprecated, message: "Members registryIds have been deprecated")
         public init(registryIds: [String]? = nil) {
             self.registryIds = registryIds
         }

@@ -3251,6 +3251,23 @@ extension MediaLive {
         /// Settings for the VPC outputs
         public let vpc: VpcOutputSettings?
 
+        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+            self.cdiInputSpecification = cdiInputSpecification
+            self.channelClass = channelClass
+            self.destinations = destinations
+            self.encoderSettings = encoderSettings
+            self.inputAttachments = inputAttachments
+            self.inputSpecification = inputSpecification
+            self.logLevel = logLevel
+            self.name = name
+            self.requestId = requestId
+            self.reserved = nil
+            self.roleArn = roleArn
+            self.tags = tags
+            self.vpc = vpc
+        }
+
+        @available(*, deprecated, message: "Members reserved have been deprecated")
         public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
