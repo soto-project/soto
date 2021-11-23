@@ -26,7 +26,6 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
         self.virtualAddressFixup(request: &request, context: context)
         self.createBucketFixup(request: &request)
-        self.calculateMD5(request: &request)
         self.expect100Continue(request: &request)
 
         return request
@@ -120,19 +119,6 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
         default:
             break
-        }
-    }
-
-    func calculateMD5(request: inout AWSRequest) {
-        guard let byteBuffer = request.body.asByteBuffer(byteBufferAllocator: ByteBufferAllocator()) else { return }
-        guard request.httpHeaders["Content-MD5"].first == nil else { return }
-
-        // if request has a body, calculate the MD5 for that body
-        let byteBufferView = byteBuffer.readableBytesView
-        if let encoded = byteBufferView.withContiguousStorageIfAvailable({ bytes in
-            return Data(Insecure.MD5.hash(data: bytes)).base64EncodedString()
-        }) {
-            request.httpHeaders.replaceOrAdd(name: "Content-MD5", value: encoded)
         }
     }
 

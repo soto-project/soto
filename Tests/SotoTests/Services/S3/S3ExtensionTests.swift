@@ -445,27 +445,22 @@ class S3ExtensionTests: XCTestCase {
     }
 
     func testMD5Calculation() throws {
-        let url = URL(string: "http://s3.us-east-1.amazonaws.com/bucket")!
-        let request = try AWSRequest(
-            region: .useast1,
-            url: url,
-            serviceProtocol: Self.s3.config.serviceProtocol,
-            operation: "TestOperation",
-            httpMethod: .GET,
-            httpHeaders: ["Content-MD5": "6728ab89sfsdff=="],
-            body: .text("TestContent")
-        ).applyMiddlewares(Self.s3.config.middlewares, config: Self.s3.config)
+        let s3 = Self.s3.with(options: .calculateMD5)
+        let input = S3.PutObjectRequest(
+            body: .string("TestContent"),
+            bucket: "testMD5Calculation",
+            contentMD5: "6728ab89sfsdff==",
+            key: "testMD5Calculation"
+        )
+        let request = try AWSRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", httpMethod: .PUT, input: input, configuration: s3.config)
         XCTAssertEqual(request.httpHeaders["Content-MD5"].first, "6728ab89sfsdff==")
 
-        let request2 = try AWSRequest(
-            region: .useast1,
-            url: url,
-            serviceProtocol: Self.s3.config.serviceProtocol,
-            operation: "TestOperation",
-            httpMethod: .GET,
-            httpHeaders: [:],
-            body: .text("TestContent")
-        ).applyMiddlewares(Self.s3.config.middlewares, config: Self.s3.config)
+        let input2 = S3.PutObjectRequest(
+            body: .string("TestContent"),
+            bucket: "testMD5Calculation",
+            key: "testMD5Calculation"
+        )
+        let request2 = try AWSRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", httpMethod: .PUT, input: input2, configuration: s3.config)
         XCTAssertEqual(request2.httpHeaders["Content-MD5"].first, "JhF7IaLE189bvT4/iv/iqg==")
     }
 }
