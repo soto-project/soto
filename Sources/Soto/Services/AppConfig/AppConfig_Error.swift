@@ -45,7 +45,7 @@ public struct AppConfigErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
@@ -55,7 +55,7 @@ public struct AppConfigErrorType: AWSErrorType {
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
     /// The requested resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The number of hosted configuration versions exceeds the limit for the AppConfig configuration store. Delete one or more versions and try again.
+    /// The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 

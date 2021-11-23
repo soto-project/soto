@@ -132,6 +132,11 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "CreateRealtimeLogConfig2020_05_31", path: "/2020-05-31/realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP response headers and their values. To create a response headers policy, you provide some metadata about the policy, and a set of configurations that specify the response headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it’s attached to a cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match the cache behavior.
+    public func createResponseHeadersPolicy(_ input: CreateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResponseHeadersPolicyResult> {
+        return self.client.execute(operation: "CreateResponseHeadersPolicy2020_05_31", path: "/2020-05-31/response-headers-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
     public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingDistributionResult> {
         return self.client.execute(operation: "CreateStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -195,6 +200,11 @@ public struct CloudFront: AWSService {
     /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it’s attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     @discardableResult public func deleteRealtimeLogConfig(_ input: DeleteRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteRealtimeLogConfig2020_05_31", path: "/2020-05-31/delete-realtime-log-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it’s attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy’s identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
+    @discardableResult public func deleteResponseHeadersPolicy(_ input: DeleteResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteResponseHeadersPolicy2020_05_31", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
@@ -307,6 +317,16 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "GetRealtimeLogConfig2020_05_31", path: "/2020-05-31/get-realtime-log-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a response headers policy, including metadata (the policy’s identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy’s identifier. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+    public func getResponseHeadersPolicy(_ input: GetResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResponseHeadersPolicyResult> {
+        return self.client.execute(operation: "GetResponseHeadersPolicy2020_05_31", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy’s identifier. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+    public func getResponseHeadersPolicyConfig(_ input: GetResponseHeadersPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResponseHeadersPolicyConfigResult> {
+        return self.client.execute(operation: "GetResponseHeadersPolicyConfig2020_05_31", path: "/2020-05-31/response-headers-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about a specified RTMP distribution, including the distribution configuration.
     public func getStreamingDistribution(_ input: GetStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingDistributionResult> {
         return self.client.execute(operation: "GetStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -317,7 +337,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "GetStreamingDistributionConfig2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listCachePolicies(_ input: ListCachePoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCachePoliciesResult> {
         return self.client.execute(operation: "ListCachePolicies2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -357,6 +377,11 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListDistributionsByRealtimeLogConfig2020_05_31", path: "/2020-05-31/distributionsByRealtimeLogConfig/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listDistributionsByResponseHeadersPolicyId(_ input: ListDistributionsByResponseHeadersPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByResponseHeadersPolicyIdResult> {
+        return self.client.execute(operation: "ListDistributionsByResponseHeadersPolicyId2020_05_31", path: "/2020-05-31/distributionsByResponseHeadersPolicyId/{ResponseHeadersPolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List the distributions that are associated with a specified WAF web ACL.
     public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
         return self.client.execute(operation: "ListDistributionsByWebACLId2020_05_31", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -372,7 +397,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListFieldLevelEncryptionProfiles2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a list of all CloudFront functions in your account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResult> {
         return self.client.execute(operation: "ListFunctions2020_05_31", path: "/2020-05-31/function", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -387,7 +412,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListKeyGroups2020_05_31", path: "/2020-05-31/key-group", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginRequestPoliciesResult> {
         return self.client.execute(operation: "ListOriginRequestPolicies2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -400,6 +425,11 @@ public struct CloudFront: AWSService {
     /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listRealtimeLogConfigs(_ input: ListRealtimeLogConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRealtimeLogConfigsResult> {
         return self.client.execute(operation: "ListRealtimeLogConfigs2020_05_31", path: "/2020-05-31/realtime-log-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listResponseHeadersPolicies(_ input: ListResponseHeadersPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResponseHeadersPoliciesResult> {
+        return self.client.execute(operation: "ListResponseHeadersPolicies2020_05_31", path: "/2020-05-31/response-headers-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List streaming distributions.
@@ -480,6 +510,11 @@ public struct CloudFront: AWSService {
     /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log configuration.   Locally modify the parameters in the real-time log configuration that you want to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn’t.   You cannot update a real-time log configuration’s Name or ARN.
     public func updateRealtimeLogConfig(_ input: UpdateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRealtimeLogConfigResult> {
         return self.client.execute(operation: "UpdateRealtimeLogConfig2020_05_31", path: "/2020-05-31/realtime-log-config/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration:   Use GetResponseHeadersPolicyConfig to get the current policy’s configuration.   Modify the fields in the response headers policy configuration that you want to update.   Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn’t.
+    public func updateResponseHeadersPolicy(_ input: UpdateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResponseHeadersPolicyResult> {
+        return self.client.execute(operation: "UpdateResponseHeadersPolicy2020_05_31", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update a streaming distribution.

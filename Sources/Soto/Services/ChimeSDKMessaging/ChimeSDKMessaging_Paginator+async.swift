@@ -44,7 +44,29 @@ extension ChimeSDKMessaging {
         )
     }
 
-    ///  Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listChannelFlowsPaginator(
+        _ input: ListChannelFlowsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListChannelFlowsRequest, ListChannelFlowsResponse> {
+        return .init(
+            input: input,
+            command: listChannelFlows,
+            inputKey: \ListChannelFlowsRequest.nextToken,
+            outputKey: \ListChannelFlowsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.  If you want to list the channels to which a specific app instance user belongs, see the ListChannelMembershipsForAppInstanceUser API.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -149,6 +171,28 @@ extension ChimeSDKMessaging {
             command: listChannels,
             inputKey: \ListChannelsRequest.nextToken,
             outputKey: \ListChannelsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listChannelsAssociatedWithChannelFlowPaginator(
+        _ input: ListChannelsAssociatedWithChannelFlowRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListChannelsAssociatedWithChannelFlowRequest, ListChannelsAssociatedWithChannelFlowResponse> {
+        return .init(
+            input: input,
+            command: listChannelsAssociatedWithChannelFlow,
+            inputKey: \ListChannelsAssociatedWithChannelFlowRequest.nextToken,
+            outputKey: \ListChannelsAssociatedWithChannelFlowResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -52,6 +52,11 @@ extension GlueDataBrew {
         return try await self.client.execute(operation: "CreateRecipeJob", path: "/recipeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new ruleset that can be used in a profile job to validate the data quality of a dataset.
+    public func createRuleset(_ input: CreateRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRulesetResponse {
+        return try await self.client.execute(operation: "CreateRuleset", path: "/rulesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
     public func createSchedule(_ input: CreateScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateScheduleResponse {
         return try await self.client.execute(operation: "CreateSchedule", path: "/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -75,6 +80,11 @@ extension GlueDataBrew {
     /// Deletes a single version of a DataBrew recipe.
     public func deleteRecipeVersion(_ input: DeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteRecipeVersionResponse {
         return try await self.client.execute(operation: "DeleteRecipeVersion", path: "/recipes/{name}/recipeVersion/{recipeVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a ruleset.
+    public func deleteRuleset(_ input: DeleteRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteRulesetResponse {
+        return try await self.client.execute(operation: "DeleteRuleset", path: "/rulesets/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified DataBrew schedule.
@@ -105,6 +115,11 @@ extension GlueDataBrew {
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
     public func describeRecipe(_ input: DescribeRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRecipeResponse {
         return try await self.client.execute(operation: "DescribeRecipe", path: "/recipes/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves detailed information about the ruleset.
+    public func describeRuleset(_ input: DescribeRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRulesetResponse {
+        return try await self.client.execute(operation: "DescribeRuleset", path: "/rulesets/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew schedule.
@@ -140,6 +155,11 @@ extension GlueDataBrew {
     /// Lists all of the DataBrew recipes that are defined.
     public func listRecipes(_ input: ListRecipesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRecipesResponse {
         return try await self.client.execute(operation: "ListRecipes", path: "/recipes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List all rulesets available in the current account or rulesets associated with a specific resource (dataset).
+    public func listRulesets(_ input: ListRulesetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRulesetsResponse {
+        return try await self.client.execute(operation: "ListRulesets", path: "/rulesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the DataBrew schedules that are defined.
@@ -210,6 +230,11 @@ extension GlueDataBrew {
     /// Modifies the definition of an existing DataBrew recipe job.
     public func updateRecipeJob(_ input: UpdateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateRecipeJobResponse {
         return try await self.client.execute(operation: "UpdateRecipeJob", path: "/recipeJobs/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates specified ruleset.
+    public func updateRuleset(_ input: UpdateRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateRulesetResponse {
+        return try await self.client.execute(operation: "UpdateRuleset", path: "/rulesets/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the definition of an existing DataBrew schedule.

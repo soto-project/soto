@@ -43,11 +43,11 @@ public struct AuditManagerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  Your account is not registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    ///  Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  An internal service error occurred during the processing of your request. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    ///  The resource specified in the request cannot be found.
+    ///  The resource that's specified in the request can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  The request has invalid or missing parameters.
     public static var validationException: Self { .init(.validationException) }

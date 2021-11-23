@@ -90,7 +90,7 @@ extension SSMIncidents {
     }
 
     public struct AddRegionAction: AWSEncodableShape {
-        /// The Region name to add to the replication set.
+        /// The Amazon Web Services Region name to add to the replication set.
         public let regionName: String
         /// The KMS key ID to use to encrypt your replication set.
         public let sseKmsKeyId: String?
@@ -155,7 +155,7 @@ extension SSMIncidents {
     }
 
     public struct ChatChannel: AWSEncodableShape & AWSDecodableShape {
-        /// The SNS targets that AWS Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the SNS topics.
+        /// The Amazon SNS targets that Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the Amazon SNS topics.
         public let chatbotSns: [String]?
         /// Used to remove the chat channel from an incident record or response plan.
         public let empty: EmptyChatChannel?
@@ -206,7 +206,7 @@ extension SSMIncidents {
     }
 
     public struct CreateReplicationSetInput: AWSEncodableShape {
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
         /// The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set.
         public let regions: [String: RegionMapInputValue]
@@ -248,9 +248,9 @@ extension SSMIncidents {
     public struct CreateResponsePlanInput: AWSEncodableShape {
         /// The actions that the response plan starts at the beginning of an incident.
         public let actions: [Action]?
-        /// The AWS Chatbot chat channel used for collaboration during an incident.
+        /// The Chatbot chat channel used for collaboration during an incident.
         public let chatChannel: ChatChannel?
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
         /// The long format of the response plan name. This field can contain spaces.
         public let displayName: String?
@@ -334,13 +334,13 @@ extension SSMIncidents {
     public struct CreateTimelineEventInput: AWSEncodableShape {
         /// A token ensuring that the action is called only once with the specified details.
         public let clientToken: String?
-        /// A valid JSON string. There is no other schema imposed. A short description of the event.
+        /// A short description of the event as a valid JSON string. There is no other schema imposed.
         public let eventData: String
         /// The time that the event occurred.
         public let eventTime: Date
         /// The type of the event. You can create timeline events of type Custom Event.
         public let eventType: String
-        /// The Amazon Resource Name (ARN) of the incident record you are adding the event to.
+        /// The Amazon Resource Name (ARN) of the incident record to which the event will be added.
         public let incidentRecordArn: String
 
         public init(clientToken: String? = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventTime: Date, eventType: String, incidentRecordArn: String) {
@@ -413,7 +413,7 @@ extension SSMIncidents {
     }
 
     public struct DeleteRegionAction: AWSEncodableShape {
-        /// The name of the Region you're deleting from the replication set.
+        /// The name of the Amazon Web Services Region you're deleting from the replication set.
         public let regionName: String
 
         public init(regionName: String) {
@@ -510,7 +510,7 @@ extension SSMIncidents {
     public struct DeleteTimelineEventInput: AWSEncodableShape {
         /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
         public let eventId: String
-        /// The Amazon Resource Name (ARN) of the incident that the event is part of.
+        /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
         public init(eventId: String, incidentRecordArn: String) {
@@ -614,7 +614,7 @@ extension SSMIncidents {
     }
 
     public struct GetIncidentRecordOutput: AWSDecodableShape {
-        /// Details structure of the incident record.
+        /// Details the structure of the incident record.
         public let incidentRecord: IncidentRecord
 
         public init(incidentRecord: IncidentRecord) {
@@ -681,7 +681,7 @@ extension SSMIncidents {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
@@ -737,7 +737,7 @@ extension SSMIncidents {
         public let actions: [Action]?
         /// The ARN of the response plan.
         public let arn: String
-        /// The AWS Chatbot chat channel used for collaboration during an incident.
+        /// The Chatbot chat channel used for collaboration during an incident.
         public let chatChannel: ChatChannel?
         /// The long format name of the response plan. Can contain spaces.
         public let displayName: String?
@@ -745,7 +745,7 @@ extension SSMIncidents {
         public let engagements: [String]?
         /// Details used to create the incident when using this response plan.
         public let incidentTemplate: IncidentTemplate
-        /// The short format name of the response plan. Can't contain spaces.
+        /// The short format name of the response plan. The name can't contain spaces.
         public let name: String
 
         public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, name: String) {
@@ -775,9 +775,9 @@ extension SSMIncidents {
             AWSMemberEncoding(label: "incidentRecordArn", location: .querystring(locationName: "incidentRecordArn"))
         ]
 
-        /// The ID of the event. You can get an event's ID when you create it or by using ListTimelineEvents.
+        /// The ID of the event. You can get an event's ID when you create it, or by using ListTimelineEvents.
         public let eventId: String
-        /// The Amazon Resource Name (ARN) of the incident that the timeline event is part of.
+        /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
         public init(eventId: String, incidentRecordArn: String) {
@@ -818,7 +818,7 @@ extension SSMIncidents {
         public let chatChannel: ChatChannel?
         /// The time that Incident Manager created the incident record.
         public let creationTime: Date
-        /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident.
+        /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
         public let dedupeString: String
         /// The impact of the incident on customers and applications.
         public let impact: Int
@@ -828,13 +828,13 @@ extension SSMIncidents {
         public let lastModifiedBy: String
         /// The time at which the incident was most recently modified.
         public let lastModifiedTime: Date
-        /// The SNS targets that are notified when updates are made to an incident.
+        /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The time at which the incident was resolved. This appears as a timeline event.
         public let resolvedTime: Date?
         /// The current status of the incident.
         public let status: IncidentRecordStatus
-        /// The summary of the incident. The summary is a brief synopsis of what occurred, what is currently happening, and context.
+        /// The summary of the incident. The summary is a brief synopsis of what occurred, what's currently happening, and context of the incident.
         public let summary: String?
         /// The title of the incident.
         public let title: String
@@ -881,7 +881,7 @@ extension SSMIncidents {
         public let invokedBy: String?
         /// The resource that caused the incident to be created.
         public let resourceArn: String?
-        /// The service that started the incident. This can be manually created from Incident Manager, automatically created using an AWS CloudWatch alarm, or Amazon EventBridge event.
+        /// The service that started the incident. This can be manually created from Incident Manager, automatically created using an Amazon CloudWatch alarm, or Amazon EventBridge event.
         public let source: String
 
         public init(createdBy: String, invokedBy: String? = nil, resourceArn: String? = nil, source: String) {
@@ -941,7 +941,7 @@ extension SSMIncidents {
         public let dedupeString: String?
         /// The impact of the incident on your customers and applications.
         public let impact: Int
-        /// The SNS targets that are notified when updates are made to an incident.
+        /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The summary of the incident. The summary is a brief synopsis of what occurred, what's currently happening, and context.
         public let summary: String?
@@ -1005,9 +1005,9 @@ extension SSMIncidents {
     public struct ItemValue: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource.
         public let arn: String?
-        /// The metric definition, if the related item is a metric in CloudWatch.
+        /// The metric definition, if the related item is a metric in Amazon CloudWatch.
         public let metricDefinition: String?
-        /// The URL, if the related item is a non-AWS resource.
+        /// The URL, if the related item is a non-Amazon Web Services resource.
         public let url: String?
 
         public init(arn: String? = nil, metricDefinition: String? = nil, url: String? = nil) {
@@ -1034,7 +1034,7 @@ extension SSMIncidents {
     }
 
     public struct ListIncidentRecordsInput: AWSEncodableShape {
-        /// Filter the list of incident records you are searching through. You can filter on the following keys:    creationTime     impact     status     createdBy
+        /// Filters the list of incident records through which you are searching. You can filter on the following keys:    creationTime     impact     status     createdBy    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all incident records.   If you specify more than one filter in a single request, the response returns incident records that match all filters.   If you specify a filter with more than one value, the response returns incident records that match any of the values provided.
         public let filters: [Filter]?
         /// The maximum number of results per page.
         public let maxResults: Int?
@@ -1055,7 +1055,7 @@ extension SSMIncidents {
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -1084,7 +1084,7 @@ extension SSMIncidents {
     }
 
     public struct ListRelatedItemsInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the incident record that you are listing related items for.
+        /// The Amazon Resource Name (ARN) of the incident record containing the listed related items.
         public let incidentRecordArn: String
         /// The maximum number of related items per page.
         public let maxResults: Int?
@@ -1103,7 +1103,7 @@ extension SSMIncidents {
             try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -1145,7 +1145,7 @@ extension SSMIncidents {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -1186,7 +1186,7 @@ extension SSMIncidents {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -1242,9 +1242,9 @@ extension SSMIncidents {
     }
 
     public struct ListTimelineEventsInput: AWSEncodableShape {
-        /// Filters the timeline events based on the provided conditional values. You can filter timeline events using the following keys:    eventTime     eventType
+        /// Filters the timeline events based on the provided conditional values. You can filter timeline events using the following keys:    eventTime     eventType    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all timeline events.   If you specify more than one filter in a single request, the response returns timeline events that match all filters.   If you specify a filter with more than one value, the response returns timeline events that match any of the values provided.
         public let filters: [Filter]?
-        /// The Amazon Resource Name (ARN) of the incident that the event is part of.
+        /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
         /// The maximum number of results per page.
         public let maxResults: Int?
@@ -1275,7 +1275,7 @@ extension SSMIncidents {
             try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
@@ -1364,13 +1364,13 @@ extension SSMIncidents {
     }
 
     public struct RegionInfo: AWSDecodableShape {
-        /// The ID of the KMS key used to encrypt the data in this Region.
+        /// The ID of the KMS key used to encrypt the data in this Amazon Web Services Region.
         public let sseKmsKeyId: String?
-        /// The status of the Region in the replication set.
+        /// The status of the Amazon Web Services Region in the replication set.
         public let status: RegionStatus
-        /// Information displayed about the status of the Region.
+        /// Information displayed about the status of the Amazon Web Services Region.
         public let statusMessage: String?
-        /// The most recent date and time that the Region's status was updated.
+        /// The most recent date and time that Incident Manager updated the Amazon Web Services Region's status.
         public let statusUpdateDateTime: Date
 
         public init(sseKmsKeyId: String? = nil, status: RegionStatus, statusMessage: String? = nil, statusUpdateDateTime: Date) {
@@ -1458,13 +1458,13 @@ extension SSMIncidents {
         public let createdBy: String
         /// When the replication set was created.
         public let createdTime: Date
-        /// Determines if the replication set deletion protection is enabled or not. If deletion protection is enabled, you can't delete the last Region in the replication set.
+        /// Determines if the replication set deletion protection is enabled or not. If deletion protection is enabled, you can't delete the last Amazon Web Services Region in the replication set.
         public let deletionProtected: Bool
         /// Who last modified the replication set.
         public let lastModifiedBy: String
         /// When the replication set was last updated.
         public let lastModifiedTime: Date
-        /// The map between each Region in your replication set and the KMS key that is used to encrypt the data in that Region.
+        /// The map between each Amazon Web Services Region in your replication set and the KMS key that's used to encrypt the data in that Region.
         public let regionMap: [String: RegionInfo]
         /// The status of the replication set. If the replication set is still pending, you can't use Incident Manager functionality.
         public let status: ReplicationSetStatus
@@ -1497,7 +1497,7 @@ extension SSMIncidents {
         public let policyDocument: String
         /// The ID of the resource policy.
         public let policyId: String
-        /// The Region that policy allows resources to be used in.
+        /// The Amazon Web Services Region that policy allows resources to be used in.
         public let ramResourceShareRegion: String
 
         public init(policyDocument: String, policyId: String, ramResourceShareRegion: String) {
@@ -1579,13 +1579,13 @@ extension SSMIncidents {
     }
 
     public struct StartIncidentInput: AWSEncodableShape {
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
         /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
         public let impact: Int?
-        /// Add related items to the incident for other responders to use. Related items are AWS resources, external links, or files uploaded to an S3 bucket.
+        /// Add related items to the incident for other responders to use. Related items are AWS resources, external links, or files uploaded to an Amazon S3 bucket.
         public let relatedItems: [RelatedItem]?
-        /// The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, SNS topics, runbooks, title, and impact of the incident.
+        /// The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident.
         public let responsePlanArn: String
         /// Provide a title for the incident. Providing a title overwrites the title provided by the response plan.
         public let title: String?
@@ -1711,13 +1711,13 @@ extension SSMIncidents {
     }
 
     public struct TriggerDetails: AWSEncodableShape {
-        /// Raw data passed from either EventBridge, CloudWatch, or Incident Manager when an incident is created.
+        /// Raw data passed from either Amazon EventBridge, Amazon CloudWatch, or Incident Manager when an incident is created.
         public let rawData: String?
-        /// Identifies the service that sourced the event. All events sourced from within AWS begin with "aws." Customer-generated events can have any value here, as long as it doesn't begin with "aws." We recommend the use of Java package-name style reverse domain-name strings.
+        /// Identifies the service that sourced the event. All events sourced from within Amazon Web Services begin with "aws." Customer-generated events can have any value here, as long as it doesn't begin with "aws." We recommend the use of Java package-name style reverse domain-name strings.
         public let source: String
         /// The time that the incident was detected.
         public let timestamp: Date
-        /// The ARN of the source that detected the incident.
+        /// The Amazon Resource Name (ARN) of the source that detected the incident.
         public let triggerArn: String?
 
         public init(rawData: String? = nil, source: String, timestamp: Date, triggerArn: String? = nil) {
@@ -1781,7 +1781,7 @@ extension SSMIncidents {
     public struct UpdateDeletionProtectionInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the replication set you're updating.
         public let arn: String
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
         /// Details if deletion protection is enabled or disabled in your account.
         public let deletionProtected: Bool
@@ -1814,19 +1814,19 @@ extension SSMIncidents {
     public struct UpdateIncidentRecordInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the incident record you are updating.
         public let arn: String
-        /// The AWS Chatbot chat channel for responders to collaborate in.
+        /// The Chatbot chat channel where responders can collaborate.
         public let chatChannel: ChatChannel?
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token that ensures that the operation is called only once with the specified details.
         public let clientToken: String?
-        /// Defines the impact to customers and applications. Providing an impact overwrites the impact provided by the response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+        /// Defines the impact of the incident to customers and applications. Providing an impact overwrites the impact provided by the response plan.  Possible impacts:     1 - Critical impact, full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
         public let impact: Int?
-        /// The SNS targets that are notified when updates are made to an incident. Using multiple SNS topics creates redundancy in the case that a Region is down during the incident.
+        /// The Amazon SNS targets that are notified when updates are made to an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The status of the incident. An incident can be Open or Resolved.
         public let status: IncidentRecordStatus?
-        /// The summary describes what has happened during the incident.
+        /// A longer description of what occurred during the incident.
         public let summary: String?
-        /// The title of the incident is a brief and easily recognizable.
+        /// A brief description of the incident.
         public let title: String?
 
         public init(arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateIncidentRecordInput.idempotencyToken(), impact: Int? = nil, notificationTargets: [NotificationTargetItem]? = nil, status: IncidentRecordStatus? = nil, summary: String? = nil, title: String? = nil) {
@@ -1877,9 +1877,9 @@ extension SSMIncidents {
     }
 
     public struct UpdateRelatedItemsInput: AWSEncodableShape {
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the incident record you are updating related items in.
+        /// The Amazon Resource Name (ARN) of the incident record containing the related items you are updating.
         public let incidentRecordArn: String
         /// Details about the item you are adding or deleting.
         public let relatedItemsUpdate: RelatedItemsUpdate
@@ -1911,9 +1911,9 @@ extension SSMIncidents {
     }
 
     public struct UpdateReplicationSetAction: AWSEncodableShape {
-        /// Details about the Region that you're adding to the replication set.
+        /// Details about the Amazon Web Services Region that you're adding to the replication set.
         public let addRegionAction: AddRegionAction?
-        /// Details about the Region that you're deleting to the replication set.
+        /// Details about the Amazon Web Services Region that you're deleting to the replication set.
         public let deleteRegionAction: DeleteRegionAction?
 
         public init(addRegionAction: AddRegionAction? = nil, deleteRegionAction: DeleteRegionAction? = nil) {
@@ -1937,7 +1937,7 @@ extension SSMIncidents {
         public let actions: [UpdateReplicationSetAction]
         /// The Amazon Resource Name (ARN) of the replication set you're updating.
         public let arn: String
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
 
         public init(actions: [UpdateReplicationSetAction], arn: String, clientToken: String? = UpdateReplicationSetInput.idempotencyToken()) {
@@ -1975,23 +1975,23 @@ extension SSMIncidents {
         public let actions: [Action]?
         /// The Amazon Resource Name (ARN) of the response plan.
         public let arn: String
-        /// The AWS Chatbot chat channel used for collaboration during an incident. Use the empty structure to remove the chat channel from the response plan.
+        /// The Chatbot chat channel used for collaboration during an incident. Use the empty structure to remove the chat channel from the response plan.
         public let chatChannel: ChatChannel?
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
-        /// The long format name of the response plan. Can't contain spaces.
+        /// The long format name of the response plan. The display name can't contain spaces.
         public let displayName: String?
         /// The contacts and escalation plans that Incident Manager engages at the start of the incident.
         public let engagements: [String]?
-        /// Used to create only one incident record for an incident.
+        /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
         public let incidentTemplateDedupeString: String?
         /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact    4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
         public let incidentTemplateImpact: Int?
-        /// The SNS targets that are notified when updates are made to an incident.
+        /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let incidentTemplateNotificationTargets: [NotificationTargetItem]?
         /// A brief summary of the incident. This typically contains what has happened, what's currently happening, and next steps.
         public let incidentTemplateSummary: String?
-        /// The short format name of the incident. Can't contain spaces.
+        /// The short format name of the incident. The title can't contain spaces.
         public let incidentTemplateTitle: String?
 
         public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplateDedupeString: String? = nil, incidentTemplateImpact: Int? = nil, incidentTemplateNotificationTargets: [NotificationTargetItem]? = nil, incidentTemplateSummary: String? = nil, incidentTemplateTitle: String? = nil) {
@@ -2064,7 +2064,7 @@ extension SSMIncidents {
     }
 
     public struct UpdateTimelineEventInput: AWSEncodableShape {
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
         /// A short description of the event.
         public let eventData: String?
@@ -2074,7 +2074,7 @@ extension SSMIncidents {
         public let eventTime: Date?
         /// The type of the event. You can update events of type Custom Event.
         public let eventType: String?
-        /// The Amazon Resource Name (ARN) of the incident that the timeline event is part of.
+        /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
         public init(clientToken: String? = UpdateTimelineEventInput.idempotencyToken(), eventData: String? = nil, eventId: String, eventTime: Date? = nil, eventType: String? = nil, incidentRecordArn: String) {

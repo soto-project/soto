@@ -284,6 +284,59 @@ extension Connect {
         )
     }
 
+    ///  Provides information about the contact flow modules for the specified Amazon Connect instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listContactFlowModulesPaginator<Result>(
+        _ input: ListContactFlowModulesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListContactFlowModulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listContactFlowModules,
+            inputKey: \ListContactFlowModulesRequest.nextToken,
+            outputKey: \ListContactFlowModulesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listContactFlowModulesPaginator(
+        _ input: ListContactFlowModulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListContactFlowModulesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listContactFlowModules,
+            inputKey: \ListContactFlowModulesRequest.nextToken,
+            outputKey: \ListContactFlowModulesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -332,6 +385,59 @@ extension Connect {
             command: listContactFlows,
             inputKey: \ListContactFlowsRequest.nextToken,
             outputKey: \ListContactFlowsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listContactReferencesPaginator<Result>(
+        _ input: ListContactReferencesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListContactReferencesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listContactReferences,
+            inputKey: \ListContactReferencesRequest.nextToken,
+            outputKey: \ListContactReferencesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listContactReferencesPaginator(
+        _ input: ListContactReferencesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListContactReferencesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listContactReferences,
+            inputKey: \ListContactReferencesRequest.nextToken,
+            outputKey: \ListContactReferencesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1132,6 +1238,59 @@ extension Connect {
         )
     }
 
+    ///  This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSecurityProfilePermissionsPaginator<Result>(
+        _ input: ListSecurityProfilePermissionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSecurityProfilePermissionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listSecurityProfilePermissions,
+            inputKey: \ListSecurityProfilePermissionsRequest.nextToken,
+            outputKey: \ListSecurityProfilePermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSecurityProfilePermissionsPaginator(
+        _ input: ListSecurityProfilePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSecurityProfilePermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listSecurityProfilePermissions,
+            inputKey: \ListSecurityProfilePermissionsRequest.nextToken,
+            outputKey: \ListSecurityProfilePermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1405,6 +1564,17 @@ extension Connect.ListBotsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListContactFlowModulesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListContactFlowModulesRequest {
+        return .init(
+            contactFlowModuleState: self.contactFlowModuleState,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListContactFlowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListContactFlowsRequest {
         return .init(
@@ -1412,6 +1582,17 @@ extension Connect.ListContactFlowsRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Connect.ListContactReferencesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListContactReferencesRequest {
+        return .init(
+            contactId: self.contactId,
+            instanceId: self.instanceId,
+            nextToken: token,
+            referenceTypes: self.referenceTypes
         )
     }
 }
@@ -1569,6 +1750,17 @@ extension Connect.ListSecurityKeysRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Connect.ListSecurityProfilePermissionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilePermissionsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileId: self.securityProfileId
         )
     }
 }

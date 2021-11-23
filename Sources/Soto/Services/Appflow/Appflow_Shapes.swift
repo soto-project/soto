@@ -276,6 +276,12 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3InputFileType: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable {
         case addition = "ADDITION"
         case between = "BETWEEN"
@@ -2748,6 +2754,19 @@ extension Appflow {
         }
     }
 
+    public struct S3InputFormatConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The file type that Amazon AppFlow gets from your Amazon S3 bucket.
+        public let s3InputFileType: S3InputFileType?
+
+        public init(s3InputFileType: S3InputFileType? = nil) {
+            self.s3InputFileType = s3InputFileType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3InputFileType
+        }
+    }
+
     public struct S3Metadata: AWSDecodableShape {
         public init() {}
     }
@@ -2777,10 +2796,12 @@ extension Appflow {
         public let bucketName: String
         ///  The object key for the Amazon S3 bucket in which the source files are stored.
         public let bucketPrefix: String?
+        public let s3InputFormatConfig: S3InputFormatConfig?
 
-        public init(bucketName: String, bucketPrefix: String? = nil) {
+        public init(bucketName: String, bucketPrefix: String? = nil, s3InputFormatConfig: S3InputFormatConfig? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
+            self.s3InputFormatConfig = s3InputFormatConfig
         }
 
         public func validate(name: String) throws {
@@ -2794,6 +2815,7 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case bucketName
             case bucketPrefix
+            case s3InputFormatConfig
         }
     }
 

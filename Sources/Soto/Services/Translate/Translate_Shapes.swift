@@ -20,6 +20,12 @@ import SotoCore
 extension Translate {
     // MARK: Enums
 
+    public enum Directionality: String, CustomStringConvertible, Codable {
+        case multi = "MULTI"
+        case uni = "UNI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
@@ -60,6 +66,7 @@ extension Translate {
     public enum TerminologyDataFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case tmx = "TMX"
+        case tsv = "TSV"
         public var description: String { return self.rawValue }
     }
 
@@ -272,7 +279,7 @@ extension Translate {
     public struct GetParallelDataResponse: AWSDecodableShape {
         /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a parallel data resource. The location is returned as a presigned URL to that has a 30 minute expiration.
         public let auxiliaryDataLocation: ParallelDataDataLocation?
-        /// The location of the most recent parallel data input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.
+        /// The Amazon S3 location of the most recent parallel data input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.  Amazon Translate doesn't scan parallel data input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download a parallel data input file from Amazon S3, ensure that you recognize the file and trust its creator.
         public let dataLocation: ParallelDataDataLocation?
         /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to update a parallel data resource. The location is returned as a presigned URL to that has a 30 minute expiration.
         public let latestUpdateAttemptAuxiliaryDataLocation: ParallelDataDataLocation?
@@ -297,10 +304,10 @@ extension Translate {
     public struct GetTerminologyRequest: AWSEncodableShape {
         /// The name of the custom terminology being retrieved.
         public let name: String
-        /// The data format of the custom terminology being retrieved, either CSV or TMX.
-        public let terminologyDataFormat: TerminologyDataFormat
+        /// The data format of the custom terminology being retrieved. If you don't specify this parameter, Amazon Translate returns a file that has the same format as the file that was imported to create the terminology.  If you specify this parameter when you retrieve a multi-directional terminology resource, you must specify the same format as that of the input file that was imported to create it. Otherwise, Amazon Translate throws an error.
+        public let terminologyDataFormat: TerminologyDataFormat?
 
-        public init(name: String, terminologyDataFormat: TerminologyDataFormat) {
+        public init(name: String, terminologyDataFormat: TerminologyDataFormat? = nil) {
             self.name = name
             self.terminologyDataFormat = terminologyDataFormat
         }
@@ -318,17 +325,21 @@ extension Translate {
     }
 
     public struct GetTerminologyResponse: AWSDecodableShape {
+        /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a terminology resource. The location is returned as a presigned URL to that has a 30 minute expiration.
+        public let auxiliaryDataLocation: TerminologyDataLocation?
         /// The data location of the custom terminology being retrieved. The custom terminology file is returned in a presigned url that has a 30 minute expiration.
         public let terminologyDataLocation: TerminologyDataLocation?
         /// The properties of the custom terminology being retrieved.
         public let terminologyProperties: TerminologyProperties?
 
-        public init(terminologyDataLocation: TerminologyDataLocation? = nil, terminologyProperties: TerminologyProperties? = nil) {
+        public init(auxiliaryDataLocation: TerminologyDataLocation? = nil, terminologyDataLocation: TerminologyDataLocation? = nil, terminologyProperties: TerminologyProperties? = nil) {
+            self.auxiliaryDataLocation = auxiliaryDataLocation
             self.terminologyDataLocation = terminologyDataLocation
             self.terminologyProperties = terminologyProperties
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auxiliaryDataLocation = "AuxiliaryDataLocation"
             case terminologyDataLocation = "TerminologyDataLocation"
             case terminologyProperties = "TerminologyProperties"
         }
@@ -374,20 +385,24 @@ extension Translate {
     }
 
     public struct ImportTerminologyResponse: AWSDecodableShape {
+        /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a terminology resource. The location is returned as a presigned URL to that has a 30 minute expiration.
+        public let auxiliaryDataLocation: TerminologyDataLocation?
         /// The properties of the custom terminology being imported.
         public let terminologyProperties: TerminologyProperties?
 
-        public init(terminologyProperties: TerminologyProperties? = nil) {
+        public init(auxiliaryDataLocation: TerminologyDataLocation? = nil, terminologyProperties: TerminologyProperties? = nil) {
+            self.auxiliaryDataLocation = auxiliaryDataLocation
             self.terminologyProperties = terminologyProperties
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auxiliaryDataLocation = "AuxiliaryDataLocation"
             case terminologyProperties = "TerminologyProperties"
         }
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the format of the data that you submit to Amazon Translate as input. You can specify one of the following multipurpose internet mail extension (MIME) types:    text/html: The input data consists of one or more HTML files. Amazon Translate translates only the text that resides in the html element in each file.    text/plain: The input data consists of one or more unformatted text files. Amazon Translate translates every character in this type of input.    application/vnd.openxmlformats-officedocument.wordprocessingml.document: The input data consists of one or more Word documents (.docx).    application/vnd.openxmlformats-officedocument.presentationml.presentation: The input data consists of one or more PowerPoint Presentation files (.pptx).    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet: The input data consists of one or more Excel Workbook files (.xlsx).    If you structure your input data as HTML, ensure that you set this parameter to text/html. By doing so, you cut costs by limiting the translation to the contents of the html element in each file. Otherwise, if you set this parameter to text/plain, your costs will cover the translation of every character.
+        /// Describes the format of the data that you submit to Amazon Translate as input. You can specify one of the following multipurpose internet mail extension (MIME) types:    text/html: The input data consists of one or more HTML files. Amazon Translate translates only the text that resides in the html element in each file.    text/plain: The input data consists of one or more unformatted text files. Amazon Translate translates every character in this type of input.    application/vnd.openxmlformats-officedocument.wordprocessingml.document: The input data consists of one or more Word documents (.docx).    application/vnd.openxmlformats-officedocument.presentationml.presentation: The input data consists of one or more PowerPoint Presentation files (.pptx).    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet: The input data consists of one or more Excel Workbook files (.xlsx).    application/x-xliff+xml: The input data consists of one or more XML Localization Interchange File Format (XLIFF) files (.xlf). Amazon Translate supports only XLIFF version 1.2.    If you structure your input data as HTML, ensure that you set this parameter to text/html. By doing so, you cut costs by limiting the translation to the contents of the html element in each file. Otherwise, if you set this parameter to text/plain, your costs will cover the translation of every character.
         public let contentType: String
         /// The URI of the AWS S3 folder that contains the input file. The folder must be in the same Region as the API endpoint you are calling.
         public let s3Uri: String
@@ -543,7 +558,7 @@ extension Translate {
     }
 
     public struct ListTextTranslationJobsResponse: AWSDecodableShape {
-        /// The token to use to retreive the next page of results. This value is null when there are no more results to return.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// A list containing the properties of each job that is returned.
         public let textTranslationJobPropertiesList: [TextTranslationJobProperties]?
@@ -560,19 +575,23 @@ extension Translate {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        public let encryptionKey: EncryptionKey?
         /// The URI of the S3 folder that contains a translation job's output file. The folder must be in the same Region as the API endpoint that you are calling.
         public let s3Uri: String
 
-        public init(s3Uri: String) {
+        public init(encryptionKey: EncryptionKey? = nil, s3Uri: String) {
+            self.encryptionKey = encryptionKey
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
+            try self.encryptionKey?.validate(name: "\(name).encryptionKey")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionKey = "EncryptionKey"
             case s3Uri = "S3Uri"
         }
     }
@@ -600,7 +619,7 @@ extension Translate {
     }
 
     public struct ParallelDataDataLocation: AWSDecodableShape {
-        /// The Amazon S3 location of the parallel data input file. The location is returned as a presigned URL to that has a 30 minute expiration.
+        /// The Amazon S3 location of the parallel data input file. The location is returned as a presigned URL to that has a 30 minute expiration.  Amazon Translate doesn't scan parallel data input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download a parallel data input file from Amazon S3, ensure that you recognize the file and trust its creator.
         public let location: String
         /// Describes the repository that contains the parallel data input file.
         public let repositoryType: String
@@ -695,7 +714,7 @@ extension Translate {
     public struct StartTextTranslationJobRequest: AWSEncodableShape {
         /// A unique identifier for the request. This token is auto-generated when using the Amazon Translate SDK.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more nformation, see identity-and-access-management.
+        /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more information, see identity-and-access-management.
         public let dataAccessRoleArn: String
         /// Specifies the format and S3 location of the input documents for the translation job.
         public let inputDataConfig: InputDataConfig
@@ -703,13 +722,13 @@ extension Translate {
         public let jobName: String?
         /// Specifies the S3 folder to which your job output will be saved.
         public let outputDataConfig: OutputDataConfig
-        /// The names of the parallel data resources to use in the batch translation job. For a list of available parallel data resources, use the ListParallelData operation.
+        /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see customizing-translations-parallel-data.
         public let parallelDataNames: [String]?
         /// The language code of the input language. For a list of language codes, see what-is-languages. Amazon Translate does not automatically detect a source language during batch translation jobs.
         public let sourceLanguageCode: String
         /// The language code of the output language.
         public let targetLanguageCodes: [String]
-        /// The name of the terminology to use in the batch translation job. For a list of available terminologies, use the ListTerminologies operation.
+        /// The name of a custom terminology resource to add to the translation job. This resource lists examples source terms and the desired translation for each term. This parameter accepts only one custom terminology resource. For a list of available custom terminology resources, use the ListTerminologies operation. For more information, see how-custom-terminology.
         public let terminologyNames: [String]?
 
         public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, parallelDataNames: [String]? = nil, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
@@ -840,12 +859,15 @@ extension Translate {
     }
 
     public struct TerminologyData: AWSEncodableShape {
+        /// The directionality of your terminology resource indicates whether it has one source language (uni-directional) or multiple (multi-directional).  UNI  The terminology resource has one source language (for example, the first column in a CSV file), and all of its other languages are target languages.   MULTI  Any language in the terminology resource can be the source language or a target language. A single multi-directional terminology resource can be used for jobs that translate different language pairs. For example, if the terminology contains terms in English and Spanish, then it can be used for jobs that translate English to Spanish and jobs that translate Spanish to English.   When you create a custom terminology resource without specifying the directionality, it behaves as uni-directional terminology, although this parameter will have a null value.
+        public let directionality: Directionality?
         /// The file containing the custom terminology data. Your version of the AWS SDK performs a Base64-encoding on this field before sending a request to the AWS service. Users of the SDK should not perform Base64-encoding themselves.
         public let file: Data
-        /// The data format of the custom terminology. Either CSV or TMX.
+        /// The data format of the custom terminology.
         public let format: TerminologyDataFormat
 
-        public init(file: Data, format: TerminologyDataFormat) {
+        public init(directionality: Directionality? = nil, file: Data, format: TerminologyDataFormat) {
+            self.directionality = directionality
             self.file = file
             self.format = format
         }
@@ -855,6 +877,7 @@ extension Translate {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case directionality = "Directionality"
             case file = "File"
             case format = "Format"
         }
@@ -884,29 +907,41 @@ extension Translate {
         public let createdAt: Date?
         /// The description of the custom terminology properties.
         public let description: String?
+        /// The directionality of your terminology resource indicates whether it has one source language (uni-directional) or multiple (multi-directional).   UNI  The terminology resource has one source language (the first column in a CSV file), and all of its other languages are target languages.  MULTI  Any language in the terminology resource can be the source language.
+        public let directionality: Directionality?
         /// The encryption key for the custom terminology.
         public let encryptionKey: EncryptionKey?
+        /// The format of the custom terminology input file.
+        public let format: TerminologyDataFormat?
         /// The time at which the custom terminology was last update, based on the timestamp.
         public let lastUpdatedAt: Date?
+        /// Additional information from Amazon Translate about the terminology resource.
+        public let message: String?
         /// The name of the custom terminology.
         public let name: String?
         /// The size of the file used when importing a custom terminology.
         public let sizeBytes: Int?
+        /// The number of terms in the input file that Amazon Translate skipped when you created or updated the terminology resource.
+        public let skippedTermCount: Int?
         /// The language code for the source text of the translation request for which the custom terminology is being used.
         public let sourceLanguageCode: String?
-        /// The language codes for the target languages available with the custom terminology file. All possible target languages are returned in array.
+        /// The language codes for the target languages available with the custom terminology resource. All possible target languages are returned in array.
         public let targetLanguageCodes: [String]?
         /// The number of terms included in the custom terminology.
         public let termCount: Int?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, sizeBytes: Int? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, directionality: Directionality? = nil, encryptionKey: EncryptionKey? = nil, format: TerminologyDataFormat? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, sizeBytes: Int? = nil, skippedTermCount: Int? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
+            self.directionality = directionality
             self.encryptionKey = encryptionKey
+            self.format = format
             self.lastUpdatedAt = lastUpdatedAt
+            self.message = message
             self.name = name
             self.sizeBytes = sizeBytes
+            self.skippedTermCount = skippedTermCount
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCodes = targetLanguageCodes
             self.termCount = termCount
@@ -916,10 +951,14 @@ extension Translate {
             case arn = "Arn"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case directionality = "Directionality"
             case encryptionKey = "EncryptionKey"
+            case format = "Format"
             case lastUpdatedAt = "LastUpdatedAt"
+            case message = "Message"
             case name = "Name"
             case sizeBytes = "SizeBytes"
+            case skippedTermCount = "SkippedTermCount"
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCodes = "TargetLanguageCodes"
             case termCount = "TermCount"
@@ -972,7 +1011,7 @@ extension Translate {
         public let jobName: String?
         /// The status of the translation job.
         public let jobStatus: JobStatus?
-        /// An explanation of any errors that may have occured during the translation job.
+        /// An explanation of any errors that may have occurred during the translation job.
         public let message: String?
         /// The output configuration properties that were specified when the job was requested.
         public let outputDataConfig: OutputDataConfig?

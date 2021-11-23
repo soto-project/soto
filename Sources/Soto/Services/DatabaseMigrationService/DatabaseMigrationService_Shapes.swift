@@ -340,7 +340,7 @@ extension DatabaseMigrationService {
         public let certificateOwner: String?
         /// The contents of a .pem file, which contains an X.509 certificate.
         public let certificatePem: String?
-        /// The location of an imported Oracle Wallet certificate for use with SSL.
+        /// The location of an imported Oracle Wallet certificate for use with SSL. Example: filebase64("${path.root}/rds-ca-2019-root.sso")
         public let certificateWallet: Data?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int?
@@ -421,18 +421,20 @@ extension DatabaseMigrationService {
         public let docDbSettings: DocDbSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
         public let dynamoDbSettings: DynamoDbSettings?
-        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
         public let endpointIdentifier: String
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", and "neptune".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", and "neptune".
         public let engineName: String
         /// The external table definition.
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with DMS Endpoints in the Database Migration Service User Guide.
         public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the source GCP MySQL endpoint.
+        public let gcpMySQLSettings: GcpMySQLSettings?
         /// Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for DMS in the Database Migration Service User Guide.
         public let iBMDb2Settings: IBMDb2Settings?
         /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using object mapping to migrate data to a Kafka topic in the Database Migration Service User Guide.
@@ -477,7 +479,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -489,6 +491,7 @@ extension DatabaseMigrationService {
             self.engineName = engineName
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
+            self.gcpMySQLSettings = gcpMySQLSettings
             self.iBMDb2Settings = iBMDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
@@ -525,6 +528,7 @@ extension DatabaseMigrationService {
             case engineName = "EngineName"
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case gcpMySQLSettings = "GcpMySQLSettings"
             case iBMDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
@@ -808,7 +812,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteCertificateMessage: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the deleted certificate.
+        /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String
 
         public init(certificateArn: String) {
@@ -1086,7 +1090,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeCertificatesMessage: AWSEncodableShape {
-        /// Filters applied to the certificates described in the form of key-value pairs.
+        /// Filters applied to the certificates described in the form of key-value pairs. Valid values are certificate-arn and certificate-id.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1306,7 +1310,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
-        /// Filters applied to event subscriptions.
+        /// Filters applied to event subscriptions. Valid filter names: event-subscription-arn | event-subscription-id
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1354,7 +1358,7 @@ extension DatabaseMigrationService {
         public let endTime: Date?
         /// A list of event categories for the source type that you've chosen.
         public let eventCategories: [String]?
-        /// Filters applied to events.
+        /// Filters applied to events. The only valid filter is replication-instance-id.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1956,11 +1960,11 @@ extension DatabaseMigrationService {
     }
 
     public struct ElasticsearchSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The endpoint for the Elasticsearch cluster. DMS uses HTTPS if a transport protocol (http/https) is not specified.
+        /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport protocol (http/https) is not specified.
         public let endpointUri: String
-        /// The maximum number of seconds for which DMS retries failed API requests to the Elasticsearch cluster.
+        /// The maximum number of seconds for which DMS retries failed API requests to the OpenSearch cluster.
         public let errorRetryDuration: Int?
-        /// The maximum percentage of records that can fail to be written before a full load operation stops. To avoid early failure, this counter is only effective after 1000 records are transferred. Elasticsearch also has the concept of error monitoring during the last 10 minutes of an Observation Window. If transfer of all records fail in the last 10 minutes, the full load operation stops.
+        /// The maximum percentage of records that can fail to be written before a full load operation stops. To avoid early failure, this counter is only effective after 1000 records are transferred. OpenSearch also has the concept of error monitoring during the last 10 minutes of an Observation Window. If transfer of all records fail in the last 10 minutes, the full load operation stops.
         public let fullLoadErrorPercentage: Int?
         /// The Amazon Resource Name (ARN) used by the service to access the IAM role. The role must allow the iam:PassRole action.
         public let serviceAccessRoleArn: String
@@ -1985,12 +1989,12 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the database at the endpoint.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
+        /// The settings for the DMS Transfer type source. For more information, see the DmsTransferSettings structure.
         public let dmsTransferSettings: DmsTransferSettings?
         public let docDbSettings: DocDbSettings?
         /// The settings for the DynamoDB target endpoint. For more information, see the DynamoDBSettings structure.
         public let dynamoDbSettings: DynamoDbSettings?
-        /// The settings for the Elasticsearch source endpoint. For more information, see the ElasticsearchSettings structure.
+        /// The settings for the OpenSearch source endpoint. For more information, see the ElasticsearchSettings structure.
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
@@ -2000,7 +2004,7 @@ extension DatabaseMigrationService {
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
         public let engineName: String?
         ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account.
         public let externalId: String?
@@ -2008,6 +2012,8 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional connection attributes used to connect to the endpoint.
         public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the source GCP MySQL endpoint.
+        public let gcpMySQLSettings: GcpMySQLSettings?
         /// The settings for the IBM Db2 LUW source endpoint. For more information, see the IBMDb2Settings structure.
         public let iBMDb2Settings: IBMDb2Settings?
         /// The settings for the Apache Kafka target endpoint. For more information, see the KafkaSettings structure.
@@ -2049,7 +2055,7 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2064,6 +2070,7 @@ extension DatabaseMigrationService {
             self.externalId = externalId
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
+            self.gcpMySQLSettings = gcpMySQLSettings
             self.iBMDb2Settings = iBMDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
@@ -2101,6 +2108,7 @@ extension DatabaseMigrationService {
             case externalId = "ExternalId"
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case gcpMySQLSettings = "GcpMySQLSettings"
             case iBMDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
@@ -2277,6 +2285,70 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct GcpMySQLSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
+        public let afterConnectScript: String?
+        /// Adjusts the behavior of DMS when migrating from an SQL Server source database that is hosted as part of an Always On availability group cluster. If you need DMS to poll all the nodes in the Always On cluster for transaction backups, set this attribute to false.
+        public let cleanSourceMetadataOnMismatch: Bool?
+        /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
+        public let databaseName: String?
+        /// Specifies how often to check the binary log for new changes/events when the database is idle. The default is five seconds. Example: eventsPollInterval=5;  In the example, DMS checks for changes in the binary logs every five seconds.
+        public let eventsPollInterval: Int?
+        /// Specifies the maximum size (in KB) of any .csv file used to transfer data to a MySQL-compatible database. Example: maxFileSize=512
+        public let maxFileSize: Int?
+        /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. The default is one. Example: parallelLoadThreads=1
+        public let parallelLoadThreads: Int?
+        /// Endpoint connection password.
+        public let password: String?
+        public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the MySQL endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MySQL endpoint connection details.
+        public let secretsManagerSecretId: String?
+        /// Endpoint TCP port.
+        public let serverName: String?
+        /// Specifies the time zone for the source MySQL database. Example: serverTimezone=US/Pacific;  Note: Do not enclose time zones in single quotes.
+        public let serverTimezone: String?
+        /// Specifies where to migrate source tables on the target, either to a single database or multiple databases. Example: targetDbType=MULTIPLE_DATABASES
+        public let targetDbType: TargetDbType?
+        /// Endpoint connection user name.
+        public let username: String?
+
+        public init(afterConnectScript: String? = nil, cleanSourceMetadataOnMismatch: Bool? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverTimezone: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
+            self.afterConnectScript = afterConnectScript
+            self.cleanSourceMetadataOnMismatch = cleanSourceMetadataOnMismatch
+            self.databaseName = databaseName
+            self.eventsPollInterval = eventsPollInterval
+            self.maxFileSize = maxFileSize
+            self.parallelLoadThreads = parallelLoadThreads
+            self.password = password
+            self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
+            self.serverName = serverName
+            self.serverTimezone = serverTimezone
+            self.targetDbType = targetDbType
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterConnectScript = "AfterConnectScript"
+            case cleanSourceMetadataOnMismatch = "CleanSourceMetadataOnMismatch"
+            case databaseName = "DatabaseName"
+            case eventsPollInterval = "EventsPollInterval"
+            case maxFileSize = "MaxFileSize"
+            case parallelLoadThreads = "ParallelLoadThreads"
+            case password = "Password"
+            case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
+            case serverName = "ServerName"
+            case serverTimezone = "ServerTimezone"
+            case targetDbType = "TargetDbType"
+            case username = "Username"
+        }
+    }
+
     public struct IBMDb2Settings: AWSEncodableShape & AWSDecodableShape {
         /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence number (LSN) where you want the replication to start.
         public let currentLsn: String?
@@ -2331,7 +2403,7 @@ extension DatabaseMigrationService {
         public let certificateIdentifier: String
         /// The contents of a .pem file, which contains an X.509 certificate.
         public let certificatePem: String?
-        /// The location of an imported Oracle Wallet certificate for use with SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the certificate inline.
+        /// The location of an imported Oracle Wallet certificate for use with SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the certificate inline. Example: filebase64("${path.root}/rds-ca-2019-root.sso")
         public let certificateWallet: Data?
         /// The tags associated with the certificate.
         public let tags: [Tag]?
@@ -2600,7 +2672,7 @@ extension DatabaseMigrationService {
         public let docDbSettings: DocDbSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
         public let dynamoDbSettings: DynamoDbSettings?
-        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -2608,7 +2680,7 @@ extension DatabaseMigrationService {
         public let endpointIdentifier: String?
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
         public let engineName: String?
         /// If this attribute is Y, the current call to ModifyEndpoint replaces all existing endpoint settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any endpoint settings that already exist with new values, for settings with the same names.   It creates new endpoint settings that you specify in the call, for settings with different names.    For example, if you call create-endpoint ... --endpoint-settings '{"a":1}' ..., the endpoint has the following endpoint settings: '{"a":1}'. If you then call modify-endpoint ... --endpoint-settings '{"b":2}' ... for the same endpoint, the endpoint has the following settings: '{"a":1,"b":2}'.  However, suppose that you follow this with a call to modify-endpoint ... --endpoint-settings '{"b":2}' --exact-settings ... for that same endpoint again. Then the endpoint has the following settings: '{"b":2}'. All existing settings are replaced with the exact settings that you specify.
         public let exactSettings: Bool?
@@ -2616,6 +2688,8 @@ extension DatabaseMigrationService {
         public let externalTableDefinition: String?
         /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
         public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the source GCP MySQL endpoint.
+        public let gcpMySQLSettings: GcpMySQLSettings?
         /// Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for DMS in the Database Migration Service User Guide.
         public let iBMDb2Settings: IBMDb2Settings?
         /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using object mapping to migrate data to a Kafka topic in the Database Migration Service User Guide.
@@ -2654,7 +2728,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, exactSettings: Bool? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, exactSettings: Bool? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2668,6 +2742,7 @@ extension DatabaseMigrationService {
             self.exactSettings = exactSettings
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
+            self.gcpMySQLSettings = gcpMySQLSettings
             self.iBMDb2Settings = iBMDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
@@ -2703,6 +2778,7 @@ extension DatabaseMigrationService {
             case exactSettings = "ExactSettings"
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case gcpMySQLSettings = "GcpMySQLSettings"
             case iBMDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
@@ -3040,11 +3116,11 @@ extension DatabaseMigrationService {
         public let cleanSourceMetadataOnMismatch: Bool?
         /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
         public let databaseName: String?
-        /// Specifies how often to check the binary log for new changes/events when the database is idle. Example: eventsPollInterval=5;  In the example, DMS checks for changes in the binary logs every five seconds.
+        /// Specifies how often to check the binary log for new changes/events when the database is idle. The default is five seconds. Example: eventsPollInterval=5;  In the example, DMS checks for changes in the binary logs every five seconds.
         public let eventsPollInterval: Int?
         /// Specifies the maximum size (in KB) of any .csv file used to transfer data to a MySQL-compatible database. Example: maxFileSize=512
         public let maxFileSize: Int?
-        /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. Example: parallelLoadThreads=1
+        /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. The default is one. Example: parallelLoadThreads=1
         public let parallelLoadThreads: Int?
         /// Endpoint connection password.
         public let password: String?
@@ -3407,7 +3483,7 @@ extension DatabaseMigrationService {
         public let password: String?
         /// Specifies the plugin to use to create a replication slot.
         public let pluginName: PluginNameValue?
-        /// Endpoint TCP port.
+        /// Endpoint TCP port. The default is 5432.
         public let port: Int?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the PostgreSQL endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
         public let secretsManagerAccessRoleArn: String?
@@ -4279,6 +4355,8 @@ extension DatabaseMigrationService {
         public let datePartitionEnabled: Bool?
         /// Identifies the sequence of the date format to use during folder partitioning. The default value is YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionSequence: DatePartitionSequenceValue?
+        /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example.  s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
+        public let datePartitionTimezone: String?
         /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. This parameter defaults to 1024 * 1024 bytes (1 MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. This size is used for .parquet file format only.
         public let dictPageSizeLimit: Int?
         /// A value that enables statistics for Parquet pages and row groups. Choose true to enable statistics, false to disable. Statistics include NULL, DISTINCT, MAX, and MIN values. This parameter defaults to true. This value is used for .parquet file format only.
@@ -4313,8 +4391,10 @@ extension DatabaseMigrationService {
         public let timestampColumnName: String?
         /// This setting applies if the S3 output files during a change data capture (CDC) load are written in .csv format. If set to true for columns not included in the supplemental log, DMS uses the value specified by  CsvNoSupValue . If not set or set to false, DMS uses the null value for these columns.  This setting is supported in DMS versions 3.4.1 and later.
         public let useCsvNoSupValue: Bool?
+        /// When set to true, this parameter uses the task start time as the timestamp column value instead of the time data is written to target. For full load, when useTaskStartTimeForFullLoadTimestamp is set to true, each row of the timestamp column contains the task start time. For CDC loads, each row of the timestamp column contains the transaction commit time. When useTaskStartTimeForFullLoadTimestamp is set to false, the full load timestamp in the timestamp column increments with the time data arrives at the target.
+        public let useTaskStartTimeForFullLoadTimestamp: Bool?
 
-        public init(addColumnName: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil) {
+        public init(addColumnName: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, datePartitionTimezone: String? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil, useTaskStartTimeForFullLoadTimestamp: Bool? = nil) {
             self.addColumnName = addColumnName
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
@@ -4334,6 +4414,7 @@ extension DatabaseMigrationService {
             self.datePartitionDelimiter = datePartitionDelimiter
             self.datePartitionEnabled = datePartitionEnabled
             self.datePartitionSequence = datePartitionSequence
+            self.datePartitionTimezone = datePartitionTimezone
             self.dictPageSizeLimit = dictPageSizeLimit
             self.enableStatistics = enableStatistics
             self.encodingType = encodingType
@@ -4351,6 +4432,7 @@ extension DatabaseMigrationService {
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.timestampColumnName = timestampColumnName
             self.useCsvNoSupValue = useCsvNoSupValue
+            self.useTaskStartTimeForFullLoadTimestamp = useTaskStartTimeForFullLoadTimestamp
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4373,6 +4455,7 @@ extension DatabaseMigrationService {
             case datePartitionDelimiter = "DatePartitionDelimiter"
             case datePartitionEnabled = "DatePartitionEnabled"
             case datePartitionSequence = "DatePartitionSequence"
+            case datePartitionTimezone = "DatePartitionTimezone"
             case dictPageSizeLimit = "DictPageSizeLimit"
             case enableStatistics = "EnableStatistics"
             case encodingType = "EncodingType"
@@ -4390,6 +4473,7 @@ extension DatabaseMigrationService {
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case timestampColumnName = "TimestampColumnName"
             case useCsvNoSupValue = "UseCsvNoSupValue"
+            case useTaskStartTimeForFullLoadTimestamp = "UseTaskStartTimeForFullLoadTimestamp"
         }
     }
 
@@ -4486,7 +4570,7 @@ extension DatabaseMigrationService {
         public let cdcStopPosition: String?
         /// The Amazon Resource Name (ARN) of the replication task to be started.
         public let replicationTaskArn: String
-        /// A type of replication task.
+        /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. You use reload-target to restart the task and resume-processing to resume the task. When the migration type is cdc, you use start-replication to start or restart the task, and resume-processing to resume the task. reload-target is not a valid value for a task with migration type of cdc.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
         public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue) {
@@ -4600,7 +4684,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// Endpoint connection password.
         public let password: String?
-        /// Endpoint TCP port.
+        /// Endpoint TCP port. The default is 5000.
         public let port: Int?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the SAP ASE endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
         public let secretsManagerAccessRoleArn: String?

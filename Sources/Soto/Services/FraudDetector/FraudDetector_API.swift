@@ -73,9 +73,19 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "BatchGetVariable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Cancels an in-progress batch import job.
+    public func cancelBatchImportJob(_ input: CancelBatchImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelBatchImportJobResult> {
+        return self.client.execute(operation: "CancelBatchImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels the specified batch prediction job.
     public func cancelBatchPredictionJob(_ input: CancelBatchPredictionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelBatchPredictionJobResult> {
         return self.client.execute(operation: "CancelBatchPredictionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a batch import job.
+    public func createBatchImportJob(_ input: CreateBatchImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBatchImportJobResult> {
+        return self.client.execute(operation: "CreateBatchImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a batch prediction job.
@@ -108,6 +118,11 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "CreateVariable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes data that was batch imported to Amazon Fraud Detector.
+    public func deleteBatchImportJob(_ input: DeleteBatchImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBatchImportJobResult> {
+        return self.client.execute(operation: "DeleteBatchImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a batch prediction job.
     public func deleteBatchPredictionJob(_ input: DeleteBatchPredictionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBatchPredictionJobResult> {
         return self.client.execute(operation: "DeleteBatchPredictionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -133,9 +148,14 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "DeleteEvent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
+    /// Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
     public func deleteEventType(_ input: DeleteEventTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEventTypeResult> {
         return self.client.execute(operation: "DeleteEventType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes all events of a particular event type.
+    public func deleteEventsByEventType(_ input: DeleteEventsByEventTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEventsByEventTypeResult> {
+        return self.client.execute(operation: "DeleteEventsByEventType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
@@ -183,9 +203,19 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "DescribeModelVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    public func getBatchImportJobs(_ input: GetBatchImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBatchImportJobsResult> {
+        return self.client.execute(operation: "GetBatchImportJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     public func getBatchPredictionJobs(_ input: GetBatchPredictionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBatchPredictionJobsResult> {
         return self.client.execute(operation: "GetBatchPredictionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the status of a DeleteEventsByEventType action.
+    public func getDeleteEventsByEventTypeStatus(_ input: GetDeleteEventsByEventTypeStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeleteEventsByEventTypeStatusResult> {
+        return self.client.execute(operation: "GetDeleteEventsByEventTypeStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a particular detector version.
@@ -203,6 +233,11 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "GetEntityTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
+    public func getEvent(_ input: GetEventRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventResult> {
+        return self.client.execute(operation: "GetEvent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used.
     public func getEventPrediction(_ input: GetEventPredictionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventPredictionResult> {
         return self.client.execute(operation: "GetEventPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -218,7 +253,7 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "GetExternalModels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the encryption key if a Key Management Service (KMS) customer master key (CMK) has been specified to be used to encrypt content in Amazon Fraud Detector.
+    /// Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
     public func getKMSEncryptionKey(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKMSEncryptionKeyResult> {
         return self.client.execute(operation: "GetKMSEncryptionKey", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
@@ -278,7 +313,7 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "PutExternalModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Specifies the Key Management Service (KMS) customer master key (CMK) to be used to encrypt content in Amazon Fraud Detector.
+    /// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
     public func putKMSEncryptionKey(_ input: PutKMSEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutKMSEncryptionKeyResult> {
         return self.client.execute(operation: "PutKMSEncryptionKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -291,6 +326,11 @@ public struct FraudDetector: AWSService {
     /// Creates or updates an outcome.
     public func putOutcome(_ input: PutOutcomeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutOutcomeResult> {
         return self.client.execute(operation: "PutOutcome", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model.
+    public func sendEvent(_ input: SendEventRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendEventResult> {
+        return self.client.execute(operation: "SendEvent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Assigns tags to a resource.
@@ -318,7 +358,12 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "UpdateDetectorVersionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a model. You can update the description attribute using this action.
+    /// Updates the specified event with a new label.
+    public func updateEventLabel(_ input: UpdateEventLabelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventLabelResult> {
+        return self.client.execute(operation: "UpdateEventLabel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates model description.
     public func updateModel(_ input: UpdateModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateModelResult> {
         return self.client.execute(operation: "UpdateModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -328,7 +373,7 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "UpdateModelVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the status of a model version. You can perform the following status updates:   Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVEto INACTIVE.
+    /// Updates the status of a model version. You can perform the following status updates:   Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
     public func updateModelVersionStatus(_ input: UpdateModelVersionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateModelVersionStatusResult> {
         return self.client.execute(operation: "UpdateModelVersionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

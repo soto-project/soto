@@ -26,6 +26,13 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum DnsRecordVerificationStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case verified = "VERIFIED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntityState: String, CustomStringConvertible, Codable {
         case deleted = "DELETED"
         case disabled = "DISABLED"
@@ -1031,6 +1038,36 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct DeregisterMailDomainRequest: AWSEncodableShape {
+        /// The domain to deregister in WorkMail and SES.
+        public let domainName: String
+        /// The Amazon WorkMail organization for which the domain will be deregistered.
+        public let organizationId: String
+
+        public init(domainName: String, organizationId: String) {
+            self.domainName = domainName
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeregisterMailDomainResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeGroupRequest: AWSEncodableShape {
         /// The identifier for the group to be described.
         public let groupId: String
@@ -1472,6 +1509,27 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct DnsRecord: AWSDecodableShape {
+        /// The DNS hostname.- For example, domain.example.com.
+        public let hostname: String?
+        /// The RFC 1035 record type. Possible values: CNAME, A, MX.
+        public let type: String?
+        /// The value returned by the DNS for a query to that hostname and record type.
+        public let value: String?
+
+        public init(hostname: String? = nil, type: String? = nil, value: String? = nil) {
+            self.hostname = hostname
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "Hostname"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
     public struct Domain: AWSEncodableShape {
         /// The fully qualified domain name.
         public let domainName: String?
@@ -1503,7 +1561,7 @@ extension WorkMail {
         public let action: RetentionAction
         /// The folder name.
         public let name: FolderName
-        /// The period of time at which the folder configuration action is applied.
+        /// The number of days for which the folder-configuration action applies.
         public let period: Int?
 
         public init(action: RetentionAction, name: FolderName, period: Int? = nil) {
@@ -1621,6 +1679,61 @@ extension WorkMail {
             case folderConfigurations = "FolderConfigurations"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct GetMailDomainRequest: AWSEncodableShape {
+        /// The domain from which you want to retrieve details.
+        public let domainName: String
+        /// The Amazon WorkMail organization for which the domain is retrieved.
+        public let organizationId: String
+
+        public init(domainName: String, organizationId: String) {
+            self.domainName = domainName
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct GetMailDomainResponse: AWSDecodableShape {
+        /// Indicates the status of a DKIM verification.
+        public let dkimVerificationStatus: DnsRecordVerificationStatus?
+        /// Specifies whether the domain is the default domain for your organization.
+        public let isDefault: Bool?
+        /// Specifies whether the domain is a test domain provided by WorkMail, or a custom domain.
+        public let isTestDomain: Bool?
+        ///  Indicates the status of the domain ownership verification.
+        public let ownershipVerificationStatus: DnsRecordVerificationStatus?
+        /// A list of the DNS records that Amazon WorkMail recommends adding in your DNS provider for the best user experience. The records configure your domain with DMARC, SPF, DKIM, and direct incoming email traffic to SES. See admin guide for more details.
+        public let records: [DnsRecord]?
+
+        public init(dkimVerificationStatus: DnsRecordVerificationStatus? = nil, isDefault: Bool? = nil, isTestDomain: Bool? = nil, ownershipVerificationStatus: DnsRecordVerificationStatus? = nil, records: [DnsRecord]? = nil) {
+            self.dkimVerificationStatus = dkimVerificationStatus
+            self.isDefault = isDefault
+            self.isTestDomain = isTestDomain
+            self.ownershipVerificationStatus = ownershipVerificationStatus
+            self.records = records
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dkimVerificationStatus = "DkimVerificationStatus"
+            case isDefault = "IsDefault"
+            case isTestDomain = "IsTestDomain"
+            case ownershipVerificationStatus = "OwnershipVerificationStatus"
+            case records = "Records"
         }
     }
 
@@ -2016,6 +2129,55 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMailDomainsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results. The first call does not require a token.
+        public let nextToken: String?
+        /// The Amazon WorkMail organization for which to list domains.
+        public let organizationId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListMailDomainsResponse: AWSDecodableShape {
+        /// The list of mail domain summaries, specifying domains that exist in the specified Amazon WorkMail organization, along with the information about whether the domain is or isn't the default.
+        public let mailDomains: [MailDomainSummary]?
+        /// The token to use to retrieve the next page of results. The value becomes null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(mailDomains: [MailDomainSummary]? = nil, nextToken: String? = nil) {
+            self.mailDomains = mailDomains
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mailDomains = "MailDomains"
             case nextToken = "NextToken"
         }
     }
@@ -2442,6 +2604,23 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case users = "Users"
+        }
+    }
+
+    public struct MailDomainSummary: AWSDecodableShape {
+        /// Whether the domain is default or not.
+        public let defaultDomain: Bool?
+        /// The domain name.
+        public let domainName: String?
+
+        public init(defaultDomain: Bool? = nil, domainName: String? = nil) {
+            self.defaultDomain = defaultDomain
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultDomain = "DefaultDomain"
+            case domainName = "DomainName"
         }
     }
 
@@ -2957,6 +3136,43 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct RegisterMailDomainRequest: AWSEncodableShape {
+        /// Idempotency token used when retrying requests.
+        public let clientToken: String?
+        /// The name of the mail domain to create in Amazon WorkMail and SES.
+        public let domainName: String
+        /// The Amazon WorkMail organization under which you're creating the domain.
+        public let organizationId: String
+
+        public init(clientToken: String? = RegisterMailDomainRequest.idempotencyToken(), domainName: String, organizationId: String) {
+            self.clientToken = clientToken
+            self.domainName = domainName
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case domainName = "DomainName"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct RegisterMailDomainResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct RegisterToWorkMailRequest: AWSEncodableShape {
         /// The email for the user, group, or resource to be updated.
         public let email: String
@@ -3228,6 +3444,36 @@ extension WorkMail {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateDefaultMailDomainRequest: AWSEncodableShape {
+        /// The domain name that will become the default domain.
+        public let domainName: String
+        /// The Amazon WorkMail organization for which to list domains.
+        public let organizationId: String
+
+        public init(domainName: String, organizationId: String) {
+            self.domainName = domainName
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 209)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct UpdateDefaultMailDomainResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -33,6 +33,13 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum CloudWatchMetricDataStatusCode: String, CustomStringConvertible, Codable {
+        case complete = "Complete"
+        case internalerror = "InternalError"
+        case partialdata = "PartialData"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CloudWatchMetricsStat: String, CustomStringConvertible, Codable {
         case average = "Average"
         case maximum = "Maximum"
@@ -121,6 +128,13 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum OrganizationResourceCollectionType: String, CustomStringConvertible, Codable {
+        case awsAccount = "AWS_ACCOUNT"
+        case awsCloudFormation = "AWS_CLOUD_FORMATION"
+        case awsService = "AWS_SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceCollectionType: String, CustomStringConvertible, Codable {
         case awsCloudFormation = "AWS_CLOUD_FORMATION"
         case awsService = "AWS_SERVICE"
@@ -163,6 +177,40 @@ extension DevOpsGuru {
     }
 
     // MARK: Shapes
+
+    public struct AccountHealth: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
+        ///  Information about the health of the Amazon Web Services resources in your account, including the number of open proactive, open reactive insights, and the Mean Time to Recover (MTTR) of closed insights.
+        public let insight: AccountInsightHealth?
+
+        public init(accountId: String? = nil, insight: AccountInsightHealth? = nil) {
+            self.accountId = accountId
+            self.insight = insight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case insight = "Insight"
+        }
+    }
+
+    public struct AccountInsightHealth: AWSDecodableShape {
+        /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
+        public let openProactiveInsights: Int?
+        /// An integer that specifies the number of open reactive insights in your Amazon Web Services account.
+        public let openReactiveInsights: Int?
+
+        public init(openProactiveInsights: Int? = nil, openReactiveInsights: Int? = nil) {
+            self.openProactiveInsights = openProactiveInsights
+            self.openReactiveInsights = openReactiveInsights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openProactiveInsights = "OpenProactiveInsights"
+            case openReactiveInsights = "OpenReactiveInsights"
+        }
+    }
 
     public struct AddNotificationChannelRequest: AWSEncodableShape {
         ///  A NotificationChannelConfig object that specifies what type of notification channel to add. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).
@@ -299,7 +347,7 @@ extension DevOpsGuru {
     }
 
     public struct CloudFormationHealth: AWSDecodableShape {
-        ///  Information about the health of the AWS resources in your account that are specified by an AWS CloudFormation stack, including the number of open proactive, open reactive insights, and the Mean Time to Recover (MTTR) of closed insights.
+        ///  Information about the health of the Amazon Web Services resources in your account that are specified by an Amazon Web Services CloudFormation stack, including the number of open proactive, open reactive insights, and the Mean Time to Recover (MTTR) of closed insights.
         public let insight: InsightHealth?
         ///  The name of the CloudFormation stack.
         public let stackName: String?
@@ -315,9 +363,28 @@ extension DevOpsGuru {
         }
     }
 
+    public struct CloudWatchMetricsDataSummary: AWSDecodableShape {
+        /// This is enum of the status showing whether the metric value pair list has Partial or Complete data or there was an error.
+        public let statusCode: CloudWatchMetricDataStatusCode?
+        /// This is a list of cloudwatch metric values at given timestamp.
+        public let timestampMetricValuePairList: [TimestampMetricValuePair]?
+
+        public init(statusCode: CloudWatchMetricDataStatusCode? = nil, timestampMetricValuePairList: [TimestampMetricValuePair]? = nil) {
+            self.statusCode = statusCode
+            self.timestampMetricValuePairList = timestampMetricValuePairList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "StatusCode"
+            case timestampMetricValuePairList = "TimestampMetricValuePairList"
+        }
+    }
+
     public struct CloudWatchMetricsDetail: AWSDecodableShape {
         ///  An array of CloudWatch dimensions associated with
         public let dimensions: [CloudWatchMetricsDimension]?
+        /// This object returns anomaly metric data.
+        public let metricDataSummary: CloudWatchMetricsDataSummary?
         ///  The name of the CloudWatch metric.
         public let metricName: String?
         ///  The namespace of the CloudWatch metric. A namespace is a container for CloudWatch metrics.
@@ -329,8 +396,9 @@ extension DevOpsGuru {
         ///  The unit of measure used for the CloudWatch metric. For example, Bytes, Seconds, Count, and Percent.
         public let unit: String?
 
-        public init(dimensions: [CloudWatchMetricsDimension]? = nil, metricName: String? = nil, namespace: String? = nil, period: Int? = nil, stat: CloudWatchMetricsStat? = nil, unit: String? = nil) {
+        public init(dimensions: [CloudWatchMetricsDimension]? = nil, metricDataSummary: CloudWatchMetricsDataSummary? = nil, metricName: String? = nil, namespace: String? = nil, period: Int? = nil, stat: CloudWatchMetricsStat? = nil, unit: String? = nil) {
             self.dimensions = dimensions
+            self.metricDataSummary = metricDataSummary
             self.metricName = metricName
             self.namespace = namespace
             self.period = period
@@ -340,6 +408,7 @@ extension DevOpsGuru {
 
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
+            case metricDataSummary = "MetricDataSummary"
             case metricName = "MetricName"
             case namespace = "Namespace"
             case period = "Period"
@@ -366,7 +435,7 @@ extension DevOpsGuru {
     }
 
     public struct CostEstimationResourceCollectionFilter: AWSEncodableShape & AWSDecodableShape {
-        /// An object that specifies the CloudFormation stack that defines the AWS resources used to create a monthly estimate for DevOps Guru.
+        /// An object that specifies the CloudFormation stack that defines the Amazon Web Services resources used to create a monthly estimate for DevOps Guru.
         public let cloudFormation: CloudFormationCostEstimationResourceCollectionFilter?
 
         public init(cloudFormation: CloudFormationCostEstimationResourceCollectionFilter? = nil) {
@@ -404,13 +473,13 @@ extension DevOpsGuru {
     }
 
     public struct DescribeAccountHealthResponse: AWSDecodableShape {
-        ///  An integer that specifies the number of metrics that have been analyzed in your AWS account.
+        ///  An integer that specifies the number of metrics that have been analyzed in your Amazon Web Services account.
         public let metricsAnalyzed: Int
-        ///  An integer that specifies the number of open proactive insights in your AWS account.
+        ///  An integer that specifies the number of open proactive insights in your Amazon Web Services account.
         public let openProactiveInsights: Int
-        ///  An integer that specifies the number of open reactive insights in your AWS account.
+        ///  An integer that specifies the number of open reactive insights in your Amazon Web Services account.
         public let openReactiveInsights: Int
-        /// The number of Amazon DevOps Guru resource analysis hours billed to the current AWS account in the last hour.
+        /// The number of Amazon DevOps Guru resource analysis hours billed to the current Amazon Web Services account in the last hour.
         public let resourceHours: Int64
 
         public init(metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
@@ -448,9 +517,9 @@ extension DevOpsGuru {
     public struct DescribeAccountOverviewResponse: AWSDecodableShape {
         ///  The Mean Time to Recover (MTTR) for all closed insights that were created during the time range passed in.
         public let meanTimeToRecoverInMilliseconds: Int64
-        ///  An integer that specifies the number of open proactive insights in your AWS account that were created during the time range passed in.
+        ///  An integer that specifies the number of open proactive insights in your Amazon Web Services account that were created during the time range passed in.
         public let proactiveInsights: Int
-        ///  An integer that specifies the number of open reactive insights in your AWS account that were created during the time range passed in.
+        ///  An integer that specifies the number of open reactive insights in your Amazon Web Services account that were created during the time range passed in.
         public let reactiveInsights: Int
 
         public init(meanTimeToRecoverInMilliseconds: Int64, proactiveInsights: Int, reactiveInsights: Int) {
@@ -468,17 +537,24 @@ extension DevOpsGuru {
 
     public struct DescribeAnomalyRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "AccountId")),
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
+        /// The ID of the member account.
+        public let accountId: String?
         ///  The ID of the anomaly.
         public let id: String
 
-        public init(id: String) {
+        public init(accountId: String? = nil, id: String) {
+            self.accountId = accountId
             self.id = id
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
@@ -537,17 +613,24 @@ extension DevOpsGuru {
 
     public struct DescribeInsightRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "AccountId")),
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
+        /// The ID of the member account in the organization.
+        public let accountId: String?
         ///  The ID of the insight.
         public let id: String
 
-        public init(id: String) {
+        public init(accountId: String? = nil, id: String) {
+            self.accountId = accountId
             self.id = id
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
@@ -573,6 +656,197 @@ extension DevOpsGuru {
         }
     }
 
+    public struct DescribeOrganizationHealthRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountIds: [String]?
+        /// The ID of the organizational unit.
+        public let organizationalUnitIds: [String]?
+
+        public init(accountIds: [String]? = nil, organizationalUnitIds: [String]? = nil) {
+            self.accountIds = accountIds
+            self.organizationalUnitIds = organizationalUnitIds
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 0)
+            try self.organizationalUnitIds?.forEach {
+                try validate($0, name: "organizationalUnitIds[]", parent: name, max: 68)
+                try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, max: 5)
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case organizationalUnitIds = "OrganizationalUnitIds"
+        }
+    }
+
+    public struct DescribeOrganizationHealthResponse: AWSDecodableShape {
+        /// An integer that specifies the number of metrics that have been analyzed in your organization.
+        public let metricsAnalyzed: Int
+        /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
+        public let openProactiveInsights: Int
+        /// An integer that specifies the number of open reactive insights in your Amazon Web Services account.
+        public let openReactiveInsights: Int
+        /// The number of Amazon DevOps Guru resource analysis hours billed to the current Amazon Web Services account in the last hour.
+        public let resourceHours: Int64
+
+        public init(metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
+            self.metricsAnalyzed = metricsAnalyzed
+            self.openProactiveInsights = openProactiveInsights
+            self.openReactiveInsights = openReactiveInsights
+            self.resourceHours = resourceHours
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricsAnalyzed = "MetricsAnalyzed"
+            case openProactiveInsights = "OpenProactiveInsights"
+            case openReactiveInsights = "OpenReactiveInsights"
+            case resourceHours = "ResourceHours"
+        }
+    }
+
+    public struct DescribeOrganizationOverviewRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountIds: [String]?
+        ///  The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred after this day.
+        public let fromTime: Date
+        /// The ID of the organizational unit.
+        public let organizationalUnitIds: [String]?
+        ///  The end of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred before this day. If this is not specified, then the current day is used.
+        public let toTime: Date?
+
+        public init(accountIds: [String]? = nil, fromTime: Date, organizationalUnitIds: [String]? = nil, toTime: Date? = nil) {
+            self.accountIds = accountIds
+            self.fromTime = fromTime
+            self.organizationalUnitIds = organizationalUnitIds
+            self.toTime = toTime
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 0)
+            try self.organizationalUnitIds?.forEach {
+                try validate($0, name: "organizationalUnitIds[]", parent: name, max: 68)
+                try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, max: 5)
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case fromTime = "FromTime"
+            case organizationalUnitIds = "OrganizationalUnitIds"
+            case toTime = "ToTime"
+        }
+    }
+
+    public struct DescribeOrganizationOverviewResponse: AWSDecodableShape {
+        /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
+        public let proactiveInsights: Int
+        /// An integer that specifies the number of open reactive insights in your Amazon Web Services account.
+        public let reactiveInsights: Int
+
+        public init(proactiveInsights: Int, reactiveInsights: Int) {
+            self.proactiveInsights = proactiveInsights
+            self.reactiveInsights = reactiveInsights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proactiveInsights = "ProactiveInsights"
+            case reactiveInsights = "ReactiveInsights"
+        }
+    }
+
+    public struct DescribeOrganizationResourceCollectionHealthRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountIds: [String]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The ID of the organizational unit.
+        public let organizationalUnitIds: [String]?
+        ///  An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+        public let organizationResourceCollectionType: OrganizationResourceCollectionType
+
+        public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitIds: [String]? = nil, organizationResourceCollectionType: OrganizationResourceCollectionType) {
+            self.accountIds = accountIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationalUnitIds = organizationalUnitIds
+            self.organizationResourceCollectionType = organizationResourceCollectionType
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.organizationalUnitIds?.forEach {
+                try validate($0, name: "organizationalUnitIds[]", parent: name, max: 68)
+                try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, max: 5)
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationalUnitIds = "OrganizationalUnitIds"
+            case organizationResourceCollectionType = "OrganizationResourceCollectionType"
+        }
+    }
+
+    public struct DescribeOrganizationResourceCollectionHealthResponse: AWSDecodableShape {
+        /// The name of the organization's account.
+        public let account: [AccountHealth]?
+        /// The returned CloudFormationHealthOverview object that contains an InsightHealthOverview object with the requested system health information.
+        public let cloudFormation: [CloudFormationHealth]?
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+        /// An array of ServiceHealth objects that describes the health of the Amazon Web Services services associated with the resources in the collection.
+        public let service: [ServiceHealth]?
+
+        public init(account: [AccountHealth]? = nil, cloudFormation: [CloudFormationHealth]? = nil, nextToken: String? = nil, service: [ServiceHealth]? = nil) {
+            self.account = account
+            self.cloudFormation = cloudFormation
+            self.nextToken = nextToken
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case cloudFormation = "CloudFormation"
+            case nextToken = "NextToken"
+            case service = "Service"
+        }
+    }
+
     public struct DescribeResourceCollectionHealthRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
@@ -581,7 +855,7 @@ extension DevOpsGuru {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        ///  An AWS resource collection type. This type specifies how analyzed AWS resources are defined. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+        ///  An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resourceCollectionType: ResourceCollectionType
 
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
@@ -603,7 +877,7 @@ extension DevOpsGuru {
         public let cloudFormation: [CloudFormationHealth]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        /// An array of ServiceHealth objects that describes the health of the AWS services associated with the resources in the collection.
+        /// An array of ServiceHealth objects that describes the health of the Amazon Web Services services associated with the resources in the collection.
         public let service: [ServiceHealth]?
 
         public init(cloudFormation: [CloudFormationHealth], nextToken: String? = nil, service: [ServiceHealth]? = nil) {
@@ -657,7 +931,7 @@ extension DevOpsGuru {
         public let dataSource: EventDataSource?
         ///  The class of the event. The class specifies what the event is related to, such as an infrastructure change, a deployment, or a schema change.
         public let eventClass: EventClass?
-        ///  The AWS source that emitted the event.
+        ///  The Amazon Web Services source that emitted the event.
         public let eventSource: String?
         ///  The ID of the event.
         public let id: String?
@@ -752,17 +1026,17 @@ extension DevOpsGuru {
     }
 
     public struct GetCostEstimationResponse: AWSDecodableShape {
-        /// An array of ResourceCost objects that each contains details about the monthly cost estimate to analyze one of your AWS resources.
+        /// An array of ResourceCost objects that each contains details about the monthly cost estimate to analyze one of your Amazon Web Services resources.
         public let costs: [ServiceResourceCost]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        /// The collection of the AWS resources used to create your monthly DevOps Guru cost estimate.
+        /// The collection of the Amazon Web Services resources used to create your monthly DevOps Guru cost estimate.
         public let resourceCollection: CostEstimationResourceCollectionFilter?
         /// The status of creating this cost estimate. If it's still in progress, the status ONGOING is returned. If it is finished, the status COMPLETED is returned.
         public let status: CostEstimationStatus?
         /// The start and end time of the cost estimation.
         public let timeRange: CostEstimationTimeRange?
-        /// The estimated monthly cost to analyze the AWS resources. This value is the sum of the estimated costs to analyze each resource in the Costs object in this response.
+        /// The estimated monthly cost to analyze the Amazon Web Services resources. This value is the sum of the estimated costs to analyze each resource in the Costs object in this response.
         public let totalCost: Double?
 
         public init(costs: [ServiceResourceCost]? = nil, nextToken: String? = nil, resourceCollection: CostEstimationResourceCollectionFilter? = nil, status: CostEstimationStatus? = nil, timeRange: CostEstimationTimeRange? = nil, totalCost: Double? = nil) {
@@ -792,7 +1066,7 @@ extension DevOpsGuru {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        ///  The type of AWS resource collections to return. The one valid value is CLOUD_FORMATION for AWS CloudFormation stacks.
+        ///  The type of Amazon Web Services resource collections to return. The one valid value is CLOUD_FORMATION for Amazon Web Services CloudFormation stacks.
         public let resourceCollectionType: ResourceCollectionType
 
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
@@ -812,7 +1086,7 @@ extension DevOpsGuru {
     public struct GetResourceCollectionResponse: AWSDecodableShape {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        ///  The requested list of AWS resource collections. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
+        ///  The requested list of Amazon Web Services resource collections. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resourceCollection: ResourceCollectionFilter?
 
         public init(nextToken: String? = nil, resourceCollection: ResourceCollectionFilter? = nil) {
@@ -892,6 +1166,8 @@ extension DevOpsGuru {
             AWSMemberEncoding(label: "insightId", location: .uri(locationName: "InsightId"))
         ]
 
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
         ///  The ID of the insight. The returned anomalies belong to this insight.
         public let insightId: String
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -901,7 +1177,8 @@ extension DevOpsGuru {
         ///  A time range used to specify when the requested anomalies started. All returned anomalies started during this time range.
         public let startTimeRange: StartTimeRange?
 
-        public init(insightId: String, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange? = nil) {
+        public init(accountId: String? = nil, insightId: String, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange? = nil) {
+            self.accountId = accountId
             self.insightId = insightId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -909,6 +1186,9 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
             try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
@@ -920,6 +1200,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case startTimeRange = "StartTimeRange"
@@ -952,7 +1233,7 @@ extension DevOpsGuru {
         public let dataSource: EventDataSource?
         ///  The class of the events you want to filter for, such as an infrastructure change, a deployment, or a schema change.
         public let eventClass: EventClass?
-        ///  The AWS source that emitted the events you want to filter for.
+        ///  The Amazon Web Services source that emitted the events you want to filter for.
         public let eventSource: String?
         ///  A time range during which you want the filtered events to have occurred.
         public let eventTimeRange: EventTimeRange?
@@ -990,6 +1271,8 @@ extension DevOpsGuru {
     }
 
     public struct ListEventsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
         ///  A ListEventsFilters object used to specify which events to return.
         public let filters: ListEventsFilters
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -997,13 +1280,17 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(filters: ListEventsFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String? = nil, filters: ListEventsFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.filters.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1013,6 +1300,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1190,7 +1478,79 @@ extension DevOpsGuru {
         }
     }
 
+    public struct ListOrganizationInsightsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountIds: [String]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        /// The ID of the organizational unit.
+        public let organizationalUnitIds: [String]?
+        public let statusFilter: ListInsightsStatusFilter
+
+        public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitIds: [String]? = nil, statusFilter: ListInsightsStatusFilter) {
+            self.accountIds = accountIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationalUnitIds = organizationalUnitIds
+            self.statusFilter = statusFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 1)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.organizationalUnitIds?.forEach {
+                try validate($0, name: "organizationalUnitIds[]", parent: name, max: 68)
+                try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, max: 1)
+            try self.validate(self.organizationalUnitIds, name: "organizationalUnitIds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationalUnitIds = "OrganizationalUnitIds"
+            case statusFilter = "StatusFilter"
+        }
+    }
+
+    public struct ListOrganizationInsightsResponse: AWSDecodableShape {
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+        /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
+        public let proactiveInsights: [ProactiveOrganizationInsightSummary]?
+        /// An integer that specifies the number of open reactive insights in your Amazon Web Services account.
+        public let reactiveInsights: [ReactiveOrganizationInsightSummary]?
+
+        public init(nextToken: String? = nil, proactiveInsights: [ProactiveOrganizationInsightSummary]? = nil, reactiveInsights: [ReactiveOrganizationInsightSummary]? = nil) {
+            self.nextToken = nextToken
+            self.proactiveInsights = proactiveInsights
+            self.reactiveInsights = reactiveInsights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case proactiveInsights = "ProactiveInsights"
+            case reactiveInsights = "ReactiveInsights"
+        }
+    }
+
     public struct ListRecommendationsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
         ///  The ID of the requested insight.
         public let insightId: String
         /// A locale that specifies the language to use for recommendations.
@@ -1198,13 +1558,17 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(insightId: String, locale: Locale? = nil, nextToken: String? = nil) {
+        public init(accountId: String? = nil, insightId: String, locale: Locale? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
             self.insightId = insightId
             self.locale = locale
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
             try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
@@ -1214,6 +1578,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case insightId = "InsightId"
             case locale = "Locale"
             case nextToken = "NextToken"
@@ -1255,7 +1620,7 @@ extension DevOpsGuru {
     }
 
     public struct NotificationChannelConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  Information about a notification channel configured in DevOps Guru to send notifications when insights are created.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an AWS Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see Permissions for AWS KMS–encrypted Amazon SNS topics.
+        ///  Information about a notification channel configured in DevOps Guru to send notifications when insights are created.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics.
         public let sns: SnsChannelConfig
 
         public init(sns: SnsChannelConfig) {
@@ -1272,7 +1637,7 @@ extension DevOpsGuru {
     }
 
     public struct OpsCenterIntegration: AWSDecodableShape {
-        ///  Specifies if DevOps Guru is enabled to create an AWS Systems Manager OpsItem for each created insight.
+        ///  Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems Manager OpsItem for each created insight.
         public let optInStatus: OptInStatus?
 
         public init(optInStatus: OptInStatus? = nil) {
@@ -1285,7 +1650,7 @@ extension DevOpsGuru {
     }
 
     public struct OpsCenterIntegrationConfig: AWSEncodableShape {
-        ///  Specifies if DevOps Guru is enabled to create an AWS Systems Manager OpsItem for each created insight.
+        ///  Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems Manager OpsItem for each created insight.
         public let optInStatus: OptInStatus?
 
         public init(optInStatus: OptInStatus? = nil) {
@@ -1424,7 +1789,7 @@ extension DevOpsGuru {
         public let resourceCollection: ResourceCollection?
         /// The severity of the proactive insight.
         public let severity: InsightSeverity?
-        ///  The ID of the AWS System Manager OpsItem created for this insight. You must enable the creation of OpstItems insights before they are created for each insight.
+        ///  The ID of the Amazon Web Services System Manager OpsItem created for this insight. You must enable the creation of OpstItems insights before they are created for each insight.
         public let ssmOpsItemId: String?
         /// The status of the proactive insight.
         public let status: InsightStatus?
@@ -1460,7 +1825,7 @@ extension DevOpsGuru {
         public let name: String?
         public let predictionTimeRange: PredictionTimeRange?
         public let resourceCollection: ResourceCollection?
-        /// A collection of the names of AWS services.
+        /// A collection of the names of Amazon Web Services services.
         public let serviceCollection: ServiceCollection?
         /// The severity of the proactive insight.
         public let severity: InsightSeverity?
@@ -1482,6 +1847,51 @@ extension DevOpsGuru {
             case id = "Id"
             case insightTimeRange = "InsightTimeRange"
             case name = "Name"
+            case predictionTimeRange = "PredictionTimeRange"
+            case resourceCollection = "ResourceCollection"
+            case serviceCollection = "ServiceCollection"
+            case severity = "Severity"
+            case status = "Status"
+        }
+    }
+
+    public struct ProactiveOrganizationInsightSummary: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
+        /// The ID of the insight summary.
+        public let id: String?
+        public let insightTimeRange: InsightTimeRange?
+        /// The name of the insight summary.
+        public let name: String?
+        /// The ID of the organizational unit.
+        public let organizationalUnitId: String?
+        public let predictionTimeRange: PredictionTimeRange?
+        public let resourceCollection: ResourceCollection?
+        public let serviceCollection: ServiceCollection?
+        ///  An array of severity values used to search for insights.
+        public let severity: InsightSeverity?
+        ///  An array of status values used to search for insights.
+        public let status: InsightStatus?
+
+        public init(accountId: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, organizationalUnitId: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
+            self.accountId = accountId
+            self.id = id
+            self.insightTimeRange = insightTimeRange
+            self.name = name
+            self.organizationalUnitId = organizationalUnitId
+            self.predictionTimeRange = predictionTimeRange
+            self.resourceCollection = resourceCollection
+            self.serviceCollection = serviceCollection
+            self.severity = severity
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case id = "Id"
+            case insightTimeRange = "InsightTimeRange"
+            case name = "Name"
+            case organizationalUnitId = "OrganizationalUnitId"
             case predictionTimeRange = "PredictionTimeRange"
             case resourceCollection = "ResourceCollection"
             case serviceCollection = "ServiceCollection"
@@ -1598,7 +2008,7 @@ extension DevOpsGuru {
         public let resourceCollection: ResourceCollection?
         ///  The severity of a reactive insight.
         public let severity: InsightSeverity?
-        ///  The ID of the AWS System Manager OpsItem created for this insight. You must enable the creation of OpstItems insights before they are created for each insight.
+        ///  The ID of the Amazon Web Services System Manager OpsItem created for this insight. You must enable the creation of OpstItems insights before they are created for each insight.
         public let ssmOpsItemId: String?
         ///  The status of a reactive insight.
         public let status: InsightStatus?
@@ -1631,7 +2041,7 @@ extension DevOpsGuru {
         ///  The name of a reactive insight.
         public let name: String?
         public let resourceCollection: ResourceCollection?
-        /// A collection of the names of AWS services.
+        /// A collection of the names of Amazon Web Services services.
         public let serviceCollection: ServiceCollection?
         ///  The severity of a reactive insight.
         public let severity: InsightSeverity?
@@ -1652,6 +2062,48 @@ extension DevOpsGuru {
             case id = "Id"
             case insightTimeRange = "InsightTimeRange"
             case name = "Name"
+            case resourceCollection = "ResourceCollection"
+            case serviceCollection = "ServiceCollection"
+            case severity = "Severity"
+            case status = "Status"
+        }
+    }
+
+    public struct ReactiveOrganizationInsightSummary: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
+        /// The ID of the insight summary.
+        public let id: String?
+        public let insightTimeRange: InsightTimeRange?
+        /// The name of the insight summary.
+        public let name: String?
+        /// The ID of the organizational unit.
+        public let organizationalUnitId: String?
+        public let resourceCollection: ResourceCollection?
+        public let serviceCollection: ServiceCollection?
+        ///  An array of severity values used to search for insights.
+        public let severity: InsightSeverity?
+        ///  An array of status values used to search for insights.
+        public let status: InsightStatus?
+
+        public init(accountId: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, organizationalUnitId: String? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
+            self.accountId = accountId
+            self.id = id
+            self.insightTimeRange = insightTimeRange
+            self.name = name
+            self.organizationalUnitId = organizationalUnitId
+            self.resourceCollection = resourceCollection
+            self.serviceCollection = serviceCollection
+            self.severity = severity
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case id = "Id"
+            case insightTimeRange = "InsightTimeRange"
+            case name = "Name"
+            case organizationalUnitId = "OrganizationalUnitId"
             case resourceCollection = "ResourceCollection"
             case serviceCollection = "ServiceCollection"
             case severity = "Severity"
@@ -1759,7 +2211,7 @@ extension DevOpsGuru {
     public struct RecommendationRelatedEvent: AWSDecodableShape {
         ///  The name of the event. This corresponds to the Name field in an Event object.
         public let name: String?
-        ///  A ResourceCollection object that contains arrays of the names of AWS CloudFormation stacks. You can specify up to 500 AWS CloudFormation stacks.
+        ///  A ResourceCollection object that contains arrays of the names of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resources: [RecommendationRelatedEventResource]?
 
         public init(name: String? = nil, resources: [RecommendationRelatedEventResource]? = nil) {
@@ -1816,7 +2268,7 @@ extension DevOpsGuru {
     }
 
     public struct ResourceCollection: AWSEncodableShape & AWSDecodableShape {
-        ///  An array of the names of AWS CloudFormation stacks. The stacks define AWS resources that DevOps Guru analyzes. You can specify up to 500 AWS CloudFormation stacks.
+        ///  An array of the names of Amazon Web Services CloudFormation stacks. The stacks define Amazon Web Services resources that DevOps Guru analyzes. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let cloudFormation: CloudFormationCollection?
 
         public init(cloudFormation: CloudFormationCollection? = nil) {
@@ -1833,7 +2285,7 @@ extension DevOpsGuru {
     }
 
     public struct ResourceCollectionFilter: AWSDecodableShape {
-        ///  Information about AWS CloudFormation stacks. You can use up to 500 stacks to specify which AWS resources in your account to analyze. For more information, see Stacks in the AWS CloudFormation User Guide.
+        ///  Information about Amazon Web Services CloudFormation stacks. You can use up to 500 stacks to specify which Amazon Web Services resources in your account to analyze. For more information, see Stacks in the Amazon Web Services CloudFormation User Guide.
         public let cloudFormation: CloudFormationCollectionFilter?
 
         public init(cloudFormation: CloudFormationCollectionFilter? = nil) {
@@ -1847,7 +2299,7 @@ extension DevOpsGuru {
 
     public struct SearchInsightsFilters: AWSEncodableShape {
         public let resourceCollection: ResourceCollection?
-        /// A collection of the names of AWS services.
+        /// A collection of the names of Amazon Web Services services.
         public let serviceCollection: ServiceCollection?
         ///  An array of severity values used to search for insights.
         public let severities: [InsightSeverity]?
@@ -1936,8 +2388,108 @@ extension DevOpsGuru {
         }
     }
 
+    public struct SearchOrganizationInsightsFilters: AWSEncodableShape {
+        public let resourceCollection: ResourceCollection?
+        public let serviceCollection: ServiceCollection?
+        ///  An array of severity values used to search for insights.
+        public let severities: [InsightSeverity]?
+        ///  An array of status values used to search for insights.
+        public let statuses: [InsightStatus]?
+
+        public init(resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severities: [InsightSeverity]? = nil, statuses: [InsightStatus]? = nil) {
+            self.resourceCollection = resourceCollection
+            self.serviceCollection = serviceCollection
+            self.severities = severities
+            self.statuses = statuses
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceCollection?.validate(name: "\(name).resourceCollection")
+            try self.validate(self.severities, name: "severities", parent: name, max: 3)
+            try self.validate(self.severities, name: "severities", parent: name, min: 0)
+            try self.validate(self.statuses, name: "statuses", parent: name, max: 2)
+            try self.validate(self.statuses, name: "statuses", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceCollection = "ResourceCollection"
+            case serviceCollection = "ServiceCollection"
+            case severities = "Severities"
+            case statuses = "Statuses"
+        }
+    }
+
+    public struct SearchOrganizationInsightsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountIds: [String]
+        ///  A SearchOrganizationInsightsFilters object that is used to set the severity and status filters on your insight search.
+        public let filters: SearchOrganizationInsightsFilters?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+        public let startTimeRange: StartTimeRange
+        ///  The type of insights you are searching for (REACTIVE or PROACTIVE).
+        public let type: InsightType
+
+        public init(accountIds: [String], filters: SearchOrganizationInsightsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange, type: InsightType) {
+            self.accountIds = accountIds
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTimeRange = startTimeRange
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 1)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case startTimeRange = "StartTimeRange"
+            case type = "Type"
+        }
+    }
+
+    public struct SearchOrganizationInsightsResponse: AWSDecodableShape {
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+        /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
+        public let proactiveInsights: [ProactiveInsightSummary]?
+        /// An integer that specifies the number of open reactive insights in your Amazon Web Services account.
+        public let reactiveInsights: [ReactiveInsightSummary]?
+
+        public init(nextToken: String? = nil, proactiveInsights: [ProactiveInsightSummary]? = nil, reactiveInsights: [ReactiveInsightSummary]? = nil) {
+            self.nextToken = nextToken
+            self.proactiveInsights = proactiveInsights
+            self.reactiveInsights = reactiveInsights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case proactiveInsights = "ProactiveInsights"
+            case reactiveInsights = "ReactiveInsights"
+        }
+    }
+
     public struct ServiceCollection: AWSEncodableShape & AWSDecodableShape {
-        /// An array of strings that each specifies the name of an AWS service.
+        /// An array of strings that each specifies the name of an Amazon Web Services service.
         public let serviceNames: [ServiceName]?
 
         public init(serviceNames: [ServiceName]? = nil) {
@@ -1950,9 +2502,9 @@ extension DevOpsGuru {
     }
 
     public struct ServiceHealth: AWSDecodableShape {
-        /// Represents the health of an AWS service. This is a ServiceInsightHealth that contains the number of open proactive and reactive insights for this service.
+        /// Represents the health of an Amazon Web Services service. This is a ServiceInsightHealth that contains the number of open proactive and reactive insights for this service.
         public let insight: ServiceInsightHealth?
-        /// The name of the AWS service.
+        /// The name of the Amazon Web Services service.
         public let serviceName: ServiceName?
 
         public init(insight: ServiceInsightHealth? = nil, serviceName: ServiceName? = nil) {
@@ -1967,9 +2519,9 @@ extension DevOpsGuru {
     }
 
     public struct ServiceInsightHealth: AWSDecodableShape {
-        /// The number of open proactive insights in the AWS service
+        /// The number of open proactive insights in the Amazon Web Services service
         public let openProactiveInsights: Int?
-        /// The number of open reactive insights in the AWS service
+        /// The number of open reactive insights in the Amazon Web Services service
         public let openReactiveInsights: Int?
 
         public init(openProactiveInsights: Int? = nil, openReactiveInsights: Int? = nil) {
@@ -1984,7 +2536,7 @@ extension DevOpsGuru {
     }
 
     public struct ServiceIntegrationConfig: AWSDecodableShape {
-        ///  Information about whether DevOps Guru is configured to create an OpsItem in AWS Systems Manager OpsCenter for each created insight.
+        ///  Information about whether DevOps Guru is configured to create an OpsItem in Amazon Web Services Systems Manager OpsCenter for each created insight.
         public let opsCenter: OpsCenterIntegration?
 
         public init(opsCenter: OpsCenterIntegration? = nil) {
@@ -2001,9 +2553,9 @@ extension DevOpsGuru {
         public let cost: Double?
         /// The number of active resources analyzed for this service to create a monthly cost estimate.
         public let count: Int?
-        /// The state of the resource. The resource is ACTIVE if it produces metrics, events, or logs within an hour, otherwise it is INACTIVE. You pay for the number of active AWS resource hours analyzed for each resource. Inactive resources are not charged.
+        /// The state of the resource. The resource is ACTIVE if it produces metrics, events, or logs within an hour, otherwise it is INACTIVE. You pay for the number of active Amazon Web Services resource hours analyzed for each resource. Inactive resources are not charged.
         public let state: CostEstimationServiceResourceState?
-        /// The type of the AWS resource.
+        /// The type of the Amazon Web Services resource.
         public let type: String?
         /// The price per hour to analyze the resources in the service. For more information, see Estimate your Amazon DevOps Guru costs and Amazon DevOps Guru pricing.
         public let unitCost: Double?
@@ -2047,7 +2599,7 @@ extension DevOpsGuru {
     public struct StartCostEstimationRequest: AWSEncodableShape {
         /// The idempotency token used to identify each cost estimate request.
         public let clientToken: String?
-        /// The collection of AWS resources used to create a monthly DevOps Guru cost estimate.
+        /// The collection of Amazon Web Services resources used to create a monthly DevOps Guru cost estimate.
         public let resourceCollection: CostEstimationResourceCollectionFilter
 
         public init(clientToken: String? = StartCostEstimationRequest.idempotencyToken(), resourceCollection: CostEstimationResourceCollectionFilter) {
@@ -2089,8 +2641,25 @@ extension DevOpsGuru {
         }
     }
 
+    public struct TimestampMetricValuePair: AWSDecodableShape {
+        /// Value of the anomalous metric data point at respective Timestamp.
+        public let metricValue: Double?
+        /// A Timestamp that specifies the time the event occurred.
+        public let timestamp: Date?
+
+        public init(metricValue: Double? = nil, timestamp: Date? = nil) {
+            self.metricValue = metricValue
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricValue = "MetricValue"
+            case timestamp = "Timestamp"
+        }
+    }
+
     public struct UpdateCloudFormationCollectionFilter: AWSEncodableShape {
-        ///  An array of the names of the AWS CloudFormation stacks to update. You can specify up to 500 AWS CloudFormation stacks.
+        ///  An array of the names of the Amazon Web Services CloudFormation stacks to update. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let stackNames: [String]?
 
         public init(stackNames: [String]? = nil) {
@@ -2113,7 +2682,7 @@ extension DevOpsGuru {
     }
 
     public struct UpdateResourceCollectionFilter: AWSEncodableShape {
-        ///  An collection of AWS CloudFormation stacks. You can specify up to 500 AWS CloudFormation stacks.
+        ///  An collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let cloudFormation: UpdateCloudFormationCollectionFilter?
 
         public init(cloudFormation: UpdateCloudFormationCollectionFilter? = nil) {

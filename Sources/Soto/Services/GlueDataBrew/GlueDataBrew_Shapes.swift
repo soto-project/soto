@@ -20,6 +20,12 @@ import SotoCore
 extension GlueDataBrew {
     // MARK: Enums
 
+    public enum AnalyticsMode: String, CustomStringConvertible, Codable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CompressionFormat: String, CustomStringConvertible, Codable {
         case brotli = "BROTLI"
         case bzip2 = "BZIP2"
@@ -139,7 +145,48 @@ extension GlueDataBrew {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThresholdType: String, CustomStringConvertible, Codable {
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThresholdUnit: String, CustomStringConvertible, Codable {
+        case count = "COUNT"
+        case percentage = "PERCENTAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationMode: String, CustomStringConvertible, Codable {
+        case checkAll = "CHECK_ALL"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AllowedStatistics: AWSEncodableShape & AWSDecodableShape {
+        /// One or more column statistics to allow for columns that contain detected entities.
+        public let statistics: [String]
+
+        public init(statistics: [String]) {
+            self.statistics = statistics
+        }
+
+        public func validate(name: String) throws {
+            try self.statistics.forEach {
+                try validate($0, name: "statistics[]", parent: name, max: 128)
+                try validate($0, name: "statistics[]", parent: name, min: 1)
+                try validate($0, name: "statistics[]", parent: name, pattern: "^[A-Z\\_]+$")
+            }
+            try self.validate(self.statistics, name: "statistics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statistics = "Statistics"
+        }
+    }
 
     public struct BatchDeleteRecipeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -351,8 +398,10 @@ extension GlueDataBrew {
         public let tags: [String: String]?
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
+        /// List of validation configurations that are applied to the profile job.
+        public let validationConfigurations: [ValidationConfiguration]?
 
-        public init(configuration: ProfileConfiguration? = nil, datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+        public init(configuration: ProfileConfiguration? = nil, datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.configuration = configuration
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
@@ -366,6 +415,7 @@ extension GlueDataBrew {
             self.roleArn = roleArn
             self.tags = tags
             self.timeout = timeout
+            self.validationConfigurations = validationConfigurations
         }
 
         public func validate(name: String) throws {
@@ -386,6 +436,10 @@ extension GlueDataBrew {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.timeout, name: "timeout", parent: name, min: 0)
+            try self.validationConfigurations?.forEach {
+                try $0.validate(name: "\(name).validationConfigurations[]")
+            }
+            try self.validate(self.validationConfigurations, name: "validationConfigurations", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -402,6 +456,7 @@ extension GlueDataBrew {
             case roleArn = "RoleArn"
             case tags = "Tags"
             case timeout = "Timeout"
+            case validationConfigurations = "ValidationConfigurations"
         }
     }
 
@@ -646,6 +701,65 @@ extension GlueDataBrew {
         }
     }
 
+    public struct CreateRulesetRequest: AWSEncodableShape {
+        /// The description of the ruleset.
+        public let description: String?
+        /// The name of the ruleset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
+        public let name: String
+        /// A list of rules that are defined with the ruleset. A rule includes one or more checks to be validated on a DataBrew dataset.
+        public let rules: [Rule]
+        /// Metadata tags to apply to the ruleset.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is associated with.
+        public let targetArn: String
+
+        public init(description: String? = nil, name: String, rules: [Rule], tags: [String: String]? = nil, targetArn: String) {
+            self.description = description
+            self.name = name
+            self.rules = rules
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case rules = "Rules"
+            case tags = "Tags"
+            case targetArn = "TargetArn"
+        }
+    }
+
+    public struct CreateRulesetResponse: AWSDecodableShape {
+        /// The unique name of the created ruleset.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct CreateScheduleRequest: AWSEncodableShape {
         /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
         public let cronExpression: String
@@ -822,14 +936,17 @@ extension GlueDataBrew {
 
     public struct DatabaseInputDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The table within the target database.
-        public let databaseTableName: String
+        public let databaseTableName: String?
         /// The Glue Connection that stores the connection information for the target database.
         public let glueConnectionName: String
+        /// Custom SQL to run against the provided Glue connection. This SQL will be used as the input for DataBrew projects and jobs.
+        public let queryString: String?
         public let tempDirectory: S3Location?
 
-        public init(databaseTableName: String, glueConnectionName: String, tempDirectory: S3Location? = nil) {
+        public init(databaseTableName: String? = nil, glueConnectionName: String, queryString: String? = nil, tempDirectory: S3Location? = nil) {
             self.databaseTableName = databaseTableName
             self.glueConnectionName = glueConnectionName
+            self.queryString = queryString
             self.tempDirectory = tempDirectory
         }
 
@@ -838,12 +955,15 @@ extension GlueDataBrew {
             try self.validate(self.databaseTableName, name: "databaseTableName", parent: name, min: 1)
             try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, max: 255)
             try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, min: 1)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
             try self.tempDirectory?.validate(name: "\(name).tempDirectory")
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseTableName = "DatabaseTableName"
             case glueConnectionName = "GlueConnectionName"
+            case queryString = "QueryString"
             case tempDirectory = "TempDirectory"
         }
     }
@@ -1169,6 +1289,39 @@ extension GlueDataBrew {
         }
     }
 
+    public struct DeleteRulesetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the ruleset to be deleted.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRulesetResponse: AWSDecodableShape {
+        /// The name of the deleted ruleset.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct DeleteScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -1343,8 +1496,10 @@ extension GlueDataBrew {
         public let timeout: Int?
         /// The job type, which must be one of the following:    PROFILE - The job analyzes the dataset to determine its size, data types, data distribution, and more.    RECIPE - The job applies one or more transformations to a dataset.
         public let type: JobType?
+        /// List of validation configurations that are applied to the profile job.
+        public let validationConfigurations: [ValidationConfiguration]?
 
-        public init(createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
             self.databaseOutputs = databaseOutputs
@@ -1368,6 +1523,7 @@ extension GlueDataBrew {
             self.tags = tags
             self.timeout = timeout
             self.type = type
+            self.validationConfigurations = validationConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1394,6 +1550,7 @@ extension GlueDataBrew {
             case tags = "Tags"
             case timeout = "Timeout"
             case type = "Type"
+            case validationConfigurations = "ValidationConfigurations"
         }
     }
 
@@ -1459,8 +1616,10 @@ extension GlueDataBrew {
         public let startedOn: Date?
         /// The current state of the job run entity itself.
         public let state: JobRunState?
+        /// List of validation configurations that are applied to the profile job.
+        public let validationConfigurations: [ValidationConfiguration]?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
             self.databaseOutputs = databaseOutputs
@@ -1479,6 +1638,7 @@ extension GlueDataBrew {
             self.startedBy = startedBy
             self.startedOn = startedOn
             self.state = state
+            self.validationConfigurations = validationConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1500,6 +1660,7 @@ extension GlueDataBrew {
             case startedBy = "StartedBy"
             case startedOn = "StartedOn"
             case state = "State"
+            case validationConfigurations = "ValidationConfigurations"
         }
     }
 
@@ -1674,6 +1835,75 @@ extension GlueDataBrew {
         }
     }
 
+    public struct DescribeRulesetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the ruleset to be described.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeRulesetResponse: AWSDecodableShape {
+        /// The date and time that the ruleset was created.
+        public let createDate: Date?
+        /// The Amazon Resource Name (ARN) of the user who created the ruleset.
+        public let createdBy: String?
+        /// The description of the ruleset.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the user who last modified the ruleset.
+        public let lastModifiedBy: String?
+        /// The modification date and time of the ruleset.
+        public let lastModifiedDate: Date?
+        /// The name of the ruleset.
+        public let name: String
+        /// The Amazon Resource Name (ARN) for the ruleset.
+        public let resourceArn: String?
+        /// A list of rules that are defined with the ruleset. A rule includes one or more checks to be validated on a DataBrew dataset.
+        public let rules: [Rule]?
+        /// Metadata tags that have been applied to the ruleset.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is associated with.
+        public let targetArn: String?
+
+        public init(createDate: Date? = nil, createdBy: String? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, rules: [Rule]? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
+            self.createDate = createDate
+            self.createdBy = createdBy
+            self.description = description
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.resourceArn = resourceArn
+            self.rules = rules
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case createdBy = "CreatedBy"
+            case description = "Description"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedDate = "LastModifiedDate"
+            case name = "Name"
+            case resourceArn = "ResourceArn"
+            case rules = "Rules"
+            case tags = "Tags"
+            case targetArn = "TargetArn"
+        }
+    }
+
     public struct DescribeScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -1736,6 +1966,36 @@ extension GlueDataBrew {
             case name = "Name"
             case resourceArn = "ResourceArn"
             case tags = "Tags"
+        }
+    }
+
+    public struct EntityDetectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration of statistics that are allowed to be run on columns that contain detected entities. When undefined, no statistics will be computed on columns that contain detected entities.
+        public let allowedStatistics: [AllowedStatistics]?
+        /// Entity types to detect. Can be any of the following:   USA_SSN   EMAIL   USA_ITIN   USA_PASSPORT_NUMBER   PHONE_NUMBER   USA_DRIVING_LICENSE   BANK_ACCOUNT   CREDIT_CARD   IP_ADDRESS   MAC_ADDRESS   USA_DEA_NUMBER   USA_HCPCS_CODE   USA_NATIONAL_PROVIDER_IDENTIFIER   USA_NATIONAL_DRUG_CODE   USA_HEALTH_INSURANCE_CLAIM_NUMBER   USA_MEDICARE_BENEFICIARY_IDENTIFIER   USA_CPT_CODE   PERSON_NAME   DATE   The Entity type group USA_ALL is also supported, and includes all of the above entity types except PERSON_NAME and DATE.
+        public let entityTypes: [String]
+
+        public init(allowedStatistics: [AllowedStatistics]? = nil, entityTypes: [String]) {
+            self.allowedStatistics = allowedStatistics
+            self.entityTypes = entityTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedStatistics?.forEach {
+                try $0.validate(name: "\(name).allowedStatistics[]")
+            }
+            try self.validate(self.allowedStatistics, name: "allowedStatistics", parent: name, min: 1)
+            try self.entityTypes.forEach {
+                try validate($0, name: "entityTypes[]", parent: name, max: 128)
+                try validate($0, name: "entityTypes[]", parent: name, min: 1)
+                try validate($0, name: "entityTypes[]", parent: name, pattern: "^[A-Z_][A-Z\\\\d_]*$")
+            }
+            try self.validate(self.entityTypes, name: "entityTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedStatistics = "AllowedStatistics"
+            case entityTypes = "EntityTypes"
         }
     }
 
@@ -1814,7 +2074,7 @@ extension GlueDataBrew {
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 4)
-            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[<>0-9A-Za-z_:)(!= ]+$")
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[<>0-9A-Za-z_.,:)(!= ]+$")
             try self.valuesMap.forEach {
                 try validate($0.key, name: "valuesMap.key", parent: name, max: 128)
                 try validate($0.key, name: "valuesMap.key", parent: name, min: 2)
@@ -1860,24 +2120,29 @@ extension GlueDataBrew {
         public let databaseInputDefinition: DatabaseInputDefinition?
         /// The Glue Data Catalog parameters for the data.
         public let dataCatalogInputDefinition: DataCatalogInputDefinition?
+        /// Contains additional resource information needed for specific datasets.
+        public let metadata: Metadata?
         /// The Amazon S3 location where the data is stored.
         public let s3InputDefinition: S3Location?
 
-        public init(databaseInputDefinition: DatabaseInputDefinition? = nil, dataCatalogInputDefinition: DataCatalogInputDefinition? = nil, s3InputDefinition: S3Location? = nil) {
+        public init(databaseInputDefinition: DatabaseInputDefinition? = nil, dataCatalogInputDefinition: DataCatalogInputDefinition? = nil, metadata: Metadata? = nil, s3InputDefinition: S3Location? = nil) {
             self.databaseInputDefinition = databaseInputDefinition
             self.dataCatalogInputDefinition = dataCatalogInputDefinition
+            self.metadata = metadata
             self.s3InputDefinition = s3InputDefinition
         }
 
         public func validate(name: String) throws {
             try self.databaseInputDefinition?.validate(name: "\(name).databaseInputDefinition")
             try self.dataCatalogInputDefinition?.validate(name: "\(name).dataCatalogInputDefinition")
+            try self.metadata?.validate(name: "\(name).metadata")
             try self.s3InputDefinition?.validate(name: "\(name).s3InputDefinition")
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseInputDefinition = "DatabaseInputDefinition"
             case dataCatalogInputDefinition = "DataCatalogInputDefinition"
+            case metadata = "Metadata"
             case s3InputDefinition = "S3InputDefinition"
         }
     }
@@ -1929,8 +2194,10 @@ extension GlueDataBrew {
         public let timeout: Int?
         /// The job type of the job, which must be one of the following:    PROFILE - A job to analyze a dataset, to determine its size, data types, data distribution, and more.    RECIPE - A job to apply one or more transformations to a dataset.
         public let type: JobType?
+        /// List of validation configurations that are applied to the profile job.
+        public let validationConfigurations: [ValidationConfiguration]?
 
-        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -1954,6 +2221,7 @@ extension GlueDataBrew {
             self.tags = tags
             self.timeout = timeout
             self.type = type
+            self.validationConfigurations = validationConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1980,6 +2248,7 @@ extension GlueDataBrew {
             case tags = "Tags"
             case timeout = "Timeout"
             case type = "Type"
+            case validationConfigurations = "ValidationConfigurations"
         }
     }
 
@@ -2018,8 +2287,10 @@ extension GlueDataBrew {
         public let startedOn: Date?
         /// The current state of the job run entity itself.
         public let state: JobRunState?
+        /// List of validation configurations that are applied to the profile job run.
+        public let validationConfigurations: [ValidationConfiguration]?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
             self.databaseOutputs = databaseOutputs
@@ -2037,6 +2308,7 @@ extension GlueDataBrew {
             self.startedBy = startedBy
             self.startedOn = startedOn
             self.state = state
+            self.validationConfigurations = validationConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2057,6 +2329,7 @@ extension GlueDataBrew {
             case startedBy = "StartedBy"
             case startedOn = "StartedOn"
             case state = "State"
+            case validationConfigurations = "ValidationConfigurations"
         }
     }
 
@@ -2378,6 +2651,55 @@ extension GlueDataBrew {
         }
     }
 
+    public struct ListRulesetsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "targetArn", location: .querystring(locationName: "targetArn"))
+        ]
+
+        /// The maximum number of results to return in this request.
+        public let maxResults: Int?
+        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of a resource (dataset). Using this parameter indicates to return only those rulesets that are associated with the specified resource.
+        public let targetArn: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, targetArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.targetArn = targetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRulesetsResponse: AWSDecodableShape {
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
+        public let nextToken: String?
+        /// A list of RulesetItem. RulesetItem contains meta data of a ruleset.
+        public let rulesets: [RulesetItem]
+
+        public init(nextToken: String? = nil, rulesets: [RulesetItem]) {
+            self.nextToken = nextToken
+            self.rulesets = rulesets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rulesets = "Rulesets"
+        }
+    }
+
     public struct ListSchedulesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobName", location: .querystring(locationName: "jobName")),
@@ -2457,6 +2779,24 @@ extension GlueDataBrew {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct Metadata: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) associated with the dataset. Currently, DataBrew only supports ARNs from Amazon AppFlow.
+        public let sourceArn: String?
+
+        public init(sourceArn: String? = nil) {
+            self.sourceArn = sourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 2048)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
         }
     }
 
@@ -2556,12 +2896,15 @@ extension GlueDataBrew {
         public let columnStatisticsConfigurations: [ColumnStatisticsConfiguration]?
         /// Configuration for inter-column evaluations. Configuration can be used to select evaluations and override parameters of evaluations. When configuration is undefined, the profile job will run all supported inter-column evaluations.
         public let datasetStatisticsConfiguration: StatisticsConfiguration?
+        /// Configuration of entity detection for a profile job. When undefined, entity detection is disabled.
+        public let entityDetectorConfiguration: EntityDetectorConfiguration?
         /// List of column selectors. ProfileColumns can be used to select columns from the dataset. When ProfileColumns is undefined, the profile job will profile all supported columns.
         public let profileColumns: [ColumnSelector]?
 
-        public init(columnStatisticsConfigurations: [ColumnStatisticsConfiguration]? = nil, datasetStatisticsConfiguration: StatisticsConfiguration? = nil, profileColumns: [ColumnSelector]? = nil) {
+        public init(columnStatisticsConfigurations: [ColumnStatisticsConfiguration]? = nil, datasetStatisticsConfiguration: StatisticsConfiguration? = nil, entityDetectorConfiguration: EntityDetectorConfiguration? = nil, profileColumns: [ColumnSelector]? = nil) {
             self.columnStatisticsConfigurations = columnStatisticsConfigurations
             self.datasetStatisticsConfiguration = datasetStatisticsConfiguration
+            self.entityDetectorConfiguration = entityDetectorConfiguration
             self.profileColumns = profileColumns
         }
 
@@ -2571,6 +2914,7 @@ extension GlueDataBrew {
             }
             try self.validate(self.columnStatisticsConfigurations, name: "columnStatisticsConfigurations", parent: name, min: 1)
             try self.datasetStatisticsConfiguration?.validate(name: "\(name).datasetStatisticsConfiguration")
+            try self.entityDetectorConfiguration?.validate(name: "\(name).entityDetectorConfiguration")
             try self.profileColumns?.forEach {
                 try $0.validate(name: "\(name).profileColumns[]")
             }
@@ -2580,6 +2924,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case columnStatisticsConfigurations = "ColumnStatisticsConfigurations"
             case datasetStatisticsConfiguration = "DatasetStatisticsConfiguration"
+            case entityDetectorConfiguration = "EntityDetectorConfiguration"
             case profileColumns = "ProfileColumns"
         }
     }
@@ -2845,6 +3190,111 @@ extension GlueDataBrew {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case recipeVersion = "RecipeVersion"
+        }
+    }
+
+    public struct Rule: AWSEncodableShape & AWSDecodableShape {
+        /// The expression which includes column references, condition names followed by variable references, possibly grouped and combined with other conditions. For example, (:col1 starts_with :prefix1 or :col1 starts_with :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2). Column and value references are substitution variables that should start with the ':' symbol. Depending on the context, substitution variables' values can be either an actual value or a column name. These values are defined in the SubstitutionMap. If a CheckExpression starts with a column reference, then ColumnSelectors in the rule should be null. If ColumnSelectors has been defined, then there should be no columnn reference in the left side of a condition, for example, is_between :val1 and :val2.
+        public let checkExpression: String
+        /// List of column selectors. Selectors can be used to select columns using a name or regular expression from the dataset. Rule will be applied to selected columns.
+        public let columnSelectors: [ColumnSelector]?
+        /// A value that specifies whether the rule is disabled. Once a rule is disabled, a profile job will not validate it during a job run. Default value is false.
+        public let disabled: Bool?
+        /// The name of the rule.
+        public let name: String
+        /// The map of substitution variable names to their values used in a check expression. Variable names should start with a ':' (colon). Variable values can either be actual values or column names. To differentiate between the two, column names should be enclosed in backticks, for example, ":col1": "`Column A`".
+        public let substitutionMap: [String: String]?
+        /// The threshold used with a non-aggregate check expression. Non-aggregate check expressions will be applied to each row in a specific column, and the threshold will be used to determine whether the validation succeeds.
+        public let threshold: Threshold?
+
+        public init(checkExpression: String, columnSelectors: [ColumnSelector]? = nil, disabled: Bool? = nil, name: String, substitutionMap: [String: String]? = nil, threshold: Threshold? = nil) {
+            self.checkExpression = checkExpression
+            self.columnSelectors = columnSelectors
+            self.disabled = disabled
+            self.name = name
+            self.substitutionMap = substitutionMap
+            self.threshold = threshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.checkExpression, name: "checkExpression", parent: name, max: 1024)
+            try self.validate(self.checkExpression, name: "checkExpression", parent: name, min: 4)
+            try self.validate(self.checkExpression, name: "checkExpression", parent: name, pattern: "^[<>0-9A-Za-z_.,:)(!= ]+$")
+            try self.columnSelectors?.forEach {
+                try $0.validate(name: "\(name).columnSelectors[]")
+            }
+            try self.validate(self.columnSelectors, name: "columnSelectors", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.substitutionMap?.forEach {
+                try validate($0.key, name: "substitutionMap.key", parent: name, max: 128)
+                try validate($0.key, name: "substitutionMap.key", parent: name, min: 2)
+                try validate($0.key, name: "substitutionMap.key", parent: name, pattern: "^:[A-Za-z0-9_]+$")
+                try validate($0.value, name: "substitutionMap[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.threshold?.validate(name: "\(name).threshold")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkExpression = "CheckExpression"
+            case columnSelectors = "ColumnSelectors"
+            case disabled = "Disabled"
+            case name = "Name"
+            case substitutionMap = "SubstitutionMap"
+            case threshold = "Threshold"
+        }
+    }
+
+    public struct RulesetItem: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the ruleset.
+        public let accountId: String?
+        /// The date and time that the ruleset was created.
+        public let createDate: Date?
+        /// The Amazon Resource Name (ARN) of the user who created the ruleset.
+        public let createdBy: String?
+        /// The description of the ruleset.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the user who last modified the ruleset.
+        public let lastModifiedBy: String?
+        /// The modification date and time of the ruleset.
+        public let lastModifiedDate: Date?
+        /// The name of the ruleset.
+        public let name: String
+        /// The Amazon Resource Name (ARN) for the ruleset.
+        public let resourceArn: String?
+        /// The number of rules that are defined in the ruleset.
+        public let ruleCount: Int?
+        /// Metadata tags that have been applied to the ruleset.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is associated with.
+        public let targetArn: String
+
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, ruleCount: Int? = nil, tags: [String: String]? = nil, targetArn: String) {
+            self.accountId = accountId
+            self.createDate = createDate
+            self.createdBy = createdBy
+            self.description = description
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.resourceArn = resourceArn
+            self.ruleCount = ruleCount
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case createDate = "CreateDate"
+            case createdBy = "CreatedBy"
+            case description = "Description"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedDate = "LastModifiedDate"
+            case name = "Name"
+            case resourceArn = "ResourceArn"
+            case ruleCount = "RuleCount"
+            case tags = "Tags"
+            case targetArn = "TargetArn"
         }
     }
 
@@ -3234,6 +3684,31 @@ extension GlueDataBrew {
         public init() {}
     }
 
+    public struct Threshold: AWSEncodableShape & AWSDecodableShape {
+        /// The type of a threshold. Used for comparison of an actual count of rows that satisfy the rule to the threshold value.
+        public let type: ThresholdType?
+        /// Unit of threshold value. Can be either a COUNT or PERCENTAGE of the full sample size used for validation.
+        public let unit: ThresholdUnit?
+        /// The value of a threshold.
+        public let value: Double
+
+        public init(type: ThresholdType? = nil, unit: ThresholdUnit? = nil, value: Double) {
+            self.type = type
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case unit = "Unit"
+            case value = "Value"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
@@ -3345,8 +3820,10 @@ extension GlueDataBrew {
         public let roleArn: String
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
+        /// List of validation configurations that are applied to the profile job.
+        public let validationConfigurations: [ValidationConfiguration]?
 
-        public init(configuration: ProfileConfiguration? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil) {
+        public init(configuration: ProfileConfiguration? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.configuration = configuration
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
@@ -3358,6 +3835,7 @@ extension GlueDataBrew {
             self.outputLocation = outputLocation
             self.roleArn = roleArn
             self.timeout = timeout
+            self.validationConfigurations = validationConfigurations
         }
 
         public func validate(name: String) throws {
@@ -3371,6 +3849,10 @@ extension GlueDataBrew {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 0)
+            try self.validationConfigurations?.forEach {
+                try $0.validate(name: "\(name).validationConfigurations[]")
+            }
+            try self.validate(self.validationConfigurations, name: "validationConfigurations", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3384,6 +3866,7 @@ extension GlueDataBrew {
             case outputLocation = "OutputLocation"
             case roleArn = "RoleArn"
             case timeout = "Timeout"
+            case validationConfigurations = "ValidationConfigurations"
         }
     }
 
@@ -3586,6 +4069,53 @@ extension GlueDataBrew {
         }
     }
 
+    public struct UpdateRulesetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The description of the ruleset.
+        public let description: String?
+        /// The name of the ruleset to be updated.
+        public let name: String
+        /// A list of rules that are defined with the ruleset. A rule includes one or more checks to be validated on a DataBrew dataset.
+        public let rules: [Rule]
+
+        public init(description: String? = nil, name: String, rules: [Rule]) {
+            self.description = description
+            self.name = name
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case rules = "Rules"
+        }
+    }
+
+    public struct UpdateRulesetResponse: AWSDecodableShape {
+        /// The name of the updated ruleset.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct UpdateScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -3635,18 +4165,49 @@ extension GlueDataBrew {
         }
     }
 
+    public struct ValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the ruleset to be validated in the profile job. The TargetArn of the selected ruleset should be the same as the Amazon Resource Name (ARN) of the dataset that is associated with the profile job.
+        public let rulesetArn: String
+        /// Mode of data quality validation. Default mode is “CHECK_ALL” which verifies all rules defined in the selected ruleset.
+        public let validationMode: ValidationMode?
+
+        public init(rulesetArn: String, validationMode: ValidationMode? = nil) {
+            self.rulesetArn = rulesetArn
+            self.validationMode = validationMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rulesetArn, name: "rulesetArn", parent: name, max: 2048)
+            try self.validate(self.rulesetArn, name: "rulesetArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rulesetArn = "RulesetArn"
+            case validationMode = "ValidationMode"
+        }
+    }
+
     public struct ViewFrame: AWSEncodableShape {
+        /// Controls if analytics computation is enabled or disabled. Enabled by default.
+        public let analytics: AnalyticsMode?
         /// The number of columns to include in the view frame, beginning with the StartColumnIndex value and ignoring any columns in the HiddenColumns list.
         public let columnRange: Int?
         /// A list of columns to hide in the view frame.
         public let hiddenColumns: [String]?
+        /// The number of rows to include in the view frame, beginning with the StartRowIndex value.
+        public let rowRange: Int?
         /// The starting index for the range of columns to return in the view frame.
         public let startColumnIndex: Int
+        /// The starting index for the range of rows to return in the view frame.
+        public let startRowIndex: Int?
 
-        public init(columnRange: Int? = nil, hiddenColumns: [String]? = nil, startColumnIndex: Int) {
+        public init(analytics: AnalyticsMode? = nil, columnRange: Int? = nil, hiddenColumns: [String]? = nil, rowRange: Int? = nil, startColumnIndex: Int, startRowIndex: Int? = nil) {
+            self.analytics = analytics
             self.columnRange = columnRange
             self.hiddenColumns = hiddenColumns
+            self.rowRange = rowRange
             self.startColumnIndex = startColumnIndex
+            self.startRowIndex = startRowIndex
         }
 
         public func validate(name: String) throws {
@@ -3657,12 +4218,16 @@ extension GlueDataBrew {
                 try validate($0, name: "hiddenColumns[]", parent: name, min: 1)
             }
             try self.validate(self.startColumnIndex, name: "startColumnIndex", parent: name, min: 0)
+            try self.validate(self.startRowIndex, name: "startRowIndex", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analytics = "Analytics"
             case columnRange = "ColumnRange"
             case hiddenColumns = "HiddenColumns"
+            case rowRange = "RowRange"
             case startColumnIndex = "StartColumnIndex"
+            case startRowIndex = "StartRowIndex"
         }
     }
 }

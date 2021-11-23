@@ -12641,6 +12641,55 @@ extension SecurityHub {
         }
     }
 
+    public struct CreateFindingAggregatorRequest: AWSEncodableShape {
+        /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+        public let regionLinkingMode: String
+        /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a comma-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions that do aggregate findings to the aggregation Region.
+        public let regions: [String]?
+
+        public init(regionLinkingMode: String, regions: [String]? = nil) {
+            self.regionLinkingMode = regionLinkingMode
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.regionLinkingMode, name: "regionLinkingMode", parent: name, pattern: ".*\\S.*")
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionLinkingMode = "RegionLinkingMode"
+            case regions = "Regions"
+        }
+    }
+
+    public struct CreateFindingAggregatorResponse: AWSDecodableShape {
+        /// The aggregation Region.
+        public let findingAggregationRegion: String?
+        /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and stop finding aggregation.
+        public let findingAggregatorArn: String?
+        /// Indicates whether to link all Regions, all Regions except for a list of excluded Regions, or a list of included Regions.
+        public let regionLinkingMode: String?
+        /// The list of excluded Regions or included Regions.
+        public let regions: [String]?
+
+        public init(findingAggregationRegion: String? = nil, findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
+            self.findingAggregationRegion = findingAggregationRegion
+            self.findingAggregatorArn = findingAggregatorArn
+            self.regionLinkingMode = regionLinkingMode
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingAggregationRegion = "FindingAggregationRegion"
+            case findingAggregatorArn = "FindingAggregatorArn"
+            case regionLinkingMode = "RegionLinkingMode"
+            case regions = "Regions"
+        }
+    }
+
     public struct CreateInsightRequest: AWSEncodableShape {
         /// One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
         public let filters: AwsSecurityFindingFilters
@@ -12932,6 +12981,29 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case actionTargetArn = "ActionTargetArn"
         }
+    }
+
+    public struct DeleteFindingAggregatorRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "findingAggregatorArn", location: .uri(locationName: "FindingAggregatorArn"))
+        ]
+
+        /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators.
+        public let findingAggregatorArn: String
+
+        public init(findingAggregatorArn: String) {
+            self.findingAggregatorArn = findingAggregatorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.findingAggregatorArn, name: "findingAggregatorArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFindingAggregatorResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteInsightRequest: AWSEncodableShape {
@@ -13468,6 +13540,19 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct FindingAggregator: AWSDecodableShape {
+        /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and delete the finding aggregator.
+        public let findingAggregatorArn: String?
+
+        public init(findingAggregatorArn: String? = nil) {
+            self.findingAggregatorArn = findingAggregatorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingAggregatorArn = "FindingAggregatorArn"
+        }
+    }
+
     public struct FindingProviderFields: AWSEncodableShape & AWSDecodableShape {
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public let confidence: Int?
@@ -13610,6 +13695,50 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case standardsSubscriptions = "StandardsSubscriptions"
+        }
+    }
+
+    public struct GetFindingAggregatorRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "findingAggregatorArn", location: .uri(locationName: "FindingAggregatorArn"))
+        ]
+
+        /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators.
+        public let findingAggregatorArn: String
+
+        public init(findingAggregatorArn: String) {
+            self.findingAggregatorArn = findingAggregatorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.findingAggregatorArn, name: "findingAggregatorArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFindingAggregatorResponse: AWSDecodableShape {
+        /// The aggregation Region.
+        public let findingAggregationRegion: String?
+        /// The ARN of the finding aggregator.
+        public let findingAggregatorArn: String?
+        /// Indicates whether to link all Regions, all Regions except for a list of excluded Regions, or a list of included Regions.
+        public let regionLinkingMode: String?
+        /// The list of excluded Regions or included Regions.
+        public let regions: [String]?
+
+        public init(findingAggregationRegion: String? = nil, findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
+            self.findingAggregationRegion = findingAggregationRegion
+            self.findingAggregatorArn = findingAggregatorArn
+            self.regionLinkingMode = regionLinkingMode
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingAggregationRegion = "FindingAggregationRegion"
+            case findingAggregatorArn = "FindingAggregatorArn"
+            case regionLinkingMode = "RegionLinkingMode"
+            case regions = "Regions"
         }
     }
 
@@ -14084,6 +14213,47 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case productSubscriptions = "ProductSubscriptions"
+        }
+    }
+
+    public struct ListFindingAggregatorsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+        ]
+
+        /// The maximum number of results to return. This operation currently only returns a single result.
+        public let maxResults: Int?
+        /// The token returned with the previous set of results. Identifies the next set of results to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFindingAggregatorsResponse: AWSDecodableShape {
+        /// The list of finding aggregators. This operation currently only returns a single result.
+        public let findingAggregators: [FindingAggregator]?
+        /// If there are more results, this is the token to provide in the next call to ListFindingAggregators. This operation currently only returns a single result.
+        public let nextToken: String?
+
+        public init(findingAggregators: [FindingAggregator]? = nil, nextToken: String? = nil) {
+            self.findingAggregators = findingAggregators
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingAggregators = "FindingAggregators"
+            case nextToken = "NextToken"
         }
     }
 
@@ -15877,6 +16047,60 @@ extension SecurityHub {
 
     public struct UpdateActionTargetResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateFindingAggregatorRequest: AWSEncodableShape {
+        /// The ARN of the finding aggregator. To obtain the ARN, use ListFindingAggregators.
+        public let findingAggregatorArn: String
+        /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+        public let regionLinkingMode: String
+        /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a comma-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions that do aggregate findings to the aggregation Region.
+        public let regions: [String]?
+
+        public init(findingAggregatorArn: String, regionLinkingMode: String, regions: [String]? = nil) {
+            self.findingAggregatorArn = findingAggregatorArn
+            self.regionLinkingMode = regionLinkingMode
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.findingAggregatorArn, name: "findingAggregatorArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regionLinkingMode, name: "regionLinkingMode", parent: name, pattern: ".*\\S.*")
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingAggregatorArn = "FindingAggregatorArn"
+            case regionLinkingMode = "RegionLinkingMode"
+            case regions = "Regions"
+        }
+    }
+
+    public struct UpdateFindingAggregatorResponse: AWSDecodableShape {
+        /// The aggregation Region.
+        public let findingAggregationRegion: String?
+        /// The ARN of the finding aggregator.
+        public let findingAggregatorArn: String?
+        /// Indicates whether to link all Regions, all Regions except for a list of excluded Regions, or a list of included Regions.
+        public let regionLinkingMode: String?
+        /// The list of excluded Regions or included Regions.
+        public let regions: [String]?
+
+        public init(findingAggregationRegion: String? = nil, findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
+            self.findingAggregationRegion = findingAggregationRegion
+            self.findingAggregatorArn = findingAggregatorArn
+            self.regionLinkingMode = regionLinkingMode
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingAggregationRegion = "FindingAggregationRegion"
+            case findingAggregatorArn = "FindingAggregatorArn"
+            case regionLinkingMode = "RegionLinkingMode"
+            case regions = "Regions"
+        }
     }
 
     public struct UpdateFindingsRequest: AWSEncodableShape {

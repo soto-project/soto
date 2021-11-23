@@ -67,7 +67,7 @@ extension WorkMail {
         return try await self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an access control rule for the specified WorkMail organization.
+    /// Deletes an access control rule for the specified WorkMail organization.  Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     public func deleteAccessControlRule(_ input: DeleteAccessControlRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAccessControlRuleResponse {
         return try await self.client.execute(operation: "DeleteAccessControlRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -87,12 +87,12 @@ extension WorkMail {
         return try await self.client.execute(operation: "DeleteMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the mobile device access override for the given WorkMail organization, user, and device.
+    /// Deletes the mobile device access override for the given WorkMail organization, user, and device.  Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     public func deleteMobileDeviceAccessOverride(_ input: DeleteMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteMobileDeviceAccessOverrideResponse {
         return try await self.client.execute(operation: "DeleteMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a mobile device access rule for the specified Amazon WorkMail organization.
+    /// Deletes a mobile device access rule for the specified Amazon WorkMail organization.  Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     public func deleteMobileDeviceAccessRule(_ input: DeleteMobileDeviceAccessRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteMobileDeviceAccessRuleResponse {
         return try await self.client.execute(operation: "DeleteMobileDeviceAccessRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -120,6 +120,11 @@ extension WorkMail {
     /// Mark a user, group, or resource as no longer used in Amazon WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
     public func deregisterFromWorkMail(_ input: DeregisterFromWorkMailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterFromWorkMailResponse {
         return try await self.client.execute(operation: "DeregisterFromWorkMail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes a domain from Amazon WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first remove any email address used by WorkMail entities before you remove the domain.
+    public func deregisterMailDomain(_ input: DeregisterMailDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterMailDomainResponse {
+        return try await self.client.execute(operation: "DeregisterMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the data available for the group.
@@ -172,6 +177,11 @@ extension WorkMail {
         return try await self.client.execute(operation: "GetDefaultRetentionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets details for a mail domain, including domain records required to configure your domain with recommended security.
+    public func getMailDomain(_ input: GetMailDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMailDomainResponse {
+        return try await self.client.execute(operation: "GetMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Requests a user's mailbox details for a specified organization and user.
     public func getMailboxDetails(_ input: GetMailboxDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMailboxDetailsResponse {
         return try await self.client.execute(operation: "GetMailboxDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -205,6 +215,11 @@ extension WorkMail {
     /// Returns summaries of the organization's groups.
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListGroupsResponse {
         return try await self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the mail domains in a given Amazon WorkMail organization.
+    public func listMailDomains(_ input: ListMailDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMailDomainsResponse {
+        return try await self.client.execute(operation: "ListMailDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the mailbox export jobs started for the specified organization within the last seven days.
@@ -277,6 +292,11 @@ extension WorkMail {
         return try await self.client.execute(operation: "PutRetentionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Registers a new domain in Amazon WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has permanent permission to use the specified domain for sending your users' emails.
+    public func registerMailDomain(_ input: RegisterMailDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterMailDomainResponse {
+        return try await self.client.execute(operation: "RegisterMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Registers an existing and disabled user, group, or resource for Amazon WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see Pricing. The equivalent console functionality for this operation is Enable.  Users can either be created by calling the CreateUser API operation or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
     public func registerToWorkMail(_ input: RegisterToWorkMailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterToWorkMailResponse {
         return try await self.client.execute(operation: "RegisterToWorkMail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -300,6 +320,11 @@ extension WorkMail {
     /// Untags the specified tags from the specified Amazon WorkMail organization resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceResponse {
         return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
+    public func updateDefaultMailDomain(_ input: UpdateDefaultMailDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDefaultMailDomainResponse {
+        return try await self.client.execute(operation: "UpdateDefaultMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a user's current mailbox quota for a specified organization and user.

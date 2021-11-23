@@ -252,6 +252,14 @@ extension GameLift {
         case c5a8Xlarge = "c5a.8xlarge"
         case c5aLarge = "c5a.large"
         case c5aXlarge = "c5a.xlarge"
+        case c6g12Xlarge = "c6g.12xlarge"
+        case c6g16Xlarge = "c6g.16xlarge"
+        case c6g2Xlarge = "c6g.2xlarge"
+        case c6g4Xlarge = "c6g.4xlarge"
+        case c6g8Xlarge = "c6g.8xlarge"
+        case c6gLarge = "c6g.large"
+        case c6gMedium = "c6g.medium"
+        case c6gXlarge = "c6g.xlarge"
         case m410Xlarge = "m4.10xlarge"
         case m42Xlarge = "m4.2xlarge"
         case m44Xlarge = "m4.4xlarge"
@@ -273,6 +281,14 @@ extension GameLift {
         case m5a8Xlarge = "m5a.8xlarge"
         case m5aLarge = "m5a.large"
         case m5aXlarge = "m5a.xlarge"
+        case m6g12Xlarge = "m6g.12xlarge"
+        case m6g16Xlarge = "m6g.16xlarge"
+        case m6g2Xlarge = "m6g.2xlarge"
+        case m6g4Xlarge = "m6g.4xlarge"
+        case m6g8Xlarge = "m6g.8xlarge"
+        case m6gLarge = "m6g.large"
+        case m6gMedium = "m6g.medium"
+        case m6gXlarge = "m6g.xlarge"
         case r416Xlarge = "r4.16xlarge"
         case r42Xlarge = "r4.2xlarge"
         case r44Xlarge = "r4.4xlarge"
@@ -295,6 +311,14 @@ extension GameLift {
         case r5a8Xlarge = "r5a.8xlarge"
         case r5aLarge = "r5a.large"
         case r5aXlarge = "r5a.xlarge"
+        case r6g12Xlarge = "r6g.12xlarge"
+        case r6g16Xlarge = "r6g.16xlarge"
+        case r6g2Xlarge = "r6g.2xlarge"
+        case r6g4Xlarge = "r6g.4xlarge"
+        case r6g8Xlarge = "r6g.8xlarge"
+        case r6gLarge = "r6g.large"
+        case r6gMedium = "r6g.medium"
+        case r6gXlarge = "r6g.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -918,8 +942,10 @@ extension GameLift {
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, max: 1024)
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, min: 1)
+            try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, pattern: "[A-Za-z0-9_:.+\\/\\\\\\- =@;{},?'\\[\\]\"]+")
             try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, max: 1024)
             try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, min: 1)
+            try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, pattern: "[A-Za-z0-9_:.+\\/\\\\\\- ]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -5527,8 +5553,10 @@ extension GameLift {
             try self.validate(self.concurrentExecutions, name: "concurrentExecutions", parent: name, min: 1)
             try self.validate(self.launchPath, name: "launchPath", parent: name, max: 1024)
             try self.validate(self.launchPath, name: "launchPath", parent: name, min: 1)
+            try self.validate(self.launchPath, name: "launchPath", parent: name, pattern: "[A-Za-z0-9_:.+\\/\\\\\\- ]+")
             try self.validate(self.parameters, name: "parameters", parent: name, max: 1024)
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.parameters, name: "parameters", parent: name, pattern: "[A-Za-z0-9_:.+\\/\\\\\\- =@;{},?'\\[\\]\"]+")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -1139,6 +1139,7 @@ extension MediaLive {
         case rtmpPull = "RTMP_PULL"
         case rtmpPush = "RTMP_PUSH"
         case rtpPush = "RTP_PUSH"
+        case tsFile = "TS_FILE"
         case udpPush = "UDP_PUSH"
         case urlPull = "URL_PULL"
         public var description: String { return self.rawValue }
@@ -1392,6 +1393,18 @@ extension MediaLive {
     public enum NielsenPcmToId3TaggingState: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NielsenWatermarksCbetStepaside: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NielsenWatermarksDistributionTypes: String, CustomStringConvertible, Codable {
+        case finalDistributor = "FINAL_DISTRIBUTOR"
+        case programContent = "PROGRAM_CONTENT"
         public var description: String { return self.rawValue }
     }
 
@@ -2026,6 +2039,8 @@ extension MediaLive {
         ///   useConfigured: The value in Audio Type is included in the output.
         /// Note that this field and audioType are both ignored if inputType is broadcasterMixedAd.
         public let audioTypeControl: AudioDescriptionAudioTypeControl?
+        /// Settings to configure one or more solutions that insert audio watermarks in the audio encode
+        public let audioWatermarkingSettings: AudioWatermarkSettings?
         /// Audio codec settings.
         public let codecSettings: AudioCodecSettings?
         /// RFC 5646 language code representing the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input.
@@ -2039,11 +2054,12 @@ extension MediaLive {
         /// Used for MS Smooth and Apple HLS outputs. Indicates the name displayed by the player (eg. English, or Director Commentary).
         public let streamName: String?
 
-        public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, audioSelectorName: String, audioType: AudioType? = nil, audioTypeControl: AudioDescriptionAudioTypeControl? = nil, codecSettings: AudioCodecSettings? = nil, languageCode: String? = nil, languageCodeControl: AudioDescriptionLanguageCodeControl? = nil, name: String, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
+        public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, audioSelectorName: String, audioType: AudioType? = nil, audioTypeControl: AudioDescriptionAudioTypeControl? = nil, audioWatermarkingSettings: AudioWatermarkSettings? = nil, codecSettings: AudioCodecSettings? = nil, languageCode: String? = nil, languageCodeControl: AudioDescriptionLanguageCodeControl? = nil, name: String, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
             self.audioNormalizationSettings = audioNormalizationSettings
             self.audioSelectorName = audioSelectorName
             self.audioType = audioType
             self.audioTypeControl = audioTypeControl
+            self.audioWatermarkingSettings = audioWatermarkingSettings
             self.codecSettings = codecSettings
             self.languageCode = languageCode
             self.languageCodeControl = languageCodeControl
@@ -2053,6 +2069,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.audioWatermarkingSettings?.validate(name: "\(name).audioWatermarkingSettings")
             try self.codecSettings?.validate(name: "\(name).codecSettings")
             try self.validate(self.languageCode, name: "languageCode", parent: name, max: 35)
             try self.validate(self.languageCode, name: "languageCode", parent: name, min: 1)
@@ -2064,6 +2081,7 @@ extension MediaLive {
             case audioSelectorName
             case audioType
             case audioTypeControl
+            case audioWatermarkingSettings
             case codecSettings
             case languageCode
             case languageCodeControl
@@ -2288,6 +2306,23 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case tracks
+        }
+    }
+
+    public struct AudioWatermarkSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Settings to configure Nielsen Watermarks in the audio encode
+        public let nielsenWatermarksSettings: NielsenWatermarksSettings?
+
+        public init(nielsenWatermarksSettings: NielsenWatermarksSettings? = nil) {
+            self.nielsenWatermarksSettings = nielsenWatermarksSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.nielsenWatermarksSettings?.validate(name: "\(name).nielsenWatermarksSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nielsenWatermarksSettings
         }
     }
 
@@ -3110,7 +3145,7 @@ extension MediaLive {
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
-        /// Settings for VPC output
+        /// Settings for any VPC outputs.
         public let vpc: VpcOutputSettingsDescription?
 
         public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
@@ -3148,6 +3183,23 @@ extension MediaLive {
             case tags
             case vpc
         }
+    }
+
+    public struct ClaimDeviceRequest: AWSEncodableShape {
+        /// The id of the device you want to claim.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+        }
+    }
+
+    public struct ClaimDeviceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ColorSpacePassthroughSettings: AWSEncodableShape & AWSDecodableShape {
@@ -6049,7 +6101,7 @@ extension MediaLive {
         /// A list of IDs for all Inputs which are partners of this one.
         public let inputPartnerIds: [String]?
         /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes
-        /// during input switch actions. Presently, this functionality only works with MP4_FILE inputs.
+        /// during input switch actions. Presently, this functionality only works with MP4_FILE and TS_FILE inputs.
         public let inputSourceType: InputSourceType?
         /// A list of MediaConnect Flows for this input.
         public let mediaConnectFlows: [MediaConnectFlow]?
@@ -6596,6 +6648,8 @@ extension MediaLive {
         public let inputFilter: InputFilter?
         /// Input settings.
         public let networkInputSettings: NetworkInputSettings?
+        /// PID from which to read SCTE-35 messages. If left undefined, EML will select the first SCTE-35 PID found in the input.
+        public let scte35Pid: Int?
         /// Specifies whether to extract applicable ancillary data from a SMPTE-2038 source in this input. Applicable data types are captions, timecode, AFD, and SCTE-104 messages.
         /// - PREFER: Extract from SMPTE-2038 if present in this input, otherwise extract from another source (if any).
         /// - IGNORE: Never extract any ancillary data from SMPTE-2038.
@@ -6605,7 +6659,7 @@ extension MediaLive {
         /// Informs which video elementary stream to decode for input types that have multiple available.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, smpte2038DataPreference: Smpte2038DataPreference? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, scte35Pid: Int? = nil, smpte2038DataPreference: Smpte2038DataPreference? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
             self.deblockFilter = deblockFilter
@@ -6613,6 +6667,7 @@ extension MediaLive {
             self.filterStrength = filterStrength
             self.inputFilter = inputFilter
             self.networkInputSettings = networkInputSettings
+            self.scte35Pid = scte35Pid
             self.smpte2038DataPreference = smpte2038DataPreference
             self.sourceEndBehavior = sourceEndBehavior
             self.videoSelector = videoSelector
@@ -6628,6 +6683,8 @@ extension MediaLive {
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, max: 5)
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, min: 1)
             try self.networkInputSettings?.validate(name: "\(name).networkInputSettings")
+            try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, max: 8191)
+            try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, min: 32)
             try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
@@ -6639,6 +6696,7 @@ extension MediaLive {
             case filterStrength
             case inputFilter
             case networkInputSettings
+            case scte35Pid
             case smpte2038DataPreference
             case sourceEndBehavior
             case videoSelector
@@ -8343,6 +8401,34 @@ extension MediaLive {
         }
     }
 
+    public struct NielsenCBET: AWSEncodableShape & AWSDecodableShape {
+        /// Enter the CBET check digits to use in the watermark.
+        public let cbetCheckDigitString: String
+        /// Determines the method of CBET insertion mode when prior encoding is detected on the same layer.
+        public let cbetStepaside: NielsenWatermarksCbetStepaside
+        /// Enter the CBET Source ID (CSID) to use in the watermark
+        public let csid: String
+
+        public init(cbetCheckDigitString: String, cbetStepaside: NielsenWatermarksCbetStepaside, csid: String) {
+            self.cbetCheckDigitString = cbetCheckDigitString
+            self.cbetStepaside = cbetStepaside
+            self.csid = csid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cbetCheckDigitString, name: "cbetCheckDigitString", parent: name, max: 2)
+            try self.validate(self.cbetCheckDigitString, name: "cbetCheckDigitString", parent: name, min: 2)
+            try self.validate(self.csid, name: "csid", parent: name, max: 7)
+            try self.validate(self.csid, name: "csid", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cbetCheckDigitString
+            case cbetStepaside
+            case csid
+        }
+    }
+
     public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enter the Distributor ID assigned to your organization by Nielsen.
         public let distributorId: String?
@@ -8357,6 +8443,56 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case distributorId
             case nielsenPcmToId3Tagging
+        }
+    }
+
+    public struct NielsenNaesIiNw: AWSEncodableShape & AWSDecodableShape {
+        /// Enter the check digit string for the watermark
+        public let checkDigitString: String
+        /// Enter the Nielsen Source ID (SID) to include in the watermark
+        public let sid: Double
+
+        public init(checkDigitString: String, sid: Double) {
+            self.checkDigitString = checkDigitString
+            self.sid = sid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.checkDigitString, name: "checkDigitString", parent: name, max: 2)
+            try self.validate(self.checkDigitString, name: "checkDigitString", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkDigitString
+            case sid
+        }
+    }
+
+    public struct NielsenWatermarksSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Complete these fields only if you want to insert watermarks of type Nielsen CBET
+        public let nielsenCbetSettings: NielsenCBET?
+        /// Choose the distribution types that you want to assign to the watermarks:
+        /// - PROGRAM_CONTENT
+        /// - FINAL_DISTRIBUTOR
+        public let nielsenDistributionType: NielsenWatermarksDistributionTypes?
+        /// Complete these fields only if you want to insert watermarks of type Nielsen NAES II (N2) and Nielsen NAES VI (NW).
+        public let nielsenNaesIiNwSettings: NielsenNaesIiNw?
+
+        public init(nielsenCbetSettings: NielsenCBET? = nil, nielsenDistributionType: NielsenWatermarksDistributionTypes? = nil, nielsenNaesIiNwSettings: NielsenNaesIiNw? = nil) {
+            self.nielsenCbetSettings = nielsenCbetSettings
+            self.nielsenDistributionType = nielsenDistributionType
+            self.nielsenNaesIiNwSettings = nielsenNaesIiNwSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.nielsenCbetSettings?.validate(name: "\(name).nielsenCbetSettings")
+            try self.nielsenNaesIiNwSettings?.validate(name: "\(name).nielsenNaesIiNwSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nielsenCbetSettings
+            case nielsenDistributionType
+            case nielsenNaesIiNwSettings
         }
     }
 

@@ -156,12 +156,15 @@ extension ConnectParticipant {
             AWSMemberEncoding(label: "participantToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
-        /// This is a header parameter. The Participant Token as obtained from StartChatContact API response.
+        /// Amazon Connect Participant is used to mark the participant as connected for message streaming.
+        public let connectParticipant: Bool?
+        /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response.
         public let participantToken: String
         /// Type of connection information required.
         public let type: [ConnectionType]
 
-        public init(participantToken: String, type: [ConnectionType]) {
+        public init(connectParticipant: Bool? = nil, participantToken: String, type: [ConnectionType]) {
+            self.connectParticipant = connectParticipant
             self.participantToken = participantToken
             self.type = type
         }
@@ -173,6 +176,7 @@ extension ConnectParticipant {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectParticipant = "ConnectParticipant"
             case type = "Type"
         }
     }
@@ -252,7 +256,7 @@ extension ConnectParticipant {
     }
 
     public struct GetAttachmentResponse: AWSDecodableShape {
-        /// The pre-signed URL using which file would be downloaded from Amazon S3 by the API caller.
+        /// This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to StartAttachmentUpload.
         public let url: String?
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiry: String?
@@ -590,7 +594,7 @@ extension ConnectParticipant {
     public struct UploadMetadata: AWSDecodableShape {
         /// The headers to be provided while uploading the file to the URL.
         public let headersToInclude: [String: String]?
-        /// The pre-signed URL using which file would be downloaded from Amazon S3 by the API caller.
+        /// This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to StartAttachmentUpload.
         public let url: String?
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiry: String?

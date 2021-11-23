@@ -110,6 +110,28 @@ extension MediaTailor {
         )
     }
 
+    ///  Creates a new prefetch schedule.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPrefetchSchedulesPaginator(
+        _ input: ListPrefetchSchedulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPrefetchSchedulesRequest, ListPrefetchSchedulesResponse> {
+        return .init(
+            input: input,
+            command: listPrefetchSchedules,
+            inputKey: \ListPrefetchSchedulesRequest.nextToken,
+            outputKey: \ListPrefetchSchedulesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves a list of source locations.
     /// Return PaginatorSequence for operation.
     ///

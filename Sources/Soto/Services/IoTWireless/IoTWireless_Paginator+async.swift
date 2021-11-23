@@ -66,6 +66,72 @@ extension IoTWireless {
         )
     }
 
+    ///  Lists the FUOTA tasks registered to your AWS account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFuotaTasksPaginator(
+        _ input: ListFuotaTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFuotaTasksRequest, ListFuotaTasksResponse> {
+        return .init(
+            input: input,
+            command: listFuotaTasks,
+            inputKey: \ListFuotaTasksRequest.nextToken,
+            outputKey: \ListFuotaTasksResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the multicast groups registered to your AWS account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMulticastGroupsPaginator(
+        _ input: ListMulticastGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMulticastGroupsRequest, ListMulticastGroupsResponse> {
+        return .init(
+            input: input,
+            command: listMulticastGroups,
+            inputKey: \ListMulticastGroupsRequest.nextToken,
+            outputKey: \ListMulticastGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List all multicast groups associated with a fuota task.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMulticastGroupsByFuotaTaskPaginator(
+        _ input: ListMulticastGroupsByFuotaTaskRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMulticastGroupsByFuotaTaskRequest, ListMulticastGroupsByFuotaTaskResponse> {
+        return .init(
+            input: input,
+            command: listMulticastGroupsByFuotaTask,
+            inputKey: \ListMulticastGroupsByFuotaTaskRequest.nextToken,
+            outputKey: \ListMulticastGroupsByFuotaTaskResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the service profiles registered to your AWS account.
     /// Return PaginatorSequence for operation.
     ///

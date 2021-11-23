@@ -426,6 +426,7 @@ extension SSM {
         case debian = "DEBIAN"
         case macos = "MACOS"
         case oracleLinux = "ORACLE_LINUX"
+        case raspbian = "RASPBIAN"
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
         case suse = "SUSE"
         case ubuntu = "UBUNTU"
@@ -935,7 +936,7 @@ extension SSM {
         public let associationName: String?
         /// The association version.
         public let associationVersion: String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
         public let automationTargetParameterName: String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar.
         public let calendarNames: [String]?
@@ -1922,9 +1923,9 @@ extension SSM {
     }
 
     public struct CommandFilter: AWSEncodableShape {
-        /// The name of the filter.
+        /// The name of the filter.  The ExecutionStage filter can't be used with the ListCommandInvocations operation, only with ListCommands.
         public let key: CommandFilterKey
-        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on instances.     ExecutionStage: Specify one of the following values:    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
+        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on instances.     ExecutionStage: Specify one of the following values (ListCommands operations only):    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
         public let value: String
 
         public init(key: CommandFilterKey, value: String) {
@@ -2260,15 +2261,18 @@ extension SSM {
         public let iamRole: String
         /// Specify the maximum number of managed instances you want to register. The default value is 1.
         public let registrationLimit: Int?
+        /// Reserved for internal use.
+        public let registrationMetadata: [RegistrationMetadataItem]?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key-value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the activation ID and code, tags assigned to the activation are automatically applied to the on-premises servers or VMs.  You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers and VMs after they connect to Systems Manager for the first time and are assigned a managed instance ID. This means they are listed in the Amazon Web Services Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed instances, see AddTagsToResource. For information about how to remove tags from your managed instances, see RemoveTagsFromResource.
         public let tags: [Tag]?
 
-        public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: Date? = nil, iamRole: String, registrationLimit: Int? = nil, tags: [Tag]? = nil) {
+        public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: Date? = nil, iamRole: String, registrationLimit: Int? = nil, registrationMetadata: [RegistrationMetadataItem]? = nil, tags: [Tag]? = nil) {
             self.defaultInstanceName = defaultInstanceName
             self.description = description
             self.expirationDate = expirationDate
             self.iamRole = iamRole
             self.registrationLimit = registrationLimit
+            self.registrationMetadata = registrationMetadata
             self.tags = tags
         }
 
@@ -2281,6 +2285,9 @@ extension SSM {
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 64)
             try self.validate(self.registrationLimit, name: "registrationLimit", parent: name, max: 1000)
             try self.validate(self.registrationLimit, name: "registrationLimit", parent: name, min: 1)
+            try self.registrationMetadata?.forEach {
+                try $0.validate(name: "\(name).registrationMetadata[]")
+            }
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2293,6 +2300,7 @@ extension SSM {
             case expirationDate = "ExpirationDate"
             case iamRole = "IamRole"
             case registrationLimit = "RegistrationLimit"
+            case registrationMetadata = "RegistrationMetadata"
             case tags = "Tags"
         }
     }
@@ -2457,7 +2465,7 @@ extension SSM {
         public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
         public let automationTargetParameterName: String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar.
         public let calendarNames: [String]?
@@ -3375,7 +3383,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 124)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 20)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\\-_]{0,99}_\\w{17}$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10136,7 +10146,7 @@ extension SSM {
     }
 
     public struct ParameterStringFilter: AWSEncodableShape {
-        /// The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeActions, all of the listed patterns are valid except Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, DataType, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeParameters, all of the listed patterns are valid except Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, DataType, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
         public let key: String
         /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using Label as the Key name, the only valid option is Equals.)
         public let option: String?
@@ -10704,7 +10714,7 @@ extension SSM {
         public let name: String
         /// Overwrite an existing parameter. The default value is false.
         public let overwrite: Bool?
-        /// One or more policies to apply to a parameter. This operation takes a JSON array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter doesn't affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy triggers a CloudWatch Events event if a parameter hasn't been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it hasn't been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see Assigning parameter policies.
+        /// One or more policies to apply to a parameter. This operation takes a JSON array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter doesn't affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it hasn't been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see Assigning parameter policies.
         public let policies: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key-value pairs:    Key=Resource,Value=S3bucket     Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an existing Systems Manager parameter, use the AddTagsToResource operation.
         public let tags: [Tag]?
@@ -11039,6 +11049,32 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case windowTaskId = "WindowTaskId"
+        }
+    }
+
+    public struct RegistrationMetadataItem: AWSEncodableShape {
+        /// Reserved for internal use.
+        public let key: String
+        /// Reserved for internal use.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(?!\\s*$).+")
+            try self.validate(self.value, name: "value", parent: name, max: 2048)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^(?!\\s*$).+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 
@@ -11817,10 +11853,14 @@ extension SSM {
         public let documentName: String?
         /// The date and time, in ISO-8601 Extended format, when the session was terminated.
         public let endDate: Date?
+        /// The maximum duration of a session before it terminates.
+        public let maxSessionDuration: String?
         /// Reserved for future use.
         public let outputUrl: SessionManagerOutputUrl?
         /// The ID of the Amazon Web Services user account that started the session.
         public let owner: String?
+        /// The reason for connecting to the instance.
+        public let reason: String?
         /// The ID of the session.
         public let sessionId: String?
         /// The date and time, in ISO-8601 Extended format, when the session began.
@@ -11830,12 +11870,14 @@ extension SSM {
         /// The instance that the Session Manager session connected to.
         public let target: String?
 
-        public init(details: String? = nil, documentName: String? = nil, endDate: Date? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
+        public init(details: String? = nil, documentName: String? = nil, endDate: Date? = nil, maxSessionDuration: String? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, reason: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
             self.details = details
             self.documentName = documentName
             self.endDate = endDate
+            self.maxSessionDuration = maxSessionDuration
             self.outputUrl = outputUrl
             self.owner = owner
+            self.reason = reason
             self.sessionId = sessionId
             self.startDate = startDate
             self.status = status
@@ -11846,8 +11888,10 @@ extension SSM {
             case details = "Details"
             case documentName = "DocumentName"
             case endDate = "EndDate"
+            case maxSessionDuration = "MaxSessionDuration"
             case outputUrl = "OutputUrl"
             case owner = "Owner"
+            case reason = "Reason"
             case sessionId = "SessionId"
             case startDate = "StartDate"
             case status = "Status"
@@ -12158,12 +12202,15 @@ extension SSM {
         public let documentName: String?
         /// Reserved for future use.
         public let parameters: [String: [String]]?
+        /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session.
+        public let reason: String?
         /// The instance to connect to for the session.
         public let target: String
 
-        public init(documentName: String? = nil, parameters: [String: [String]]? = nil, target: String) {
+        public init(documentName: String? = nil, parameters: [String: [String]]? = nil, reason: String? = nil, target: String) {
             self.documentName = documentName
             self.parameters = parameters
+            self.reason = reason
             self.target = target
         }
 
@@ -12173,6 +12220,9 @@ extension SSM {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
             }
+            try self.validate(self.reason, name: "reason", parent: name, max: 256)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
+            try self.validate(self.reason, name: "reason", parent: name, pattern: "^.{1,256}$")
             try self.validate(self.target, name: "target", parent: name, max: 400)
             try self.validate(self.target, name: "target", parent: name, min: 1)
         }
@@ -12180,6 +12230,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case documentName = "DocumentName"
             case parameters = "Parameters"
+            case reason = "Reason"
             case target = "Target"
         }
     }
@@ -12539,7 +12590,7 @@ extension SSM {
         public let associationName: String?
         /// This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify $LATEST, or omit this parameter.
         public let associationVersion: String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
         public let automationTargetParameterName: String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar.
         public let calendarNames: [String]?
@@ -13235,7 +13286,9 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 64)
-            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 124)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 20)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^mi-[0-9a-f]{17}$)|(^eks_c:[0-9A-Za-z][A-Za-z0-9\\-_]{0,99}_\\w{17}$)")
         }
 
         private enum CodingKeys: String, CodingKey {

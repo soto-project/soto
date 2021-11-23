@@ -61,6 +61,12 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum FrameOptionsList: String, CustomStringConvertible, Codable {
+        case deny = "DENY"
+        case sameorigin = "SAMEORIGIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FunctionRuntime: String, CustomStringConvertible, Codable {
         case cloudfrontJs10 = "cloudfront-js-1.0"
         public var description: String { return self.rawValue }
@@ -162,6 +168,36 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReferrerPolicyList: String, CustomStringConvertible, Codable {
+        case noReferrer = "no-referrer"
+        case noReferrerWhenDowngrade = "no-referrer-when-downgrade"
+        case origin
+        case originWhenCrossOrigin = "origin-when-cross-origin"
+        case sameOrigin = "same-origin"
+        case strictOrigin = "strict-origin"
+        case strictOriginWhenCrossOrigin = "strict-origin-when-cross-origin"
+        case unsafeUrl = "unsafe-url"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResponseHeadersPolicyAccessControlAllowMethodsValues: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case delete = "DELETE"
+        case get = "GET"
+        case head = "HEAD"
+        case options = "OPTIONS"
+        case patch = "PATCH"
+        case post = "POST"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResponseHeadersPolicyType: String, CustomStringConvertible, Codable {
+        case custom
+        case managed
+        public var description: String { return self.rawValue }
+    }
+
     public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
         case sniOnly = "sni-only"
         case staticIp = "static-ip"
@@ -213,12 +249,12 @@ extension CloudFront {
     public struct ActiveTrustedSigners: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Signer" }
 
-        /// This field is true if any of the accounts in the list have active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list have active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        /// A list of accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
+        /// A list of Amazon Web Services accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, Signer>>
         public var items: [Signer]?
-        /// The number of accounts in the list.
+        /// The number of Amazon Web Services accounts in the list.
         public let quantity: Int
 
         public init(enabled: Bool, items: [Signer]? = nil, quantity: Int) {
@@ -331,18 +367,20 @@ extension CloudFront {
         public let pathPattern: String
         /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
         public let realtimeLogConfigArn: String?
+        /// The identifier for a response headers policy.
+        public let responseHeadersPolicyId: String?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
         public let targetOriginId: String
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer’s account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer’s Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -352,6 +390,7 @@ extension CloudFront {
             self.originRequestPolicyId = originRequestPolicyId
             self.pathPattern = pathPattern
             self.realtimeLogConfigArn = realtimeLogConfigArn
+            self.responseHeadersPolicyId = responseHeadersPolicyId
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
             self.trustedKeyGroups = trustedKeyGroups
@@ -373,6 +412,7 @@ extension CloudFront {
             case originRequestPolicyId = "OriginRequestPolicyId"
             case pathPattern = "PathPattern"
             case realtimeLogConfigArn = "RealtimeLogConfigArn"
+            case responseHeadersPolicyId = "ResponseHeadersPolicyId"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
             case trustedKeyGroups = "TrustedKeyGroups"
@@ -543,7 +583,7 @@ extension CloudFront {
     public struct CachePolicySummary: AWSDecodableShape {
         /// The cache policy.
         public let cachePolicy: CachePolicy
-        /// The type of cache policy, either managed (created by Amazon Web Services) or custom (created in this account).
+        /// The type of cache policy, either managed (created by Amazon Web Services) or custom (created in this Amazon Web Services account).
         public let type: CachePolicyType
 
         public init(cachePolicy: CachePolicy, type: CachePolicyType) {
@@ -622,7 +662,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current account.
+        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CloudFrontOriginAccessIdentitySummary>>
         public var items: [CloudFrontOriginAccessIdentitySummary]?
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
@@ -631,7 +671,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off.
         public let nextMarker: String?
-        /// The number of CloudFront origin access identities that were created by the current account.
+        /// The number of CloudFront origin access identities that were created by the current Amazon Web Services account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -1433,6 +1473,54 @@ extension CloudFront {
         }
     }
 
+    public struct CreateResponseHeadersPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicyConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "responseHeadersPolicyConfig", location: .body(locationName: "ResponseHeadersPolicyConfig"))
+        ]
+
+        /// Contains metadata about the response headers policy, and a set of configurations that specify the response headers.
+        public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
+
+        public init(responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
+            self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
+        }
+    }
+
+    public struct CreateResponseHeadersPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")),
+            AWSMemberEncoding(label: "responseHeadersPolicy", location: .body(locationName: "ResponseHeadersPolicy"))
+        ]
+
+        /// The version identifier for the current version of the response headers policy.
+        public let eTag: String?
+        /// The URL of the response headers policy.
+        public let location: String?
+        /// Contains a response headers policy.
+        public let responseHeadersPolicy: ResponseHeadersPolicy?
+
+        public init(eTag: String? = nil, location: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy? = nil) {
+            self.eTag = eTag
+            self.location = location
+            self.responseHeadersPolicy = responseHeadersPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case responseHeadersPolicy = "ResponseHeadersPolicy"
+        }
+    }
+
     public struct CreateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "streamingDistributionConfig"
@@ -1647,18 +1735,20 @@ extension CloudFront {
         public let originRequestPolicyId: String?
         /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
         public let realtimeLogConfigArn: String?
+        /// The identifier for a response headers policy.
+        public let responseHeadersPolicyId: String?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
         public let targetOriginId: String
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer’s account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer’s Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -1667,6 +1757,7 @@ extension CloudFront {
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.originRequestPolicyId = originRequestPolicyId
             self.realtimeLogConfigArn = realtimeLogConfigArn
+            self.responseHeadersPolicyId = responseHeadersPolicyId
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
             self.trustedKeyGroups = trustedKeyGroups
@@ -1687,6 +1778,7 @@ extension CloudFront {
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case originRequestPolicyId = "OriginRequestPolicyId"
             case realtimeLogConfigArn = "RealtimeLogConfigArn"
+            case responseHeadersPolicyId = "ResponseHeadersPolicyId"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
             case trustedKeyGroups = "TrustedKeyGroups"
@@ -1904,6 +1996,25 @@ extension CloudFront {
         }
     }
 
+    public struct DeleteResponseHeadersPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
+        ]
+
+        /// The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies.
+        public let id: String
+        /// The version of the response headers policy that you are deleting. The version is the response headers policy’s ETag value, which you can get using ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteStreamingDistributionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
@@ -1971,12 +2082,12 @@ extension CloudFront {
 
         /// CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using key groups. This field contains a list of key groups and the public keys in each key group that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public let activeTrustedKeyGroups: ActiveTrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using trusted signers. This field contains a list of account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using trusted signers. This field contains a list of Amazon Web Services account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public let activeTrustedSigners: ActiveTrustedSigners?
         /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
         public let distributionConfig: DistributionConfig
@@ -2039,7 +2150,7 @@ extension CloudFront {
         public let enabled: Bool
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization."
         public let httpVersion: HttpVersion?
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
+        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
         /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
         public let logging: LoggingConfig?
@@ -2169,7 +2280,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current account.
+        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, DistributionSummary>>
         public var items: [DistributionSummary]?
         /// The value you provided for the Marker request parameter.
@@ -2178,7 +2289,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off.
         public let nextMarker: String?
-        /// The number of distributions that were created by the current account.
+        /// The number of distributions that were created by the current Amazon Web Services account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -2208,7 +2319,7 @@ extension CloudFront {
         /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors
@@ -3524,6 +3635,84 @@ extension CloudFront {
         }
     }
 
+    public struct GetResponseHeadersPolicyConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+        ]
+
+        /// The identifier for the response headers policy. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResponseHeadersPolicyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicyConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "responseHeadersPolicyConfig", location: .body(locationName: "ResponseHeadersPolicyConfig"))
+        ]
+
+        /// The version identifier for the current version of the response headers policy.
+        public let eTag: String?
+        /// Contains a response headers policy.
+        public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig?
+
+        public init(eTag: String? = nil, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig? = nil) {
+            self.eTag = eTag
+            self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
+        }
+    }
+
+    public struct GetResponseHeadersPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+        ]
+
+        /// The identifier for the response headers policy. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResponseHeadersPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "responseHeadersPolicy", location: .body(locationName: "ResponseHeadersPolicy"))
+        ]
+
+        /// The version identifier for the current version of the response headers policy.
+        public let eTag: String?
+        /// Contains a response headers policy.
+        public let responseHeadersPolicy: ResponseHeadersPolicy?
+
+        public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy? = nil) {
+            self.eTag = eTag
+            self.responseHeadersPolicy = responseHeadersPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case responseHeadersPolicy = "ResponseHeadersPolicy"
+        }
+    }
+
     public struct GetStreamingDistributionConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -3671,7 +3860,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current account.
+        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, InvalidationSummary>>
         public var items: [InvalidationSummary]?
         /// The value that you provided for the Marker request parameter.
@@ -3680,7 +3869,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
         public let nextMarker: String?
-        /// The number of invalidation batches that were created by the current account.
+        /// The number of invalidation batches that were created by the current Amazon Web Services account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -3915,7 +4104,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of cache policies that you want in the response.
         public let maxItems: String?
-        /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your account.
+        /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your Amazon Web Services account.
         public let type: CachePolicyType?
 
         public init(marker: String? = nil, maxItems: String? = nil, type: CachePolicyType? = nil) {
@@ -4203,6 +4392,47 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case distributionList = "DistributionList"
+        }
+    }
+
+    public struct ListDistributionsByResponseHeadersPolicyIdRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")),
+            AWSMemberEncoding(label: "responseHeadersPolicyId", location: .uri(locationName: "ResponseHeadersPolicyId"))
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of distribution IDs that you want to get in the response.
+        public let maxItems: String?
+        /// The ID of the response headers policy whose associated distribution IDs you want to list.
+        public let responseHeadersPolicyId: String
+
+        public init(marker: String? = nil, maxItems: String? = nil, responseHeadersPolicyId: String) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.responseHeadersPolicyId = responseHeadersPolicyId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByResponseHeadersPolicyIdResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "distributionIdList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionIdList", location: .body(locationName: "DistributionIdList"))
+        ]
+
+        public let distributionIdList: DistributionIdList?
+
+        public init(distributionIdList: DistributionIdList? = nil) {
+            self.distributionIdList = distributionIdList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionIdList = "DistributionIdList"
         }
     }
 
@@ -4495,7 +4725,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of origin request policies that you want in the response.
         public let maxItems: String?
-        /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your account.
+        /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your Amazon Web Services account.
         public let type: OriginRequestPolicyType?
 
         public init(marker: String? = nil, maxItems: String? = nil, type: OriginRequestPolicyType? = nil) {
@@ -4599,6 +4829,48 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case realtimeLogConfigs = "RealtimeLogConfigs"
+        }
+    }
+
+    public struct ListResponseHeadersPoliciesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")),
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "Type"))
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of response headers policies. The response includes response headers policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of response headers policies that you want to get in the response.
+        public let maxItems: String?
+        /// A filter to get only the specified kind of response headers policies. Valid values are:    managed – Gets only the managed policies created by Amazon Web Services.    custom – Gets only the custom policies created in your Amazon Web Services account.
+        public let type: ResponseHeadersPolicyType?
+
+        public init(marker: String? = nil, maxItems: String? = nil, type: ResponseHeadersPolicyType? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.type = type
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResponseHeadersPoliciesResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicyList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "responseHeadersPolicyList", location: .body(locationName: "ResponseHeadersPolicyList"))
+        ]
+
+        /// A list of response headers policies.
+        public let responseHeadersPolicyList: ResponseHeadersPolicyList?
+
+        public init(responseHeadersPolicyList: ResponseHeadersPolicyList? = nil) {
+            self.responseHeadersPolicyList = responseHeadersPolicyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseHeadersPolicyList = "ResponseHeadersPolicyList"
         }
     }
 
@@ -5023,7 +5295,7 @@ extension CloudFront {
     public struct OriginRequestPolicySummary: AWSDecodableShape {
         /// The origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
-        /// The type of origin request policy, either managed (created by Amazon Web Services) or custom (created in this account).
+        /// The type of origin request policy, either managed (created by Amazon Web Services) or custom (created in this Amazon Web Services account).
         public let type: OriginRequestPolicyType
 
         public init(originRequestPolicy: OriginRequestPolicy, type: OriginRequestPolicyType) {
@@ -5040,7 +5312,7 @@ extension CloudFront {
     public struct OriginShield: AWSEncodableShape & AWSDecodableShape {
         /// A flag that specifies whether Origin Shield is enabled. When it’s enabled, CloudFront routes all requests through Origin Shield, which can help protect your origin. When it’s disabled, CloudFront might send requests directly to your origin from multiple edge locations or regional edge caches.
         public let enabled: Bool
-        /// The Region for Origin Shield. Specify the Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the Region for Origin Shield. For the list of Regions that you can specify, and for help choosing the best Region for your origin, see Choosing the Region for Origin Shield in the Amazon CloudFront Developer Guide.
+        /// The Amazon Web Services Region for Origin Shield. Specify the Amazon Web Services Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the Amazon Web Services Region for Origin Shield. For the list of Amazon Web Services Regions that you can specify, and for help choosing the best Region for your origin, see Choosing the Amazon Web Services Region for Origin Shield in the Amazon CloudFront Developer Guide.
         public let originShieldRegion: String?
 
         public init(enabled: Bool, originShieldRegion: String? = nil) {
@@ -5449,6 +5721,408 @@ extension CloudFront {
         }
     }
 
+    public struct ResponseHeadersPolicy: AWSDecodableShape {
+        /// The identifier for the response headers policy.
+        public let id: String
+        /// The date and time when the response headers policy was last modified.
+        public let lastModifiedTime: Date
+        /// A response headers policy configuration. A response headers policy contains information about a set of HTTP response headers and their values. CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match a cache behavior that’s associated with the policy.
+        public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
+
+        public init(id: String, lastModifiedTime: Date, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
+        }
+    }
+
+    public struct ResponseHeadersPolicyAccessControlAllowHeaders: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Header" }
+
+        /// The list of HTTP header names. You can specify * to allow all headers.
+        @CustomCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]
+        /// The number of HTTP header names in the list.
+        public let quantity: Int
+
+        public init(items: [String], quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ResponseHeadersPolicyAccessControlAllowMethods: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Method" }
+
+        /// The list of HTTP methods. Valid values are:    GET     DELETE     HEAD     OPTIONS     PATCH     POST     PUT     ALL     ALL is a special value that includes all of the listed HTTP methods.
+        @CustomCoding<ArrayCoder<_ItemsEncoding, ResponseHeadersPolicyAccessControlAllowMethodsValues>>
+        public var items: [ResponseHeadersPolicyAccessControlAllowMethodsValues]
+        /// The number of HTTP methods in the list.
+        public let quantity: Int
+
+        public init(items: [ResponseHeadersPolicyAccessControlAllowMethodsValues], quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ResponseHeadersPolicyAccessControlAllowOrigins: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Origin" }
+
+        /// The list of origins (domain names). You can specify * to allow all origins.
+        @CustomCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]
+        /// The number of origins in the list.
+        public let quantity: Int
+
+        public init(items: [String], quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ResponseHeadersPolicyAccessControlExposeHeaders: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Header" }
+
+        /// The list of HTTP headers. You can specify * to expose all headers.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
+        /// The number of HTTP headers in the list.
+        public let quantity: Int
+
+        public init(items: [String]? = nil, quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ResponseHeadersPolicyConfig: AWSEncodableShape & AWSDecodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+
+        /// A comment to describe the response headers policy. The comment cannot be longer than 128 characters.
+        public let comment: String?
+        /// A configuration for a set of HTTP response headers that are used for cross-origin resource sharing (CORS).
+        public let corsConfig: ResponseHeadersPolicyCorsConfig?
+        /// A configuration for a set of custom HTTP response headers.
+        public let customHeadersConfig: ResponseHeadersPolicyCustomHeadersConfig?
+        /// A name to identify the response headers policy. The name must be unique for response headers policies in this Amazon Web Services account.
+        public let name: String
+        /// A configuration for a set of security-related HTTP response headers.
+        public let securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig?
+
+        public init(comment: String? = nil, corsConfig: ResponseHeadersPolicyCorsConfig? = nil, customHeadersConfig: ResponseHeadersPolicyCustomHeadersConfig? = nil, name: String, securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig? = nil) {
+            self.comment = comment
+            self.corsConfig = corsConfig
+            self.customHeadersConfig = customHeadersConfig
+            self.name = name
+            self.securityHeadersConfig = securityHeadersConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case corsConfig = "CorsConfig"
+            case customHeadersConfig = "CustomHeadersConfig"
+            case name = "Name"
+            case securityHeadersConfig = "SecurityHeadersConfig"
+        }
+    }
+
+    public struct ResponseHeadersPolicyContentSecurityPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The policy directives and their values that CloudFront includes as values for the Content-Security-Policy HTTP response header.
+        public let contentSecurityPolicy: String
+        /// A Boolean that determines whether CloudFront overrides the Content-Security-Policy HTTP response header received from the origin with the one specified in this response headers policy.
+        public let override: Bool
+
+        public init(contentSecurityPolicy: String, override: Bool) {
+            self.contentSecurityPolicy = contentSecurityPolicy
+            self.override = override
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentSecurityPolicy = "ContentSecurityPolicy"
+            case override = "Override"
+        }
+    }
+
+    public struct ResponseHeadersPolicyContentTypeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean that determines whether CloudFront overrides the X-Content-Type-Options HTTP response header received from the origin with the one specified in this response headers policy.
+        public let override: Bool
+
+        public init(override: Bool) {
+            self.override = override
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case override = "Override"
+        }
+    }
+
+    public struct ResponseHeadersPolicyCorsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean that CloudFront uses as the value for the Access-Control-Allow-Credentials HTTP response header. For more information about the Access-Control-Allow-Credentials HTTP response header, see Access-Control-Allow-Credentials in the MDN Web Docs.
+        public let accessControlAllowCredentials: Bool
+        /// A list of HTTP header names that CloudFront includes as values for the Access-Control-Allow-Headers HTTP response header. For more information about the Access-Control-Allow-Headers HTTP response header, see Access-Control-Allow-Headers in the MDN Web Docs.
+        public let accessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders
+        /// A list of HTTP methods that CloudFront includes as values for the Access-Control-Allow-Methods HTTP response header. For more information about the Access-Control-Allow-Methods HTTP response header, see Access-Control-Allow-Methods in the MDN Web Docs.
+        public let accessControlAllowMethods: ResponseHeadersPolicyAccessControlAllowMethods
+        /// A list of origins (domain names) that CloudFront can use as the value for the Access-Control-Allow-Origin HTTP response header. For more information about the Access-Control-Allow-Origin HTTP response header, see Access-Control-Allow-Origin in the MDN Web Docs.
+        public let accessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins
+        /// A list of HTTP headers that CloudFront includes as values for the Access-Control-Expose-Headers HTTP response header. For more information about the Access-Control-Expose-Headers HTTP response header, see Access-Control-Expose-Headers in the MDN Web Docs.
+        public let accessControlExposeHeaders: ResponseHeadersPolicyAccessControlExposeHeaders?
+        /// A number that CloudFront uses as the value for the Access-Control-Max-Age HTTP response header. For more information about the Access-Control-Max-Age HTTP response header, see Access-Control-Max-Age in the MDN Web Docs.
+        public let accessControlMaxAgeSec: Int?
+        /// A Boolean that determines whether CloudFront overrides HTTP response headers received from the origin with the ones specified in this response headers policy.
+        public let originOverride: Bool
+
+        public init(accessControlAllowCredentials: Bool, accessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders, accessControlAllowMethods: ResponseHeadersPolicyAccessControlAllowMethods, accessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins, accessControlExposeHeaders: ResponseHeadersPolicyAccessControlExposeHeaders? = nil, accessControlMaxAgeSec: Int? = nil, originOverride: Bool) {
+            self.accessControlAllowCredentials = accessControlAllowCredentials
+            self.accessControlAllowHeaders = accessControlAllowHeaders
+            self.accessControlAllowMethods = accessControlAllowMethods
+            self.accessControlAllowOrigins = accessControlAllowOrigins
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.accessControlMaxAgeSec = accessControlMaxAgeSec
+            self.originOverride = originOverride
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlAllowCredentials = "AccessControlAllowCredentials"
+            case accessControlAllowHeaders = "AccessControlAllowHeaders"
+            case accessControlAllowMethods = "AccessControlAllowMethods"
+            case accessControlAllowOrigins = "AccessControlAllowOrigins"
+            case accessControlExposeHeaders = "AccessControlExposeHeaders"
+            case accessControlMaxAgeSec = "AccessControlMaxAgeSec"
+            case originOverride = "OriginOverride"
+        }
+    }
+
+    public struct ResponseHeadersPolicyCustomHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The HTTP response header name.
+        public let header: String
+        /// A Boolean that determines whether CloudFront overrides a response header with the same name received from the origin with the header specified here.
+        public let override: Bool
+        /// The value for the HTTP response header.
+        public let value: String
+
+        public init(header: String, override: Bool, value: String) {
+            self.header = header
+            self.override = override
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case header = "Header"
+            case override = "Override"
+            case value = "Value"
+        }
+    }
+
+    public struct ResponseHeadersPolicyCustomHeadersConfig: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "ResponseHeadersPolicyCustomHeader" }
+
+        /// The list of HTTP response headers and their values.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, ResponseHeadersPolicyCustomHeader>>
+        public var items: [ResponseHeadersPolicyCustomHeader]?
+        /// The number of HTTP response headers in the list.
+        public let quantity: Int
+
+        public init(items: [ResponseHeadersPolicyCustomHeader]? = nil, quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ResponseHeadersPolicyFrameOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The value of the X-Frame-Options HTTP response header. Valid values are DENY and SAMEORIGIN.  For more information about these values, see X-Frame-Options in the MDN Web Docs.
+        public let frameOption: FrameOptionsList
+        /// A Boolean that determines whether CloudFront overrides the X-Frame-Options HTTP response header received from the origin with the one specified in this response headers policy.
+        public let override: Bool
+
+        public init(frameOption: FrameOptionsList, override: Bool) {
+            self.frameOption = frameOption
+            self.override = override
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameOption = "FrameOption"
+            case override = "Override"
+        }
+    }
+
+    public struct ResponseHeadersPolicyList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "ResponseHeadersPolicySummary" }
+
+        /// The response headers policies in the list.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, ResponseHeadersPolicySummary>>
+        public var items: [ResponseHeadersPolicySummary]?
+        /// The maximum number of response headers policies requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing response headers policies where you left off.
+        public let nextMarker: String?
+        /// The number of response headers policies returned.
+        public let quantity: Int
+
+        public init(items: [ResponseHeadersPolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ResponseHeadersPolicyReferrerPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean that determines whether CloudFront overrides the Referrer-Policy HTTP response header received from the origin with the one specified in this response headers policy.
+        public let override: Bool
+        /// The value of the Referrer-Policy HTTP response header. Valid values are:    no-referrer     no-referrer-when-downgrade     origin     origin-when-cross-origin     same-origin     strict-origin     strict-origin-when-cross-origin     unsafe-url    For more information about these values, see Referrer-Policy in the MDN Web Docs.
+        public let referrerPolicy: ReferrerPolicyList
+
+        public init(override: Bool, referrerPolicy: ReferrerPolicyList) {
+            self.override = override
+            self.referrerPolicy = referrerPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case override = "Override"
+            case referrerPolicy = "ReferrerPolicy"
+        }
+    }
+
+    public struct ResponseHeadersPolicySecurityHeadersConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The policy directives and their values that CloudFront includes as values for the Content-Security-Policy HTTP response header. For more information about the Content-Security-Policy HTTP response header, see Content-Security-Policy in the MDN Web Docs.
+        public let contentSecurityPolicy: ResponseHeadersPolicyContentSecurityPolicy?
+        /// Determines whether CloudFront includes the X-Content-Type-Options HTTP response header with its value set to nosniff. For more information about the X-Content-Type-Options HTTP response header, see X-Content-Type-Options in the MDN Web Docs.
+        public let contentTypeOptions: ResponseHeadersPolicyContentTypeOptions?
+        /// Determines whether CloudFront includes the X-Frame-Options HTTP response header and the header’s value. For more information about the X-Frame-Options HTTP response header, see X-Frame-Options in the MDN Web Docs.
+        public let frameOptions: ResponseHeadersPolicyFrameOptions?
+        /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header’s value. For more information about the Referrer-Policy HTTP response header, see Referrer-Policy in the MDN Web Docs.
+        public let referrerPolicy: ResponseHeadersPolicyReferrerPolicy?
+        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header’s value. For more information about the Strict-Transport-Security HTTP response header, see Strict-Transport-Security in the MDN Web Docs.
+        public let strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity?
+        /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header’s value. For more information about the X-XSS-Protection HTTP response header, see X-XSS-Protection in the MDN Web Docs.
+        public let xSSProtection: ResponseHeadersPolicyXSSProtection?
+
+        public init(contentSecurityPolicy: ResponseHeadersPolicyContentSecurityPolicy? = nil, contentTypeOptions: ResponseHeadersPolicyContentTypeOptions? = nil, frameOptions: ResponseHeadersPolicyFrameOptions? = nil, referrerPolicy: ResponseHeadersPolicyReferrerPolicy? = nil, strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity? = nil, xSSProtection: ResponseHeadersPolicyXSSProtection? = nil) {
+            self.contentSecurityPolicy = contentSecurityPolicy
+            self.contentTypeOptions = contentTypeOptions
+            self.frameOptions = frameOptions
+            self.referrerPolicy = referrerPolicy
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xSSProtection = xSSProtection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentSecurityPolicy = "ContentSecurityPolicy"
+            case contentTypeOptions = "ContentTypeOptions"
+            case frameOptions = "FrameOptions"
+            case referrerPolicy = "ReferrerPolicy"
+            case strictTransportSecurity = "StrictTransportSecurity"
+            case xSSProtection = "XSSProtection"
+        }
+    }
+
+    public struct ResponseHeadersPolicyStrictTransportSecurity: AWSEncodableShape & AWSDecodableShape {
+        /// A number that CloudFront uses as the value for the max-age directive in the Strict-Transport-Security HTTP response header.
+        public let accessControlMaxAgeSec: Int
+        /// A Boolean that determines whether CloudFront includes the includeSubDomains directive in the Strict-Transport-Security HTTP response header.
+        public let includeSubdomains: Bool?
+        /// A Boolean that determines whether CloudFront overrides the Strict-Transport-Security HTTP response header received from the origin with the one specified in this response headers policy.
+        public let override: Bool
+        /// A Boolean that determines whether CloudFront includes the preload directive in the Strict-Transport-Security HTTP response header.
+        public let preload: Bool?
+
+        public init(accessControlMaxAgeSec: Int, includeSubdomains: Bool? = nil, override: Bool, preload: Bool? = nil) {
+            self.accessControlMaxAgeSec = accessControlMaxAgeSec
+            self.includeSubdomains = includeSubdomains
+            self.override = override
+            self.preload = preload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlMaxAgeSec = "AccessControlMaxAgeSec"
+            case includeSubdomains = "IncludeSubdomains"
+            case override = "Override"
+            case preload = "Preload"
+        }
+    }
+
+    public struct ResponseHeadersPolicySummary: AWSDecodableShape {
+        /// The response headers policy.
+        public let responseHeadersPolicy: ResponseHeadersPolicy
+        /// The type of response headers policy, either managed (created by Amazon Web Services) or custom (created in this Amazon Web Services account).
+        public let type: ResponseHeadersPolicyType
+
+        public init(responseHeadersPolicy: ResponseHeadersPolicy, type: ResponseHeadersPolicyType) {
+            self.responseHeadersPolicy = responseHeadersPolicy
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseHeadersPolicy = "ResponseHeadersPolicy"
+            case type = "Type"
+        }
+    }
+
+    public struct ResponseHeadersPolicyXSSProtection: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean that determines whether CloudFront includes the mode=block directive in the X-XSS-Protection header. For more information about this directive, see X-XSS-Protection in the MDN Web Docs.
+        public let modeBlock: Bool?
+        /// A Boolean that determines whether CloudFront overrides the X-XSS-Protection HTTP response header received from the origin with the one specified in this response headers policy.
+        public let override: Bool
+        /// A Boolean that determines the value of the X-XSS-Protection HTTP response header. When this setting is true, the value of the X-XSS-Protection header is 1. When this setting is false, the value of the X-XSS-Protection header is 0. For more information about these settings, see X-XSS-Protection in the MDN Web Docs.
+        public let protection: Bool
+        /// A reporting URI, which CloudFront uses as the value of the report directive in the X-XSS-Protection header. You cannot specify a ReportUri when ModeBlock is true. For more information about using a reporting URL, see X-XSS-Protection in the MDN Web Docs.
+        public let reportUri: String?
+
+        public init(modeBlock: Bool? = nil, override: Bool, protection: Bool, reportUri: String? = nil) {
+            self.modeBlock = modeBlock
+            self.override = override
+            self.protection = protection
+            self.reportUri = reportUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modeBlock = "ModeBlock"
+            case override = "Override"
+            case protection = "Protection"
+            case reportUri = "ReportUri"
+        }
+    }
+
     public struct Restrictions: AWSEncodableShape & AWSDecodableShape {
         /// A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
         public let geoRestriction: GeoRestriction
@@ -5493,7 +6167,7 @@ extension CloudFront {
     }
 
     public struct Signer: AWSDecodableShape {
-        /// An account number that contains active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If the account that owns the key pairs is the same account that owns the CloudFront distribution, the value of this field is self.
+        /// An Amazon Web Services account number that contains active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If the Amazon Web Services account that owns the key pairs is the same account that owns the CloudFront distribution, the value of this field is self.
         public let awsAccountNumber: String?
         /// A list of CloudFront key pair identifiers.
         public let keyPairIds: KeyPairIds?
@@ -5534,9 +6208,9 @@ extension CloudFront {
     }
 
     public struct StreamingDistribution: AWSDecodableShape {
-        /// A complex type that lists the accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the account number of the trusted signer or self if the signer is the account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that lists the Amazon Web Services accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the Amazon Web Services account number of the trusted signer or self if the signer is the Amazon Web Services account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's Amazon Web Services account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let activeTrustedSigners: ActiveTrustedSigners
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
         /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net.
         public let domainName: String
@@ -5587,7 +6261,7 @@ extension CloudFront {
         public let priceClass: PriceClass?
         /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
         public let s3Origin: S3Origin
-        /// A complex type that specifies any accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that specifies any Amazon Web Services accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
         public init(aliases: Aliases? = nil, callerReference: String, comment: String, enabled: Bool, logging: StreamingLoggingConfig? = nil, priceClass: PriceClass? = nil, s3Origin: S3Origin, trustedSigners: TrustedSigners) {
@@ -5641,7 +6315,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current account.
+        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, StreamingDistributionSummary>>
         public var items: [StreamingDistributionSummary]?
         /// The value you provided for the Marker request parameter.
@@ -5650,7 +6324,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off.
         public let nextMarker: String?
-        /// The number of streaming distributions that were created by the current account.
+        /// The number of streaming distributions that were created by the current Amazon Web Services account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -5675,7 +6349,7 @@ extension CloudFront {
     public struct StreamingDistributionSummary: AWSDecodableShape {
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases
-        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
+        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
         /// The comment originally specified when this distribution was created.
         public let comment: String
@@ -5693,7 +6367,7 @@ extension CloudFront {
         public let s3Origin: S3Origin
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
-        /// A complex type that specifies the accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that specifies the Amazon Web Services accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
         public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: Date, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
@@ -5957,12 +6631,12 @@ extension CloudFront {
     public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AwsAccountNumber" }
 
-        /// This field is true if any of the accounts have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        /// A list of account identifiers.
+        /// A list of Amazon Web Services account identifiers.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
-        /// The number of accounts in the list.
+        /// The number of Amazon Web Services accounts in the list.
         public let quantity: Int
 
         public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
@@ -6520,6 +7194,57 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case realtimeLogConfig = "RealtimeLogConfig"
+        }
+    }
+
+    public struct UpdateResponseHeadersPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicyConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")),
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
+            AWSMemberEncoding(label: "responseHeadersPolicyConfig", location: .body(locationName: "ResponseHeadersPolicyConfig"))
+        ]
+
+        /// The identifier for the response headers policy that you are updating.
+        public let id: String
+        /// The version of the response headers policy that you are updating. The version is returned in the cache policy’s ETag field in the response to GetResponseHeadersPolicyConfig.
+        public let ifMatch: String?
+        /// A response headers policy configuration.
+        public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
+
+        public init(id: String, ifMatch: String? = nil, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
+        }
+    }
+
+    public struct UpdateResponseHeadersPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "responseHeadersPolicy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "responseHeadersPolicy", location: .body(locationName: "ResponseHeadersPolicy"))
+        ]
+
+        /// The current version of the response headers policy.
+        public let eTag: String?
+        /// A response headers policy.
+        public let responseHeadersPolicy: ResponseHeadersPolicy?
+
+        public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy? = nil) {
+            self.eTag = eTag
+            self.responseHeadersPolicy = responseHeadersPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case responseHeadersPolicy = "ResponseHeadersPolicy"
         }
     }
 

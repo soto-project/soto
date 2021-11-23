@@ -132,6 +132,28 @@ extension Connect {
         )
     }
 
+    ///  Provides information about the contact flow modules for the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listContactFlowModulesPaginator(
+        _ input: ListContactFlowModulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListContactFlowModulesRequest, ListContactFlowModulesResponse> {
+        return .init(
+            input: input,
+            command: listContactFlowModules,
+            inputKey: \ListContactFlowModulesRequest.nextToken,
+            outputKey: \ListContactFlowModulesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -149,6 +171,28 @@ extension Connect {
             command: listContactFlows,
             inputKey: \ListContactFlowsRequest.nextToken,
             outputKey: \ListContactFlowsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listContactReferencesPaginator(
+        _ input: ListContactReferencesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListContactReferencesRequest, ListContactReferencesResponse> {
+        return .init(
+            input: input,
+            command: listContactReferences,
+            inputKey: \ListContactReferencesRequest.nextToken,
+            outputKey: \ListContactReferencesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -479,6 +523,28 @@ extension Connect {
             command: listSecurityKeys,
             inputKey: \ListSecurityKeysRequest.nextToken,
             outputKey: \ListSecurityKeysResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSecurityProfilePermissionsPaginator(
+        _ input: ListSecurityProfilePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSecurityProfilePermissionsRequest, ListSecurityProfilePermissionsResponse> {
+        return .init(
+            input: input,
+            command: listSecurityProfilePermissions,
+            inputKey: \ListSecurityProfilePermissionsRequest.nextToken,
+            outputKey: \ListSecurityProfilePermissionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

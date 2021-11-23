@@ -88,6 +88,28 @@ extension WorkMail {
         )
     }
 
+    ///  Lists the mail domains in a given Amazon WorkMail organization.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMailDomainsPaginator(
+        _ input: ListMailDomainsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMailDomainsRequest, ListMailDomainsResponse> {
+        return .init(
+            input: input,
+            command: listMailDomains,
+            inputKey: \ListMailDomainsRequest.nextToken,
+            outputKey: \ListMailDomainsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
     /// Return PaginatorSequence for operation.
     ///

@@ -22,7 +22,7 @@ import SotoCore
 extension AuditManager {
     // MARK: Async API Calls
 
-    ///  Associates an evidence folder to the specified assessment report in Audit Manager.
+    ///  Associates an evidence folder to an assessment report in a Audit Manager assessment.
     public func associateAssessmentReportEvidenceFolder(_ input: AssociateAssessmentReportEvidenceFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateAssessmentReportEvidenceFolderResponse {
         return try await self.client.execute(operation: "AssociateAssessmentReportEvidenceFolder", path: "/assessments/{assessmentId}/associateToAssessmentReport", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -32,22 +32,22 @@ extension AuditManager {
         return try await self.client.execute(operation: "BatchAssociateAssessmentReportEvidence", path: "/assessments/{assessmentId}/batchAssociateToAssessmentReport", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Create a batch of delegations for a specified assessment in Audit Manager.
+    ///  Creates a batch of delegations for an assessment in Audit Manager.
     public func batchCreateDelegationByAssessment(_ input: BatchCreateDelegationByAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchCreateDelegationByAssessmentResponse {
         return try await self.client.execute(operation: "BatchCreateDelegationByAssessment", path: "/assessments/{assessmentId}/delegations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes the delegations in the specified Audit Manager assessment.
+    ///  Deletes a batch of delegations for an assessment in Audit Manager.
     public func batchDeleteDelegationByAssessment(_ input: BatchDeleteDelegationByAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDeleteDelegationByAssessmentResponse {
         return try await self.client.execute(operation: "BatchDeleteDelegationByAssessment", path: "/assessments/{assessmentId}/delegations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Disassociates a list of evidence from the specified assessment report in Audit Manager.
+    ///  Disassociates a list of evidence from an assessment report in Audit Manager.
     public func batchDisassociateAssessmentReportEvidence(_ input: BatchDisassociateAssessmentReportEvidenceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDisassociateAssessmentReportEvidenceResponse {
         return try await self.client.execute(operation: "BatchDisassociateAssessmentReportEvidence", path: "/assessments/{assessmentId}/batchDisassociateFromAssessmentReport", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Uploads one or more pieces of evidence to the specified control in the assessment in Audit Manager.
+    ///  Uploads one or more pieces of evidence to a control in an Audit Manager assessment.
     public func batchImportEvidenceToAssessmentControl(_ input: BatchImportEvidenceToAssessmentControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchImportEvidenceToAssessmentControlResponse {
         return try await self.client.execute(operation: "BatchImportEvidenceToAssessmentControl", path: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}/evidence", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -82,6 +82,11 @@ extension AuditManager {
         return try await self.client.execute(operation: "DeleteAssessmentFramework", path: "/assessmentFrameworks/{frameworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Deletes a share request for a custom framework in Audit Manager.
+    public func deleteAssessmentFrameworkShare(_ input: DeleteAssessmentFrameworkShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAssessmentFrameworkShareResponse {
+        return try await self.client.execute(operation: "DeleteAssessmentFrameworkShare", path: "/assessmentFrameworkShareRequests/{requestId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Deletes an assessment report from an assessment in Audit Manager.
     public func deleteAssessmentReport(_ input: DeleteAssessmentReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAssessmentReportResponse {
         return try await self.client.execute(operation: "DeleteAssessmentReport", path: "/assessments/{assessmentId}/reports/{assessmentReportId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -97,7 +102,7 @@ extension AuditManager {
         return try await self.client.execute(operation: "DeregisterAccount", path: "/account/deregisterAccount", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified member account as a delegated administrator for Audit Manager.   When you remove a delegated administrator from your Audit Manager settings, or when you deregister a delegated administrator from Organizations, you continue to have access to the evidence that you previously collected under that account. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward.
+    /// Removes the specified member Amazon Web Services account as a delegated administrator for Audit Manager.   When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Audit Manager. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward.
     public func deregisterOrganizationAdminAccount(_ input: DeregisterOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterOrganizationAdminAccountResponse {
         return try await self.client.execute(operation: "DeregisterOrganizationAdminAccount", path: "/account/deregisterOrganizationAdminAccount", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -112,17 +117,17 @@ extension AuditManager {
         return try await self.client.execute(operation: "GetAccountStatus", path: "/account/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns an assessment from Audit Manager.
+    /// Returns an assessment from Audit Manager.
     public func getAssessment(_ input: GetAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssessmentResponse {
         return try await self.client.execute(operation: "GetAssessment", path: "/assessments/{assessmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a framework from Audit Manager.
+    /// Returns a framework from Audit Manager.
     public func getAssessmentFramework(_ input: GetAssessmentFrameworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssessmentFrameworkResponse {
         return try await self.client.execute(operation: "GetAssessmentFramework", path: "/assessmentFrameworks/{frameworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the URL of a specified assessment report in Audit Manager.
+    ///  Returns the URL of an assessment report in Audit Manager.
     public func getAssessmentReportUrl(_ input: GetAssessmentReportUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssessmentReportUrlResponse {
         return try await self.client.execute(operation: "GetAssessmentReportUrl", path: "/assessments/{assessmentId}/reports/{assessmentReportId}/url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -162,9 +167,19 @@ extension AuditManager {
         return try await self.client.execute(operation: "GetEvidenceFoldersByAssessment", path: "/assessments/{assessmentId}/evidenceFolders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of evidence folders associated with a specified control of an assessment in Audit Manager.
+    ///  Returns a list of evidence folders that are associated with a specified control of an assessment in Audit Manager.
     public func getEvidenceFoldersByAssessmentControl(_ input: GetEvidenceFoldersByAssessmentControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceFoldersByAssessmentControlResponse {
         return try await self.client.execute(operation: "GetEvidenceFoldersByAssessmentControl", path: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the latest analytics data for all your current active assessments.
+    public func getInsights(_ input: GetInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetInsightsResponse {
+        return try await self.client.execute(operation: "GetInsights", path: "/insights", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the latest analytics data for a specific active assessment.
+    public func getInsightsByAssessment(_ input: GetInsightsByAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetInsightsByAssessmentResponse {
+        return try await self.client.execute(operation: "GetInsightsByAssessment", path: "/insights/assessments/{assessmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the name of the delegated Amazon Web Services administrator account for the organization.
@@ -177,12 +192,22 @@ extension AuditManager {
         return try await self.client.execute(operation: "GetServicesInScope", path: "/services", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the settings for the specified account.
+    ///  Returns the settings for the specified Amazon Web Services account.
     public func getSettings(_ input: GetSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSettingsResponse {
         return try await self.client.execute(operation: "GetSettings", path: "/settings/{attribute}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of the frameworks available in the Audit Manager framework library.
+    /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment.  Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
+    public func listAssessmentControlInsightsByControlDomain(_ input: ListAssessmentControlInsightsByControlDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAssessmentControlInsightsByControlDomainResponse {
+        return try await self.client.execute(operation: "ListAssessmentControlInsightsByControlDomain", path: "/insights/controls-by-assessment", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns a list of sent or received share requests for custom frameworks in Audit Manager.
+    public func listAssessmentFrameworkShareRequests(_ input: ListAssessmentFrameworkShareRequestsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAssessmentFrameworkShareRequestsResponse {
+        return try await self.client.execute(operation: "ListAssessmentFrameworkShareRequests", path: "/assessmentFrameworkShareRequests", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns a list of the frameworks that are available in the Audit Manager framework library.
     public func listAssessmentFrameworks(_ input: ListAssessmentFrameworksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAssessmentFrameworksResponse {
         return try await self.client.execute(operation: "ListAssessmentFrameworks", path: "/assessmentFrameworks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,12 +222,27 @@ extension AuditManager {
         return try await self.client.execute(operation: "ListAssessments", path: "/assessments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    public func listControlDomainInsights(_ input: ListControlDomainInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListControlDomainInsightsResponse {
+        return try await self.client.execute(operation: "ListControlDomainInsights", path: "/insights/control-domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    public func listControlDomainInsightsByAssessment(_ input: ListControlDomainInsightsByAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListControlDomainInsightsByAssessmentResponse {
+        return try await self.client.execute(operation: "ListControlDomainInsightsByAssessment", path: "/insights/control-domains-by-assessment", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the latest analytics data for controls within a specific control domain across all active assessments.  Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
+    public func listControlInsightsByControlDomain(_ input: ListControlInsightsByControlDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListControlInsightsByControlDomainResponse {
+        return try await self.client.execute(operation: "ListControlInsightsByControlDomain", path: "/insights/controls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns a list of controls from Audit Manager.
     public func listControls(_ input: ListControlsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListControlsResponse {
         return try await self.client.execute(operation: "ListControls", path: "/controls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of keywords that pre-mapped to the specified control data source.
+    ///  Returns a list of keywords that are pre-mapped to the specified control data source.
     public func listKeywordsForDataSource(_ input: ListKeywordsForDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListKeywordsForDataSourceResponse {
         return try await self.client.execute(operation: "ListKeywordsForDataSource", path: "/dataSourceKeywords", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -217,14 +257,19 @@ extension AuditManager {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Enables Audit Manager for the specified account.
+    ///  Enables Audit Manager for the specified Amazon Web Services account.
     public func registerAccount(_ input: RegisterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterAccountResponse {
         return try await self.client.execute(operation: "RegisterAccount", path: "/account/registerAccount", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Enables an account within the organization as the delegated administrator for Audit Manager.
+    ///  Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager.
     public func registerOrganizationAdminAccount(_ input: RegisterOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterOrganizationAdminAccountResponse {
         return try await self.client.execute(operation: "RegisterOrganizationAdminAccount", path: "/account/registerOrganizationAdminAccount", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Creates a share request for a custom framework in Audit Manager.  The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires.  When you invoke the StartAssessmentFrameworkShare API, you are about to share a custom framework with another Amazon Web Services account. You may not share a custom framework that is derived from a standard framework if the standard framework is designated as not eligible for sharing by Amazon Web Services, unless you have obtained permission to do so from the owner of the standard framework. To learn more about which standard frameworks are eligible for sharing, see Framework sharing eligibility in the Audit Manager User Guide.
+    public func startAssessmentFrameworkShare(_ input: StartAssessmentFrameworkShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartAssessmentFrameworkShareResponse {
+        return try await self.client.execute(operation: "StartAssessmentFrameworkShare", path: "/assessmentFrameworks/{frameworkId}/shareRequests", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Tags the specified resource in Audit Manager.
@@ -255,6 +300,11 @@ extension AuditManager {
     ///  Updates a custom framework in Audit Manager.
     public func updateAssessmentFramework(_ input: UpdateAssessmentFrameworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAssessmentFrameworkResponse {
         return try await self.client.execute(operation: "UpdateAssessmentFramework", path: "/assessmentFrameworks/{frameworkId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Updates a share request for a custom framework in Audit Manager.
+    public func updateAssessmentFrameworkShare(_ input: UpdateAssessmentFrameworkShareRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAssessmentFrameworkShareResponse {
+        return try await self.client.execute(operation: "UpdateAssessmentFrameworkShare", path: "/assessmentFrameworkShareRequests/{requestId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the status of an assessment in Audit Manager.

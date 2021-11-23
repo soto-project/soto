@@ -20,6 +20,31 @@ import SotoCore
 extension ChimeSDKIdentity {
     // MARK: Enums
 
+    public enum AllowMessages: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppInstanceUserEndpointType: String, CustomStringConvertible, Codable {
+        case apns = "APNS"
+        case apnsSandbox = "APNS_SANDBOX"
+        case gcm = "GCM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointStatusReason: String, CustomStringConvertible, Codable {
+        case invalidDeviceToken = "INVALID_DEVICE_TOKEN"
+        case invalidPinpointArn = "INVALID_PINPOINT_ARN"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AppInstance: AWSDecodableShape {
@@ -149,6 +174,88 @@ extension ChimeSDKIdentity {
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
             case metadata = "Metadata"
             case name = "Name"
+        }
+    }
+
+    public struct AppInstanceUserEndpoint: AWSDecodableShape {
+        /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages.
+        public let allowMessages: AllowMessages?
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String?
+        /// The time at which an AppInstanceUserEndpoint was created.
+        public let createdTimestamp: Date?
+        /// The attributes of an Endpoint.
+        public let endpointAttributes: EndpointAttributes?
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String?
+        /// A read-only field that represents the state of an AppInstanceUserEndpoint. Supported values:    ACTIVE: The AppInstanceUserEndpoint is active and able to receive messages. When ACTIVE, the EndpointStatusReason remains empty.    INACTIVE: The AppInstanceUserEndpoint is inactive and can't receive message. When INACTIVE, the corresponding reason will be conveyed through EndpointStatusReason.    INVALID_DEVICE_TOKEN indicates that an AppInstanceUserEndpoint is INACTIVE due to invalid device token    INVALID_PINPOINT_ARN indicates that an AppInstanceUserEndpoint is INACTIVE due to an invalid pinpoint ARN that was input through the ResourceArn field.
+        public let endpointState: EndpointState?
+        /// The time at which an AppInstanceUserEndpoint was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The name of the AppInstanceUserEndpoint.
+        public let name: String?
+        /// The ARN of the resource to which the endpoint belongs.
+        public let resourceArn: String?
+        /// The type of the AppInstanceUserEndpoint.
+        public let type: AppInstanceUserEndpointType?
+
+        public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, endpointAttributes: EndpointAttributes? = nil, endpointId: String? = nil, endpointState: EndpointState? = nil, lastUpdatedTimestamp: Date? = nil, name: String? = nil, resourceArn: String? = nil, type: AppInstanceUserEndpointType? = nil) {
+            self.allowMessages = allowMessages
+            self.appInstanceUserArn = appInstanceUserArn
+            self.createdTimestamp = createdTimestamp
+            self.endpointAttributes = endpointAttributes
+            self.endpointId = endpointId
+            self.endpointState = endpointState
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.name = name
+            self.resourceArn = resourceArn
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMessages = "AllowMessages"
+            case appInstanceUserArn = "AppInstanceUserArn"
+            case createdTimestamp = "CreatedTimestamp"
+            case endpointAttributes = "EndpointAttributes"
+            case endpointId = "EndpointId"
+            case endpointState = "EndpointState"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case name = "Name"
+            case resourceArn = "ResourceArn"
+            case type = "Type"
+        }
+    }
+
+    public struct AppInstanceUserEndpointSummary: AWSDecodableShape {
+        /// BBoolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages.
+        public let allowMessages: AllowMessages?
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String?
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String?
+        /// A read-only field that represent the state of an AppInstanceUserEndpoint.
+        public let endpointState: EndpointState?
+        /// The name of the AppInstanceUserEndpoint.
+        public let name: String?
+        /// The type of the AppInstanceUserEndpoint.
+        public let type: AppInstanceUserEndpointType?
+
+        public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String? = nil, endpointId: String? = nil, endpointState: EndpointState? = nil, name: String? = nil, type: AppInstanceUserEndpointType? = nil) {
+            self.allowMessages = allowMessages
+            self.appInstanceUserArn = appInstanceUserArn
+            self.endpointId = endpointId
+            self.endpointState = endpointState
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMessages = "AllowMessages"
+            case appInstanceUserArn = "AppInstanceUserArn"
+            case endpointId = "EndpointId"
+            case endpointState = "EndpointState"
+            case name = "Name"
+            case type = "Type"
         }
     }
 
@@ -431,6 +538,34 @@ extension ChimeSDKIdentity {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeregisterAppInstanceUserEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn")),
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpointId"))
+        ]
+
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String
+
+        public init(appInstanceUserArn: String, endpointId: String) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.endpointId = endpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 64)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, min: 0)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DescribeAppInstanceAdminRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri(locationName: "appInstanceAdminArn")),
@@ -506,6 +641,47 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct DescribeAppInstanceUserEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn")),
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpointId"))
+        ]
+
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String
+
+        public init(appInstanceUserArn: String, endpointId: String) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.endpointId = endpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 0)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: ".*")
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 64)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, min: 0)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAppInstanceUserEndpointResponse: AWSDecodableShape {
+        /// The full details of an AppInstanceUserEndpoint: the AppInstanceUserArn, ID, name, type, resource ARN, attributes, allow messages, state, and created and last updated timestamps. All timestamps use epoch milliseconds.
+        public let appInstanceUserEndpoint: AppInstanceUserEndpoint?
+
+        public init(appInstanceUserEndpoint: AppInstanceUserEndpoint? = nil) {
+            self.appInstanceUserEndpoint = appInstanceUserEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceUserEndpoint = "AppInstanceUserEndpoint"
+        }
+    }
+
     public struct DescribeAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn"))
@@ -537,6 +713,49 @@ extension ChimeSDKIdentity {
 
         private enum CodingKeys: String, CodingKey {
             case appInstanceUser = "AppInstanceUser"
+        }
+    }
+
+    public struct EndpointAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// The device token for the GCM, APNS, and APNS_SANDBOX endpoint types.
+        public let deviceToken: String
+        /// The VOIP device token for the APNS and APNS_SANDBOX endpoint types.
+        public let voipDeviceToken: String?
+
+        public init(deviceToken: String, voipDeviceToken: String? = nil) {
+            self.deviceToken = deviceToken
+            self.voipDeviceToken = voipDeviceToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceToken, name: "deviceToken", parent: name, max: 1600)
+            try self.validate(self.deviceToken, name: "deviceToken", parent: name, min: 1)
+            try self.validate(self.deviceToken, name: "deviceToken", parent: name, pattern: ".*")
+            try self.validate(self.voipDeviceToken, name: "voipDeviceToken", parent: name, max: 1600)
+            try self.validate(self.voipDeviceToken, name: "voipDeviceToken", parent: name, min: 1)
+            try self.validate(self.voipDeviceToken, name: "voipDeviceToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceToken = "DeviceToken"
+            case voipDeviceToken = "VoipDeviceToken"
+        }
+    }
+
+    public struct EndpointState: AWSDecodableShape {
+        /// Enum that indicates the Status of an AppInstanceUserEndpoint.
+        public let status: EndpointStatus
+        /// The reason for the EndpointStatus.
+        public let statusReason: EndpointStatusReason?
+
+        public init(status: EndpointStatus, statusReason: EndpointStatusReason? = nil) {
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -650,6 +869,57 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct ListAppInstanceUserEndpointsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String
+        /// The maximum number of endpoints that you want to return.
+        public let maxResults: Int?
+        /// The token passed by previous API calls until all requested endpoints are returned.
+        public let nextToken: String?
+
+        public init(appInstanceUserArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAppInstanceUserEndpointsResponse: AWSDecodableShape {
+        /// The information for each requested AppInstanceUserEndpoint.
+        public let appInstanceUserEndpoints: [AppInstanceUserEndpointSummary]?
+        /// The token passed by previous API calls until all requested endpoints are returned.
+        public let nextToken: String?
+
+        public init(appInstanceUserEndpoints: [AppInstanceUserEndpointSummary]? = nil, nextToken: String? = nil) {
+            self.appInstanceUserEndpoints = appInstanceUserEndpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceUserEndpoints = "AppInstanceUserEndpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAppInstanceUsersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceArn", location: .querystring(locationName: "app-instance-arn")),
@@ -749,6 +1019,40 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceARN", location: .querystring(locationName: "arn"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 5)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tag key-value pairs.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct PutAppInstanceRetentionSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
@@ -793,10 +1097,83 @@ extension ChimeSDKIdentity {
         }
     }
 
-    public struct Tag: AWSEncodableShape {
-        /// The key of the tag.
+    public struct RegisterAppInstanceUserEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn"))
+        ]
+
+        /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint receives all messages. NONE indicates the endpoint receives no messages.
+        public let allowMessages: AllowMessages?
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String
+        /// The idempotency token for each client request.
+        public let clientRequestToken: String
+        /// The attributes of an Endpoint.
+        public let endpointAttributes: EndpointAttributes
+        /// The name of the AppInstanceUserEndpoint.
+        public let name: String?
+        /// The ARN of the resource to which the endpoint belongs.
+        public let resourceArn: String
+        /// The type of the AppInstanceUserEndpoint. Supported types:    APNS: The mobile notification service for an Apple device.    APNS_SANDBOX: The sandbox environment of the mobile notification service for an Apple device.    GCM: The mobile notification service for an Android device.   Populate the ResourceArn value of each type as PinpointAppArn.
+        public let type: AppInstanceUserEndpointType
+
+        public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String, clientRequestToken: String = RegisterAppInstanceUserEndpointRequest.idempotencyToken(), endpointAttributes: EndpointAttributes, name: String? = nil, resourceArn: String, type: AppInstanceUserEndpointType) {
+            self.allowMessages = allowMessages
+            self.appInstanceUserArn = appInstanceUserArn
+            self.clientRequestToken = clientRequestToken
+            self.endpointAttributes = endpointAttributes
+            self.name = name
+            self.resourceArn = resourceArn
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.endpointAttributes.validate(name: "\(name).endpointAttributes")
+            try self.validate(self.name, name: "name", parent: name, max: 1600)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 5)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMessages = "AllowMessages"
+            case clientRequestToken = "ClientRequestToken"
+            case endpointAttributes = "EndpointAttributes"
+            case name = "Name"
+            case resourceArn = "ResourceArn"
+            case type = "Type"
+        }
+    }
+
+    public struct RegisterAppInstanceUserEndpointResponse: AWSDecodableShape {
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String?
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String?
+
+        public init(appInstanceUserArn: String? = nil, endpointId: String? = nil) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.endpointId = endpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceUserArn = "AppInstanceUserArn"
+            case endpointId = "EndpointId"
+        }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key in a tag.
         public let key: String
-        /// The value of the tag.
+        /// The value in a tag.
         public let value: String
 
         public init(key: String, value: String) {
@@ -814,6 +1191,63 @@ extension ChimeSDKIdentity {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 5)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 5)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
         }
     }
 
@@ -863,6 +1297,63 @@ extension ChimeSDKIdentity {
 
         private enum CodingKeys: String, CodingKey {
             case appInstanceArn = "AppInstanceArn"
+        }
+    }
+
+    public struct UpdateAppInstanceUserEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn")),
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpointId"))
+        ]
+
+        /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages.
+        public let allowMessages: AllowMessages?
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String
+        /// The name of the AppInstanceUserEndpoint.
+        public let name: String?
+
+        public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String, endpointId: String, name: String? = nil) {
+            self.allowMessages = allowMessages
+            self.appInstanceUserArn = appInstanceUserArn
+            self.endpointId = endpointId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 64)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, min: 0)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 1600)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMessages = "AllowMessages"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateAppInstanceUserEndpointResponse: AWSDecodableShape {
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String?
+        /// The unique identifier of the AppInstanceUserEndpoint.
+        public let endpointId: String?
+
+        public init(appInstanceUserArn: String? = nil, endpointId: String? = nil) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.endpointId = endpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceUserArn = "AppInstanceUserArn"
+            case endpointId = "EndpointId"
         }
     }
 

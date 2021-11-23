@@ -446,7 +446,7 @@ extension DynamoDB {
         public let archivalBackupArn: String?
         /// The date and time when table archival was initiated by DynamoDB, in UNIX epoch time format.
         public let archivalDateTime: Date?
-        /// The reason DynamoDB archived the table. Currently, the only possible value is:    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The table was archived due to the table's AWS KMS key being inaccessible for more than seven days. An On-Demand backup was created at the archival time.
+        /// The reason DynamoDB archived the table. Currently, the only possible value is:    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The table was archived due to the table's KMS key being inaccessible for more than seven days. An On-Demand backup was created at the archival time.
         public let archivalReason: String?
 
         public init(archivalBackupArn: String? = nil, archivalDateTime: Date? = nil, archivalReason: String? = nil) {
@@ -696,7 +696,7 @@ extension DynamoDB {
         public let backupSizeBytes: Int64?
         /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
         public let backupStatus: BackupStatus
-        /// BackupType:    USER - You create and manage these using the on-demand backup feature.    SYSTEM - If you delete a table with point-in-time recovery enabled, a SYSTEM backup is automatically created and is retained for 35 days (at no additional cost). System backups allow you to restore the deleted table to the state it was in just before the point of deletion.     AWS_BACKUP - On-demand backup created by you from AWS Backup service.
+        /// BackupType:    USER - You create and manage these using the on-demand backup feature.    SYSTEM - If you delete a table with point-in-time recovery enabled, a SYSTEM backup is automatically created and is retained for 35 days (at no additional cost). System backups allow you to restore the deleted table to the state it was in just before the point of deletion.     AWS_BACKUP - On-demand backup created by you from Backup service.
         public let backupType: BackupType
 
         public init(backupArn: String, backupCreationDateTime: Date, backupExpiryDateTime: Date? = nil, backupName: String, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus, backupType: BackupType) {
@@ -733,7 +733,7 @@ extension DynamoDB {
         public let backupSizeBytes: Int64?
         /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
         public let backupStatus: BackupStatus?
-        /// BackupType:    USER - You create and manage these using the on-demand backup feature.    SYSTEM - If you delete a table with point-in-time recovery enabled, a SYSTEM backup is automatically created and is retained for 35 days (at no additional cost). System backups allow you to restore the deleted table to the state it was in just before the point of deletion.     AWS_BACKUP - On-demand backup created by you from AWS Backup service.
+        /// BackupType:    USER - You create and manage these using the on-demand backup feature.    SYSTEM - If you delete a table with point-in-time recovery enabled, a SYSTEM backup is automatically created and is retained for 35 days (at no additional cost). System backups allow you to restore the deleted table to the state it was in just before the point of deletion.     AWS_BACKUP - On-demand backup created by you from Backup service.
         public let backupType: BackupType?
         /// ARN associated with the table.
         public let tableArn: String?
@@ -770,7 +770,7 @@ extension DynamoDB {
     }
 
     public struct BatchExecuteStatementInput: AWSEncodableShape {
-        ///  The list of PartiQL statements representing the batch to run.
+        /// The list of PartiQL statements representing the batch to run.
         public let statements: [BatchStatementRequest]
 
         public init(statements: [BatchStatementRequest]) {
@@ -791,7 +791,7 @@ extension DynamoDB {
     }
 
     public struct BatchExecuteStatementOutput: AWSDecodableShape {
-        ///  The response to each PartiQL statement in the batch.
+        /// The response to each PartiQL statement in the batch.
         public let responses: [BatchStatementResponse]?
 
         public init(responses: [BatchStatementResponse]? = nil) {
@@ -1282,7 +1282,7 @@ extension DynamoDB {
     public struct CreateReplicationGroupMemberAction: AWSEncodableShape {
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
-        /// The AWS KMS customer master key (CMK) that should be used for AWS KMS encryption in the new replica. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS master key alias/aws/dynamodb.
+        /// The KMS key that should be used for KMS encryption in the new replica. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
         public let kMSMasterKeyId: String?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
@@ -1754,11 +1754,11 @@ extension DynamoDB {
     }
 
     public struct DescribeContributorInsightsOutput: AWSDecodableShape {
-        /// List of names of the associated Alpine rules.
+        /// List of names of the associated contributor insights rules.
         public let contributorInsightsRuleList: [String]?
-        /// Current Status contributor insights.
+        /// Current status of contributor insights.
         public let contributorInsightsStatus: ContributorInsightsStatus?
-        /// Returns information about the last failure that encountered. The most common exceptions for a FAILED status are:   LimitExceededException - Per-account Amazon CloudWatch Contributor Insights rule limit reached. Please disable Contributor Insights for other tables/indexes OR disable Contributor Insights rules before retrying.   AccessDeniedException - Amazon CloudWatch Contributor Insights rules cannot be modified due to insufficient permissions.   AccessDeniedException - Failed to create service-linked role for Contributor Insights due to insufficient permissions.   InternalServerError - Failed to create Amazon CloudWatch Contributor Insights rules. Please retry request.
+        /// Returns information about the last failure that was encountered. The most common exceptions for a FAILED status are:   LimitExceededException - Per-account Amazon CloudWatch Contributor Insights rule limit reached. Please disable Contributor Insights for other tables/indexes OR disable Contributor Insights rules before retrying.   AccessDeniedException - Amazon CloudWatch Contributor Insights rules cannot be modified due to insufficient permissions.   AccessDeniedException - Failed to create service-linked role for Contributor Insights due to insufficient permissions.   InternalServerError - Failed to create Amazon CloudWatch Contributor Insights rules. Please retry request.
         public let failureException: FailureException?
         /// The name of the global secondary index being described.
         public let indexName: String?
@@ -2080,13 +2080,13 @@ extension DynamoDB {
     }
 
     public struct ExecuteStatementInput: AWSEncodableShape {
-        ///  The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
+        /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
         public let consistentRead: Bool?
-        ///  Set this value to get remaining results, if NextToken was returned in the statement response.
+        /// Set this value to get remaining results, if NextToken was returned in the statement response.
         public let nextToken: String?
-        ///  The parameters for the PartiQL statement, if any.
+        /// The parameters for the PartiQL statement, if any.
         public let parameters: [AttributeValue]?
-        ///  The PartiQL statement representing the operation to run.
+        /// The PartiQL statement representing the operation to run.
         public let statement: String
 
         public init(consistentRead: Bool? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, statement: String) {
@@ -2116,9 +2116,9 @@ extension DynamoDB {
     }
 
     public struct ExecuteStatementOutput: AWSDecodableShape {
-        ///  If a read operation was used, this property will contain the result of the reade operation; a map of attribute names and their values. For the write operations this value will be empty.
+        /// If a read operation was used, this property will contain the result of the read operation; a map of attribute names and their values. For the write operations this value will be empty.
         public let items: [[String: AttributeValue]]?
-        ///  If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
+        /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
         public let nextToken: String?
 
         public init(items: [[String: AttributeValue]]? = nil, nextToken: String? = nil) {
@@ -2133,9 +2133,9 @@ extension DynamoDB {
     }
 
     public struct ExecuteTransactionInput: AWSEncodableShape {
-        ///  Set this value to get remaining results, if NextToken was returned in the statement response.
+        /// Set this value to get remaining results, if NextToken was returned in the statement response.
         public let clientRequestToken: String?
-        ///  The list of PartiQL statements representing the transaction to run.
+        /// The list of PartiQL statements representing the transaction to run.
         public let transactStatements: [ParameterizedStatement]
 
         public init(clientRequestToken: String? = ExecuteTransactionInput.idempotencyToken(), transactStatements: [ParameterizedStatement]) {
@@ -2160,7 +2160,7 @@ extension DynamoDB {
     }
 
     public struct ExecuteTransactionOutput: AWSDecodableShape {
-        ///  The response to a PartiQL transaction.
+        /// The response to a PartiQL transaction.
         public let responses: [ItemResponse]?
 
         public init(responses: [ItemResponse]? = nil) {
@@ -2229,13 +2229,13 @@ extension DynamoDB {
         public let itemCount: Int64?
         /// The name of the Amazon S3 bucket containing the export.
         public let s3Bucket: String?
-        /// The ID of the AWS account that owns the bucket containing the export.
+        /// The ID of the Amazon Web Services account that owns the bucket containing the export.
         public let s3BucketOwner: String?
         /// The Amazon S3 bucket prefix used as the file name and path of the exported snapshot.
         public let s3Prefix: String?
-        /// Type of encryption used on the bucket where export data is stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with AWS KMS managed keys
+        /// Type of encryption used on the bucket where export data is stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with KMS managed keys
         public let s3SseAlgorithm: S3SseAlgorithm?
-        /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export data is stored (if applicable).
+        /// The ID of the KMS managed key used to encrypt the S3 bucket where export data is stored (if applicable).
         public let s3SseKmsKeyId: String?
         /// The time at which the export task began.
         public let startTime: Date?
@@ -2315,13 +2315,13 @@ extension DynamoDB {
         public let exportTime: Date?
         /// The name of the Amazon S3 bucket to export the snapshot to.
         public let s3Bucket: String
-        /// The ID of the AWS account that owns the bucket the export will be stored in.
+        /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in.
         public let s3BucketOwner: String?
         /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
         public let s3Prefix: String?
-        /// Type of encryption used on the bucket where export data will be stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with AWS KMS managed keys
+        /// Type of encryption used on the bucket where export data will be stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with KMS managed keys
         public let s3SseAlgorithm: S3SseAlgorithm?
-        /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export data will be stored (if applicable).
+        /// The ID of the KMS managed key used to encrypt the S3 bucket where export data will be stored (if applicable).
         public let s3SseKmsKeyId: String?
         /// The Amazon Resource Name (ARN) associated with the table to export.
         public let tableArn: String
@@ -3467,7 +3467,7 @@ extension DynamoDB {
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
-        /// Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.    The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
+        /// Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.   The values returned are strongly consistent.  The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
         public let returnValues: ReturnValue?
         /// The name of the table to contain the item.
         public let tableName: String
@@ -3767,7 +3767,7 @@ extension DynamoDB {
     public struct ReplicaDescription: AWSDecodableShape {
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]?
-        /// The AWS KMS customer master key (CMK) of the replica that will be used for AWS KMS encryption.
+        /// The KMS key of the replica that will be used for KMS encryption.
         public let kMSMasterKeyId: String?
         /// Replica-specific provisioned throughput. If not described, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
@@ -3775,7 +3775,7 @@ extension DynamoDB {
         public let regionName: String?
         /// The time at which the replica was first detected as inaccessible. To determine cause of inaccessibility check the ReplicaStatus property.
         public let replicaInaccessibleDateTime: Date?
-        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.    REGION_DISABLED - The replica is inaccessible because the AWS Region has been disabled.  If the AWS Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.     INACCESSIBLE_ENCRYPTION_CREDENTIALS  - The AWS KMS key used to encrypt the table is inaccessible.  If the AWS KMS key remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
+        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.    REGION_DISABLED - The replica is inaccessible because the Amazon Web Services Region has been disabled.  If the Amazon Web Services Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.     INACCESSIBLE_ENCRYPTION_CREDENTIALS  - The KMS key used to encrypt the table is inaccessible.  If the KMS key remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
         public let replicaStatus: ReplicaStatus?
         /// Detailed information about the replica status.
         public let replicaStatusDescription: String?
@@ -4242,11 +4242,11 @@ extension DynamoDB {
     }
 
     public struct SSEDescription: AWSDecodableShape {
-        /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's AWS KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's AWS KMS key is accessible again. DynamoDB will initiate the table archival process when table's AWS KMS key remains inaccessible for more than seven days from this date.
+        /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's KMS key is accessible again. DynamoDB will initiate the table archival process when table's KMS key remains inaccessible for more than seven days from this date.
         public let inaccessibleEncryptionDateTime: Date?
-        /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
+        /// The KMS key ARN used for the KMS encryption.
         public let kMSMasterKeyArn: String?
-        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses AWS Key Management Service. The key is stored in your account and is managed by AWS KMS (AWS KMS charges apply).
+        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
         public let sSEType: SSEType?
         /// Represents the current state of server-side encryption. The only supported values are:    ENABLED - Server-side encryption is enabled.    UPDATING - Server-side encryption is being updated.
         public let status: SSEStatus?
@@ -4267,11 +4267,11 @@ extension DynamoDB {
     }
 
     public struct SSESpecification: AWSEncodableShape {
-        /// Indicates whether server-side encryption is done using an AWS managed CMK or an AWS owned CMK. If enabled (true), server-side encryption type is set to KMS and an AWS managed CMK is used (AWS KMS charges apply). If disabled (false) or not specified, server-side encryption is set to AWS owned CMK.
+        /// Indicates whether server-side encryption is done using an Amazon Web Services managed key or an Amazon Web Services owned key. If enabled (true), server-side encryption type is set to KMS and an Amazon Web Services managed key is used (KMS charges apply). If disabled (false) or not specified, server-side encryption is set to Amazon Web Services owned key.
         public let enabled: Bool?
-        /// The AWS KMS customer master key (CMK) that should be used for the AWS KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB customer master key alias/aws/dynamodb.
+        /// The KMS key that should be used for the KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB key alias/aws/dynamodb.
         public let kMSMasterKeyId: String?
-        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses AWS Key Management Service. The key is stored in your account and is managed by AWS KMS (AWS KMS charges apply).
+        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
         public let sSEType: SSEType?
 
         public init(enabled: Bool? = nil, kMSMasterKeyId: String? = nil, sSEType: SSEType? = nil) {
@@ -4543,7 +4543,7 @@ extension DynamoDB {
         public let creationDateTime: Date?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)   You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
-        /// Represents the version of global tables in use, if the table is replicated across AWS Regions.
+        /// Represents the version of global tables in use, if the table is replicated across Amazon Web Services Regions.
         public let globalTableVersion: String?
         /// The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let itemCount: Int64?
@@ -4551,7 +4551,7 @@ extension DynamoDB {
         public let keySchema: [KeySchemaElement]?
         /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
         public let latestStreamArn: String?
-        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   AWS customer ID   Table name    StreamLabel
+        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   Amazon Web Services customer ID   Table name    StreamLabel
         public let latestStreamLabel: String?
         /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
@@ -4573,7 +4573,7 @@ extension DynamoDB {
         public let tableName: String?
         /// The total size of the specified table, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let tableSizeBytes: Int64?
-        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The AWS KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the AWS KMS key. DynamoDB will initiate the table archival process when a table's AWS KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
+        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
         public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
@@ -4778,7 +4778,7 @@ extension DynamoDB {
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections (if any), that were modified during the operation and are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
-        /// An ordered array of up to 25 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same AWS account and Region, and no two of them can operate on the same item.
+        /// An ordered array of up to 25 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same Amazon Web Services account and Region, and no two of them can operate on the same item.
         public let transactItems: [TransactWriteItem]
 
         public init(clientRequestToken: String? = TransactWriteItemsInput.idempotencyToken(), returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, transactItems: [TransactWriteItem]) {
@@ -5221,7 +5221,7 @@ extension DynamoDB {
     public struct UpdateReplicationGroupMemberAction: AWSEncodableShape {
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
-        /// The AWS KMS customer master key (CMK) of the replica that should be used for AWS KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS master key alias/aws/dynamodb.
+        /// The KMS key of the replica that should be used for KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
         public let kMSMasterKeyId: String?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?

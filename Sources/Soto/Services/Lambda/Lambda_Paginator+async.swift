@@ -110,6 +110,27 @@ extension Lambda {
         )
     }
 
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFunctionUrlConfigsPaginator(
+        _ input: ListFunctionUrlConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFunctionUrlConfigsRequest, ListFunctionUrlConfigsResponse> {
+        return .init(
+            input: input,
+            command: listFunctionUrlConfigs,
+            inputKey: \ListFunctionUrlConfigsRequest.marker,
+            outputKey: \ListFunctionUrlConfigsResponse.nextMarker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.   The ListFunctions action returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
     /// Return PaginatorSequence for operation.
     ///

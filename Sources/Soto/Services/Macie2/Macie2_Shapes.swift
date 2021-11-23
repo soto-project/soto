@@ -43,6 +43,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataIdentifierSeverity: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DayOfWeek: String, CustomStringConvertible, Codable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
@@ -1045,9 +1052,10 @@ extension Macie2 {
         public let maximumMatchDistance: Int?
         public let name: String?
         public let regex: String?
+        public let severityLevels: [SeverityLevel]?
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.ignoreWords = ignoreWords
@@ -1055,6 +1063,7 @@ extension Macie2 {
             self.maximumMatchDistance = maximumMatchDistance
             self.name = name
             self.regex = regex
+            self.severityLevels = severityLevels
             self.tags = tags
         }
 
@@ -1066,6 +1075,7 @@ extension Macie2 {
             case maximumMatchDistance
             case name
             case regex
+            case severityLevels
             case tags
         }
     }
@@ -1987,9 +1997,10 @@ extension Macie2 {
         public let maximumMatchDistance: Int?
         public let name: String?
         public let regex: String?
+        public let severityLevels: [SeverityLevel]?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deleted = deleted
@@ -2000,6 +2011,7 @@ extension Macie2 {
             self.maximumMatchDistance = maximumMatchDistance
             self.name = name
             self.regex = regex
+            self.severityLevels = severityLevels
             self.tags = tags
         }
 
@@ -2014,6 +2026,7 @@ extension Macie2 {
             case maximumMatchDistance
             case name
             case regex
+            case severityLevels
             case tags
         }
     }
@@ -3739,6 +3752,21 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case description
             case score
+        }
+    }
+
+    public struct SeverityLevel: AWSEncodableShape & AWSDecodableShape {
+        public let occurrencesThreshold: Int64
+        public let severity: DataIdentifierSeverity
+
+        public init(occurrencesThreshold: Int64, severity: DataIdentifierSeverity) {
+            self.occurrencesThreshold = occurrencesThreshold
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case occurrencesThreshold
+            case severity
         }
     }
 

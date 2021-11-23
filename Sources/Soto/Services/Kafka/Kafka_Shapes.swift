@@ -187,6 +187,8 @@ extension Kafka {
         public let brokerAZDistribution: BrokerAZDistribution?
         /// The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't be in Availability Zone us-east-1e.
         public let clientSubnets: [String]
+        /// Information about the broker access configuration.
+        public let connectivityInfo: ConnectivityInfo?
         /// The type of broker used in the Amazon MSK cluster.
         public let instanceType: String
         /// The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communicate with the Amazon MSK cluster. If you don't specify a security group, Amazon MSK uses the default security group associated with the VPC. If you specify security groups that were shared with you, you must ensure that you have permissions to them. Specifically, you need the ec2:DescribeSecurityGroups permission.
@@ -194,9 +196,10 @@ extension Kafka {
         /// Contains information about storage volumes attached to MSK broker nodes.
         public let storageInfo: StorageInfo?
 
-        public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String], instanceType: String, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil) {
+        public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String], connectivityInfo: ConnectivityInfo? = nil, instanceType: String, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil) {
             self.brokerAZDistribution = brokerAZDistribution
             self.clientSubnets = clientSubnets
+            self.connectivityInfo = connectivityInfo
             self.instanceType = instanceType
             self.securityGroups = securityGroups
             self.storageInfo = storageInfo
@@ -211,6 +214,7 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case brokerAZDistribution
             case clientSubnets
+            case connectivityInfo
             case instanceType
             case securityGroups
             case storageInfo
@@ -226,7 +230,7 @@ extension Kafka {
         public let clientSubnet: String?
         /// The virtual private cloud (VPC) of the client.
         public let clientVpcIpAddress: String?
-        /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
+        /// Information about the version of software currently deployed on the Apache Kafka brokers in the cluster.
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
         /// Endpoints for accessing the broker.
         public let endpoints: [String]?
@@ -322,7 +326,7 @@ extension Kafka {
         /// The time when the cluster was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
-        /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
+        /// Information about the version of software currently deployed on the Apache Kafka brokers in the cluster.
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
         /// The current version of the MSK cluster. Cluster versions aren't simple integers. You can obtain the current version by describing the cluster. An example version is KTVPDKIKX0DER.
         public let currentVersion: String?
@@ -565,6 +569,19 @@ extension Kafka {
         }
     }
 
+    public struct ConnectivityInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Public access control for brokers.
+        public let publicAccess: PublicAccess?
+
+        public init(publicAccess: PublicAccess? = nil) {
+            self.publicAccess = publicAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicAccess
+        }
+    }
+
     public struct CreateClusterRequest: AWSEncodableShape {
         /// Information about the brokers.
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo
@@ -582,7 +599,7 @@ extension Kafka {
         public let kafkaVersion: String
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        /// The number of Apache Kafka broker nodes in the Amazon MSK cluster.
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
@@ -1038,20 +1055,35 @@ extension Kafka {
         /// A string containing one or more hostname:port pairs.
         public let bootstrapBrokerString: String?
         /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs. The following is an example. {
+        ///     "BootstrapBrokerStringSaslIam": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9198,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9198,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9198"
+        /// }
+        public let bootstrapBrokerStringPublicSaslIam: String?
+        /// A string containing one or more DNS names (or IP addresses) and SASL SCRAM port pairs. The following is an example. {
+        ///     "BootstrapBrokerStringSaslScram": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9196,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9196,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9196"
+        /// }
+        public let bootstrapBrokerStringPublicSaslScram: String?
+        /// A string containing one or more DNS names (or IP addresses) and TLS port pairs. The following is an example. {
+        ///     "BootstrapBrokerStringTls": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9194,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9194,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9194"
+        /// }
+        public let bootstrapBrokerStringPublicTls: String?
+        /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs. The following is an example. {
         ///     "BootstrapBrokerStringSaslIam": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9098,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9098,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9098"
         /// }
         public let bootstrapBrokerStringSaslIam: String?
-        /// A string containing one or more DNS names (or IP) and SASL SCRAM port pairs. The following is an example. {
+        /// A string containing one or more DNS names (or IP addresses) and SASL SCRAM port pairs. The following is an example. {
         ///     "BootstrapBrokerStringSaslScram": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096"
         /// }
         public let bootstrapBrokerStringSaslScram: String?
-        /// A string containing one or more DNS names (or IP) and TLS port pairs. The following is an example. {
+        /// A string containing one or more DNS names (or IP addresses) and TLS port pairs. The following is an example. {
         ///     "BootstrapBrokerStringTls": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9094,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9094,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9094"
         /// }
         public let bootstrapBrokerStringTls: String?
 
-        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringSaslIam: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil) {
+        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringPublicSaslIam: String? = nil, bootstrapBrokerStringPublicSaslScram: String? = nil, bootstrapBrokerStringPublicTls: String? = nil, bootstrapBrokerStringSaslIam: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil) {
             self.bootstrapBrokerString = bootstrapBrokerString
+            self.bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIam
+            self.bootstrapBrokerStringPublicSaslScram = bootstrapBrokerStringPublicSaslScram
+            self.bootstrapBrokerStringPublicTls = bootstrapBrokerStringPublicTls
             self.bootstrapBrokerStringSaslIam = bootstrapBrokerStringSaslIam
             self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
             self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
@@ -1059,6 +1091,9 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case bootstrapBrokerString
+            case bootstrapBrokerStringPublicSaslIam
+            case bootstrapBrokerStringPublicSaslScram
+            case bootstrapBrokerStringPublicTls
             case bootstrapBrokerStringSaslIam
             case bootstrapBrokerStringSaslScram
             case bootstrapBrokerStringTls
@@ -1133,7 +1168,7 @@ extension Kafka {
     public struct KafkaVersion: AWSDecodableShape {
         /// The status of the Apache Kafka version.
         public let status: KafkaVersionStatus?
-        /// The Kafka version.
+        /// The Apache Kafka version.
         public let version: String?
 
         public init(status: KafkaVersionStatus? = nil, version: String? = nil) {
@@ -1335,7 +1370,7 @@ extension Kafka {
     }
 
     public struct ListKafkaVersionsResponse: AWSDecodableShape {
-        /// An array of Kafka version objects.
+        /// An array of Apache Kafka version objects.
         public let kafkaVersions: [KafkaVersion]?
         /// Paginated results marker.
         public let nextToken: String?
@@ -1482,6 +1517,8 @@ extension Kafka {
         public let clientAuthentication: ClientAuthentication?
         /// Information about the changes in the configuration of the brokers.
         public let configurationInfo: ConfigurationInfo?
+        /// Information about the broker access configuration.
+        public let connectivityInfo: ConnectivityInfo?
         /// Includes all encryption-related information.
         public let encryptionInfo: EncryptionInfo?
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
@@ -1496,10 +1533,11 @@ extension Kafka {
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
+            self.connectivityInfo = connectivityInfo
             self.encryptionInfo = encryptionInfo
             self.enhancedMonitoring = enhancedMonitoring
             self.instanceType = instanceType
@@ -1513,6 +1551,7 @@ extension Kafka {
             case brokerEBSVolumeInfo
             case clientAuthentication
             case configurationInfo
+            case connectivityInfo
             case encryptionInfo
             case enhancedMonitoring
             case instanceType
@@ -1639,6 +1678,19 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case jmxExporter
             case nodeExporter
+        }
+    }
+
+    public struct PublicAccess: AWSEncodableShape & AWSDecodableShape {
+        /// The value DISABLED indicates that public access is disabled. SERVICE_PROVIDED_EIPS indicates that public access is enabled.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type
         }
     }
 
@@ -2019,7 +2071,7 @@ extension Kafka {
         public let configurationInfo: ConfigurationInfo?
         /// Current cluster version.
         public let currentVersion: String
-        /// Target Kafka version.
+        /// Target Apache Kafka version.
         public let targetKafkaVersion: String
 
         public init(clusterArn: String, configurationInfo: ConfigurationInfo? = nil, currentVersion: String, targetKafkaVersion: String) {
@@ -2090,6 +2142,46 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case arn
             case latestRevision
+        }
+    }
+
+    public struct UpdateConnectivityRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        public let clusterArn: String
+        /// Information about the broker access configuration.
+        public let connectivityInfo: ConnectivityInfo
+        /// The current version of the cluster.
+        public let currentVersion: String
+
+        public init(clusterArn: String, connectivityInfo: ConnectivityInfo, currentVersion: String) {
+            self.clusterArn = clusterArn
+            self.connectivityInfo = connectivityInfo
+            self.currentVersion = currentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectivityInfo
+            case currentVersion
+        }
+    }
+
+    public struct UpdateConnectivityResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case clusterOperationArn
         }
     }
 

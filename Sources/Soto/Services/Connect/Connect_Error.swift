@@ -19,12 +19,15 @@ import SotoCore
 /// Error enum for Connect
 public struct ConnectErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case contactFlowNotPublishedException = "ContactFlowNotPublishedException"
         case contactNotFoundException = "ContactNotFoundException"
         case destinationNotAllowedException = "DestinationNotAllowedException"
         case duplicateResourceException = "DuplicateResourceException"
+        case idempotencyException = "IdempotencyException"
         case internalServiceException = "InternalServiceException"
         case invalidContactFlowException = "InvalidContactFlowException"
+        case invalidContactFlowModuleException = "InvalidContactFlowModuleException"
         case invalidParameterException = "InvalidParameterException"
         case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
@@ -55,6 +58,8 @@ public struct ConnectErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient permissions to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The contact flow has not been published.
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
     /// The contact with the specified ID is not active or does not exist.
@@ -63,10 +68,14 @@ public struct ConnectErrorType: AWSErrorType {
     public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }
     /// A resource with the specified name already exists.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
+    /// An entity with the same name already exists.
+    public static var idempotencyException: Self { .init(.idempotencyException) }
     /// Request processing failed because of an error or failure with the service.
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The contact flow is not valid.
     public static var invalidContactFlowException: Self { .init(.invalidContactFlowException) }
+    /// The problems with the module. Please fix before trying again.
+    public static var invalidContactFlowModuleException: Self { .init(.invalidContactFlowModuleException) }
     /// One or more of the specified parameters are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The request is not valid.

@@ -27,6 +27,21 @@ extension IoTWireless {
         return try await self.client.execute(operation: "AssociateAwsAccountWithPartnerAccount", path: "/partner-accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associate a multicast group with a FUOTA task.
+    public func associateMulticastGroupWithFuotaTask(_ input: AssociateMulticastGroupWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateMulticastGroupWithFuotaTaskResponse {
+        return try await self.client.execute(operation: "AssociateMulticastGroupWithFuotaTask", path: "/fuota-tasks/{Id}/multicast-group", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Associate a wireless device with a FUOTA task.
+    public func associateWirelessDeviceWithFuotaTask(_ input: AssociateWirelessDeviceWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateWirelessDeviceWithFuotaTaskResponse {
+        return try await self.client.execute(operation: "AssociateWirelessDeviceWithFuotaTask", path: "/fuota-tasks/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Associates a wireless device with a multicast group.
+    public func associateWirelessDeviceWithMulticastGroup(_ input: AssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateWirelessDeviceWithMulticastGroupResponse {
+        return try await self.client.execute(operation: "AssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Associates a wireless device with a thing.
     public func associateWirelessDeviceWithThing(_ input: AssociateWirelessDeviceWithThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateWirelessDeviceWithThingResponse {
         return try await self.client.execute(operation: "AssociateWirelessDeviceWithThing", path: "/wireless-devices/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -42,6 +57,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "AssociateWirelessGatewayWithThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels an existing multicast group session.
+    public func cancelMulticastGroupSession(_ input: CancelMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelMulticastGroupSessionResponse {
+        return try await self.client.execute(operation: "CancelMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDestinationResponse {
         return try await self.client.execute(operation: "CreateDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -50,6 +70,16 @@ extension IoTWireless {
     /// Creates a new device profile.
     public func createDeviceProfile(_ input: CreateDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDeviceProfileResponse {
         return try await self.client.execute(operation: "CreateDeviceProfile", path: "/device-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a FUOTA task.
+    public func createFuotaTask(_ input: CreateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFuotaTaskResponse {
+        return try await self.client.execute(operation: "CreateFuotaTask", path: "/fuota-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a multicast group.
+    public func createMulticastGroup(_ input: CreateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateMulticastGroupResponse {
+        return try await self.client.execute(operation: "CreateMulticastGroup", path: "/multicast-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new service profile.
@@ -87,6 +117,16 @@ extension IoTWireless {
         return try await self.client.execute(operation: "DeleteDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a FUOTA task.
+    public func deleteFuotaTask(_ input: DeleteFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteFuotaTaskResponse {
+        return try await self.client.execute(operation: "DeleteFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a multicast group if it is not in use by a fuota task.
+    public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteMulticastGroupResponse {
+        return try await self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a service profile.
     public func deleteServiceProfile(_ input: DeleteServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteServiceProfileResponse {
         return try await self.client.execute(operation: "DeleteServiceProfile", path: "/service-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -117,6 +157,21 @@ extension IoTWireless {
         return try await self.client.execute(operation: "DisassociateAwsAccountFromPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disassociates a multicast group from a fuota task.
+    public func disassociateMulticastGroupFromFuotaTask(_ input: DisassociateMulticastGroupFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateMulticastGroupFromFuotaTaskResponse {
+        return try await self.client.execute(operation: "DisassociateMulticastGroupFromFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates a wireless device from a FUOTA task.
+    public func disassociateWirelessDeviceFromFuotaTask(_ input: DisassociateWirelessDeviceFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateWirelessDeviceFromFuotaTaskResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromFuotaTask", path: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates a wireless device from a multicast group.
+    public func disassociateWirelessDeviceFromMulticastGroup(_ input: DisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateWirelessDeviceFromMulticastGroupResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disassociates a wireless device from its currently associated thing.
     public func disassociateWirelessDeviceFromThing(_ input: DisassociateWirelessDeviceFromThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateWirelessDeviceFromThingResponse {
         return try await self.client.execute(operation: "DisassociateWirelessDeviceFromThing", path: "/wireless-devices/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -142,14 +197,34 @@ extension IoTWireless {
         return try await self.client.execute(operation: "GetDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about a FUOTA task.
+    public func getFuotaTask(_ input: GetFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFuotaTaskResponse {
+        return try await self.client.execute(operation: "GetFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
     public func getLogLevelsByResourceTypes(_ input: GetLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLogLevelsByResourceTypesResponse {
         return try await self.client.execute(operation: "GetLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about a multicast group.
+    public func getMulticastGroup(_ input: GetMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMulticastGroupResponse {
+        return try await self.client.execute(operation: "GetMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about a multicast group session.
+    public func getMulticastGroupSession(_ input: GetMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMulticastGroupSessionResponse {
+        return try await self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     public func getPartnerAccount(_ input: GetPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPartnerAccountResponse {
         return try await self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the event configuration for a particular resource identifier.
+    public func getResourceEventConfiguration(_ input: GetResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetResourceEventConfigurationResponse {
+        return try await self.client.execute(operation: "GetResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
@@ -217,6 +292,21 @@ extension IoTWireless {
         return try await self.client.execute(operation: "ListDeviceProfiles", path: "/device-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the FUOTA tasks registered to your AWS account.
+    public func listFuotaTasks(_ input: ListFuotaTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFuotaTasksResponse {
+        return try await self.client.execute(operation: "ListFuotaTasks", path: "/fuota-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the multicast groups registered to your AWS account.
+    public func listMulticastGroups(_ input: ListMulticastGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMulticastGroupsResponse {
+        return try await self.client.execute(operation: "ListMulticastGroups", path: "/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List all multicast groups associated with a fuota task.
+    public func listMulticastGroupsByFuotaTask(_ input: ListMulticastGroupsByFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMulticastGroupsByFuotaTaskResponse {
+        return try await self.client.execute(operation: "ListMulticastGroupsByFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the partner accounts associated with your AWS account.
     public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPartnerAccountsResponse {
         return try await self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -262,9 +352,34 @@ extension IoTWireless {
         return try await self.client.execute(operation: "ResetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Sends the specified data to a multicast group.
+    public func sendDataToMulticastGroup(_ input: SendDataToMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendDataToMulticastGroupResponse {
+        return try await self.client.execute(operation: "SendDataToMulticastGroup", path: "/multicast-groups/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Sends a decrypted application data frame to a device.
     public func sendDataToWirelessDevice(_ input: SendDataToWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendDataToWirelessDeviceResponse {
         return try await self.client.execute(operation: "SendDataToWirelessDevice", path: "/wireless-devices/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a bulk association of all qualifying wireless devices with a multicast group.
+    public func startBulkAssociateWirelessDeviceWithMulticastGroup(_ input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
+        return try await self.client.execute(operation: "StartBulkAssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
+    public func startBulkDisassociateWirelessDeviceFromMulticastGroup(_ input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {
+        return try await self.client.execute(operation: "StartBulkDisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a FUOTA task.
+    public func startFuotaTask(_ input: StartFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartFuotaTaskResponse {
+        return try await self.client.execute(operation: "StartFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a multicast group session.
+    public func startMulticastGroupSession(_ input: StartMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartMulticastGroupSessionResponse {
+        return try await self.client.execute(operation: "StartMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds a tag to a resource.
@@ -287,14 +402,29 @@ extension IoTWireless {
         return try await self.client.execute(operation: "UpdateDestination", path: "/destinations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates properties of a FUOTA task.
+    public func updateFuotaTask(_ input: UpdateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFuotaTaskResponse {
+        return try await self.client.execute(operation: "UpdateFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
     public func updateLogLevelsByResourceTypes(_ input: UpdateLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLogLevelsByResourceTypesResponse {
         return try await self.client.execute(operation: "UpdateLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates properties of a multicast group session.
+    public func updateMulticastGroup(_ input: UpdateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMulticastGroupResponse {
+        return try await self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates properties of a partner account.
     public func updatePartnerAccount(_ input: UpdatePartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePartnerAccountResponse {
         return try await self.client.execute(operation: "UpdatePartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update the event configuration for a particular resource identifier.
+    public func updateResourceEventConfiguration(_ input: UpdateResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateResourceEventConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates properties of a wireless device.

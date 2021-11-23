@@ -24,6 +24,8 @@ extension EKS {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
+        case bottlerocketArm64 = "BOTTLEROCKET_ARM_64"
+        case bottlerocketX8664 = "BOTTLEROCKET_x86_64"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
@@ -240,7 +242,7 @@ extension EKS {
         public let serviceAccountRoleArn: String?
         /// The status of the add-on.
         public let status: AddonStatus?
-        /// The metadata that you apply to the add-on to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Add-on tags do not propagate to any other resources associated with the cluster.
+        /// The metadata that you apply to the add-on to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Add-on tags do not propagate to any other resources associated with the cluster.
         public let tags: [String: String]?
 
         public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, modifiedAt: Date? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
@@ -397,7 +399,7 @@ extension EKS {
         public let clusterName: String
         /// An object that represents an OpenID Connect (OIDC) identity provider configuration.
         public let oidc: OidcIdentityProviderConfigRequest
-        /// The metadata to apply to the configuration to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata to apply to the configuration to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
 
         public init(clientRequestToken: String? = AssociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, oidc: OidcIdentityProviderConfigRequest, tags: [String: String]? = nil) {
@@ -496,7 +498,7 @@ extension EKS {
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
-        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster.
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Cluster tags do not propagate to any other resources associated with the cluster.
         public let tags: [String: String]?
         /// The Kubernetes server version for the cluster.
         public let version: String?
@@ -589,7 +591,7 @@ extension EKS {
         public let activationId: String?
         /// The cluster's cloud service provider.
         public let provider: String?
-        /// The Amazon Resource Name (ARN) of the role that is used by the EKS connector to communicate with AWS services from the connected Kubernetes cluster.
+        /// The Amazon Resource Name (ARN) of the role to communicate with services from the connected Kubernetes cluster.
         public let roleArn: String?
 
         public init(activationCode: String? = nil, activationExpiry: Date? = nil, activationId: String? = nil, provider: String? = nil, roleArn: String? = nil) {
@@ -626,7 +628,7 @@ extension EKS {
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
-        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
 
         public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
@@ -685,11 +687,11 @@ extension EKS {
         public let logging: Logging?
         /// The unique name to give to your cluster.
         public let name: String
-        /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups, but we recommend that you use a dedicated security group for your cluster control plane.
+        /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
-        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
@@ -761,7 +763,7 @@ extension EKS {
         public let selectors: [FargateProfileSelector]?
         /// The IDs of subnets to launch your pods into. At this time, pods running on Fargate are not assigned public IP addresses, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parameter.
         public let subnets: [String]?
-        /// The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
+        /// The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
         public let tags: [String: String]?
 
         public init(clientRequestToken: String? = CreateFargateProfileRequest.idempotencyToken(), clusterName: String, fargateProfileName: String, podExecutionRoleArn: String, selectors: [FargateProfileSelector]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
@@ -838,7 +840,7 @@ extension EKS {
         public let scalingConfig: NodegroupScalingConfig?
         /// The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate, then don't specify  SubnetId  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let subnets: [String]
-        /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
+        /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group.
         public let taints: [Taint]?
@@ -1423,7 +1425,7 @@ extension EKS {
         public let status: FargateProfileStatus?
         /// The IDs of subnets to launch pods into.
         public let subnets: [String]?
-        /// The metadata applied to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
+        /// The metadata applied to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
         public let tags: [String: String]?
 
         public init(clusterName: String? = nil, createdAt: Date? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
@@ -1533,7 +1535,7 @@ extension EKS {
     }
 
     public struct KubernetesNetworkConfigRequest: AWSEncodableShape {
-        /// The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created.
+        /// The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created.
         public let serviceIpv4Cidr: String?
 
         public init(serviceIpv4Cidr: String? = nil) {
@@ -1634,7 +1636,7 @@ extension EKS {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// Indicates whether connected clusters are included in the returned list. Default value is 'ALL'.
+        /// Indicates whether external clusters are included in the returned list. Use 'all' to return connected clusters, or blank to return only Amazon EKS clusters. 'all' must be in lowercase otherwise an error occurs.
         public let include: [String]?
         /// The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -1957,7 +1959,7 @@ extension EKS {
         public let status: NodegroupStatus?
         /// The subnets that were specified for the Auto Scaling group that is associated with your node group.
         public let subnets: [String]?
-        /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
+        /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group when they are created. Effect is one of No_Schedule, Prefer_No_Schedule, or No_Execute. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes.
         public let taints: [Taint]?
@@ -2050,7 +2052,7 @@ extension EKS {
     }
 
     public struct NodegroupScalingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The current number of nodes that the managed node group should maintain.
+        /// The current number of nodes that the managed node group should maintain.  If you use Cluster Autoscaler, you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down.  Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value. When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let Cluster Autoscaler reduce the number if there are too many. When Cluster Autoscaler is used, the desiredSize parameter is altered by Cluster Autoscaler (but can be out-of-date for short periods of time). Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
         public let desiredSize: Int?
         /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service quotas in the Amazon EKS User Guide.
         public let maxSize: Int?
@@ -2131,7 +2133,7 @@ extension EKS {
         public let requiredClaims: [String: String]?
         /// The status of the OIDC identity provider.
         public let status: ConfigStatus?
-        /// The metadata to apply to the provider configuration to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you defined.
+        /// The metadata to apply to the provider configuration to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
         /// The JSON Web token (JWT) claim that is used as the username.
         public let usernameClaim: String?
@@ -2237,25 +2239,34 @@ extension EKS {
         public let clientRequestToken: String?
         /// The configuration settings required to connect the Kubernetes cluster to the Amazon EKS control plane.
         public let connectorConfig: ConnectorConfigRequest
-        /// Define a unique name for this cluster within your AWS account.
+        /// Define a unique name for this cluster for your Region.
         public let name: String
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster.
+        public let tags: [String: String]?
 
-        public init(clientRequestToken: String? = RegisterClusterRequest.idempotencyToken(), connectorConfig: ConnectorConfigRequest, name: String) {
+        public init(clientRequestToken: String? = RegisterClusterRequest.idempotencyToken(), connectorConfig: ConnectorConfigRequest, name: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.connectorConfig = connectorConfig
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken
             case connectorConfig
             case name
+            case tags
         }
     }
 

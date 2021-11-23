@@ -1224,6 +1224,8 @@ extension Lightsail {
     public struct Bucket: AWSDecodableShape {
         /// Indicates whether the bundle that is currently applied to a bucket can be changed to another bundle. You can update a bucket's bundle only one time within a monthly AWS billing cycle. Use the UpdateBucketBundle action to change a bucket's bundle.
         public let ableToUpdateBundle: Bool?
+        /// An object that describes the access log configuration for the bucket.
+        public let accessLogConfig: BucketAccessLogConfig?
         /// An object that describes the access rules of the bucket.
         public let accessRules: AccessRules?
         /// The Amazon Resource Name (ARN) of the bucket.
@@ -1252,8 +1254,9 @@ extension Lightsail {
         /// The URL of the bucket.
         public let url: String?
 
-        public init(ableToUpdateBundle: Bool? = nil, accessRules: AccessRules? = nil, arn: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, objectVersioning: String? = nil, readonlyAccessAccounts: [String]? = nil, resourcesReceivingAccess: [ResourceReceivingAccess]? = nil, resourceType: String? = nil, state: BucketState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(ableToUpdateBundle: Bool? = nil, accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, arn: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, objectVersioning: String? = nil, readonlyAccessAccounts: [String]? = nil, resourcesReceivingAccess: [ResourceReceivingAccess]? = nil, resourceType: String? = nil, state: BucketState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.ableToUpdateBundle = ableToUpdateBundle
+            self.accessLogConfig = accessLogConfig
             self.accessRules = accessRules
             self.arn = arn
             self.bundleId = bundleId
@@ -1272,6 +1275,7 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case ableToUpdateBundle
+            case accessLogConfig
             case accessRules
             case arn
             case bundleId
@@ -1286,6 +1290,36 @@ extension Lightsail {
             case supportCode
             case tags
             case url
+        }
+    }
+
+    public struct BucketAccessLogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the bucket where the access is saved. The destination can be a Lightsail bucket in the same account, and in the same AWS Region as the source bucket.  This parameter is required when enabling the access log for a bucket, and should be omitted when disabling the access log.
+        public let destination: String?
+        /// A Boolean value that indicates whether bucket access logging is enabled for the bucket.
+        public let enabled: Bool
+        /// The optional object prefix for the bucket access log. The prefix is an optional addition to the object key that organizes your access log files in the destination bucket. For example, if you specify a logs/ prefix, then each log object will begin with the logs/ prefix in its key (for example, logs/2021-11-01-21-32-16-E568B2907131C0C0).  This parameter can be optionally specified when enabling the access log for a bucket, and should be omitted when disabling the access log.
+        public let prefix: String?
+
+        public init(destination: String? = nil, enabled: Bool, prefix: String? = nil) {
+            self.destination = destination
+            self.enabled = enabled
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, max: 54)
+            try self.validate(self.destination, name: "destination", parent: name, min: 3)
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 100)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[\\w/!.*')(-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination
+            case enabled
+            case prefix
         }
     }
 
@@ -1736,7 +1770,7 @@ extension Lightsail {
         public let command: [String]?
         /// The environment variables of the container.
         public let environment: [String: String]?
-        /// The name of the image used for the container. Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
+        /// The name of the image used for the container. Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, if your container service name is container-service-1, the container image label is mystaticsite, and you want to use the third (3) version of the registered container image, then you should specify :container-service-1.mystaticsite.3. To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest). Lightsail will automatically use the highest numbered version of the registered container image. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
         public let image: String?
         /// The open firewall ports of the container.
         public let ports: [String: ContainerServiceProtocol]?
@@ -2406,7 +2440,7 @@ extension Lightsail {
         public let scale: Int
         /// The name for the container service. The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) AWS region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following are the requirements for container service names:   Must be unique within each AWS Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
         public let serviceName: String
-        /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
+        /// The tag keys and optional values to add to the container service during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(deployment: ContainerServiceDeploymentRequest? = nil, power: ContainerServicePowerName, publicDomainNames: [String: [String]]? = nil, scale: Int, serviceName: String, tags: [Tag]? = nil) {
@@ -9250,6 +9284,8 @@ extension Lightsail {
     }
 
     public struct UpdateBucketRequest: AWSEncodableShape {
+        /// An object that describes the access log configuration for the bucket.
+        public let accessLogConfig: BucketAccessLogConfig?
         /// An object that sets the public accessibility of objects in the specified bucket.
         public let accessRules: AccessRules?
         /// The name of the bucket to update.
@@ -9259,7 +9295,8 @@ extension Lightsail {
         /// Specifies whether to enable or suspend versioning of objects in the bucket. The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
         public let versioning: String?
 
-        public init(accessRules: AccessRules? = nil, bucketName: String, readonlyAccessAccounts: [String]? = nil, versioning: String? = nil) {
+        public init(accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, bucketName: String, readonlyAccessAccounts: [String]? = nil, versioning: String? = nil) {
+            self.accessLogConfig = accessLogConfig
             self.accessRules = accessRules
             self.bucketName = bucketName
             self.readonlyAccessAccounts = readonlyAccessAccounts
@@ -9267,6 +9304,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
+            try self.accessLogConfig?.validate(name: "\(name).accessLogConfig")
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
@@ -9278,6 +9316,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessLogConfig
             case accessRules
             case bucketName
             case readonlyAccessAccounts
