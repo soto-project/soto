@@ -54,7 +54,7 @@ class LambdaTests: XCTestCase {
         print("Creating Lambda Function : \(self.functionName)")
         return Self.lambda.createFunction(cfr)
             .flatMap { _ in
-                Self.lambda.waitUntilFunctionExists(.init(functionName: self.functionName))
+                Self.lambda.waitUntilFunctionActive(.init(functionName: self.functionName))
             }
     }
 
