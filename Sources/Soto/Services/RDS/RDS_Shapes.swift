@@ -22,7 +22,7 @@ extension RDS {
     // MARK: Enums
 
     public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
-        case async
+        case `async`
         case sync
         public var description: String { return self.rawValue }
     }

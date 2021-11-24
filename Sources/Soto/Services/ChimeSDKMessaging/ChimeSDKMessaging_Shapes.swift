@@ -92,7 +92,7 @@ extension ChimeSDKMessaging {
     }
 
     public enum InvocationType: String, CustomStringConvertible, Codable {
-        case async = "ASYNC"
+        case `async` = "ASYNC"
         public var description: String { return self.rawValue }
     }
 
