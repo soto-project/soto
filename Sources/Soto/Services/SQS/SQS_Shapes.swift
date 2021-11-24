@@ -58,6 +58,7 @@ extension SQS {
         case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
         case redriveallowpolicy = "RedriveAllowPolicy"
         case redrivepolicy = "RedrivePolicy"
+        case sqsmanagedsseenabled = "SqsManagedSseEnabled"
         case visibilitytimeout = "VisibilityTimeout"
         public var description: String { return self.rawValue }
     }
