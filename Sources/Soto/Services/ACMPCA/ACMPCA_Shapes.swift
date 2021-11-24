@@ -29,9 +29,9 @@ extension ACMPCA {
     }
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case getcertificate = "GetCertificate"
-        case issuecertificate = "IssueCertificate"
-        case listpermissions = "ListPermissions"
+        case getCertificate = "GetCertificate"
+        case issueCertificate = "IssueCertificate"
+        case listPermissions = "ListPermissions"
         public var description: String { return self.rawValue }
     }
 

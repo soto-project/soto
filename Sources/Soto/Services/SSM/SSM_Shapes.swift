@@ -31,28 +31,28 @@ extension SSM {
     }
 
     public enum AssociationExecutionFilterKey: String, CustomStringConvertible, Codable {
-        case createdtime = "CreatedTime"
-        case executionid = "ExecutionId"
+        case createdTime = "CreatedTime"
+        case executionId = "ExecutionId"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum AssociationExecutionTargetsFilterKey: String, CustomStringConvertible, Codable {
-        case resourceid = "ResourceId"
-        case resourcetype = "ResourceType"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum AssociationFilterKey: String, CustomStringConvertible, Codable {
-        case associationid = "AssociationId"
-        case associationname = "AssociationName"
-        case associationstatusname = "AssociationStatusName"
-        case instanceid = "InstanceId"
-        case lastexecutedafter = "LastExecutedAfter"
-        case lastexecutedbefore = "LastExecutedBefore"
+        case associationId = "AssociationId"
+        case associationName = "AssociationName"
+        case associationStatusName = "AssociationStatusName"
+        case instanceId = "InstanceId"
+        case lastExecutedAfter = "LastExecutedAfter"
+        case lastExecutedBefore = "LastExecutedBefore"
         case name = "Name"
-        case resourcegroupname = "ResourceGroupName"
+        case resourceGroupName = "ResourceGroupName"
         public var description: String { return self.rawValue }
     }
 
@@ -82,25 +82,25 @@ extension SSM {
     }
 
     public enum AttachmentsSourceKey: String, CustomStringConvertible, Codable {
-        case attachmentreference = "AttachmentReference"
-        case s3fileurl = "S3FileUrl"
-        case sourceurl = "SourceUrl"
+        case attachmentReference = "AttachmentReference"
+        case s3FileUrl = "S3FileUrl"
+        case sourceUrl = "SourceUrl"
         public var description: String { return self.rawValue }
     }
 
     public enum AutomationExecutionFilterKey: String, CustomStringConvertible, Codable {
-        case automationsubtype = "AutomationSubtype"
-        case automationtype = "AutomationType"
-        case currentaction = "CurrentAction"
-        case documentnameprefix = "DocumentNamePrefix"
-        case executionid = "ExecutionId"
-        case executionstatus = "ExecutionStatus"
-        case opsitemid = "OpsItemId"
-        case parentexecutionid = "ParentExecutionId"
-        case starttimeafter = "StartTimeAfter"
-        case starttimebefore = "StartTimeBefore"
-        case tagkey = "TagKey"
-        case targetresourcegroup = "TargetResourceGroup"
+        case automationSubtype = "AutomationSubtype"
+        case automationType = "AutomationType"
+        case currentAction = "CurrentAction"
+        case documentNamePrefix = "DocumentNamePrefix"
+        case executionId = "ExecutionId"
+        case executionStatus = "ExecutionStatus"
+        case opsItemId = "OpsItemId"
+        case parentExecutionId = "ParentExecutionId"
+        case startTimeAfter = "StartTimeAfter"
+        case startTimeBefore = "StartTimeBefore"
+        case tagKey = "TagKey"
+        case targetResourceGroup = "TargetResourceGroup"
         public var description: String { return self.rawValue }
     }
 
@@ -108,31 +108,31 @@ extension SSM {
         case approved = "Approved"
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
-        case changecalendaroverrideapproved = "ChangeCalendarOverrideApproved"
-        case changecalendaroverriderejected = "ChangeCalendarOverrideRejected"
-        case completedwithfailure = "CompletedWithFailure"
-        case completedwithsuccess = "CompletedWithSuccess"
+        case changeCalendarOverrideApproved = "ChangeCalendarOverrideApproved"
+        case changeCalendarOverrideRejected = "ChangeCalendarOverrideRejected"
+        case completedWithFailure = "CompletedWithFailure"
+        case completedWithSuccess = "CompletedWithSuccess"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
-        case pendingapproval = "PendingApproval"
-        case pendingchangecalendaroverride = "PendingChangeCalendarOverride"
+        case pendingApproval = "PendingApproval"
+        case pendingChangeCalendarOverride = "PendingChangeCalendarOverride"
         case rejected = "Rejected"
-        case runbookinprogress = "RunbookInProgress"
+        case runbookInProgress = "RunbookInProgress"
         case scheduled = "Scheduled"
         case success = "Success"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         case waiting = "Waiting"
         public var description: String { return self.rawValue }
     }
 
     public enum AutomationSubtype: String, CustomStringConvertible, Codable {
-        case changerequest = "ChangeRequest"
+        case changeRequest = "ChangeRequest"
         public var description: String { return self.rawValue }
     }
 
     public enum AutomationType: String, CustomStringConvertible, Codable {
-        case crossaccount = "CrossAccount"
+        case crossAccount = "CrossAccount"
         case local = "Local"
         public var description: String { return self.rawValue }
     }
@@ -144,10 +144,10 @@ extension SSM {
     }
 
     public enum CommandFilterKey: String, CustomStringConvertible, Codable {
-        case documentname = "DocumentName"
-        case executionstage = "ExecutionStage"
-        case invokedafter = "InvokedAfter"
-        case invokedbefore = "InvokedBefore"
+        case documentName = "DocumentName"
+        case executionStage = "ExecutionStage"
+        case invokedAfter = "InvokedAfter"
+        case invokedBefore = "InvokedBefore"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -157,20 +157,20 @@ extension SSM {
         case cancelling = "Cancelling"
         case delayed = "Delayed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
     public enum CommandPluginStatus: String, CustomStringConvertible, Codable {
         case cancelled = "Cancelled"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
@@ -178,10 +178,10 @@ extension SSM {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
@@ -218,22 +218,22 @@ extension SSM {
 
     public enum ConnectionStatus: String, CustomStringConvertible, Codable {
         case connected = "Connected"
-        case notconnected = "NotConnected"
+        case notConnected = "NotConnected"
         public var description: String { return self.rawValue }
     }
 
     public enum DescribeActivationsFilterKeys: String, CustomStringConvertible, Codable {
-        case activationids = "ActivationIds"
-        case defaultinstancename = "DefaultInstanceName"
-        case iamrole = "IamRole"
+        case activationIds = "ActivationIds"
+        case defaultInstanceName = "DefaultInstanceName"
+        case iamRole = "IamRole"
         public var description: String { return self.rawValue }
     }
 
     public enum DocumentFilterKey: String, CustomStringConvertible, Codable {
-        case documenttype = "DocumentType"
+        case documentType = "DocumentType"
         case name = "Name"
         case owner = "Owner"
-        case platformtypes = "PlatformTypes"
+        case platformTypes = "PlatformTypes"
         public var description: String { return self.rawValue }
     }
 
@@ -251,13 +251,13 @@ extension SSM {
     }
 
     public enum DocumentMetadataEnum: String, CustomStringConvertible, Codable {
-        case documentreviews = "DocumentReviews"
+        case documentReviews = "DocumentReviews"
         public var description: String { return self.rawValue }
     }
 
     public enum DocumentParameterType: String, CustomStringConvertible, Codable {
         case string = "String"
-        case stringlist = "StringList"
+        case stringList = "StringList"
         public var description: String { return self.rawValue }
     }
 
@@ -269,8 +269,8 @@ extension SSM {
     public enum DocumentReviewAction: String, CustomStringConvertible, Codable {
         case approve = "Approve"
         case reject = "Reject"
-        case sendforreview = "SendForReview"
-        case updatereview = "UpdateReview"
+        case sendForReview = "SendForReview"
+        case updateReview = "UpdateReview"
         public var description: String { return self.rawValue }
     }
 
@@ -289,17 +289,17 @@ extension SSM {
     }
 
     public enum DocumentType: String, CustomStringConvertible, Codable {
-        case applicationconfiguration = "ApplicationConfiguration"
-        case applicationconfigurationschema = "ApplicationConfigurationSchema"
+        case applicationConfiguration = "ApplicationConfiguration"
+        case applicationConfigurationSchema = "ApplicationConfigurationSchema"
         case automation = "Automation"
         case automationChangetemplate = "Automation.ChangeTemplate"
-        case changecalendar = "ChangeCalendar"
+        case changeCalendar = "ChangeCalendar"
         case command = "Command"
-        case deploymentstrategy = "DeploymentStrategy"
+        case deploymentStrategy = "DeploymentStrategy"
         case package = "Package"
         case policy = "Policy"
-        case problemanalysis = "ProblemAnalysis"
-        case problemanalysistemplate = "ProblemAnalysisTemplate"
+        case problemAnalysis = "ProblemAnalysis"
+        case problemAnalysisTemplate = "ProblemAnalysisTemplate"
         case session = "Session"
         public var description: String { return self.rawValue }
     }
@@ -318,22 +318,22 @@ extension SSM {
     }
 
     public enum InstanceInformationFilterKey: String, CustomStringConvertible, Codable {
-        case activationids = "ActivationIds"
-        case agentversion = "AgentVersion"
-        case associationstatus = "AssociationStatus"
-        case iamrole = "IamRole"
-        case instanceids = "InstanceIds"
-        case pingstatus = "PingStatus"
-        case platformtypes = "PlatformTypes"
-        case resourcetype = "ResourceType"
+        case activationIds = "ActivationIds"
+        case agentVersion = "AgentVersion"
+        case associationStatus = "AssociationStatus"
+        case iamRole = "IamRole"
+        case instanceIds = "InstanceIds"
+        case pingStatus = "PingStatus"
+        case platformTypes = "PlatformTypes"
+        case resourceType = "ResourceType"
         public var description: String { return self.rawValue }
     }
 
     public enum InstancePatchStateOperatorType: String, CustomStringConvertible, Codable {
         case equal = "Equal"
-        case greaterthan = "GreaterThan"
-        case lessthan = "LessThan"
-        case notequal = "NotEqual"
+        case greaterThan = "GreaterThan"
+        case lessThan = "LessThan"
+        case notEqual = "NotEqual"
         public var description: String { return self.rawValue }
     }
 
@@ -345,29 +345,29 @@ extension SSM {
 
     public enum InventoryDeletionStatus: String, CustomStringConvertible, Codable {
         case complete = "Complete"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
     public enum InventoryQueryOperatorType: String, CustomStringConvertible, Codable {
-        case beginwith = "BeginWith"
+        case beginWith = "BeginWith"
         case equal = "Equal"
         case exists = "Exists"
-        case greaterthan = "GreaterThan"
-        case lessthan = "LessThan"
-        case notequal = "NotEqual"
+        case greaterThan = "GreaterThan"
+        case lessThan = "LessThan"
+        case notEqual = "NotEqual"
         public var description: String { return self.rawValue }
     }
 
     public enum InventorySchemaDeleteOption: String, CustomStringConvertible, Codable {
-        case deleteschema = "DeleteSchema"
-        case disableschema = "DisableSchema"
+        case deleteSchema = "DeleteSchema"
+        case disableSchema = "DisableSchema"
         public var description: String { return self.rawValue }
     }
 
     public enum LastResourceDataSyncStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
@@ -408,9 +408,9 @@ extension SSM {
         case all = "All"
         case cancelled = "Cancelled"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case success = "Success"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
@@ -436,23 +436,23 @@ extension SSM {
     }
 
     public enum OpsFilterOperatorType: String, CustomStringConvertible, Codable {
-        case beginwith = "BeginWith"
+        case beginWith = "BeginWith"
         case equal = "Equal"
         case exists = "Exists"
-        case greaterthan = "GreaterThan"
-        case lessthan = "LessThan"
-        case notequal = "NotEqual"
+        case greaterThan = "GreaterThan"
+        case lessThan = "LessThan"
+        case notEqual = "NotEqual"
         public var description: String { return self.rawValue }
     }
 
     public enum OpsItemDataType: String, CustomStringConvertible, Codable {
-        case searchablestring = "SearchableString"
+        case searchableString = "SearchableString"
         case string = "String"
         public var description: String { return self.rawValue }
     }
 
     public enum OpsItemEventFilterKey: String, CustomStringConvertible, Codable {
-        case opsitemid = "OpsItemId"
+        case opsItemId = "OpsItemId"
         public var description: String { return self.rawValue }
     }
 
@@ -462,29 +462,29 @@ extension SSM {
     }
 
     public enum OpsItemFilterKey: String, CustomStringConvertible, Codable {
-        case actualendtime = "ActualEndTime"
-        case actualstarttime = "ActualStartTime"
-        case automationid = "AutomationId"
+        case actualEndTime = "ActualEndTime"
+        case actualStartTime = "ActualStartTime"
+        case automationId = "AutomationId"
         case category = "Category"
-        case changerequestbyapproverarn = "ChangeRequestByApproverArn"
-        case changerequestbyapprovername = "ChangeRequestByApproverName"
-        case changerequestbyrequesterarn = "ChangeRequestByRequesterArn"
-        case changerequestbyrequestername = "ChangeRequestByRequesterName"
-        case changerequestbytargetsresourcegroup = "ChangeRequestByTargetsResourceGroup"
-        case changerequestbytemplate = "ChangeRequestByTemplate"
-        case createdby = "CreatedBy"
-        case createdtime = "CreatedTime"
-        case insightbytype = "InsightByType"
-        case lastmodifiedtime = "LastModifiedTime"
-        case operationaldata = "OperationalData"
-        case operationaldatakey = "OperationalDataKey"
-        case operationaldatavalue = "OperationalDataValue"
-        case opsitemid = "OpsItemId"
-        case opsitemtype = "OpsItemType"
-        case plannedendtime = "PlannedEndTime"
-        case plannedstarttime = "PlannedStartTime"
+        case changeRequestByApproverArn = "ChangeRequestByApproverArn"
+        case changeRequestByApproverName = "ChangeRequestByApproverName"
+        case changeRequestByRequesterArn = "ChangeRequestByRequesterArn"
+        case changeRequestByRequesterName = "ChangeRequestByRequesterName"
+        case changeRequestByTargetsResourceGroup = "ChangeRequestByTargetsResourceGroup"
+        case changeRequestByTemplate = "ChangeRequestByTemplate"
+        case createdBy = "CreatedBy"
+        case createdTime = "CreatedTime"
+        case insightByType = "InsightByType"
+        case lastModifiedTime = "LastModifiedTime"
+        case operationalData = "OperationalData"
+        case operationalDataKey = "OperationalDataKey"
+        case operationalDataValue = "OperationalDataValue"
+        case opsItemId = "OpsItemId"
+        case opsItemType = "OpsItemType"
+        case plannedEndTime = "PlannedEndTime"
+        case plannedStartTime = "PlannedStartTime"
         case priority = "Priority"
-        case resourceid = "ResourceId"
+        case resourceId = "ResourceId"
         case severity = "Severity"
         case source = "Source"
         case status = "Status"
@@ -495,15 +495,15 @@ extension SSM {
     public enum OpsItemFilterOperator: String, CustomStringConvertible, Codable {
         case contains = "Contains"
         case equal = "Equal"
-        case greaterthan = "GreaterThan"
-        case lessthan = "LessThan"
+        case greaterThan = "GreaterThan"
+        case lessThan = "LessThan"
         public var description: String { return self.rawValue }
     }
 
     public enum OpsItemRelatedItemsFilterKey: String, CustomStringConvertible, Codable {
-        case associationid = "AssociationId"
-        case resourcetype = "ResourceType"
-        case resourceuri = "ResourceUri"
+        case associationId = "AssociationId"
+        case resourceType = "ResourceType"
+        case resourceUri = "ResourceUri"
         public var description: String { return self.rawValue }
     }
 
@@ -516,22 +516,22 @@ extension SSM {
         case approved = "Approved"
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
-        case changecalendaroverrideapproved = "ChangeCalendarOverrideApproved"
-        case changecalendaroverriderejected = "ChangeCalendarOverrideRejected"
+        case changeCalendarOverrideApproved = "ChangeCalendarOverrideApproved"
+        case changeCalendarOverrideRejected = "ChangeCalendarOverrideRejected"
         case closed = "Closed"
-        case completedwithfailure = "CompletedWithFailure"
-        case completedwithsuccess = "CompletedWithSuccess"
+        case completedWithFailure = "CompletedWithFailure"
+        case completedWithSuccess = "CompletedWithSuccess"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case open = "Open"
         case pending = "Pending"
-        case pendingapproval = "PendingApproval"
-        case pendingchangecalendaroverride = "PendingChangeCalendarOverride"
+        case pendingApproval = "PendingApproval"
+        case pendingChangeCalendarOverride = "PendingChangeCalendarOverride"
         case rejected = "Rejected"
         case resolved = "Resolved"
-        case runbookinprogress = "RunbookInProgress"
+        case runbookInProgress = "RunbookInProgress"
         case scheduled = "Scheduled"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
@@ -543,14 +543,14 @@ extension SSM {
     }
 
     public enum ParameterType: String, CustomStringConvertible, Codable {
-        case securestring = "SecureString"
+        case secureString = "SecureString"
         case string = "String"
-        case stringlist = "StringList"
+        case stringList = "StringList"
         public var description: String { return self.rawValue }
     }
 
     public enum ParametersFilterKey: String, CustomStringConvertible, Codable {
-        case keyid = "KeyId"
+        case keyId = "KeyId"
         case name = "Name"
         case type = "Type"
         public var description: String { return self.rawValue }
@@ -637,7 +637,7 @@ extension SSM {
     }
 
     public enum PingStatus: String, CustomStringConvertible, Codable {
-        case connectionlost = "ConnectionLost"
+        case connectionLost = "ConnectionLost"
         case inactive = "Inactive"
         case online = "Online"
         public var description: String { return self.rawValue }
@@ -650,31 +650,31 @@ extension SSM {
     }
 
     public enum RebootOption: String, CustomStringConvertible, Codable {
-        case noreboot = "NoReboot"
-        case rebootifneeded = "RebootIfNeeded"
+        case noReboot = "NoReboot"
+        case rebootIfNeeded = "RebootIfNeeded"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceDataSyncS3Format: String, CustomStringConvertible, Codable {
-        case jsonserde = "JsonSerDe"
+        case jsonSerDe = "JsonSerDe"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case document = "Document"
-        case ec2instance = "EC2Instance"
-        case managedinstance = "ManagedInstance"
+        case eC2Instance = "EC2Instance"
+        case managedInstance = "ManagedInstance"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable {
         case document = "Document"
-        case maintenancewindow = "MaintenanceWindow"
-        case managedinstance = "ManagedInstance"
-        case opsitem = "OpsItem"
-        case opsmetadata = "OpsMetadata"
+        case maintenanceWindow = "MaintenanceWindow"
+        case managedInstance = "ManagedInstance"
+        case opsItem = "OpsItem"
+        case opsMetadata = "OpsMetadata"
         case parameter = "Parameter"
-        case patchbaseline = "PatchBaseline"
+        case patchBaseline = "PatchBaseline"
         public var description: String { return self.rawValue }
     }
 
@@ -687,10 +687,10 @@ extension SSM {
     }
 
     public enum SessionFilterKey: String, CustomStringConvertible, Codable {
-        case invokedafter = "InvokedAfter"
-        case invokedbefore = "InvokedBefore"
+        case invokedAfter = "InvokedAfter"
+        case invokedBefore = "InvokedBefore"
         case owner = "Owner"
-        case sessionid = "SessionId"
+        case sessionId = "SessionId"
         case status = "Status"
         case target = "Target"
         public var description: String { return self.rawValue }
@@ -716,18 +716,18 @@ extension SSM {
         case approve = "Approve"
         case reject = "Reject"
         case resume = "Resume"
-        case startstep = "StartStep"
-        case stopstep = "StopStep"
+        case startStep = "StartStep"
+        case stopStep = "StopStep"
         public var description: String { return self.rawValue }
     }
 
     public enum StepExecutionFilterKey: String, CustomStringConvertible, Codable {
         case action = "Action"
-        case starttimeafter = "StartTimeAfter"
-        case starttimebefore = "StartTimeBefore"
-        case stepexecutionid = "StepExecutionId"
-        case stepexecutionstatus = "StepExecutionStatus"
-        case stepname = "StepName"
+        case startTimeAfter = "StartTimeAfter"
+        case startTimeBefore = "StartTimeBefore"
+        case stepExecutionId = "StepExecutionId"
+        case stepExecutionStatus = "StepExecutionStatus"
+        case stepName = "StepName"
         public var description: String { return self.rawValue }
     }
 

@@ -167,7 +167,7 @@ extension AuditManager {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
-        case awsApiCall = "AWS_API_Call"
+        case awsAPICall = "AWS_API_Call"
         case awsCloudtrail = "AWS_Cloudtrail"
         case awsConfig = "AWS_Config"
         case awsSecurityHub = "AWS_Security_Hub"

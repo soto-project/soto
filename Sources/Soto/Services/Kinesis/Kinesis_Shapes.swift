@@ -36,13 +36,13 @@ extension Kinesis {
 
     public enum MetricsName: String, CustomStringConvertible, Codable {
         case all = "ALL"
-        case incomingbytes = "IncomingBytes"
-        case incomingrecords = "IncomingRecords"
-        case iteratoragemilliseconds = "IteratorAgeMilliseconds"
-        case outgoingbytes = "OutgoingBytes"
-        case outgoingrecords = "OutgoingRecords"
-        case readprovisionedthroughputexceeded = "ReadProvisionedThroughputExceeded"
-        case writeprovisionedthroughputexceeded = "WriteProvisionedThroughputExceeded"
+        case incomingBytes = "IncomingBytes"
+        case incomingRecords = "IncomingRecords"
+        case iteratorAgeMilliseconds = "IteratorAgeMilliseconds"
+        case outgoingBytes = "OutgoingBytes"
+        case outgoingRecords = "OutgoingRecords"
+        case readProvisionedThroughputExceeded = "ReadProvisionedThroughputExceeded"
+        case writeProvisionedThroughputExceeded = "WriteProvisionedThroughputExceeded"
         public var description: String { return self.rawValue }
     }
 

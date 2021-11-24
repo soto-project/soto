@@ -39,8 +39,8 @@ extension SecretsManager {
 
     public enum StatusType: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
-        case insync = "InSync"
+        case inProgress = "InProgress"
+        case inSync = "InSync"
         public var description: String { return self.rawValue }
     }
 

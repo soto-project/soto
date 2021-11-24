@@ -75,10 +75,10 @@ extension Route53 {
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        case lessthanthreshold = "LessThanThreshold"
+        case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
+        case greaterThanThreshold = "GreaterThanThreshold"
+        case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
+        case lessThanThreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
@@ -114,7 +114,7 @@ extension Route53 {
 
     public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable {
         case healthy = "Healthy"
-        case lastknownstatus = "LastKnownStatus"
+        case lastKnownStatus = "LastKnownStatus"
         case unhealthy = "Unhealthy"
         public var description: String { return self.rawValue }
     }
@@ -137,10 +137,10 @@ extension Route53 {
     }
 
     public enum ResettableElementName: String, CustomStringConvertible, Codable {
-        case childhealthchecks = "ChildHealthChecks"
-        case fullyqualifieddomainname = "FullyQualifiedDomainName"
+        case childHealthChecks = "ChildHealthChecks"
+        case fullyQualifiedDomainName = "FullyQualifiedDomainName"
         case regions = "Regions"
-        case resourcepath = "ResourcePath"
+        case resourcePath = "ResourcePath"
         public var description: String { return self.rawValue }
     }
 
@@ -186,7 +186,7 @@ extension Route53 {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }

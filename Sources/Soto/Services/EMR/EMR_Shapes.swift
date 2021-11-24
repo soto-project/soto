@@ -97,7 +97,7 @@ extension EMR {
     }
 
     public enum ComputeLimitsUnitType: String, CustomStringConvertible, Codable {
-        case instancefleetunits = "InstanceFleetUnits"
+        case instanceFleetUnits = "InstanceFleetUnits"
         case instances = "Instances"
         case vcpu = "VCPU"
         public var description: String { return self.rawValue }

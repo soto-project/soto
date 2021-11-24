@@ -24,7 +24,7 @@ extension SageMaker {
     public enum ActionStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         case unknown = "Unknown"
@@ -32,7 +32,7 @@ extension SageMaker {
     }
 
     public enum AlgorithmSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -41,14 +41,14 @@ extension SageMaker {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum AppImageConfigSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -107,8 +107,8 @@ extension SageMaker {
     }
 
     public enum AppNetworkAccessType: String, CustomStringConvertible, Codable {
-        case publicinternetonly = "PublicInternetOnly"
-        case vpconly = "VpcOnly"
+        case publicInternetOnly = "PublicInternetOnly"
+        case vpcOnly = "VpcOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -119,7 +119,7 @@ extension SageMaker {
     }
 
     public enum AppSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
@@ -127,25 +127,25 @@ extension SageMaker {
         case deleted = "Deleted"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inservice = "InService"
+        case inService = "InService"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum AppType: String, CustomStringConvertible, Codable {
-        case jupyterserver = "JupyterServer"
-        case kernelgateway = "KernelGateway"
-        case rsessiongateway = "RSessionGateway"
-        case rstudioserverpro = "RStudioServerPro"
-        case tensorboard = "TensorBoard"
+        case jupyterServer = "JupyterServer"
+        case kernelGateway = "KernelGateway"
+        case rSessionGateway = "RSessionGateway"
+        case rStudioServerPro = "RStudioServerPro"
+        case tensorBoard = "TensorBoard"
         public var description: String { return self.rawValue }
     }
 
     public enum ArtifactSourceIdType: String, CustomStringConvertible, Codable {
         case custom = "Custom"
-        case md5hash = "MD5Hash"
-        case s3etag = "S3ETag"
-        case s3version = "S3Version"
+        case mD5Hash = "MD5Hash"
+        case s3ETag = "S3ETag"
+        case s3Version = "S3Version"
         public var description: String { return self.rawValue }
     }
 
@@ -156,9 +156,9 @@ extension SageMaker {
     }
 
     public enum AssociationEdgeType: String, CustomStringConvertible, Codable {
-        case associatedwith = "AssociatedWith"
-        case contributedto = "ContributedTo"
-        case derivedfrom = "DerivedFrom"
+        case associatedWith = "AssociatedWith"
+        case contributedTo = "ContributedTo"
+        case derivedFrom = "DerivedFrom"
         case produced = "Produced"
         public var description: String { return self.rawValue }
     }
@@ -192,18 +192,18 @@ extension SageMaker {
     }
 
     public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable {
-        case analyzingdata = "AnalyzingData"
-        case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
+        case analyzingData = "AnalyzingData"
+        case candidateDefinitionsGenerated = "CandidateDefinitionsGenerated"
         case completed = "Completed"
-        case deployingmodel = "DeployingModel"
-        case explainabilityerror = "ExplainabilityError"
+        case deployingModel = "DeployingModel"
+        case explainabilityError = "ExplainabilityError"
         case failed = "Failed"
-        case featureengineering = "FeatureEngineering"
-        case generatingexplainabilityreport = "GeneratingExplainabilityReport"
-        case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
-        case maxcandidatesreached = "MaxCandidatesReached"
-        case modeldeploymenterror = "ModelDeploymentError"
-        case modeltuning = "ModelTuning"
+        case featureEngineering = "FeatureEngineering"
+        case generatingExplainabilityReport = "GeneratingExplainabilityReport"
+        case maxAutoMLJobRuntimeReached = "MaxAutoMLJobRuntimeReached"
+        case maxCandidatesReached = "MaxCandidatesReached"
+        case modelDeploymentError = "ModelDeploymentError"
+        case modelTuning = "ModelTuning"
         case starting = "Starting"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -213,7 +213,7 @@ extension SageMaker {
     public enum AutoMLJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -229,13 +229,13 @@ extension SageMaker {
     }
 
     public enum AutoMLS3DataType: String, CustomStringConvertible, Codable {
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
+        case manifestFile = "ManifestFile"
+        case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoMLSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -254,8 +254,8 @@ extension SageMaker {
     }
 
     public enum BatchStrategy: String, CustomStringConvertible, Codable {
-        case multirecord = "MultiRecord"
-        case singlerecord = "SingleRecord"
+        case multiRecord = "MultiRecord"
+        case singleRecord = "SingleRecord"
         public var description: String { return self.rawValue }
     }
 
@@ -266,8 +266,8 @@ extension SageMaker {
     }
 
     public enum CandidateSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        case creationTime = "CreationTime"
+        case finalObjectiveMetricValue = "FinalObjectiveMetricValue"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -275,7 +275,7 @@ extension SageMaker {
     public enum CandidateStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -307,8 +307,8 @@ extension SageMaker {
     }
 
     public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -342,36 +342,36 @@ extension SageMaker {
     }
 
     public enum ContainerMode: String, CustomStringConvertible, Codable {
-        case multimodel = "MultiModel"
-        case singlemodel = "SingleModel"
+        case multiModel = "MultiModel"
+        case singleModel = "SingleModel"
         public var description: String { return self.rawValue }
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofadultcontent = "FreeOfAdultContent"
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeOfAdultContent = "FreeOfAdultContent"
+        case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
     public enum DataDistributionType: String, CustomStringConvertible, Codable {
-        case fullyreplicated = "FullyReplicated"
-        case shardedbys3key = "ShardedByS3Key"
+        case fullyReplicated = "FullyReplicated"
+        case shardedByS3Key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
     public enum DetailedAlgorithmStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
-        case notstarted = "NotStarted"
+        case inProgress = "InProgress"
+        case notStarted = "NotStarted"
         public var description: String { return self.rawValue }
     }
 
     public enum DetailedModelPackageStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
-        case notstarted = "NotStarted"
+        case inProgress = "InProgress"
+        case notStarted = "NotStarted"
         public var description: String { return self.rawValue }
     }
 
@@ -385,7 +385,7 @@ extension SageMaker {
         case deleteFailed = "Delete_Failed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inservice = "InService"
+        case inService = "InService"
         case pending = "Pending"
         case updateFailed = "Update_Failed"
         case updating = "Updating"
@@ -409,18 +409,18 @@ extension SageMaker {
     }
 
     public enum EdgePresetDeploymentType: String, CustomStringConvertible, Codable {
-        case greengrassv2component = "GreengrassV2Component"
+        case greengrassV2Component = "GreengrassV2Component"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -430,19 +430,19 @@ extension SageMaker {
         case creating = "Creating"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inservice = "InService"
-        case outofservice = "OutOfService"
-        case rollingback = "RollingBack"
-        case systemupdating = "SystemUpdating"
+        case inService = "InService"
+        case outOfService = "OutOfService"
+        case rollingBack = "RollingBack"
+        case systemUpdating = "SystemUpdating"
         case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
-        case completedwithviolations = "CompletedWithViolations"
+        case completedWithViolations = "CompletedWithViolations"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -450,10 +450,10 @@ extension SageMaker {
     }
 
     public enum FeatureGroupSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case featuregroupstatus = "FeatureGroupStatus"
+        case creationTime = "CreationTime"
+        case featureGroupStatus = "FeatureGroupStatus"
         case name = "Name"
-        case offlinestorestatus = "OfflineStoreStatus"
+        case offlineStoreStatus = "OfflineStoreStatus"
         public var description: String { return self.rawValue }
     }
 
@@ -464,10 +464,10 @@ extension SageMaker {
     }
 
     public enum FeatureGroupStatus: String, CustomStringConvertible, Codable {
-        case createfailed = "CreateFailed"
+        case createFailed = "CreateFailed"
         case created = "Created"
         case creating = "Creating"
-        case deletefailed = "DeleteFailed"
+        case deleteFailed = "DeleteFailed"
         case deleting = "Deleting"
         public var description: String { return self.rawValue }
     }
@@ -487,7 +487,7 @@ extension SageMaker {
 
     public enum FileSystemType: String, CustomStringConvertible, Codable {
         case efs = "EFS"
-        case fsxlustre = "FSxLustre"
+        case fSxLustre = "FSxLustre"
         public var description: String { return self.rawValue }
     }
 
@@ -522,7 +522,7 @@ extension SageMaker {
         case auto = "Auto"
         case linear = "Linear"
         case logarithmic = "Logarithmic"
-        case reverselogarithmic = "ReverseLogarithmic"
+        case reverseLogarithmic = "ReverseLogarithmic"
         public var description: String { return self.rawValue }
     }
 
@@ -533,7 +533,7 @@ extension SageMaker {
     }
 
     public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -542,7 +542,7 @@ extension SageMaker {
     public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -555,8 +555,8 @@ extension SageMaker {
     }
 
     public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable {
-        case identicaldataandalgorithm = "IdenticalDataAndAlgorithm"
-        case transferlearning = "TransferLearning"
+        case identicalDataAndAlgorithm = "IdenticalDataAndAlgorithm"
+        case transferLearning = "TransferLearning"
         public var description: String { return self.rawValue }
     }
 
@@ -692,7 +692,7 @@ extension SageMaker {
     public enum LabelingJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case initializing = "Initializing"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -700,7 +700,7 @@ extension SageMaker {
     }
 
     public enum ListCompilationJobsSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -723,18 +723,18 @@ extension SageMaker {
     }
 
     public enum ListLabelingJobsForWorkteamSortByOptions: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
     public enum ListWorkforcesSortByOptions: String, CustomStringConvertible, Codable {
-        case createdate = "CreateDate"
+        case createDate = "CreateDate"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable {
-        case createdate = "CreateDate"
+        case createDate = "CreateDate"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -748,7 +748,7 @@ extension SageMaker {
 
     public enum ModelApprovalStatus: String, CustomStringConvertible, Codable {
         case approved = "Approved"
-        case pendingmanualapproval = "PendingManualApproval"
+        case pendingManualApproval = "PendingManualApproval"
         case rejected = "Rejected"
         public var description: String { return self.rawValue }
     }
@@ -760,23 +760,23 @@ extension SageMaker {
     }
 
     public enum ModelPackageGroupSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelPackageGroupStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
-        case deletefailed = "DeleteFailed"
+        case deleteFailed = "DeleteFailed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelPackageSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -785,7 +785,7 @@ extension SageMaker {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
@@ -798,43 +798,43 @@ extension SageMaker {
     }
 
     public enum ModelSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum MonitoringExecutionSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case scheduledtime = "ScheduledTime"
+        case creationTime = "CreationTime"
+        case scheduledTime = "ScheduledTime"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum MonitoringJobDefinitionSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum MonitoringProblemType: String, CustomStringConvertible, Codable {
-        case binaryclassification = "BinaryClassification"
-        case multiclassclassification = "MulticlassClassification"
+        case binaryClassification = "BinaryClassification"
+        case multiclassClassification = "MulticlassClassification"
         case regression = "Regression"
         public var description: String { return self.rawValue }
     }
 
     public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum MonitoringType: String, CustomStringConvertible, Codable {
-        case dataquality = "DataQuality"
-        case modelbias = "ModelBias"
-        case modelexplainability = "ModelExplainability"
-        case modelquality = "ModelQuality"
+        case dataQuality = "DataQuality"
+        case modelBias = "ModelBias"
+        case modelExplainability = "ModelExplainability"
+        case modelQuality = "ModelQuality"
         public var description: String { return self.rawValue }
     }
 
@@ -849,8 +849,8 @@ extension SageMaker {
     }
 
     public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -862,7 +862,7 @@ extension SageMaker {
     }
 
     public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -877,7 +877,7 @@ extension SageMaker {
     public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable {
         case deleting = "Deleting"
         case failed = "Failed"
-        case inservice = "InService"
+        case inService = "InService"
         case pending = "Pending"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -909,13 +909,13 @@ extension SageMaker {
         case contains = "Contains"
         case equals = "Equals"
         case exists = "Exists"
-        case greaterthan = "GreaterThan"
-        case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case greaterThan = "GreaterThan"
+        case greaterThanOrEqualTo = "GreaterThanOrEqualTo"
         case `in` = "In"
-        case lessthan = "LessThan"
-        case lessthanorequalto = "LessThanOrEqualTo"
-        case notequals = "NotEquals"
-        case notexists = "NotExists"
+        case lessThan = "LessThan"
+        case lessThanOrEqualTo = "LessThanOrEqualTo"
+        case notEquals = "NotEquals"
+        case notExists = "NotExists"
         public var description: String { return self.rawValue }
     }
 
@@ -928,7 +928,7 @@ extension SageMaker {
     public enum ParameterType: String, CustomStringConvertible, Codable {
         case categorical = "Categorical"
         case continuous = "Continuous"
-        case freetext = "FreeText"
+        case freeText = "FreeText"
         case integer = "Integer"
         public var description: String { return self.rawValue }
     }
@@ -948,8 +948,8 @@ extension SageMaker {
     }
 
     public enum ProblemType: String, CustomStringConvertible, Codable {
-        case binaryclassification = "BinaryClassification"
-        case multiclassclassification = "MulticlassClassification"
+        case binaryClassification = "BinaryClassification"
+        case multiclassClassification = "MulticlassClassification"
         case regression = "Regression"
         public var description: String { return self.rawValue }
     }
@@ -1005,7 +1005,7 @@ extension SageMaker {
     public enum ProcessingJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -1018,14 +1018,14 @@ extension SageMaker {
     }
 
     public enum ProcessingS3DataDistributionType: String, CustomStringConvertible, Codable {
-        case fullyreplicated = "FullyReplicated"
-        case shardedbys3key = "ShardedByS3Key"
+        case fullyReplicated = "FullyReplicated"
+        case shardedByS3Key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessingS3DataType: String, CustomStringConvertible, Codable {
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
+        case manifestFile = "ManifestFile"
+        case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
     }
 
@@ -1037,7 +1037,7 @@ extension SageMaker {
 
     public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable {
         case continuous = "Continuous"
-        case endofjob = "EndOfJob"
+        case endOfJob = "EndOfJob"
         public var description: String { return self.rawValue }
     }
 
@@ -1128,7 +1128,7 @@ extension SageMaker {
     }
 
     public enum ProjectSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -1140,16 +1140,16 @@ extension SageMaker {
     }
 
     public enum ProjectStatus: String, CustomStringConvertible, Codable {
-        case createcompleted = "CreateCompleted"
-        case createfailed = "CreateFailed"
-        case createinprogress = "CreateInProgress"
-        case deletecompleted = "DeleteCompleted"
-        case deletefailed = "DeleteFailed"
-        case deleteinprogress = "DeleteInProgress"
+        case createCompleted = "CreateCompleted"
+        case createFailed = "CreateFailed"
+        case createInProgress = "CreateInProgress"
+        case deleteCompleted = "DeleteCompleted"
+        case deleteFailed = "DeleteFailed"
+        case deleteInProgress = "DeleteInProgress"
         case pending = "Pending"
-        case updatecompleted = "UpdateCompleted"
-        case updatefailed = "UpdateFailed"
-        case updateinprogress = "UpdateInProgress"
+        case updateCompleted = "UpdateCompleted"
+        case updateFailed = "UpdateFailed"
+        case updateInProgress = "UpdateInProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -1167,7 +1167,7 @@ extension SageMaker {
 
     public enum RecordWrapper: String, CustomStringConvertible, Codable {
         case none = "None"
-        case recordio = "RecordIO"
+        case recordIO = "RecordIO"
         public var description: String { return self.rawValue }
     }
 
@@ -1195,15 +1195,15 @@ extension SageMaker {
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case endpoint = "Endpoint"
         case experiment = "Experiment"
-        case experimenttrial = "ExperimentTrial"
-        case experimenttrialcomponent = "ExperimentTrialComponent"
-        case featuregroup = "FeatureGroup"
-        case modelpackage = "ModelPackage"
-        case modelpackagegroup = "ModelPackageGroup"
+        case experimentTrial = "ExperimentTrial"
+        case experimentTrialComponent = "ExperimentTrialComponent"
+        case featureGroup = "FeatureGroup"
+        case modelPackage = "ModelPackage"
+        case modelPackageGroup = "ModelPackageGroup"
         case pipeline = "Pipeline"
-        case pipelineexecution = "PipelineExecution"
+        case pipelineExecution = "PipelineExecution"
         case project = "Project"
-        case trainingjob = "TrainingJob"
+        case trainingJob = "TrainingJob"
         public var description: String { return self.rawValue }
     }
 
@@ -1221,24 +1221,24 @@ extension SageMaker {
 
     public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable {
         case error = "Error"
-        case inprogress = "InProgress"
-        case issuesfound = "IssuesFound"
-        case noissuesfound = "NoIssuesFound"
+        case inProgress = "InProgress"
+        case issuesFound = "IssuesFound"
+        case noIssuesFound = "NoIssuesFound"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum S3DataDistribution: String, CustomStringConvertible, Codable {
-        case fullyreplicated = "FullyReplicated"
-        case shardedbys3key = "ShardedByS3Key"
+        case fullyReplicated = "FullyReplicated"
+        case shardedByS3Key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
     public enum S3DataType: String, CustomStringConvertible, Codable {
-        case augmentedmanifestfile = "AugmentedManifestFile"
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
+        case augmentedManifestFile = "AugmentedManifestFile"
+        case manifestFile = "ManifestFile"
+        case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
     }
 
@@ -1265,13 +1265,13 @@ extension SageMaker {
     public enum SecondaryStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case downloading = "Downloading"
-        case downloadingtrainingimage = "DownloadingTrainingImage"
+        case downloadingTrainingImage = "DownloadingTrainingImage"
         case failed = "Failed"
         case interrupted = "Interrupted"
-        case launchingmlinstances = "LaunchingMLInstances"
-        case maxruntimeexceeded = "MaxRuntimeExceeded"
-        case maxwaittimeexceeded = "MaxWaitTimeExceeded"
-        case preparingtrainingstack = "PreparingTrainingStack"
+        case launchingMLInstances = "LaunchingMLInstances"
+        case maxRuntimeExceeded = "MaxRuntimeExceeded"
+        case maxWaitTimeExceeded = "MaxWaitTimeExceeded"
+        case preparingTrainingStack = "PreparingTrainingStack"
         case restarting = "Restarting"
         case starting = "Starting"
         case stopped = "Stopped"
@@ -1283,40 +1283,40 @@ extension SageMaker {
     }
 
     public enum SortActionsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum SortArtifactsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
     public enum SortAssociationsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case destinationarn = "DestinationArn"
-        case destinationtype = "DestinationType"
-        case sourcearn = "SourceArn"
-        case sourcetype = "SourceType"
+        case creationTime = "CreationTime"
+        case destinationArn = "DestinationArn"
+        case destinationType = "DestinationType"
+        case sourceArn = "SourceArn"
+        case sourceType = "SourceType"
         public var description: String { return self.rawValue }
     }
 
     public enum SortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum SortContextsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum SortExperimentsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -1328,25 +1328,25 @@ extension SageMaker {
     }
 
     public enum SortPipelineExecutionsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case pipelineexecutionarn = "PipelineExecutionArn"
+        case creationTime = "CreationTime"
+        case pipelineExecutionArn = "PipelineExecutionArn"
         public var description: String { return self.rawValue }
     }
 
     public enum SortPipelinesBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum SortTrialsBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
+        case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -1354,8 +1354,8 @@ extension SageMaker {
     public enum SplitType: String, CustomStringConvertible, Codable {
         case line = "Line"
         case none = "None"
-        case recordio = "RecordIO"
-        case tfrecord = "TFRecord"
+        case recordIO = "RecordIO"
+        case tFRecord = "TFRecord"
         public var description: String { return self.rawValue }
     }
 
@@ -1370,14 +1370,14 @@ extension SageMaker {
     }
 
     public enum StudioLifecycleConfigAppType: String, CustomStringConvertible, Codable {
-        case jupyterserver = "JupyterServer"
-        case kernelgateway = "KernelGateway"
+        case jupyterServer = "JupyterServer"
+        case kernelGateway = "KernelGateway"
         public var description: String { return self.rawValue }
     }
 
     public enum StudioLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
@@ -1447,7 +1447,7 @@ extension SageMaker {
     }
 
     public enum TrainingInputMode: String, CustomStringConvertible, Codable {
-        case fastfile = "FastFile"
+        case fastFile = "FastFile"
         case file = "File"
         case pipe = "Pipe"
         public var description: String { return self.rawValue }
@@ -1503,8 +1503,8 @@ extension SageMaker {
     }
 
     public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        case creationTime = "CreationTime"
+        case finalObjectiveMetricValue = "FinalObjectiveMetricValue"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -1513,7 +1513,7 @@ extension SageMaker {
     public enum TrainingJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -1558,7 +1558,7 @@ extension SageMaker {
     public enum TransformJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -1567,15 +1567,15 @@ extension SageMaker {
     public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum UserProfileSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
         public var description: String { return self.rawValue }
     }
 
@@ -1583,7 +1583,7 @@ extension SageMaker {
         case deleteFailed = "Delete_Failed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inservice = "InService"
+        case inService = "InService"
         case pending = "Pending"
         case updateFailed = "Update_Failed"
         case updating = "Updating"
@@ -1591,14 +1591,14 @@ extension SageMaker {
     }
 
     public enum VariantPropertyType: String, CustomStringConvertible, Codable {
-        case datacaptureconfig = "DataCaptureConfig"
-        case desiredinstancecount = "DesiredInstanceCount"
-        case desiredweight = "DesiredWeight"
+        case dataCaptureConfig = "DataCaptureConfig"
+        case desiredInstanceCount = "DesiredInstanceCount"
+        case desiredWeight = "DesiredWeight"
         public var description: String { return self.rawValue }
     }
 
     public enum VariantStatus: String, CustomStringConvertible, Codable {
-        case activatingtraffic = "ActivatingTraffic"
+        case activatingTraffic = "ActivatingTraffic"
         case baking = "Baking"
         case creating = "Creating"
         case deleting = "Deleting"

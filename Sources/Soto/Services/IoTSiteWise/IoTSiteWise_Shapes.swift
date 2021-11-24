@@ -67,15 +67,15 @@ extension IoTSiteWise {
     }
 
     public enum BatchPutAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable {
-        case accessdeniedexception = "AccessDeniedException"
-        case conflictingoperationexception = "ConflictingOperationException"
-        case internalfailureexception = "InternalFailureException"
-        case invalidrequestexception = "InvalidRequestException"
-        case limitexceededexception = "LimitExceededException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case serviceunavailableexception = "ServiceUnavailableException"
-        case throttlingexception = "ThrottlingException"
-        case timestampoutofrangeexception = "TimestampOutOfRangeException"
+        case accessDeniedException = "AccessDeniedException"
+        case conflictingOperationException = "ConflictingOperationException"
+        case internalFailureException = "InternalFailureException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+        case timestampOutOfRangeException = "TimestampOutOfRangeException"
         public var description: String { return self.rawValue }
     }
 

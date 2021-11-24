@@ -52,7 +52,7 @@ extension Lambda {
     }
 
     public enum FunctionResponseType: String, CustomStringConvertible, Codable {
-        case reportbatchitemfailures = "ReportBatchItemFailures"
+        case reportBatchItemFailures = "ReportBatchItemFailures"
         public var description: String { return self.rawValue }
     }
 
@@ -62,30 +62,30 @@ extension Lambda {
     }
 
     public enum InvocationType: String, CustomStringConvertible, Codable {
-        case dryrun = "DryRun"
+        case dryRun = "DryRun"
         case event = "Event"
-        case requestresponse = "RequestResponse"
+        case requestResponse = "RequestResponse"
         public var description: String { return self.rawValue }
     }
 
     public enum LastUpdateStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
     public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable {
-        case enilimitexceeded = "EniLimitExceeded"
-        case imageaccessdenied = "ImageAccessDenied"
-        case imagedeleted = "ImageDeleted"
-        case insufficientrolepermissions = "InsufficientRolePermissions"
-        case internalerror = "InternalError"
-        case invalidconfiguration = "InvalidConfiguration"
-        case invalidimage = "InvalidImage"
-        case invalidsecuritygroup = "InvalidSecurityGroup"
-        case invalidsubnet = "InvalidSubnet"
-        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
+        case eniLimitExceeded = "EniLimitExceeded"
+        case imageAccessDenied = "ImageAccessDenied"
+        case imageDeleted = "ImageDeleted"
+        case insufficientRolePermissions = "InsufficientRolePermissions"
+        case internalError = "InternalError"
+        case invalidConfiguration = "InvalidConfiguration"
+        case invalidImage = "InvalidImage"
+        case invalidSecurityGroup = "InvalidSecurityGroup"
+        case invalidSubnet = "InvalidSubnet"
+        case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
 
@@ -159,24 +159,24 @@ extension Lambda {
 
     public enum StateReasonCode: String, CustomStringConvertible, Codable {
         case creating = "Creating"
-        case enilimitexceeded = "EniLimitExceeded"
+        case eniLimitExceeded = "EniLimitExceeded"
         case idle = "Idle"
-        case imageaccessdenied = "ImageAccessDenied"
-        case imagedeleted = "ImageDeleted"
-        case insufficientrolepermissions = "InsufficientRolePermissions"
-        case internalerror = "InternalError"
-        case invalidconfiguration = "InvalidConfiguration"
-        case invalidimage = "InvalidImage"
-        case invalidsecuritygroup = "InvalidSecurityGroup"
-        case invalidsubnet = "InvalidSubnet"
+        case imageAccessDenied = "ImageAccessDenied"
+        case imageDeleted = "ImageDeleted"
+        case insufficientRolePermissions = "InsufficientRolePermissions"
+        case internalError = "InternalError"
+        case invalidConfiguration = "InvalidConfiguration"
+        case invalidImage = "InvalidImage"
+        case invalidSecurityGroup = "InvalidSecurityGroup"
+        case invalidSubnet = "InvalidSubnet"
         case restoring = "Restoring"
-        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
+        case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
 
     public enum TracingMode: String, CustomStringConvertible, Codable {
         case active = "Active"
-        case passthrough = "PassThrough"
+        case passThrough = "PassThrough"
         public var description: String { return self.rawValue }
     }
 

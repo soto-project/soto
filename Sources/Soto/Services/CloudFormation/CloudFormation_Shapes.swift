@@ -79,10 +79,10 @@ extension CloudFormation {
 
     public enum ChangeSource: String, CustomStringConvertible, Codable {
         case automatic = "Automatic"
-        case directmodification = "DirectModification"
-        case parameterreference = "ParameterReference"
-        case resourceattribute = "ResourceAttribute"
-        case resourcereference = "ResourceReference"
+        case directModification = "DirectModification"
+        case parameterReference = "ParameterReference"
+        case resourceAttribute = "ResourceAttribute"
+        case resourceReference = "ResourceReference"
         public var description: String { return self.rawValue }
     }
 
@@ -121,20 +121,20 @@ extension CloudFormation {
     }
 
     public enum HandlerErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case alreadyexists = "AlreadyExists"
-        case generalserviceexception = "GeneralServiceException"
-        case internalfailure = "InternalFailure"
-        case invalidcredentials = "InvalidCredentials"
-        case invalidrequest = "InvalidRequest"
-        case invalidtypeconfiguration = "InvalidTypeConfiguration"
-        case networkfailure = "NetworkFailure"
-        case notfound = "NotFound"
-        case notstabilized = "NotStabilized"
-        case notupdatable = "NotUpdatable"
-        case resourceconflict = "ResourceConflict"
-        case serviceinternalerror = "ServiceInternalError"
-        case servicelimitexceeded = "ServiceLimitExceeded"
+        case accessDenied = "AccessDenied"
+        case alreadyExists = "AlreadyExists"
+        case generalServiceException = "GeneralServiceException"
+        case internalFailure = "InternalFailure"
+        case invalidCredentials = "InvalidCredentials"
+        case invalidRequest = "InvalidRequest"
+        case invalidTypeConfiguration = "InvalidTypeConfiguration"
+        case networkFailure = "NetworkFailure"
+        case notFound = "NotFound"
+        case notStabilized = "NotStabilized"
+        case notUpdatable = "NotUpdatable"
+        case resourceConflict = "ResourceConflict"
+        case serviceInternalError = "ServiceInternalError"
+        case serviceLimitExceeded = "ServiceLimitExceeded"
         case throttling = "Throttling"
         public var description: String { return self.rawValue }
     }
@@ -142,7 +142,7 @@ extension CloudFormation {
     public enum IdentityProvider: String, CustomStringConvertible, Codable {
         case awsMarketplace = "AWS_Marketplace"
         case bitbucket = "Bitbucket"
-        case github = "GitHub"
+        case gitHub = "GitHub"
         public var description: String { return self.rawValue }
     }
 
@@ -214,12 +214,12 @@ extension CloudFormation {
     }
 
     public enum ResourceAttribute: String, CustomStringConvertible, Codable {
-        case creationpolicy = "CreationPolicy"
-        case deletionpolicy = "DeletionPolicy"
+        case creationPolicy = "CreationPolicy"
+        case deletionPolicy = "DeletionPolicy"
         case metadata = "Metadata"
         case properties = "Properties"
         case tags = "Tags"
-        case updatepolicy = "UpdatePolicy"
+        case updatePolicy = "UpdatePolicy"
         public var description: String { return self.rawValue }
     }
 

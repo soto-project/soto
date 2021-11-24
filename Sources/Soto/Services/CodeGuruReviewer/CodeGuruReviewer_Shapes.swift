@@ -22,7 +22,7 @@ extension CodeGuruReviewer {
     // MARK: Enums
 
     public enum AnalysisType: String, CustomStringConvertible, Codable {
-        case codequality = "CodeQuality"
+        case codeQuality = "CodeQuality"
         case security = "Security"
         public var description: String { return self.rawValue }
     }
@@ -43,31 +43,31 @@ extension CodeGuruReviewer {
 
     public enum ProviderType: String, CustomStringConvertible, Codable {
         case bitbucket = "Bitbucket"
-        case codecommit = "CodeCommit"
-        case github = "GitHub"
-        case githubenterpriseserver = "GitHubEnterpriseServer"
-        case s3bucket = "S3Bucket"
+        case codeCommit = "CodeCommit"
+        case gitHub = "GitHub"
+        case gitHubEnterpriseServer = "GitHubEnterpriseServer"
+        case s3Bucket = "S3Bucket"
         public var description: String { return self.rawValue }
     }
 
     public enum Reaction: String, CustomStringConvertible, Codable {
-        case thumbsdown = "ThumbsDown"
-        case thumbsup = "ThumbsUp"
+        case thumbsDown = "ThumbsDown"
+        case thumbsUp = "ThumbsUp"
         public var description: String { return self.rawValue }
     }
 
     public enum RecommendationCategory: String, CustomStringConvertible, Codable {
-        case awsbestpractices = "AWSBestPractices"
-        case awscloudformationissues = "AWSCloudFormationIssues"
-        case codeinconsistencies = "CodeInconsistencies"
-        case codemaintenanceissues = "CodeMaintenanceIssues"
-        case concurrencyissues = "ConcurrencyIssues"
-        case duplicatecode = "DuplicateCode"
-        case inputvalidations = "InputValidations"
-        case javabestpractices = "JavaBestPractices"
-        case pythonbestpractices = "PythonBestPractices"
-        case resourceleaks = "ResourceLeaks"
-        case securityissues = "SecurityIssues"
+        case aWSBestPractices = "AWSBestPractices"
+        case aWSCloudFormationIssues = "AWSCloudFormationIssues"
+        case codeInconsistencies = "CodeInconsistencies"
+        case codeMaintenanceIssues = "CodeMaintenanceIssues"
+        case concurrencyIssues = "ConcurrencyIssues"
+        case duplicateCode = "DuplicateCode"
+        case inputValidations = "InputValidations"
+        case javaBestPractices = "JavaBestPractices"
+        case pythonBestPractices = "PythonBestPractices"
+        case resourceLeaks = "ResourceLeaks"
+        case securityIssues = "SecurityIssues"
         public var description: String { return self.rawValue }
     }
 
@@ -90,15 +90,15 @@ extension CodeGuruReviewer {
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable {
-        case pullrequest = "PullRequest"
-        case repositoryanalysis = "RepositoryAnalysis"
+        case pullRequest = "PullRequest"
+        case repositoryAnalysis = "RepositoryAnalysis"
         public var description: String { return self.rawValue }
     }
 
     public enum VendorName: String, CustomStringConvertible, Codable {
-        case github = "GitHub"
-        case gitlab = "GitLab"
-        case natives3 = "NativeS3"
+        case gitHub = "GitHub"
+        case gitLab = "GitLab"
+        case nativeS3 = "NativeS3"
         public var description: String { return self.rawValue }
     }
 

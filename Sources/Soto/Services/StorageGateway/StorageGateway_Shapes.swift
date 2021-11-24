@@ -40,8 +40,8 @@ extension StorageGateway {
     }
 
     public enum CaseSensitivity: String, CustomStringConvertible, Codable {
-        case casesensitive = "CaseSensitive"
-        case clientspecified = "ClientSpecified"
+        case caseSensitive = "CaseSensitive"
+        case clientSpecified = "ClientSpecified"
         public var description: String { return self.rawValue }
     }
 
@@ -92,9 +92,9 @@ extension StorageGateway {
     }
 
     public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable {
-        case clientspecified = "ClientSpecified"
-        case mandatoryencryption = "MandatoryEncryption"
-        case mandatorysigning = "MandatorySigning"
+        case clientSpecified = "ClientSpecified"
+        case mandatoryEncryption = "MandatoryEncryption"
+        case mandatorySigning = "MandatorySigning"
         public var description: String { return self.rawValue }
     }
 

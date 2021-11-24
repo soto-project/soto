@@ -22,44 +22,44 @@ extension SQS {
     // MARK: Enums
 
     public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
-        case awstraceheader = "AWSTraceHeader"
-        case approximatefirstreceivetimestamp = "ApproximateFirstReceiveTimestamp"
-        case approximatereceivecount = "ApproximateReceiveCount"
-        case messagededuplicationid = "MessageDeduplicationId"
-        case messagegroupid = "MessageGroupId"
-        case senderid = "SenderId"
-        case senttimestamp = "SentTimestamp"
-        case sequencenumber = "SequenceNumber"
+        case aWSTraceHeader = "AWSTraceHeader"
+        case approximateFirstReceiveTimestamp = "ApproximateFirstReceiveTimestamp"
+        case approximateReceiveCount = "ApproximateReceiveCount"
+        case messageDeduplicationId = "MessageDeduplicationId"
+        case messageGroupId = "MessageGroupId"
+        case senderId = "SenderId"
+        case sentTimestamp = "SentTimestamp"
+        case sequenceNumber = "SequenceNumber"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable {
-        case awstraceheader = "AWSTraceHeader"
+        case aWSTraceHeader = "AWSTraceHeader"
         public var description: String { return self.rawValue }
     }
 
     public enum QueueAttributeName: String, CustomStringConvertible, Codable {
         case all = "All"
-        case approximatenumberofmessages = "ApproximateNumberOfMessages"
-        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
-        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
-        case contentbaseddeduplication = "ContentBasedDeduplication"
-        case createdtimestamp = "CreatedTimestamp"
-        case deduplicationscope = "DeduplicationScope"
-        case delayseconds = "DelaySeconds"
-        case fifoqueue = "FifoQueue"
-        case fifothroughputlimit = "FifoThroughputLimit"
-        case kmsdatakeyreuseperiodseconds = "KmsDataKeyReusePeriodSeconds"
-        case kmsmasterkeyid = "KmsMasterKeyId"
-        case lastmodifiedtimestamp = "LastModifiedTimestamp"
-        case maximummessagesize = "MaximumMessageSize"
-        case messageretentionperiod = "MessageRetentionPeriod"
+        case approximateNumberOfMessages = "ApproximateNumberOfMessages"
+        case approximateNumberOfMessagesDelayed = "ApproximateNumberOfMessagesDelayed"
+        case approximateNumberOfMessagesNotVisible = "ApproximateNumberOfMessagesNotVisible"
+        case contentBasedDeduplication = "ContentBasedDeduplication"
+        case createdTimestamp = "CreatedTimestamp"
+        case deduplicationScope = "DeduplicationScope"
+        case delaySeconds = "DelaySeconds"
+        case fifoQueue = "FifoQueue"
+        case fifoThroughputLimit = "FifoThroughputLimit"
+        case kmsDataKeyReusePeriodSeconds = "KmsDataKeyReusePeriodSeconds"
+        case kmsMasterKeyId = "KmsMasterKeyId"
+        case lastModifiedTimestamp = "LastModifiedTimestamp"
+        case maximumMessageSize = "MaximumMessageSize"
+        case messageRetentionPeriod = "MessageRetentionPeriod"
         case policy = "Policy"
-        case queuearn = "QueueArn"
-        case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
-        case redriveallowpolicy = "RedriveAllowPolicy"
-        case redrivepolicy = "RedrivePolicy"
-        case visibilitytimeout = "VisibilityTimeout"
+        case queueArn = "QueueArn"
+        case receiveMessageWaitTimeSeconds = "ReceiveMessageWaitTimeSeconds"
+        case redriveAllowPolicy = "RedriveAllowPolicy"
+        case redrivePolicy = "RedrivePolicy"
+        case visibilityTimeout = "VisibilityTimeout"
         public var description: String { return self.rawValue }
     }
 

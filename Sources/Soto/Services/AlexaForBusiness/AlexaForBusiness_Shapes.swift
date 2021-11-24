@@ -164,7 +164,7 @@ extension AlexaForBusiness {
     }
 
     public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
+        case enUS = "en-US"
         public var description: String { return self.rawValue }
     }
 

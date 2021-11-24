@@ -35,36 +35,36 @@ extension Polly {
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
         case arb
-        case cmnCn = "cmn-CN"
-        case cyGb = "cy-GB"
-        case daDk = "da-DK"
-        case deDe = "de-DE"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enGbWls = "en-GB-WLS"
-        case enIn = "en-IN"
-        case enNz = "en-NZ"
-        case enUs = "en-US"
-        case enZa = "en-ZA"
-        case esEs = "es-ES"
-        case esMx = "es-MX"
-        case esUs = "es-US"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case hiIn = "hi-IN"
-        case isIs = "is-IS"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
-        case nbNo = "nb-NO"
-        case nlNl = "nl-NL"
-        case plPl = "pl-PL"
-        case ptBr = "pt-BR"
-        case ptPt = "pt-PT"
-        case roRo = "ro-RO"
-        case ruRu = "ru-RU"
-        case svSe = "sv-SE"
-        case trTr = "tr-TR"
+        case cmnCN = "cmn-CN"
+        case cyGB = "cy-GB"
+        case daDK = "da-DK"
+        case deDE = "de-DE"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enGBWLS = "en-GB-WLS"
+        case enIN = "en-IN"
+        case enNZ = "en-NZ"
+        case enUS = "en-US"
+        case enZA = "en-ZA"
+        case esES = "es-ES"
+        case esMX = "es-MX"
+        case esUS = "es-US"
+        case frCA = "fr-CA"
+        case frFR = "fr-FR"
+        case hiIN = "hi-IN"
+        case isIS = "is-IS"
+        case itIT = "it-IT"
+        case jaJP = "ja-JP"
+        case koKR = "ko-KR"
+        case nbNO = "nb-NO"
+        case nlNL = "nl-NL"
+        case plPL = "pl-PL"
+        case ptBR = "pt-BR"
+        case ptPT = "pt-PT"
+        case roRO = "ro-RO"
+        case ruRU = "ru-RU"
+        case svSE = "sv-SE"
+        case trTR = "tr-TR"
         public var description: String { return self.rawValue }
     }
 
@@ -87,7 +87,7 @@ extension Polly {
     public enum TaskStatus: String, CustomStringConvertible, Codable {
         case completed
         case failed
-        case inprogress = "inProgress"
+        case inProgress
         case scheduled
         public var description: String { return self.rawValue }
     }

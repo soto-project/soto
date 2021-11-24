@@ -90,7 +90,7 @@ extension AutoScaling {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case successful = "Successful"
         public var description: String { return self.rawValue }
@@ -99,8 +99,8 @@ extension AutoScaling {
     public enum LifecycleState: String, CustomStringConvertible, Codable {
         case detached = "Detached"
         case detaching = "Detaching"
-        case enteringstandby = "EnteringStandby"
-        case inservice = "InService"
+        case enteringStandby = "EnteringStandby"
+        case inService = "InService"
         case pending = "Pending"
         case pendingProceed = "Pending:Proceed"
         case pendingWait = "Pending:Wait"
@@ -139,52 +139,52 @@ extension AutoScaling {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricType: String, CustomStringConvertible, Codable {
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case aLBRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case aSGAverageCPUUtilization = "ASGAverageCPUUtilization"
+        case aSGAverageNetworkIn = "ASGAverageNetworkIn"
+        case aSGAverageNetworkOut = "ASGAverageNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredefinedLoadMetricType: String, CustomStringConvertible, Codable {
-        case albtargetgrouprequestcount = "ALBTargetGroupRequestCount"
-        case asgtotalcpuutilization = "ASGTotalCPUUtilization"
-        case asgtotalnetworkin = "ASGTotalNetworkIn"
-        case asgtotalnetworkout = "ASGTotalNetworkOut"
+        case aLBTargetGroupRequestCount = "ALBTargetGroupRequestCount"
+        case aSGTotalCPUUtilization = "ASGTotalCPUUtilization"
+        case aSGTotalNetworkIn = "ASGTotalNetworkIn"
+        case aSGTotalNetworkOut = "ASGTotalNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredefinedMetricPairType: String, CustomStringConvertible, Codable {
-        case albrequestcount = "ALBRequestCount"
-        case asgcpuutilization = "ASGCPUUtilization"
-        case asgnetworkin = "ASGNetworkIn"
-        case asgnetworkout = "ASGNetworkOut"
+        case aLBRequestCount = "ALBRequestCount"
+        case aSGCPUUtilization = "ASGCPUUtilization"
+        case aSGNetworkIn = "ASGNetworkIn"
+        case aSGNetworkOut = "ASGNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredefinedScalingMetricType: String, CustomStringConvertible, Codable {
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case aLBRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case aSGAverageCPUUtilization = "ASGAverageCPUUtilization"
+        case aSGAverageNetworkIn = "ASGAverageNetworkIn"
+        case aSGAverageNetworkOut = "ASGAverageNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable {
-        case honormaxcapacity = "HonorMaxCapacity"
-        case increasemaxcapacity = "IncreaseMaxCapacity"
+        case honorMaxCapacity = "HonorMaxCapacity"
+        case increaseMaxCapacity = "IncreaseMaxCapacity"
         public var description: String { return self.rawValue }
     }
 
     public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
-        case forecastandscale = "ForecastAndScale"
-        case forecastonly = "ForecastOnly"
+        case forecastAndScale = "ForecastAndScale"
+        case forecastOnly = "ForecastOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -196,16 +196,16 @@ extension AutoScaling {
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
         case cancelled = "Cancelled"
         case failed = "Failed"
-        case inprogress = "InProgress"
-        case midlifecycleaction = "MidLifecycleAction"
-        case pendingspotbidplacement = "PendingSpotBidPlacement"
-        case preinservice = "PreInService"
+        case inProgress = "InProgress"
+        case midLifecycleAction = "MidLifecycleAction"
+        case pendingSpotBidPlacement = "PendingSpotBidPlacement"
+        case preInService = "PreInService"
         case successful = "Successful"
-        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
-        case waitingforinstanceid = "WaitingForInstanceId"
-        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
-        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
-        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
+        case waitingForELBConnectionDraining = "WaitingForELBConnectionDraining"
+        case waitingForInstanceId = "WaitingForInstanceId"
+        case waitingForInstanceWarmup = "WaitingForInstanceWarmup"
+        case waitingForSpotInstanceId = "WaitingForSpotInstanceId"
+        case waitingForSpotInstanceRequestId = "WaitingForSpotInstanceRequestId"
         public var description: String { return self.rawValue }
     }
 
@@ -216,7 +216,7 @@ extension AutoScaling {
     }
 
     public enum WarmPoolStatus: String, CustomStringConvertible, Codable {
-        case pendingdelete = "PendingDelete"
+        case pendingDelete = "PendingDelete"
         public var description: String { return self.rawValue }
     }
 

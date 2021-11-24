@@ -22,18 +22,18 @@ extension DirectoryService {
     // MARK: Enums
 
     public enum CertificateState: String, CustomStringConvertible, Codable {
-        case deregisterfailed = "DeregisterFailed"
+        case deregisterFailed = "DeregisterFailed"
         case deregistered = "Deregistered"
         case deregistering = "Deregistering"
-        case registerfailed = "RegisterFailed"
+        case registerFailed = "RegisterFailed"
         case registered = "Registered"
         case registering = "Registering"
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateType: String, CustomStringConvertible, Codable {
-        case clientcertauth = "ClientCertAuth"
-        case clientldaps = "ClientLDAPS"
+        case clientCertAuth = "ClientCertAuth"
+        case clientLDAPS = "ClientLDAPS"
         public var description: String { return self.rawValue }
     }
 
@@ -44,7 +44,7 @@ extension DirectoryService {
     }
 
     public enum ClientAuthenticationType: String, CustomStringConvertible, Codable {
-        case smartcard = "SmartCard"
+        case smartCard = "SmartCard"
         public var description: String { return self.rawValue }
     }
 
@@ -70,16 +70,16 @@ extension DirectoryService {
         case impaired = "Impaired"
         case inoperable = "Inoperable"
         case requested = "Requested"
-        case restorefailed = "RestoreFailed"
+        case restoreFailed = "RestoreFailed"
         case restoring = "Restoring"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectoryType: String, CustomStringConvertible, Codable {
-        case adconnector = "ADConnector"
-        case microsoftad = "MicrosoftAD"
-        case sharedmicrosoftad = "SharedMicrosoftAD"
-        case simplead = "SimpleAD"
+        case aDConnector = "ADConnector"
+        case microsoftAD = "MicrosoftAD"
+        case sharedMicrosoftAD = "SharedMicrosoftAD"
+        case simpleAD = "SimpleAD"
         public var description: String { return self.rawValue }
     }
 
@@ -95,10 +95,10 @@ extension DirectoryService {
     }
 
     public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
-        case addfailed = "AddFailed"
+        case addFailed = "AddFailed"
         case added = "Added"
         case adding = "Adding"
-        case removefailed = "RemoveFailed"
+        case removeFailed = "RemoveFailed"
         case removed = "Removed"
         case removing = "Removing"
         public var description: String { return self.rawValue }
@@ -106,7 +106,7 @@ extension DirectoryService {
 
     public enum LDAPSStatus: String, CustomStringConvertible, Codable {
         case disabled = "Disabled"
-        case enablefailed = "EnableFailed"
+        case enableFailed = "EnableFailed"
         case enabled = "Enabled"
         case enabling = "Enabling"
         public var description: String { return self.rawValue }
@@ -144,15 +144,15 @@ extension DirectoryService {
     }
 
     public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
-        case cancelinprogress = "CancelInProgress"
+        case cancelInProgress = "CancelInProgress"
         case cancelled = "Cancelled"
         case completed = "Completed"
-        case creatingsnapshot = "CreatingSnapshot"
+        case creatingSnapshot = "CreatingSnapshot"
         case failed = "Failed"
         case initializing = "Initializing"
         case replicating = "Replicating"
-        case rollbackinprogress = "RollbackInProgress"
-        case updatingschema = "UpdatingSchema"
+        case rollbackInProgress = "RollbackInProgress"
+        case updatingSchema = "UpdatingSchema"
         public var description: String { return self.rawValue }
     }
 
@@ -171,11 +171,11 @@ extension DirectoryService {
     public enum ShareStatus: String, CustomStringConvertible, Codable {
         case deleted = "Deleted"
         case deleting = "Deleting"
-        case pendingacceptance = "PendingAcceptance"
-        case rejectfailed = "RejectFailed"
+        case pendingAcceptance = "PendingAcceptance"
+        case rejectFailed = "RejectFailed"
         case rejected = "Rejected"
         case rejecting = "Rejecting"
-        case sharefailed = "ShareFailed"
+        case shareFailed = "ShareFailed"
         case shared = "Shared"
         case sharing = "Sharing"
         public var description: String { return self.rawValue }
@@ -220,11 +220,11 @@ extension DirectoryService {
         case deleted = "Deleted"
         case deleting = "Deleting"
         case failed = "Failed"
-        case updatefailed = "UpdateFailed"
+        case updateFailed = "UpdateFailed"
         case updated = "Updated"
         case updating = "Updating"
         case verified = "Verified"
-        case verifyfailed = "VerifyFailed"
+        case verifyFailed = "VerifyFailed"
         case verifying = "Verifying"
         public var description: String { return self.rawValue }
     }

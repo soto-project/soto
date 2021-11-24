@@ -61,7 +61,7 @@ extension CostExplorer {
     }
 
     public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
-        case costcategoryexpressionV1 = "CostCategoryExpression.v1"
+        case costCategoryExpressionV1 = "CostCategoryExpression.v1"
         public var description: String { return self.rawValue }
     }
 

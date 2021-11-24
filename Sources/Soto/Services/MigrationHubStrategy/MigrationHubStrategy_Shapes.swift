@@ -29,12 +29,12 @@ extension MigrationHubStrategy {
     }
 
     public enum AppType: String, CustomStringConvertible, Codable {
-        case dotnetframework = "DotNetFramework"
+        case dotNetFramework = "DotNetFramework"
         case iis = "IIS"
         case java = "Java"
         case oracle = "Oracle"
         case other = "Other"
-        case sqlserver = "SQLServer"
+        case sQLServer = "SQLServer"
         public var description: String { return self.rawValue }
     }
 
@@ -70,7 +70,7 @@ extension MigrationHubStrategy {
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable {
-        case applicationdiscoveryservice = "ApplicationDiscoveryService"
+        case applicationDiscoveryService = "ApplicationDiscoveryService"
         case mpa = "MPA"
         public var description: String { return self.rawValue }
     }
@@ -83,18 +83,18 @@ extension MigrationHubStrategy {
     }
 
     public enum GroupName: String, CustomStringConvertible, Codable {
-        case externalid = "ExternalId"
+        case externalId = "ExternalId"
         public var description: String { return self.rawValue }
     }
 
     public enum HeterogeneousTargetDatabaseEngine: String, CustomStringConvertible, Codable {
         case awsPostgresql = "AWS PostgreSQL"
         case amazonAurora = "Amazon Aurora"
-        case db2Luw = "Db2 LUW"
-        case mariadb = "MariaDB"
-        case microsoftSqlServer = "Microsoft SQL Server"
-        case mongodb = "MongoDB"
-        case mysql = "MySQL"
+        case db2LUW = "Db2 LUW"
+        case mariaDB = "MariaDB"
+        case microsoftSQLServer = "Microsoft SQL Server"
+        case mongoDB = "MongoDB"
+        case mySQL = "MySQL"
         case noneSpecified = "None specified"
         case oracleDatabase = "Oracle Database"
         case sap = "SAP"
@@ -107,29 +107,29 @@ extension MigrationHubStrategy {
     }
 
     public enum ImportFileTaskStatus: String, CustomStringConvertible, Codable {
-        case deletefailed = "DeleteFailed"
-        case deleteinprogress = "DeleteInProgress"
-        case deletepartialsuccess = "DeletePartialSuccess"
-        case deletesuccess = "DeleteSuccess"
-        case importfailed = "ImportFailed"
-        case importinprogress = "ImportInProgress"
-        case importpartialsuccess = "ImportPartialSuccess"
-        case importsuccess = "ImportSuccess"
+        case deleteFailed = "DeleteFailed"
+        case deleteInProgress = "DeleteInProgress"
+        case deletePartialSuccess = "DeletePartialSuccess"
+        case deleteSuccess = "DeleteSuccess"
+        case importFailed = "ImportFailed"
+        case importInProgress = "ImportInProgress"
+        case importPartialSuccess = "ImportPartialSuccess"
+        case importSuccess = "ImportSuccess"
         public var description: String { return self.rawValue }
     }
 
     public enum InclusionStatus: String, CustomStringConvertible, Codable {
-        case excludefromassessment = "excludeFromAssessment"
-        case includeinassessment = "includeInAssessment"
+        case excludeFromAssessment
+        case includeInAssessment
         public var description: String { return self.rawValue }
     }
 
     public enum NoPreferenceTargetDestination: String, CustomStringConvertible, Codable {
         case awsElasticBeanstalk = "AWS Elastic BeanStalk"
         case awsFargate = "AWS Fargate"
-        case amazonElasticCloudComputeEc2 = "Amazon Elastic Cloud Compute (EC2)"
-        case amazonElasticContainerServiceEcs = "Amazon Elastic Container Service (ECS)"
-        case amazonElasticKubernetesServiceEks = "Amazon Elastic Kubernetes Service (EKS)"
+        case amazonElasticCloudComputeEC2 = "Amazon Elastic Cloud Compute (EC2)"
+        case amazonElasticContainerServiceECS = "Amazon Elastic Container Service (ECS)"
+        case amazonElasticKubernetesServiceEKS = "Amazon Elastic Kubernetes Service (EKS)"
         case noneSpecified = "None specified"
         public var description: String { return self.rawValue }
     }
@@ -155,26 +155,26 @@ extension MigrationHubStrategy {
 
     public enum ResourceSubType: String, CustomStringConvertible, Codable {
         case database = "Database"
-        case databaseprocess = "DatabaseProcess"
+        case databaseProcess = "DatabaseProcess"
         case process = "Process"
         public var description: String { return self.rawValue }
     }
 
     public enum RunTimeAssessmentStatus: String, CustomStringConvertible, Codable {
-        case datacollectiontaskfailed = "dataCollectionTaskFailed"
-        case datacollectiontaskpartialsuccess = "dataCollectionTaskPartialSuccess"
-        case datacollectiontaskscheduled = "dataCollectionTaskScheduled"
-        case datacollectiontaskstarted = "dataCollectionTaskStarted"
-        case datacollectiontaskstopped = "dataCollectionTaskStopped"
-        case datacollectiontasksuccess = "dataCollectionTaskSuccess"
-        case datacollectiontasktobescheduled = "dataCollectionTaskToBeScheduled"
+        case dataCollectionTaskFailed
+        case dataCollectionTaskPartialSuccess
+        case dataCollectionTaskScheduled
+        case dataCollectionTaskStarted
+        case dataCollectionTaskStopped
+        case dataCollectionTaskSuccess
+        case dataCollectionTaskToBeScheduled
         public var description: String { return self.rawValue }
     }
 
     public enum SelfManageTargetDestination: String, CustomStringConvertible, Codable {
-        case amazonElasticCloudComputeEc2 = "Amazon Elastic Cloud Compute (EC2)"
-        case amazonElasticContainerServiceEcs = "Amazon Elastic Container Service (ECS)"
-        case amazonElasticKubernetesServiceEks = "Amazon Elastic Kubernetes Service (EKS)"
+        case amazonElasticCloudComputeEC2 = "Amazon Elastic Cloud Compute (EC2)"
+        case amazonElasticContainerServiceECS = "Amazon Elastic Container Service (ECS)"
+        case amazonElasticKubernetesServiceEKS = "Amazon Elastic Kubernetes Service (EKS)"
         case noneSpecified = "None specified"
         public var description: String { return self.rawValue }
     }
@@ -189,11 +189,11 @@ extension MigrationHubStrategy {
     }
 
     public enum ServerOsType: String, CustomStringConvertible, Codable {
-        case amazonlinux = "AmazonLinux"
-        case endofsupportwindowsserver = "EndOfSupportWindowsServer"
+        case amazonLinux = "AmazonLinux"
+        case endOfSupportWindowsServer = "EndOfSupportWindowsServer"
         case other = "Other"
         case redhat = "Redhat"
-        case windowsserver = "WindowsServer"
+        case windowsServer = "WindowsServer"
         public var description: String { return self.rawValue }
     }
 
@@ -230,20 +230,20 @@ extension MigrationHubStrategy {
     }
 
     public enum StrategyRecommendation: String, CustomStringConvertible, Codable {
-        case notrecommended = "notRecommended"
+        case notRecommended
         case recommended
-        case viableoption = "viableOption"
+        case viableOption
         public var description: String { return self.rawValue }
     }
 
     public enum TargetDatabaseEngine: String, CustomStringConvertible, Codable {
         case awsPostgresql = "AWS PostgreSQL"
         case amazonAurora = "Amazon Aurora"
-        case db2Luw = "Db2 LUW"
-        case mariadb = "MariaDB"
-        case microsoftSqlServer = "Microsoft SQL Server"
-        case mongodb = "MongoDB"
-        case mysql = "MySQL"
+        case db2LUW = "Db2 LUW"
+        case mariaDB = "MariaDB"
+        case microsoftSQLServer = "Microsoft SQL Server"
+        case mongoDB = "MongoDB"
+        case mySQL = "MySQL"
         case noneSpecified = "None specified"
         case oracleDatabase = "Oracle Database"
         case sap = "SAP"
@@ -255,9 +255,9 @@ extension MigrationHubStrategy {
         case awsFargate = "AWS Fargate"
         case amazonDocumentdb = "Amazon DocumentDB"
         case amazonDynamodb = "Amazon DynamoDB"
-        case amazonElasticCloudComputeEc2 = "Amazon Elastic Cloud Compute (EC2)"
-        case amazonElasticContainerServiceEcs = "Amazon Elastic Container Service (ECS)"
-        case amazonElasticKubernetesServiceEks = "Amazon Elastic Kubernetes Service (EKS)"
+        case amazonElasticCloudComputeEC2 = "Amazon Elastic Cloud Compute (EC2)"
+        case amazonElasticContainerServiceECS = "Amazon Elastic Container Service (ECS)"
+        case amazonElasticKubernetesServiceEKS = "Amazon Elastic Kubernetes Service (EKS)"
         case amazonRelationalDatabaseService = "Amazon Relational Database Service"
         case amazonRelationalDatabaseServiceOnMysql = "Amazon Relational Database Service on MySQL"
         case amazonRelationalDatabaseServiceOnPostgresql = "Amazon Relational Database Service on PostgreSQL"
@@ -268,13 +268,13 @@ extension MigrationHubStrategy {
     }
 
     public enum TransformationToolName: String, CustomStringConvertible, Codable {
-        case app2container = "App2Container"
+        case app2Container = "App2Container"
         case applicationMigrationService = "Application Migration Service"
         case databaseMigrationService = "Database Migration Service"
         case endOfSupportMigration = "End of Support Migration"
         case inPlaceOperatingSystemUpgrade = "In Place Operating System Upgrade"
-        case nativeSqlServerBackupRestore = "Native SQL Server Backup/Restore"
-        case portingAssistantForNet = "Porting Assistant For .NET"
+        case nativeSQLServerBackupRestore = "Native SQL Server Backup/Restore"
+        case portingAssistantForNET = "Porting Assistant For .NET"
         case schemaConversionTool = "Schema Conversion Tool"
         case strategyRecommendationSupport = "Strategy Recommendation Support"
         case windowsWebApplicationMigrationAssistant = "Windows Web Application Migration Assistant"

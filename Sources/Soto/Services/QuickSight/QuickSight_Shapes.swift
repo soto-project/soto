@@ -162,7 +162,7 @@ extension QuickSight {
     }
 
     public enum FilterOperator: String, CustomStringConvertible, Codable {
-        case stringequals = "StringEquals"
+        case stringEquals = "StringEquals"
         public var description: String { return self.rawValue }
     }
 

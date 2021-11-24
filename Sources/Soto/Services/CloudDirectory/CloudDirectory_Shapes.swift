@@ -22,19 +22,19 @@ extension CloudDirectory {
     // MARK: Enums
 
     public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
-        case accessdeniedexception = "AccessDeniedException"
-        case cannotlistparentofrootexception = "CannotListParentOfRootException"
-        case directorynotenabledexception = "DirectoryNotEnabledException"
-        case facetvalidationexception = "FacetValidationException"
-        case internalserviceexception = "InternalServiceException"
-        case invalidarnexception = "InvalidArnException"
-        case invalidnexttokenexception = "InvalidNextTokenException"
-        case limitexceededexception = "LimitExceededException"
-        case notindexexception = "NotIndexException"
-        case notnodeexception = "NotNodeException"
-        case notpolicyexception = "NotPolicyException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case validationexception = "ValidationException"
+        case accessDeniedException = "AccessDeniedException"
+        case cannotListParentOfRootException = "CannotListParentOfRootException"
+        case directoryNotEnabledException = "DirectoryNotEnabledException"
+        case facetValidationException = "FacetValidationException"
+        case internalServiceException = "InternalServiceException"
+        case invalidArnException = "InvalidArnException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case limitExceededException = "LimitExceededException"
+        case notIndexException = "NotIndexException"
+        case notNodeException = "NotNodeException"
+        case notPolicyException = "NotPolicyException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
         public var description: String { return self.rawValue }
     }
 

@@ -28,13 +28,13 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable {
-        case instancefamily = "instanceFamily"
+        case instanceFamily
         case region
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable {
-        case instancefamily = "instanceFamily"
+        case instanceFamily
         case region
         public var description: String { return self.rawValue }
     }
@@ -50,53 +50,53 @@ extension SavingsPlans {
         case ec2 = "EC2"
         case fargate = "Fargate"
         case lambda = "Lambda"
-        case sagemaker = "SageMaker"
+        case sageMaker = "SageMaker"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable {
-        case instancefamily = "instanceFamily"
-        case instancetype = "instanceType"
-        case productdescription = "productDescription"
-        case productid = "productId"
+        case instanceFamily
+        case instanceType
+        case productDescription
+        case productId
         case region
         case tenancy
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable {
-        case instancetype = "instanceType"
+        case instanceType
         case operation
-        case productdescription = "productDescription"
-        case producttype = "productType"
+        case productDescription
+        case productType
         case region
-        case servicecode = "serviceCode"
+        case serviceCode
         case tenancy
-        case usagetype = "usageType"
+        case usageType
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable {
-        case instancefamily = "instanceFamily"
-        case instancetype = "instanceType"
-        case productdescription = "productDescription"
+        case instanceFamily
+        case instanceType
+        case productDescription
         case region
         case tenancy
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable {
-        case awslambda = "AWSLambda"
-        case amazonec2 = "AmazonEC2"
-        case amazonecs = "AmazonECS"
-        case amazoneks = "AmazonEKS"
-        case amazonsagemaker = "AmazonSageMaker"
+        case aWSLambda = "AWSLambda"
+        case amazonEC2 = "AmazonEC2"
+        case amazonECS = "AmazonECS"
+        case amazonEKS = "AmazonEKS"
+        case amazonSageMaker = "AmazonSageMaker"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable {
         case hrs = "Hrs"
-        case lambdaGbSecond = "Lambda-GB-Second"
+        case lambdaGBSecond = "Lambda-GB-Second"
         case request = "Request"
         public var description: String { return self.rawValue }
     }
@@ -113,8 +113,8 @@ extension SavingsPlans {
 
     public enum SavingsPlanType: String, CustomStringConvertible, Codable {
         case compute = "Compute"
-        case ec2instance = "EC2Instance"
-        case sagemaker = "SageMaker"
+        case eC2Instance = "EC2Instance"
+        case sageMaker = "SageMaker"
         public var description: String { return self.rawValue }
     }
 

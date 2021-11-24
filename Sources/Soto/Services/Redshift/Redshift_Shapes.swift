@@ -80,10 +80,10 @@ extension Redshift {
     }
 
     public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
-        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
+        case estimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
         case mode = "Mode"
-        case nodetype = "NodeType"
-        case numberofnodes = "NumberOfNodes"
+        case nodeType = "NodeType"
+        case numberOfNodes = "NumberOfNodes"
         public var description: String { return self.rawValue }
     }
 
@@ -106,9 +106,9 @@ extension Redshift {
 
     public enum PartnerIntegrationStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
-        case connectionfailure = "ConnectionFailure"
+        case connectionFailure = "ConnectionFailure"
         case inactive = "Inactive"
-        case runtimefailure = "RuntimeFailure"
+        case runtimeFailure = "RuntimeFailure"
         public var description: String { return self.rawValue }
     }
 
@@ -138,9 +138,9 @@ extension Redshift {
     }
 
     public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
-        case pausecluster = "PauseCluster"
-        case resizecluster = "ResizeCluster"
-        case resumecluster = "ResumeCluster"
+        case pauseCluster = "PauseCluster"
+        case resizeCluster = "ResizeCluster"
+        case resumeCluster = "ResumeCluster"
         public var description: String { return self.rawValue }
     }
 

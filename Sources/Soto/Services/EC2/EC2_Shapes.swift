@@ -83,10 +83,10 @@ extension EC2 {
     }
 
     public enum AllocationStrategy: String, CustomStringConvertible, Codable {
-        case capacityoptimized = "capacityOptimized"
-        case capacityoptimizedprioritized = "capacityOptimizedPrioritized"
+        case capacityOptimized
+        case capacityOptimizedPrioritized
         case diversified
-        case lowestprice = "lowestPrice"
+        case lowestPrice
         public var description: String { return self.rawValue }
     }
 
@@ -252,10 +252,10 @@ extension EC2 {
     }
 
     public enum CancelBatchErrorCode: String, CustomStringConvertible, Codable {
-        case fleetrequestiddoesnotexist = "fleetRequestIdDoesNotExist"
-        case fleetrequestidmalformed = "fleetRequestIdMalformed"
-        case fleetrequestnotincancellablestate = "fleetRequestNotInCancellableState"
-        case unexpectederror = "unexpectedError"
+        case fleetRequestIdDoesNotExist
+        case fleetRequestIdMalformed
+        case fleetRequestNotInCancellableState
+        case unexpectedError
         public var description: String { return self.rawValue }
     }
 
@@ -282,17 +282,17 @@ extension EC2 {
     }
 
     public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable {
-        case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
-        case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
-        case linuxWithSqlServerWeb = "Linux with SQL Server Web"
-        case linuxUnix = "Linux/UNIX"
+        case linuxWithSQLServerEnterprise = "Linux with SQL Server Enterprise"
+        case linuxWithSQLServerStandard = "Linux with SQL Server Standard"
+        case linuxWithSQLServerWeb = "Linux with SQL Server Web"
+        case linuxUNIX = "Linux/UNIX"
         case redHatEnterpriseLinux = "Red Hat Enterprise Linux"
         case suseLinux = "SUSE Linux"
         case windows = "Windows"
-        case windowsWithSqlServer = "Windows with SQL Server"
-        case windowsWithSqlServerEnterprise = "Windows with SQL Server Enterprise"
-        case windowsWithSqlServerStandard = "Windows with SQL Server Standard"
-        case windowsWithSqlServerWeb = "Windows with SQL Server Web"
+        case windowsWithSQLServer = "Windows with SQL Server"
+        case windowsWithSQLServerEnterprise = "Windows with SQL Server Enterprise"
+        case windowsWithSQLServerStandard = "Windows with SQL Server Standard"
+        case windowsWithSQLServerWeb = "Windows with SQL Server Web"
         public var description: String { return self.rawValue }
     }
 
@@ -448,10 +448,10 @@ extension EC2 {
     }
 
     public enum DeleteFleetErrorCode: String, CustomStringConvertible, Codable {
-        case fleetiddoesnotexist = "fleetIdDoesNotExist"
-        case fleetidmalformed = "fleetIdMalformed"
-        case fleetnotindeletablestate = "fleetNotInDeletableState"
-        case unexpectederror = "unexpectedError"
+        case fleetIdDoesNotExist
+        case fleetIdMalformed
+        case fleetNotInDeletableState
+        case unexpectedError
         public var description: String { return self.rawValue }
     }
 
@@ -489,7 +489,7 @@ extension EC2 {
 
     public enum DnsNameState: String, CustomStringConvertible, Codable {
         case failed
-        case pendingverification = "pendingVerification"
+        case pendingVerification
         case verified
         public var description: String { return self.rawValue }
     }
@@ -568,15 +568,15 @@ extension EC2 {
 
     public enum EventType: String, CustomStringConvertible, Codable {
         case error
-        case fleetrequestchange = "fleetRequestChange"
+        case fleetRequestChange
         case information
-        case instancechange = "instanceChange"
+        case instanceChange
         public var description: String { return self.rawValue }
     }
 
     public enum ExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
         case `default`
-        case notermination = "noTermination"
+        case noTermination
         public var description: String { return self.rawValue }
     }
 
@@ -671,7 +671,7 @@ extension EC2 {
     }
 
     public enum FlowLogsResourceType: String, CustomStringConvertible, Codable {
-        case networkinterface = "NetworkInterface"
+        case networkInterface = "NetworkInterface"
         case subnet = "Subnet"
         case vpc = "VPC"
         public var description: String { return self.rawValue }
@@ -679,9 +679,9 @@ extension EC2 {
 
     public enum FpgaImageAttributeName: String, CustomStringConvertible, Codable {
         case description
-        case loadpermission = "loadPermission"
+        case loadPermission
         case name
-        case productcodes = "productCodes"
+        case productCodes
         public var description: String { return self.rawValue }
     }
 
@@ -745,14 +745,14 @@ extension EC2 {
     }
 
     public enum ImageAttributeName: String, CustomStringConvertible, Codable {
-        case blockdevicemapping = "blockDeviceMapping"
-        case bootmode = "bootMode"
+        case blockDeviceMapping
+        case bootMode
         case description
         case kernel
-        case launchpermission = "launchPermission"
-        case productcodes = "productCodes"
+        case launchPermission
+        case productCodes
         case ramdisk
-        case sriovnetsupport = "sriovNetSupport"
+        case sriovNetSupport
         public var description: String { return self.rawValue }
     }
 
@@ -775,21 +775,21 @@ extension EC2 {
     }
 
     public enum InstanceAttributeName: String, CustomStringConvertible, Codable {
-        case blockdevicemapping = "blockDeviceMapping"
-        case disableapitermination = "disableApiTermination"
-        case ebsoptimized = "ebsOptimized"
-        case enasupport = "enaSupport"
-        case enclaveoptions = "enclaveOptions"
-        case groupset = "groupSet"
-        case instanceinitiatedshutdownbehavior = "instanceInitiatedShutdownBehavior"
-        case instancetype = "instanceType"
+        case blockDeviceMapping
+        case disableApiTermination
+        case ebsOptimized
+        case enaSupport
+        case enclaveOptions
+        case groupSet
+        case instanceInitiatedShutdownBehavior
+        case instanceType
         case kernel
-        case productcodes = "productCodes"
+        case productCodes
         case ramdisk
-        case rootdevicename = "rootDeviceName"
-        case sourcedestcheck = "sourceDestCheck"
-        case sriovnetsupport = "sriovNetSupport"
-        case userdata = "userData"
+        case rootDeviceName
+        case sourceDestCheck
+        case sriovNetSupport
+        case userData
         public var description: String { return self.rawValue }
     }
 
@@ -1350,12 +1350,12 @@ extension EC2 {
     }
 
     public enum LaunchTemplateErrorCode: String, CustomStringConvertible, Codable {
-        case launchtemplateiddoesnotexist = "launchTemplateIdDoesNotExist"
-        case launchtemplateidmalformed = "launchTemplateIdMalformed"
-        case launchtemplatenamedoesnotexist = "launchTemplateNameDoesNotExist"
-        case launchtemplatenamemalformed = "launchTemplateNameMalformed"
-        case launchtemplateversiondoesnotexist = "launchTemplateVersionDoesNotExist"
-        case unexpectederror = "unexpectedError"
+        case launchTemplateIdDoesNotExist
+        case launchTemplateIdMalformed
+        case launchTemplateNameDoesNotExist
+        case launchTemplateNameMalformed
+        case launchTemplateVersionDoesNotExist
+        case unexpectedError
         public var description: String { return self.rawValue }
     }
 
@@ -1466,8 +1466,8 @@ extension EC2 {
     }
 
     public enum MoveStatus: String, CustomStringConvertible, Codable {
-        case movingtovpc = "movingToVpc"
-        case restoringtoclassic = "restoringToClassic"
+        case movingToVpc
+        case restoringToClassic
         public var description: String { return self.rawValue }
     }
 
@@ -1489,8 +1489,8 @@ extension EC2 {
     public enum NetworkInterfaceAttribute: String, CustomStringConvertible, Codable {
         case attachment
         case description
-        case groupset = "groupSet"
-        case sourcedestcheck = "sourceDestCheck"
+        case groupSet
+        case sourceDestCheck
         public var description: String { return self.rawValue }
     }
 
@@ -1521,7 +1521,7 @@ extension EC2 {
     public enum NetworkInterfaceType: String, CustomStringConvertible, Codable {
         case efa
         case interface
-        case natgateway = "natGateway"
+        case natGateway
         case trunk
         public var description: String { return self.rawValue }
     }
@@ -1543,7 +1543,7 @@ extension EC2 {
     }
 
     public enum OnDemandAllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestprice = "lowestPrice"
+        case lowestPrice
         case prioritized
         public var description: String { return self.rawValue }
     }
@@ -1563,9 +1563,9 @@ extension EC2 {
     }
 
     public enum PaymentOption: String, CustomStringConvertible, Codable {
-        case allupfront = "AllUpfront"
-        case noupfront = "NoUpfront"
-        case partialupfront = "PartialUpfront"
+        case allUpfront = "AllUpfront"
+        case noUpfront = "NoUpfront"
+        case partialUpfront = "PartialUpfront"
         public var description: String { return self.rawValue }
     }
 
@@ -1620,7 +1620,7 @@ extension EC2 {
     public enum PrincipalType: String, CustomStringConvertible, Codable {
         case account = "Account"
         case all = "All"
-        case organizationunit = "OrganizationUnit"
+        case organizationUnit = "OrganizationUnit"
         case role = "Role"
         case service = "Service"
         case user = "User"
@@ -1645,10 +1645,10 @@ extension EC2 {
     }
 
     public enum RIProductDescription: String, CustomStringConvertible, Codable {
-        case linuxUnix = "Linux/UNIX"
-        case linuxUnixAmazonVpc = "Linux/UNIX (Amazon VPC)"
+        case linuxUNIX = "Linux/UNIX"
+        case linuxUNIXAmazonVPC = "Linux/UNIX (Amazon VPC)"
         case windows = "Windows"
-        case windowsAmazonVpc = "Windows (Amazon VPC)"
+        case windowsAmazonVPC = "Windows (Amazon VPC)"
         public var description: String { return self.rawValue }
     }
 
@@ -1711,12 +1711,12 @@ extension EC2 {
     }
 
     public enum ResetFpgaImageAttributeName: String, CustomStringConvertible, Codable {
-        case loadpermission = "loadPermission"
+        case loadPermission
         public var description: String { return self.rawValue }
     }
 
     public enum ResetImageAttributeName: String, CustomStringConvertible, Codable {
-        case launchpermission = "launchPermission"
+        case launchPermission
         public var description: String { return self.rawValue }
     }
 
@@ -1793,9 +1793,9 @@ extension EC2 {
     }
 
     public enum RouteOrigin: String, CustomStringConvertible, Codable {
-        case createroute = "CreateRoute"
-        case createroutetable = "CreateRouteTable"
-        case enablevgwroutepropagation = "EnableVgwRoutePropagation"
+        case createRoute = "CreateRoute"
+        case createRouteTable = "CreateRouteTable"
+        case enableVgwRoutePropagation = "EnableVgwRoutePropagation"
         public var description: String { return self.rawValue }
     }
 
@@ -1837,7 +1837,7 @@ extension EC2 {
 
     public enum ServiceType: String, CustomStringConvertible, Codable {
         case gateway = "Gateway"
-        case gatewayloadbalancer = "GatewayLoadBalancer"
+        case gatewayLoadBalancer = "GatewayLoadBalancer"
         case interface = "Interface"
         public var description: String { return self.rawValue }
     }
@@ -1849,8 +1849,8 @@ extension EC2 {
     }
 
     public enum SnapshotAttributeName: String, CustomStringConvertible, Codable {
-        case createvolumepermission = "createVolumePermission"
-        case productcodes = "productCodes"
+        case createVolumePermission
+        case productCodes
         public var description: String { return self.rawValue }
     }
 
@@ -1898,7 +1898,7 @@ extension EC2 {
         case expired = "Expired"
         case failed = "Failed"
         case pending = "Pending"
-        case pendingacceptance = "PendingAcceptance"
+        case pendingAcceptance = "PendingAcceptance"
         case rejected = "Rejected"
         public var description: String { return self.rawValue }
     }
@@ -1910,9 +1910,9 @@ extension EC2 {
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case inclassic = "InClassic"
-        case invpc = "InVpc"
-        case moveinprogress = "MoveInProgress"
+        case inClassic = "InClassic"
+        case inVpc = "InVpc"
+        case moveInProgress = "MoveInProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -2050,13 +2050,13 @@ extension EC2 {
         case failed
         case failing
         case initiating
-        case initiatingrequest = "initiatingRequest"
+        case initiatingRequest
         case modifying
         case pending
-        case pendingacceptance = "pendingAcceptance"
+        case pendingAcceptance
         case rejected
         case rejecting
-        case rollingback = "rollingBack"
+        case rollingBack
         public var description: String { return self.rawValue }
     }
 
@@ -2074,7 +2074,7 @@ extension EC2 {
         case disassociated
         case disassociating
         case failed
-        case pendingacceptance = "pendingAcceptance"
+        case pendingAcceptance
         case rejected
         public var description: String { return self.rawValue }
     }
@@ -2156,10 +2156,10 @@ extension EC2 {
     }
 
     public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable {
-        case incorrectinstancestate = "IncorrectInstanceState"
-        case instancecreditspecificationNotsupported = "InstanceCreditSpecification.NotSupported"
-        case invalidinstanceidMalformed = "InvalidInstanceID.Malformed"
-        case invalidinstanceidNotfound = "InvalidInstanceID.NotFound"
+        case incorrectInstanceState = "IncorrectInstanceState"
+        case instanceCreditSpecificationNotsupported = "InstanceCreditSpecification.NotSupported"
+        case invalidInstanceIDMalformed = "InvalidInstanceID.Malformed"
+        case invalidInstanceIDNotfound = "InvalidInstanceID.NotFound"
         public var description: String { return self.rawValue }
     }
 
@@ -2185,8 +2185,8 @@ extension EC2 {
     }
 
     public enum VolumeAttributeName: String, CustomStringConvertible, Codable {
-        case autoenableio = "autoEnableIO"
-        case productcodes = "productCodes"
+        case autoEnableIO
+        case productCodes
         public var description: String { return self.rawValue }
     }
 
@@ -2233,8 +2233,8 @@ extension EC2 {
     }
 
     public enum VpcAttributeName: String, CustomStringConvertible, Codable {
-        case enablednshostnames = "enableDnsHostnames"
-        case enablednssupport = "enableDnsSupport"
+        case enableDnsHostnames
+        case enableDnsSupport
         public var description: String { return self.rawValue }
     }
 
@@ -2250,7 +2250,7 @@ extension EC2 {
 
     public enum VpcEndpointType: String, CustomStringConvertible, Codable {
         case gateway = "Gateway"
-        case gatewayloadbalancer = "GatewayLoadBalancer"
+        case gatewayLoadBalancer = "GatewayLoadBalancer"
         case interface = "Interface"
         public var description: String { return self.rawValue }
     }

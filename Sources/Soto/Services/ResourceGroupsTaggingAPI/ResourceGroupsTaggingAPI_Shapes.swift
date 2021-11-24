@@ -22,8 +22,8 @@ extension ResourceGroupsTaggingAPI {
     // MARK: Enums
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceexception = "InternalServiceException"
-        case invalidparameterexception = "InvalidParameterException"
+        case internalServiceException = "InternalServiceException"
+        case invalidParameterException = "InvalidParameterException"
         public var description: String { return self.rawValue }
     }
 

@@ -81,8 +81,8 @@ extension DirectConnect {
     }
 
     public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable {
-        case privatevirtualinterface = "PrivateVirtualInterface"
-        case transitvirtualinterface = "TransitVirtualInterface"
+        case privateVirtualInterface = "PrivateVirtualInterface"
+        case transitVirtualInterface = "TransitVirtualInterface"
         public var description: String { return self.rawValue }
     }
 
@@ -95,8 +95,8 @@ extension DirectConnect {
     }
 
     public enum GatewayType: String, CustomStringConvertible, Codable {
-        case transitgateway = "transitGateway"
-        case virtualprivategateway = "virtualPrivateGateway"
+        case transitGateway
+        case virtualPrivateGateway
         public var description: String { return self.rawValue }
     }
 
@@ -135,7 +135,7 @@ extension DirectConnect {
     }
 
     public enum NniPartnerType: String, CustomStringConvertible, Codable {
-        case nonpartner = "nonPartner"
+        case nonPartner
         case v1
         case v2
         public var description: String { return self.rawValue }

@@ -113,7 +113,7 @@ extension Comprehend {
         case ko
         case pt
         case zh
-        case zhTw = "zh-TW"
+        case zhTW = "zh-TW"
         public var description: String { return self.rawValue }
     }
 

@@ -36,15 +36,15 @@ extension IoTWireless {
 
     public enum DeviceState: String, CustomStringConvertible, Codable {
         case provisioned = "Provisioned"
-        case registerednotseen = "RegisteredNotSeen"
-        case registeredreachable = "RegisteredReachable"
-        case registeredunreachable = "RegisteredUnreachable"
+        case registeredNotSeen = "RegisteredNotSeen"
+        case registeredReachable = "RegisteredReachable"
+        case registeredUnreachable = "RegisteredUnreachable"
         public var description: String { return self.rawValue }
     }
 
     public enum DlClass: String, CustomStringConvertible, Codable {
-        case classb = "ClassB"
-        case classc = "ClassC"
+        case classB = "ClassB"
+        case classC = "ClassC"
         public var description: String { return self.rawValue }
     }
 
@@ -69,21 +69,21 @@ extension IoTWireless {
     }
 
     public enum ExpressionType: String, CustomStringConvertible, Codable {
-        case mqtttopic = "MqttTopic"
-        case rulename = "RuleName"
+        case mqttTopic = "MqttTopic"
+        case ruleName = "RuleName"
         public var description: String { return self.rawValue }
     }
 
     public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable {
-        case fragalgoUnsupported = "FragAlgo_unsupported"
-        case fragindexUnsupported = "FragIndex_unsupported"
+        case fragAlgoUnsupported = "FragAlgo_unsupported"
+        case fragIndexUnsupported = "FragIndex_unsupported"
         case initial = "Initial"
-        case micerror = "MICError"
-        case memoryerror = "MemoryError"
-        case missingfrag = "MissingFrag"
+        case mICError = "MICError"
+        case memoryError = "MemoryError"
+        case missingFrag = "MissingFrag"
         case notEnoughMemory = "Not_enough_memory"
         case packageNotSupported = "Package_Not_Supported"
-        case sessioncntReplay = "SessionCnt_replay"
+        case sessionCntReplay = "SessionCnt_replay"
         case successful = "Successful"
         case wrongDescriptor = "Wrong_descriptor"
         public var description: String { return self.rawValue }
@@ -91,15 +91,15 @@ extension IoTWireless {
 
     public enum FuotaTaskStatus: String, CustomStringConvertible, Codable {
         case deleteWaiting = "Delete_Waiting"
-        case fuotadone = "FuotaDone"
-        case fuotasessionWaiting = "FuotaSession_Waiting"
+        case fuotaDone = "FuotaDone"
+        case fuotaSessionWaiting = "FuotaSession_Waiting"
         case inFuotasession = "In_FuotaSession"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum IdentifierType: String, CustomStringConvertible, Codable {
-        case partneraccountid = "PartnerAccountId"
+        case partnerAccountId = "PartnerAccountId"
         public var description: String { return self.rawValue }
     }
 
@@ -147,15 +147,15 @@ extension IoTWireless {
     }
 
     public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable {
-        case deveui = "DevEui"
-        case sidewalkmanufacturingsn = "SidewalkManufacturingSn"
-        case thingname = "ThingName"
-        case wirelessdeviceid = "WirelessDeviceId"
+        case devEui = "DevEui"
+        case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+        case thingName = "ThingName"
+        case wirelessDeviceId = "WirelessDeviceId"
         public var description: String { return self.rawValue }
     }
 
     public enum WirelessDeviceType: String, CustomStringConvertible, Codable {
-        case lorawan = "LoRaWAN"
+        case loRaWAN = "LoRaWAN"
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
@@ -167,9 +167,9 @@ extension IoTWireless {
     }
 
     public enum WirelessGatewayIdType: String, CustomStringConvertible, Codable {
-        case gatewayeui = "GatewayEui"
-        case thingname = "ThingName"
-        case wirelessgatewayid = "WirelessGatewayId"
+        case gatewayEui = "GatewayEui"
+        case thingName = "ThingName"
+        case wirelessGatewayId = "WirelessGatewayId"
         public var description: String { return self.rawValue }
     }
 
@@ -195,7 +195,7 @@ extension IoTWireless {
     }
 
     public enum WirelessGatewayType: String, CustomStringConvertible, Codable {
-        case lorawan = "LoRaWAN"
+        case loRaWAN = "LoRaWAN"
         public var description: String { return self.rawValue }
     }
 

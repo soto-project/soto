@@ -28,9 +28,9 @@ extension GroundStation {
     }
 
     public enum BandwidthUnits: String, CustomStringConvertible, Codable {
-        case ghz = "GHz"
-        case mhz = "MHz"
-        case khz = "kHz"
+        case gHz = "GHz"
+        case mHz = "MHz"
+        case kHz
         public var description: String { return self.rawValue }
     }
 
@@ -70,7 +70,7 @@ extension GroundStation {
     }
 
     public enum EirpUnits: String, CustomStringConvertible, Codable {
-        case dbw = "dBW"
+        case dBW
         public var description: String { return self.rawValue }
     }
 
@@ -84,9 +84,9 @@ extension GroundStation {
     }
 
     public enum FrequencyUnits: String, CustomStringConvertible, Codable {
-        case ghz = "GHz"
-        case mhz = "MHz"
-        case khz = "kHz"
+        case gHz = "GHz"
+        case mHz = "MHz"
+        case kHz
         public var description: String { return self.rawValue }
     }
 

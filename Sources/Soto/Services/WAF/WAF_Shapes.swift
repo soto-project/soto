@@ -329,13 +329,13 @@ extension WAF {
     }
 
     public enum PredicateType: String, CustomStringConvertible, Codable {
-        case bytematch = "ByteMatch"
-        case geomatch = "GeoMatch"
-        case ipmatch = "IPMatch"
-        case regexmatch = "RegexMatch"
-        case sizeconstraint = "SizeConstraint"
-        case sqlinjectionmatch = "SqlInjectionMatch"
-        case xssmatch = "XssMatch"
+        case byteMatch = "ByteMatch"
+        case geoMatch = "GeoMatch"
+        case iPMatch = "IPMatch"
+        case regexMatch = "RegexMatch"
+        case sizeConstraint = "SizeConstraint"
+        case sqlInjectionMatch = "SqlInjectionMatch"
+        case xssMatch = "XssMatch"
         public var description: String { return self.rawValue }
     }
 

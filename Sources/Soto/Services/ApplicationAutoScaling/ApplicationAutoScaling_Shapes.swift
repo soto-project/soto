@@ -22,9 +22,9 @@ extension ApplicationAutoScaling {
     // MARK: Enums
 
     public enum AdjustmentType: String, CustomStringConvertible, Codable {
-        case changeincapacity = "ChangeInCapacity"
-        case exactcapacity = "ExactCapacity"
-        case percentchangeincapacity = "PercentChangeInCapacity"
+        case changeInCapacity = "ChangeInCapacity"
+        case exactCapacity = "ExactCapacity"
+        case percentChangeInCapacity = "PercentChangeInCapacity"
         public var description: String { return self.rawValue }
     }
 
@@ -39,39 +39,39 @@ extension ApplicationAutoScaling {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricType: String, CustomStringConvertible, Codable {
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case appstreamaveragecapacityutilization = "AppStreamAverageCapacityUtilization"
-        case cassandrareadcapacityutilization = "CassandraReadCapacityUtilization"
-        case cassandrawritecapacityutilization = "CassandraWriteCapacityUtilization"
-        case comprehendinferenceutilization = "ComprehendInferenceUtilization"
-        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
-        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
-        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
-        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
-        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
-        case elasticachedatabasememoryusagecountedforevictpercentage = "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
-        case elasticacheprimaryenginecpuutilization = "ElastiCachePrimaryEngineCPUUtilization"
-        case elasticachereplicaenginecpuutilization = "ElastiCacheReplicaEngineCPUUtilization"
-        case kafkabrokerstorageutilization = "KafkaBrokerStorageUtilization"
-        case lambdaprovisionedconcurrencyutilization = "LambdaProvisionedConcurrencyUtilization"
-        case neptunereaderaveragecpuutilization = "NeptuneReaderAverageCPUUtilization"
-        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
-        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
-        case sagemakervariantinvocationsperinstance = "SageMakerVariantInvocationsPerInstance"
+        case aLBRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case appStreamAverageCapacityUtilization = "AppStreamAverageCapacityUtilization"
+        case cassandraReadCapacityUtilization = "CassandraReadCapacityUtilization"
+        case cassandraWriteCapacityUtilization = "CassandraWriteCapacityUtilization"
+        case comprehendInferenceUtilization = "ComprehendInferenceUtilization"
+        case dynamoDBReadCapacityUtilization = "DynamoDBReadCapacityUtilization"
+        case dynamoDBWriteCapacityUtilization = "DynamoDBWriteCapacityUtilization"
+        case eC2SpotFleetRequestAverageCPUUtilization = "EC2SpotFleetRequestAverageCPUUtilization"
+        case eC2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
+        case eC2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
+        case eCSServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
+        case eCSServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
+        case elastiCacheDatabaseMemoryUsageCountedForEvictPercentage = "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
+        case elastiCachePrimaryEngineCPUUtilization = "ElastiCachePrimaryEngineCPUUtilization"
+        case elastiCacheReplicaEngineCPUUtilization = "ElastiCacheReplicaEngineCPUUtilization"
+        case kafkaBrokerStorageUtilization = "KafkaBrokerStorageUtilization"
+        case lambdaProvisionedConcurrencyUtilization = "LambdaProvisionedConcurrencyUtilization"
+        case neptuneReaderAverageCPUUtilization = "NeptuneReaderAverageCPUUtilization"
+        case rDSReaderAverageCPUUtilization = "RDSReaderAverageCPUUtilization"
+        case rDSReaderAverageDatabaseConnections = "RDSReaderAverageDatabaseConnections"
+        case sageMakerVariantInvocationsPerInstance = "SageMakerVariantInvocationsPerInstance"
         public var description: String { return self.rawValue }
     }
 
     public enum PolicyType: String, CustomStringConvertible, Codable {
-        case stepscaling = "StepScaling"
-        case targettrackingscaling = "TargetTrackingScaling"
+        case stepScaling = "StepScaling"
+        case targetTrackingScaling = "TargetTrackingScaling"
         public var description: String { return self.rawValue }
     }
 
@@ -101,7 +101,7 @@ extension ApplicationAutoScaling {
 
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case overridden = "Overridden"
         case pending = "Pending"
         case successful = "Successful"

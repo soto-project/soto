@@ -49,8 +49,8 @@ extension NetworkFirewall {
     }
 
     public enum LogDestinationType: String, CustomStringConvertible, Codable {
-        case cloudwatchlogs = "CloudWatchLogs"
-        case kinesisdatafirehose = "KinesisDataFirehose"
+        case cloudWatchLogs = "CloudWatchLogs"
+        case kinesisDataFirehose = "KinesisDataFirehose"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }

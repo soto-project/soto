@@ -94,8 +94,8 @@ extension EventBridge {
     }
 
     public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
-        case distinctinstance = "distinctInstance"
-        case memberof = "memberOf"
+        case distinctInstance
+        case memberOf
         public var description: String { return self.rawValue }
     }
 

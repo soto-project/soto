@@ -85,8 +85,8 @@ extension ManagedBlockchain {
     }
 
     public enum StateDBType: String, CustomStringConvertible, Codable {
-        case couchdb = "CouchDB"
-        case leveldb = "LevelDB"
+        case couchDB = "CouchDB"
+        case levelDB = "LevelDB"
         public var description: String { return self.rawValue }
     }
 

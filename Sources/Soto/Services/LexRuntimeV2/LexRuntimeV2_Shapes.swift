@@ -36,10 +36,10 @@ extension LexRuntimeV2 {
 
     public enum DialogActionType: String, CustomStringConvertible, Codable {
         case close = "Close"
-        case confirmintent = "ConfirmIntent"
+        case confirmIntent = "ConfirmIntent"
         case delegate = "Delegate"
-        case elicitintent = "ElicitIntent"
-        case elicitslot = "ElicitSlot"
+        case elicitIntent = "ElicitIntent"
+        case elicitSlot = "ElicitSlot"
         case none = "None"
         public var description: String { return self.rawValue }
     }
@@ -54,17 +54,17 @@ extension LexRuntimeV2 {
     public enum IntentState: String, CustomStringConvertible, Codable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
-        case fulfillmentinprogress = "FulfillmentInProgress"
-        case inprogress = "InProgress"
-        case readyforfulfillment = "ReadyForFulfillment"
+        case fulfillmentInProgress = "FulfillmentInProgress"
+        case inProgress = "InProgress"
+        case readyForFulfillment = "ReadyForFulfillment"
         case waiting = "Waiting"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageContentType: String, CustomStringConvertible, Codable {
-        case custompayload = "CustomPayload"
-        case imageresponsecard = "ImageResponseCard"
-        case plaintext = "PlainText"
+        case customPayload = "CustomPayload"
+        case imageResponseCard = "ImageResponseCard"
+        case plainText = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
     }
@@ -92,8 +92,8 @@ extension LexRuntimeV2 {
 
     public enum StyleType: String, CustomStringConvertible, Codable {
         case `default` = "Default"
-        case spellbyletter = "SpellByLetter"
-        case spellbyword = "SpellByWord"
+        case spellByLetter = "SpellByLetter"
+        case spellByWord = "SpellByWord"
         public var description: String { return self.rawValue }
     }
 

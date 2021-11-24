@@ -31,8 +31,8 @@ extension Forecast {
     }
 
     public enum AutoMLOverrideStrategy: String, CustomStringConvertible, Codable {
-        case accuracyoptimized = "AccuracyOptimized"
-        case latencyoptimized = "LatencyOptimized"
+        case accuracyOptimized = "AccuracyOptimized"
+        case latencyOptimized = "LatencyOptimized"
         public var description: String { return self.rawValue }
     }
 
@@ -72,7 +72,7 @@ extension Forecast {
     }
 
     public enum OptimizationMetric: String, CustomStringConvertible, Codable {
-        case averageweightedquantileloss = "AverageWeightedQuantileLoss"
+        case averageWeightedQuantileLoss = "AverageWeightedQuantileLoss"
         case mape = "MAPE"
         case mase = "MASE"
         case rmse = "RMSE"
@@ -84,7 +84,7 @@ extension Forecast {
         case auto = "Auto"
         case linear = "Linear"
         case logarithmic = "Logarithmic"
-        case reverselogarithmic = "ReverseLogarithmic"
+        case reverseLogarithmic = "ReverseLogarithmic"
         public var description: String { return self.rawValue }
     }
 

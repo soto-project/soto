@@ -22,10 +22,10 @@ extension OpsWorks {
     // MARK: Enums
 
     public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
-        case autobundleondeploy = "AutoBundleOnDeploy"
-        case awsflowrubysettings = "AwsFlowRubySettings"
-        case documentroot = "DocumentRoot"
-        case railsenv = "RailsEnv"
+        case autoBundleOnDeploy = "AutoBundleOnDeploy"
+        case awsFlowRubySettings = "AwsFlowRubySettings"
+        case documentRoot = "DocumentRoot"
+        case railsEnv = "RailsEnv"
         public var description: String { return self.rawValue }
     }
 
@@ -177,31 +177,31 @@ extension OpsWorks {
     }
 
     public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
-        case bundlerversion = "BundlerVersion"
-        case ecsclusterarn = "EcsClusterArn"
-        case enablehaproxystats = "EnableHaproxyStats"
-        case gangliapassword = "GangliaPassword"
-        case gangliaurl = "GangliaUrl"
-        case gangliauser = "GangliaUser"
-        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
-        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
-        case haproxystatspassword = "HaproxyStatsPassword"
-        case haproxystatsurl = "HaproxyStatsUrl"
-        case haproxystatsuser = "HaproxyStatsUser"
-        case javaappserver = "JavaAppServer"
-        case javaappserverversion = "JavaAppServerVersion"
+        case bundlerVersion = "BundlerVersion"
+        case ecsClusterArn = "EcsClusterArn"
+        case enableHaproxyStats = "EnableHaproxyStats"
+        case gangliaPassword = "GangliaPassword"
+        case gangliaUrl = "GangliaUrl"
+        case gangliaUser = "GangliaUser"
+        case haproxyHealthCheckMethod = "HaproxyHealthCheckMethod"
+        case haproxyHealthCheckUrl = "HaproxyHealthCheckUrl"
+        case haproxyStatsPassword = "HaproxyStatsPassword"
+        case haproxyStatsUrl = "HaproxyStatsUrl"
+        case haproxyStatsUser = "HaproxyStatsUser"
+        case javaAppServer = "JavaAppServer"
+        case javaAppServerVersion = "JavaAppServerVersion"
         case jvm = "Jvm"
-        case jvmoptions = "JvmOptions"
-        case jvmversion = "JvmVersion"
-        case managebundler = "ManageBundler"
-        case memcachedmemory = "MemcachedMemory"
-        case mysqlrootpassword = "MysqlRootPassword"
-        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
-        case nodejsversion = "NodejsVersion"
-        case passengerversion = "PassengerVersion"
-        case railsstack = "RailsStack"
-        case rubyversion = "RubyVersion"
-        case rubygemsversion = "RubygemsVersion"
+        case jvmOptions = "JvmOptions"
+        case jvmVersion = "JvmVersion"
+        case manageBundler = "ManageBundler"
+        case memcachedMemory = "MemcachedMemory"
+        case mysqlRootPassword = "MysqlRootPassword"
+        case mysqlRootPasswordUbiquitous = "MysqlRootPasswordUbiquitous"
+        case nodejsVersion = "NodejsVersion"
+        case passengerVersion = "PassengerVersion"
+        case railsStack = "RailsStack"
+        case rubyVersion = "RubyVersion"
+        case rubygemsVersion = "RubygemsVersion"
         public var description: String { return self.rawValue }
     }
 

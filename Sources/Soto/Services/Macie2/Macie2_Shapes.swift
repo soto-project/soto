@@ -78,8 +78,8 @@ extension Macie2 {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case clienterror = "ClientError"
-        case internalerror = "InternalError"
+        case clientError = "ClientError"
+        case internalError = "InternalError"
         public var description: String { return self.rawValue }
     }
 
@@ -103,7 +103,7 @@ extension Macie2 {
 
     public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable {
         case count
-        case groupkey = "groupKey"
+        case groupKey
         public var description: String { return self.rawValue }
     }
 
@@ -113,11 +113,11 @@ extension Macie2 {
         case policyIamuserS3Bucketpublic = "Policy:IAMUser/S3BucketPublic"
         case policyIamuserS3Bucketreplicatedexternally = "Policy:IAMUser/S3BucketReplicatedExternally"
         case policyIamuserS3Bucketsharedexternally = "Policy:IAMUser/S3BucketSharedExternally"
-        case sensitivedataS3ObjectCredentials = "SensitiveData:S3Object/Credentials"
-        case sensitivedataS3ObjectCustomidentifier = "SensitiveData:S3Object/CustomIdentifier"
-        case sensitivedataS3ObjectFinancial = "SensitiveData:S3Object/Financial"
-        case sensitivedataS3ObjectMultiple = "SensitiveData:S3Object/Multiple"
-        case sensitivedataS3ObjectPersonal = "SensitiveData:S3Object/Personal"
+        case sensitiveDataS3ObjectCredentials = "SensitiveData:S3Object/Credentials"
+        case sensitiveDataS3ObjectCustomidentifier = "SensitiveData:S3Object/CustomIdentifier"
+        case sensitiveDataS3ObjectFinancial = "SensitiveData:S3Object/Financial"
+        case sensitiveDataS3ObjectMultiple = "SensitiveData:S3Object/Multiple"
+        case sensitiveDataS3ObjectPersonal = "SensitiveData:S3Object/Personal"
         public var description: String { return self.rawValue }
     }
 
@@ -128,8 +128,8 @@ extension Macie2 {
     }
 
     public enum GroupBy: String, CustomStringConvertible, Codable {
-        case classificationdetailsJobid = "classificationDetails.jobId"
-        case resourcesaffectedS3BucketName = "resourcesAffected.s3Bucket.name"
+        case classificationDetailsJobid = "classificationDetails.jobId"
+        case resourcesAffectedS3BucketName = "resourcesAffected.s3Bucket.name"
         case severityDescription = "severity.description"
         case type
         public var description: String { return self.rawValue }
@@ -184,17 +184,17 @@ extension Macie2 {
     }
 
     public enum ListJobsFilterKey: String, CustomStringConvertible, Codable {
-        case createdat = "createdAt"
-        case jobstatus = "jobStatus"
-        case jobtype = "jobType"
+        case createdAt
+        case jobStatus
+        case jobType
         case name
         public var description: String { return self.rawValue }
     }
 
     public enum ListJobsSortAttributeName: String, CustomStringConvertible, Codable {
-        case createdat = "createdAt"
-        case jobstatus = "jobStatus"
-        case jobtype = "jobType"
+        case createdAt
+        case jobStatus
+        case jobType
         case name
         public var description: String { return self.rawValue }
     }
@@ -220,14 +220,14 @@ extension Macie2 {
     }
 
     public enum RelationshipStatus: String, CustomStringConvertible, Codable {
-        case accountsuspended = "AccountSuspended"
+        case accountSuspended = "AccountSuspended"
         case created = "Created"
-        case emailverificationfailed = "EmailVerificationFailed"
-        case emailverificationinprogress = "EmailVerificationInProgress"
+        case emailVerificationFailed = "EmailVerificationFailed"
+        case emailVerificationInProgress = "EmailVerificationInProgress"
         case enabled = "Enabled"
         case invited = "Invited"
         case paused = "Paused"
-        case regiondisabled = "RegionDisabled"
+        case regionDisabled = "RegionDisabled"
         case removed = "Removed"
         case resigned = "Resigned"
         public var description: String { return self.rawValue }
@@ -340,17 +340,17 @@ extension Macie2 {
     }
 
     public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable {
-        case accountid = "accountId"
-        case freetrialstartdate = "freeTrialStartDate"
-        case servicelimit = "serviceLimit"
+        case accountId
+        case freeTrialStartDate
+        case serviceLimit
         case total
         public var description: String { return self.rawValue }
     }
 
     public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable {
-        case accountid = "accountId"
-        case freetrialstartdate = "freeTrialStartDate"
-        case servicelimitvalue = "serviceLimitValue"
+        case accountId
+        case freeTrialStartDate
+        case serviceLimitValue
         case total
         public var description: String { return self.rawValue }
     }
@@ -362,11 +362,11 @@ extension Macie2 {
     }
 
     public enum UserIdentityType: String, CustomStringConvertible, Codable {
-        case awsaccount = "AWSAccount"
-        case awsservice = "AWSService"
-        case assumedrole = "AssumedRole"
-        case federateduser = "FederatedUser"
-        case iamuser = "IAMUser"
+        case aWSAccount = "AWSAccount"
+        case aWSService = "AWSService"
+        case assumedRole = "AssumedRole"
+        case federatedUser = "FederatedUser"
+        case iAMUser = "IAMUser"
         case root = "Root"
         public var description: String { return self.rawValue }
     }

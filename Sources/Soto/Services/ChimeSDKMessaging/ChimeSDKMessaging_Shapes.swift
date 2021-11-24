@@ -67,21 +67,21 @@ extension ChimeSDKMessaging {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case badrequest = "BadRequest"
+        case accessDenied = "AccessDenied"
+        case badRequest = "BadRequest"
         case conflict = "Conflict"
         case forbidden = "Forbidden"
-        case notfound = "NotFound"
-        case phonenumberassociationsexist = "PhoneNumberAssociationsExist"
-        case preconditionfailed = "PreconditionFailed"
-        case resourcelimitexceeded = "ResourceLimitExceeded"
-        case servicefailure = "ServiceFailure"
-        case serviceunavailable = "ServiceUnavailable"
+        case notFound = "NotFound"
+        case phoneNumberAssociationsExist = "PhoneNumberAssociationsExist"
+        case preconditionFailed = "PreconditionFailed"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case serviceFailure = "ServiceFailure"
+        case serviceUnavailable = "ServiceUnavailable"
         case throttled = "Throttled"
         case throttling = "Throttling"
         case unauthorized = "Unauthorized"
         case unprocessable = "Unprocessable"
-        case voiceconnectorgroupassociationsexist = "VoiceConnectorGroupAssociationsExist"
+        case voiceConnectorGroupAssociationsExist = "VoiceConnectorGroupAssociationsExist"
         public var description: String { return self.rawValue }
     }
 

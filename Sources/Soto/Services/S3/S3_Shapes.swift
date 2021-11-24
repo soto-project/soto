@@ -195,18 +195,18 @@ extension S3 {
     }
 
     public enum InventoryOptionalField: String, CustomStringConvertible, Codable {
-        case bucketkeystatus = "BucketKeyStatus"
-        case etag = "ETag"
-        case encryptionstatus = "EncryptionStatus"
-        case intelligenttieringaccesstier = "IntelligentTieringAccessTier"
-        case ismultipartuploaded = "IsMultipartUploaded"
-        case lastmodifieddate = "LastModifiedDate"
-        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
-        case objectlockmode = "ObjectLockMode"
-        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
-        case replicationstatus = "ReplicationStatus"
+        case bucketKeyStatus = "BucketKeyStatus"
+        case eTag = "ETag"
+        case encryptionStatus = "EncryptionStatus"
+        case intelligentTieringAccessTier = "IntelligentTieringAccessTier"
+        case isMultipartUploaded = "IsMultipartUploaded"
+        case lastModifiedDate = "LastModifiedDate"
+        case objectLockLegalHoldStatus = "ObjectLockLegalHoldStatus"
+        case objectLockMode = "ObjectLockMode"
+        case objectLockRetainUntilDate = "ObjectLockRetainUntilDate"
+        case replicationStatus = "ReplicationStatus"
         case size = "Size"
-        case storageclass = "StorageClass"
+        case storageClass = "StorageClass"
         public var description: String { return self.rawValue }
     }
 
@@ -275,8 +275,8 @@ extension S3 {
     }
 
     public enum ObjectOwnership: String, CustomStringConvertible, Codable {
-        case bucketownerpreferred = "BucketOwnerPreferred"
-        case objectwriter = "ObjectWriter"
+        case bucketOwnerPreferred = "BucketOwnerPreferred"
+        case objectWriter = "ObjectWriter"
         public var description: String { return self.rawValue }
     }
 
@@ -303,7 +303,7 @@ extension S3 {
     }
 
     public enum Payer: String, CustomStringConvertible, Codable {
-        case bucketowner = "BucketOwner"
+        case bucketOwner = "BucketOwner"
         case requester = "Requester"
         public var description: String { return self.rawValue }
     }
@@ -422,8 +422,8 @@ extension S3 {
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable {
-        case amazoncustomerbyemail = "AmazonCustomerByEmail"
-        case canonicaluser = "CanonicalUser"
+        case amazonCustomerByEmail = "AmazonCustomerByEmail"
+        case canonicalUser = "CanonicalUser"
         case group = "Group"
         public var description: String { return self.rawValue }
     }

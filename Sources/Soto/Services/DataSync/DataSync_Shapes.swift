@@ -76,9 +76,9 @@ extension DataSync {
     }
 
     public enum LocationFilterName: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case locationtype = "LocationType"
-        case locationuri = "LocationUri"
+        case creationTime = "CreationTime"
+        case locationType = "LocationType"
+        case locationUri = "LocationUri"
         public var description: String { return self.rawValue }
     }
 
@@ -110,16 +110,16 @@ extension DataSync {
     }
 
     public enum `Operator`: String, CustomStringConvertible, Codable {
-        case beginswith = "BeginsWith"
+        case beginsWith = "BeginsWith"
         case contains = "Contains"
         case equals = "Equals"
-        case greaterthan = "GreaterThan"
-        case greaterthanorequal = "GreaterThanOrEqual"
+        case greaterThan = "GreaterThan"
+        case greaterThanOrEqual = "GreaterThanOrEqual"
         case `in` = "In"
-        case lessthan = "LessThan"
-        case lessthanorequal = "LessThanOrEqual"
-        case notcontains = "NotContains"
-        case notequals = "NotEquals"
+        case lessThan = "LessThan"
+        case lessThanOrEqual = "LessThanOrEqual"
+        case notContains = "NotContains"
+        case notEquals = "NotEquals"
         public var description: String { return self.rawValue }
     }
 
@@ -191,8 +191,8 @@ extension DataSync {
     }
 
     public enum TaskFilterName: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case locationid = "LocationId"
+        case creationTime = "CreationTime"
+        case locationId = "LocationId"
         public var description: String { return self.rawValue }
     }
 

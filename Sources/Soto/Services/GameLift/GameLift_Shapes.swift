@@ -54,10 +54,10 @@ extension GameLift {
     }
 
     public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        case lessthanthreshold = "LessThanThreshold"
+        case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
+        case greaterThanThreshold = "GreaterThanThreshold"
+        case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
+        case lessThanThreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
@@ -412,17 +412,17 @@ extension GameLift {
     }
 
     public enum MetricName: String, CustomStringConvertible, Codable {
-        case activatinggamesessions = "ActivatingGameSessions"
-        case activegamesessions = "ActiveGameSessions"
-        case activeinstances = "ActiveInstances"
-        case availablegamesessions = "AvailableGameSessions"
-        case availableplayersessions = "AvailablePlayerSessions"
-        case currentplayersessions = "CurrentPlayerSessions"
-        case idleinstances = "IdleInstances"
-        case percentavailablegamesessions = "PercentAvailableGameSessions"
-        case percentidleinstances = "PercentIdleInstances"
-        case queuedepth = "QueueDepth"
-        case waittime = "WaitTime"
+        case activatingGameSessions = "ActivatingGameSessions"
+        case activeGameSessions = "ActiveGameSessions"
+        case activeInstances = "ActiveInstances"
+        case availableGameSessions = "AvailableGameSessions"
+        case availablePlayerSessions = "AvailablePlayerSessions"
+        case currentPlayerSessions = "CurrentPlayerSessions"
+        case idleInstances = "IdleInstances"
+        case percentAvailableGameSessions = "PercentAvailableGameSessions"
+        case percentIdleInstances = "PercentIdleInstances"
+        case queueDepth = "QueueDepth"
+        case waitTime = "WaitTime"
         public var description: String { return self.rawValue }
     }
 
@@ -448,8 +448,8 @@ extension GameLift {
     }
 
     public enum PolicyType: String, CustomStringConvertible, Codable {
-        case rulebased = "RuleBased"
-        case targetbased = "TargetBased"
+        case ruleBased = "RuleBased"
+        case targetBased = "TargetBased"
         public var description: String { return self.rawValue }
     }
 
@@ -462,8 +462,8 @@ extension GameLift {
     }
 
     public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
-        case fullprotection = "FullProtection"
-        case noprotection = "NoProtection"
+        case fullProtection = "FullProtection"
+        case noProtection = "NoProtection"
         public var description: String { return self.rawValue }
     }
 
@@ -474,9 +474,9 @@ extension GameLift {
     }
 
     public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
-        case changeincapacity = "ChangeInCapacity"
-        case exactcapacity = "ExactCapacity"
-        case percentchangeincapacity = "PercentChangeInCapacity"
+        case changeInCapacity = "ChangeInCapacity"
+        case exactCapacity = "ExactCapacity"
+        case percentChangeInCapacity = "PercentChangeInCapacity"
         public var description: String { return self.rawValue }
     }
 

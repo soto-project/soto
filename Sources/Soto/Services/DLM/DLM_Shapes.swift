@@ -27,7 +27,7 @@ extension DLM {
     }
 
     public enum EventTypeValues: String, CustomStringConvertible, Codable {
-        case sharesnapshot = "shareSnapshot"
+        case shareSnapshot
         public var description: String { return self.rawValue }
     }
 

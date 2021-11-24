@@ -45,7 +45,7 @@ extension CognitoIdentityProvider {
 
     public enum AttributeDataType: String, CustomStringConvertible, Codable {
         case boolean = "Boolean"
-        case datetime = "DateTime"
+        case dateTime = "DateTime"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
@@ -151,9 +151,9 @@ extension CognitoIdentityProvider {
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case forgotpassword = "ForgotPassword"
-        case signin = "SignIn"
-        case signup = "SignUp"
+        case forgotPassword = "ForgotPassword"
+        case signIn = "SignIn"
+        case signUp = "SignUp"
         public var description: String { return self.rawValue }
     }
 
@@ -178,10 +178,10 @@ extension CognitoIdentityProvider {
     public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
         case facebook = "Facebook"
         case google = "Google"
-        case loginwithamazon = "LoginWithAmazon"
+        case loginWithAmazon = "LoginWithAmazon"
         case oidc = "OIDC"
         case saml = "SAML"
-        case signinwithapple = "SignInWithApple"
+        case signInWithApple = "SignInWithApple"
         public var description: String { return self.rawValue }
     }
 
@@ -212,9 +212,9 @@ extension CognitoIdentityProvider {
     }
 
     public enum RiskDecisionType: String, CustomStringConvertible, Codable {
-        case accounttakeover = "AccountTakeover"
+        case accountTakeover = "AccountTakeover"
         case block = "Block"
-        case norisk = "NoRisk"
+        case noRisk = "NoRisk"
         public var description: String { return self.rawValue }
     }
 
@@ -243,7 +243,7 @@ extension CognitoIdentityProvider {
         case created = "Created"
         case expired = "Expired"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case stopped = "Stopped"
         case stopping = "Stopping"

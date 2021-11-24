@@ -37,8 +37,8 @@ extension ElasticBeanstalk {
     }
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case instancerefresh = "InstanceRefresh"
-        case platformupdate = "PlatformUpdate"
+        case instanceRefresh = "InstanceRefresh"
+        case platformUpdate = "PlatformUpdate"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
@@ -82,12 +82,12 @@ extension ElasticBeanstalk {
 
     public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
         case all = "All"
-        case applicationmetrics = "ApplicationMetrics"
+        case applicationMetrics = "ApplicationMetrics"
         case causes = "Causes"
         case color = "Color"
-        case healthstatus = "HealthStatus"
-        case instanceshealth = "InstancesHealth"
-        case refreshedat = "RefreshedAt"
+        case healthStatus = "HealthStatus"
+        case instancesHealth = "InstancesHealth"
+        case refreshedAt = "RefreshedAt"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -95,7 +95,7 @@ extension ElasticBeanstalk {
     public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
         case degraded = "Degraded"
         case info = "Info"
-        case nodata = "NoData"
+        case noData = "NoData"
         case ok = "Ok"
         case pending = "Pending"
         case severe = "Severe"
@@ -114,8 +114,8 @@ extension ElasticBeanstalk {
     public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
         case aborting = "Aborting"
         case launching = "Launching"
-        case linkingfrom = "LinkingFrom"
-        case linkingto = "LinkingTo"
+        case linkingFrom = "LinkingFrom"
+        case linkingTo = "LinkingTo"
         case ready = "Ready"
         case terminated = "Terminated"
         case terminating = "Terminating"
@@ -134,27 +134,27 @@ extension ElasticBeanstalk {
     }
 
     public enum FailureType: String, CustomStringConvertible, Codable {
-        case cancellationfailed = "CancellationFailed"
-        case internalfailure = "InternalFailure"
-        case invalidenvironmentstate = "InvalidEnvironmentState"
-        case permissionserror = "PermissionsError"
-        case rollbackfailed = "RollbackFailed"
-        case rollbacksuccessful = "RollbackSuccessful"
-        case updatecancelled = "UpdateCancelled"
+        case cancellationFailed = "CancellationFailed"
+        case internalFailure = "InternalFailure"
+        case invalidEnvironmentState = "InvalidEnvironmentState"
+        case permissionsError = "PermissionsError"
+        case rollbackFailed = "RollbackFailed"
+        case rollbackSuccessful = "RollbackSuccessful"
+        case updateCancelled = "UpdateCancelled"
         public var description: String { return self.rawValue }
     }
 
     public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
         case all = "All"
-        case applicationmetrics = "ApplicationMetrics"
-        case availabilityzone = "AvailabilityZone"
+        case applicationMetrics = "ApplicationMetrics"
+        case availabilityZone = "AvailabilityZone"
         case causes = "Causes"
         case color = "Color"
         case deployment = "Deployment"
-        case healthstatus = "HealthStatus"
-        case instancetype = "InstanceType"
-        case launchedat = "LaunchedAt"
-        case refreshedat = "RefreshedAt"
+        case healthStatus = "HealthStatus"
+        case instanceType = "InstanceType"
+        case launchedAt = "LaunchedAt"
+        case refreshedAt = "RefreshedAt"
         case system = "System"
         public var description: String { return self.rawValue }
     }
@@ -169,7 +169,7 @@ extension ElasticBeanstalk {
     }
 
     public enum SourceRepository: String, CustomStringConvertible, Codable {
-        case codecommit = "CodeCommit"
+        case codeCommit = "CodeCommit"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }

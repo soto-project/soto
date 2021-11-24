@@ -45,14 +45,14 @@ extension XRay {
     }
 
     public enum SamplingStrategyName: String, CustomStringConvertible, Codable {
-        case fixedrate = "FixedRate"
-        case partialscan = "PartialScan"
+        case fixedRate = "FixedRate"
+        case partialScan = "PartialScan"
         public var description: String { return self.rawValue }
     }
 
     public enum TimeRangeType: String, CustomStringConvertible, Codable {
         case event = "Event"
-        case traceid = "TraceId"
+        case traceId = "TraceId"
         public var description: String { return self.rawValue }
     }
 

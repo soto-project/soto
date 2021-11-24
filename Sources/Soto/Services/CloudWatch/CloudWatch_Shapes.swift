@@ -22,8 +22,8 @@ extension CloudWatch {
     // MARK: Enums
 
     public enum AlarmType: String, CustomStringConvertible, Codable {
-        case compositealarm = "CompositeAlarm"
-        case metricalarm = "MetricAlarm"
+        case compositeAlarm = "CompositeAlarm"
+        case metricAlarm = "MetricAlarm"
         public var description: String { return self.rawValue }
     }
 
@@ -41,20 +41,20 @@ extension CloudWatch {
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case greaterthanupperthreshold = "GreaterThanUpperThreshold"
-        case lessthanlowerorgreaterthanupperthreshold = "LessThanLowerOrGreaterThanUpperThreshold"
-        case lessthanlowerthreshold = "LessThanLowerThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        case lessthanthreshold = "LessThanThreshold"
+        case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
+        case greaterThanThreshold = "GreaterThanThreshold"
+        case greaterThanUpperThreshold = "GreaterThanUpperThreshold"
+        case lessThanLowerOrGreaterThanUpperThreshold = "LessThanLowerOrGreaterThanUpperThreshold"
+        case lessThanLowerThreshold = "LessThanLowerThreshold"
+        case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
+        case lessThanThreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
     public enum HistoryItemType: String, CustomStringConvertible, Codable {
         case action = "Action"
-        case configurationupdate = "ConfigurationUpdate"
-        case stateupdate = "StateUpdate"
+        case configurationUpdate = "ConfigurationUpdate"
+        case stateUpdate = "StateUpdate"
         public var description: String { return self.rawValue }
     }
 
@@ -70,8 +70,8 @@ extension CloudWatch {
     }
 
     public enum ScanBy: String, CustomStringConvertible, Codable {
-        case timestampascending = "TimestampAscending"
-        case timestampdescending = "TimestampDescending"
+        case timestampAscending = "TimestampAscending"
+        case timestampDescending = "TimestampDescending"
         public var description: String { return self.rawValue }
     }
 
@@ -117,15 +117,15 @@ extension CloudWatch {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum StatusCode: String, CustomStringConvertible, Codable {
         case complete = "Complete"
-        case internalerror = "InternalError"
-        case partialdata = "PartialData"
+        case internalError = "InternalError"
+        case partialData = "PartialData"
         public var description: String { return self.rawValue }
     }
 

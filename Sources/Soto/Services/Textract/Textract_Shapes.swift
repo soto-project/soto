@@ -33,8 +33,8 @@ extension Textract {
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofadultcontent = "FreeOfAdultContent"
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeOfAdultContent = "FreeOfAdultContent"
+        case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 

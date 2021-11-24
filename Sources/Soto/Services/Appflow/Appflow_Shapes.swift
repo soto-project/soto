@@ -23,7 +23,7 @@ extension Appflow {
 
     public enum AggregationType: String, CustomStringConvertible, Codable {
         case none = "None"
-        case singlefile = "SingleFile"
+        case singleFile = "SingleFile"
         public var description: String { return self.rawValue }
     }
 
@@ -40,18 +40,18 @@ extension Appflow {
 
     public enum ConnectorType: String, CustomStringConvertible, Codable {
         case amplitude = "Amplitude"
-        case customerprofiles = "CustomerProfiles"
+        case customerProfiles = "CustomerProfiles"
         case datadog = "Datadog"
         case dynatrace = "Dynatrace"
-        case eventbridge = "EventBridge"
+        case eventBridge = "EventBridge"
         case googleanalytics = "Googleanalytics"
         case honeycode = "Honeycode"
         case infornexus = "Infornexus"
-        case lookoutmetrics = "LookoutMetrics"
+        case lookoutMetrics = "LookoutMetrics"
         case marketo = "Marketo"
         case redshift = "Redshift"
         case s3 = "S3"
-        case sapodata = "SAPOData"
+        case sAPOData = "SAPOData"
         case salesforce = "Salesforce"
         case servicenow = "Servicenow"
         case singular = "Singular"
@@ -110,7 +110,7 @@ extension Appflow {
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case error = "Error"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
@@ -441,7 +441,7 @@ extension Appflow {
 
     public enum TriggerType: String, CustomStringConvertible, Codable {
         case event = "Event"
-        case ondemand = "OnDemand"
+        case onDemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }

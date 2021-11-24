@@ -23,7 +23,7 @@ extension CloudFront {
 
     public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable {
         case all
-        case allexcept = "allExcept"
+        case allExcept
         case none
         case whitelist
         public var description: String { return self.rawValue }
@@ -37,7 +37,7 @@ extension CloudFront {
 
     public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable {
         case all
-        case allexcept = "allExcept"
+        case allExcept
         case none
         case whitelist
         public var description: String { return self.rawValue }
@@ -65,7 +65,7 @@ extension CloudFront {
     }
 
     public enum Format: String, CustomStringConvertible, Codable {
-        case urlencoded = "URLEncoded"
+        case uRLEncoded = "URLEncoded"
         public var description: String { return self.rawValue }
     }
 
@@ -125,13 +125,13 @@ extension CloudFront {
     }
 
     public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
-        case sslv3 = "SSLv3"
-        case tlsv1 = "TLSv1"
-        case tlsv112016 = "TLSv1.1_2016"
-        case tlsv122018 = "TLSv1.2_2018"
-        case tlsv122019 = "TLSv1.2_2019"
-        case tlsv122021 = "TLSv1.2_2021"
-        case tlsv12016 = "TLSv1_2016"
+        case sSLv3 = "SSLv3"
+        case tLSv1 = "TLSv1"
+        case tLSv112016 = "TLSv1.1_2016"
+        case tLSv122018 = "TLSv1.2_2018"
+        case tLSv122019 = "TLSv1.2_2019"
+        case tLSv122021 = "TLSv1.2_2021"
+        case tLSv12016 = "TLSv1_2016"
         public var description: String { return self.rawValue }
     }
 
@@ -150,8 +150,8 @@ extension CloudFront {
     }
 
     public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable {
-        case allviewer = "allViewer"
-        case allviewerandwhitelistcloudfront = "allViewerAndWhitelistCloudFront"
+        case allViewer
+        case allViewerAndWhitelistCloudFront
         case none
         case whitelist
         public var description: String { return self.rawValue }
@@ -171,9 +171,9 @@ extension CloudFront {
     }
 
     public enum PriceClass: String, CustomStringConvertible, Codable {
-        case priceclass100 = "PriceClass_100"
-        case priceclass200 = "PriceClass_200"
-        case priceclassAll = "PriceClass_All"
+        case priceClass100 = "PriceClass_100"
+        case priceClass200 = "PriceClass_200"
+        case priceClassAll = "PriceClass_All"
         public var description: String { return self.rawValue }
     }
 
@@ -221,10 +221,10 @@ extension CloudFront {
     }
 
     public enum SslProtocol: String, CustomStringConvertible, Codable {
-        case sslv3 = "SSLv3"
-        case tlsv1 = "TLSv1"
-        case tlsv11 = "TLSv1.1"
-        case tlsv12 = "TLSv1.2"
+        case sSLv3 = "SSLv3"
+        case tLSv1 = "TLSv1"
+        case tLSv11 = "TLSv1.1"
+        case tLSv12 = "TLSv1.2"
         public var description: String { return self.rawValue }
     }
 

@@ -51,17 +51,17 @@ extension DynamoDB {
     }
 
     public enum BatchStatementErrorCodeEnum: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case conditionalcheckfailed = "ConditionalCheckFailed"
-        case duplicateitem = "DuplicateItem"
-        case internalservererror = "InternalServerError"
-        case itemcollectionsizelimitexceeded = "ItemCollectionSizeLimitExceeded"
-        case provisionedthroughputexceeded = "ProvisionedThroughputExceeded"
-        case requestlimitexceeded = "RequestLimitExceeded"
-        case resourcenotfound = "ResourceNotFound"
-        case throttlingerror = "ThrottlingError"
-        case transactionconflict = "TransactionConflict"
-        case validationerror = "ValidationError"
+        case accessDenied = "AccessDenied"
+        case conditionalCheckFailed = "ConditionalCheckFailed"
+        case duplicateItem = "DuplicateItem"
+        case internalServerError = "InternalServerError"
+        case itemCollectionSizeLimitExceeded = "ItemCollectionSizeLimitExceeded"
+        case provisionedThroughputExceeded = "ProvisionedThroughputExceeded"
+        case requestLimitExceeded = "RequestLimitExceeded"
+        case resourceNotFound = "ResourceNotFound"
+        case throttlingError = "ThrottlingError"
+        case transactionConflict = "TransactionConflict"
+        case validationError = "ValidationError"
         public var description: String { return self.rawValue }
     }
 

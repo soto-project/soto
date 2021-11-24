@@ -22,13 +22,13 @@ extension LicenseManager {
     // MARK: Enums
 
     public enum AllowedOperation: String, CustomStringConvertible, Codable {
-        case checkinlicense = "CheckInLicense"
-        case checkoutborrowlicense = "CheckoutBorrowLicense"
-        case checkoutlicense = "CheckoutLicense"
-        case creategrant = "CreateGrant"
-        case createtoken = "CreateToken"
-        case extendconsumptionlicense = "ExtendConsumptionLicense"
-        case listpurchasedlicenses = "ListPurchasedLicenses"
+        case checkInLicense = "CheckInLicense"
+        case checkoutBorrowLicense = "CheckoutBorrowLicense"
+        case checkoutLicense = "CheckoutLicense"
+        case createGrant = "CreateGrant"
+        case createToken = "CreateToken"
+        case extendConsumptionLicense = "ExtendConsumptionLicense"
+        case listPurchasedLicenses = "ListPurchasedLicenses"
         public var description: String { return self.rawValue }
     }
 
@@ -143,7 +143,7 @@ extension LicenseManager {
         case core = "Core"
         case instance = "Instance"
         case socket = "Socket"
-        case vcpu = "vCPU"
+        case vCPU
         public var description: String { return self.rawValue }
     }
 
@@ -191,8 +191,8 @@ extension LicenseManager {
     }
 
     public enum ReportType: String, CustomStringConvertible, Codable {
-        case licenseconfigurationsummaryreport = "LicenseConfigurationSummaryReport"
-        case licenseconfigurationusagereport = "LicenseConfigurationUsageReport"
+        case licenseConfigurationSummaryReport = "LicenseConfigurationSummaryReport"
+        case licenseConfigurationUsageReport = "LicenseConfigurationUsageReport"
         public var description: String { return self.rawValue }
     }
 

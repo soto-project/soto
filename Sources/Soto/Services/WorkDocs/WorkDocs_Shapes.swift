@@ -116,10 +116,10 @@ extension WorkDocs {
         case fr
         case ja
         case ko
-        case ptBr = "pt_BR"
+        case ptBR = "pt_BR"
         case ru
-        case zhCn = "zh_CN"
-        case zhTw = "zh_TW"
+        case zhCN = "zh_CN"
+        case zhTW = "zh_TW"
         public var description: String { return self.rawValue }
     }
 

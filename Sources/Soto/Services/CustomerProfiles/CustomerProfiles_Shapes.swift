@@ -195,7 +195,7 @@ extension CustomerProfiles {
 
     public enum TriggerType: String, CustomStringConvertible, Codable {
         case event = "Event"
-        case ondemand = "OnDemand"
+        case onDemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }

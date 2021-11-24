@@ -27,22 +27,22 @@ extension MachineLearning {
     }
 
     public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case datasourceid = "DataSourceId"
-        case datauri = "DataURI"
-        case iamuser = "IAMUser"
-        case lastupdatedat = "LastUpdatedAt"
-        case mlmodelid = "MLModelId"
+        case createdAt = "CreatedAt"
+        case dataSourceId = "DataSourceId"
+        case dataURI = "DataURI"
+        case iAMUser = "IAMUser"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case mLModelId = "MLModelId"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case datalocations3 = "DataLocationS3"
-        case iamuser = "IAMUser"
-        case lastupdatedat = "LastUpdatedAt"
+        case createdAt = "CreatedAt"
+        case dataLocationS3 = "DataLocationS3"
+        case iAMUser = "IAMUser"
+        case lastUpdatedAt = "LastUpdatedAt"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -50,7 +50,7 @@ extension MachineLearning {
 
     public enum DetailsAttributes: String, CustomStringConvertible, Codable {
         case algorithm = "Algorithm"
-        case predictivemodeltype = "PredictiveModelType"
+        case predictiveModelType = "PredictiveModelType"
         public var description: String { return self.rawValue }
     }
 
@@ -64,12 +64,12 @@ extension MachineLearning {
     }
 
     public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case datasourceid = "DataSourceId"
-        case datauri = "DataURI"
-        case iamuser = "IAMUser"
-        case lastupdatedat = "LastUpdatedAt"
-        case mlmodelid = "MLModelId"
+        case createdAt = "CreatedAt"
+        case dataSourceId = "DataSourceId"
+        case dataURI = "DataURI"
+        case iAMUser = "IAMUser"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case mLModelId = "MLModelId"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -77,15 +77,15 @@ extension MachineLearning {
 
     public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
         case algorithm = "Algorithm"
-        case createdat = "CreatedAt"
-        case iamuser = "IAMUser"
-        case lastupdatedat = "LastUpdatedAt"
-        case mlmodeltype = "MLModelType"
+        case createdAt = "CreatedAt"
+        case iAMUser = "IAMUser"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case mLModelType = "MLModelType"
         case name = "Name"
-        case realtimeendpointstatus = "RealtimeEndpointStatus"
+        case realtimeEndpointStatus = "RealtimeEndpointStatus"
         case status = "Status"
-        case trainingdatasourceid = "TrainingDataSourceId"
-        case trainingdatauri = "TrainingDataURI"
+        case trainingDataSourceId = "TrainingDataSourceId"
+        case trainingDataURI = "TrainingDataURI"
         public var description: String { return self.rawValue }
     }
 
@@ -111,10 +111,10 @@ extension MachineLearning {
     }
 
     public enum TaggableResourceType: String, CustomStringConvertible, Codable {
-        case batchprediction = "BatchPrediction"
-        case datasource = "DataSource"
+        case batchPrediction = "BatchPrediction"
+        case dataSource = "DataSource"
         case evaluation = "Evaluation"
-        case mlmodel = "MLModel"
+        case mLModel = "MLModel"
         public var description: String { return self.rawValue }
     }
 

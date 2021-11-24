@@ -29,7 +29,7 @@ extension Health {
     }
 
     public enum EventAggregateField: String, CustomStringConvertible, Codable {
-        case eventtypecategory = "eventTypeCategory"
+        case eventTypeCategory
         public var description: String { return self.rawValue }
     }
 
@@ -48,10 +48,10 @@ extension Health {
     }
 
     public enum EventTypeCategory: String, CustomStringConvertible, Codable {
-        case accountnotification = "accountNotification"
+        case accountNotification
         case investigation
         case issue
-        case scheduledchange = "scheduledChange"
+        case scheduledChange
         public var description: String { return self.rawValue }
     }
 

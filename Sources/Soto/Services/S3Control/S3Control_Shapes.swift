@@ -22,9 +22,9 @@ extension S3Control {
     // MARK: Enums
 
     public enum AsyncOperationName: String, CustomStringConvertible, Codable {
-        case createmultiregionaccesspoint = "CreateMultiRegionAccessPoint"
-        case deletemultiregionaccesspoint = "DeleteMultiRegionAccessPoint"
-        case putmultiregionaccesspointpolicy = "PutMultiRegionAccessPointPolicy"
+        case createMultiRegionAccessPoint = "CreateMultiRegionAccessPoint"
+        case deleteMultiRegionAccessPoint = "DeleteMultiRegionAccessPoint"
+        case putMultiRegionAccessPointPolicy = "PutMultiRegionAccessPointPolicy"
         public var description: String { return self.rawValue }
     }
 
@@ -73,24 +73,24 @@ extension S3Control {
         case bucket = "Bucket"
         case ignore = "Ignore"
         case key = "Key"
-        case versionid = "VersionId"
+        case versionId = "VersionId"
         public var description: String { return self.rawValue }
     }
 
     public enum JobManifestFormat: String, CustomStringConvertible, Codable {
-        case s3batchoperationsCsv20180820 = "S3BatchOperations_CSV_20180820"
-        case s3inventoryreportCsv20161130 = "S3InventoryReport_CSV_20161130"
+        case s3BatchOperationsCSV20180820 = "S3BatchOperations_CSV_20180820"
+        case s3InventoryReportCSV20161130 = "S3InventoryReport_CSV_20161130"
         public var description: String { return self.rawValue }
     }
 
     public enum JobReportFormat: String, CustomStringConvertible, Codable {
-        case reportCsv20180820 = "Report_CSV_20180820"
+        case reportCSV20180820 = "Report_CSV_20180820"
         public var description: String { return self.rawValue }
     }
 
     public enum JobReportScope: String, CustomStringConvertible, Codable {
-        case alltasks = "AllTasks"
-        case failedtasksonly = "FailedTasksOnly"
+        case allTasks = "AllTasks"
+        case failedTasksOnly = "FailedTasksOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -128,25 +128,25 @@ extension S3Control {
     }
 
     public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable {
-        case getobjectPartnumber = "GetObject-PartNumber"
-        case getobjectRange = "GetObject-Range"
+        case getObjectPartnumber = "GetObject-PartNumber"
+        case getObjectRange = "GetObject-Range"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable {
-        case getobject = "GetObject"
+        case getObject = "GetObject"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationName: String, CustomStringConvertible, Codable {
-        case lambdainvoke = "LambdaInvoke"
-        case s3deleteobjecttagging = "S3DeleteObjectTagging"
-        case s3initiaterestoreobject = "S3InitiateRestoreObject"
-        case s3putobjectacl = "S3PutObjectAcl"
-        case s3putobjectcopy = "S3PutObjectCopy"
-        case s3putobjectlegalhold = "S3PutObjectLegalHold"
-        case s3putobjectretention = "S3PutObjectRetention"
-        case s3putobjecttagging = "S3PutObjectTagging"
+        case lambdaInvoke = "LambdaInvoke"
+        case s3DeleteObjectTagging = "S3DeleteObjectTagging"
+        case s3InitiateRestoreObject = "S3InitiateRestoreObject"
+        case s3PutObjectAcl = "S3PutObjectAcl"
+        case s3PutObjectCopy = "S3PutObjectCopy"
+        case s3PutObjectLegalHold = "S3PutObjectLegalHold"
+        case s3PutObjectRetention = "S3PutObjectRetention"
+        case s3PutObjectTagging = "S3PutObjectTagging"
         public var description: String { return self.rawValue }
     }
 
@@ -179,7 +179,7 @@ extension S3Control {
     }
 
     public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable {
-        case emailaddress = "emailAddress"
+        case emailAddress
         case id
         case uri
         public var description: String { return self.rawValue }

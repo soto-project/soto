@@ -64,7 +64,7 @@ extension CostAndUsageReportService {
 
     public enum ReportFormat: String, CustomStringConvertible, Codable {
         case parquet = "Parquet"
-        case textorcsv = "textORcsv"
+        case textORcsv
         public var description: String { return self.rawValue }
     }
 

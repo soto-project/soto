@@ -22,18 +22,18 @@ extension AutoScalingPlans {
     // MARK: Enums
 
     public enum ForecastDataType: String, CustomStringConvertible, Codable {
-        case capacityforecast = "CapacityForecast"
-        case loadforecast = "LoadForecast"
-        case scheduledactionmaxcapacity = "ScheduledActionMaxCapacity"
-        case scheduledactionmincapacity = "ScheduledActionMinCapacity"
+        case capacityForecast = "CapacityForecast"
+        case loadForecast = "LoadForecast"
+        case scheduledActionMaxCapacity = "ScheduledActionMaxCapacity"
+        case scheduledActionMinCapacity = "ScheduledActionMinCapacity"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadMetricType: String, CustomStringConvertible, Codable {
-        case albtargetgrouprequestcount = "ALBTargetGroupRequestCount"
-        case asgtotalcpuutilization = "ASGTotalCPUUtilization"
-        case asgtotalnetworkin = "ASGTotalNetworkIn"
-        case asgtotalnetworkout = "ASGTotalNetworkOut"
+        case aLBTargetGroupRequestCount = "ALBTargetGroupRequestCount"
+        case aSGTotalCPUUtilization = "ASGTotalCPUUtilization"
+        case aSGTotalNetworkIn = "ASGTotalNetworkIn"
+        case aSGTotalNetworkOut = "ASGTotalNetworkOut"
         public var description: String { return self.rawValue }
     }
 
@@ -41,26 +41,26 @@ extension AutoScalingPlans {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum PolicyType: String, CustomStringConvertible, Codable {
-        case targettrackingscaling = "TargetTrackingScaling"
+        case targetTrackingScaling = "TargetTrackingScaling"
         public var description: String { return self.rawValue }
     }
 
     public enum PredictiveScalingMaxCapacityBehavior: String, CustomStringConvertible, Codable {
-        case setforecastcapacitytomaxcapacity = "SetForecastCapacityToMaxCapacity"
-        case setmaxcapacityaboveforecastcapacity = "SetMaxCapacityAboveForecastCapacity"
-        case setmaxcapacitytoforecastcapacity = "SetMaxCapacityToForecastCapacity"
+        case setForecastCapacityToMaxCapacity = "SetForecastCapacityToMaxCapacity"
+        case setMaxCapacityAboveForecastCapacity = "SetMaxCapacityAboveForecastCapacity"
+        case setMaxCapacityToForecastCapacity = "SetMaxCapacityToForecastCapacity"
         public var description: String { return self.rawValue }
     }
 
     public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
-        case forecastandscale = "ForecastAndScale"
-        case forecastonly = "ForecastOnly"
+        case forecastAndScale = "ForecastAndScale"
+        case forecastOnly = "ForecastOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -77,44 +77,44 @@ extension AutoScalingPlans {
     }
 
     public enum ScalingMetricType: String, CustomStringConvertible, Codable {
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
-        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
-        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
-        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
-        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
-        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
-        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
-        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
+        case aLBRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case aSGAverageCPUUtilization = "ASGAverageCPUUtilization"
+        case aSGAverageNetworkIn = "ASGAverageNetworkIn"
+        case aSGAverageNetworkOut = "ASGAverageNetworkOut"
+        case dynamoDBReadCapacityUtilization = "DynamoDBReadCapacityUtilization"
+        case dynamoDBWriteCapacityUtilization = "DynamoDBWriteCapacityUtilization"
+        case eC2SpotFleetRequestAverageCPUUtilization = "EC2SpotFleetRequestAverageCPUUtilization"
+        case eC2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
+        case eC2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
+        case eCSServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
+        case eCSServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
+        case rDSReaderAverageCPUUtilization = "RDSReaderAverageCPUUtilization"
+        case rDSReaderAverageDatabaseConnections = "RDSReaderAverageDatabaseConnections"
         public var description: String { return self.rawValue }
     }
 
     public enum ScalingPlanStatusCode: String, CustomStringConvertible, Codable {
         case active = "Active"
-        case activewithproblems = "ActiveWithProblems"
-        case creationfailed = "CreationFailed"
-        case creationinprogress = "CreationInProgress"
-        case deletionfailed = "DeletionFailed"
-        case deletioninprogress = "DeletionInProgress"
-        case updatefailed = "UpdateFailed"
-        case updateinprogress = "UpdateInProgress"
+        case activeWithProblems = "ActiveWithProblems"
+        case creationFailed = "CreationFailed"
+        case creationInProgress = "CreationInProgress"
+        case deletionFailed = "DeletionFailed"
+        case deletionInProgress = "DeletionInProgress"
+        case updateFailed = "UpdateFailed"
+        case updateInProgress = "UpdateInProgress"
         public var description: String { return self.rawValue }
     }
 
     public enum ScalingPolicyUpdateBehavior: String, CustomStringConvertible, Codable {
-        case keepexternalpolicies = "KeepExternalPolicies"
-        case replaceexternalpolicies = "ReplaceExternalPolicies"
+        case keepExternalPolicies = "KeepExternalPolicies"
+        case replaceExternalPolicies = "ReplaceExternalPolicies"
         public var description: String { return self.rawValue }
     }
 
     public enum ScalingStatusCode: String, CustomStringConvertible, Codable {
         case active = "Active"
         case inactive = "Inactive"
-        case partiallyactive = "PartiallyActive"
+        case partiallyActive = "PartiallyActive"
         public var description: String { return self.rawValue }
     }
 

@@ -43,7 +43,7 @@ extension ServiceCatalog {
     }
 
     public enum CopyOption: String, CustomStringConvertible, Codable {
-        case copytags = "CopyTags"
+        case copyTags = "CopyTags"
         public var description: String { return self.rawValue }
     }
 
@@ -99,17 +99,17 @@ extension ServiceCatalog {
     }
 
     public enum ProductViewFilterBy: String, CustomStringConvertible, Codable {
-        case fulltextsearch = "FullTextSearch"
+        case fullTextSearch = "FullTextSearch"
         case owner = "Owner"
-        case producttype = "ProductType"
-        case sourceproductid = "SourceProductId"
+        case productType = "ProductType"
+        case sourceProductId = "SourceProductId"
         public var description: String { return self.rawValue }
     }
 
     public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
-        case creationdate = "CreationDate"
+        case creationDate = "CreationDate"
         case title = "Title"
-        case versioncount = "VersionCount"
+        case versionCount = "VersionCount"
         public var description: String { return self.rawValue }
     }
 
@@ -144,7 +144,7 @@ extension ServiceCatalog {
     }
 
     public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable {
-        case searchquery = "SearchQuery"
+        case searchQuery = "SearchQuery"
         public var description: String { return self.rawValue }
     }
 
@@ -209,7 +209,7 @@ extension ServiceCatalog {
     }
 
     public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable {
-        case assumerole = "AssumeRole"
+        case assumeRole = "AssumeRole"
         case name = "Name"
         case parameters = "Parameters"
         case version = "Version"

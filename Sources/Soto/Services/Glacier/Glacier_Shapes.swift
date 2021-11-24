@@ -22,8 +22,8 @@ extension Glacier {
     // MARK: Enums
 
     public enum ActionCode: String, CustomStringConvertible, Codable {
-        case archiveretrieval = "ArchiveRetrieval"
-        case inventoryretrieval = "InventoryRetrieval"
+        case archiveRetrieval = "ArchiveRetrieval"
+        case inventoryRetrieval = "InventoryRetrieval"
         case select = "Select"
         public var description: String { return self.rawValue }
     }
@@ -74,7 +74,7 @@ extension Glacier {
 
     public enum StatusCode: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
@@ -87,8 +87,8 @@ extension Glacier {
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable {
-        case amazoncustomerbyemail = "AmazonCustomerByEmail"
-        case canonicaluser = "CanonicalUser"
+        case amazonCustomerByEmail = "AmazonCustomerByEmail"
+        case canonicalUser = "CanonicalUser"
         case group = "Group"
         public var description: String { return self.rawValue }
     }

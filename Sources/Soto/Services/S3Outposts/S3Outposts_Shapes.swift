@@ -22,7 +22,7 @@ extension S3Outposts {
     // MARK: Enums
 
     public enum EndpointAccessType: String, CustomStringConvertible, Codable {
-        case customerownedip = "CustomerOwnedIp"
+        case customerOwnedIp = "CustomerOwnedIp"
         case `private` = "Private"
         public var description: String { return self.rawValue }
     }

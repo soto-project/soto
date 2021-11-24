@@ -36,8 +36,8 @@ extension DevOpsGuru {
 
     public enum CloudWatchMetricDataStatusCode: String, CustomStringConvertible, Codable {
         case complete = "Complete"
-        case internalerror = "InternalError"
-        case partialdata = "PartialData"
+        case internalError = "InternalError"
+        case partialData = "PartialData"
         public var description: String { return self.rawValue }
     }
 
@@ -45,7 +45,7 @@ extension DevOpsGuru {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         case p50
         case p90

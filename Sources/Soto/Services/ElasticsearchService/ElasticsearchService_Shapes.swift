@@ -55,9 +55,9 @@ extension ElasticsearchService {
     }
 
     public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable {
-        case packageid = "PackageID"
-        case packagename = "PackageName"
-        case packagestatus = "PackageStatus"
+        case packageID = "PackageID"
+        case packageName = "PackageName"
+        case packageStatus = "PackageStatus"
         public var description: String { return self.rawValue }
     }
 
@@ -140,7 +140,7 @@ extension ElasticsearchService {
 
     public enum EngineType: String, CustomStringConvertible, Codable {
         case elasticsearch = "Elasticsearch"
-        case opensearch = "OpenSearch"
+        case openSearch = "OpenSearch"
         public var description: String { return self.rawValue }
     }
 
@@ -165,7 +165,7 @@ extension ElasticsearchService {
     public enum OptionState: String, CustomStringConvertible, Codable {
         case active = "Active"
         case processing = "Processing"
-        case requiresindexdocuments = "RequiresIndexDocuments"
+        case requiresIndexDocuments = "RequiresIndexDocuments"
         public var description: String { return self.rawValue }
     }
 
@@ -225,8 +225,8 @@ extension ElasticsearchService {
     }
 
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
-        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTLS10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTLS12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 

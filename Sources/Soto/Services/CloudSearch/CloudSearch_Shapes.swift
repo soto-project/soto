@@ -85,9 +85,9 @@ extension CloudSearch {
 
     public enum OptionState: String, CustomStringConvertible, Codable {
         case active = "Active"
-        case failedtovalidate = "FailedToValidate"
+        case failedToValidate = "FailedToValidate"
         case processing = "Processing"
-        case requiresindexdocuments = "RequiresIndexDocuments"
+        case requiresIndexDocuments = "RequiresIndexDocuments"
         public var description: String { return self.rawValue }
     }
 
@@ -120,8 +120,8 @@ extension CloudSearch {
     }
 
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
-        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTLS10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTLS12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 

@@ -29,47 +29,47 @@ extension MTurk {
     }
 
     public enum Comparator: String, CustomStringConvertible, Codable {
-        case doesnotexist = "DoesNotExist"
-        case equalto = "EqualTo"
+        case doesNotExist = "DoesNotExist"
+        case equalTo = "EqualTo"
         case exists = "Exists"
-        case greaterthan = "GreaterThan"
-        case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case greaterThan = "GreaterThan"
+        case greaterThanOrEqualTo = "GreaterThanOrEqualTo"
         case `in` = "In"
-        case lessthan = "LessThan"
-        case lessthanorequalto = "LessThanOrEqualTo"
-        case notequalto = "NotEqualTo"
-        case notin = "NotIn"
+        case lessThan = "LessThan"
+        case lessThanOrEqualTo = "LessThanOrEqualTo"
+        case notEqualTo = "NotEqualTo"
+        case notIn = "NotIn"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case assignmentabandoned = "AssignmentAbandoned"
-        case assignmentaccepted = "AssignmentAccepted"
-        case assignmentapproved = "AssignmentApproved"
-        case assignmentrejected = "AssignmentRejected"
-        case assignmentreturned = "AssignmentReturned"
-        case assignmentsubmitted = "AssignmentSubmitted"
-        case hitcreated = "HITCreated"
-        case hitdisposed = "HITDisposed"
-        case hitexpired = "HITExpired"
-        case hitextended = "HITExtended"
-        case hitreviewable = "HITReviewable"
+        case assignmentAbandoned = "AssignmentAbandoned"
+        case assignmentAccepted = "AssignmentAccepted"
+        case assignmentApproved = "AssignmentApproved"
+        case assignmentRejected = "AssignmentRejected"
+        case assignmentReturned = "AssignmentReturned"
+        case assignmentSubmitted = "AssignmentSubmitted"
+        case hITCreated = "HITCreated"
+        case hITDisposed = "HITDisposed"
+        case hITExpired = "HITExpired"
+        case hITExtended = "HITExtended"
+        case hITReviewable = "HITReviewable"
         case ping = "Ping"
         public var description: String { return self.rawValue }
     }
 
     public enum HITAccessActions: String, CustomStringConvertible, Codable {
         case accept = "Accept"
-        case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
-        case previewandaccept = "PreviewAndAccept"
+        case discoverPreviewAndAccept = "DiscoverPreviewAndAccept"
+        case previewAndAccept = "PreviewAndAccept"
         public var description: String { return self.rawValue }
     }
 
     public enum HITReviewStatus: String, CustomStringConvertible, Codable {
-        case markedforreview = "MarkedForReview"
-        case notreviewed = "NotReviewed"
-        case reviewedappropriate = "ReviewedAppropriate"
-        case reviewedinappropriate = "ReviewedInappropriate"
+        case markedForReview = "MarkedForReview"
+        case notReviewed = "NotReviewed"
+        case reviewedAppropriate = "ReviewedAppropriate"
+        case reviewedInappropriate = "ReviewedInappropriate"
         public var description: String { return self.rawValue }
     }
 
@@ -90,8 +90,8 @@ extension MTurk {
     }
 
     public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
-        case hardfailure = "HardFailure"
-        case softfailure = "SoftFailure"
+        case hardFailure = "HardFailure"
+        case softFailure = "SoftFailure"
         public var description: String { return self.rawValue }
     }
 

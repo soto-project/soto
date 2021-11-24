@@ -117,15 +117,15 @@ extension CodeCommit {
 
     public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
         case all
-        case createreference = "createReference"
-        case deletereference = "deleteReference"
-        case updatereference = "updateReference"
+        case createReference
+        case deleteReference
+        case updateReference
         public var description: String { return self.rawValue }
     }
 
     public enum SortByEnum: String, CustomStringConvertible, Codable {
-        case lastmodifieddate = "lastModifiedDate"
-        case repositoryname = "repositoryName"
+        case lastModifiedDate
+        case repositoryName
         public var description: String { return self.rawValue }
     }
 

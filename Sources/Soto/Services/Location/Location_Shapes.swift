@@ -23,17 +23,17 @@ extension Location {
 
     public enum BatchItemErrorCode: String, CustomStringConvertible, Codable {
         /// Access to the resource was denied.
-        case accessdeniederror = "AccessDeniedError"
+        case accessDeniedError = "AccessDeniedError"
         /// The target resource already exists.
-        case conflicterror = "ConflictError"
+        case conflictError = "ConflictError"
         /// Internal server error.
-        case internalservererror = "InternalServerError"
+        case internalServerError = "InternalServerError"
         /// The target resource does not exist.
-        case resourcenotfounderror = "ResourceNotFoundError"
+        case resourceNotFoundError = "ResourceNotFoundError"
         /// Too many requests.
-        case throttlingerror = "ThrottlingError"
+        case throttlingError = "ThrottlingError"
         /// Input fails to satisfy the constraints specified by the service.
-        case validationerror = "ValidationError"
+        case validationError = "ValidationError"
         public var description: String { return self.rawValue }
     }
 
@@ -51,7 +51,7 @@ extension Location {
 
     public enum IntendedUse: String, CustomStringConvertible, Codable {
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleuse = "SingleUse"
+        case singleUse = "SingleUse"
         /// Indicates that results of the operation may be stored locally.
         case storage = "Storage"
         public var description: String { return self.rawValue }
@@ -59,21 +59,21 @@ extension Location {
 
     public enum PositionFiltering: String, CustomStringConvertible, Codable {
         /// Filters device position updates according to their accuracy
-        case accuracybased = "AccuracyBased"
+        case accuracyBased = "AccuracyBased"
         /// Filters device position updates according to the distance between them
-        case distancebased = "DistanceBased"
+        case distanceBased = "DistanceBased"
         /// Filters device position updates according to their sample time
-        case timebased = "TimeBased"
+        case timeBased = "TimeBased"
         public var description: String { return self.rawValue }
     }
 
     public enum PricingPlan: String, CustomStringConvertible, Codable {
         /// This pricing plan must be picked for mobile asset management use cases
-        case mobileassetmanagement = "MobileAssetManagement"
+        case mobileAssetManagement = "MobileAssetManagement"
         /// This pricing plan must be picked for mobile asset tracking use cases.
-        case mobileassettracking = "MobileAssetTracking"
+        case mobileAssetTracking = "MobileAssetTracking"
         /// This pricing plan should be used for request based billing.
-        case requestbasedusage = "RequestBasedUsage"
+        case requestBasedUsage = "RequestBasedUsage"
         public var description: String { return self.rawValue }
     }
 

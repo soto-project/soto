@@ -466,7 +466,7 @@ extension IoT {
         case cancelling = "Cancelling"
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 

@@ -32,16 +32,16 @@ extension Greengrass {
     }
 
     public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable {
-        case insync = "InSync"
-        case outofsync = "OutOfSync"
+        case inSync = "InSync"
+        case outOfSync = "OutOfSync"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentType: String, CustomStringConvertible, Codable {
-        case forceresetdeployment = "ForceResetDeployment"
-        case newdeployment = "NewDeployment"
+        case forceResetDeployment = "ForceResetDeployment"
+        case newDeployment = "NewDeployment"
         case redeployment = "Redeployment"
-        case resetdeployment = "ResetDeployment"
+        case resetDeployment = "ResetDeployment"
         public var description: String { return self.rawValue }
     }
 
@@ -52,13 +52,13 @@ extension Greengrass {
     }
 
     public enum FunctionIsolationMode: String, CustomStringConvertible, Codable {
-        case greengrasscontainer = "GreengrassContainer"
-        case nocontainer = "NoContainer"
+        case greengrassContainer = "GreengrassContainer"
+        case noContainer = "NoContainer"
         public var description: String { return self.rawValue }
     }
 
     public enum LoggerComponent: String, CustomStringConvertible, Codable {
-        case greengrasssystem = "GreengrassSystem"
+        case greengrassSystem = "GreengrassSystem"
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
@@ -73,8 +73,8 @@ extension Greengrass {
     }
 
     public enum LoggerType: String, CustomStringConvertible, Codable {
-        case awscloudwatch = "AWSCloudWatch"
-        case filesystem = "FileSystem"
+        case aWSCloudWatch = "AWSCloudWatch"
+        case fileSystem = "FileSystem"
         public var description: String { return self.rawValue }
     }
 

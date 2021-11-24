@@ -22,17 +22,17 @@ extension Firehose {
     // MARK: Enums
 
     public enum AmazonopensearchserviceIndexRotationPeriod: String, CustomStringConvertible, Codable {
-        case norotation = "NoRotation"
-        case oneday = "OneDay"
-        case onehour = "OneHour"
-        case onemonth = "OneMonth"
-        case oneweek = "OneWeek"
+        case noRotation = "NoRotation"
+        case oneDay = "OneDay"
+        case oneHour = "OneHour"
+        case oneMonth = "OneMonth"
+        case oneWeek = "OneWeek"
         public var description: String { return self.rawValue }
     }
 
     public enum AmazonopensearchserviceS3BackupMode: String, CustomStringConvertible, Codable {
-        case alldocuments = "AllDocuments"
-        case faileddocumentsonly = "FailedDocumentsOnly"
+        case allDocuments = "AllDocuments"
+        case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -90,23 +90,23 @@ extension Firehose {
     }
 
     public enum DeliveryStreamType: String, CustomStringConvertible, Codable {
-        case directput = "DirectPut"
-        case kinesisstreamassource = "KinesisStreamAsSource"
+        case directPut = "DirectPut"
+        case kinesisStreamAsSource = "KinesisStreamAsSource"
         public var description: String { return self.rawValue }
     }
 
     public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
-        case norotation = "NoRotation"
-        case oneday = "OneDay"
-        case onehour = "OneHour"
-        case onemonth = "OneMonth"
-        case oneweek = "OneWeek"
+        case noRotation = "NoRotation"
+        case oneDay = "OneDay"
+        case oneHour = "OneHour"
+        case oneMonth = "OneMonth"
+        case oneWeek = "OneWeek"
         public var description: String { return self.rawValue }
     }
 
     public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable {
-        case alldocuments = "AllDocuments"
-        case faileddocumentsonly = "FailedDocumentsOnly"
+        case allDocuments = "AllDocuments"
+        case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -117,8 +117,8 @@ extension Firehose {
     }
 
     public enum HttpEndpointS3BackupMode: String, CustomStringConvertible, Codable {
-        case alldata = "AllData"
-        case faileddataonly = "FailedDataOnly"
+        case allData = "AllData"
+        case failedDataOnly = "FailedDataOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -129,7 +129,7 @@ extension Firehose {
     }
 
     public enum NoEncryptionConfig: String, CustomStringConvertible, Codable {
-        case noencryption = "NoEncryption"
+        case noEncryption = "NoEncryption"
         public var description: String { return self.rawValue }
     }
 
@@ -160,23 +160,23 @@ extension Firehose {
     }
 
     public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
-        case bufferintervalinseconds = "BufferIntervalInSeconds"
-        case buffersizeinmbs = "BufferSizeInMBs"
+        case bufferIntervalInSeconds = "BufferIntervalInSeconds"
+        case bufferSizeInMBs = "BufferSizeInMBs"
         case delimiter = "Delimiter"
-        case jsonparsingengine = "JsonParsingEngine"
-        case lambdaarn = "LambdaArn"
-        case metadataextractionquery = "MetadataExtractionQuery"
-        case numberofretries = "NumberOfRetries"
-        case rolearn = "RoleArn"
-        case subrecordtype = "SubRecordType"
+        case jsonParsingEngine = "JsonParsingEngine"
+        case lambdaArn = "LambdaArn"
+        case metadataExtractionQuery = "MetadataExtractionQuery"
+        case numberOfRetries = "NumberOfRetries"
+        case roleArn = "RoleArn"
+        case subRecordType = "SubRecordType"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessorType: String, CustomStringConvertible, Codable {
-        case appenddelimitertorecord = "AppendDelimiterToRecord"
+        case appendDelimiterToRecord = "AppendDelimiterToRecord"
         case lambda = "Lambda"
-        case metadataextraction = "MetadataExtraction"
-        case recorddeaggregation = "RecordDeAggregation"
+        case metadataExtraction = "MetadataExtraction"
+        case recordDeAggregation = "RecordDeAggregation"
         public var description: String { return self.rawValue }
     }
 
@@ -193,8 +193,8 @@ extension Firehose {
     }
 
     public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable {
-        case allevents = "AllEvents"
-        case failedeventsonly = "FailedEventsOnly"
+        case allEvents = "AllEvents"
+        case failedEventsOnly = "FailedEventsOnly"
         public var description: String { return self.rawValue }
     }
 
