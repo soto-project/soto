@@ -157,7 +157,7 @@ class IAMTests: XCTestCase {
             .map { response -> Void in
                 XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
                 XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
-                XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitdeny)
+                XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitDeny)
             }
             .flatAlways { _ -> EventLoopFuture<Void> in
                 let eventLoop = Self.iam.client.eventLoopGroup.next()
