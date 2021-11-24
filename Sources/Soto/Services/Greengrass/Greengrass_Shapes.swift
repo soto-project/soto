@@ -73,7 +73,7 @@ extension Greengrass {
     }
 
     public enum LoggerType: String, CustomStringConvertible, Codable {
-        case aWSCloudWatch = "AWSCloudWatch"
+        case awsCloudWatch = "AWSCloudWatch"
         case fileSystem = "FileSystem"
         public var description: String { return self.rawValue }
     }

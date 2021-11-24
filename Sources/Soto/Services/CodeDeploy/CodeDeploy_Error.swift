@@ -47,7 +47,7 @@ public struct CodeDeployErrorType: AWSErrorType {
         case deploymentTargetIdRequiredException = "DeploymentTargetIdRequiredException"
         case deploymentTargetListSizeExceededException = "DeploymentTargetListSizeExceededException"
         case descriptionTooLongException = "DescriptionTooLongException"
-        case eCSServiceMappingLimitExceededException = "ECSServiceMappingLimitExceededException"
+        case ecsServiceMappingLimitExceededException = "ECSServiceMappingLimitExceededException"
         case gitHubAccountTokenDoesNotExistException = "GitHubAccountTokenDoesNotExistException"
         case gitHubAccountTokenNameRequiredException = "GitHubAccountTokenNameRequiredException"
         case iamArnRequiredException = "IamArnRequiredException"
@@ -204,7 +204,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     /// The description is too long.
     public static var descriptionTooLongException: Self { .init(.descriptionTooLongException) }
     ///  The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
-    public static var eCSServiceMappingLimitExceededException: Self { .init(.eCSServiceMappingLimitExceededException) }
+    public static var ecsServiceMappingLimitExceededException: Self { .init(.ecsServiceMappingLimitExceededException) }
     /// No GitHub account connection exists with the named specified in the call.
     public static var gitHubAccountTokenDoesNotExistException: Self { .init(.gitHubAccountTokenDoesNotExistException) }
     /// The call is missing a required GitHub account connection name.

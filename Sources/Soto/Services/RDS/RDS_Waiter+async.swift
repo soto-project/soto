@@ -31,12 +31,12 @@ extension RDS {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("dBClusterSnapshots[].status", expected: "available")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "deleted")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "deleting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "failed")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "incompatible-restore")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "incompatible-parameters")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("dbClusterSnapshots[].status", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "incompatible-restore")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "incompatible-parameters")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBClusterSnapshots
@@ -52,12 +52,12 @@ extension RDS {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESPathMatcher("length(dBClusterSnapshots) == `0`", expected: "true")),
+                .init(state: .success, matcher: try! JMESPathMatcher("length(dbClusterSnapshots) == `0`", expected: "true")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("DBClusterSnapshotNotFoundFault")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "creating")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "modifying")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "rebooting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBClusterSnapshots[].status", expected: "resetting-master-credentials")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusterSnapshots[].status", expected: "resetting-master-credentials")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBClusterSnapshots
@@ -73,12 +73,12 @@ extension RDS {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("dBInstances[].dBInstanceStatus", expected: "available")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "deleted")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "deleting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "failed")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "incompatible-restore")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "incompatible-parameters")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("dbInstances[].dBInstanceStatus", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "incompatible-restore")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "incompatible-parameters")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBInstances
@@ -94,12 +94,12 @@ extension RDS {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESPathMatcher("length(dBInstances) == `0`", expected: "true")),
+                .init(state: .success, matcher: try! JMESPathMatcher("length(dbInstances) == `0`", expected: "true")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("DBInstanceNotFound")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "creating")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "modifying")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "rebooting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "resetting-master-credentials")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "resetting-master-credentials")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBInstances
@@ -115,12 +115,12 @@ extension RDS {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("dBSnapshots[].status", expected: "available")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "deleted")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "deleting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "failed")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "incompatible-restore")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "incompatible-parameters")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("dbSnapshots[].status", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "incompatible-restore")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "incompatible-parameters")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBSnapshots
@@ -136,12 +136,12 @@ extension RDS {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESPathMatcher("length(dBSnapshots) == `0`", expected: "true")),
+                .init(state: .success, matcher: try! JMESPathMatcher("length(dbSnapshots) == `0`", expected: "true")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("DBSnapshotNotFound")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "creating")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "modifying")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "rebooting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBSnapshots[].status", expected: "resetting-master-credentials")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbSnapshots[].status", expected: "resetting-master-credentials")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBSnapshots

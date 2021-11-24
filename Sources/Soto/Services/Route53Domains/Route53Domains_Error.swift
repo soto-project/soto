@@ -24,7 +24,7 @@ public struct Route53DomainsErrorType: AWSErrorType {
         case duplicateRequest = "DuplicateRequest"
         case invalidInput = "InvalidInput"
         case operationLimitExceeded = "OperationLimitExceeded"
-        case tLDRulesViolation = "TLDRulesViolation"
+        case tldRulesViolation = "TLDRulesViolation"
         case unsupportedTLD = "UnsupportedTLD"
     }
 
@@ -57,7 +57,7 @@ public struct Route53DomainsErrorType: AWSErrorType {
     /// The number of operations or jobs running exceeded the allowed threshold for the account.
     public static var operationLimitExceeded: Self { .init(.operationLimitExceeded) }
     /// The top-level domain does not support this operation.
-    public static var tLDRulesViolation: Self { .init(.tLDRulesViolation) }
+    public static var tldRulesViolation: Self { .init(.tldRulesViolation) }
     /// Amazon Route 53 does not support this top-level domain (TLD).
     public static var unsupportedTLD: Self { .init(.unsupportedTLD) }
 }

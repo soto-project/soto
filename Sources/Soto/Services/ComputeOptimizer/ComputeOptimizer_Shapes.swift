@@ -228,16 +228,16 @@ extension ComputeOptimizer {
     }
 
     public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable {
-        case cPUOverprovisioned = "CPUOverprovisioned"
-        case cPUUnderprovisioned = "CPUUnderprovisioned"
+        case cpuOverprovisioned = "CPUOverprovisioned"
+        case cpuUnderprovisioned = "CPUUnderprovisioned"
         case diskIOPSOverprovisioned = "DiskIOPSOverprovisioned"
         case diskIOPSUnderprovisioned = "DiskIOPSUnderprovisioned"
         case diskThroughputOverprovisioned = "DiskThroughputOverprovisioned"
         case diskThroughputUnderprovisioned = "DiskThroughputUnderprovisioned"
-        case eBSIOPSOverprovisioned = "EBSIOPSOverprovisioned"
-        case eBSIOPSUnderprovisioned = "EBSIOPSUnderprovisioned"
-        case eBSThroughputOverprovisioned = "EBSThroughputOverprovisioned"
-        case eBSThroughputUnderprovisioned = "EBSThroughputUnderprovisioned"
+        case ebsiopsOverprovisioned = "EBSIOPSOverprovisioned"
+        case ebsiopsUnderprovisioned = "EBSIOPSUnderprovisioned"
+        case ebsThroughputOverprovisioned = "EBSThroughputOverprovisioned"
+        case ebsThroughputUnderprovisioned = "EBSThroughputUnderprovisioned"
         case memoryOverprovisioned = "MemoryOverprovisioned"
         case memoryUnderprovisioned = "MemoryUnderprovisioned"
         case networkBandwidthOverprovisioned = "NetworkBandwidthOverprovisioned"

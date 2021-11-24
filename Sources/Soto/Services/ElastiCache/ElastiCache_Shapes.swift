@@ -233,20 +233,20 @@ extension ElastiCache {
         /// The cache security group that allows network ingress.
         public let cacheSecurityGroupName: String
         /// The Amazon EC2 security group to be authorized for ingress to the cache security group.
-        public let eC2SecurityGroupName: String
+        public let ec2SecurityGroupName: String
         /// The Amazon account number of the Amazon EC2 security group owner.  Note that this is not the same thing as an Amazon access key ID -  you must provide a valid Amazon account number for this parameter.
-        public let eC2SecurityGroupOwnerId: String
+        public let ec2SecurityGroupOwnerId: String
 
-        public init(cacheSecurityGroupName: String, eC2SecurityGroupName: String, eC2SecurityGroupOwnerId: String) {
+        public init(cacheSecurityGroupName: String, ec2SecurityGroupName: String, ec2SecurityGroupOwnerId: String) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.ec2SecurityGroupName = ec2SecurityGroupName
+            self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case ec2SecurityGroupName = "EC2SecurityGroupName"
+            case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
         }
     }
 
@@ -872,15 +872,15 @@ extension ElastiCache {
         public let description: String?
         /// A list of Amazon EC2 security groups that are associated with this cache security group.
         @OptionalCustomCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
-        public var eC2SecurityGroups: [EC2SecurityGroup]?
+        public var ec2SecurityGroups: [EC2SecurityGroup]?
         /// The Amazon account ID of the cache security group owner.
         public let ownerId: String?
 
-        public init(arn: String? = nil, cacheSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, ownerId: String? = nil) {
+        public init(arn: String? = nil, cacheSecurityGroupName: String? = nil, description: String? = nil, ec2SecurityGroups: [EC2SecurityGroup]? = nil, ownerId: String? = nil) {
             self.arn = arn
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.description = description
-            self.eC2SecurityGroups = eC2SecurityGroups
+            self.ec2SecurityGroups = ec2SecurityGroups
             self.ownerId = ownerId
         }
 
@@ -888,7 +888,7 @@ extension ElastiCache {
             case arn = "ARN"
             case cacheSecurityGroupName = "CacheSecurityGroupName"
             case description = "Description"
-            case eC2SecurityGroups = "EC2SecurityGroups"
+            case ec2SecurityGroups = "EC2SecurityGroups"
             case ownerId = "OwnerId"
         }
     }
@@ -1118,7 +1118,7 @@ extension ElastiCache {
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or  created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified,  ElastiCache assumes single-az mode.
-        public let aZMode: AZMode?
+        public let azMode: AZMode?
         /// The node group (shard) identifier. This parameter is stored as a lowercase string.          Constraints:    A name must contain from 1 to 50 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
         public let cacheClusterId: String
         /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache.
@@ -1241,10 +1241,10 @@ extension ElastiCache {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, outpostMode: OutpostMode? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, preferredOutpostArns: [String]? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
+        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, outpostMode: OutpostMode? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, preferredOutpostArns: [String]? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
             self.authToken = authToken
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.aZMode = aZMode
+            self.azMode = azMode
             self.cacheClusterId = cacheClusterId
             self.cacheNodeType = cacheNodeType
             self.cacheParameterGroupName = cacheParameterGroupName
@@ -1274,7 +1274,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case authToken = "AuthToken"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case aZMode = "AZMode"
+            case azMode = "AZMode"
             case cacheClusterId = "CacheClusterId"
             case cacheNodeType = "CacheNodeType"
             case cacheParameterGroupName = "CacheParameterGroupName"
@@ -2945,21 +2945,21 @@ extension ElastiCache {
 
     public struct EC2SecurityGroup: AWSDecodableShape {
         /// The name of the Amazon EC2 security group.
-        public let eC2SecurityGroupName: String?
+        public let ec2SecurityGroupName: String?
         /// The Amazon account ID of the Amazon EC2 security group owner.
-        public let eC2SecurityGroupOwnerId: String?
+        public let ec2SecurityGroupOwnerId: String?
         /// The status of the Amazon EC2 security group.
         public let status: String?
 
-        public init(eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, status: String? = nil) {
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+        public init(ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil, status: String? = nil) {
+            self.ec2SecurityGroupName = ec2SecurityGroupName
+            self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case ec2SecurityGroupName = "EC2SecurityGroupName"
+            case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
             case status = "Status"
         }
     }
@@ -3459,7 +3459,7 @@ extension ElastiCache {
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// Specifies whether the new nodes in this Memcached cluster are all created in a  single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones.             If cross-az is specified, existing Memcached nodes remain in their current Availability Zone.  Only newly created nodes are located in different Availability Zones.
-        public let aZMode: AZMode?
+        public let azMode: AZMode?
         /// The cluster identifier. This value is stored as a lowercase string.
         public let cacheClusterId: String
         /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this  ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
@@ -3497,12 +3497,12 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache  begins taking a daily snapshot of your cluster.
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.aZMode = aZMode
+            self.azMode = azMode
             self.cacheClusterId = cacheClusterId
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheNodeType = cacheNodeType
@@ -3525,7 +3525,7 @@ extension ElastiCache {
             case authToken = "AuthToken"
             case authTokenUpdateStrategy = "AuthTokenUpdateStrategy"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case aZMode = "AZMode"
+            case azMode = "AZMode"
             case cacheClusterId = "CacheClusterId"
             case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
             case cacheNodeType = "CacheNodeType"
@@ -5044,20 +5044,20 @@ extension ElastiCache {
         /// The name of the cache security group to revoke ingress from.
         public let cacheSecurityGroupName: String
         /// The name of the Amazon EC2 security group to revoke access from.
-        public let eC2SecurityGroupName: String
+        public let ec2SecurityGroupName: String
         /// The Amazon account number of the Amazon EC2 security group owner.  Note that this is not the same thing as an Amazon access key ID - you must provide  a valid Amazon account number for this parameter.
-        public let eC2SecurityGroupOwnerId: String
+        public let ec2SecurityGroupOwnerId: String
 
-        public init(cacheSecurityGroupName: String, eC2SecurityGroupName: String, eC2SecurityGroupOwnerId: String) {
+        public init(cacheSecurityGroupName: String, ec2SecurityGroupName: String, ec2SecurityGroupOwnerId: String) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.ec2SecurityGroupName = ec2SecurityGroupName
+            self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheSecurityGroupName = "CacheSecurityGroupName"
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case ec2SecurityGroupName = "EC2SecurityGroupName"
+            case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
         }
     }
 

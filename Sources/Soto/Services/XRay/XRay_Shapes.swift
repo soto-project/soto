@@ -143,16 +143,16 @@ extension XRay {
 
     public struct BackendConnectionErrors: AWSEncodableShape {
         public let connectionRefusedCount: Int?
-        public let hTTPCode4XXCount: Int?
-        public let hTTPCode5XXCount: Int?
+        public let httpCode4XXCount: Int?
+        public let httpCode5XXCount: Int?
         public let otherCount: Int?
         public let timeoutCount: Int?
         public let unknownHostCount: Int?
 
-        public init(connectionRefusedCount: Int? = nil, hTTPCode4XXCount: Int? = nil, hTTPCode5XXCount: Int? = nil, otherCount: Int? = nil, timeoutCount: Int? = nil, unknownHostCount: Int? = nil) {
+        public init(connectionRefusedCount: Int? = nil, httpCode4XXCount: Int? = nil, httpCode5XXCount: Int? = nil, otherCount: Int? = nil, timeoutCount: Int? = nil, unknownHostCount: Int? = nil) {
             self.connectionRefusedCount = connectionRefusedCount
-            self.hTTPCode4XXCount = hTTPCode4XXCount
-            self.hTTPCode5XXCount = hTTPCode5XXCount
+            self.httpCode4XXCount = httpCode4XXCount
+            self.httpCode5XXCount = httpCode5XXCount
             self.otherCount = otherCount
             self.timeoutCount = timeoutCount
             self.unknownHostCount = unknownHostCount
@@ -160,8 +160,8 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case connectionRefusedCount = "ConnectionRefusedCount"
-            case hTTPCode4XXCount = "HTTPCode4XXCount"
-            case hTTPCode5XXCount = "HTTPCode5XXCount"
+            case httpCode4XXCount = "HTTPCode4XXCount"
+            case httpCode5XXCount = "HTTPCode5XXCount"
             case otherCount = "OtherCount"
             case timeoutCount = "TimeoutCount"
             case unknownHostCount = "UnknownHostCount"
@@ -1667,26 +1667,26 @@ extension XRay {
     }
 
     public struct PutTelemetryRecordsRequest: AWSEncodableShape {
-        public let eC2InstanceId: String?
+        public let ec2InstanceId: String?
         public let hostname: String?
         public let resourceARN: String?
         public let telemetryRecords: [TelemetryRecord]
 
-        public init(eC2InstanceId: String? = nil, hostname: String? = nil, resourceARN: String? = nil, telemetryRecords: [TelemetryRecord]) {
-            self.eC2InstanceId = eC2InstanceId
+        public init(ec2InstanceId: String? = nil, hostname: String? = nil, resourceARN: String? = nil, telemetryRecords: [TelemetryRecord]) {
+            self.ec2InstanceId = ec2InstanceId
             self.hostname = hostname
             self.resourceARN = resourceARN
             self.telemetryRecords = telemetryRecords
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eC2InstanceId, name: "eC2InstanceId", parent: name, max: 20)
+            try self.validate(self.ec2InstanceId, name: "ec2InstanceId", parent: name, max: 20)
             try self.validate(self.hostname, name: "hostname", parent: name, max: 255)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2InstanceId = "EC2InstanceId"
+            case ec2InstanceId = "EC2InstanceId"
             case hostname = "Hostname"
             case resourceARN = "ResourceARN"
             case telemetryRecords = "TelemetryRecords"
@@ -1853,7 +1853,7 @@ extension XRay {
         /// Matches the hostname from a request URL.
         public let host: String
         /// Matches the HTTP method of a request.
-        public let hTTPMethod: String
+        public let httpMethod: String
         /// The priority of the sampling rule.
         public let priority: Int
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
@@ -1869,15 +1869,15 @@ extension XRay {
         /// Matches the origin that the service uses to identify its type in segments.
         public let serviceType: String
         /// Matches the path from a request URL.
-        public let uRLPath: String
+        public let urlPath: String
         /// The version of the sampling rule format (1).
         public let version: Int
 
-        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, hTTPMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, uRLPath: String, version: Int) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, httpMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, urlPath: String, version: Int) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
-            self.hTTPMethod = hTTPMethod
+            self.httpMethod = httpMethod
             self.priority = priority
             self.reservoirSize = reservoirSize
             self.resourceARN = resourceARN
@@ -1885,7 +1885,7 @@ extension XRay {
             self.ruleName = ruleName
             self.serviceName = serviceName
             self.serviceType = serviceType
-            self.uRLPath = uRLPath
+            self.urlPath = urlPath
             self.version = version
         }
 
@@ -1900,7 +1900,7 @@ extension XRay {
             try self.validate(self.fixedRate, name: "fixedRate", parent: name, max: 1.0)
             try self.validate(self.fixedRate, name: "fixedRate", parent: name, min: 0.0)
             try self.validate(self.host, name: "host", parent: name, max: 64)
-            try self.validate(self.hTTPMethod, name: "hTTPMethod", parent: name, max: 10)
+            try self.validate(self.httpMethod, name: "httpMethod", parent: name, max: 10)
             try self.validate(self.priority, name: "priority", parent: name, max: 9999)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.reservoirSize, name: "reservoirSize", parent: name, min: 0)
@@ -1909,7 +1909,7 @@ extension XRay {
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
             try self.validate(self.serviceType, name: "serviceType", parent: name, max: 64)
-            try self.validate(self.uRLPath, name: "uRLPath", parent: name, max: 128)
+            try self.validate(self.urlPath, name: "urlPath", parent: name, max: 128)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
 
@@ -1917,7 +1917,7 @@ extension XRay {
             case attributes = "Attributes"
             case fixedRate = "FixedRate"
             case host = "Host"
-            case hTTPMethod = "HTTPMethod"
+            case httpMethod = "HTTPMethod"
             case priority = "Priority"
             case reservoirSize = "ReservoirSize"
             case resourceARN = "ResourceARN"
@@ -1925,7 +1925,7 @@ extension XRay {
             case ruleName = "RuleName"
             case serviceName = "ServiceName"
             case serviceType = "ServiceType"
-            case uRLPath = "URLPath"
+            case urlPath = "URLPath"
             case version = "Version"
         }
     }
@@ -1959,7 +1959,7 @@ extension XRay {
         /// Matches the hostname from a request URL.
         public let host: String?
         /// Matches the HTTP method of a request.
-        public let hTTPMethod: String?
+        public let httpMethod: String?
         /// The priority of the sampling rule.
         public let priority: Int?
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
@@ -1975,13 +1975,13 @@ extension XRay {
         /// Matches the origin that the service uses to identify its type in segments.
         public let serviceType: String?
         /// Matches the path from a request URL.
-        public let uRLPath: String?
+        public let urlPath: String?
 
-        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, hTTPMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, uRLPath: String? = nil) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, httpMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, urlPath: String? = nil) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
-            self.hTTPMethod = hTTPMethod
+            self.httpMethod = httpMethod
             self.priority = priority
             self.reservoirSize = reservoirSize
             self.resourceARN = resourceARN
@@ -1989,7 +1989,7 @@ extension XRay {
             self.ruleName = ruleName
             self.serviceName = serviceName
             self.serviceType = serviceType
-            self.uRLPath = uRLPath
+            self.urlPath = urlPath
         }
 
         public func validate(name: String) throws {
@@ -2001,20 +2001,20 @@ extension XRay {
             }
             try self.validate(self.attributes, name: "attributes", parent: name, max: 5)
             try self.validate(self.host, name: "host", parent: name, max: 64)
-            try self.validate(self.hTTPMethod, name: "hTTPMethod", parent: name, max: 10)
+            try self.validate(self.httpMethod, name: "httpMethod", parent: name, max: 10)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
             try self.validate(self.serviceType, name: "serviceType", parent: name, max: 64)
-            try self.validate(self.uRLPath, name: "uRLPath", parent: name, max: 128)
+            try self.validate(self.urlPath, name: "urlPath", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case fixedRate = "FixedRate"
             case host = "Host"
-            case hTTPMethod = "HTTPMethod"
+            case httpMethod = "HTTPMethod"
             case priority = "Priority"
             case reservoirSize = "ReservoirSize"
             case resourceARN = "ResourceARN"
@@ -2022,7 +2022,7 @@ extension XRay {
             case ruleName = "RuleName"
             case serviceName = "ServiceName"
             case serviceType = "ServiceType"
-            case uRLPath = "URLPath"
+            case urlPath = "URLPath"
         }
     }
 

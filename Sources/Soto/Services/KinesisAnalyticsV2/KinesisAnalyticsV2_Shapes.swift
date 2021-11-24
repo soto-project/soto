@@ -2911,23 +2911,23 @@ extension KinesisAnalyticsV2 {
 
     public struct MappingParameters: AWSEncodableShape & AWSDecodableShape {
         /// Provides additional mapping information when the record format uses delimiters  (for example, CSV).
-        public let cSVMappingParameters: CSVMappingParameters?
+        public let csvMappingParameters: CSVMappingParameters?
         /// Provides additional mapping information when JSON is the record format on the streaming source.
-        public let jSONMappingParameters: JSONMappingParameters?
+        public let jsonMappingParameters: JSONMappingParameters?
 
-        public init(cSVMappingParameters: CSVMappingParameters? = nil, jSONMappingParameters: JSONMappingParameters? = nil) {
-            self.cSVMappingParameters = cSVMappingParameters
-            self.jSONMappingParameters = jSONMappingParameters
+        public init(csvMappingParameters: CSVMappingParameters? = nil, jsonMappingParameters: JSONMappingParameters? = nil) {
+            self.csvMappingParameters = csvMappingParameters
+            self.jsonMappingParameters = jsonMappingParameters
         }
 
         public func validate(name: String) throws {
-            try self.cSVMappingParameters?.validate(name: "\(name).cSVMappingParameters")
-            try self.jSONMappingParameters?.validate(name: "\(name).jSONMappingParameters")
+            try self.csvMappingParameters?.validate(name: "\(name).csvMappingParameters")
+            try self.jsonMappingParameters?.validate(name: "\(name).jsonMappingParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cSVMappingParameters = "CSVMappingParameters"
-            case jSONMappingParameters = "JSONMappingParameters"
+            case csvMappingParameters = "CSVMappingParameters"
+            case jsonMappingParameters = "JSONMappingParameters"
         }
     }
 

@@ -529,20 +529,20 @@ extension Glacier {
         /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
         public let encryptionType: EncryptionType?
         /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the job results.
-        public let kMSContext: String?
+        public let kmsContext: String?
         /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4.
-        public let kMSKeyId: String?
+        public let kmsKeyId: String?
 
-        public init(encryptionType: EncryptionType? = nil, kMSContext: String? = nil, kMSKeyId: String? = nil) {
+        public init(encryptionType: EncryptionType? = nil, kmsContext: String? = nil, kmsKeyId: String? = nil) {
             self.encryptionType = encryptionType
-            self.kMSContext = kMSContext
-            self.kMSKeyId = kMSKeyId
+            self.kmsContext = kmsContext
+            self.kmsKeyId = kmsKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionType = "EncryptionType"
-            case kMSContext = "KMSContext"
-            case kMSKeyId = "KMSKeyId"
+            case kmsContext = "KMSContext"
+            case kmsKeyId = "KMSKeyId"
         }
     }
 
@@ -796,9 +796,9 @@ extension Glacier {
         /// Contains the parameters used for a select.
         public let selectParameters: SelectParameters?
         /// For an archive retrieval job, this value is the checksum of the archive. Otherwise, this value is null. The SHA256 tree hash value for the requested range of an archive. If the InitiateJob request for an archive specified a tree-hash aligned range, then this field returns a value. If the whole archive is retrieved, this value is the same as the ArchiveSHA256TreeHash value. This field is null for the following:   Archive retrieval jobs that specify a range that is not tree-hash aligned     Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress      Inventory jobs   Select jobs
-        public let sHA256TreeHash: String?
+        public let sha256TreeHash: String?
         /// An Amazon SNS topic that receives notification.
-        public let sNSTopic: String?
+        public let snsTopic: String?
         /// The status code can be InProgress, Succeeded, or Failed, and indicates the status of the job.
         public let statusCode: StatusCode?
         /// A friendly message that describes the job status.
@@ -808,7 +808,7 @@ extension Glacier {
         /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval was requested.
         public let vaultARN: String?
 
-        public init(action: ActionCode? = nil, archiveId: String? = nil, archiveSHA256TreeHash: String? = nil, archiveSizeInBytes: Int64? = nil, completed: Bool? = nil, completionDate: String? = nil, creationDate: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, inventorySizeInBytes: Int64? = nil, jobDescription: String? = nil, jobId: String? = nil, jobOutputPath: String? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, sHA256TreeHash: String? = nil, sNSTopic: String? = nil, statusCode: StatusCode? = nil, statusMessage: String? = nil, tier: String? = nil, vaultARN: String? = nil) {
+        public init(action: ActionCode? = nil, archiveId: String? = nil, archiveSHA256TreeHash: String? = nil, archiveSizeInBytes: Int64? = nil, completed: Bool? = nil, completionDate: String? = nil, creationDate: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, inventorySizeInBytes: Int64? = nil, jobDescription: String? = nil, jobId: String? = nil, jobOutputPath: String? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, sha256TreeHash: String? = nil, snsTopic: String? = nil, statusCode: StatusCode? = nil, statusMessage: String? = nil, tier: String? = nil, vaultARN: String? = nil) {
             self.action = action
             self.archiveId = archiveId
             self.archiveSHA256TreeHash = archiveSHA256TreeHash
@@ -824,8 +824,8 @@ extension Glacier {
             self.outputLocation = outputLocation
             self.retrievalByteRange = retrievalByteRange
             self.selectParameters = selectParameters
-            self.sHA256TreeHash = sHA256TreeHash
-            self.sNSTopic = sNSTopic
+            self.sha256TreeHash = sha256TreeHash
+            self.snsTopic = snsTopic
             self.statusCode = statusCode
             self.statusMessage = statusMessage
             self.tier = tier
@@ -848,8 +848,8 @@ extension Glacier {
             case outputLocation = "OutputLocation"
             case retrievalByteRange = "RetrievalByteRange"
             case selectParameters = "SelectParameters"
-            case sHA256TreeHash = "SHA256TreeHash"
-            case sNSTopic = "SNSTopic"
+            case sha256TreeHash = "SHA256TreeHash"
+            case snsTopic = "SNSTopic"
             case statusCode = "StatusCode"
             case statusMessage = "StatusMessage"
             case tier = "Tier"
@@ -1131,13 +1131,13 @@ extension Glacier {
         /// Contains the parameters that define a job.
         public let selectParameters: SelectParameters?
         /// The Amazon SNS topic ARN to which Amazon S3 Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
-        public let sNSTopic: String?
+        public let snsTopic: String?
         /// The tier to use for a select or an archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public let tier: String?
         /// The job type. You can initiate a job to perform a select query on an archive,  retrieve an archive, or get an inventory of a vault.  Valid values are "select", "archive-retrieval" and "inventory-retrieval".
         public let type: String?
 
-        public init(archiveId: String? = nil, description: String? = nil, format: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobInput? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, sNSTopic: String? = nil, tier: String? = nil, type: String? = nil) {
+        public init(archiveId: String? = nil, description: String? = nil, format: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobInput? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, snsTopic: String? = nil, tier: String? = nil, type: String? = nil) {
             self.archiveId = archiveId
             self.description = description
             self.format = format
@@ -1145,7 +1145,7 @@ extension Glacier {
             self.outputLocation = outputLocation
             self.retrievalByteRange = retrievalByteRange
             self.selectParameters = selectParameters
-            self.sNSTopic = sNSTopic
+            self.snsTopic = snsTopic
             self.tier = tier
             self.type = type
         }
@@ -1158,7 +1158,7 @@ extension Glacier {
             case outputLocation = "OutputLocation"
             case retrievalByteRange = "RetrievalByteRange"
             case selectParameters = "SelectParameters"
-            case sNSTopic = "SNSTopic"
+            case snsTopic = "SNSTopic"
             case tier = "Tier"
             case type = "Type"
         }
@@ -1458,16 +1458,16 @@ extension Glacier {
         /// The byte range of a part, inclusive of the upper value of the range.
         public let rangeInBytes: String?
         /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part. This field is never null.
-        public let sHA256TreeHash: String?
+        public let sha256TreeHash: String?
 
-        public init(rangeInBytes: String? = nil, sHA256TreeHash: String? = nil) {
+        public init(rangeInBytes: String? = nil, sha256TreeHash: String? = nil) {
             self.rangeInBytes = rangeInBytes
-            self.sHA256TreeHash = sHA256TreeHash
+            self.sha256TreeHash = sha256TreeHash
         }
 
         private enum CodingKeys: String, CodingKey {
             case rangeInBytes = "RangeInBytes"
-            case sHA256TreeHash = "SHA256TreeHash"
+            case sha256TreeHash = "SHA256TreeHash"
         }
     }
 
@@ -1832,16 +1832,16 @@ extension Glacier {
         /// A list of one or more events for which Amazon S3 Glacier will send a notification to the specified Amazon SNS topic.
         public let events: [String]?
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
-        public let sNSTopic: String?
+        public let snsTopic: String?
 
-        public init(events: [String]? = nil, sNSTopic: String? = nil) {
+        public init(events: [String]? = nil, snsTopic: String? = nil) {
             self.events = events
-            self.sNSTopic = sNSTopic
+            self.snsTopic = snsTopic
         }
 
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
-            case sNSTopic = "SNSTopic"
+            case snsTopic = "SNSTopic"
         }
     }
 }

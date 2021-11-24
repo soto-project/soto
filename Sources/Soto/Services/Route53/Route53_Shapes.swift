@@ -410,7 +410,7 @@ extension Route53 {
         /// 						the alias record must have the same type as the record that you're routing traffic to, and creating a CNAME record for the
         /// 						zone apex isn't supported even for an alias record.
         ///
-        public let dNSName: String
+        public let dnsName: String
         ///  Applies only to alias, failover alias, geolocation alias, latency alias, and weighted alias resource record sets:
         /// 			When EvaluateTargetHealth is true, an alias resource record set inherits the health of the referenced Amazon Web Services resource,
         /// 			such as an ELB load balancer or another resource record set in the hosted zone.
@@ -498,19 +498,19 @@ extension Route53 {
         ///
         public let hostedZoneId: String
 
-        public init(dNSName: String, evaluateTargetHealth: Bool, hostedZoneId: String) {
-            self.dNSName = dNSName
+        public init(dnsName: String, evaluateTargetHealth: Bool, hostedZoneId: String) {
+            self.dnsName = dnsName
             self.evaluateTargetHealth = evaluateTargetHealth
             self.hostedZoneId = hostedZoneId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dNSName, name: "dNSName", parent: name, max: 1024)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, max: 1024)
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case evaluateTargetHealth = "EvaluateTargetHealth"
             case hostedZoneId = "HostedZoneId"
         }
@@ -2226,18 +2226,18 @@ extension Route53 {
         public let hostedZone: HostedZone
         /// A complex type that contains information about the VPCs that are associated with the specified hosted zone.
         @OptionalCustomCoding<ArrayCoder<_VPCsEncoding, VPC>>
-        public var vPCs: [VPC]?
+        public var vpCs: [VPC]?
 
-        public init(delegationSet: DelegationSet? = nil, hostedZone: HostedZone, vPCs: [VPC]? = nil) {
+        public init(delegationSet: DelegationSet? = nil, hostedZone: HostedZone, vpCs: [VPC]? = nil) {
             self.delegationSet = delegationSet
             self.hostedZone = hostedZone
-            self.vPCs = vPCs
+            self.vpCs = vpCs
         }
 
         private enum CodingKeys: String, CodingKey {
             case delegationSet = "DelegationSet"
             case hostedZone = "HostedZone"
-            case vPCs = "VPCs"
+            case vpCs = "VPCs"
         }
     }
 
@@ -2600,7 +2600,7 @@ extension Route53 {
         /// 			documents:
         /// 		          RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses
         /// 		       When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
-        public let iPAddress: String?
+        public let ipAddress: String?
         /// Specify whether you want Amazon Route 53 to measure the latency between health checkers in multiple Amazon Web Services regions and your endpoint, and to
         /// 			display CloudWatch latency graphs on the Health Checks page in the Route 53 console.
         ///
@@ -2681,7 +2681,7 @@ extension Route53 {
         /// 			Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide.
         public let type: HealthCheckType
 
-        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, measureLatency: Bool? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, requestInterval: Int? = nil, resourcePath: String? = nil, routingControlArn: String? = nil, searchString: String? = nil, type: HealthCheckType) {
+        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, ipAddress: String? = nil, measureLatency: Bool? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, requestInterval: Int? = nil, resourcePath: String? = nil, routingControlArn: String? = nil, searchString: String? = nil, type: HealthCheckType) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
             self.disabled = disabled
@@ -2691,7 +2691,7 @@ extension Route53 {
             self.healthThreshold = healthThreshold
             self.insufficientDataHealthStatus = insufficientDataHealthStatus
             self.inverted = inverted
-            self.iPAddress = iPAddress
+            self.ipAddress = ipAddress
             self.measureLatency = measureLatency
             self.port = port
             self.regions = regions
@@ -2713,8 +2713,8 @@ extension Route53 {
             try self.validate(self.fullyQualifiedDomainName, name: "fullyQualifiedDomainName", parent: name, max: 255)
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, max: 256)
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, min: 0)
-            try self.validate(self.iPAddress, name: "iPAddress", parent: name, max: 45)
-            try self.validate(self.iPAddress, name: "iPAddress", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 45)
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.validate(self.regions, name: "regions", parent: name, max: 64)
@@ -2737,7 +2737,7 @@ extension Route53 {
             case healthThreshold = "HealthThreshold"
             case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
             case inverted = "Inverted"
-            case iPAddress = "IPAddress"
+            case ipAddress = "IPAddress"
             case measureLatency = "MeasureLatency"
             case port = "Port"
             case regions = "Regions"
@@ -2751,20 +2751,20 @@ extension Route53 {
 
     public struct HealthCheckObservation: AWSDecodableShape {
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
-        public let iPAddress: String?
+        public let ipAddress: String?
         /// The region of the Amazon Route 53 health checker that provided the status in StatusReport.
         public let region: HealthCheckRegion?
         /// A complex type that contains the last failure reason as reported by one Amazon Route 53 health checker and the time of the failed health check.
         public let statusReport: StatusReport?
 
-        public init(iPAddress: String? = nil, region: HealthCheckRegion? = nil, statusReport: StatusReport? = nil) {
-            self.iPAddress = iPAddress
+        public init(ipAddress: String? = nil, region: HealthCheckRegion? = nil, statusReport: StatusReport? = nil) {
+            self.ipAddress = ipAddress
             self.region = region
             self.statusReport = statusReport
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPAddress = "IPAddress"
+            case ipAddress = "IPAddress"
             case region = "Region"
             case statusReport = "StatusReport"
         }
@@ -2910,9 +2910,9 @@ extension Route53 {
         /// 			can use to verify DNSSEC signatures that are used to secure certain kinds of information provided by the DNS system.
         public let digestValue: String?
         /// A string that represents a DNSKEY record.
-        public let dNSKEYRecord: String?
+        public let dnskeyRecord: String?
         /// A string that represents a delegation signer (DS) record.
-        public let dSRecord: String?
+        public let dsRecord: String?
         /// An integer that specifies how the key is used. For key-signing key (KSK), this value is always 257.
         public let flag: Int?
         /// An integer used to identify the DNSSEC record for the domain name. The process used to calculate the value is described in
@@ -2959,13 +2959,13 @@ extension Route53 {
         /// 			that you can take to correct the issue.
         public let statusMessage: String?
 
-        public init(createdDate: Date? = nil, digestAlgorithmMnemonic: String? = nil, digestAlgorithmType: Int? = nil, digestValue: String? = nil, dNSKEYRecord: String? = nil, dSRecord: String? = nil, flag: Int? = nil, keyTag: Int? = nil, kmsArn: String? = nil, lastModifiedDate: Date? = nil, name: String? = nil, publicKey: String? = nil, signingAlgorithmMnemonic: String? = nil, signingAlgorithmType: Int? = nil, status: String? = nil, statusMessage: String? = nil) {
+        public init(createdDate: Date? = nil, digestAlgorithmMnemonic: String? = nil, digestAlgorithmType: Int? = nil, digestValue: String? = nil, dnskeyRecord: String? = nil, dsRecord: String? = nil, flag: Int? = nil, keyTag: Int? = nil, kmsArn: String? = nil, lastModifiedDate: Date? = nil, name: String? = nil, publicKey: String? = nil, signingAlgorithmMnemonic: String? = nil, signingAlgorithmType: Int? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.createdDate = createdDate
             self.digestAlgorithmMnemonic = digestAlgorithmMnemonic
             self.digestAlgorithmType = digestAlgorithmType
             self.digestValue = digestValue
-            self.dNSKEYRecord = dNSKEYRecord
-            self.dSRecord = dSRecord
+            self.dnskeyRecord = dnskeyRecord
+            self.dsRecord = dsRecord
             self.flag = flag
             self.keyTag = keyTag
             self.kmsArn = kmsArn
@@ -2983,8 +2983,8 @@ extension Route53 {
             case digestAlgorithmMnemonic = "DigestAlgorithmMnemonic"
             case digestAlgorithmType = "DigestAlgorithmType"
             case digestValue = "DigestValue"
-            case dNSKEYRecord = "DNSKEYRecord"
-            case dSRecord = "DSRecord"
+            case dnskeyRecord = "DNSKEYRecord"
+            case dsRecord = "DSRecord"
             case flag = "Flag"
             case keyTag = "KeyTag"
             case kmsArn = "KmsArn"
@@ -3175,7 +3175,7 @@ extension Route53 {
 
     public struct ListHostedZonesByNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dNSName", location: .querystring("dnsname")),
+            AWSMemberEncoding(label: "dnsName", location: .querystring("dnsname")),
             AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
             AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems"))
         ]
@@ -3184,7 +3184,7 @@ extension Route53 {
         /// 			specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of
         /// 			the hosted zones that were created by the current Amazon Web Services account, in ASCII order. For subsequent requests, include both dnsname and
         /// 			hostedzoneid parameters. For dnsname, specify the value of NextDNSName from the previous response.
-        public let dNSName: String?
+        public let dnsName: String?
         /// (Optional) For your first request to ListHostedZonesByName, do not include the hostedzoneid parameter.
         /// 		       If you have more hosted zones than the value of maxitems, ListHostedZonesByName returns only the first
         /// 			maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to
@@ -3196,14 +3196,14 @@ extension Route53 {
         /// 			NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
         public let maxItems: Int?
 
-        public init(dNSName: String? = nil, hostedZoneId: String? = nil, maxItems: Int? = nil) {
-            self.dNSName = dNSName
+        public init(dnsName: String? = nil, hostedZoneId: String? = nil, maxItems: Int? = nil) {
+            self.dnsName = dnsName
             self.hostedZoneId = hostedZoneId
             self.maxItems = maxItems
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dNSName, name: "dNSName", parent: name, max: 1024)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, max: 1024)
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -3215,7 +3215,7 @@ extension Route53 {
 
         /// For the second and subsequent calls to ListHostedZonesByName, DNSName is the value that you specified for the
         /// 			dnsname parameter in the request that produced the current response.
-        public let dNSName: String?
+        public let dnsName: String?
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
         public let hostedZoneId: String?
         /// A complex type that contains general information about the hosted zone.
@@ -3239,8 +3239,8 @@ extension Route53 {
         /// 		       This element is present only if IsTruncated is true.
         public let nextHostedZoneId: String?
 
-        public init(dNSName: String? = nil, hostedZoneId: String? = nil, hostedZones: [HostedZone], isTruncated: Bool, maxItems: Int, nextDNSName: String? = nil, nextHostedZoneId: String? = nil) {
-            self.dNSName = dNSName
+        public init(dnsName: String? = nil, hostedZoneId: String? = nil, hostedZones: [HostedZone], isTruncated: Bool, maxItems: Int, nextDNSName: String? = nil, nextHostedZoneId: String? = nil) {
+            self.dnsName = dnsName
             self.hostedZoneId = hostedZoneId
             self.hostedZones = hostedZones
             self.isTruncated = isTruncated
@@ -3250,7 +3250,7 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case hostedZoneId = "HostedZoneId"
             case hostedZones = "HostedZones"
             case isTruncated = "IsTruncated"
@@ -3264,8 +3264,8 @@ extension Route53 {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxItems", location: .querystring("maxitems")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("nexttoken")),
-            AWSMemberEncoding(label: "vPCId", location: .querystring("vpcid")),
-            AWSMemberEncoding(label: "vPCRegion", location: .querystring("vpcregion"))
+            AWSMemberEncoding(label: "vpcId", location: .querystring("vpcid")),
+            AWSMemberEncoding(label: "vpcRegion", location: .querystring("vpcregion"))
         ]
 
         /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with
@@ -3278,20 +3278,20 @@ extension Route53 {
         /// 		       If the previous response didn't include a NextToken element, there are no more hosted zones to get.
         public let nextToken: String?
         /// The ID of the Amazon VPC that you want to list hosted zones for.
-        public let vPCId: String
+        public let vpcId: String
         /// For the Amazon VPC that you specified for VPCId, the Amazon Web Services Region that you created the VPC in.
-        public let vPCRegion: VPCRegion
+        public let vpcRegion: VPCRegion
 
-        public init(maxItems: Int? = nil, nextToken: String? = nil, vPCId: String, vPCRegion: VPCRegion) {
+        public init(maxItems: Int? = nil, nextToken: String? = nil, vpcId: String, vpcRegion: VPCRegion) {
             self.maxItems = maxItems
             self.nextToken = nextToken
-            self.vPCId = vPCId
-            self.vPCRegion = vPCRegion
+            self.vpcId = vpcId
+            self.vpcRegion = vpcRegion
         }
 
         public func validate(name: String) throws {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
-            try self.validate(self.vPCId, name: "vPCId", parent: name, max: 1024)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 1024)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4159,18 +4159,18 @@ extension Route53 {
         public let nextToken: String?
         /// The list of VPCs that are authorized to be associated with the specified hosted zone.
         @CustomCoding<ArrayCoder<_VPCsEncoding, VPC>>
-        public var vPCs: [VPC]
+        public var vpCs: [VPC]
 
-        public init(hostedZoneId: String, nextToken: String? = nil, vPCs: [VPC]) {
+        public init(hostedZoneId: String, nextToken: String? = nil, vpCs: [VPC]) {
             self.hostedZoneId = hostedZoneId
             self.nextToken = nextToken
-            self.vPCs = vPCs
+            self.vpCs = vpCs
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "HostedZoneId"
             case nextToken = "NextToken"
-            case vPCs = "VPCs"
+            case vpCs = "VPCs"
         }
     }
 
@@ -4673,8 +4673,8 @@ extension Route53 {
 
     public struct TestDNSAnswerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eDNS0ClientSubnetIP", location: .querystring("edns0clientsubnetip")),
-            AWSMemberEncoding(label: "eDNS0ClientSubnetMask", location: .querystring("edns0clientsubnetmask")),
+            AWSMemberEncoding(label: "edns0ClientSubnetIP", location: .querystring("edns0clientsubnetip")),
+            AWSMemberEncoding(label: "edns0ClientSubnetMask", location: .querystring("edns0clientsubnetmask")),
             AWSMemberEncoding(label: "hostedZoneId", location: .querystring("hostedzoneid")),
             AWSMemberEncoding(label: "recordName", location: .querystring("recordname")),
             AWSMemberEncoding(label: "recordType", location: .querystring("recordtype")),
@@ -4683,14 +4683,14 @@ extension Route53 {
 
         /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or IPv6 address of a client
         /// 			in the applicable location, for example, 192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
-        public let eDNS0ClientSubnetIP: String?
+        public let edns0ClientSubnetIP: String?
         /// If you specify an IP address for edns0clientsubnetip, you can optionally specify the number of bits of the IP address
         /// 			that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for
         /// 			edns0clientsubnetip and 24 for edns0clientsubnetmask, the checking tool will simulate a request from
         /// 			192.0.2.0/24. The default value is 24 bits for IPv4 addresses and 64 bits for IPv6 addresses.
         /// 		       The range of valid values depends on whether edns0clientsubnetip is an IPv4 or an IPv6 address:
         /// 		          IPv4: Specify a value between 0 and 32    IPv6: Specify a value between 0 and 128
-        public let eDNS0ClientSubnetMask: String?
+        public let edns0ClientSubnetMask: String?
         /// The ID of the hosted zone that you want Amazon Route 53 to simulate a query for.
         public let hostedZoneId: String
         /// The name of the resource record set that you want Amazon Route 53 to simulate a query for.
@@ -4702,9 +4702,9 @@ extension Route53 {
         /// 			(us-east-1).
         public let resolverIP: String?
 
-        public init(eDNS0ClientSubnetIP: String? = nil, eDNS0ClientSubnetMask: String? = nil, hostedZoneId: String, recordName: String, recordType: RRType, resolverIP: String? = nil) {
-            self.eDNS0ClientSubnetIP = eDNS0ClientSubnetIP
-            self.eDNS0ClientSubnetMask = eDNS0ClientSubnetMask
+        public init(edns0ClientSubnetIP: String? = nil, edns0ClientSubnetMask: String? = nil, hostedZoneId: String, recordName: String, recordType: RRType, resolverIP: String? = nil) {
+            self.edns0ClientSubnetIP = edns0ClientSubnetIP
+            self.edns0ClientSubnetMask = edns0ClientSubnetMask
             self.hostedZoneId = hostedZoneId
             self.recordName = recordName
             self.recordType = recordType
@@ -4712,9 +4712,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eDNS0ClientSubnetIP, name: "eDNS0ClientSubnetIP", parent: name, max: 45)
-            try self.validate(self.eDNS0ClientSubnetIP, name: "eDNS0ClientSubnetIP", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
-            try self.validate(self.eDNS0ClientSubnetMask, name: "eDNS0ClientSubnetMask", parent: name, max: 3)
+            try self.validate(self.edns0ClientSubnetIP, name: "edns0ClientSubnetIP", parent: name, max: 45)
+            try self.validate(self.edns0ClientSubnetIP, name: "edns0ClientSubnetIP", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
+            try self.validate(self.edns0ClientSubnetMask, name: "edns0ClientSubnetMask", parent: name, max: 3)
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
             try self.validate(self.recordName, name: "recordName", parent: name, max: 1024)
             try self.validate(self.resolverIP, name: "resolverIP", parent: name, max: 45)
@@ -5029,7 +5029,7 @@ extension Route53 {
         /// 			multicast ranges. For more information about IP addresses for which you can't create health checks, see the following
         /// 			documents:
         /// 		          RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses
-        public let iPAddress: String?
+        public let ipAddress: String?
         /// The port on the endpoint that you want Amazon Route 53 to perform health checks on.
         ///
         /// 			         Don't specify a value for Port when you specify a value for Type of CLOUDWATCH_METRIC or
@@ -5063,7 +5063,7 @@ extension Route53 {
         /// 			the resource healthy. (You can't change the value of Type when you update a health check.)
         public let searchString: String?
 
-        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthCheckId: String, healthCheckVersion: Int64? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, resetElements: [ResettableElementName]? = nil, resourcePath: String? = nil, searchString: String? = nil) {
+        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthCheckId: String, healthCheckVersion: Int64? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, ipAddress: String? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, resetElements: [ResettableElementName]? = nil, resourcePath: String? = nil, searchString: String? = nil) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
             self.disabled = disabled
@@ -5075,7 +5075,7 @@ extension Route53 {
             self.healthThreshold = healthThreshold
             self.insufficientDataHealthStatus = insufficientDataHealthStatus
             self.inverted = inverted
-            self.iPAddress = iPAddress
+            self.ipAddress = ipAddress
             self.port = port
             self.regions = regions
             self.resetElements = resetElements
@@ -5096,8 +5096,8 @@ extension Route53 {
             try self.validate(self.healthCheckVersion, name: "healthCheckVersion", parent: name, min: 1)
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, max: 256)
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, min: 0)
-            try self.validate(self.iPAddress, name: "iPAddress", parent: name, max: 45)
-            try self.validate(self.iPAddress, name: "iPAddress", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 45)
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.validate(self.regions, name: "regions", parent: name, max: 64)
@@ -5118,7 +5118,7 @@ extension Route53 {
             case healthThreshold = "HealthThreshold"
             case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
             case inverted = "Inverted"
-            case iPAddress = "IPAddress"
+            case ipAddress = "IPAddress"
             case port = "Port"
             case regions = "Regions"
             case resetElements = "ResetElements"
@@ -5277,22 +5277,22 @@ extension Route53 {
     }
 
     public struct VPC: AWSEncodableShape & AWSDecodableShape {
-        public let vPCId: String?
+        public let vpcId: String?
         /// (Private hosted zones only) The region that an Amazon VPC was created in.
-        public let vPCRegion: VPCRegion?
+        public let vpcRegion: VPCRegion?
 
-        public init(vPCId: String? = nil, vPCRegion: VPCRegion? = nil) {
-            self.vPCId = vPCId
-            self.vPCRegion = vPCRegion
+        public init(vpcId: String? = nil, vpcRegion: VPCRegion? = nil) {
+            self.vpcId = vpcId
+            self.vpcRegion = vpcRegion
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.vPCId, name: "vPCId", parent: name, max: 1024)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vPCId = "VPCId"
-            case vPCRegion = "VPCRegion"
+            case vpcId = "VPCId"
+            case vpcRegion = "VPCRegion"
         }
     }
 }

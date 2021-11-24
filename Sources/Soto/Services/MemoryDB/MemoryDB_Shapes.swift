@@ -119,14 +119,14 @@ extension MemoryDB {
 
     public struct ACLsUpdateStatus: AWSDecodableShape {
         /// A list of ACLs pending to be applied.
-        public let aCLToApply: String?
+        public let aclToApply: String?
 
-        public init(aCLToApply: String? = nil) {
-            self.aCLToApply = aCLToApply
+        public init(aclToApply: String? = nil) {
+            self.aclToApply = aclToApply
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLToApply = "ACLToApply"
+            case aclToApply = "ACLToApply"
         }
     }
 
@@ -221,7 +221,7 @@ extension MemoryDB {
 
     public struct Cluster: AWSDecodableShape {
         /// The name of the Access Control List associated with this cluster.
-        public let aCLName: String?
+        public let aclName: String?
         /// The Amazon Resource Name (ARN) of the cluster.
         public let arn: String?
         /// When set to true, the cluster will automatically receive minor engine version upgrades after launch.
@@ -269,10 +269,10 @@ extension MemoryDB {
         /// The name of the subnet group used by the cluster
         public let subnetGroupName: String?
         /// A flag to indicate if In-transit encryption is enabled
-        public let tLSEnabled: Bool?
+        public let tlsEnabled: Bool?
 
-        public init(aCLName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, description: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tLSEnabled: Bool? = nil) {
-            self.aCLName = aCLName
+        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, description: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
+            self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityMode = availabilityMode
@@ -296,11 +296,11 @@ extension MemoryDB {
             self.snsTopicStatus = snsTopicStatus
             self.status = status
             self.subnetGroupName = subnetGroupName
-            self.tLSEnabled = tLSEnabled
+            self.tlsEnabled = tlsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
             case arn = "ARN"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityMode = "AvailabilityMode"
@@ -324,7 +324,7 @@ extension MemoryDB {
             case snsTopicStatus = "SnsTopicStatus"
             case status = "Status"
             case subnetGroupName = "SubnetGroupName"
-            case tLSEnabled = "TLSEnabled"
+            case tlsEnabled = "TLSEnabled"
         }
     }
 
@@ -395,20 +395,20 @@ extension MemoryDB {
 
     public struct ClusterPendingUpdates: AWSDecodableShape {
         /// A list of ACLs associated with the cluster that are being updated
-        public let aCLs: ACLsUpdateStatus?
+        public let acLs: ACLsUpdateStatus?
         /// The status of an online resharding operation.
         public let resharding: ReshardingStatus?
         /// A list of service updates being applied to the cluster
         public let serviceUpdates: [PendingModifiedServiceUpdate]?
 
-        public init(aCLs: ACLsUpdateStatus? = nil, resharding: ReshardingStatus? = nil, serviceUpdates: [PendingModifiedServiceUpdate]? = nil) {
-            self.aCLs = aCLs
+        public init(acLs: ACLsUpdateStatus? = nil, resharding: ReshardingStatus? = nil, serviceUpdates: [PendingModifiedServiceUpdate]? = nil) {
+            self.acLs = acLs
             self.resharding = resharding
             self.serviceUpdates = serviceUpdates
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLs = "ACLs"
+            case acLs = "ACLs"
             case resharding = "Resharding"
             case serviceUpdates = "ServiceUpdates"
         }
@@ -465,14 +465,14 @@ extension MemoryDB {
 
     public struct CreateACLRequest: AWSEncodableShape {
         /// The name of the Access Control List.
-        public let aCLName: String
+        public let aclName: String
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]?
         /// The list of users that belong to the Access Control List.
         public let userNames: [String]?
 
-        public init(aCLName: String, tags: [Tag]? = nil, userNames: [String]? = nil) {
-            self.aCLName = aCLName
+        public init(aclName: String, tags: [Tag]? = nil, userNames: [String]? = nil) {
+            self.aclName = aclName
             self.tags = tags
             self.userNames = userNames
         }
@@ -487,7 +487,7 @@ extension MemoryDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
             case tags = "Tags"
             case userNames = "UserNames"
         }
@@ -508,7 +508,7 @@ extension MemoryDB {
 
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The name of the Access Control List to associate with the cluster.
-        public let aCLName: String
+        public let aclName: String
         /// When set to true, the cluster will automatically receive minor engine version upgrades after launch.
         public let autoMinorVersionUpgrade: Bool?
         /// The name of the cluster. This value must be unique as it also serves as the cluster identifier.
@@ -548,10 +548,10 @@ extension MemoryDB {
         /// A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
         public let tags: [Tag]?
         /// A flag to enable in-transit encryption on the cluster.
-        public let tLSEnabled: Bool?
+        public let tlsEnabled: Bool?
 
-        public init(aCLName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tLSEnabled: Bool? = nil) {
-            self.aCLName = aCLName
+        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
+            self.aclName = aclName
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.clusterName = clusterName
             self.description = description
@@ -571,17 +571,17 @@ extension MemoryDB {
             self.snsTopicArn = snsTopicArn
             self.subnetGroupName = subnetGroupName
             self.tags = tags
-            self.tLSEnabled = tLSEnabled
+            self.tlsEnabled = tlsEnabled
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aCLName, name: "aCLName", parent: name, min: 1)
-            try self.validate(self.aCLName, name: "aCLName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-]*$")
+            try self.validate(self.aclName, name: "aclName", parent: name, min: 1)
+            try self.validate(self.aclName, name: "aclName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-]*$")
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case clusterName = "ClusterName"
             case description = "Description"
@@ -601,7 +601,7 @@ extension MemoryDB {
             case snsTopicArn = "SnsTopicArn"
             case subnetGroupName = "SubnetGroupName"
             case tags = "Tags"
-            case tLSEnabled = "TLSEnabled"
+            case tlsEnabled = "TLSEnabled"
         }
     }
 
@@ -792,14 +792,14 @@ extension MemoryDB {
 
     public struct DeleteACLRequest: AWSEncodableShape {
         /// The name of the Access Control List to delete
-        public let aCLName: String
+        public let aclName: String
 
-        public init(aCLName: String) {
-            self.aCLName = aCLName
+        public init(aclName: String) {
+            self.aclName = aclName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
         }
     }
 
@@ -957,20 +957,20 @@ extension MemoryDB {
 
     public struct DescribeACLsRequest: AWSEncodableShape {
         /// The name of the ACL
-        public let aCLName: String?
+        public let aclName: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
         /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
-        public init(aCLName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
-            self.aCLName = aCLName
+        public init(aclName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.aclName = aclName
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -978,17 +978,17 @@ extension MemoryDB {
 
     public struct DescribeACLsResponse: AWSDecodableShape {
         /// The list of ACLs
-        public let aCLs: [ACL]?
+        public let acLs: [ACL]?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
-        public init(aCLs: [ACL]? = nil, nextToken: String? = nil) {
-            self.aCLs = aCLs
+        public init(acLs: [ACL]? = nil, nextToken: String? = nil) {
+            self.acLs = acLs
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLs = "ACLs"
+            case acLs = "ACLs"
             case nextToken = "NextToken"
         }
     }
@@ -2106,14 +2106,14 @@ extension MemoryDB {
 
     public struct UpdateACLRequest: AWSEncodableShape {
         /// The name of the Access Control List
-        public let aCLName: String
+        public let aclName: String
         /// The list of users to add to the Access Control List
         public let userNamesToAdd: [String]?
         /// The list of users to remove from the Access Control List
         public let userNamesToRemove: [String]?
 
-        public init(aCLName: String, userNamesToAdd: [String]? = nil, userNamesToRemove: [String]? = nil) {
-            self.aCLName = aCLName
+        public init(aclName: String, userNamesToAdd: [String]? = nil, userNamesToRemove: [String]? = nil) {
+            self.aclName = aclName
             self.userNamesToAdd = userNamesToAdd
             self.userNamesToRemove = userNamesToRemove
         }
@@ -2132,7 +2132,7 @@ extension MemoryDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
             case userNamesToAdd = "UserNamesToAdd"
             case userNamesToRemove = "UserNamesToRemove"
         }
@@ -2153,7 +2153,7 @@ extension MemoryDB {
 
     public struct UpdateClusterRequest: AWSEncodableShape {
         /// The Access Control List that is associated with the cluster
-        public let aCLName: String?
+        public let aclName: String?
         /// The name of the cluster to update
         public let clusterName: String
         /// The description of the cluster to update
@@ -2181,8 +2181,8 @@ extension MemoryDB {
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active.
         public let snsTopicStatus: String?
 
-        public init(aCLName: String? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
-            self.aCLName = aCLName
+        public init(aclName: String? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
+            self.aclName = aclName
             self.clusterName = clusterName
             self.description = description
             self.engineVersion = engineVersion
@@ -2199,12 +2199,12 @@ extension MemoryDB {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aCLName, name: "aCLName", parent: name, min: 1)
-            try self.validate(self.aCLName, name: "aCLName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-]*$")
+            try self.validate(self.aclName, name: "aclName", parent: name, min: 1)
+            try self.validate(self.aclName, name: "aclName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCLName = "ACLName"
+            case aclName = "ACLName"
             case clusterName = "ClusterName"
             case description = "Description"
             case engineVersion = "EngineVersion"
@@ -2343,7 +2343,7 @@ extension MemoryDB {
         /// Access permissions string used for this user.
         public let accessString: String?
         /// The names of the Access Control Lists to which the user belongs
-        public let aCLNames: [String]?
+        public let aclNames: [String]?
         /// The Amazon Resource Name (ARN) of the user.
         public let arn: String?
         /// Denotes whether the user requires a password to authenticate.
@@ -2355,9 +2355,9 @@ extension MemoryDB {
         /// Indicates the user status. Can be "active", "modifying" or "deleting".
         public let status: String?
 
-        public init(accessString: String? = nil, aCLNames: [String]? = nil, arn: String? = nil, authentication: Authentication? = nil, minimumEngineVersion: String? = nil, name: String? = nil, status: String? = nil) {
+        public init(accessString: String? = nil, aclNames: [String]? = nil, arn: String? = nil, authentication: Authentication? = nil, minimumEngineVersion: String? = nil, name: String? = nil, status: String? = nil) {
             self.accessString = accessString
-            self.aCLNames = aCLNames
+            self.aclNames = aclNames
             self.arn = arn
             self.authentication = authentication
             self.minimumEngineVersion = minimumEngineVersion
@@ -2367,7 +2367,7 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case accessString = "AccessString"
-            case aCLNames = "ACLNames"
+            case aclNames = "ACLNames"
             case arn = "ARN"
             case authentication = "Authentication"
             case minimumEngineVersion = "MinimumEngineVersion"

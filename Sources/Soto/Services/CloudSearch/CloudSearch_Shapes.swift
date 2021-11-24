@@ -1073,16 +1073,16 @@ extension CloudSearch {
         /// Whether the domain is HTTPS only enabled.
         public let enforceHTTPS: Bool?
         /// The minimum required TLS version
-        public let tLSSecurityPolicy: TLSSecurityPolicy?
+        public let tlsSecurityPolicy: TLSSecurityPolicy?
 
-        public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+        public init(enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
             self.enforceHTTPS = enforceHTTPS
-            self.tLSSecurityPolicy = tLSSecurityPolicy
+            self.tlsSecurityPolicy = tlsSecurityPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case enforceHTTPS = "EnforceHTTPS"
-            case tLSSecurityPolicy = "TLSSecurityPolicy"
+            case tlsSecurityPolicy = "TLSSecurityPolicy"
         }
     }
 

@@ -88,7 +88,7 @@ extension CodeDeploy {
 
     public enum DeploymentTargetType: String, CustomStringConvertible, Codable {
         case cloudFormationTarget = "CloudFormationTarget"
-        case eCSTarget = "ECSTarget"
+        case ecsTarget = "ECSTarget"
         case instanceTarget = "InstanceTarget"
         case lambdaTarget = "LambdaTarget"
         public var description: String { return self.rawValue }

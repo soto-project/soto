@@ -21,8 +21,8 @@ import SotoCore
 public struct STSErrorType: AWSErrorType {
     enum Code: String {
         case expiredTokenException = "ExpiredTokenException"
-        case iDPCommunicationErrorException = "IDPCommunicationError"
-        case iDPRejectedClaimException = "IDPRejectedClaim"
+        case idpCommunicationErrorException = "IDPCommunicationError"
+        case idpRejectedClaimException = "IDPRejectedClaim"
         case invalidAuthorizationMessageException = "InvalidAuthorizationMessageException"
         case invalidIdentityTokenException = "InvalidIdentityToken"
         case malformedPolicyDocumentException = "MalformedPolicyDocument"
@@ -51,9 +51,9 @@ public struct STSErrorType: AWSErrorType {
     /// The web identity token that was passed is expired or is not valid. Get a new identity token from the identity provider and then retry the request.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
     /// The request could not be fulfilled because the identity provider (IDP) that was asked to verify the incoming identity token could not be reached. This is often a transient error caused by network conditions. Retry the request a limited number of times so that you don't exceed the request rate. If the error persists, the identity provider might be down or not responding.
-    public static var iDPCommunicationErrorException: Self { .init(.iDPCommunicationErrorException) }
+    public static var idpCommunicationErrorException: Self { .init(.idpCommunicationErrorException) }
     /// The identity provider (IdP) reported that authentication failed. This might be because the claim is invalid. If this error is returned for the AssumeRoleWithWebIdentity operation, it can also mean that the claim has expired or has been explicitly revoked.
-    public static var iDPRejectedClaimException: Self { .init(.iDPRejectedClaimException) }
+    public static var idpRejectedClaimException: Self { .init(.idpRejectedClaimException) }
     /// The error returned if the message passed to DecodeAuthorizationMessage was invalid. This can happen if the token contains invalid characters, such as linebreaks.
     public static var invalidAuthorizationMessageException: Self { .init(.invalidAuthorizationMessageException) }
     /// The web identity token that was passed could not be validated by Amazon Web Services. Get a new identity token from the identity provider and then retry the request.

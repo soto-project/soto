@@ -65,7 +65,7 @@ extension CloudFront {
     }
 
     public enum Format: String, CustomStringConvertible, Codable {
-        case uRLEncoded = "URLEncoded"
+        case urlEncoded = "URLEncoded"
         public var description: String { return self.rawValue }
     }
 
@@ -125,13 +125,13 @@ extension CloudFront {
     }
 
     public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
-        case sSLv3 = "SSLv3"
-        case tLSv1 = "TLSv1"
-        case tLSv112016 = "TLSv1.1_2016"
-        case tLSv122018 = "TLSv1.2_2018"
-        case tLSv122019 = "TLSv1.2_2019"
-        case tLSv122021 = "TLSv1.2_2021"
-        case tLSv12016 = "TLSv1_2016"
+        case ssLv3 = "SSLv3"
+        case tlSv1 = "TLSv1"
+        case tlSv112016 = "TLSv1.1_2016"
+        case tlSv122018 = "TLSv1.2_2018"
+        case tlSv122019 = "TLSv1.2_2019"
+        case tlSv122021 = "TLSv1.2_2021"
+        case tlSv12016 = "TLSv1_2016"
         public var description: String { return self.rawValue }
     }
 
@@ -221,10 +221,10 @@ extension CloudFront {
     }
 
     public enum SslProtocol: String, CustomStringConvertible, Codable {
-        case sSLv3 = "SSLv3"
-        case tLSv1 = "TLSv1"
-        case tLSv11 = "TLSv1.1"
-        case tLSv12 = "TLSv1.2"
+        case ssLv3 = "SSLv3"
+        case tlSv1 = "TLSv1"
+        case tlSv11 = "TLSv1.1"
+        case tlSv12 = "TLSv1.2"
         public var description: String { return self.rawValue }
     }
 
@@ -303,16 +303,16 @@ extension CloudFront {
         /// 				number.    PENDING indicates that CloudFront can't determine the ICP recordal status of the
         /// 				CNAME associated with the distribution because there was an error in trying to determine the status. You can try again
         /// 				to see if the error is resolved in which case CloudFront returns an APPROVED or SUSPENDED status.
-        public let iCPRecordalStatus: ICPRecordalStatus?
+        public let icpRecordalStatus: ICPRecordalStatus?
 
-        public init(cname: String? = nil, iCPRecordalStatus: ICPRecordalStatus? = nil) {
+        public init(cname: String? = nil, icpRecordalStatus: ICPRecordalStatus? = nil) {
             self.cname = cname
-            self.iCPRecordalStatus = iCPRecordalStatus
+            self.icpRecordalStatus = icpRecordalStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case cname = "CNAME"
-            case iCPRecordalStatus = "ICPRecordalStatus"
+            case icpRecordalStatus = "ICPRecordalStatus"
         }
     }
 
@@ -2078,10 +2078,10 @@ extension CloudFront {
     public struct CustomOriginConfig: AWSEncodableShape & AWSDecodableShape {
         /// The HTTP port that CloudFront uses to connect to the origin. Specify the HTTP port that the origin
         /// 			listens on.
-        public let hTTPPort: Int
+        public let httpPort: Int
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the
         /// 			origin listens on.
-        public let hTTPSPort: Int
+        public let httpsPort: Int
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum
         /// 			timeout is 1 second, the maximum is 60 seconds, and the default (if you don’t specify
         /// 			otherwise) is 5 seconds.
@@ -2115,9 +2115,9 @@ extension CloudFront {
         /// 			Amazon CloudFront Developer Guide.
         public let originSslProtocols: OriginSslProtocols?
 
-        public init(hTTPPort: Int, hTTPSPort: Int, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
-            self.hTTPPort = hTTPPort
-            self.hTTPSPort = hTTPSPort
+        public init(httpPort: Int, httpsPort: Int, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
+            self.httpPort = httpPort
+            self.httpsPort = httpsPort
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originProtocolPolicy = originProtocolPolicy
             self.originReadTimeout = originReadTimeout
@@ -2125,8 +2125,8 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hTTPPort = "HTTPPort"
-            case hTTPSPort = "HTTPSPort"
+            case httpPort = "HTTPPort"
+            case httpsPort = "HTTPSPort"
             case originKeepaliveTimeout = "OriginKeepaliveTimeout"
             case originProtocolPolicy = "OriginProtocolPolicy"
             case originReadTimeout = "OriginReadTimeout"
@@ -7303,15 +7303,15 @@ extension CloudFront {
         /// 			the header’s value.
         /// 		       For more information about the X-XSS-Protection HTTP response header, see
         /// 			X-XSS-Protection in the MDN Web Docs.
-        public let xSSProtection: ResponseHeadersPolicyXSSProtection?
+        public let xssProtection: ResponseHeadersPolicyXSSProtection?
 
-        public init(contentSecurityPolicy: ResponseHeadersPolicyContentSecurityPolicy? = nil, contentTypeOptions: ResponseHeadersPolicyContentTypeOptions? = nil, frameOptions: ResponseHeadersPolicyFrameOptions? = nil, referrerPolicy: ResponseHeadersPolicyReferrerPolicy? = nil, strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity? = nil, xSSProtection: ResponseHeadersPolicyXSSProtection? = nil) {
+        public init(contentSecurityPolicy: ResponseHeadersPolicyContentSecurityPolicy? = nil, contentTypeOptions: ResponseHeadersPolicyContentTypeOptions? = nil, frameOptions: ResponseHeadersPolicyFrameOptions? = nil, referrerPolicy: ResponseHeadersPolicyReferrerPolicy? = nil, strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity? = nil, xssProtection: ResponseHeadersPolicyXSSProtection? = nil) {
             self.contentSecurityPolicy = contentSecurityPolicy
             self.contentTypeOptions = contentTypeOptions
             self.frameOptions = frameOptions
             self.referrerPolicy = referrerPolicy
             self.strictTransportSecurity = strictTransportSecurity
-            self.xSSProtection = xSSProtection
+            self.xssProtection = xssProtection
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7320,7 +7320,7 @@ extension CloudFront {
             case frameOptions = "FrameOptions"
             case referrerPolicy = "ReferrerPolicy"
             case strictTransportSecurity = "StrictTransportSecurity"
-            case xSSProtection = "XSSProtection"
+            case xssProtection = "XSSProtection"
         }
     }
 
@@ -8722,7 +8722,7 @@ extension CloudFront {
         /// 			East (N. Virginia) Region (us-east-1).
         /// 		       If you specify an ACM certificate ARN, you must also specify values for
         /// 			MinimumProtocolVersion and SSLSupportMethod.
-        public let aCMCertificateArn: String?
+        public let acmCertificateArn: String?
         /// This field is deprecated. Use one of the following fields instead:
         ///
         /// 				            ACMCertificateArn
@@ -8760,7 +8760,7 @@ extension CloudFront {
         /// 			certificate.
         /// 		       If you specify an IAM certificate ID, you must also specify values for
         /// 			MinimumProtocolVersion and SSLSupportMethod.
-        public let iAMCertificateId: String?
+        public let iamCertificateId: String?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs),
         /// 			specify the security policy that you want CloudFront to use for HTTPS connections with
         /// 			viewers. The security policy determines two settings:
@@ -8803,37 +8803,37 @@ extension CloudFront {
         ///
         /// 		       If the distribution uses the CloudFront domain name such as
         /// 			d111111abcdef8.cloudfront.net, don’t set a value for this field.
-        public let sSLSupportMethod: SSLSupportMethod?
+        public let sslSupportMethod: SSLSupportMethod?
 
-        public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
-            self.aCMCertificateArn = aCMCertificateArn
+        public init(acmCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iamCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sslSupportMethod: SSLSupportMethod? = nil) {
+            self.acmCertificateArn = acmCertificateArn
             self.certificate = nil
             self.certificateSource = nil
             self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
-            self.iAMCertificateId = iAMCertificateId
+            self.iamCertificateId = iamCertificateId
             self.minimumProtocolVersion = minimumProtocolVersion
-            self.sSLSupportMethod = sSLSupportMethod
+            self.sslSupportMethod = sslSupportMethod
         }
 
         @available(*, deprecated, message: "Members certificate, certificateSource have been deprecated")
-        public init(aCMCertificateArn: String? = nil, certificate: String? = nil, certificateSource: CertificateSource? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
-            self.aCMCertificateArn = aCMCertificateArn
+        public init(acmCertificateArn: String? = nil, certificate: String? = nil, certificateSource: CertificateSource? = nil, cloudFrontDefaultCertificate: Bool? = nil, iamCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sslSupportMethod: SSLSupportMethod? = nil) {
+            self.acmCertificateArn = acmCertificateArn
             self.certificate = certificate
             self.certificateSource = certificateSource
             self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
-            self.iAMCertificateId = iAMCertificateId
+            self.iamCertificateId = iamCertificateId
             self.minimumProtocolVersion = minimumProtocolVersion
-            self.sSLSupportMethod = sSLSupportMethod
+            self.sslSupportMethod = sslSupportMethod
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aCMCertificateArn = "ACMCertificateArn"
+            case acmCertificateArn = "ACMCertificateArn"
             case certificate = "Certificate"
             case certificateSource = "CertificateSource"
             case cloudFrontDefaultCertificate = "CloudFrontDefaultCertificate"
-            case iAMCertificateId = "IAMCertificateId"
+            case iamCertificateId = "IAMCertificateId"
             case minimumProtocolVersion = "MinimumProtocolVersion"
-            case sSLSupportMethod = "SSLSupportMethod"
+            case sslSupportMethod = "SSLSupportMethod"
         }
     }
 }

@@ -30,10 +30,10 @@ extension AutoScalingPlans {
     }
 
     public enum LoadMetricType: String, CustomStringConvertible, Codable {
-        case aLBTargetGroupRequestCount = "ALBTargetGroupRequestCount"
-        case aSGTotalCPUUtilization = "ASGTotalCPUUtilization"
-        case aSGTotalNetworkIn = "ASGTotalNetworkIn"
-        case aSGTotalNetworkOut = "ASGTotalNetworkOut"
+        case albTargetGroupRequestCount = "ALBTargetGroupRequestCount"
+        case asgTotalCPUUtilization = "ASGTotalCPUUtilization"
+        case asgTotalNetworkIn = "ASGTotalNetworkIn"
+        case asgTotalNetworkOut = "ASGTotalNetworkOut"
         public var description: String { return self.rawValue }
     }
 
@@ -77,19 +77,19 @@ extension AutoScalingPlans {
     }
 
     public enum ScalingMetricType: String, CustomStringConvertible, Codable {
-        case aLBRequestCountPerTarget = "ALBRequestCountPerTarget"
-        case aSGAverageCPUUtilization = "ASGAverageCPUUtilization"
-        case aSGAverageNetworkIn = "ASGAverageNetworkIn"
-        case aSGAverageNetworkOut = "ASGAverageNetworkOut"
+        case albRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case asgAverageCPUUtilization = "ASGAverageCPUUtilization"
+        case asgAverageNetworkIn = "ASGAverageNetworkIn"
+        case asgAverageNetworkOut = "ASGAverageNetworkOut"
         case dynamoDBReadCapacityUtilization = "DynamoDBReadCapacityUtilization"
         case dynamoDBWriteCapacityUtilization = "DynamoDBWriteCapacityUtilization"
-        case eC2SpotFleetRequestAverageCPUUtilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case eC2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
-        case eC2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
-        case eCSServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
-        case eCSServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
-        case rDSReaderAverageCPUUtilization = "RDSReaderAverageCPUUtilization"
-        case rDSReaderAverageDatabaseConnections = "RDSReaderAverageDatabaseConnections"
+        case ec2SpotFleetRequestAverageCPUUtilization = "EC2SpotFleetRequestAverageCPUUtilization"
+        case ec2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
+        case ec2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
+        case ecsServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
+        case ecsServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
+        case rdsReaderAverageCPUUtilization = "RDSReaderAverageCPUUtilization"
+        case rdsReaderAverageDatabaseConnections = "RDSReaderAverageDatabaseConnections"
         public var description: String { return self.rawValue }
     }
 

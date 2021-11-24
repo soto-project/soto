@@ -627,31 +627,31 @@ extension AlexaForBusiness {
         /// The ARN of the newly created conference provider.
         public let arn: String?
         /// The IP endpoint and protocol for calling.
-        public let iPDialIn: IPDialIn?
+        public let ipDialIn: IPDialIn?
         /// The meeting settings for the conference provider.
         public let meetingSetting: MeetingSetting?
         /// The name of the conference provider.
         public let name: String?
         /// The information for PSTN conferencing.
-        public let pSTNDialIn: PSTNDialIn?
+        public let pstnDialIn: PSTNDialIn?
         /// The type of conference providers.
         public let type: ConferenceProviderType?
 
-        public init(arn: String? = nil, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting? = nil, name: String? = nil, pSTNDialIn: PSTNDialIn? = nil, type: ConferenceProviderType? = nil) {
+        public init(arn: String? = nil, ipDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting? = nil, name: String? = nil, pstnDialIn: PSTNDialIn? = nil, type: ConferenceProviderType? = nil) {
             self.arn = arn
-            self.iPDialIn = iPDialIn
+            self.ipDialIn = ipDialIn
             self.meetingSetting = meetingSetting
             self.name = name
-            self.pSTNDialIn = pSTNDialIn
+            self.pstnDialIn = pstnDialIn
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
-            case iPDialIn = "IPDialIn"
+            case ipDialIn = "IPDialIn"
             case meetingSetting = "MeetingSetting"
             case name = "Name"
-            case pSTNDialIn = "PSTNDialIn"
+            case pstnDialIn = "PSTNDialIn"
             case type = "Type"
         }
     }
@@ -896,21 +896,21 @@ extension AlexaForBusiness {
         /// Represents a type within a list of predefined types.
         public let conferenceProviderType: ConferenceProviderType
         /// The IP endpoint and protocol for calling.
-        public let iPDialIn: IPDialIn?
+        public let ipDialIn: IPDialIn?
         /// The meeting settings for the conference provider.
         public let meetingSetting: MeetingSetting
         /// The information for PSTN conferencing.
-        public let pSTNDialIn: PSTNDialIn?
+        public let pstnDialIn: PSTNDialIn?
         /// The tags to be added to the specified resource. Do not provide system tags.
         public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateConferenceProviderRequest.idempotencyToken(), conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = CreateConferenceProviderRequest.idempotencyToken(), conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, ipDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pstnDialIn: PSTNDialIn? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.conferenceProviderName = conferenceProviderName
             self.conferenceProviderType = conferenceProviderType
-            self.iPDialIn = iPDialIn
+            self.ipDialIn = ipDialIn
             self.meetingSetting = meetingSetting
-            self.pSTNDialIn = pSTNDialIn
+            self.pstnDialIn = pstnDialIn
             self.tags = tags
         }
 
@@ -921,8 +921,8 @@ extension AlexaForBusiness {
             try self.validate(self.conferenceProviderName, name: "conferenceProviderName", parent: name, max: 50)
             try self.validate(self.conferenceProviderName, name: "conferenceProviderName", parent: name, min: 1)
             try self.validate(self.conferenceProviderName, name: "conferenceProviderName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try self.iPDialIn?.validate(name: "\(name).iPDialIn")
-            try self.pSTNDialIn?.validate(name: "\(name).pSTNDialIn")
+            try self.ipDialIn?.validate(name: "\(name).ipDialIn")
+            try self.pstnDialIn?.validate(name: "\(name).pstnDialIn")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -932,9 +932,9 @@ extension AlexaForBusiness {
             case clientRequestToken = "ClientRequestToken"
             case conferenceProviderName = "ConferenceProviderName"
             case conferenceProviderType = "ConferenceProviderType"
-            case iPDialIn = "IPDialIn"
+            case ipDialIn = "IPDialIn"
             case meetingSetting = "MeetingSetting"
-            case pSTNDialIn = "PSTNDialIn"
+            case pstnDialIn = "PSTNDialIn"
             case tags = "Tags"
         }
     }
@@ -1267,7 +1267,7 @@ extension AlexaForBusiness {
         /// The name of a room profile.
         public let profileName: String
         /// Whether PSTN calling is enabled.
-        public let pSTNEnabled: Bool?
+        public let pstnEnabled: Bool?
         /// Whether room profile setup is enabled.
         public let setupModeDisabled: Bool?
         /// The tags for the profile.
@@ -1279,7 +1279,7 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, tags: [Tag]? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pstnEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, tags: [Tag]? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.dataRetentionOptIn = dataRetentionOptIn
@@ -1288,7 +1288,7 @@ extension AlexaForBusiness {
             self.maxVolumeLimit = maxVolumeLimit
             self.meetingRoomConfiguration = meetingRoomConfiguration
             self.profileName = profileName
-            self.pSTNEnabled = pSTNEnabled
+            self.pstnEnabled = pstnEnabled
             self.setupModeDisabled = setupModeDisabled
             self.tags = tags
             self.temperatureUnit = temperatureUnit
@@ -1324,7 +1324,7 @@ extension AlexaForBusiness {
             case maxVolumeLimit = "MaxVolumeLimit"
             case meetingRoomConfiguration = "MeetingRoomConfiguration"
             case profileName = "ProfileName"
-            case pSTNEnabled = "PSTNEnabled"
+            case pstnEnabled = "PSTNEnabled"
             case setupModeDisabled = "SetupModeDisabled"
             case tags = "Tags"
             case temperatureUnit = "TemperatureUnit"
@@ -3442,7 +3442,7 @@ extension AlexaForBusiness {
         /// The name of a room profile.
         public let profileName: String?
         /// The PSTN setting of a room profile.
-        public let pSTNEnabled: Bool?
+        public let pstnEnabled: Bool?
         /// The setup mode of a room profile.
         public let setupModeDisabled: Bool?
         /// The temperature unit of a room profile.
@@ -3452,7 +3452,7 @@ extension AlexaForBusiness {
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, addressBookArn: String? = nil, dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: MeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, addressBookArn: String? = nil, dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: MeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pstnEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.addressBookArn = addressBookArn
             self.dataRetentionOptIn = dataRetentionOptIn
@@ -3463,7 +3463,7 @@ extension AlexaForBusiness {
             self.meetingRoomConfiguration = meetingRoomConfiguration
             self.profileArn = profileArn
             self.profileName = profileName
-            self.pSTNEnabled = pSTNEnabled
+            self.pstnEnabled = pstnEnabled
             self.setupModeDisabled = setupModeDisabled
             self.temperatureUnit = temperatureUnit
             self.timezone = timezone
@@ -3481,7 +3481,7 @@ extension AlexaForBusiness {
             case meetingRoomConfiguration = "MeetingRoomConfiguration"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"
-            case pSTNEnabled = "PSTNEnabled"
+            case pstnEnabled = "PSTNEnabled"
             case setupModeDisabled = "SetupModeDisabled"
             case temperatureUnit = "TemperatureUnit"
             case timezone = "Timezone"
@@ -4963,32 +4963,32 @@ extension AlexaForBusiness {
         /// The type of the conference provider.
         public let conferenceProviderType: ConferenceProviderType
         /// The IP endpoint and protocol for calling.
-        public let iPDialIn: IPDialIn?
+        public let ipDialIn: IPDialIn?
         /// The meeting settings for the conference provider.
         public let meetingSetting: MeetingSetting
         /// The information for PSTN conferencing.
-        public let pSTNDialIn: PSTNDialIn?
+        public let pstnDialIn: PSTNDialIn?
 
-        public init(conferenceProviderArn: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
+        public init(conferenceProviderArn: String, conferenceProviderType: ConferenceProviderType, ipDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pstnDialIn: PSTNDialIn? = nil) {
             self.conferenceProviderArn = conferenceProviderArn
             self.conferenceProviderType = conferenceProviderType
-            self.iPDialIn = iPDialIn
+            self.ipDialIn = ipDialIn
             self.meetingSetting = meetingSetting
-            self.pSTNDialIn = pSTNDialIn
+            self.pstnDialIn = pstnDialIn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.conferenceProviderArn, name: "conferenceProviderArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try self.iPDialIn?.validate(name: "\(name).iPDialIn")
-            try self.pSTNDialIn?.validate(name: "\(name).pSTNDialIn")
+            try self.ipDialIn?.validate(name: "\(name).ipDialIn")
+            try self.pstnDialIn?.validate(name: "\(name).pstnDialIn")
         }
 
         private enum CodingKeys: String, CodingKey {
             case conferenceProviderArn = "ConferenceProviderArn"
             case conferenceProviderType = "ConferenceProviderType"
-            case iPDialIn = "IPDialIn"
+            case ipDialIn = "IPDialIn"
             case meetingSetting = "MeetingSetting"
-            case pSTNDialIn = "PSTNDialIn"
+            case pstnDialIn = "PSTNDialIn"
         }
     }
 
@@ -5314,7 +5314,7 @@ extension AlexaForBusiness {
         /// The updated name for the room profile.
         public let profileName: String?
         /// Whether the PSTN setting of the room profile is enabled.
-        public let pSTNEnabled: Bool?
+        public let pstnEnabled: Bool?
         /// Whether the setup mode of the profile is enabled.
         public let setupModeDisabled: Bool?
         /// The updated temperature unit for the room profile.
@@ -5324,7 +5324,7 @@ extension AlexaForBusiness {
         /// The updated wake word for the room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: UpdateMeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: UpdateMeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pstnEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.dataRetentionOptIn = dataRetentionOptIn
             self.distanceUnit = distanceUnit
@@ -5334,7 +5334,7 @@ extension AlexaForBusiness {
             self.meetingRoomConfiguration = meetingRoomConfiguration
             self.profileArn = profileArn
             self.profileName = profileName
-            self.pSTNEnabled = pSTNEnabled
+            self.pstnEnabled = pstnEnabled
             self.setupModeDisabled = setupModeDisabled
             self.temperatureUnit = temperatureUnit
             self.timezone = timezone
@@ -5365,7 +5365,7 @@ extension AlexaForBusiness {
             case meetingRoomConfiguration = "MeetingRoomConfiguration"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"
-            case pSTNEnabled = "PSTNEnabled"
+            case pstnEnabled = "PSTNEnabled"
             case setupModeDisabled = "SetupModeDisabled"
             case temperatureUnit = "TemperatureUnit"
             case timezone = "Timezone"

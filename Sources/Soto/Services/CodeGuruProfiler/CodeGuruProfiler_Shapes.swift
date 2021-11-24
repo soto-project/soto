@@ -53,7 +53,7 @@ extension CodeGuruProfiler {
 
     public enum ComputePlatform: String, CustomStringConvertible, Codable {
         /// Compute platform meant to used for AWS Lambda.
-        case aWSLambda = "AWSLambda"
+        case awsLambda = "AWSLambda"
         /// Compute platform meant to used for all usecases (like EC2, Fargate, physical servers etc.) but AWS Lambda.
         case `default` = "Default"
         public var description: String { return self.rawValue }

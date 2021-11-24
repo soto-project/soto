@@ -662,7 +662,7 @@ extension SSM {
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case document = "Document"
-        case eC2Instance = "EC2Instance"
+        case ec2Instance = "EC2Instance"
         case managedInstance = "ManagedInstance"
         public var description: String { return self.rawValue }
     }
@@ -7252,7 +7252,7 @@ extension SSM {
         /// The instance ID.
         public let instanceId: String?
         /// The IP address of the managed instance.
-        public let iPAddress: String?
+        public let ipAddress: String?
         /// Indicates whether the latest version of SSM Agent is running on your Linux Managed Instance. This field doesn't indicate whether or not the latest version is installed on Windows managed instances, because some older versions of Windows Server use the EC2Config service to process Systems Manager requests.
         public let isLatestVersion: Bool?
         /// The date the association was last run.
@@ -7276,7 +7276,7 @@ extension SSM {
         /// The type of instance. Instances are either EC2 instances or managed instances.
         public let resourceType: ResourceType?
 
-        public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, iPAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: ResourceType? = nil) {
+        public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: ResourceType? = nil) {
             self.activationId = activationId
             self.agentVersion = agentVersion
             self.associationOverview = associationOverview
@@ -7284,7 +7284,7 @@ extension SSM {
             self.computerName = computerName
             self.iamRole = iamRole
             self.instanceId = instanceId
-            self.iPAddress = iPAddress
+            self.ipAddress = ipAddress
             self.isLatestVersion = isLatestVersion
             self.lastAssociationExecutionDate = lastAssociationExecutionDate
             self.lastPingDateTime = lastPingDateTime
@@ -7306,7 +7306,7 @@ extension SSM {
             case computerName = "ComputerName"
             case iamRole = "IamRole"
             case instanceId = "InstanceId"
-            case iPAddress = "IPAddress"
+            case ipAddress = "IPAddress"
             case isLatestVersion = "IsLatestVersion"
             case lastAssociationExecutionDate = "LastAssociationExecutionDate"
             case lastPingDateTime = "LastPingDateTime"
@@ -10184,7 +10184,7 @@ extension SSM {
         /// The URL where more information can be obtained about the patch.
         public let contentUrl: String?
         /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example, CVE-2011-3192. Applies to Linux-based instances only.
-        public let cVEIds: [String]?
+        public let cveIds: [String]?
         /// The description of the patch.
         public let description: String?
         /// The epoch of the patch. For example in pkg-example-EE-20180914-2.2.amzn1.noarch, the epoch value is 20180914-2. Applies to Linux-based instances only.
@@ -10220,13 +10220,13 @@ extension SSM {
         /// The version number of the patch. For example, in example-pkg-1.710.10-2.7.abcd.x86_64, the version number is indicated by -1. Applies to Linux-based instances only.
         public let version: String?
 
-        public init(advisoryIds: [String]? = nil, arch: String? = nil, bugzillaIds: [String]? = nil, classification: String? = nil, contentUrl: String? = nil, cVEIds: [String]? = nil, description: String? = nil, epoch: Int? = nil, id: String? = nil, kbNumber: String? = nil, language: String? = nil, msrcNumber: String? = nil, msrcSeverity: String? = nil, name: String? = nil, product: String? = nil, productFamily: String? = nil, release: String? = nil, releaseDate: Date? = nil, repository: String? = nil, severity: String? = nil, title: String? = nil, vendor: String? = nil, version: String? = nil) {
+        public init(advisoryIds: [String]? = nil, arch: String? = nil, bugzillaIds: [String]? = nil, classification: String? = nil, contentUrl: String? = nil, cveIds: [String]? = nil, description: String? = nil, epoch: Int? = nil, id: String? = nil, kbNumber: String? = nil, language: String? = nil, msrcNumber: String? = nil, msrcSeverity: String? = nil, name: String? = nil, product: String? = nil, productFamily: String? = nil, release: String? = nil, releaseDate: Date? = nil, repository: String? = nil, severity: String? = nil, title: String? = nil, vendor: String? = nil, version: String? = nil) {
             self.advisoryIds = advisoryIds
             self.arch = arch
             self.bugzillaIds = bugzillaIds
             self.classification = classification
             self.contentUrl = contentUrl
-            self.cVEIds = cVEIds
+            self.cveIds = cveIds
             self.description = description
             self.epoch = epoch
             self.id = id
@@ -10252,7 +10252,7 @@ extension SSM {
             case bugzillaIds = "BugzillaIds"
             case classification = "Classification"
             case contentUrl = "ContentUrl"
-            case cVEIds = "CVEIds"
+            case cveIds = "CVEIds"
             case description = "Description"
             case epoch = "Epoch"
             case id = "Id"
@@ -10306,11 +10306,11 @@ extension SSM {
         /// The classification of the patch, such as SecurityUpdates, Updates, and CriticalUpdates.
         public let classification: String
         /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that are resolved by the patch.
-        public let cVEIds: String?
+        public let cveIds: String?
         /// The date/time the patch was installed on the instance. Not all operating systems provide this level of information.
         public let installedTime: Date
         /// The operating system-specific ID of the patch.
-        public let kBId: String
+        public let kbId: String
         /// The severity of the patchsuch as Critical, Important, and Moderate.
         public let severity: String
         /// The state of the patch on the instance, such as INSTALLED or FAILED. For descriptions of each patch state, see About patch compliance in the Amazon Web Services Systems Manager User Guide.
@@ -10318,11 +10318,11 @@ extension SSM {
         /// The title of the patch.
         public let title: String
 
-        public init(classification: String, cVEIds: String? = nil, installedTime: Date, kBId: String, severity: String, state: PatchComplianceDataState, title: String) {
+        public init(classification: String, cveIds: String? = nil, installedTime: Date, kbId: String, severity: String, state: PatchComplianceDataState, title: String) {
             self.classification = classification
-            self.cVEIds = cVEIds
+            self.cveIds = cveIds
             self.installedTime = installedTime
-            self.kBId = kBId
+            self.kbId = kbId
             self.severity = severity
             self.state = state
             self.title = title
@@ -10330,9 +10330,9 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case classification = "Classification"
-            case cVEIds = "CVEIds"
+            case cveIds = "CVEIds"
             case installedTime = "InstalledTime"
-            case kBId = "KBId"
+            case kbId = "KBId"
             case severity = "Severity"
             case state = "State"
             case title = "Title"
@@ -11260,7 +11260,7 @@ extension SSM {
 
     public struct ResourceDataSyncS3Destination: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination S3 bucket.
-        public let aWSKMSKeyARN: String?
+        public let awskmsKeyARN: String?
         /// The name of the S3 bucket where the aggregated data is stored.
         public let bucketName: String
         /// Enables destination data sharing. By default, this field is null.
@@ -11272,8 +11272,8 @@ extension SSM {
         /// A supported sync format. The following format is currently supported: JsonSerDe
         public let syncFormat: ResourceDataSyncS3Format
 
-        public init(aWSKMSKeyARN: String? = nil, bucketName: String, destinationDataSharing: ResourceDataSyncDestinationDataSharing? = nil, prefix: String? = nil, region: String, syncFormat: ResourceDataSyncS3Format) {
-            self.aWSKMSKeyARN = aWSKMSKeyARN
+        public init(awskmsKeyARN: String? = nil, bucketName: String, destinationDataSharing: ResourceDataSyncDestinationDataSharing? = nil, prefix: String? = nil, region: String, syncFormat: ResourceDataSyncS3Format) {
+            self.awskmsKeyARN = awskmsKeyARN
             self.bucketName = bucketName
             self.destinationDataSharing = destinationDataSharing
             self.prefix = prefix
@@ -11282,9 +11282,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, max: 512)
-            try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, min: 1)
-            try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, pattern: "^arn:")
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, max: 512)
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, min: 1)
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, pattern: "^arn:")
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 2048)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 1)
             try self.destinationDataSharing?.validate(name: "\(name).destinationDataSharing")
@@ -11295,7 +11295,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSKMSKeyARN = "AWSKMSKeyARN"
+            case awskmsKeyARN = "AWSKMSKeyARN"
             case bucketName = "BucketName"
             case destinationDataSharing = "DestinationDataSharing"
             case prefix = "Prefix"

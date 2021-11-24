@@ -797,7 +797,7 @@ extension Lambda {
         /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
         /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
-        public let kMSKeyArn: String?
+        public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
         /// The amount of  memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
@@ -820,7 +820,7 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.architectures = architectures
             self.code = code
             self.codeSigningConfigArn = codeSigningConfigArn
@@ -831,7 +831,7 @@ extension Lambda {
             self.functionName = functionName
             self.handler = handler
             self.imageConfig = imageConfig
-            self.kMSKeyArn = kMSKeyArn
+            self.kmsKeyArn = kmsKeyArn
             self.layers = layers
             self.memorySize = memorySize
             self.packageType = packageType
@@ -863,7 +863,7 @@ extension Lambda {
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "^[^\\s]+$")
             try self.imageConfig?.validate(name: "\(name).imageConfig")
-            try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
@@ -887,7 +887,7 @@ extension Lambda {
             case functionName = "FunctionName"
             case handler = "Handler"
             case imageConfig = "ImageConfig"
-            case kMSKeyArn = "KMSKeyArn"
+            case kmsKeyArn = "KMSKeyArn"
             case layers = "Layers"
             case memorySize = "MemorySize"
             case packageType = "PackageType"
@@ -1506,7 +1506,7 @@ extension Lambda {
         /// The function's image configuration values.
         public let imageConfigResponse: ImageConfigResponse?
         /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed key.
-        public let kMSKeyArn: String?
+        public let kmsKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
         /// The status of the last update that was performed on the function. This is first set to Successful after function creation completes.
@@ -1548,7 +1548,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -1560,7 +1560,7 @@ extension Lambda {
             self.functionName = functionName
             self.handler = handler
             self.imageConfigResponse = imageConfigResponse
-            self.kMSKeyArn = kMSKeyArn
+            self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.lastUpdateStatus = lastUpdateStatus
             self.lastUpdateStatusReason = lastUpdateStatusReason
@@ -1595,7 +1595,7 @@ extension Lambda {
             case functionName = "FunctionName"
             case handler = "Handler"
             case imageConfigResponse = "ImageConfigResponse"
-            case kMSKeyArn = "KMSKeyArn"
+            case kmsKeyArn = "KMSKeyArn"
             case lastModified = "LastModified"
             case lastUpdateStatus = "LastUpdateStatus"
             case lastUpdateStatusReason = "LastUpdateStatusReason"
@@ -4009,7 +4009,7 @@ extension Lambda {
         ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
         /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
-        public let kMSKeyArn: String?
+        public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
         /// The amount of  memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
@@ -4028,7 +4028,7 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
@@ -4036,7 +4036,7 @@ extension Lambda {
             self.functionName = functionName
             self.handler = handler
             self.imageConfig = imageConfig
-            self.kMSKeyArn = kMSKeyArn
+            self.kmsKeyArn = kmsKeyArn
             self.layers = layers
             self.memorySize = memorySize
             self.revisionId = revisionId
@@ -4061,7 +4061,7 @@ extension Lambda {
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "^[^\\s]+$")
             try self.imageConfig?.validate(name: "\(name).imageConfig")
-            try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
@@ -4081,7 +4081,7 @@ extension Lambda {
             case fileSystemConfigs = "FileSystemConfigs"
             case handler = "Handler"
             case imageConfig = "ImageConfig"
-            case kMSKeyArn = "KMSKeyArn"
+            case kmsKeyArn = "KMSKeyArn"
             case layers = "Layers"
             case memorySize = "MemorySize"
             case revisionId = "RevisionId"

@@ -1401,18 +1401,18 @@ extension Panorama {
 
     public struct DeviceJobConfig: AWSEncodableShape {
         /// A configuration for an over-the-air (OTA) upgrade. Required for OTA jobs.
-        public let oTAJobConfig: OTAJobConfig?
+        public let otaJobConfig: OTAJobConfig?
 
-        public init(oTAJobConfig: OTAJobConfig? = nil) {
-            self.oTAJobConfig = oTAJobConfig
+        public init(otaJobConfig: OTAJobConfig? = nil) {
+            self.otaJobConfig = otaJobConfig
         }
 
         public func validate(name: String) throws {
-            try self.oTAJobConfig?.validate(name: "\(name).oTAJobConfig")
+            try self.otaJobConfig?.validate(name: "\(name).otaJobConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oTAJobConfig = "OTAJobConfig"
+            case otaJobConfig = "OTAJobConfig"
         }
     }
 

@@ -23,14 +23,14 @@ public struct LambdaErrorType: AWSErrorType {
         case codeSigningConfigNotFoundException = "CodeSigningConfigNotFoundException"
         case codeStorageExceededException = "CodeStorageExceededException"
         case codeVerificationFailedException = "CodeVerificationFailedException"
-        case eC2AccessDeniedException = "EC2AccessDeniedException"
-        case eC2ThrottledException = "EC2ThrottledException"
-        case eC2UnexpectedException = "EC2UnexpectedException"
-        case eFSIOException = "EFSIOException"
-        case eFSMountConnectivityException = "EFSMountConnectivityException"
-        case eFSMountFailureException = "EFSMountFailureException"
-        case eFSMountTimeoutException = "EFSMountTimeoutException"
-        case eNILimitReachedException = "ENILimitReachedException"
+        case ec2AccessDeniedException = "EC2AccessDeniedException"
+        case ec2ThrottledException = "EC2ThrottledException"
+        case ec2UnexpectedException = "EC2UnexpectedException"
+        case efsMountConnectivityException = "EFSMountConnectivityException"
+        case efsMountFailureException = "EFSMountFailureException"
+        case efsMountTimeoutException = "EFSMountTimeoutException"
+        case efsioException = "EFSIOException"
+        case eniLimitReachedException = "ENILimitReachedException"
         case invalidCodeSignatureException = "InvalidCodeSignatureException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case invalidRequestContentException = "InvalidRequestContentException"
@@ -38,10 +38,10 @@ public struct LambdaErrorType: AWSErrorType {
         case invalidSecurityGroupIDException = "InvalidSecurityGroupIDException"
         case invalidSubnetIDException = "InvalidSubnetIDException"
         case invalidZipFileException = "InvalidZipFileException"
-        case kMSAccessDeniedException = "KMSAccessDeniedException"
-        case kMSDisabledException = "KMSDisabledException"
-        case kMSInvalidStateException = "KMSInvalidStateException"
-        case kMSNotFoundException = "KMSNotFoundException"
+        case kmsAccessDeniedException = "KMSAccessDeniedException"
+        case kmsDisabledException = "KMSDisabledException"
+        case kmsInvalidStateException = "KMSInvalidStateException"
+        case kmsNotFoundException = "KMSNotFoundException"
         case policyLengthExceededException = "PolicyLengthExceededException"
         case preconditionFailedException = "PreconditionFailedException"
         case provisionedConcurrencyConfigNotFoundException = "ProvisionedConcurrencyConfigNotFoundException"
@@ -81,21 +81,21 @@ public struct LambdaErrorType: AWSErrorType {
     /// The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
     public static var codeVerificationFailedException: Self { .init(.codeVerificationFailedException) }
     /// Need additional permissions to configure VPC settings.
-    public static var eC2AccessDeniedException: Self { .init(.eC2AccessDeniedException) }
+    public static var ec2AccessDeniedException: Self { .init(.ec2AccessDeniedException) }
     /// Lambda was throttled by Amazon EC2 during Lambda function initialization using the execution role provided for the Lambda function.
-    public static var eC2ThrottledException: Self { .init(.eC2ThrottledException) }
+    public static var ec2ThrottledException: Self { .init(.ec2ThrottledException) }
     /// Lambda received an unexpected EC2 client exception while setting up for the Lambda function.
-    public static var eC2UnexpectedException: Self { .init(.eC2UnexpectedException) }
-    /// An error occurred when reading from or writing to a connected file system.
-    public static var eFSIOException: Self { .init(.eFSIOException) }
+    public static var ec2UnexpectedException: Self { .init(.ec2UnexpectedException) }
     /// The function couldn't make a network connection to the configured file system.
-    public static var eFSMountConnectivityException: Self { .init(.eFSMountConnectivityException) }
+    public static var efsMountConnectivityException: Self { .init(.efsMountConnectivityException) }
     /// The function couldn't mount the configured file system due to a permission or configuration issue.
-    public static var eFSMountFailureException: Self { .init(.eFSMountFailureException) }
+    public static var efsMountFailureException: Self { .init(.efsMountFailureException) }
     /// The function was able to make a network connection to the configured file system, but the mount operation timed out.
-    public static var eFSMountTimeoutException: Self { .init(.eFSMountTimeoutException) }
+    public static var efsMountTimeoutException: Self { .init(.efsMountTimeoutException) }
+    /// An error occurred when reading from or writing to a connected file system.
+    public static var efsioException: Self { .init(.efsioException) }
     /// Lambda was not able to create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached.
-    public static var eNILimitReachedException: Self { .init(.eNILimitReachedException) }
+    public static var eniLimitReachedException: Self { .init(.eniLimitReachedException) }
     /// The code signature failed the integrity check. Lambda always blocks deployment if the integrity check fails, even if code signing policy is set to WARN.
     public static var invalidCodeSignatureException: Self { .init(.invalidCodeSignatureException) }
     /// One of the parameters in the request is invalid.
@@ -111,13 +111,13 @@ public struct LambdaErrorType: AWSErrorType {
     /// Lambda could not unzip the deployment package.
     public static var invalidZipFileException: Self { .init(.invalidZipFileException) }
     /// Lambda was unable to decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
-    public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
     /// Lambda was unable to decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
-    public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
     /// Lambda was unable to decrypt the environment variables because the KMS key used is in an invalid state for Decrypt. Check the function's KMS key settings.
-    public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
     /// Lambda was unable to decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
-    public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The permissions policy for the resource is too large. Learn more
     public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
     /// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API to retrieve the latest RevisionId for your resource.

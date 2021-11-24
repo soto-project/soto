@@ -49,11 +49,11 @@ extension MTurk {
         case assignmentRejected = "AssignmentRejected"
         case assignmentReturned = "AssignmentReturned"
         case assignmentSubmitted = "AssignmentSubmitted"
-        case hITCreated = "HITCreated"
-        case hITDisposed = "HITDisposed"
-        case hITExpired = "HITExpired"
-        case hITExtended = "HITExtended"
-        case hITReviewable = "HITReviewable"
+        case hitCreated = "HITCreated"
+        case hitDisposed = "HITDisposed"
+        case hitExpired = "HITExpired"
+        case hitExtended = "HITExtended"
+        case hitReviewable = "HITReviewable"
         case ping = "Ping"
         public var description: String { return self.rawValue }
     }
@@ -197,7 +197,7 @@ extension MTurk {
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
         public let deadline: Date?
         ///  The ID of the HIT.
-        public let hITId: String?
+        public let hitId: String?
         ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
         public let rejectionTime: Date?
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
@@ -207,7 +207,7 @@ extension MTurk {
         ///  The ID of the Worker who accepted the HIT.
         public let workerId: String?
 
-        public init(acceptTime: Date? = nil, answer: String? = nil, approvalTime: Date? = nil, assignmentId: String? = nil, assignmentStatus: AssignmentStatus? = nil, autoApprovalTime: Date? = nil, deadline: Date? = nil, hITId: String? = nil, rejectionTime: Date? = nil, requesterFeedback: String? = nil, submitTime: Date? = nil, workerId: String? = nil) {
+        public init(acceptTime: Date? = nil, answer: String? = nil, approvalTime: Date? = nil, assignmentId: String? = nil, assignmentStatus: AssignmentStatus? = nil, autoApprovalTime: Date? = nil, deadline: Date? = nil, hitId: String? = nil, rejectionTime: Date? = nil, requesterFeedback: String? = nil, submitTime: Date? = nil, workerId: String? = nil) {
             self.acceptTime = acceptTime
             self.answer = answer
             self.approvalTime = approvalTime
@@ -215,7 +215,7 @@ extension MTurk {
             self.assignmentStatus = assignmentStatus
             self.autoApprovalTime = autoApprovalTime
             self.deadline = deadline
-            self.hITId = hITId
+            self.hitId = hitId
             self.rejectionTime = rejectionTime
             self.requesterFeedback = requesterFeedback
             self.submitTime = submitTime
@@ -230,7 +230,7 @@ extension MTurk {
             case assignmentStatus = "AssignmentStatus"
             case autoApprovalTime = "AutoApprovalTime"
             case deadline = "Deadline"
-            case hITId = "HITId"
+            case hitId = "HITId"
             case rejectionTime = "RejectionTime"
             case requesterFeedback = "RequesterFeedback"
             case submitTime = "SubmitTime"
@@ -306,28 +306,28 @@ extension MTurk {
 
     public struct CreateAdditionalAssignmentsForHITRequest: AWSEncodableShape {
         /// The ID of the HIT to extend.
-        public let hITId: String
+        public let hitId: String
         /// The number of additional assignments to request for this HIT.
         public let numberOfAdditionalAssignments: Int
         ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
         public let uniqueRequestToken: String?
 
-        public init(hITId: String, numberOfAdditionalAssignments: Int, uniqueRequestToken: String? = nil) {
-            self.hITId = hITId
+        public init(hitId: String, numberOfAdditionalAssignments: Int, uniqueRequestToken: String? = nil) {
+            self.hitId = hitId
             self.numberOfAdditionalAssignments = numberOfAdditionalAssignments
             self.uniqueRequestToken = uniqueRequestToken
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, max: 64)
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
+            case hitId = "HITId"
             case numberOfAdditionalAssignments = "NumberOfAdditionalAssignments"
             case uniqueRequestToken = "UniqueRequestToken"
         }
@@ -347,11 +347,11 @@ extension MTurk {
         ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it.
         public let description: String
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
-        public let hITLayoutId: String?
+        public let hitLayoutId: String?
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout.
-        public let hITLayoutParameters: [HITLayoutParameter]?
+        public let hitLayoutParameters: [HITLayoutParameter]?
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
-        public let hITReviewPolicy: ReviewPolicy?
+        public let hitReviewPolicy: ReviewPolicy?
         ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs.
         public let keywords: String?
         ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted.
@@ -371,14 +371,14 @@ extension MTurk {
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.
         public let uniqueRequestToken: String?
 
-        public init(assignmentDurationInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, autoApprovalDelayInSeconds: Int64? = nil, description: String, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, keywords: String? = nil, lifetimeInSeconds: Int64, maxAssignments: Int? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String, title: String, uniqueRequestToken: String? = nil) {
+        public init(assignmentDurationInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, autoApprovalDelayInSeconds: Int64? = nil, description: String, hitLayoutId: String? = nil, hitLayoutParameters: [HITLayoutParameter]? = nil, hitReviewPolicy: ReviewPolicy? = nil, keywords: String? = nil, lifetimeInSeconds: Int64, maxAssignments: Int? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String, title: String, uniqueRequestToken: String? = nil) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.assignmentReviewPolicy = assignmentReviewPolicy
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.description = description
-            self.hITLayoutId = hITLayoutId
-            self.hITLayoutParameters = hITLayoutParameters
-            self.hITReviewPolicy = hITReviewPolicy
+            self.hitLayoutId = hitLayoutId
+            self.hitLayoutParameters = hitLayoutParameters
+            self.hitReviewPolicy = hitReviewPolicy
             self.keywords = keywords
             self.lifetimeInSeconds = lifetimeInSeconds
             self.maxAssignments = maxAssignments
@@ -391,9 +391,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, max: 64)
-            try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, min: 1)
-            try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitLayoutId, name: "hitLayoutId", parent: name, max: 64)
+            try self.validate(self.hitLayoutId, name: "hitLayoutId", parent: name, min: 1)
+            try self.validate(self.hitLayoutId, name: "hitLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.qualificationRequirements?.forEach {
                 try $0.validate(name: "\(name).qualificationRequirements[]")
             }
@@ -407,9 +407,9 @@ extension MTurk {
             case assignmentReviewPolicy = "AssignmentReviewPolicy"
             case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
             case description = "Description"
-            case hITLayoutId = "HITLayoutId"
-            case hITLayoutParameters = "HITLayoutParameters"
-            case hITReviewPolicy = "HITReviewPolicy"
+            case hitLayoutId = "HITLayoutId"
+            case hitLayoutParameters = "HITLayoutParameters"
+            case hitReviewPolicy = "HITReviewPolicy"
             case keywords = "Keywords"
             case lifetimeInSeconds = "LifetimeInSeconds"
             case maxAssignments = "MaxAssignments"
@@ -481,14 +481,14 @@ extension MTurk {
 
     public struct CreateHITTypeResponse: AWSDecodableShape {
         ///  The ID of the newly registered HIT type.
-        public let hITTypeId: String?
+        public let hitTypeId: String?
 
-        public init(hITTypeId: String? = nil) {
-            self.hITTypeId = hITTypeId
+        public init(hitTypeId: String? = nil) {
+            self.hitTypeId = hitTypeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITTypeId = "HITTypeId"
+            case hitTypeId = "HITTypeId"
         }
     }
 
@@ -496,13 +496,13 @@ extension MTurk {
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
         public let assignmentReviewPolicy: ReviewPolicy?
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
-        public let hITLayoutId: String?
+        public let hitLayoutId: String?
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout.
-        public let hITLayoutParameters: [HITLayoutParameter]?
+        public let hitLayoutParameters: [HITLayoutParameter]?
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
-        public let hITReviewPolicy: ReviewPolicy?
+        public let hitReviewPolicy: ReviewPolicy?
         /// The HIT type ID you want to create this HIT with.
-        public let hITTypeId: String
+        public let hitTypeId: String
         ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted.
         public let lifetimeInSeconds: Int64
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable.
@@ -514,12 +514,12 @@ extension MTurk {
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.
         public let uniqueRequestToken: String?
 
-        public init(assignmentReviewPolicy: ReviewPolicy? = nil, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITTypeId: String, lifetimeInSeconds: Int64, maxAssignments: Int? = nil, question: String? = nil, requesterAnnotation: String? = nil, uniqueRequestToken: String? = nil) {
+        public init(assignmentReviewPolicy: ReviewPolicy? = nil, hitLayoutId: String? = nil, hitLayoutParameters: [HITLayoutParameter]? = nil, hitReviewPolicy: ReviewPolicy? = nil, hitTypeId: String, lifetimeInSeconds: Int64, maxAssignments: Int? = nil, question: String? = nil, requesterAnnotation: String? = nil, uniqueRequestToken: String? = nil) {
             self.assignmentReviewPolicy = assignmentReviewPolicy
-            self.hITLayoutId = hITLayoutId
-            self.hITLayoutParameters = hITLayoutParameters
-            self.hITReviewPolicy = hITReviewPolicy
-            self.hITTypeId = hITTypeId
+            self.hitLayoutId = hitLayoutId
+            self.hitLayoutParameters = hitLayoutParameters
+            self.hitReviewPolicy = hitReviewPolicy
+            self.hitTypeId = hitTypeId
             self.lifetimeInSeconds = lifetimeInSeconds
             self.maxAssignments = maxAssignments
             self.question = question
@@ -528,22 +528,22 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, max: 64)
-            try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, min: 1)
-            try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitLayoutId, name: "hitLayoutId", parent: name, max: 64)
+            try self.validate(self.hitLayoutId, name: "hitLayoutId", parent: name, min: 1)
+            try self.validate(self.hitLayoutId, name: "hitLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, max: 64)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, min: 1)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, max: 64)
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case assignmentReviewPolicy = "AssignmentReviewPolicy"
-            case hITLayoutId = "HITLayoutId"
-            case hITLayoutParameters = "HITLayoutParameters"
-            case hITReviewPolicy = "HITReviewPolicy"
-            case hITTypeId = "HITTypeId"
+            case hitLayoutId = "HITLayoutId"
+            case hitLayoutParameters = "HITLayoutParameters"
+            case hitReviewPolicy = "HITReviewPolicy"
+            case hitTypeId = "HITTypeId"
             case lifetimeInSeconds = "LifetimeInSeconds"
             case maxAssignments = "MaxAssignments"
             case question = "Question"
@@ -656,20 +656,20 @@ extension MTurk {
 
     public struct DeleteHITRequest: AWSEncodableShape {
         /// The ID of the HIT to be deleted.
-        public let hITId: String
+        public let hitId: String
 
-        public init(hITId: String) {
-            self.hITId = hITId
+        public init(hitId: String) {
+            self.hitId = hitId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
+            case hitId = "HITId"
         }
     }
 
@@ -854,20 +854,20 @@ extension MTurk {
 
     public struct GetHITRequest: AWSEncodableShape {
         /// The ID of the HIT to be retrieved.
-        public let hITId: String
+        public let hitId: String
 
-        public init(hITId: String) {
-            self.hITId = hITId
+        public init(hitId: String) {
+            self.hitId = hitId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
+            case hitId = "HITId"
         }
     }
 
@@ -967,17 +967,17 @@ extension MTurk {
         /// The date and time the HIT expires.
         public let expiration: Date?
         ///  The ID of the HIT Group of this HIT.
-        public let hITGroupId: String?
+        public let hitGroupId: String?
         ///  A unique identifier for the HIT.
-        public let hITId: String?
+        public let hitId: String?
         ///  The ID of the HIT Layout of this HIT.
-        public let hITLayoutId: String?
+        public let hitLayoutId: String?
         ///  Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
-        public let hITReviewStatus: HITReviewStatus?
+        public let hitReviewStatus: HITReviewStatus?
         /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed.
-        public let hITStatus: HITStatus?
+        public let hitStatus: HITStatus?
         /// The ID of the HIT type of this HIT
-        public let hITTypeId: String?
+        public let hitTypeId: String?
         ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
         public let keywords: String?
         /// The number of times the HIT can be accepted and completed before the HIT becomes unavailable.
@@ -998,18 +998,18 @@ extension MTurk {
         ///  The title of the HIT.
         public let title: String?
 
-        public init(assignmentDurationInSeconds: Int64? = nil, autoApprovalDelayInSeconds: Int64? = nil, creationTime: Date? = nil, description: String? = nil, expiration: Date? = nil, hITGroupId: String? = nil, hITId: String? = nil, hITLayoutId: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITStatus: HITStatus? = nil, hITTypeId: String? = nil, keywords: String? = nil, maxAssignments: Int? = nil, numberOfAssignmentsAvailable: Int? = nil, numberOfAssignmentsCompleted: Int? = nil, numberOfAssignmentsPending: Int? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String? = nil, title: String? = nil) {
+        public init(assignmentDurationInSeconds: Int64? = nil, autoApprovalDelayInSeconds: Int64? = nil, creationTime: Date? = nil, description: String? = nil, expiration: Date? = nil, hitGroupId: String? = nil, hitId: String? = nil, hitLayoutId: String? = nil, hitReviewStatus: HITReviewStatus? = nil, hitStatus: HITStatus? = nil, hitTypeId: String? = nil, keywords: String? = nil, maxAssignments: Int? = nil, numberOfAssignmentsAvailable: Int? = nil, numberOfAssignmentsCompleted: Int? = nil, numberOfAssignmentsPending: Int? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String? = nil, title: String? = nil) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.creationTime = creationTime
             self.description = description
             self.expiration = expiration
-            self.hITGroupId = hITGroupId
-            self.hITId = hITId
-            self.hITLayoutId = hITLayoutId
-            self.hITReviewStatus = hITReviewStatus
-            self.hITStatus = hITStatus
-            self.hITTypeId = hITTypeId
+            self.hitGroupId = hitGroupId
+            self.hitId = hitId
+            self.hitLayoutId = hitLayoutId
+            self.hitReviewStatus = hitReviewStatus
+            self.hitStatus = hitStatus
+            self.hitTypeId = hitTypeId
             self.keywords = keywords
             self.maxAssignments = maxAssignments
             self.numberOfAssignmentsAvailable = numberOfAssignmentsAvailable
@@ -1028,12 +1028,12 @@ extension MTurk {
             case creationTime = "CreationTime"
             case description = "Description"
             case expiration = "Expiration"
-            case hITGroupId = "HITGroupId"
-            case hITId = "HITId"
-            case hITLayoutId = "HITLayoutId"
-            case hITReviewStatus = "HITReviewStatus"
-            case hITStatus = "HITStatus"
-            case hITTypeId = "HITTypeId"
+            case hitGroupId = "HITGroupId"
+            case hitId = "HITId"
+            case hitLayoutId = "HITLayoutId"
+            case hitReviewStatus = "HITReviewStatus"
+            case hitStatus = "HITStatus"
+            case hitTypeId = "HITTypeId"
             case keywords = "Keywords"
             case maxAssignments = "MaxAssignments"
             case numberOfAssignmentsAvailable = "NumberOfAssignmentsAvailable"
@@ -1068,22 +1068,22 @@ extension MTurk {
         /// The status of the assignments to return: Submitted | Approved | Rejected
         public let assignmentStatuses: [AssignmentStatus]?
         /// The ID of the HIT.
-        public let hITId: String
+        public let hitId: String
         public let maxResults: Int?
         /// Pagination token
         public let nextToken: String?
 
-        public init(assignmentStatuses: [AssignmentStatus]? = nil, hITId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(assignmentStatuses: [AssignmentStatus]? = nil, hitId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assignmentStatuses = assignmentStatuses
-            self.hITId = hITId
+            self.hitId = hitId
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
@@ -1092,7 +1092,7 @@ extension MTurk {
 
         private enum CodingKeys: String, CodingKey {
             case assignmentStatuses = "AssignmentStatuses"
-            case hITId = "HITId"
+            case hitId = "HITId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1122,14 +1122,14 @@ extension MTurk {
         /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
         public let assignmentId: String?
         /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        public let hITId: String?
+        public let hitId: String?
         public let maxResults: Int?
         /// Pagination token
         public let nextToken: String?
 
-        public init(assignmentId: String? = nil, hITId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(assignmentId: String? = nil, hitId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assignmentId = assignmentId
-            self.hITId = hITId
+            self.hitId = hitId
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1138,9 +1138,9 @@ extension MTurk {
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
@@ -1149,7 +1149,7 @@ extension MTurk {
 
         private enum CodingKeys: String, CodingKey {
             case assignmentId = "AssignmentId"
-            case hITId = "HITId"
+            case hitId = "HITId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1208,19 +1208,19 @@ extension MTurk {
 
     public struct ListHITsForQualificationTypeResponse: AWSDecodableShape {
         ///  The list of HIT elements returned by the query.
-        public let hITs: [HIT]?
+        public let hiTs: [HIT]?
         public let nextToken: String?
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
         public let numResults: Int?
 
-        public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int? = nil) {
-            self.hITs = hITs
+        public init(hiTs: [HIT]? = nil, nextToken: String? = nil, numResults: Int? = nil) {
+            self.hiTs = hiTs
             self.nextToken = nextToken
             self.numResults = numResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITs = "HITs"
+            case hiTs = "HITs"
             case nextToken = "NextToken"
             case numResults = "NumResults"
         }
@@ -1251,19 +1251,19 @@ extension MTurk {
 
     public struct ListHITsResponse: AWSDecodableShape {
         ///  The list of HIT elements returned by the query.
-        public let hITs: [HIT]?
+        public let hiTs: [HIT]?
         public let nextToken: String?
         /// The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
         public let numResults: Int?
 
-        public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int? = nil) {
-            self.hITs = hITs
+        public init(hiTs: [HIT]? = nil, nextToken: String? = nil, numResults: Int? = nil) {
+            self.hiTs = hiTs
             self.nextToken = nextToken
             self.numResults = numResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITs = "HITs"
+            case hiTs = "HITs"
             case nextToken = "NextToken"
             case numResults = "NumResults"
         }
@@ -1376,7 +1376,7 @@ extension MTurk {
 
     public struct ListReviewPolicyResultsForHITRequest: AWSEncodableShape {
         /// The unique identifier of the HIT to retrieve review results for.
-        public let hITId: String
+        public let hitId: String
         /// Limit the number of results returned.
         public let maxResults: Int?
         /// Pagination token
@@ -1388,8 +1388,8 @@ extension MTurk {
         ///  Specify if the operation should retrieve a list of the results computed by the Review Policies.
         public let retrieveResults: Bool?
 
-        public init(hITId: String, maxResults: Int? = nil, nextToken: String? = nil, policyLevels: [ReviewPolicyLevel]? = nil, retrieveActions: Bool? = nil, retrieveResults: Bool? = nil) {
-            self.hITId = hITId
+        public init(hitId: String, maxResults: Int? = nil, nextToken: String? = nil, policyLevels: [ReviewPolicyLevel]? = nil, retrieveActions: Bool? = nil, retrieveResults: Bool? = nil) {
+            self.hitId = hitId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyLevels = policyLevels
@@ -1398,9 +1398,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
@@ -1408,7 +1408,7 @@ extension MTurk {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
+            case hitId = "HITId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case policyLevels = "PolicyLevels"
@@ -1423,35 +1423,35 @@ extension MTurk {
         ///  Contains both ReviewResult and ReviewAction elements for an Assignment.
         public let assignmentReviewReport: ReviewReport?
         /// The HITId of the HIT for which results have been returned.
-        public let hITId: String?
+        public let hitId: String?
         /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
-        public let hITReviewPolicy: ReviewPolicy?
+        public let hitReviewPolicy: ReviewPolicy?
         /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
-        public let hITReviewReport: ReviewReport?
+        public let hitReviewReport: ReviewReport?
         public let nextToken: String?
 
-        public init(assignmentReviewPolicy: ReviewPolicy? = nil, assignmentReviewReport: ReviewReport? = nil, hITId: String? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITReviewReport: ReviewReport? = nil, nextToken: String? = nil) {
+        public init(assignmentReviewPolicy: ReviewPolicy? = nil, assignmentReviewReport: ReviewReport? = nil, hitId: String? = nil, hitReviewPolicy: ReviewPolicy? = nil, hitReviewReport: ReviewReport? = nil, nextToken: String? = nil) {
             self.assignmentReviewPolicy = assignmentReviewPolicy
             self.assignmentReviewReport = assignmentReviewReport
-            self.hITId = hITId
-            self.hITReviewPolicy = hITReviewPolicy
-            self.hITReviewReport = hITReviewReport
+            self.hitId = hitId
+            self.hitReviewPolicy = hitReviewPolicy
+            self.hitReviewReport = hitReviewReport
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case assignmentReviewPolicy = "AssignmentReviewPolicy"
             case assignmentReviewReport = "AssignmentReviewReport"
-            case hITId = "HITId"
-            case hITReviewPolicy = "HITReviewPolicy"
-            case hITReviewReport = "HITReviewReport"
+            case hitId = "HITId"
+            case hitReviewPolicy = "HITReviewPolicy"
+            case hitReviewReport = "HITReviewReport"
             case nextToken = "NextToken"
         }
     }
 
     public struct ListReviewableHITsRequest: AWSEncodableShape {
         ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered
-        public let hITTypeId: String?
+        public let hitTypeId: String?
         ///  Limit the number of results returned.
         public let maxResults: Int?
         /// Pagination Token
@@ -1459,17 +1459,17 @@ extension MTurk {
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value.
         public let status: ReviewableHITStatus?
 
-        public init(hITTypeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: ReviewableHITStatus? = nil) {
-            self.hITTypeId = hITTypeId
+        public init(hitTypeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: ReviewableHITStatus? = nil) {
+            self.hitTypeId = hitTypeId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, max: 64)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, min: 1)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
@@ -1477,7 +1477,7 @@ extension MTurk {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITTypeId = "HITTypeId"
+            case hitTypeId = "HITTypeId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case status = "Status"
@@ -1486,19 +1486,19 @@ extension MTurk {
 
     public struct ListReviewableHITsResponse: AWSDecodableShape {
         ///  The list of HIT elements returned by the query.
-        public let hITs: [HIT]?
+        public let hiTs: [HIT]?
         public let nextToken: String?
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
         public let numResults: Int?
 
-        public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int? = nil) {
-            self.hITs = hITs
+        public init(hiTs: [HIT]? = nil, nextToken: String? = nil, numResults: Int? = nil) {
+            self.hiTs = hiTs
             self.nextToken = nextToken
             self.numResults = numResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITs = "HITs"
+            case hiTs = "HITs"
             case nextToken = "NextToken"
             case numResults = "NumResults"
         }
@@ -2154,22 +2154,22 @@ extension MTurk {
         ///  The date and time at which you want the HIT to expire
         public let expireAt: Date
         ///  The HIT to update.
-        public let hITId: String
+        public let hitId: String
 
-        public init(expireAt: Date, hITId: String) {
+        public init(expireAt: Date, hitId: String) {
             self.expireAt = expireAt
-            self.hITId = hITId
+            self.hitId = hitId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case expireAt = "ExpireAt"
-            case hITId = "HITId"
+            case hitId = "HITId"
         }
     }
 
@@ -2179,23 +2179,23 @@ extension MTurk {
 
     public struct UpdateHITReviewStatusRequest: AWSEncodableShape {
         ///  The ID of the HIT to update.
-        public let hITId: String
+        public let hitId: String
         ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable
         public let revert: Bool?
 
-        public init(hITId: String, revert: Bool? = nil) {
-            self.hITId = hITId
+        public init(hitId: String, revert: Bool? = nil) {
+            self.hitId = hitId
             self.revert = revert
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
+            case hitId = "HITId"
             case revert = "Revert"
         }
     }
@@ -2206,27 +2206,27 @@ extension MTurk {
 
     public struct UpdateHITTypeOfHITRequest: AWSEncodableShape {
         /// The HIT to update.
-        public let hITId: String
+        public let hitId: String
         /// The ID of the new HIT type.
-        public let hITTypeId: String
+        public let hitTypeId: String
 
-        public init(hITId: String, hITTypeId: String) {
-            self.hITId = hITId
-            self.hITTypeId = hITTypeId
+        public init(hitId: String, hitTypeId: String) {
+            self.hitId = hitId
+            self.hitTypeId = hitTypeId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
-            try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
-            try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitId, name: "hitId", parent: name, max: 64)
+            try self.validate(self.hitId, name: "hitId", parent: name, min: 1)
+            try self.validate(self.hitId, name: "hitId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, max: 64)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, min: 1)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
-            case hITTypeId = "HITTypeId"
+            case hitId = "HITId"
+            case hitTypeId = "HITTypeId"
         }
     }
 
@@ -2238,25 +2238,25 @@ extension MTurk {
         ///  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
         public let active: Bool?
         ///  The ID of the HIT type whose notification specification is being updated.
-        public let hITTypeId: String
+        public let hitTypeId: String
         ///  The notification specification for the HIT type.
         public let notification: NotificationSpecification?
 
-        public init(active: Bool? = nil, hITTypeId: String, notification: NotificationSpecification? = nil) {
+        public init(active: Bool? = nil, hitTypeId: String, notification: NotificationSpecification? = nil) {
             self.active = active
-            self.hITTypeId = hITTypeId
+            self.hitTypeId = hitTypeId
             self.notification = notification
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
-            try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, max: 64)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, min: 1)
+            try self.validate(self.hitTypeId, name: "hitTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case active = "Active"
-            case hITTypeId = "HITTypeId"
+            case hitTypeId = "HITTypeId"
             case notification = "Notification"
         }
     }

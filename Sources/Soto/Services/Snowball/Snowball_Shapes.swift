@@ -1635,18 +1635,18 @@ extension Snowball {
 
     public struct OnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Represents the NFS service on a Snow Family device.
-        public let nFSOnDeviceService: NFSOnDeviceServiceConfiguration?
+        public let nfsOnDeviceService: NFSOnDeviceServiceConfiguration?
 
-        public init(nFSOnDeviceService: NFSOnDeviceServiceConfiguration? = nil) {
-            self.nFSOnDeviceService = nFSOnDeviceService
+        public init(nfsOnDeviceService: NFSOnDeviceServiceConfiguration? = nil) {
+            self.nfsOnDeviceService = nfsOnDeviceService
         }
 
         public func validate(name: String) throws {
-            try self.nFSOnDeviceService?.validate(name: "\(name).nFSOnDeviceService")
+            try self.nfsOnDeviceService?.validate(name: "\(name).nfsOnDeviceService")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nFSOnDeviceService = "NFSOnDeviceService"
+            case nfsOnDeviceService = "NFSOnDeviceService"
         }
     }
 

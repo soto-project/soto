@@ -588,14 +588,14 @@ extension CloudHSM {
 
     public struct ListAvailableZonesResponse: AWSDecodableShape {
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
-        public let aZList: [String]?
+        public let azList: [String]?
 
-        public init(aZList: [String]? = nil) {
-            self.aZList = aZList
+        public init(azList: [String]? = nil) {
+            self.azList = azList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aZList = "AZList"
+            case azList = "AZList"
         }
     }
 

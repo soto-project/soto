@@ -555,7 +555,7 @@ extension MTurk.ListAssignmentsForHITRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListAssignmentsForHITRequest {
         return .init(
             assignmentStatuses: self.assignmentStatuses,
-            hITId: self.hITId,
+            hitId: self.hitId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -566,7 +566,7 @@ extension MTurk.ListBonusPaymentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListBonusPaymentsRequest {
         return .init(
             assignmentId: self.assignmentId,
-            hITId: self.hITId,
+            hitId: self.hitId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -617,7 +617,7 @@ extension MTurk.ListQualificationTypesRequest: AWSPaginateToken {
 extension MTurk.ListReviewPolicyResultsForHITRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListReviewPolicyResultsForHITRequest {
         return .init(
-            hITId: self.hITId,
+            hitId: self.hitId,
             maxResults: self.maxResults,
             nextToken: token,
             policyLevels: self.policyLevels,
@@ -630,7 +630,7 @@ extension MTurk.ListReviewPolicyResultsForHITRequest: AWSPaginateToken {
 extension MTurk.ListReviewableHITsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListReviewableHITsRequest {
         return .init(
-            hITTypeId: self.hITTypeId,
+            hitTypeId: self.hitTypeId,
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status

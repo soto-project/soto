@@ -271,7 +271,7 @@ extension CloudWatch {
         public var insufficientDataActions: [String]?
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         @OptionalCustomCoding<StandardArrayCoder>
-        public var oKActions: [String]?
+        public var okActions: [String]?
         /// An explanation for the alarm state, in text format.
         public let stateReason: String?
         /// An explanation for the alarm state, in JSON format.
@@ -281,7 +281,7 @@ extension CloudWatch {
         /// The state value for the alarm.
         public let stateValue: StateValue?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, oKActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -290,7 +290,7 @@ extension CloudWatch {
             self.alarmName = alarmName
             self.alarmRule = alarmRule
             self.insufficientDataActions = insufficientDataActions
-            self.oKActions = oKActions
+            self.okActions = okActions
             self.stateReason = stateReason
             self.stateReasonData = stateReasonData
             self.stateUpdatedTimestamp = stateUpdatedTimestamp
@@ -306,7 +306,7 @@ extension CloudWatch {
             case alarmName = "AlarmName"
             case alarmRule = "AlarmRule"
             case insufficientDataActions = "InsufficientDataActions"
-            case oKActions = "OKActions"
+            case okActions = "OKActions"
             case stateReason = "StateReason"
             case stateReasonData = "StateReasonData"
             case stateUpdatedTimestamp = "StateUpdatedTimestamp"
@@ -2057,7 +2057,7 @@ extension CloudWatch {
         /// The actions to execute when this alarm transitions to the OK state
         /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN).
         @OptionalCustomCoding<StandardArrayCoder>
-        public var oKActions: [String]?
+        public var okActions: [String]?
         /// The period, in seconds, over which the statistic is applied.
         public let period: Int?
         /// An explanation for the alarm state, in text format.
@@ -2082,7 +2082,7 @@ extension CloudWatch {
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -2099,7 +2099,7 @@ extension CloudWatch {
             self.metricName = metricName
             self.metrics = metrics
             self.namespace = namespace
-            self.oKActions = oKActions
+            self.okActions = okActions
             self.period = period
             self.stateReason = stateReason
             self.stateReasonData = stateReasonData
@@ -2129,7 +2129,7 @@ extension CloudWatch {
             case metricName = "MetricName"
             case metrics = "Metrics"
             case namespace = "Namespace"
-            case oKActions = "OKActions"
+            case okActions = "OKActions"
             case period = "Period"
             case stateReason = "StateReason"
             case stateReasonData = "StateReasonData"
@@ -2644,7 +2644,7 @@ extension CloudWatch {
         ///
         /// 		       Valid Values: arn:aws:sns:region:account-id:sns-topic-name
         @OptionalCustomCoding<StandardArrayCoder>
-        public var oKActions: [String]?
+        public var okActions: [String]?
         /// A list of key-value pairs to associate with the composite alarm. You can associate as many as 50 tags with an alarm.
         /// 		       Tags can help you organize and categorize your
         /// 			resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with
@@ -2652,14 +2652,14 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, alarmRule: String, insufficientDataActions: [String]? = nil, oKActions: [String]? = nil, tags: [Tag]? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, alarmRule: String, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
             self.alarmName = alarmName
             self.alarmRule = alarmRule
             self.insufficientDataActions = insufficientDataActions
-            self.oKActions = oKActions
+            self.okActions = okActions
             self.tags = tags
         }
 
@@ -2679,11 +2679,11 @@ extension CloudWatch {
                 try validate($0, name: "insufficientDataActions[]", parent: name, min: 1)
             }
             try self.validate(self.insufficientDataActions, name: "insufficientDataActions", parent: name, max: 5)
-            try self.oKActions?.forEach {
-                try validate($0, name: "oKActions[]", parent: name, max: 1024)
-                try validate($0, name: "oKActions[]", parent: name, min: 1)
+            try self.okActions?.forEach {
+                try validate($0, name: "okActions[]", parent: name, max: 1024)
+                try validate($0, name: "okActions[]", parent: name, min: 1)
             }
-            try self.validate(self.oKActions, name: "oKActions", parent: name, max: 5)
+            try self.validate(self.okActions, name: "okActions", parent: name, max: 5)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2696,7 +2696,7 @@ extension CloudWatch {
             case alarmName = "AlarmName"
             case alarmRule = "AlarmRule"
             case insufficientDataActions = "InsufficientDataActions"
-            case oKActions = "OKActions"
+            case okActions = "OKActions"
             case tags = "Tags"
         }
     }
@@ -2903,7 +2903,7 @@ extension CloudWatch {
         /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
         /// 			    arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
         @OptionalCustomCoding<StandardArrayCoder>
-        public var oKActions: [String]?
+        public var okActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is
         /// 			evaluated. Valid values are 10, 30, and any multiple of 60.
         /// 		        Period is required for alarms based on static thresholds. If
@@ -2968,7 +2968,7 @@ extension CloudWatch {
         /// 			causes the alarm to be stuck in the INSUFFICIENT DATA state.
         public let unit: StandardUnit?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, comparisonOperator: ComparisonOperator, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, comparisonOperator: ComparisonOperator, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
@@ -2983,7 +2983,7 @@ extension CloudWatch {
             self.metricName = metricName
             self.metrics = metrics
             self.namespace = namespace
-            self.oKActions = oKActions
+            self.okActions = okActions
             self.period = period
             self.statistic = statistic
             self.tags = tags
@@ -3024,11 +3024,11 @@ extension CloudWatch {
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^:]")
-            try self.oKActions?.forEach {
-                try validate($0, name: "oKActions[]", parent: name, max: 1024)
-                try validate($0, name: "oKActions[]", parent: name, min: 1)
+            try self.okActions?.forEach {
+                try validate($0, name: "okActions[]", parent: name, max: 1024)
+                try validate($0, name: "okActions[]", parent: name, min: 1)
             }
-            try self.validate(self.oKActions, name: "oKActions", parent: name, max: 5)
+            try self.validate(self.okActions, name: "okActions", parent: name, max: 5)
             try self.validate(self.period, name: "period", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -3054,7 +3054,7 @@ extension CloudWatch {
             case metricName = "MetricName"
             case metrics = "Metrics"
             case namespace = "Namespace"
-            case oKActions = "OKActions"
+            case okActions = "OKActions"
             case period = "Period"
             case statistic = "Statistic"
             case tags = "Tags"

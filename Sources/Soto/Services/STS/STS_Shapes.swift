@@ -156,15 +156,15 @@ extension STS {
         /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
         public let roleArn: String
         /// The base64 encoded SAML authentication response provided by the IdP. For more information, see Configuring a Relying Party and Adding Claims in the IAM User Guide.
-        public let sAMLAssertion: String
+        public let samlAssertion: String
 
-        public init(durationSeconds: Int? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, principalArn: String, roleArn: String, sAMLAssertion: String) {
+        public init(durationSeconds: Int? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, principalArn: String, roleArn: String, samlAssertion: String) {
             self.durationSeconds = durationSeconds
             self.policy = policy
             self.policyArns = policyArns
             self.principalArn = principalArn
             self.roleArn = roleArn
-            self.sAMLAssertion = sAMLAssertion
+            self.samlAssertion = samlAssertion
         }
 
         public func validate(name: String) throws {
@@ -182,8 +182,8 @@ extension STS {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+$")
-            try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, max: 100_000)
-            try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, min: 4)
+            try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, max: 100_000)
+            try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -192,7 +192,7 @@ extension STS {
             case policyArns = "PolicyArns"
             case principalArn = "PrincipalArn"
             case roleArn = "RoleArn"
-            case sAMLAssertion = "SAMLAssertion"
+            case samlAssertion = "SAMLAssertion"
         }
     }
 

@@ -3390,21 +3390,21 @@ extension Rekognition {
         /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic.
         public let roleArn: String
         /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
-        public let sNSTopicArn: String
+        public let snsTopicArn: String
 
-        public init(roleArn: String, sNSTopicArn: String) {
+        public init(roleArn: String, snsTopicArn: String) {
             self.roleArn = roleArn
-            self.sNSTopicArn = sNSTopicArn
+            self.snsTopicArn = snsTopicArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, pattern: "^(^arn:aws:sns:.*:\\w{12}:.+$)$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^(^arn:aws:sns:.*:\\w{12}:.+$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case roleArn = "RoleArn"
-            case sNSTopicArn = "SNSTopicArn"
+            case snsTopicArn = "SNSTopicArn"
         }
     }
 

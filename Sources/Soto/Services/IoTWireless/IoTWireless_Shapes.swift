@@ -78,7 +78,7 @@ extension IoTWireless {
         case fragAlgoUnsupported = "FragAlgo_unsupported"
         case fragIndexUnsupported = "FragIndex_unsupported"
         case initial = "Initial"
-        case mICError = "MICError"
+        case micError = "MICError"
         case memoryError = "MemoryError"
         case missingFrag = "MissingFrag"
         case notEnoughMemory = "Not_enough_memory"

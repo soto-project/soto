@@ -36,7 +36,7 @@ public struct GlueErrorType: AWSErrorType {
         case illegalWorkflowStateException = "IllegalWorkflowStateException"
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
-        case mLTransformNotReadyException = "MLTransformNotReadyException"
+        case mlTransformNotReadyException = "MLTransformNotReadyException"
         case noScheduleException = "NoScheduleException"
         case operationTimeoutException = "OperationTimeoutException"
         case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
@@ -97,7 +97,7 @@ public struct GlueErrorType: AWSErrorType {
     /// The input provided was not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The machine learning transform is not ready to run.
-    public static var mLTransformNotReadyException: Self { .init(.mLTransformNotReadyException) }
+    public static var mlTransformNotReadyException: Self { .init(.mlTransformNotReadyException) }
     /// There is no applicable schedule.
     public static var noScheduleException: Self { .init(.noScheduleException) }
     /// The operation timed out.

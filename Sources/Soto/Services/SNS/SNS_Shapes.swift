@@ -66,22 +66,22 @@ extension SNS {
         public var actionName: [String]
         /// The Amazon Web Services account IDs of the users (principals) who will be given access to the specified actions. The users must have Amazon Web Services account, but do not need to be signed up for this service.
         @CustomCoding<StandardArrayCoder>
-        public var aWSAccountId: [String]
+        public var awsAccountId: [String]
         /// A unique identifier for the new policy statement.
         public let label: String
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
 
-        public init(actionName: [String], aWSAccountId: [String], label: String, topicArn: String) {
+        public init(actionName: [String], awsAccountId: [String], label: String, topicArn: String) {
             self.actionName = actionName
-            self.aWSAccountId = aWSAccountId
+            self.awsAccountId = awsAccountId
             self.label = label
             self.topicArn = topicArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionName = "ActionName"
-            case aWSAccountId = "AWSAccountId"
+            case awsAccountId = "AWSAccountId"
             case label = "Label"
             case topicArn = "TopicArn"
         }

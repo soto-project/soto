@@ -2443,7 +2443,7 @@ extension EMR {
         /// A list of new or modified configurations to apply for an instance group.
         public let configurations: [Configuration]?
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
-        public let eC2InstanceIdsToTerminate: [String]?
+        public let ec2InstanceIdsToTerminate: [String]?
         /// Target size for the instance group.
         public let instanceCount: Int?
         /// Unique ID of the instance group to modify.
@@ -2451,9 +2451,9 @@ extension EMR {
         /// Policy for customizing shrink operations.
         public let shrinkPolicy: ShrinkPolicy?
 
-        public init(configurations: [Configuration]? = nil, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
+        public init(configurations: [Configuration]? = nil, ec2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
             self.configurations = configurations
-            self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
+            self.ec2InstanceIdsToTerminate = ec2InstanceIdsToTerminate
             self.instanceCount = instanceCount
             self.instanceGroupId = instanceGroupId
             self.shrinkPolicy = shrinkPolicy
@@ -2466,7 +2466,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case configurations = "Configurations"
-            case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
+            case ec2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
             case instanceCount = "InstanceCount"
             case instanceGroupId = "InstanceGroupId"
             case shrinkPolicy = "ShrinkPolicy"
@@ -2984,9 +2984,9 @@ extension EMR {
 
     public struct KerberosAttributes: AWSEncodableShape & AWSDecodableShape {
         /// The Active Directory password for ADDomainJoinUser.
-        public let aDDomainJoinPassword: String?
+        public let adDomainJoinPassword: String?
         /// Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain.
-        public let aDDomainJoinUser: String?
+        public let adDomainJoinUser: String?
         /// Required only when establishing a cross-realm trust with a KDC in a different realm. The cross-realm principal password, which must be identical across realms.
         public let crossRealmTrustPrincipalPassword: String?
         /// The password used within the cluster for the kadmin service on the cluster-dedicated KDC, which maintains Kerberos principals, password policies, and keytabs for the cluster.
@@ -2994,19 +2994,19 @@ extension EMR {
         /// The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL.
         public let realm: String
 
-        public init(aDDomainJoinPassword: String? = nil, aDDomainJoinUser: String? = nil, crossRealmTrustPrincipalPassword: String? = nil, kdcAdminPassword: String, realm: String) {
-            self.aDDomainJoinPassword = aDDomainJoinPassword
-            self.aDDomainJoinUser = aDDomainJoinUser
+        public init(adDomainJoinPassword: String? = nil, adDomainJoinUser: String? = nil, crossRealmTrustPrincipalPassword: String? = nil, kdcAdminPassword: String, realm: String) {
+            self.adDomainJoinPassword = adDomainJoinPassword
+            self.adDomainJoinUser = adDomainJoinUser
             self.crossRealmTrustPrincipalPassword = crossRealmTrustPrincipalPassword
             self.kdcAdminPassword = kdcAdminPassword
             self.realm = realm
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aDDomainJoinPassword, name: "aDDomainJoinPassword", parent: name, max: 256)
-            try self.validate(self.aDDomainJoinPassword, name: "aDDomainJoinPassword", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
-            try self.validate(self.aDDomainJoinUser, name: "aDDomainJoinUser", parent: name, max: 256)
-            try self.validate(self.aDDomainJoinUser, name: "aDDomainJoinUser", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.adDomainJoinPassword, name: "adDomainJoinPassword", parent: name, max: 256)
+            try self.validate(self.adDomainJoinPassword, name: "adDomainJoinPassword", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.adDomainJoinUser, name: "adDomainJoinUser", parent: name, max: 256)
+            try self.validate(self.adDomainJoinUser, name: "adDomainJoinUser", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.crossRealmTrustPrincipalPassword, name: "crossRealmTrustPrincipalPassword", parent: name, max: 256)
             try self.validate(self.crossRealmTrustPrincipalPassword, name: "crossRealmTrustPrincipalPassword", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.kdcAdminPassword, name: "kdcAdminPassword", parent: name, max: 256)
@@ -3016,8 +3016,8 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDDomainJoinPassword = "ADDomainJoinPassword"
-            case aDDomainJoinUser = "ADDomainJoinUser"
+            case adDomainJoinPassword = "ADDomainJoinPassword"
+            case adDomainJoinUser = "ADDomainJoinUser"
             case crossRealmTrustPrincipalPassword = "CrossRealmTrustPrincipalPassword"
             case kdcAdminPassword = "KdcAdminPassword"
             case realm = "Realm"

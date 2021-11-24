@@ -87,21 +87,21 @@ extension LookoutMetrics {
         /// A configuration for an AWS Lambda channel.
         public let lambdaConfiguration: LambdaConfiguration?
         /// A configuration for an Amazon SNS channel.
-        public let sNSConfiguration: SNSConfiguration?
+        public let snsConfiguration: SNSConfiguration?
 
-        public init(lambdaConfiguration: LambdaConfiguration? = nil, sNSConfiguration: SNSConfiguration? = nil) {
+        public init(lambdaConfiguration: LambdaConfiguration? = nil, snsConfiguration: SNSConfiguration? = nil) {
             self.lambdaConfiguration = lambdaConfiguration
-            self.sNSConfiguration = sNSConfiguration
+            self.snsConfiguration = snsConfiguration
         }
 
         public func validate(name: String) throws {
             try self.lambdaConfiguration?.validate(name: "\(name).lambdaConfiguration")
-            try self.sNSConfiguration?.validate(name: "\(name).sNSConfiguration")
+            try self.snsConfiguration?.validate(name: "\(name).snsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case lambdaConfiguration = "LambdaConfiguration"
-            case sNSConfiguration = "SNSConfiguration"
+            case snsConfiguration = "SNSConfiguration"
         }
     }
 
@@ -1717,15 +1717,15 @@ extension LookoutMetrics {
         /// An object containing information about the Amazon CloudWatch monitoring configuration.
         public let cloudWatchConfig: CloudWatchConfig?
         /// An object containing information about the Amazon Relational Database Service (RDS) configuration.
-        public let rDSSourceConfig: RDSSourceConfig?
+        public let rdsSourceConfig: RDSSourceConfig?
         /// An object containing information about the Amazon Redshift database configuration.
         public let redshiftSourceConfig: RedshiftSourceConfig?
         public let s3SourceConfig: S3SourceConfig?
 
-        public init(appFlowConfig: AppFlowConfig? = nil, cloudWatchConfig: CloudWatchConfig? = nil, rDSSourceConfig: RDSSourceConfig? = nil, redshiftSourceConfig: RedshiftSourceConfig? = nil, s3SourceConfig: S3SourceConfig? = nil) {
+        public init(appFlowConfig: AppFlowConfig? = nil, cloudWatchConfig: CloudWatchConfig? = nil, rdsSourceConfig: RDSSourceConfig? = nil, redshiftSourceConfig: RedshiftSourceConfig? = nil, s3SourceConfig: S3SourceConfig? = nil) {
             self.appFlowConfig = appFlowConfig
             self.cloudWatchConfig = cloudWatchConfig
-            self.rDSSourceConfig = rDSSourceConfig
+            self.rdsSourceConfig = rdsSourceConfig
             self.redshiftSourceConfig = redshiftSourceConfig
             self.s3SourceConfig = s3SourceConfig
         }
@@ -1733,7 +1733,7 @@ extension LookoutMetrics {
         public func validate(name: String) throws {
             try self.appFlowConfig?.validate(name: "\(name).appFlowConfig")
             try self.cloudWatchConfig?.validate(name: "\(name).cloudWatchConfig")
-            try self.rDSSourceConfig?.validate(name: "\(name).rDSSourceConfig")
+            try self.rdsSourceConfig?.validate(name: "\(name).rdsSourceConfig")
             try self.redshiftSourceConfig?.validate(name: "\(name).redshiftSourceConfig")
             try self.s3SourceConfig?.validate(name: "\(name).s3SourceConfig")
         }
@@ -1741,7 +1741,7 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case appFlowConfig = "AppFlowConfig"
             case cloudWatchConfig = "CloudWatchConfig"
-            case rDSSourceConfig = "RDSSourceConfig"
+            case rdsSourceConfig = "RDSSourceConfig"
             case redshiftSourceConfig = "RedshiftSourceConfig"
             case s3SourceConfig = "S3SourceConfig"
         }
@@ -1782,7 +1782,7 @@ extension LookoutMetrics {
         /// The port number where the database can be accessed.
         public let databasePort: Int
         /// A string identifying the database instance.
-        public let dBInstanceIdentifier: String
+        public let dbInstanceIdentifier: String
         /// The Amazon Resource Name (ARN) of the role.
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager role.
@@ -1792,11 +1792,11 @@ extension LookoutMetrics {
         /// An object containing information about the Amazon Virtual Private Cloud (VPC) configuration.
         public let vpcConfiguration: VpcConfiguration
 
-        public init(databaseHost: String, databaseName: String, databasePort: Int, dBInstanceIdentifier: String, roleArn: String, secretManagerArn: String, tableName: String, vpcConfiguration: VpcConfiguration) {
+        public init(databaseHost: String, databaseName: String, databasePort: Int, dbInstanceIdentifier: String, roleArn: String, secretManagerArn: String, tableName: String, vpcConfiguration: VpcConfiguration) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
             self.databasePort = databasePort
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.roleArn = roleArn
             self.secretManagerArn = secretManagerArn
             self.tableName = tableName
@@ -1812,9 +1812,9 @@ extension LookoutMetrics {
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             try self.validate(self.databasePort, name: "databasePort", parent: name, max: 65535)
             try self.validate(self.databasePort, name: "databasePort", parent: name, min: 1)
-            try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, max: 63)
-            try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, min: 1)
-            try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, pattern: "^[a-zA-Z](?!.*--)(?!.*-$)[0-9a-zA-Z\\-]*$")
+            try self.validate(self.dbInstanceIdentifier, name: "dbInstanceIdentifier", parent: name, max: 63)
+            try self.validate(self.dbInstanceIdentifier, name: "dbInstanceIdentifier", parent: name, min: 1)
+            try self.validate(self.dbInstanceIdentifier, name: "dbInstanceIdentifier", parent: name, pattern: "^[a-zA-Z](?!.*--)(?!.*-$)[0-9a-zA-Z\\-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 256)
@@ -1829,7 +1829,7 @@ extension LookoutMetrics {
             case databaseHost = "DatabaseHost"
             case databaseName = "DatabaseName"
             case databasePort = "DatabasePort"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case roleArn = "RoleArn"
             case secretManagerArn = "SecretManagerArn"
             case tableName = "TableName"

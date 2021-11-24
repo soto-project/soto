@@ -1429,7 +1429,7 @@ extension ElasticLoadBalancingV2 {
         /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool.
         public let customerOwnedIpv4Pool: String?
         /// The public DNS name of the load balancer.
-        public let dNSName: String?
+        public let dnsName: String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1448,12 +1448,12 @@ extension ElasticLoadBalancingV2 {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dnsName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
-            self.dNSName = dNSName
+            self.dnsName = dnsName
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
             self.loadBalancerName = loadBalancerName
@@ -1469,7 +1469,7 @@ extension ElasticLoadBalancingV2 {
             case canonicalHostedZoneId = "CanonicalHostedZoneId"
             case createdTime = "CreatedTime"
             case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case ipAddressType = "IpAddressType"
             case loadBalancerArn = "LoadBalancerArn"
             case loadBalancerName = "LoadBalancerName"

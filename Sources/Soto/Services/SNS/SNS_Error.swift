@@ -32,12 +32,12 @@ public struct SNSErrorType: AWSErrorType {
         case invalidParameterException = "InvalidParameter"
         case invalidParameterValueException = "ParameterValueInvalid"
         case invalidSecurityException = "InvalidSecurity"
-        case kMSAccessDeniedException = "KMSAccessDenied"
-        case kMSDisabledException = "KMSDisabled"
-        case kMSInvalidStateException = "KMSInvalidState"
-        case kMSNotFoundException = "KMSNotFound"
-        case kMSOptInRequired = "KMSOptInRequired"
-        case kMSThrottlingException = "KMSThrottling"
+        case kmsAccessDeniedException = "KMSAccessDenied"
+        case kmsDisabledException = "KMSDisabled"
+        case kmsInvalidStateException = "KMSInvalidState"
+        case kmsNotFoundException = "KMSNotFound"
+        case kmsOptInRequired = "KMSOptInRequired"
+        case kmsThrottlingException = "KMSThrottling"
         case notFoundException = "NotFound"
         case optedOutException = "OptedOut"
         case platformApplicationDisabledException = "PlatformApplicationDisabled"
@@ -97,17 +97,17 @@ public struct SNSErrorType: AWSErrorType {
     /// The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     public static var invalidSecurityException: Self { .init(.invalidSecurityException) }
     /// The ciphertext references a key that doesn't exist or that you don't have access to.
-    public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
     /// The request was rejected because the specified customer master key (CMK) isn't enabled.
-    public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
     /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Key Management Service Developer Guide.
-    public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
     /// The request was rejected because the specified entity or resource can't be found.
-    public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The Amazon Web Services access key ID needs a subscription for the service.
-    public static var kMSOptInRequired: Self { .init(.kMSOptInRequired) }
+    public static var kmsOptInRequired: Self { .init(.kmsOptInRequired) }
     /// The request was denied due to request throttling. For more information about throttling, see Limits in the Key Management Service Developer Guide.
-    public static var kMSThrottlingException: Self { .init(.kMSThrottlingException) }
+    public static var kmsThrottlingException: Self { .init(.kmsThrottlingException) }
     /// Indicates that the requested resource does not exist.
     public static var notFoundException: Self { .init(.notFoundException) }
     /// Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.

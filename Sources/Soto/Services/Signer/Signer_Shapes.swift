@@ -22,7 +22,7 @@ extension Signer {
     // MARK: Enums
 
     public enum Category: String, CustomStringConvertible, Codable {
-        case aWSIoT = "AWSIoT"
+        case awsIoT = "AWSIoT"
         public var description: String { return self.rawValue }
     }
 
@@ -40,8 +40,8 @@ extension Signer {
 
     public enum ImageFormat: String, CustomStringConvertible, Codable {
         case json = "JSON"
-        case jSONDetached = "JSONDetached"
-        case jSONEmbedded = "JSONEmbedded"
+        case jsonDetached = "JSONDetached"
+        case jsonEmbedded = "JSONEmbedded"
         public var description: String { return self.rawValue }
     }
 

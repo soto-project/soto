@@ -110,9 +110,6 @@ public struct RedshiftErrorType: AWSErrorType {
         case reservedNodeQuotaExceededFault = "ReservedNodeQuotaExceeded"
         case resizeNotFoundFault = "ResizeNotFound"
         case resourceNotFoundFault = "ResourceNotFoundFault"
-        case sNSInvalidTopicFault = "SNSInvalidTopic"
-        case sNSNoAuthorizationFault = "SNSNoAuthorization"
-        case sNSTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case scheduleDefinitionTypeUnsupportedFault = "ScheduleDefinitionTypeUnsupported"
         case scheduledActionAlreadyExistsFault = "ScheduledActionAlreadyExists"
         case scheduledActionNotFoundFault = "ScheduledActionNotFound"
@@ -128,6 +125,9 @@ public struct RedshiftErrorType: AWSErrorType {
         case snapshotScheduleNotFoundFault = "SnapshotScheduleNotFound"
         case snapshotScheduleQuotaExceededFault = "SnapshotScheduleQuotaExceeded"
         case snapshotScheduleUpdateInProgressFault = "SnapshotScheduleUpdateInProgress"
+        case snsInvalidTopicFault = "SNSInvalidTopic"
+        case snsNoAuthorizationFault = "SNSNoAuthorization"
+        case snsTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case sourceNotFoundFault = "SourceNotFound"
         case subnetAlreadyInUse = "SubnetAlreadyInUse"
         case subscriptionAlreadyExistFault = "SubscriptionAlreadyExist"
@@ -365,12 +365,6 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var resizeNotFoundFault: Self { .init(.resizeNotFoundFault) }
     /// The resource could not be found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
-    /// Amazon SNS has responded that there is a problem with the specified Amazon SNS topic.
-    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
-    /// You do not have permission to publish to the specified Amazon SNS topic.
-    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
-    /// An Amazon SNS topic with the specified Amazon Resource Name (ARN) does not exist.
-    public static var sNSTopicArnNotFoundFault: Self { .init(.sNSTopicArnNotFoundFault) }
     /// The definition you submitted is not supported.
     public static var scheduleDefinitionTypeUnsupportedFault: Self { .init(.scheduleDefinitionTypeUnsupportedFault) }
     /// The scheduled action already exists.
@@ -401,6 +395,12 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var snapshotScheduleQuotaExceededFault: Self { .init(.snapshotScheduleQuotaExceededFault) }
     /// The specified snapshot schedule is already being updated.
     public static var snapshotScheduleUpdateInProgressFault: Self { .init(.snapshotScheduleUpdateInProgressFault) }
+    /// Amazon SNS has responded that there is a problem with the specified Amazon SNS topic.
+    public static var snsInvalidTopicFault: Self { .init(.snsInvalidTopicFault) }
+    /// You do not have permission to publish to the specified Amazon SNS topic.
+    public static var snsNoAuthorizationFault: Self { .init(.snsNoAuthorizationFault) }
+    /// An Amazon SNS topic with the specified Amazon Resource Name (ARN) does not exist.
+    public static var snsTopicArnNotFoundFault: Self { .init(.snsTopicArnNotFoundFault) }
     /// The specified Amazon Redshift event source could not be found.
     public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
     /// A specified subnet is already in use by another cluster.

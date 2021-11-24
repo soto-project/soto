@@ -649,7 +649,7 @@ extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateToken {
             gatewayARN: self.gatewayARN,
             limit: self.limit,
             marker: token,
-            vTLDeviceARNs: self.vTLDeviceARNs
+            vtlDeviceARNs: self.vtlDeviceARNs
         )
     }
 }

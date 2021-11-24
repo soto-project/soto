@@ -23,12 +23,12 @@ public struct Route53ErrorType: AWSErrorType {
         case concurrentModification = "ConcurrentModification"
         case conflictingDomainExists = "ConflictingDomainExists"
         case conflictingTypes = "ConflictingTypes"
-        case dNSSECNotFound = "DNSSECNotFound"
         case delegationSetAlreadyCreated = "DelegationSetAlreadyCreated"
         case delegationSetAlreadyReusable = "DelegationSetAlreadyReusable"
         case delegationSetInUse = "DelegationSetInUse"
         case delegationSetNotAvailable = "DelegationSetNotAvailable"
         case delegationSetNotReusable = "DelegationSetNotReusable"
+        case dnssecNotFound = "DNSSECNotFound"
         case healthCheckAlreadyExists = "HealthCheckAlreadyExists"
         case healthCheckInUse = "HealthCheckInUse"
         case healthCheckVersionMismatch = "HealthCheckVersionMismatch"
@@ -81,8 +81,8 @@ public struct Route53ErrorType: AWSErrorType {
         case trafficPolicyAlreadyExists = "TrafficPolicyAlreadyExists"
         case trafficPolicyInUse = "TrafficPolicyInUse"
         case trafficPolicyInstanceAlreadyExists = "TrafficPolicyInstanceAlreadyExists"
-        case vPCAssociationAuthorizationNotFound = "VPCAssociationAuthorizationNotFound"
-        case vPCAssociationNotFound = "VPCAssociationNotFound"
+        case vpcAssociationAuthorizationNotFound = "VPCAssociationAuthorizationNotFound"
+        case vpcAssociationNotFound = "VPCAssociationNotFound"
     }
 
     private let error: Code
@@ -119,8 +119,6 @@ public struct Route53ErrorType: AWSErrorType {
     /// 			than the current type for the instance. You specified the type in the JSON document in the CreateTrafficPolicy or
     /// 			CreateTrafficPolicyVersionrequest.
     public static var conflictingTypes: Self { .init(.conflictingTypes) }
-    /// The hosted zone doesn't have any DNSSEC resources.
-    public static var dNSSECNotFound: Self { .init(.dNSSECNotFound) }
     /// A delegation set with the same owner and caller reference combination has already been created.
     public static var delegationSetAlreadyCreated: Self { .init(.delegationSetAlreadyCreated) }
     /// The specified delegation set has already been marked as reusable.
@@ -134,6 +132,8 @@ public struct Route53ErrorType: AWSErrorType {
     public static var delegationSetNotAvailable: Self { .init(.delegationSetNotAvailable) }
     /// A reusable delegation set with the specified ID does not exist.
     public static var delegationSetNotReusable: Self { .init(.delegationSetNotReusable) }
+    /// The hosted zone doesn't have any DNSSEC resources.
+    public static var dnssecNotFound: Self { .init(.dnssecNotFound) }
     ///  The health check you're attempting to create already exists. Amazon Route 53 returns this error when you submit a request that
     /// 			has the following values:
     /// 		         The same value for CallerReference as an existing health check, and one or more values that differ
@@ -303,9 +303,9 @@ public struct Route53ErrorType: AWSErrorType {
     /// There is already a traffic policy instance with the specified ID.
     public static var trafficPolicyInstanceAlreadyExists: Self { .init(.trafficPolicyInstanceAlreadyExists) }
     /// The VPC that you specified is not authorized to be associated with the hosted zone.
-    public static var vPCAssociationAuthorizationNotFound: Self { .init(.vPCAssociationAuthorizationNotFound) }
+    public static var vpcAssociationAuthorizationNotFound: Self { .init(.vpcAssociationAuthorizationNotFound) }
     /// The specified VPC and hosted zone are not currently associated.
-    public static var vPCAssociationNotFound: Self { .init(.vPCAssociationNotFound) }
+    public static var vpcAssociationNotFound: Self { .init(.vpcAssociationNotFound) }
 }
 
 extension Route53ErrorType: Equatable {

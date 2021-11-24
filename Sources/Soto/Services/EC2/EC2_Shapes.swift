@@ -21809,17 +21809,17 @@ extension EC2 {
 
     public struct FederatedAuthenticationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
-        public let sAMLProviderArn: String?
+        public let samlProviderArn: String?
         /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
         public let selfServiceSAMLProviderArn: String?
 
-        public init(sAMLProviderArn: String? = nil, selfServiceSAMLProviderArn: String? = nil) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String? = nil, selfServiceSAMLProviderArn: String? = nil) {
+            self.samlProviderArn = samlProviderArn
             self.selfServiceSAMLProviderArn = selfServiceSAMLProviderArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
             case selfServiceSAMLProviderArn = "SelfServiceSAMLProviderArn"
         }
     }
@@ -31410,12 +31410,12 @@ extension EC2 {
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The action to take after DPD timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid Values: clear | none | restart  Default: clear
-        public let dPDTimeoutAction: String?
+        public let dpdTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30
-        public let dPDTimeoutSeconds: Int?
+        public let dpdTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2
         @OptionalCustomCoding<ArrayCoder<_IKEVersionsEncoding, IKEVersionsRequestListValue>>
-        public var iKEVersions: [IKEVersionsRequestListValue]?
+        public var ikeVersions: [IKEVersionsRequestListValue]?
         /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
         @OptionalCustomCoding<ArrayCoder<_Phase1DHGroupNumbersEncoding, Phase1DHGroupNumbersRequestListValue>>
         public var phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]?
@@ -31453,10 +31453,10 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dPDTimeoutAction: String? = nil, dPDTimeoutSeconds: Int? = nil, iKEVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
-            self.dPDTimeoutAction = dPDTimeoutAction
-            self.dPDTimeoutSeconds = dPDTimeoutSeconds
-            self.iKEVersions = iKEVersions
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+            self.dpdTimeoutAction = dpdTimeoutAction
+            self.dpdTimeoutSeconds = dpdTimeoutSeconds
+            self.ikeVersions = ikeVersions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
@@ -31475,9 +31475,9 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dPDTimeoutAction = "DPDTimeoutAction"
-            case dPDTimeoutSeconds = "DPDTimeoutSeconds"
-            case iKEVersions = "IKEVersion"
+            case dpdTimeoutAction = "DPDTimeoutAction"
+            case dpdTimeoutSeconds = "DPDTimeoutSeconds"
+            case ikeVersions = "IKEVersion"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
             case phase1EncryptionAlgorithms = "Phase1EncryptionAlgorithm"
             case phase1IntegrityAlgorithms = "Phase1IntegrityAlgorithm"
@@ -36278,7 +36278,7 @@ extension EC2 {
 
     public struct S3Storage: AWSEncodableShape & AWSDecodableShape {
         /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance   in Best Practices for Managing Amazon Web Services Access Keys.
-        public let aWSAccessKeyId: String?
+        public let awsAccessKeyId: String?
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public let bucket: String?
         /// The beginning of the file name of the AMI.
@@ -36288,8 +36288,8 @@ extension EC2 {
         /// The signature of the JSON document.
         public let uploadPolicySignature: String?
 
-        public init(aWSAccessKeyId: String? = nil, bucket: String? = nil, prefix: String? = nil, uploadPolicy: Data? = nil, uploadPolicySignature: String? = nil) {
-            self.aWSAccessKeyId = aWSAccessKeyId
+        public init(awsAccessKeyId: String? = nil, bucket: String? = nil, prefix: String? = nil, uploadPolicy: Data? = nil, uploadPolicySignature: String? = nil) {
+            self.awsAccessKeyId = awsAccessKeyId
             self.bucket = bucket
             self.prefix = prefix
             self.uploadPolicy = uploadPolicy
@@ -36297,7 +36297,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSAccessKeyId = "AWSAccessKeyId"
+            case awsAccessKeyId = "AWSAccessKeyId"
             case bucket
             case prefix
             case uploadPolicy
@@ -42139,12 +42139,12 @@ extension EC2 {
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The action to take after DPD timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid Values: clear | none | restart  Default: clear
-        public let dPDTimeoutAction: String?
+        public let dpdTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30
-        public let dPDTimeoutSeconds: Int?
+        public let dpdTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2
         @OptionalCustomCoding<ArrayCoder<_IKEVersionsEncoding, IKEVersionsRequestListValue>>
-        public var iKEVersions: [IKEVersionsRequestListValue]?
+        public var ikeVersions: [IKEVersionsRequestListValue]?
         /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
         @OptionalCustomCoding<ArrayCoder<_Phase1DHGroupNumbersEncoding, Phase1DHGroupNumbersRequestListValue>>
         public var phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]?
@@ -42182,10 +42182,10 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dPDTimeoutAction: String? = nil, dPDTimeoutSeconds: Int? = nil, iKEVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
-            self.dPDTimeoutAction = dPDTimeoutAction
-            self.dPDTimeoutSeconds = dPDTimeoutSeconds
-            self.iKEVersions = iKEVersions
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+            self.dpdTimeoutAction = dpdTimeoutAction
+            self.dpdTimeoutSeconds = dpdTimeoutSeconds
+            self.ikeVersions = ikeVersions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
@@ -42204,9 +42204,9 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dPDTimeoutAction = "DPDTimeoutAction"
-            case dPDTimeoutSeconds = "DPDTimeoutSeconds"
-            case iKEVersions = "IKEVersion"
+            case dpdTimeoutAction = "DPDTimeoutAction"
+            case dpdTimeoutSeconds = "DPDTimeoutSeconds"
+            case ikeVersions = "IKEVersion"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
             case phase1EncryptionAlgorithms = "Phase1EncryptionAlgorithm"
             case phase1IntegrityAlgorithms = "Phase1IntegrityAlgorithm"

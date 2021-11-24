@@ -152,7 +152,7 @@ extension ApplicationInsights {
     public struct ApplicationInfo: AWSDecodableShape {
         public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
-        public let cWEMonitorEnabled: Bool?
+        public let cweMonitorEnabled: Bool?
         public let discoveryType: DiscoveryType?
         /// The lifecycle of the application.
         public let lifeCycle: String?
@@ -165,9 +165,9 @@ extension ApplicationInsights {
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
 
-        public init(autoConfigEnabled: Bool? = nil, cWEMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+        public init(autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
             self.autoConfigEnabled = autoConfigEnabled
-            self.cWEMonitorEnabled = cWEMonitorEnabled
+            self.cweMonitorEnabled = cweMonitorEnabled
             self.discoveryType = discoveryType
             self.lifeCycle = lifeCycle
             self.opsCenterEnabled = opsCenterEnabled
@@ -178,7 +178,7 @@ extension ApplicationInsights {
 
         private enum CodingKeys: String, CodingKey {
             case autoConfigEnabled = "AutoConfigEnabled"
-            case cWEMonitorEnabled = "CWEMonitorEnabled"
+            case cweMonitorEnabled = "CWEMonitorEnabled"
             case discoveryType = "DiscoveryType"
             case lifeCycle = "LifeCycle"
             case opsCenterEnabled = "OpsCenterEnabled"
@@ -225,7 +225,7 @@ extension ApplicationInsights {
         public let autoConfigEnabled: Bool?
         public let autoCreate: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
-        public let cWEMonitorEnabled: Bool?
+        public let cweMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application.
         public let opsCenterEnabled: Bool?
         ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
@@ -235,10 +235,10 @@ extension ApplicationInsights {
         /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]?
 
-        public init(autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cweMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
             self.autoConfigEnabled = autoConfigEnabled
             self.autoCreate = autoCreate
-            self.cWEMonitorEnabled = cWEMonitorEnabled
+            self.cweMonitorEnabled = cweMonitorEnabled
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.resourceGroupName = resourceGroupName
@@ -261,7 +261,7 @@ extension ApplicationInsights {
         private enum CodingKeys: String, CodingKey {
             case autoConfigEnabled = "AutoConfigEnabled"
             case autoCreate = "AutoCreate"
-            case cWEMonitorEnabled = "CWEMonitorEnabled"
+            case cweMonitorEnabled = "CWEMonitorEnabled"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case resourceGroupName = "ResourceGroupName"
@@ -1519,7 +1519,7 @@ extension ApplicationInsights {
     public struct UpdateApplicationRequest: AWSEncodableShape {
         public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
-        public let cWEMonitorEnabled: Bool?
+        public let cweMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application.
         public let opsCenterEnabled: Bool?
         ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
@@ -1529,9 +1529,9 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(autoConfigEnabled: Bool? = nil, cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+        public init(autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
             self.autoConfigEnabled = autoConfigEnabled
-            self.cWEMonitorEnabled = cWEMonitorEnabled
+            self.cweMonitorEnabled = cweMonitorEnabled
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.removeSNSTopic = removeSNSTopic
@@ -1549,7 +1549,7 @@ extension ApplicationInsights {
 
         private enum CodingKeys: String, CodingKey {
             case autoConfigEnabled = "AutoConfigEnabled"
-            case cWEMonitorEnabled = "CWEMonitorEnabled"
+            case cweMonitorEnabled = "CWEMonitorEnabled"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case removeSNSTopic = "RemoveSNSTopic"

@@ -30,9 +30,9 @@ extension MachineLearning {
         case createdAt = "CreatedAt"
         case dataSourceId = "DataSourceId"
         case dataURI = "DataURI"
-        case iAMUser = "IAMUser"
+        case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
-        case mLModelId = "MLModelId"
+        case mlModelId = "MLModelId"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -41,7 +41,7 @@ extension MachineLearning {
     public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
         case createdAt = "CreatedAt"
         case dataLocationS3 = "DataLocationS3"
-        case iAMUser = "IAMUser"
+        case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
         case name = "Name"
         case status = "Status"
@@ -67,9 +67,9 @@ extension MachineLearning {
         case createdAt = "CreatedAt"
         case dataSourceId = "DataSourceId"
         case dataURI = "DataURI"
-        case iAMUser = "IAMUser"
+        case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
-        case mLModelId = "MLModelId"
+        case mlModelId = "MLModelId"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -78,9 +78,9 @@ extension MachineLearning {
     public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
         case algorithm = "Algorithm"
         case createdAt = "CreatedAt"
-        case iAMUser = "IAMUser"
+        case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
-        case mLModelType = "MLModelType"
+        case mlModelType = "MLModelType"
         case name = "Name"
         case realtimeEndpointStatus = "RealtimeEndpointStatus"
         case status = "Status"
@@ -114,7 +114,7 @@ extension MachineLearning {
         case batchPrediction = "BatchPrediction"
         case dataSource = "DataSource"
         case evaluation = "Evaluation"
-        case mLModel = "MLModel"
+        case mlModel = "MLModel"
         public var description: String { return self.rawValue }
     }
 
@@ -187,7 +187,7 @@ extension MachineLearning {
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// A user-supplied name or description of the BatchPrediction.
         public let name: String?
         /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
@@ -197,7 +197,7 @@ extension MachineLearning {
         public let status: EntityStatus?
         public let totalRecordCount: Int64?
 
-        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
+        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
@@ -208,7 +208,7 @@ extension MachineLearning {
             self.invalidRecordCount = invalidRecordCount
             self.lastUpdatedAt = lastUpdatedAt
             self.message = message
-            self.mLModelId = mLModelId
+            self.mlModelId = mlModelId
             self.name = name
             self.outputUri = outputUri
             self.startedAt = startedAt
@@ -227,7 +227,7 @@ extension MachineLearning {
             case invalidRecordCount = "InvalidRecordCount"
             case lastUpdatedAt = "LastUpdatedAt"
             case message = "Message"
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case name = "Name"
             case outputUri = "OutputUri"
             case startedAt = "StartedAt"
@@ -244,15 +244,15 @@ extension MachineLearning {
         /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
         public let batchPredictionName: String?
         /// The ID of the MLModel that will generate predictions for the group of observations.
-        public let mLModelId: String
+        public let mlModelId: String
         /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.  Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide.
         public let outputUri: String
 
-        public init(batchPredictionDataSourceId: String, batchPredictionId: String, batchPredictionName: String? = nil, mLModelId: String, outputUri: String) {
+        public init(batchPredictionDataSourceId: String, batchPredictionId: String, batchPredictionName: String? = nil, mlModelId: String, outputUri: String) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
             self.batchPredictionName = batchPredictionName
-            self.mLModelId = mLModelId
+            self.mlModelId = mlModelId
             self.outputUri = outputUri
         }
 
@@ -265,9 +265,9 @@ extension MachineLearning {
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.outputUri, name: "outputUri", parent: name, max: 2048)
             try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }
@@ -276,7 +276,7 @@ extension MachineLearning {
             case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
             case batchPredictionId = "BatchPredictionId"
             case batchPredictionName = "BatchPredictionName"
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case outputUri = "OutputUri"
         }
     }
@@ -304,15 +304,15 @@ extension MachineLearning {
         /// The data specification of an Amazon RDS DataSource:   DatabaseInformation -    DatabaseName - The name of the Amazon RDS database.    InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.     DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database.   ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon
         /// 			Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines.   ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS
         /// 			to Amazon S3. For more information, see Role templates for data pipelines.   SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance.   SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource.   S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location.   DataSchemaUri - The Amazon S3 location of the DataSchema.   DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.    DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
-        public let rDSData: RDSDataSpec
+        public let rdsData: RDSDataSpec
         /// The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.
         public let roleARN: String
 
-        public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, rDSData: RDSDataSpec, roleARN: String) {
+        public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, rdsData: RDSDataSpec, roleARN: String) {
             self.computeStatistics = computeStatistics
             self.dataSourceId = dataSourceId
             self.dataSourceName = dataSourceName
-            self.rDSData = rDSData
+            self.rdsData = rdsData
             self.roleARN = roleARN
         }
 
@@ -322,7 +322,7 @@ extension MachineLearning {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
-            try self.rDSData.validate(name: "\(name).rDSData")
+            try self.rdsData.validate(name: "\(name).rdsData")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
         }
@@ -331,7 +331,7 @@ extension MachineLearning {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
             case dataSourceName = "DataSourceName"
-            case rDSData = "RDSData"
+            case rdsData = "RDSData"
             case roleARN = "RoleARN"
         }
     }
@@ -458,13 +458,13 @@ extension MachineLearning {
         /// A user-supplied name or description of the Evaluation.
         public let evaluationName: String?
         /// The ID of the MLModel to evaluate.  The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation.
-        public let mLModelId: String
+        public let mlModelId: String
 
-        public init(evaluationDataSourceId: String, evaluationId: String, evaluationName: String? = nil, mLModelId: String) {
+        public init(evaluationDataSourceId: String, evaluationId: String, evaluationName: String? = nil, mlModelId: String) {
             self.evaluationDataSourceId = evaluationDataSourceId
             self.evaluationId = evaluationId
             self.evaluationName = evaluationName
-            self.mLModelId = mLModelId
+            self.mlModelId = mlModelId
         }
 
         public func validate(name: String) throws {
@@ -476,16 +476,16 @@ extension MachineLearning {
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case evaluationDataSourceId = "EvaluationDataSourceId"
             case evaluationId = "EvaluationId"
             case evaluationName = "EvaluationName"
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 
@@ -504,11 +504,11 @@ extension MachineLearning {
 
     public struct CreateMLModelInput: AWSEncodableShape {
         /// A user-supplied ID that uniquely identifies the MLModel.
-        public let mLModelId: String
+        public let mlModelId: String
         /// A user-supplied name or description of the MLModel.
-        public let mLModelName: String?
+        public let mlModelName: String?
         /// The category of supervised learning that this MLModel will address. Choose from the following types:   Choose REGRESSION if the MLModel will be used to predict a numeric value.   Choose BINARY if the MLModel result has two possible values.   Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
-        public let mLModelType: MLModelType
+        public let mlModelType: MLModelType
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let parameters: [String: String]?
         /// The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
@@ -518,10 +518,10 @@ extension MachineLearning {
         /// The DataSource that points to the training data.
         public let trainingDataSourceId: String
 
-        public init(mLModelId: String, mLModelName: String? = nil, mLModelType: MLModelType, parameters: [String: String]? = nil, recipe: String? = nil, recipeUri: String? = nil, trainingDataSourceId: String) {
-            self.mLModelId = mLModelId
-            self.mLModelName = mLModelName
-            self.mLModelType = mLModelType
+        public init(mlModelId: String, mlModelName: String? = nil, mlModelType: MLModelType, parameters: [String: String]? = nil, recipe: String? = nil, recipeUri: String? = nil, trainingDataSourceId: String) {
+            self.mlModelId = mlModelId
+            self.mlModelName = mlModelName
+            self.mlModelType = mlModelType
             self.parameters = parameters
             self.recipe = recipe
             self.recipeUri = recipeUri
@@ -529,11 +529,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.mLModelName, name: "mLModelName", parent: name, max: 1024)
-            try self.validate(self.mLModelName, name: "mLModelName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelName, name: "mlModelName", parent: name, max: 1024)
+            try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: ".*\\S.*|^$")
             try self.validate(self.recipe, name: "recipe", parent: name, max: 131_071)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, max: 2048)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
@@ -543,9 +543,9 @@ extension MachineLearning {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case mLModelName = "MLModelName"
-            case mLModelType = "MLModelType"
+            case mlModelId = "MLModelId"
+            case mlModelName = "MLModelName"
+            case mlModelType = "MLModelType"
             case parameters = "Parameters"
             case recipe = "Recipe"
             case recipeUri = "RecipeUri"
@@ -555,49 +555,49 @@ extension MachineLearning {
 
     public struct CreateMLModelOutput: AWSDecodableShape {
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the  MLModelId in the request.
-        public let mLModelId: String?
+        public let mlModelId: String?
 
-        public init(mLModelId: String? = nil) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String? = nil) {
+            self.mlModelId = mlModelId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 
     public struct CreateRealtimeEndpointInput: AWSEncodableShape {
         /// The ID assigned to the MLModel during creation.
-        public let mLModelId: String
+        public let mlModelId: String
 
-        public init(mLModelId: String) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String) {
+            self.mlModelId = mlModelId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 
     public struct CreateRealtimeEndpointOutput: AWSDecodableShape {
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the  MLModelId in the request.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// The endpoint information of the MLModel
         public let realtimeEndpointInfo: RealtimeEndpointInfo?
 
-        public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
+            self.mlModelId = mlModelId
             self.realtimeEndpointInfo = realtimeEndpointInfo
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case realtimeEndpointInfo = "RealtimeEndpointInfo"
         }
     }
@@ -627,14 +627,14 @@ extension MachineLearning {
         public let name: String?
         /// The number of data files referenced by the DataSource.
         public let numberOfFiles: Int64?
-        public let rDSMetadata: RDSMetadata?
+        public let rdsMetadata: RDSMetadata?
         public let redshiftMetadata: RedshiftMetadata?
         public let roleARN: String?
         public let startedAt: Date?
         /// The current status of the DataSource. This element can have one of the following values:    PENDING	- Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource.   INPROGRESS - The creation process is underway.   FAILED - The request to create a DataSource did not run to completion. It is not usable.   COMPLETED - The creation process completed successfully.   DELETED	- The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
+        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rdsMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -648,7 +648,7 @@ extension MachineLearning {
             self.message = message
             self.name = name
             self.numberOfFiles = numberOfFiles
-            self.rDSMetadata = rDSMetadata
+            self.rdsMetadata = rdsMetadata
             self.redshiftMetadata = redshiftMetadata
             self.roleARN = roleARN
             self.startedAt = startedAt
@@ -669,7 +669,7 @@ extension MachineLearning {
             case message = "Message"
             case name = "Name"
             case numberOfFiles = "NumberOfFiles"
-            case rDSMetadata = "RDSMetadata"
+            case rdsMetadata = "RDSMetadata"
             case redshiftMetadata = "RedshiftMetadata"
             case roleARN = "RoleARN"
             case startedAt = "StartedAt"
@@ -775,68 +775,68 @@ extension MachineLearning {
 
     public struct DeleteMLModelInput: AWSEncodableShape {
         /// A user-supplied ID that uniquely identifies the MLModel.
-        public let mLModelId: String
+        public let mlModelId: String
 
-        public init(mLModelId: String) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String) {
+            self.mlModelId = mlModelId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 
     public struct DeleteMLModelOutput: AWSDecodableShape {
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
-        public let mLModelId: String?
+        public let mlModelId: String?
 
-        public init(mLModelId: String? = nil) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String? = nil) {
+            self.mlModelId = mlModelId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 
     public struct DeleteRealtimeEndpointInput: AWSEncodableShape {
         /// The ID assigned to the MLModel during creation.
-        public let mLModelId: String
+        public let mlModelId: String
 
-        public init(mLModelId: String) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String) {
+            self.mlModelId = mlModelId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 
     public struct DeleteRealtimeEndpointOutput: AWSDecodableShape {
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the  MLModelId in the request.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// The endpoint information of the MLModel
         public let realtimeEndpointInfo: RealtimeEndpointInfo?
 
-        public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
+            self.mlModelId = mlModelId
             self.realtimeEndpointInfo = realtimeEndpointInfo
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case realtimeEndpointInfo = "RealtimeEndpointInfo"
         }
     }
@@ -1309,7 +1309,7 @@ extension MachineLearning {
         /// A description of the most recent details about evaluating the MLModel.
         public let message: String?
         /// The ID of the MLModel that is the focus of the evaluation.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// A user-supplied name or description of the Evaluation.
         public let name: String?
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:     BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.    MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide.
@@ -1318,7 +1318,7 @@ extension MachineLearning {
         /// The status of the evaluation. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.    INPROGRESS - The evaluation is underway.    FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.    COMPLETED - The evaluation process completed successfully.    DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
+        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -1328,7 +1328,7 @@ extension MachineLearning {
             self.inputDataLocationS3 = inputDataLocationS3
             self.lastUpdatedAt = lastUpdatedAt
             self.message = message
-            self.mLModelId = mLModelId
+            self.mlModelId = mlModelId
             self.name = name
             self.performanceMetrics = performanceMetrics
             self.startedAt = startedAt
@@ -1345,7 +1345,7 @@ extension MachineLearning {
             case inputDataLocationS3 = "InputDataLocationS3"
             case lastUpdatedAt = "LastUpdatedAt"
             case message = "Message"
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case name = "Name"
             case performanceMetrics = "PerformanceMetrics"
             case startedAt = "StartedAt"
@@ -1396,7 +1396,7 @@ extension MachineLearning {
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// A user-supplied name or description of the BatchPrediction.
         public let name: String?
         /// The location of an Amazon S3 bucket or directory to receive the operation results.
@@ -1408,7 +1408,7 @@ extension MachineLearning {
         /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
         public let totalRecordCount: Int64?
 
-        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
+        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
@@ -1420,7 +1420,7 @@ extension MachineLearning {
             self.lastUpdatedAt = lastUpdatedAt
             self.logUri = logUri
             self.message = message
-            self.mLModelId = mLModelId
+            self.mlModelId = mlModelId
             self.name = name
             self.outputUri = outputUri
             self.startedAt = startedAt
@@ -1440,7 +1440,7 @@ extension MachineLearning {
             case lastUpdatedAt = "LastUpdatedAt"
             case logUri = "LogUri"
             case message = "Message"
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case name = "Name"
             case outputUri = "OutputUri"
             case startedAt = "StartedAt"
@@ -1503,7 +1503,7 @@ extension MachineLearning {
         public let name: String?
         /// The number of data files referenced by the DataSource.
         public let numberOfFiles: Int64?
-        public let rDSMetadata: RDSMetadata?
+        public let rdsMetadata: RDSMetadata?
         public let redshiftMetadata: RedshiftMetadata?
         public let roleARN: String?
         /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
@@ -1511,7 +1511,7 @@ extension MachineLearning {
         /// The current status of the DataSource. This element can have one of the following values:    PENDING - Amazon ML submitted a request to create a DataSource.    INPROGRESS - The creation process is underway.    FAILED - The request to create a DataSource did not run to completion. It is not usable.    COMPLETED - The creation process completed successfully.    DELETED - The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
+        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rdsMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1527,7 +1527,7 @@ extension MachineLearning {
             self.message = message
             self.name = name
             self.numberOfFiles = numberOfFiles
-            self.rDSMetadata = rDSMetadata
+            self.rdsMetadata = rdsMetadata
             self.redshiftMetadata = redshiftMetadata
             self.roleARN = roleARN
             self.startedAt = startedAt
@@ -1550,7 +1550,7 @@ extension MachineLearning {
             case message = "Message"
             case name = "Name"
             case numberOfFiles = "NumberOfFiles"
-            case rDSMetadata = "RDSMetadata"
+            case rdsMetadata = "RDSMetadata"
             case redshiftMetadata = "RedshiftMetadata"
             case roleARN = "RoleARN"
             case startedAt = "StartedAt"
@@ -1599,7 +1599,7 @@ extension MachineLearning {
         /// A description of the most recent details about evaluating the MLModel.
         public let message: String?
         /// The ID of the MLModel that was the focus of the evaluation.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// A user-supplied name or description of the Evaluation.
         public let name: String?
         /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:     BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.    MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide.
@@ -1609,7 +1609,7 @@ extension MachineLearning {
         /// The status of the evaluation. This element can have one of the following values:    PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.    INPROGRESS - The evaluation is underway.    FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.    COMPLETED - The evaluation process completed successfully.    DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
-        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
+        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -1620,7 +1620,7 @@ extension MachineLearning {
             self.lastUpdatedAt = lastUpdatedAt
             self.logUri = logUri
             self.message = message
-            self.mLModelId = mLModelId
+            self.mlModelId = mlModelId
             self.name = name
             self.performanceMetrics = performanceMetrics
             self.startedAt = startedAt
@@ -1638,7 +1638,7 @@ extension MachineLearning {
             case lastUpdatedAt = "LastUpdatedAt"
             case logUri = "LogUri"
             case message = "Message"
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case name = "Name"
             case performanceMetrics = "PerformanceMetrics"
             case startedAt = "StartedAt"
@@ -1648,23 +1648,23 @@ extension MachineLearning {
 
     public struct GetMLModelInput: AWSEncodableShape {
         /// The ID assigned to the MLModel at creation.
-        public let mLModelId: String
+        public let mlModelId: String
         /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
         public let verbose: Bool?
 
-        public init(mLModelId: String, verbose: Bool? = nil) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String, verbose: Bool? = nil) {
+            self.mlModelId = mlModelId
             self.verbose = verbose
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case verbose = "Verbose"
         }
     }
@@ -1689,9 +1689,9 @@ extension MachineLearning {
         /// A description of the most recent details about accessing the MLModel.
         public let message: String?
         /// The MLModel ID,  which is same as the MLModelId in the request.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// Identifies the MLModel category. The following are the available types:    REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?"   BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?"   MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?"
-        public let mLModelType: MLModelType?
+        public let mlModelType: MLModelType?
         /// A user-supplied name or description of the MLModel.
         public let name: String?
         /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training.  Note: This parameter is provided as part of the verbose format.
@@ -1712,7 +1712,7 @@ extension MachineLearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
-        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mlModelId: String? = nil, mlModelType: MLModelType? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -1722,8 +1722,8 @@ extension MachineLearning {
             self.lastUpdatedAt = lastUpdatedAt
             self.logUri = logUri
             self.message = message
-            self.mLModelId = mLModelId
-            self.mLModelType = mLModelType
+            self.mlModelId = mlModelId
+            self.mlModelType = mlModelType
             self.name = name
             self.recipe = recipe
             self.schema = schema
@@ -1746,8 +1746,8 @@ extension MachineLearning {
             case lastUpdatedAt = "LastUpdatedAt"
             case logUri = "LogUri"
             case message = "Message"
-            case mLModelId = "MLModelId"
-            case mLModelType = "MLModelType"
+            case mlModelId = "MLModelId"
+            case mlModelType = "MLModelType"
             case name = "Name"
             case recipe = "Recipe"
             case schema = "Schema"
@@ -1779,9 +1779,9 @@ extension MachineLearning {
         /// A description of the most recent details about accessing the MLModel.
         public let message: String?
         /// The ID assigned to the MLModel at creation.
-        public let mLModelId: String?
+        public let mlModelId: String?
         /// Identifies the MLModel category. The following are the available types:    REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"    BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".    MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?".
-        public let mLModelType: MLModelType?
+        public let mlModelType: MLModelType?
         /// A user-supplied name or description of the MLModel.
         public let name: String?
         public let scoreThreshold: Float?
@@ -1796,7 +1796,7 @@ extension MachineLearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
-        public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mlModelId: String? = nil, mlModelType: MLModelType? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithm = algorithm
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1806,8 +1806,8 @@ extension MachineLearning {
             self.inputDataLocationS3 = inputDataLocationS3
             self.lastUpdatedAt = lastUpdatedAt
             self.message = message
-            self.mLModelId = mLModelId
-            self.mLModelType = mLModelType
+            self.mlModelId = mlModelId
+            self.mlModelType = mlModelType
             self.name = name
             self.scoreThreshold = scoreThreshold
             self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
@@ -1828,8 +1828,8 @@ extension MachineLearning {
             case inputDataLocationS3 = "InputDataLocationS3"
             case lastUpdatedAt = "LastUpdatedAt"
             case message = "Message"
-            case mLModelId = "MLModelId"
-            case mLModelType = "MLModelType"
+            case mlModelId = "MLModelId"
+            case mlModelType = "MLModelType"
             case name = "Name"
             case scoreThreshold = "ScoreThreshold"
             case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
@@ -1855,26 +1855,26 @@ extension MachineLearning {
 
     public struct PredictInput: AWSEncodableShape {
         /// A unique identifier of the MLModel.
-        public let mLModelId: String
+        public let mlModelId: String
         public let predictEndpoint: String
         public let record: [String: String]
 
-        public init(mLModelId: String, predictEndpoint: String, record: [String: String]) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String, predictEndpoint: String, record: [String: String]) {
+            self.mlModelId = mlModelId
             self.predictEndpoint = predictEndpoint
             self.record = record
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, max: 2048)
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
             case predictEndpoint = "PredictEndpoint"
             case record = "Record"
         }
@@ -2393,43 +2393,43 @@ extension MachineLearning {
 
     public struct UpdateMLModelInput: AWSEncodableShape {
         /// The ID assigned to the MLModel during creation.
-        public let mLModelId: String
+        public let mlModelId: String
         /// A user-supplied name or description of the MLModel.
-        public let mLModelName: String?
+        public let mlModelName: String?
         /// The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
         public let scoreThreshold: Float?
 
-        public init(mLModelId: String, mLModelName: String? = nil, scoreThreshold: Float? = nil) {
-            self.mLModelId = mLModelId
-            self.mLModelName = mLModelName
+        public init(mlModelId: String, mlModelName: String? = nil, scoreThreshold: Float? = nil) {
+            self.mlModelId = mlModelId
+            self.mlModelName = mlModelName
             self.scoreThreshold = scoreThreshold
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
-            try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.mLModelName, name: "mLModelName", parent: name, max: 1024)
-            try self.validate(self.mLModelName, name: "mLModelName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelName, name: "mlModelName", parent: name, max: 1024)
+            try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: ".*\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case mLModelName = "MLModelName"
+            case mlModelId = "MLModelId"
+            case mlModelName = "MLModelName"
             case scoreThreshold = "ScoreThreshold"
         }
     }
 
     public struct UpdateMLModelOutput: AWSDecodableShape {
         /// The ID assigned to the MLModel during creation.  This value should be identical to the value  of the MLModelID in the request.
-        public let mLModelId: String?
+        public let mlModelId: String?
 
-        public init(mLModelId: String? = nil) {
-            self.mLModelId = mLModelId
+        public init(mlModelId: String? = nil) {
+            self.mlModelId = mlModelId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
+            case mlModelId = "MLModelId"
         }
     }
 }

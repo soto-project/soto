@@ -362,11 +362,11 @@ extension Macie2 {
     }
 
     public enum UserIdentityType: String, CustomStringConvertible, Codable {
-        case aWSAccount = "AWSAccount"
-        case aWSService = "AWSService"
+        case awsAccount = "AWSAccount"
+        case awsService = "AWSService"
         case assumedRole = "AssumedRole"
         case federatedUser = "FederatedUser"
-        case iAMUser = "IAMUser"
+        case iamUser = "IAMUser"
         case root = "Root"
         public var description: String { return self.rawValue }
     }

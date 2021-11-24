@@ -1903,7 +1903,7 @@ extension RDS.DescribeDBClusterBacktracksMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterBacktracksMessage {
         return .init(
             backtrackIdentifier: self.backtrackIdentifier,
-            dBClusterIdentifier: self.dBClusterIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -1914,8 +1914,8 @@ extension RDS.DescribeDBClusterBacktracksMessage: AWSPaginateToken {
 extension RDS.DescribeDBClusterEndpointsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterEndpointsMessage {
         return .init(
-            dBClusterEndpointIdentifier: self.dBClusterEndpointIdentifier,
-            dBClusterIdentifier: self.dBClusterIdentifier,
+            dbClusterEndpointIdentifier: self.dbClusterEndpointIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -1926,7 +1926,7 @@ extension RDS.DescribeDBClusterEndpointsMessage: AWSPaginateToken {
 extension RDS.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterParameterGroupsMessage {
         return .init(
-            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            dbClusterParameterGroupName: self.dbClusterParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -1937,7 +1937,7 @@ extension RDS.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBClusterParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterParametersMessage {
         return .init(
-            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            dbClusterParameterGroupName: self.dbClusterParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -1949,8 +1949,8 @@ extension RDS.DescribeDBClusterParametersMessage: AWSPaginateToken {
 extension RDS.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterSnapshotsMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier,
-            dBClusterSnapshotIdentifier: self.dBClusterSnapshotIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterSnapshotIdentifier: self.dbClusterSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,
             includeShared: self.includeShared,
@@ -1964,7 +1964,7 @@ extension RDS.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
 extension RDS.DescribeDBClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClustersMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
             filters: self.filters,
             includeShared: self.includeShared,
             marker: token,
@@ -1976,7 +1976,7 @@ extension RDS.DescribeDBClustersMessage: AWSPaginateToken {
 extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBEngineVersionsMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            dbParameterGroupFamily: self.dbParameterGroupFamily,
             defaultOnly: self.defaultOnly,
             engine: self.engine,
             engineVersion: self.engineVersion,
@@ -1993,8 +1993,8 @@ extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateToken {
 extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBInstanceAutomatedBackupsMessage {
         return .init(
-            dBInstanceAutomatedBackupsArn: self.dBInstanceAutomatedBackupsArn,
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceAutomatedBackupsArn: self.dbInstanceAutomatedBackupsArn,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             dbiResourceId: self.dbiResourceId,
             filters: self.filters,
             marker: token,
@@ -2006,7 +2006,7 @@ extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBInstancesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2017,7 +2017,7 @@ extension RDS.DescribeDBInstancesMessage: AWSPaginateToken {
 extension RDS.DescribeDBLogFilesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBLogFilesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             fileLastWritten: self.fileLastWritten,
             filenameContains: self.filenameContains,
             fileSize: self.fileSize,
@@ -2031,7 +2031,7 @@ extension RDS.DescribeDBLogFilesMessage: AWSPaginateToken {
 extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBParameterGroupsMessage {
         return .init(
-            dBParameterGroupName: self.dBParameterGroupName,
+            dbParameterGroupName: self.dbParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2042,7 +2042,7 @@ extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBParametersMessage {
         return .init(
-            dBParameterGroupName: self.dBParameterGroupName,
+            dbParameterGroupName: self.dbParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -2054,7 +2054,7 @@ extension RDS.DescribeDBParametersMessage: AWSPaginateToken {
 extension RDS.DescribeDBProxiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxiesRequest {
         return .init(
-            dBProxyName: self.dBProxyName,
+            dbProxyName: self.dbProxyName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2065,8 +2065,8 @@ extension RDS.DescribeDBProxiesRequest: AWSPaginateToken {
 extension RDS.DescribeDBProxyEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxyEndpointsRequest {
         return .init(
-            dBProxyEndpointName: self.dBProxyEndpointName,
-            dBProxyName: self.dBProxyName,
+            dbProxyEndpointName: self.dbProxyEndpointName,
+            dbProxyName: self.dbProxyName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2077,7 +2077,7 @@ extension RDS.DescribeDBProxyEndpointsRequest: AWSPaginateToken {
 extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxyTargetGroupsRequest {
         return .init(
-            dBProxyName: self.dBProxyName,
+            dbProxyName: self.dbProxyName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -2089,7 +2089,7 @@ extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateToken {
 extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxyTargetsRequest {
         return .init(
-            dBProxyName: self.dBProxyName,
+            dbProxyName: self.dbProxyName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -2101,7 +2101,7 @@ extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateToken {
 extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSecurityGroupsMessage {
         return .init(
-            dBSecurityGroupName: self.dBSecurityGroupName,
+            dbSecurityGroupName: self.dbSecurityGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2112,9 +2112,9 @@ extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeDBSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSnapshotsMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             dbiResourceId: self.dbiResourceId,
-            dBSnapshotIdentifier: self.dBSnapshotIdentifier,
+            dbSnapshotIdentifier: self.dbSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,
             includeShared: self.includeShared,
@@ -2128,7 +2128,7 @@ extension RDS.DescribeDBSnapshotsMessage: AWSPaginateToken {
 extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSubnetGroupsMessage {
         return .init(
-            dBSubnetGroupName: self.dBSubnetGroupName,
+            dbSubnetGroupName: self.dbSubnetGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2139,7 +2139,7 @@ extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
 extension RDS.DescribeEngineDefaultParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeEngineDefaultParametersMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            dbParameterGroupFamily: self.dbParameterGroupFamily,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2237,7 +2237,7 @@ extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
             availabilityZoneGroup: self.availabilityZoneGroup,
-            dBInstanceClass: self.dBInstanceClass,
+            dbInstanceClass: self.dbInstanceClass,
             engine: self.engine,
             engineVersion: self.engineVersion,
             filters: self.filters,
@@ -2263,7 +2263,7 @@ extension RDS.DescribePendingMaintenanceActionsMessage: AWSPaginateToken {
 extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeReservedDBInstancesMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass,
+            dbInstanceClass: self.dbInstanceClass,
             duration: self.duration,
             filters: self.filters,
             leaseId: self.leaseId,
@@ -2281,7 +2281,7 @@ extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateToken {
 extension RDS.DescribeReservedDBInstancesOfferingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeReservedDBInstancesOfferingsMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass,
+            dbInstanceClass: self.dbInstanceClass,
             duration: self.duration,
             filters: self.filters,
             marker: token,
@@ -2308,7 +2308,7 @@ extension RDS.DescribeSourceRegionsMessage: AWSPaginateToken {
 extension RDS.DownloadDBLogFilePortionMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DownloadDBLogFilePortionMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             logFileName: self.logFileName,
             marker: token,
             numberOfLines: self.numberOfLines

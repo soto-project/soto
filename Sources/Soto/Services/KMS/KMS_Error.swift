@@ -44,10 +44,10 @@ public struct KMSErrorType: AWSErrorType {
         case invalidImportTokenException = "InvalidImportTokenException"
         case invalidKeyUsageException = "InvalidKeyUsageException"
         case invalidMarkerException = "InvalidMarkerException"
-        case kMSInternalException = "KMSInternalException"
-        case kMSInvalidSignatureException = "KMSInvalidSignatureException"
-        case kMSInvalidStateException = "KMSInvalidStateException"
         case keyUnavailableException = "KeyUnavailableException"
+        case kmsInternalException = "KMSInternalException"
+        case kmsInvalidSignatureException = "KMSInvalidSignatureException"
+        case kmsInvalidStateException = "KMSInvalidStateException"
         case limitExceededException = "LimitExceededException"
         case malformedPolicyDocumentException = "MalformedPolicyDocumentException"
         case notFoundException = "NotFoundException"
@@ -122,14 +122,14 @@ public struct KMSErrorType: AWSErrorType {
     public static var invalidKeyUsageException: Self { .init(.invalidKeyUsageException) }
     /// The request was rejected because the marker that specifies where pagination should next begin is not valid.
     public static var invalidMarkerException: Self { .init(.invalidMarkerException) }
-    /// The request was rejected because an internal exception occurred. The request can be retried.
-    public static var kMSInternalException: Self { .init(.kMSInternalException) }
-    /// The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
-    public static var kMSInvalidSignatureException: Self { .init(.kMSInvalidSignatureException) }
-    /// The request was rejected because the state of the specified resource is not valid for this request. For more information about how key state affects the use of a KMS key, see Key state: Effect on your KMS key in the  Key Management Service Developer Guide .
-    public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
     /// The request was rejected because the specified KMS key was not available. You can retry the request.
     public static var keyUnavailableException: Self { .init(.keyUnavailableException) }
+    /// The request was rejected because an internal exception occurred. The request can be retried.
+    public static var kmsInternalException: Self { .init(.kmsInternalException) }
+    /// The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
+    public static var kmsInvalidSignatureException: Self { .init(.kmsInvalidSignatureException) }
+    /// The request was rejected because the state of the specified resource is not valid for this request. For more information about how key state affects the use of a KMS key, see Key state: Effect on your KMS key in the  Key Management Service Developer Guide .
+    public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
     /// The request was rejected because a quota was exceeded. For more information, see Quotas in the Key Management Service Developer Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The request was rejected because the specified policy is not syntactically or semantically correct.

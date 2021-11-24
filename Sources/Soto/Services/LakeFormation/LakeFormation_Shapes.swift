@@ -92,13 +92,13 @@ extension LakeFormation {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
         public let catalogId: String?
         /// The tags to attach to the resource.
-        public let lFTags: [LFTagPair]
+        public let lfTags: [LFTagPair]
         /// The resource to which to attach a tag.
         public let resource: Resource
 
-        public init(catalogId: String? = nil, lFTags: [LFTagPair], resource: Resource) {
+        public init(catalogId: String? = nil, lfTags: [LFTagPair], resource: Resource) {
             self.catalogId = catalogId
-            self.lFTags = lFTags
+            self.lfTags = lfTags
             self.resource = resource
         }
 
@@ -106,17 +106,17 @@ extension LakeFormation {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.lFTags.forEach {
-                try $0.validate(name: "\(name).lFTags[]")
+            try self.lfTags.forEach {
+                try $0.validate(name: "\(name).lfTags[]")
             }
-            try self.validate(self.lFTags, name: "lFTags", parent: name, max: 50)
-            try self.validate(self.lFTags, name: "lFTags", parent: name, min: 1)
+            try self.validate(self.lfTags, name: "lfTags", parent: name, max: 50)
+            try self.validate(self.lfTags, name: "lfTags", parent: name, min: 1)
             try self.resource.validate(name: "\(name).resource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
-            case lFTags = "LFTags"
+            case lfTags = "LFTags"
             case resource = "Resource"
         }
     }
@@ -271,17 +271,17 @@ extension LakeFormation {
 
     public struct ColumnLFTag: AWSDecodableShape {
         /// The tags attached to a column resource.
-        public let lFTags: [LFTagPair]?
+        public let lfTags: [LFTagPair]?
         /// The name of a column resource.
         public let name: String?
 
-        public init(lFTags: [LFTagPair]? = nil, name: String? = nil) {
-            self.lFTags = lFTags
+        public init(lfTags: [LFTagPair]? = nil, name: String? = nil) {
+            self.lfTags = lfTags
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lFTags = "LFTags"
+            case lfTags = "LFTags"
             case name = "Name"
         }
     }
@@ -742,22 +742,22 @@ extension LakeFormation {
 
     public struct GetResourceLFTagsResponse: AWSDecodableShape {
         /// A list of tags applied to a database resource.
-        public let lFTagOnDatabase: [LFTagPair]?
+        public let lfTagOnDatabase: [LFTagPair]?
         /// A list of tags applied to a column resource.
-        public let lFTagsOnColumns: [ColumnLFTag]?
+        public let lfTagsOnColumns: [ColumnLFTag]?
         /// A list of tags applied to a table resource.
-        public let lFTagsOnTable: [LFTagPair]?
+        public let lfTagsOnTable: [LFTagPair]?
 
-        public init(lFTagOnDatabase: [LFTagPair]? = nil, lFTagsOnColumns: [ColumnLFTag]? = nil, lFTagsOnTable: [LFTagPair]? = nil) {
-            self.lFTagOnDatabase = lFTagOnDatabase
-            self.lFTagsOnColumns = lFTagsOnColumns
-            self.lFTagsOnTable = lFTagsOnTable
+        public init(lfTagOnDatabase: [LFTagPair]? = nil, lfTagsOnColumns: [ColumnLFTag]? = nil, lfTagsOnTable: [LFTagPair]? = nil) {
+            self.lfTagOnDatabase = lfTagOnDatabase
+            self.lfTagsOnColumns = lfTagsOnColumns
+            self.lfTagsOnTable = lfTagsOnTable
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lFTagOnDatabase = "LFTagOnDatabase"
-            case lFTagsOnColumns = "LFTagsOnColumns"
-            case lFTagsOnTable = "LFTagsOnTable"
+            case lfTagOnDatabase = "LFTagOnDatabase"
+            case lfTagsOnColumns = "LFTagsOnColumns"
+            case lfTagsOnTable = "LFTagsOnTable"
         }
     }
 
@@ -836,16 +836,16 @@ extension LakeFormation {
         /// An error that occurred with the attachment or detachment of the tag.
         public let error: ErrorDetail?
         /// The key-name of the tag.
-        public let lFTag: LFTagPair?
+        public let lfTag: LFTagPair?
 
-        public init(error: ErrorDetail? = nil, lFTag: LFTagPair? = nil) {
+        public init(error: ErrorDetail? = nil, lfTag: LFTagPair? = nil) {
             self.error = error
-            self.lFTag = lFTag
+            self.lfTag = lfTag
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "Error"
-            case lFTag = "LFTag"
+            case lfTag = "LFTag"
         }
     }
 
@@ -988,17 +988,17 @@ extension LakeFormation {
 
     public struct ListLFTagsResponse: AWSDecodableShape {
         /// A list of tags that the requested has permission to view.
-        public let lFTags: [LFTagPair]?
+        public let lfTags: [LFTagPair]?
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
 
-        public init(lFTags: [LFTagPair]? = nil, nextToken: String? = nil) {
-            self.lFTags = lFTags
+        public init(lfTags: [LFTagPair]? = nil, nextToken: String? = nil) {
+            self.lfTags = lfTags
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lFTags = "LFTags"
+            case lfTags = "LFTags"
             case nextToken = "NextToken"
         }
     }
@@ -1219,13 +1219,13 @@ extension LakeFormation {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
         public let catalogId: String?
         /// The tags to be removed from the resource.
-        public let lFTags: [LFTagPair]
+        public let lfTags: [LFTagPair]
         /// The resource where you want to remove a tag.
         public let resource: Resource
 
-        public init(catalogId: String? = nil, lFTags: [LFTagPair], resource: Resource) {
+        public init(catalogId: String? = nil, lfTags: [LFTagPair], resource: Resource) {
             self.catalogId = catalogId
-            self.lFTags = lFTags
+            self.lfTags = lfTags
             self.resource = resource
         }
 
@@ -1233,17 +1233,17 @@ extension LakeFormation {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.lFTags.forEach {
-                try $0.validate(name: "\(name).lFTags[]")
+            try self.lfTags.forEach {
+                try $0.validate(name: "\(name).lfTags[]")
             }
-            try self.validate(self.lFTags, name: "lFTags", parent: name, max: 50)
-            try self.validate(self.lFTags, name: "lFTags", parent: name, min: 1)
+            try self.validate(self.lfTags, name: "lfTags", parent: name, max: 50)
+            try self.validate(self.lfTags, name: "lfTags", parent: name, min: 1)
             try self.resource.validate(name: "\(name).resource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
-            case lFTags = "LFTags"
+            case lfTags = "LFTags"
             case resource = "Resource"
         }
     }
@@ -1269,20 +1269,20 @@ extension LakeFormation {
         /// The location of an Amazon S3 path where permissions are granted or revoked.
         public let dataLocation: DataLocationResource?
         /// The tag key and values attached to a resource.
-        public let lFTag: LFTagKeyResource?
+        public let lfTag: LFTagKeyResource?
         /// A list of tag conditions that define a resource's tag policy.
-        public let lFTagPolicy: LFTagPolicyResource?
+        public let lfTagPolicy: LFTagPolicyResource?
         /// The table for the resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal.
         public let table: TableResource?
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
         public let tableWithColumns: TableWithColumnsResource?
 
-        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataLocation: DataLocationResource? = nil, lFTag: LFTagKeyResource? = nil, lFTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
+        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataLocation: DataLocationResource? = nil, lfTag: LFTagKeyResource? = nil, lfTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
             self.catalog = catalog
             self.database = database
             self.dataLocation = dataLocation
-            self.lFTag = lFTag
-            self.lFTagPolicy = lFTagPolicy
+            self.lfTag = lfTag
+            self.lfTagPolicy = lfTagPolicy
             self.table = table
             self.tableWithColumns = tableWithColumns
         }
@@ -1290,8 +1290,8 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.database?.validate(name: "\(name).database")
             try self.dataLocation?.validate(name: "\(name).dataLocation")
-            try self.lFTag?.validate(name: "\(name).lFTag")
-            try self.lFTagPolicy?.validate(name: "\(name).lFTagPolicy")
+            try self.lfTag?.validate(name: "\(name).lfTag")
+            try self.lfTagPolicy?.validate(name: "\(name).lfTagPolicy")
             try self.table?.validate(name: "\(name).table")
             try self.tableWithColumns?.validate(name: "\(name).tableWithColumns")
         }
@@ -1300,8 +1300,8 @@ extension LakeFormation {
             case catalog = "Catalog"
             case database = "Database"
             case dataLocation = "DataLocation"
-            case lFTag = "LFTag"
-            case lFTagPolicy = "LFTagPolicy"
+            case lfTag = "LFTag"
+            case lfTagPolicy = "LFTagPolicy"
             case table = "Table"
             case tableWithColumns = "TableWithColumns"
         }
@@ -1572,40 +1572,40 @@ extension LakeFormation {
         /// A database that has tags attached to it.
         public let database: DatabaseResource?
         /// A list of tags attached to the database.
-        public let lFTags: [LFTagPair]?
+        public let lfTags: [LFTagPair]?
 
-        public init(database: DatabaseResource? = nil, lFTags: [LFTagPair]? = nil) {
+        public init(database: DatabaseResource? = nil, lfTags: [LFTagPair]? = nil) {
             self.database = database
-            self.lFTags = lFTags
+            self.lfTags = lfTags
         }
 
         private enum CodingKeys: String, CodingKey {
             case database = "Database"
-            case lFTags = "LFTags"
+            case lfTags = "LFTags"
         }
     }
 
     public struct TaggedTable: AWSDecodableShape {
         /// A list of tags attached to the database where the table resides.
-        public let lFTagOnDatabase: [LFTagPair]?
+        public let lfTagOnDatabase: [LFTagPair]?
         /// A list of tags attached to columns in the table.
-        public let lFTagsOnColumns: [ColumnLFTag]?
+        public let lfTagsOnColumns: [ColumnLFTag]?
         /// A list of tags attached to the table.
-        public let lFTagsOnTable: [LFTagPair]?
+        public let lfTagsOnTable: [LFTagPair]?
         /// A table that has tags attached to it.
         public let table: TableResource?
 
-        public init(lFTagOnDatabase: [LFTagPair]? = nil, lFTagsOnColumns: [ColumnLFTag]? = nil, lFTagsOnTable: [LFTagPair]? = nil, table: TableResource? = nil) {
-            self.lFTagOnDatabase = lFTagOnDatabase
-            self.lFTagsOnColumns = lFTagsOnColumns
-            self.lFTagsOnTable = lFTagsOnTable
+        public init(lfTagOnDatabase: [LFTagPair]? = nil, lfTagsOnColumns: [ColumnLFTag]? = nil, lfTagsOnTable: [LFTagPair]? = nil, table: TableResource? = nil) {
+            self.lfTagOnDatabase = lfTagOnDatabase
+            self.lfTagsOnColumns = lfTagsOnColumns
+            self.lfTagsOnTable = lfTagsOnTable
             self.table = table
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lFTagOnDatabase = "LFTagOnDatabase"
-            case lFTagsOnColumns = "LFTagsOnColumns"
-            case lFTagsOnTable = "LFTagsOnTable"
+            case lfTagOnDatabase = "LFTagOnDatabase"
+            case lfTagsOnColumns = "LFTagsOnColumns"
+            case lfTagsOnTable = "LFTagsOnTable"
             case table = "Table"
         }
     }

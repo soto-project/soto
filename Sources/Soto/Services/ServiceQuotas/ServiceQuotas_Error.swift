@@ -20,8 +20,8 @@ import SotoCore
 /// Error enum for ServiceQuotas
 public struct ServiceQuotasErrorType: AWSErrorType {
     enum Code: String {
-        case aWSServiceAccessNotEnabledException = "AWSServiceAccessNotEnabledException"
         case accessDeniedException = "AccessDeniedException"
+        case awsServiceAccessNotEnabledException = "AWSServiceAccessNotEnabledException"
         case dependencyAccessDeniedException = "DependencyAccessDeniedException"
         case illegalArgumentException = "IllegalArgumentException"
         case invalidPaginationTokenException = "InvalidPaginationTokenException"
@@ -57,10 +57,10 @@ public struct ServiceQuotasErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
-    public static var aWSServiceAccessNotEnabledException: Self { .init(.aWSServiceAccessNotEnabledException) }
     /// You do not have sufficient permission to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    public static var awsServiceAccessNotEnabledException: Self { .init(.awsServiceAccessNotEnabledException) }
     /// You can't perform this action because a dependency does not have access.
     public static var dependencyAccessDeniedException: Self { .init(.dependencyAccessDeniedException) }
     /// Invalid input was provided.

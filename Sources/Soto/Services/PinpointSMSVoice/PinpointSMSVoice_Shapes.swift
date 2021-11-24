@@ -410,18 +410,18 @@ extension PinpointSMSVoice {
     public struct VoiceMessageContent: AWSEncodableShape {
         public let callInstructionsMessage: CallInstructionsMessageType?
         public let plainTextMessage: PlainTextMessageType?
-        public let sSMLMessage: SSMLMessageType?
+        public let ssmlMessage: SSMLMessageType?
 
-        public init(callInstructionsMessage: CallInstructionsMessageType? = nil, plainTextMessage: PlainTextMessageType? = nil, sSMLMessage: SSMLMessageType? = nil) {
+        public init(callInstructionsMessage: CallInstructionsMessageType? = nil, plainTextMessage: PlainTextMessageType? = nil, ssmlMessage: SSMLMessageType? = nil) {
             self.callInstructionsMessage = callInstructionsMessage
             self.plainTextMessage = plainTextMessage
-            self.sSMLMessage = sSMLMessage
+            self.ssmlMessage = ssmlMessage
         }
 
         private enum CodingKeys: String, CodingKey {
             case callInstructionsMessage = "CallInstructionsMessage"
             case plainTextMessage = "PlainTextMessage"
-            case sSMLMessage = "SSMLMessage"
+            case ssmlMessage = "SSMLMessage"
         }
     }
 }

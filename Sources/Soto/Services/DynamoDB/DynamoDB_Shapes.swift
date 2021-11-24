@@ -1294,15 +1294,15 @@ extension DynamoDB {
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
         /// The KMS key that should be used for KMS encryption in the new replica. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
-        public let kMSMasterKeyId: String?
+        public let kmsMasterKeyId: String?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The Region where the new replica will be created.
         public let regionName: String
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
-            self.kMSMasterKeyId = kMSMasterKeyId
+            self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
         }
@@ -1317,7 +1317,7 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
-            case kMSMasterKeyId = "KMSMasterKeyId"
+            case kmsMasterKeyId = "KMSMasterKeyId"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
         }
@@ -1338,7 +1338,7 @@ extension DynamoDB {
         /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
         /// Represents the settings used to enable server-side encryption.
-        public let sSESpecification: SSESpecification?
+        public let sseSpecification: SSESpecification?
         /// The settings for DynamoDB Streams on the table. These settings consist of:    StreamEnabled - Indicates whether DynamoDB Streams is to be enabled (true) or disabled (false).    StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
         public let streamSpecification: StreamSpecification?
         /// The name of the table to create.
@@ -1346,14 +1346,14 @@ extension DynamoDB {
         /// A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
         public let tags: [Tag]?
 
-        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sSESpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String, tags: [Tag]? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String, tags: [Tag]? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.keySchema = keySchema
             self.localSecondaryIndexes = localSecondaryIndexes
             self.provisionedThroughput = provisionedThroughput
-            self.sSESpecification = sSESpecification
+            self.sseSpecification = sseSpecification
             self.streamSpecification = streamSpecification
             self.tableName = tableName
             self.tags = tags
@@ -1390,7 +1390,7 @@ extension DynamoDB {
             case keySchema = "KeySchema"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
             case provisionedThroughput = "ProvisionedThroughput"
-            case sSESpecification = "SSESpecification"
+            case sseSpecification = "SSESpecification"
             case streamSpecification = "StreamSpecification"
             case tableName = "TableName"
             case tags = "Tags"
@@ -3790,7 +3790,7 @@ extension DynamoDB {
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]?
         /// The KMS key of the replica that will be used for KMS encryption.
-        public let kMSMasterKeyId: String?
+        public let kmsMasterKeyId: String?
         /// Replica-specific provisioned throughput. If not described, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The name of the Region.
@@ -3804,9 +3804,9 @@ extension DynamoDB {
         /// Specifies the progress of a Create, Update, or Delete action on the replica as a percentage.
         public let replicaStatusPercentProgress: String?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
-            self.kMSMasterKeyId = kMSMasterKeyId
+            self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.replicaInaccessibleDateTime = replicaInaccessibleDateTime
@@ -3817,7 +3817,7 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
-            case kMSMasterKeyId = "KMSMasterKeyId"
+            case kmsMasterKeyId = "KMSMasterKeyId"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
             case replicaInaccessibleDateTime = "ReplicaInaccessibleDateTime"
@@ -4132,17 +4132,17 @@ extension DynamoDB {
         /// Provisioned throughput settings for the restored table.
         public let provisionedThroughputOverride: ProvisionedThroughput?
         /// The new server-side encryption settings for the restored table.
-        public let sSESpecificationOverride: SSESpecification?
+        public let sseSpecificationOverride: SSESpecification?
         /// The name of the new table to which the backup must be restored.
         public let targetTableName: String
 
-        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sSESpecificationOverride: SSESpecification? = nil, targetTableName: String) {
+        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String) {
             self.backupArn = backupArn
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
-            self.sSESpecificationOverride = sSESpecificationOverride
+            self.sseSpecificationOverride = sseSpecificationOverride
             self.targetTableName = targetTableName
         }
 
@@ -4167,7 +4167,7 @@ extension DynamoDB {
             case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
             case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
-            case sSESpecificationOverride = "SSESpecificationOverride"
+            case sseSpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
         }
     }
@@ -4201,13 +4201,13 @@ extension DynamoDB {
         /// Name of the source table that is being restored.
         public let sourceTableName: String?
         /// The new server-side encryption settings for the restored table.
-        public let sSESpecificationOverride: SSESpecification?
+        public let sseSpecificationOverride: SSESpecification?
         /// The name of the new table to which it must be restored to.
         public let targetTableName: String
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
         public let useLatestRestorableTime: Bool?
 
-        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sSESpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
@@ -4215,7 +4215,7 @@ extension DynamoDB {
             self.restoreDateTime = restoreDateTime
             self.sourceTableArn = sourceTableArn
             self.sourceTableName = sourceTableName
-            self.sSESpecificationOverride = sSESpecificationOverride
+            self.sseSpecificationOverride = sseSpecificationOverride
             self.targetTableName = targetTableName
             self.useLatestRestorableTime = useLatestRestorableTime
         }
@@ -4244,7 +4244,7 @@ extension DynamoDB {
             case restoreDateTime = "RestoreDateTime"
             case sourceTableArn = "SourceTableArn"
             case sourceTableName = "SourceTableName"
-            case sSESpecificationOverride = "SSESpecificationOverride"
+            case sseSpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
             case useLatestRestorableTime = "UseLatestRestorableTime"
         }
@@ -4267,23 +4267,23 @@ extension DynamoDB {
         /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's KMS key is accessible again. DynamoDB will initiate the table archival process when table's KMS key remains inaccessible for more than seven days from this date.
         public let inaccessibleEncryptionDateTime: Date?
         /// The KMS key ARN used for the KMS encryption.
-        public let kMSMasterKeyArn: String?
+        public let kmsMasterKeyArn: String?
         /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
-        public let sSEType: SSEType?
+        public let sseType: SSEType?
         /// Represents the current state of server-side encryption. The only supported values are:    ENABLED - Server-side encryption is enabled.    UPDATING - Server-side encryption is being updated.
         public let status: SSEStatus?
 
-        public init(inaccessibleEncryptionDateTime: Date? = nil, kMSMasterKeyArn: String? = nil, sSEType: SSEType? = nil, status: SSEStatus? = nil) {
+        public init(inaccessibleEncryptionDateTime: Date? = nil, kmsMasterKeyArn: String? = nil, sseType: SSEType? = nil, status: SSEStatus? = nil) {
             self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
-            self.kMSMasterKeyArn = kMSMasterKeyArn
-            self.sSEType = sSEType
+            self.kmsMasterKeyArn = kmsMasterKeyArn
+            self.sseType = sseType
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case inaccessibleEncryptionDateTime = "InaccessibleEncryptionDateTime"
-            case kMSMasterKeyArn = "KMSMasterKeyArn"
-            case sSEType = "SSEType"
+            case kmsMasterKeyArn = "KMSMasterKeyArn"
+            case sseType = "SSEType"
             case status = "Status"
         }
     }
@@ -4292,20 +4292,20 @@ extension DynamoDB {
         /// Indicates whether server-side encryption is done using an Amazon Web Services managed key or an Amazon Web Services owned key. If enabled (true), server-side encryption type is set to KMS and an Amazon Web Services managed key is used (KMS charges apply). If disabled (false) or not specified, server-side encryption is set to Amazon Web Services owned key.
         public let enabled: Bool?
         /// The KMS key that should be used for the KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB key alias/aws/dynamodb.
-        public let kMSMasterKeyId: String?
+        public let kmsMasterKeyId: String?
         /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
-        public let sSEType: SSEType?
+        public let sseType: SSEType?
 
-        public init(enabled: Bool? = nil, kMSMasterKeyId: String? = nil, sSEType: SSEType? = nil) {
+        public init(enabled: Bool? = nil, kmsMasterKeyId: String? = nil, sseType: SSEType? = nil) {
             self.enabled = enabled
-            self.kMSMasterKeyId = kMSMasterKeyId
-            self.sSEType = sSEType
+            self.kmsMasterKeyId = kmsMasterKeyId
+            self.sseType = sseType
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
-            case kMSMasterKeyId = "KMSMasterKeyId"
-            case sSEType = "SSEType"
+            case kmsMasterKeyId = "KMSMasterKeyId"
+            case sseType = "SSEType"
         }
     }
 
@@ -4493,16 +4493,16 @@ extension DynamoDB {
         /// Represents the LSI properties for the table when the backup was created. It includes the IndexName, KeySchema and Projection for the LSIs on the table at the time of backup.
         public let localSecondaryIndexes: [LocalSecondaryIndexInfo]?
         /// The description of the server-side encryption status on the table when the backup was created.
-        public let sSEDescription: SSEDescription?
+        public let sseDescription: SSEDescription?
         /// Stream settings on the table when the backup was created.
         public let streamDescription: StreamSpecification?
         /// Time to Live settings on the table when the backup was created.
         public let timeToLiveDescription: TimeToLiveDescription?
 
-        public init(globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, sSEDescription: SSEDescription? = nil, streamDescription: StreamSpecification? = nil, timeToLiveDescription: TimeToLiveDescription? = nil) {
+        public init(globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, sseDescription: SSEDescription? = nil, streamDescription: StreamSpecification? = nil, timeToLiveDescription: TimeToLiveDescription? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
-            self.sSEDescription = sSEDescription
+            self.sseDescription = sseDescription
             self.streamDescription = streamDescription
             self.timeToLiveDescription = timeToLiveDescription
         }
@@ -4510,7 +4510,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
-            case sSEDescription = "SSEDescription"
+            case sseDescription = "SSEDescription"
             case streamDescription = "StreamDescription"
             case timeToLiveDescription = "TimeToLiveDescription"
         }
@@ -4586,7 +4586,7 @@ extension DynamoDB {
         /// Contains details for the restore.
         public let restoreSummary: RestoreSummary?
         /// The description of the server-side encryption status on the specified table.
-        public let sSEDescription: SSEDescription?
+        public let sseDescription: SSEDescription?
         /// The current DynamoDB Streams configuration for the table.
         public let streamSpecification: StreamSpecification?
         /// The Amazon Resource Name (ARN) that uniquely identifies the table.
@@ -4600,7 +4600,7 @@ extension DynamoDB {
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -4615,7 +4615,7 @@ extension DynamoDB {
             self.provisionedThroughput = provisionedThroughput
             self.replicas = replicas
             self.restoreSummary = restoreSummary
-            self.sSEDescription = sSEDescription
+            self.sseDescription = sseDescription
             self.streamSpecification = streamSpecification
             self.tableArn = tableArn
             self.tableId = tableId
@@ -4639,7 +4639,7 @@ extension DynamoDB {
             case provisionedThroughput = "ProvisionedThroughput"
             case replicas = "Replicas"
             case restoreSummary = "RestoreSummary"
-            case sSEDescription = "SSEDescription"
+            case sseDescription = "SSEDescription"
             case streamSpecification = "StreamSpecification"
             case tableArn = "TableArn"
             case tableId = "TableId"
@@ -5246,15 +5246,15 @@ extension DynamoDB {
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
         /// The KMS key of the replica that should be used for KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
-        public let kMSMasterKeyId: String?
+        public let kmsMasterKeyId: String?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The Region where the replica exists.
         public let regionName: String
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
-            self.kMSMasterKeyId = kMSMasterKeyId
+            self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
         }
@@ -5269,7 +5269,7 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
-            case kMSMasterKeyId = "KMSMasterKeyId"
+            case kmsMasterKeyId = "KMSMasterKeyId"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
         }
@@ -5287,19 +5287,19 @@ extension DynamoDB {
         /// A list of replica update actions (create, delete, or update) for the table.  This property only applies to Version 2019.11.21 of global tables.
         public let replicaUpdates: [ReplicationGroupUpdate]?
         /// The new server-side encryption settings for the specified table.
-        public let sSESpecification: SSESpecification?
+        public let sseSpecification: SSESpecification?
         /// Represents the DynamoDB Streams configuration for the table.  You receive a ResourceInUseException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
         public let streamSpecification: StreamSpecification?
         /// The name of the table to be updated.
         public let tableName: String
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sSESpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
             self.provisionedThroughput = provisionedThroughput
             self.replicaUpdates = replicaUpdates
-            self.sSESpecification = sSESpecification
+            self.sseSpecification = sseSpecification
             self.streamSpecification = streamSpecification
             self.tableName = tableName
         }
@@ -5327,7 +5327,7 @@ extension DynamoDB {
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
             case provisionedThroughput = "ProvisionedThroughput"
             case replicaUpdates = "ReplicaUpdates"
-            case sSESpecification = "SSESpecification"
+            case sseSpecification = "SSESpecification"
             case streamSpecification = "StreamSpecification"
             case tableName = "TableName"
         }

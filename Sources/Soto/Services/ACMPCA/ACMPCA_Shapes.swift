@@ -1354,7 +1354,7 @@ extension ACMPCA {
 
     public struct KeyUsage: AWSEncodableShape & AWSDecodableShape {
         /// Key can be used to sign CRLs.
-        public let cRLSign: Bool?
+        public let crlSign: Bool?
         /// Key can be used to decipher data.
         public let dataEncipherment: Bool?
         /// Key can be used only to decipher data.
@@ -1372,8 +1372,8 @@ extension ACMPCA {
         /// Key can be used for non-repudiation.
         public let nonRepudiation: Bool?
 
-        public init(cRLSign: Bool? = nil, dataEncipherment: Bool? = nil, decipherOnly: Bool? = nil, digitalSignature: Bool? = nil, encipherOnly: Bool? = nil, keyAgreement: Bool? = nil, keyCertSign: Bool? = nil, keyEncipherment: Bool? = nil, nonRepudiation: Bool? = nil) {
-            self.cRLSign = cRLSign
+        public init(crlSign: Bool? = nil, dataEncipherment: Bool? = nil, decipherOnly: Bool? = nil, digitalSignature: Bool? = nil, encipherOnly: Bool? = nil, keyAgreement: Bool? = nil, keyCertSign: Bool? = nil, keyEncipherment: Bool? = nil, nonRepudiation: Bool? = nil) {
+            self.crlSign = crlSign
             self.dataEncipherment = dataEncipherment
             self.decipherOnly = decipherOnly
             self.digitalSignature = digitalSignature
@@ -1385,7 +1385,7 @@ extension ACMPCA {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cRLSign = "CRLSign"
+            case crlSign = "CRLSign"
             case dataEncipherment = "DataEncipherment"
             case decipherOnly = "DecipherOnly"
             case digitalSignature = "DigitalSignature"

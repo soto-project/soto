@@ -122,7 +122,7 @@ extension Lightsail {
     }
 
     public enum ContainerServiceMetricName: String, CustomStringConvertible, Codable {
-        case cPUUtilization = "CPUUtilization"
+        case cpuUtilization = "CPUUtilization"
         case memoryUtilization = "MemoryUtilization"
         public var description: String { return self.rawValue }
     }
@@ -262,7 +262,7 @@ extension Lightsail {
     public enum InstanceMetricName: String, CustomStringConvertible, Codable {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
-        case cPUUtilization = "CPUUtilization"
+        case cpuUtilization = "CPUUtilization"
         case networkIn = "NetworkIn"
         case networkOut = "NetworkOut"
         case statusCheckFailed = "StatusCheckFailed"
@@ -299,12 +299,12 @@ extension Lightsail {
 
     public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable {
         case clientTLSNegotiationErrorCount = "ClientTLSNegotiationErrorCount"
-        case hTTPCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
-        case hTTPCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
-        case hTTPCodeInstance4XXCount = "HTTPCode_Instance_4XX_Count"
-        case hTTPCodeInstance5XXCount = "HTTPCode_Instance_5XX_Count"
-        case hTTPCodeLB4XXCount = "HTTPCode_LB_4XX_Count"
-        case hTTPCodeLB5XXCount = "HTTPCode_LB_5XX_Count"
+        case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
+        case httpCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
+        case httpCodeInstance4XXCount = "HTTPCode_Instance_4XX_Count"
+        case httpCodeInstance5XXCount = "HTTPCode_Instance_5XX_Count"
+        case httpCodeLB4XXCount = "HTTPCode_LB_4XX_Count"
+        case httpCodeLB5XXCount = "HTTPCode_LB_5XX_Count"
         case healthyHostCount = "HealthyHostCount"
         case instanceResponseTime = "InstanceResponseTime"
         case rejectedConnectionCount = "RejectedConnectionCount"
@@ -381,17 +381,17 @@ extension Lightsail {
     public enum MetricName: String, CustomStringConvertible, Codable {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
-        case cPUUtilization = "CPUUtilization"
+        case cpuUtilization = "CPUUtilization"
         case clientTLSNegotiationErrorCount = "ClientTLSNegotiationErrorCount"
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"
-        case hTTPCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
-        case hTTPCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
-        case hTTPCodeInstance4XXCount = "HTTPCode_Instance_4XX_Count"
-        case hTTPCodeInstance5XXCount = "HTTPCode_Instance_5XX_Count"
-        case hTTPCodeLB4XXCount = "HTTPCode_LB_4XX_Count"
-        case hTTPCodeLB5XXCount = "HTTPCode_LB_5XX_Count"
+        case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
+        case httpCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
+        case httpCodeInstance4XXCount = "HTTPCode_Instance_4XX_Count"
+        case httpCodeInstance5XXCount = "HTTPCode_Instance_5XX_Count"
+        case httpCodeLB4XXCount = "HTTPCode_LB_4XX_Count"
+        case httpCodeLB5XXCount = "HTTPCode_LB_5XX_Count"
         case healthyHostCount = "HealthyHostCount"
         case instanceResponseTime = "InstanceResponseTime"
         case networkIn = "NetworkIn"
@@ -605,7 +605,7 @@ extension Lightsail {
     }
 
     public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable {
-        case cPUUtilization = "CPUUtilization"
+        case cpuUtilization = "CPUUtilization"
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"

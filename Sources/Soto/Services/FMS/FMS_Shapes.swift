@@ -2161,40 +2161,40 @@ extension FMS {
         /// A description of a remediation action.
         public let description: String?
         /// Information about the AssociateRouteTable action in the Amazon EC2 API.
-        public let eC2AssociateRouteTableAction: EC2AssociateRouteTableAction?
+        public let ec2AssociateRouteTableAction: EC2AssociateRouteTableAction?
         /// Information about the CopyRouteTable action in the Amazon EC2 API.
-        public let eC2CopyRouteTableAction: EC2CopyRouteTableAction?
+        public let ec2CopyRouteTableAction: EC2CopyRouteTableAction?
         /// Information about the CreateRoute action in the Amazon EC2 API.
-        public let eC2CreateRouteAction: EC2CreateRouteAction?
+        public let ec2CreateRouteAction: EC2CreateRouteAction?
         /// Information about the CreateRouteTable action in the Amazon EC2 API.
-        public let eC2CreateRouteTableAction: EC2CreateRouteTableAction?
+        public let ec2CreateRouteTableAction: EC2CreateRouteTableAction?
         /// Information about the DeleteRoute action in the Amazon EC2 API.
-        public let eC2DeleteRouteAction: EC2DeleteRouteAction?
+        public let ec2DeleteRouteAction: EC2DeleteRouteAction?
         /// Information about the ReplaceRoute action in the Amazon EC2 API.
-        public let eC2ReplaceRouteAction: EC2ReplaceRouteAction?
+        public let ec2ReplaceRouteAction: EC2ReplaceRouteAction?
         /// Information about the ReplaceRouteTableAssociation action in the Amazon EC2 API.
-        public let eC2ReplaceRouteTableAssociationAction: EC2ReplaceRouteTableAssociationAction?
+        public let ec2ReplaceRouteTableAssociationAction: EC2ReplaceRouteTableAssociationAction?
 
-        public init(description: String? = nil, eC2AssociateRouteTableAction: EC2AssociateRouteTableAction? = nil, eC2CopyRouteTableAction: EC2CopyRouteTableAction? = nil, eC2CreateRouteAction: EC2CreateRouteAction? = nil, eC2CreateRouteTableAction: EC2CreateRouteTableAction? = nil, eC2DeleteRouteAction: EC2DeleteRouteAction? = nil, eC2ReplaceRouteAction: EC2ReplaceRouteAction? = nil, eC2ReplaceRouteTableAssociationAction: EC2ReplaceRouteTableAssociationAction? = nil) {
+        public init(description: String? = nil, ec2AssociateRouteTableAction: EC2AssociateRouteTableAction? = nil, ec2CopyRouteTableAction: EC2CopyRouteTableAction? = nil, ec2CreateRouteAction: EC2CreateRouteAction? = nil, ec2CreateRouteTableAction: EC2CreateRouteTableAction? = nil, ec2DeleteRouteAction: EC2DeleteRouteAction? = nil, ec2ReplaceRouteAction: EC2ReplaceRouteAction? = nil, ec2ReplaceRouteTableAssociationAction: EC2ReplaceRouteTableAssociationAction? = nil) {
             self.description = description
-            self.eC2AssociateRouteTableAction = eC2AssociateRouteTableAction
-            self.eC2CopyRouteTableAction = eC2CopyRouteTableAction
-            self.eC2CreateRouteAction = eC2CreateRouteAction
-            self.eC2CreateRouteTableAction = eC2CreateRouteTableAction
-            self.eC2DeleteRouteAction = eC2DeleteRouteAction
-            self.eC2ReplaceRouteAction = eC2ReplaceRouteAction
-            self.eC2ReplaceRouteTableAssociationAction = eC2ReplaceRouteTableAssociationAction
+            self.ec2AssociateRouteTableAction = ec2AssociateRouteTableAction
+            self.ec2CopyRouteTableAction = ec2CopyRouteTableAction
+            self.ec2CreateRouteAction = ec2CreateRouteAction
+            self.ec2CreateRouteTableAction = ec2CreateRouteTableAction
+            self.ec2DeleteRouteAction = ec2DeleteRouteAction
+            self.ec2ReplaceRouteAction = ec2ReplaceRouteAction
+            self.ec2ReplaceRouteTableAssociationAction = ec2ReplaceRouteTableAssociationAction
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case eC2AssociateRouteTableAction = "EC2AssociateRouteTableAction"
-            case eC2CopyRouteTableAction = "EC2CopyRouteTableAction"
-            case eC2CreateRouteAction = "EC2CreateRouteAction"
-            case eC2CreateRouteTableAction = "EC2CreateRouteTableAction"
-            case eC2DeleteRouteAction = "EC2DeleteRouteAction"
-            case eC2ReplaceRouteAction = "EC2ReplaceRouteAction"
-            case eC2ReplaceRouteTableAssociationAction = "EC2ReplaceRouteTableAssociationAction"
+            case ec2AssociateRouteTableAction = "EC2AssociateRouteTableAction"
+            case ec2CopyRouteTableAction = "EC2CopyRouteTableAction"
+            case ec2CreateRouteAction = "EC2CreateRouteAction"
+            case ec2CreateRouteTableAction = "EC2CreateRouteTableAction"
+            case ec2DeleteRouteAction = "EC2DeleteRouteAction"
+            case ec2ReplaceRouteAction = "EC2ReplaceRouteAction"
+            case ec2ReplaceRouteTableAssociationAction = "EC2ReplaceRouteTableAssociationAction"
         }
     }
 
@@ -2370,9 +2370,9 @@ extension FMS {
         /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types.
         public let fromPort: Int64?
         /// The IPv4 ranges for the security group rule.
-        public let iPV4Range: String?
+        public let ipv4Range: String?
         /// The IPv6 ranges for the security group rule.
-        public let iPV6Range: String?
+        public let ipv6Range: String?
         /// The ID of the prefix list for the security group rule.
         public let prefixListId: String?
         /// The IP protocol name (tcp, udp, icmp, icmpv6) or number.
@@ -2380,10 +2380,10 @@ extension FMS {
         /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code. A value of -1 indicates all ICMP/ICMPv6 codes.
         public let toPort: Int64?
 
-        public init(fromPort: Int64? = nil, iPV4Range: String? = nil, iPV6Range: String? = nil, prefixListId: String? = nil, protocol: String? = nil, toPort: Int64? = nil) {
+        public init(fromPort: Int64? = nil, ipv4Range: String? = nil, ipv6Range: String? = nil, prefixListId: String? = nil, protocol: String? = nil, toPort: Int64? = nil) {
             self.fromPort = fromPort
-            self.iPV4Range = iPV4Range
-            self.iPV6Range = iPV6Range
+            self.ipv4Range = ipv4Range
+            self.ipv6Range = ipv6Range
             self.prefixListId = prefixListId
             self.`protocol` = `protocol`
             self.toPort = toPort
@@ -2391,8 +2391,8 @@ extension FMS {
 
         private enum CodingKeys: String, CodingKey {
             case fromPort = "FromPort"
-            case iPV4Range = "IPV4Range"
-            case iPV6Range = "IPV6Range"
+            case ipv4Range = "IPV4Range"
+            case ipv6Range = "IPV6Range"
             case prefixListId = "PrefixListId"
             case `protocol` = "Protocol"
             case toPort = "ToPort"

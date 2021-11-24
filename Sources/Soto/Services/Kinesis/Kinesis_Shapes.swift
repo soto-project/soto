@@ -81,12 +81,12 @@ extension Kinesis {
     public enum SubscribeToShardEventStream: AWSDecodableShape {
         /// The processing of the request failed because of an unknown error, exception, or failure.
         case internalFailureException(InternalFailureException)
-        case kMSAccessDeniedException(KMSAccessDeniedException)
-        case kMSDisabledException(KMSDisabledException)
-        case kMSInvalidStateException(KMSInvalidStateException)
-        case kMSNotFoundException(KMSNotFoundException)
-        case kMSOptInRequired(KMSOptInRequired)
-        case kMSThrottlingException(KMSThrottlingException)
+        case kmsAccessDeniedException(KMSAccessDeniedException)
+        case kmsDisabledException(KMSDisabledException)
+        case kmsInvalidStateException(KMSInvalidStateException)
+        case kmsNotFoundException(KMSNotFoundException)
+        case kmsOptInRequired(KMSOptInRequired)
+        case kmsThrottlingException(KMSThrottlingException)
         case resourceInUseException(ResourceInUseException)
         case resourceNotFoundException(ResourceNotFoundException)
         /// After you call SubscribeToShard, Kinesis Data Streams sends events of this type to your consumer. For an example of how to handle these events, see Enhanced Fan-Out Using the Kinesis Data Streams API.
@@ -105,24 +105,24 @@ extension Kinesis {
             case .internalFailureException:
                 let value = try container.decode(InternalFailureException.self, forKey: .internalFailureException)
                 self = .internalFailureException(value)
-            case .kMSAccessDeniedException:
-                let value = try container.decode(KMSAccessDeniedException.self, forKey: .kMSAccessDeniedException)
-                self = .kMSAccessDeniedException(value)
-            case .kMSDisabledException:
-                let value = try container.decode(KMSDisabledException.self, forKey: .kMSDisabledException)
-                self = .kMSDisabledException(value)
-            case .kMSInvalidStateException:
-                let value = try container.decode(KMSInvalidStateException.self, forKey: .kMSInvalidStateException)
-                self = .kMSInvalidStateException(value)
-            case .kMSNotFoundException:
-                let value = try container.decode(KMSNotFoundException.self, forKey: .kMSNotFoundException)
-                self = .kMSNotFoundException(value)
-            case .kMSOptInRequired:
-                let value = try container.decode(KMSOptInRequired.self, forKey: .kMSOptInRequired)
-                self = .kMSOptInRequired(value)
-            case .kMSThrottlingException:
-                let value = try container.decode(KMSThrottlingException.self, forKey: .kMSThrottlingException)
-                self = .kMSThrottlingException(value)
+            case .kmsAccessDeniedException:
+                let value = try container.decode(KMSAccessDeniedException.self, forKey: .kmsAccessDeniedException)
+                self = .kmsAccessDeniedException(value)
+            case .kmsDisabledException:
+                let value = try container.decode(KMSDisabledException.self, forKey: .kmsDisabledException)
+                self = .kmsDisabledException(value)
+            case .kmsInvalidStateException:
+                let value = try container.decode(KMSInvalidStateException.self, forKey: .kmsInvalidStateException)
+                self = .kmsInvalidStateException(value)
+            case .kmsNotFoundException:
+                let value = try container.decode(KMSNotFoundException.self, forKey: .kmsNotFoundException)
+                self = .kmsNotFoundException(value)
+            case .kmsOptInRequired:
+                let value = try container.decode(KMSOptInRequired.self, forKey: .kmsOptInRequired)
+                self = .kmsOptInRequired(value)
+            case .kmsThrottlingException:
+                let value = try container.decode(KMSThrottlingException.self, forKey: .kmsThrottlingException)
+                self = .kmsThrottlingException(value)
             case .resourceInUseException:
                 let value = try container.decode(ResourceInUseException.self, forKey: .resourceInUseException)
                 self = .resourceInUseException(value)
@@ -137,12 +137,12 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case internalFailureException = "InternalFailureException"
-            case kMSAccessDeniedException = "KMSAccessDeniedException"
-            case kMSDisabledException = "KMSDisabledException"
-            case kMSInvalidStateException = "KMSInvalidStateException"
-            case kMSNotFoundException = "KMSNotFoundException"
-            case kMSOptInRequired = "KMSOptInRequired"
-            case kMSThrottlingException = "KMSThrottlingException"
+            case kmsAccessDeniedException = "KMSAccessDeniedException"
+            case kmsDisabledException = "KMSDisabledException"
+            case kmsInvalidStateException = "KMSInvalidStateException"
+            case kmsNotFoundException = "KMSNotFoundException"
+            case kmsOptInRequired = "KMSOptInRequired"
+            case kmsThrottlingException = "KMSThrottlingException"
             case resourceInUseException = "ResourceInUseException"
             case resourceNotFoundException = "ResourceNotFoundException"
             case subscribeToShardEvent = "SubscribeToShardEvent"

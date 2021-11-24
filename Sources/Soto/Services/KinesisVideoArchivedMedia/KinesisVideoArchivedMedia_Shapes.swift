@@ -264,7 +264,7 @@ extension KinesisVideoArchivedMedia {
 
     public struct GetDASHStreamingSessionURLInput: AWSEncodableShape {
         /// The time range of the requested fragment and the source of the timestamps. This parameter is required if PlaybackMode is ON_DEMAND or LIVE_REPLAY. This parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode is ON_DEMAND or LIVE_REPLAY, both FragmentSelectorType and TimestampRange must be set.
-        public let dASHFragmentSelector: DASHFragmentSelector?
+        public let dashFragmentSelector: DASHFragmentSelector?
         /// Fragments are identified in the manifest file based on their sequence number in the session. If DisplayFragmentNumber is set to ALWAYS, the Kinesis Video Streams fragment number is added to each S element in the manifest file with the attribute name “kvs:fn”. These fragment numbers can be used for logging or for use with other APIs (e.g. GetMedia and GetMediaForFragmentList). A custom MPEG-DASH media player is necessary to leverage these this custom attribute. The default value is NEVER.
         public let displayFragmentNumber: DASHDisplayFragmentNumber?
         /// Per the MPEG-DASH specification, the wall-clock time of fragments in the manifest file can be derived using attributes in the manifest itself. However, typically, MPEG-DASH compatible media players do not properly handle gaps in the media timeline. Kinesis Video Streams adjusts the media timeline in the manifest file to enable playback of media with discontinuities. Therefore, the wall-clock time derived from the manifest file may be inaccurate. If DisplayFragmentTimestamp is set to ALWAYS, the accurate fragment timestamp is added to each S element in the manifest file with the attribute name “kvs:ts”. A custom MPEG-DASH media player is necessary to leverage this custom attribute. The default value is NEVER. When DASHFragmentSelector is SERVER_TIMESTAMP, the timestamps will be the server start timestamps. Similarly, when DASHFragmentSelector is PRODUCER_TIMESTAMP, the timestamps will be the producer start timestamps.
@@ -280,8 +280,8 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream for which to retrieve the MPEG-DASH manifest URL. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
-        public init(dASHFragmentSelector: DASHFragmentSelector? = nil, displayFragmentNumber: DASHDisplayFragmentNumber? = nil, displayFragmentTimestamp: DASHDisplayFragmentTimestamp? = nil, expires: Int? = nil, maxManifestFragmentResults: Int64? = nil, playbackMode: DASHPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
-            self.dASHFragmentSelector = dASHFragmentSelector
+        public init(dashFragmentSelector: DASHFragmentSelector? = nil, displayFragmentNumber: DASHDisplayFragmentNumber? = nil, displayFragmentTimestamp: DASHDisplayFragmentTimestamp? = nil, expires: Int? = nil, maxManifestFragmentResults: Int64? = nil, playbackMode: DASHPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
+            self.dashFragmentSelector = dashFragmentSelector
             self.displayFragmentNumber = displayFragmentNumber
             self.displayFragmentTimestamp = displayFragmentTimestamp
             self.expires = expires
@@ -305,7 +305,7 @@ extension KinesisVideoArchivedMedia {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dASHFragmentSelector = "DASHFragmentSelector"
+            case dashFragmentSelector = "DASHFragmentSelector"
             case displayFragmentNumber = "DisplayFragmentNumber"
             case displayFragmentTimestamp = "DisplayFragmentTimestamp"
             case expires = "Expires"
@@ -318,14 +318,14 @@ extension KinesisVideoArchivedMedia {
 
     public struct GetDASHStreamingSessionURLOutput: AWSDecodableShape {
         /// The URL (containing the session token) that a media player can use to retrieve the MPEG-DASH manifest.
-        public let dASHStreamingSessionURL: String?
+        public let dashStreamingSessionURL: String?
 
-        public init(dASHStreamingSessionURL: String? = nil) {
-            self.dASHStreamingSessionURL = dASHStreamingSessionURL
+        public init(dashStreamingSessionURL: String? = nil) {
+            self.dashStreamingSessionURL = dashStreamingSessionURL
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dASHStreamingSessionURL = "DASHStreamingSessionURL"
+            case dashStreamingSessionURL = "DASHStreamingSessionURL"
         }
     }
 
@@ -339,7 +339,7 @@ extension KinesisVideoArchivedMedia {
         /// The time in seconds until the requested session expires. This value can be between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to GetHLSMasterPlaylist, GetHLSMediaPlaylist, GetMP4InitFragment, GetMP4MediaFragment, or GetTSFragment can be made for that session. The default is 300 (5 minutes).
         public let expires: Int?
         /// The time range of the requested fragment and the source of the timestamps. This parameter is required if PlaybackMode is ON_DEMAND or LIVE_REPLAY. This parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode is ON_DEMAND or LIVE_REPLAY, both FragmentSelectorType and TimestampRange must be set.
-        public let hLSFragmentSelector: HLSFragmentSelector?
+        public let hlsFragmentSelector: HLSFragmentSelector?
         /// The maximum number of fragments that are returned in the HLS media playlists. When the PlaybackMode is LIVE, the most recent fragments are returned up to this value. When the PlaybackMode is ON_DEMAND, the oldest fragments are returned, up to this maximum number. When there are a higher number of fragments available in a live HLS media playlist, video players often buffer content before starting playback. Increasing the buffer size increases the playback latency, but it decreases the likelihood that rebuffering will occur during playback. We recommend that a live HLS media playlist have a minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if PlaybackMode is LIVE or LIVE_REPLAY, and 1,000 if PlaybackMode is ON_DEMAND.  The maximum value of 5,000 fragments corresponds to more than 80 minutes of video on streams with 1-second fragments, and more than 13 hours of video on streams with 10-second fragments.
         public let maxMediaPlaylistFragmentResults: Int64?
         /// Whether to retrieve live, live replay, or archived, on-demand data. Features of the three types of sessions include the following:     LIVE : For sessions of this type, the HLS media playlist is continually updated with the latest fragments as they become available. We recommend that the media player retrieve a new playlist on a one-second interval. When this type of session is played in a media player, the user interface typically displays a "live" notification, with no scrubber control for choosing the position in the playback window to display.  In LIVE mode, the newest available fragments are included in an HLS media playlist, even if there is a gap between fragments (that is, if a fragment is missing). A gap like this might cause a media player to halt or cause a jump in playback. In this mode, fragments are not added to the HLS media playlist if they are older than the newest fragment in the playlist. If the missing fragment becomes available after a subsequent fragment is added to the playlist, the older fragment is not added, and the gap is not filled.      LIVE_REPLAY : For sessions of this type, the HLS media playlist is updated similarly to how it is updated for LIVE mode except that it starts by including fragments from a given start time. Instead of fragments being added as they are ingested, fragments are added as the duration of the next fragment elapses. For example, if the fragments in the session are two seconds long, then a new fragment is added to the media playlist every two seconds. This mode is useful to be able to start playback from when an event is detected and continue live streaming media that has not yet been ingested as of the time of the session creation. This mode is also useful to stream previously archived media without being limited by the 1,000 fragment limit in the ON_DEMAND mode.      ON_DEMAND : For sessions of this type, the HLS media playlist contains all the fragments for the session, up to the number that is specified in MaxMediaPlaylistFragmentResults. The playlist must be retrieved only once for each session. When this type of session is played in a media player, the user interface typically displays a scrubber control for choosing the position in the playback window to display.   In all playback modes, if FragmentSelectorType is PRODUCER_TIMESTAMP, and if there are multiple fragments with the same start timestamp, the fragment that has the largest fragment number (that is, the newest fragment) is included in the HLS media playlist. The other fragments are not included. Fragments that have different timestamps but have overlapping durations are still included in the HLS media playlist. This can lead to unexpected behavior in the media player. The default is LIVE.
@@ -349,12 +349,12 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
-        public init(containerFormat: ContainerFormat? = nil, discontinuityMode: HLSDiscontinuityMode? = nil, displayFragmentTimestamp: HLSDisplayFragmentTimestamp? = nil, expires: Int? = nil, hLSFragmentSelector: HLSFragmentSelector? = nil, maxMediaPlaylistFragmentResults: Int64? = nil, playbackMode: HLSPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
+        public init(containerFormat: ContainerFormat? = nil, discontinuityMode: HLSDiscontinuityMode? = nil, displayFragmentTimestamp: HLSDisplayFragmentTimestamp? = nil, expires: Int? = nil, hlsFragmentSelector: HLSFragmentSelector? = nil, maxMediaPlaylistFragmentResults: Int64? = nil, playbackMode: HLSPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.containerFormat = containerFormat
             self.discontinuityMode = discontinuityMode
             self.displayFragmentTimestamp = displayFragmentTimestamp
             self.expires = expires
-            self.hLSFragmentSelector = hLSFragmentSelector
+            self.hlsFragmentSelector = hlsFragmentSelector
             self.maxMediaPlaylistFragmentResults = maxMediaPlaylistFragmentResults
             self.playbackMode = playbackMode
             self.streamARN = streamARN
@@ -379,7 +379,7 @@ extension KinesisVideoArchivedMedia {
             case discontinuityMode = "DiscontinuityMode"
             case displayFragmentTimestamp = "DisplayFragmentTimestamp"
             case expires = "Expires"
-            case hLSFragmentSelector = "HLSFragmentSelector"
+            case hlsFragmentSelector = "HLSFragmentSelector"
             case maxMediaPlaylistFragmentResults = "MaxMediaPlaylistFragmentResults"
             case playbackMode = "PlaybackMode"
             case streamARN = "StreamARN"
@@ -389,14 +389,14 @@ extension KinesisVideoArchivedMedia {
 
     public struct GetHLSStreamingSessionURLOutput: AWSDecodableShape {
         /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
-        public let hLSStreamingSessionURL: String?
+        public let hlsStreamingSessionURL: String?
 
-        public init(hLSStreamingSessionURL: String? = nil) {
-            self.hLSStreamingSessionURL = hLSStreamingSessionURL
+        public init(hlsStreamingSessionURL: String? = nil) {
+            self.hlsStreamingSessionURL = hlsStreamingSessionURL
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hLSStreamingSessionURL = "HLSStreamingSessionURL"
+            case hlsStreamingSessionURL = "HLSStreamingSessionURL"
         }
     }
 

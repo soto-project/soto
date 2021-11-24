@@ -93,7 +93,7 @@ extension DAX {
         /// A list of security groups, and the status of each, for the nodes in the cluster.
         public let securityGroups: [SecurityGroupMembership]?
         /// The description of the server-side encryption status on the specified DAX cluster.
-        public let sSEDescription: SSEDescription?
+        public let sseDescription: SSEDescription?
         /// The current status of the cluster.
         public let status: String?
         /// The subnet group where the DAX cluster is running.
@@ -101,7 +101,7 @@ extension DAX {
         /// The total number of nodes in the cluster.
         public let totalNodes: Int?
 
-        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
+        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sseDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
             self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
@@ -116,7 +116,7 @@ extension DAX {
             self.parameterGroup = parameterGroup
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.securityGroups = securityGroups
-            self.sSEDescription = sSEDescription
+            self.sseDescription = sseDescription
             self.status = status
             self.subnetGroup = subnetGroup
             self.totalNodes = totalNodes
@@ -137,7 +137,7 @@ extension DAX {
             case parameterGroup = "ParameterGroup"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case securityGroups = "SecurityGroups"
-            case sSEDescription = "SSEDescription"
+            case sseDescription = "SSEDescription"
             case status = "Status"
             case subnetGroup = "SubnetGroup"
             case totalNodes = "TotalNodes"
@@ -168,13 +168,13 @@ extension DAX {
         /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the  security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
         /// Represents the settings used to enable server-side encryption on the cluster.
-        public let sSESpecification: SSESpecification?
+        public let sseSpecification: SSESpecification?
         /// The name of the subnet group to be used for the replication group.  DAX clusters can only run in an Amazon VPC environment. All of the subnets that you specify in a subnet group must exist in the same VPC.
         public let subnetGroupName: String?
         /// A set of tags to associate with the DAX cluster.
         public let tags: [Tag]?
 
-        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sseSpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterEndpointEncryptionType = clusterEndpointEncryptionType
             self.clusterName = clusterName
@@ -186,7 +186,7 @@ extension DAX {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.replicationFactor = replicationFactor
             self.securityGroupIds = securityGroupIds
-            self.sSESpecification = sSESpecification
+            self.sseSpecification = sseSpecification
             self.subnetGroupName = subnetGroupName
             self.tags = tags
         }
@@ -203,7 +203,7 @@ extension DAX {
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case replicationFactor = "ReplicationFactor"
             case securityGroupIds = "SecurityGroupIds"
-            case sSESpecification = "SSESpecification"
+            case sseSpecification = "SSESpecification"
             case subnetGroupName = "SubnetGroupName"
             case tags = "Tags"
         }

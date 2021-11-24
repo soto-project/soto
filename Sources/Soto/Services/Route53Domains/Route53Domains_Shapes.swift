@@ -1892,20 +1892,20 @@ extension Route53Domains {
         /// The name of the domain that you want to change name servers for.
         public let domainName: String
         /// The authorization key for .fi domains
-        public let fIAuthKey: String?
+        public let fiAuthKey: String?
         /// A list of new name servers for the domain.
         public let nameservers: [Nameserver]
 
         public init(domainName: String, nameservers: [Nameserver]) {
             self.domainName = domainName
-            self.fIAuthKey = nil
+            self.fiAuthKey = nil
             self.nameservers = nameservers
         }
 
-        @available(*, deprecated, message: "Members fIAuthKey have been deprecated")
-        public init(domainName: String, fIAuthKey: String? = nil, nameservers: [Nameserver]) {
+        @available(*, deprecated, message: "Members fiAuthKey have been deprecated")
+        public init(domainName: String, fiAuthKey: String? = nil, nameservers: [Nameserver]) {
             self.domainName = domainName
-            self.fIAuthKey = fIAuthKey
+            self.fiAuthKey = fiAuthKey
             self.nameservers = nameservers
         }
 
@@ -1918,7 +1918,7 @@ extension Route53Domains {
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
-            case fIAuthKey = "FIAuthKey"
+            case fiAuthKey = "FIAuthKey"
             case nameservers = "Nameservers"
         }
     }

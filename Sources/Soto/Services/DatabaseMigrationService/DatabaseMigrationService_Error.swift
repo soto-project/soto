@@ -25,21 +25,21 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
         case invalidCertificateFault = "InvalidCertificateFault"
         case invalidResourceStateFault = "InvalidResourceStateFault"
         case invalidSubnet = "InvalidSubnet"
-        case kMSAccessDeniedFault = "KMSAccessDeniedFault"
-        case kMSDisabledFault = "KMSDisabledFault"
-        case kMSFault = "KMSFault"
-        case kMSInvalidStateFault = "KMSInvalidStateFault"
-        case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
-        case kMSNotFoundFault = "KMSNotFoundFault"
-        case kMSThrottlingFault = "KMSThrottlingFault"
+        case kmsAccessDeniedFault = "KMSAccessDeniedFault"
+        case kmsDisabledFault = "KMSDisabledFault"
+        case kmsFault = "KMSFault"
+        case kmsInvalidStateFault = "KMSInvalidStateFault"
+        case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case kmsNotFoundFault = "KMSNotFoundFault"
+        case kmsThrottlingFault = "KMSThrottlingFault"
         case replicationSubnetGroupDoesNotCoverEnoughAZs = "ReplicationSubnetGroupDoesNotCoverEnoughAZs"
         case resourceAlreadyExistsFault = "ResourceAlreadyExistsFault"
         case resourceNotFoundFault = "ResourceNotFoundFault"
         case resourceQuotaExceededFault = "ResourceQuotaExceededFault"
         case s3AccessDeniedFault = "S3AccessDeniedFault"
         case s3ResourceNotFoundFault = "S3ResourceNotFoundFault"
-        case sNSInvalidTopicFault = "SNSInvalidTopicFault"
-        case sNSNoAuthorizationFault = "SNSNoAuthorizationFault"
+        case snsInvalidTopicFault = "SNSInvalidTopicFault"
+        case snsNoAuthorizationFault = "SNSNoAuthorizationFault"
         case storageQuotaExceededFault = "StorageQuotaExceededFault"
         case subnetAlreadyInUse = "SubnetAlreadyInUse"
         case upgradeDependencyFailureFault = "UpgradeDependencyFailureFault"
@@ -74,19 +74,19 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     /// The subnet provided is invalid.
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
     /// The ciphertext references a key that doesn't exist or that the DMS account doesn't have access to.
-    public static var kMSAccessDeniedFault: Self { .init(.kMSAccessDeniedFault) }
+    public static var kmsAccessDeniedFault: Self { .init(.kmsAccessDeniedFault) }
     /// The specified KMS key isn't enabled.
-    public static var kMSDisabledFault: Self { .init(.kMSDisabledFault) }
+    public static var kmsDisabledFault: Self { .init(.kmsDisabledFault) }
     /// An Key Management Service (KMS) error is preventing access to KMS.
-    public static var kMSFault: Self { .init(.kMSFault) }
+    public static var kmsFault: Self { .init(.kmsFault) }
     /// The state of the specified KMS resource isn't valid for this request.
-    public static var kMSInvalidStateFault: Self { .init(.kMSInvalidStateFault) }
+    public static var kmsInvalidStateFault: Self { .init(.kmsInvalidStateFault) }
     /// DMS cannot access the KMS key.
-    public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
     /// The specified KMS entity or resource can't be found.
-    public static var kMSNotFoundFault: Self { .init(.kMSNotFoundFault) }
+    public static var kmsNotFoundFault: Self { .init(.kmsNotFoundFault) }
     /// This request triggered KMS request throttling.
-    public static var kMSThrottlingFault: Self { .init(.kMSThrottlingFault) }
+    public static var kmsThrottlingFault: Self { .init(.kmsThrottlingFault) }
     /// The replication subnet group does not cover enough Availability Zones (AZs). Edit the replication subnet group and add more AZs.
     public static var replicationSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.replicationSubnetGroupDoesNotCoverEnoughAZs) }
     /// The resource you are attempting to create already exists.
@@ -100,9 +100,9 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     /// A specified Amazon S3 bucket, bucket folder, or other object can't be found.
     public static var s3ResourceNotFoundFault: Self { .init(.s3ResourceNotFoundFault) }
     /// The SNS topic is invalid.
-    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
+    public static var snsInvalidTopicFault: Self { .init(.snsInvalidTopicFault) }
     /// You are not authorized for the SNS subscription.
-    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
+    public static var snsNoAuthorizationFault: Self { .init(.snsNoAuthorizationFault) }
     /// The storage quota has been exceeded.
     public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
     /// The specified subnet is already in use.

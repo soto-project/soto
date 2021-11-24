@@ -35,7 +35,7 @@ extension Schemas {
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable {
-        case jSONSchemaDraft4 = "JSONSchemaDraft4"
+        case jsonSchemaDraft4 = "JSONSchemaDraft4"
         case openApi3 = "OpenApi3"
         public var description: String { return self.rawValue }
     }

@@ -34,7 +34,7 @@ extension MigrationHubStrategy {
         case java = "Java"
         case oracle = "Oracle"
         case other = "Other"
-        case sQLServer = "SQLServer"
+        case sqlServer = "SQLServer"
         public var description: String { return self.rawValue }
     }
 

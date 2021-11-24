@@ -814,7 +814,7 @@ extension Forecast {
         /// Specifies the forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify the mean forecast with mean.  The default value is ["0.10", "0.50", "0.9"].
         public let forecastTypes: [String]?
         /// Provides hyperparameter override values for the algorithm. If you don't provide this parameter, Amazon Forecast uses default values. The individual algorithms specify which hyperparameters support hyperparameter optimization (HPO). For more information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you must set PerformHPO to true.
-        public let hPOConfig: HyperParameterTuningJobConfig?
+        public let hpoConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig
         /// The accuracy metric used to optimize the predictor.
@@ -830,7 +830,7 @@ extension Forecast {
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hpoConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
             self.encryptionConfig = encryptionConfig
@@ -838,7 +838,7 @@ extension Forecast {
             self.featurizationConfig = featurizationConfig
             self.forecastHorizon = forecastHorizon
             self.forecastTypes = forecastTypes
-            self.hPOConfig = hPOConfig
+            self.hpoConfig = hpoConfig
             self.inputDataConfig = inputDataConfig
             self.optimizationMetric = optimizationMetric
             self.performAutoML = performAutoML
@@ -860,7 +860,7 @@ extension Forecast {
             }
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
-            try self.hPOConfig?.validate(name: "\(name).hPOConfig")
+            try self.hpoConfig?.validate(name: "\(name).hpoConfig")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.predictorName, name: "predictorName", parent: name, max: 63)
             try self.validate(self.predictorName, name: "predictorName", parent: name, min: 1)
@@ -886,7 +886,7 @@ extension Forecast {
             case featurizationConfig = "FeaturizationConfig"
             case forecastHorizon = "ForecastHorizon"
             case forecastTypes = "ForecastTypes"
-            case hPOConfig = "HPOConfig"
+            case hpoConfig = "HPOConfig"
             case inputDataConfig = "InputDataConfig"
             case optimizationMetric = "OptimizationMetric"
             case performAutoML = "PerformAutoML"
@@ -1918,7 +1918,7 @@ extension Forecast {
         /// The forecast types used during predictor training. Default value is ["0.1","0.5","0.9"]
         public let forecastTypes: [String]?
         /// The hyperparameter override values for the algorithm.
-        public let hPOConfig: HyperParameterTuningJobConfig?
+        public let hpoConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig?
         /// Whether the predictor was created with CreateAutoPredictor.
@@ -1944,7 +1944,7 @@ extension Forecast {
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, isAutoPredictor: Bool? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hpoConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, isAutoPredictor: Bool? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
@@ -1956,7 +1956,7 @@ extension Forecast {
             self.featurizationConfig = featurizationConfig
             self.forecastHorizon = forecastHorizon
             self.forecastTypes = forecastTypes
-            self.hPOConfig = hPOConfig
+            self.hpoConfig = hpoConfig
             self.inputDataConfig = inputDataConfig
             self.isAutoPredictor = isAutoPredictor
             self.lastModificationTime = lastModificationTime
@@ -1983,7 +1983,7 @@ extension Forecast {
             case featurizationConfig = "FeaturizationConfig"
             case forecastHorizon = "ForecastHorizon"
             case forecastTypes = "ForecastTypes"
-            case hPOConfig = "HPOConfig"
+            case hpoConfig = "HPOConfig"
             case inputDataConfig = "InputDataConfig"
             case isAutoPredictor = "IsAutoPredictor"
             case lastModificationTime = "LastModificationTime"
@@ -2001,24 +2001,24 @@ extension Forecast {
 
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key.
-        public let kMSKeyArn: String
+        public let kmsKeyArn: String
         /// The ARN of the IAM role that Amazon Forecast can assume to access the AWS KMS key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         public let roleArn: String
 
-        public init(kMSKeyArn: String, roleArn: String) {
-            self.kMSKeyArn = kMSKeyArn
+        public init(kmsKeyArn: String, roleArn: String) {
+            self.kmsKeyArn = kmsKeyArn
             self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, max: 256)
-            try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "^arn:aws:kms:.*:key/")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 256)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:.*:key/")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kMSKeyArn = "KMSKeyArn"
+            case kmsKeyArn = "KMSKeyArn"
             case roleArn = "RoleArn"
         }
     }
@@ -3178,21 +3178,21 @@ extension Forecast {
 
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
-        public let kMSKeyArn: String?
+        public let kmsKeyArn: String?
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket.
         public let path: String
         /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         public let roleArn: String
 
-        public init(kMSKeyArn: String? = nil, path: String, roleArn: String) {
-            self.kMSKeyArn = kMSKeyArn
+        public init(kmsKeyArn: String? = nil, path: String, roleArn: String) {
+            self.kmsKeyArn = kmsKeyArn
             self.path = path
             self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, max: 256)
-            try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "^arn:aws:kms:.*:key/")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 256)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:.*:key/")
             try self.validate(self.path, name: "path", parent: name, max: 4096)
             try self.validate(self.path, name: "path", parent: name, min: 7)
             try self.validate(self.path, name: "path", parent: name, pattern: "^s3://[a-z0-9].+$")
@@ -3201,7 +3201,7 @@ extension Forecast {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kMSKeyArn = "KMSKeyArn"
+            case kmsKeyArn = "KMSKeyArn"
             case path = "Path"
             case roleArn = "RoleArn"
         }

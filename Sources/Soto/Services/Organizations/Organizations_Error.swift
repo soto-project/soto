@@ -20,7 +20,6 @@ import SotoCore
 /// Error enum for Organizations
 public struct OrganizationsErrorType: AWSErrorType {
     enum Code: String {
-        case aWSOrganizationsNotInUseException = "AWSOrganizationsNotInUseException"
         case accessDeniedException = "AccessDeniedException"
         case accessDeniedForDependencyException = "AccessDeniedForDependencyException"
         case accountAlreadyRegisteredException = "AccountAlreadyRegisteredException"
@@ -28,6 +27,7 @@ public struct OrganizationsErrorType: AWSErrorType {
         case accountNotRegisteredException = "AccountNotRegisteredException"
         case accountOwnerNotVerifiedException = "AccountOwnerNotVerifiedException"
         case alreadyInOrganizationException = "AlreadyInOrganizationException"
+        case awsOrganizationsNotInUseException = "AWSOrganizationsNotInUseException"
         case childNotFoundException = "ChildNotFoundException"
         case concurrentModificationException = "ConcurrentModificationException"
         case constraintViolationException = "ConstraintViolationException"
@@ -84,8 +84,6 @@ public struct OrganizationsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
-    public static var aWSOrganizationsNotInUseException: Self { .init(.aWSOrganizationsNotInUseException) }
     /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The operation that you attempted requires you to have the iam:CreateServiceLinkedRole for organizations.amazonaws.com permission so that AWS Organizations can create the required service-linked role. You don't have that permission.
@@ -100,6 +98,8 @@ public struct OrganizationsErrorType: AWSErrorType {
     public static var accountOwnerNotVerifiedException: Self { .init(.accountOwnerNotVerifiedException) }
     /// This account is already a member of an organization. An account can belong to only one organization at a time.
     public static var alreadyInOrganizationException: Self { .init(.alreadyInOrganizationException) }
+    /// Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    public static var awsOrganizationsNotInUseException: Self { .init(.awsOrganizationsNotInUseException) }
     /// We can't find an organizational unit (OU) or AWS account with the ChildId that you specified.
     public static var childNotFoundException: Self { .init(.childNotFoundException) }
     /// The target of the operation is currently being modified by a different request. Try again later.

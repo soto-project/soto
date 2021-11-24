@@ -41,20 +41,20 @@ extension Neptune {
 
     public struct AddRoleToDBClusterMessage: AWSEncodableShape {
         /// The name of the DB cluster to associate the IAM role with.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The name of the feature for the Neptune DB cluster that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
         public let roleArn: String
 
-        public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.featureName = featureName
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case featureName = "FeatureName"
             case roleArn = "RoleArn"
         }
@@ -220,14 +220,14 @@ extension Neptune {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
-        public let dBClusterParameterGroup: DBClusterParameterGroup?
+        public let dbClusterParameterGroup: DBClusterParameterGroup?
 
-        public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
-            self.dBClusterParameterGroup = dBClusterParameterGroup
+        public init(dbClusterParameterGroup: DBClusterParameterGroup? = nil) {
+            self.dbClusterParameterGroup = dbClusterParameterGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroup = "DBClusterParameterGroup"
+            case dbClusterParameterGroup = "DBClusterParameterGroup"
         }
     }
 
@@ -271,14 +271,14 @@ extension Neptune {
     }
 
     public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
-        public let dBClusterSnapshot: DBClusterSnapshot?
+        public let dbClusterSnapshot: DBClusterSnapshot?
 
-        public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
-            self.dBClusterSnapshot = dBClusterSnapshot
+        public init(dbClusterSnapshot: DBClusterSnapshot? = nil) {
+            self.dbClusterSnapshot = dbClusterSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshot = "DBClusterSnapshot"
+            case dbClusterSnapshot = "DBClusterSnapshot"
         }
     }
 
@@ -314,14 +314,14 @@ extension Neptune {
     }
 
     public struct CopyDBParameterGroupResult: AWSDecodableShape {
-        public let dBParameterGroup: DBParameterGroup?
+        public let dbParameterGroup: DBParameterGroup?
 
-        public init(dBParameterGroup: DBParameterGroup? = nil) {
-            self.dBParameterGroup = dBParameterGroup
+        public init(dbParameterGroup: DBParameterGroup? = nil) {
+            self.dbParameterGroup = dbParameterGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroup = "DBParameterGroup"
+            case dbParameterGroup = "DBParameterGroup"
         }
     }
 
@@ -329,9 +329,9 @@ extension Neptune {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String
+        public let dbClusterEndpointIdentifier: String
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
@@ -344,9 +344,9 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dBClusterEndpointIdentifier: String, dBClusterIdentifier: String, endpointType: String, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, tags: [Tag]? = nil) {
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterEndpointIdentifier: String, dbClusterIdentifier: String, endpointType: String, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, tags: [Tag]? = nil) {
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
             self.staticMembers = staticMembers
@@ -354,8 +354,8 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
             case staticMembers = "StaticMembers"
@@ -367,13 +367,13 @@ extension Neptune {
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
-        public let dBClusterEndpointArn: String?
+        public let dbClusterEndpointArn: String?
         /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String?
+        public let dbClusterEndpointIdentifier: String?
         /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
-        public let dBClusterEndpointResourceIdentifier: String?
+        public let dbClusterEndpointResourceIdentifier: String?
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The DNS address of the endpoint.
         public let endpoint: String?
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
@@ -387,12 +387,12 @@ extension Neptune {
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
 
-        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+        public init(customEndpointType: String? = nil, dbClusterEndpointArn: String? = nil, dbClusterEndpointIdentifier: String? = nil, dbClusterEndpointResourceIdentifier: String? = nil, dbClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
             self.customEndpointType = customEndpointType
-            self.dBClusterEndpointArn = dBClusterEndpointArn
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
-            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dbClusterEndpointArn = dbClusterEndpointArn
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
+            self.dbClusterEndpointResourceIdentifier = dbClusterEndpointResourceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.endpoint = endpoint
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
@@ -402,10 +402,10 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case customEndpointType = "CustomEndpointType"
-            case dBClusterEndpointArn = "DBClusterEndpointArn"
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
-            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterEndpointArn = "DBClusterEndpointArn"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case endpoint = "Endpoint"
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
@@ -431,11 +431,11 @@ extension Neptune {
         /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
         public let databaseName: String?
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         ///  The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default is used. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
         /// A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
@@ -474,15 +474,15 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -508,9 +508,9 @@ extension Neptune {
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseName = "DatabaseName"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -535,51 +535,51 @@ extension Neptune {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string.
-        public let dBClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String
         /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
-        public let dBParameterGroupFamily: String
+        public let dbParameterGroupFamily: String
         /// The description for the DB cluster parameter group.
         public let description: String
         /// The tags to be assigned to the new DB cluster parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dBClusterParameterGroupName: String, dBParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbClusterParameterGroupName: String, dbParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.description = description
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case description = "Description"
             case tags = "Tags"
         }
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
-        public let dBClusterParameterGroup: DBClusterParameterGroup?
+        public let dbClusterParameterGroup: DBClusterParameterGroup?
 
-        public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
-            self.dBClusterParameterGroup = dBClusterParameterGroup
+        public init(dbClusterParameterGroup: DBClusterParameterGroup? = nil) {
+            self.dbClusterParameterGroup = dbClusterParameterGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroup = "DBClusterParameterGroup"
+            case dbClusterParameterGroup = "DBClusterParameterGroup"
         }
     }
 
     public struct CreateDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
@@ -587,35 +587,35 @@ extension Neptune {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1
-        public let dBClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String
         /// The tags to be assigned to the DB cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dBClusterIdentifier: String, dBClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        public init(dbClusterIdentifier: String, dbClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case tags = "Tags"
         }
     }
 
     public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
-        public let dBClusterSnapshot: DBClusterSnapshot?
+        public let dbClusterSnapshot: DBClusterSnapshot?
 
-        public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
-            self.dBClusterSnapshot = dBClusterSnapshot
+        public init(dbClusterSnapshot: DBClusterSnapshot? = nil) {
+            self.dbClusterSnapshot = dbClusterSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshot = "DBClusterSnapshot"
+            case dbClusterSnapshot = "DBClusterSnapshot"
         }
     }
 
@@ -637,20 +637,20 @@ extension Neptune {
         /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
         public let copyTagsToSnapshot: Bool?
         /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all Amazon Regions.
-        public let dBInstanceClass: String
+        public let dbInstanceClass: String
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
-        public let dBInstanceIdentifier: String
+        public let dbInstanceIdentifier: String
         /// Not supported.
-        public let dBName: String?
+        public let dbName: String?
         /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
-        public let dBParameterGroupName: String?
+        public let dbParameterGroupName: String?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
-        public var dBSecurityGroups: [String]?
+        public var dbSecurityGroups: [String]?
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance.
         ///  DB instances in a DB cluster can be deleted even when deletion protection is enabled in their parent DB cluster.
         public let deletionProtection: Bool?
@@ -716,20 +716,20 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.dBName = dBName
-            self.dBParameterGroupName = dBParameterGroupName
-            self.dBSecurityGroups = dBSecurityGroups
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbName = dbName
+            self.dbParameterGroupName = dbParameterGroupName
+            self.dbSecurityGroups = dbSecurityGroups
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
@@ -763,20 +763,20 @@ extension Neptune {
         }
 
         @available(*, deprecated, message: "Members publiclyAccessible have been deprecated")
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.dBName = dBName
-            self.dBParameterGroupName = dBParameterGroupName
-            self.dBSecurityGroups = dBSecurityGroups
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbName = dbName
+            self.dbParameterGroupName = dbParameterGroupName
+            self.dbSecurityGroups = dbSecurityGroups
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
@@ -816,13 +816,13 @@ extension Neptune {
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBInstanceClass = "DBInstanceClass"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-            case dBName = "DBName"
-            case dBParameterGroupName = "DBParameterGroupName"
-            case dBSecurityGroups = "DBSecurityGroups"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbInstanceClass = "DBInstanceClass"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case dbName = "DBName"
+            case dbParameterGroupName = "DBParameterGroupName"
+            case dbSecurityGroups = "DBSecurityGroups"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
             case domainIAMRoleName = "DomainIAMRoleName"
@@ -857,14 +857,14 @@ extension Neptune {
     }
 
     public struct CreateDBInstanceResult: AWSDecodableShape {
-        public let dBInstance: DBInstance?
+        public let dbInstance: DBInstance?
 
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
+        public init(dbInstance: DBInstance? = nil) {
+            self.dbInstance = dbInstance
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
+            case dbInstance = "DBInstance"
         }
     }
 
@@ -872,39 +872,39 @@ extension Neptune {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
-        public let dBParameterGroupFamily: String
+        public let dbParameterGroupFamily: String
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
-        public let dBParameterGroupName: String
+        public let dbParameterGroupName: String
         /// The description for the DB parameter group.
         public let description: String
         /// The tags to be assigned to the new DB parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dBParameterGroupFamily: String, dBParameterGroupName: String, description: String, tags: [Tag]? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupFamily: String, dbParameterGroupName: String, description: String, tags: [Tag]? = nil) {
+            self.dbParameterGroupFamily = dbParameterGroupFamily
+            self.dbParameterGroupName = dbParameterGroupName
             self.description = description
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
+            case dbParameterGroupName = "DBParameterGroupName"
             case description = "Description"
             case tags = "Tags"
         }
     }
 
     public struct CreateDBParameterGroupResult: AWSDecodableShape {
-        public let dBParameterGroup: DBParameterGroup?
+        public let dbParameterGroup: DBParameterGroup?
 
-        public init(dBParameterGroup: DBParameterGroup? = nil) {
-            self.dBParameterGroup = dBParameterGroup
+        public init(dbParameterGroup: DBParameterGroup? = nil) {
+            self.dbParameterGroup = dbParameterGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroup = "DBParameterGroup"
+            case dbParameterGroup = "DBParameterGroup"
         }
     }
 
@@ -913,9 +913,9 @@ extension Neptune {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The description for the DB subnet group.
-        public let dBSubnetGroupDescription: String
+        public let dbSubnetGroupDescription: String
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
-        public let dBSubnetGroupName: String
+        public let dbSubnetGroupName: String
         /// The EC2 Subnet IDs for the DB subnet group.
         @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]
@@ -923,30 +923,30 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dBSubnetGroupDescription: String, dBSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
-            self.dBSubnetGroupDescription = dBSubnetGroupDescription
-            self.dBSubnetGroupName = dBSubnetGroupName
+        public init(dbSubnetGroupDescription: String, dbSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
+            self.dbSubnetGroupDescription = dbSubnetGroupDescription
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetIds = subnetIds
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbSubnetGroupDescription = "DBSubnetGroupDescription"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case subnetIds = "SubnetIds"
             case tags = "Tags"
         }
     }
 
     public struct CreateDBSubnetGroupResult: AWSDecodableShape {
-        public let dBSubnetGroup: DBSubnetGroup?
+        public let dbSubnetGroup: DBSubnetGroup?
 
-        public init(dBSubnetGroup: DBSubnetGroup? = nil) {
-            self.dBSubnetGroup = dBSubnetGroup
+        public init(dbSubnetGroup: DBSubnetGroup? = nil) {
+            self.dbSubnetGroup = dbSubnetGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroup = "DBSubnetGroup"
+            case dbSubnetGroup = "DBSubnetGroup"
         }
     }
 
@@ -1039,21 +1039,21 @@ extension Neptune {
         /// Contains the name of the initial database of this DB cluster that was provided at create time, if one was specified when the DB cluster was created. This same name is returned for the life of the DB cluster.
         public let databaseName: String?
         /// The Amazon Resource Name (ARN) for the DB cluster.
-        public let dBClusterArn: String?
+        public let dbClusterArn: String?
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// Provides the list of instances that make up the DB cluster.
         @OptionalCustomCoding<ArrayCoder<_DBClusterMembersEncoding, DBClusterMember>>
-        public var dBClusterMembers: [DBClusterMember]?
+        public var dbClusterMembers: [DBClusterMember]?
         /// Not supported by Neptune.
         @OptionalCustomCoding<ArrayCoder<_DBClusterOptionGroupMembershipsEncoding, DBClusterOptionGroupStatus>>
-        public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
+        public var dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
         /// Specifies the name of the DB cluster parameter group for the DB cluster.
-        public let dBClusterParameterGroup: String?
+        public let dbClusterParameterGroup: String?
         /// The Amazon Region-unique, immutable identifier for the DB cluster. This identifier is found in Amazon CloudTrail log entries whenever the Amazon KMS key for the DB cluster is accessed.
         public let dbClusterResourceId: String?
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
-        public let dBSubnetGroup: String?
+        public let dbSubnetGroup: String?
         /// Indicates whether or not the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
@@ -1070,7 +1070,7 @@ extension Neptune {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public let iAMDatabaseAuthenticationEnabled: Bool?
+        public let iamDatabaseAuthenticationEnabled: Bool?
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -1102,7 +1102,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.automaticRestartTime = automaticRestartTime
@@ -1114,13 +1114,13 @@ extension Neptune {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.crossAccountClone = crossAccountClone
             self.databaseName = databaseName
-            self.dBClusterArn = dBClusterArn
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterMembers = dBClusterMembers
-            self.dBClusterOptionGroupMemberships = dBClusterOptionGroupMemberships
-            self.dBClusterParameterGroup = dBClusterParameterGroup
+            self.dbClusterArn = dbClusterArn
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterMembers = dbClusterMembers
+            self.dbClusterOptionGroupMemberships = dbClusterOptionGroupMemberships
+            self.dbClusterParameterGroup = dbClusterParameterGroup
             self.dbClusterResourceId = dbClusterResourceId
-            self.dBSubnetGroup = dBSubnetGroup
+            self.dbSubnetGroup = dbSubnetGroup
             self.deletionProtection = deletionProtection
             self.earliestRestorableTime = earliestRestorableTime
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
@@ -1128,7 +1128,7 @@ extension Neptune {
             self.engine = engine
             self.engineVersion = engineVersion
             self.hostedZoneId = hostedZoneId
-            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
@@ -1157,13 +1157,13 @@ extension Neptune {
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case crossAccountClone = "CrossAccountClone"
             case databaseName = "DatabaseName"
-            case dBClusterArn = "DBClusterArn"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterMembers = "DBClusterMembers"
-            case dBClusterOptionGroupMemberships = "DBClusterOptionGroupMemberships"
-            case dBClusterParameterGroup = "DBClusterParameterGroup"
+            case dbClusterArn = "DBClusterArn"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterMembers = "DBClusterMembers"
+            case dbClusterOptionGroupMemberships = "DBClusterOptionGroupMemberships"
+            case dbClusterParameterGroup = "DBClusterParameterGroup"
             case dbClusterResourceId = "DbClusterResourceId"
-            case dBSubnetGroup = "DBSubnetGroup"
+            case dbSubnetGroup = "DBSubnetGroup"
             case deletionProtection = "DeletionProtection"
             case earliestRestorableTime = "EarliestRestorableTime"
             case enabledCloudwatchLogsExports = "EnabledCloudwatchLogsExports"
@@ -1171,7 +1171,7 @@ extension Neptune {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case hostedZoneId = "HostedZoneId"
-            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case kmsKeyId = "KmsKeyId"
             case latestRestorableTime = "LatestRestorableTime"
             case masterUsername = "MasterUsername"
@@ -1193,13 +1193,13 @@ extension Neptune {
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
-        public let dBClusterEndpointArn: String?
+        public let dbClusterEndpointArn: String?
         /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String?
+        public let dbClusterEndpointIdentifier: String?
         /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
-        public let dBClusterEndpointResourceIdentifier: String?
+        public let dbClusterEndpointResourceIdentifier: String?
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The DNS address of the endpoint.
         public let endpoint: String?
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
@@ -1213,12 +1213,12 @@ extension Neptune {
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
 
-        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+        public init(customEndpointType: String? = nil, dbClusterEndpointArn: String? = nil, dbClusterEndpointIdentifier: String? = nil, dbClusterEndpointResourceIdentifier: String? = nil, dbClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
             self.customEndpointType = customEndpointType
-            self.dBClusterEndpointArn = dBClusterEndpointArn
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
-            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dbClusterEndpointArn = dbClusterEndpointArn
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
+            self.dbClusterEndpointResourceIdentifier = dbClusterEndpointResourceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.endpoint = endpoint
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
@@ -1228,10 +1228,10 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case customEndpointType = "CustomEndpointType"
-            case dBClusterEndpointArn = "DBClusterEndpointArn"
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
-            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterEndpointArn = "DBClusterEndpointArn"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case endpoint = "Endpoint"
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
@@ -1245,41 +1245,41 @@ extension Neptune {
 
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
         @OptionalCustomCoding<ArrayCoder<_DBClusterEndpointsEncoding, DBClusterEndpoint>>
-        public var dBClusterEndpoints: [DBClusterEndpoint]?
+        public var dbClusterEndpoints: [DBClusterEndpoint]?
         ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
-        public init(dBClusterEndpoints: [DBClusterEndpoint]? = nil, marker: String? = nil) {
-            self.dBClusterEndpoints = dBClusterEndpoints
+        public init(dbClusterEndpoints: [DBClusterEndpoint]? = nil, marker: String? = nil) {
+            self.dbClusterEndpoints = dbClusterEndpoints
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterEndpoints = "DBClusterEndpoints"
+            case dbClusterEndpoints = "DBClusterEndpoints"
             case marker = "Marker"
         }
     }
 
     public struct DBClusterMember: AWSDecodableShape {
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
-        public let dBClusterParameterGroupStatus: String?
+        public let dbClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the DB cluster.
-        public let dBInstanceIdentifier: String?
+        public let dbInstanceIdentifier: String?
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
         public let promotionTier: Int?
 
-        public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
-            self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+        public init(dbClusterParameterGroupStatus: String? = nil, dbInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
+            self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.isClusterWriter = isClusterWriter
             self.promotionTier = promotionTier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupStatus = "DBClusterParameterGroupStatus"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbClusterParameterGroupStatus = "DBClusterParameterGroupStatus"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case isClusterWriter = "IsClusterWriter"
             case promotionTier = "PromotionTier"
         }
@@ -1290,59 +1290,59 @@ extension Neptune {
 
         /// Contains a list of DB clusters for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClustersEncoding, DBCluster>>
-        public var dBClusters: [DBCluster]?
+        public var dbClusters: [DBCluster]?
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
         public let marker: String?
 
-        public init(dBClusters: [DBCluster]? = nil, marker: String? = nil) {
-            self.dBClusters = dBClusters
+        public init(dbClusters: [DBCluster]? = nil, marker: String? = nil) {
+            self.dbClusters = dbClusters
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusters = "DBClusters"
+            case dbClusters = "DBClusters"
             case marker = "Marker"
         }
     }
 
     public struct DBClusterOptionGroupStatus: AWSDecodableShape {
         /// Not supported by Neptune.
-        public let dBClusterOptionGroupName: String?
+        public let dbClusterOptionGroupName: String?
         /// Not supported by Neptune.
         public let status: String?
 
-        public init(dBClusterOptionGroupName: String? = nil, status: String? = nil) {
-            self.dBClusterOptionGroupName = dBClusterOptionGroupName
+        public init(dbClusterOptionGroupName: String? = nil, status: String? = nil) {
+            self.dbClusterOptionGroupName = dbClusterOptionGroupName
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterOptionGroupName = "DBClusterOptionGroupName"
+            case dbClusterOptionGroupName = "DBClusterOptionGroupName"
             case status = "Status"
         }
     }
 
     public struct DBClusterParameterGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
-        public let dBClusterParameterGroupArn: String?
+        public let dbClusterParameterGroupArn: String?
         /// Provides the name of the DB cluster parameter group.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
         /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
-        public let dBParameterGroupFamily: String?
+        public let dbParameterGroupFamily: String?
         /// Provides the customer-specified description for this DB cluster parameter group.
         public let description: String?
 
-        public init(dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, dBParameterGroupFamily: String? = nil, description: String? = nil) {
-            self.dBClusterParameterGroupArn = dBClusterParameterGroupArn
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbClusterParameterGroupArn: String? = nil, dbClusterParameterGroupName: String? = nil, dbParameterGroupFamily: String? = nil, description: String? = nil) {
+            self.dbClusterParameterGroupArn = dbClusterParameterGroupArn
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupArn = "DBClusterParameterGroupArn"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbClusterParameterGroupArn = "DBClusterParameterGroupArn"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case description = "Description"
         }
     }
@@ -1369,14 +1369,14 @@ extension Neptune {
 
     public struct DBClusterParameterGroupNameMessage: AWSDecodableShape {
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
 
-        public init(dBClusterParameterGroupName: String? = nil) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        public init(dbClusterParameterGroupName: String? = nil) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
         }
     }
 
@@ -1385,17 +1385,17 @@ extension Neptune {
 
         /// A list of DB cluster parameter groups.
         @OptionalCustomCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>>
-        public var dBClusterParameterGroups: [DBClusterParameterGroup]?
+        public var dbClusterParameterGroups: [DBClusterParameterGroup]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
-        public init(dBClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
-            self.dBClusterParameterGroups = dBClusterParameterGroups
+        public init(dbClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
+            self.dbClusterParameterGroups = dbClusterParameterGroups
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroups = "DBClusterParameterGroups"
+            case dbClusterParameterGroups = "DBClusterParameterGroups"
             case marker = "Marker"
         }
     }
@@ -1432,19 +1432,19 @@ extension Neptune {
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: Date?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
-        public let dBClusterSnapshotArn: String?
+        public let dbClusterSnapshotArn: String?
         /// Specifies the identifier for a DB cluster snapshot. Must match the identifier of an existing snapshot.
         ///  After you restore a DB cluster using a DBClusterSnapshotIdentifier, you must specify the same DBClusterSnapshotIdentifier for any future updates to the DB cluster. When you specify this property for an update, the DB cluster is not restored from the snapshot again, and the data in the database is not changed.
         ///  However, if you don't specify the DBClusterSnapshotIdentifier, an empty DB cluster is created, and the original DB cluster is deleted. If you specify a property that is different from the previous snapshot restore property, the DB cluster is restored from the snapshot specified by the DBClusterSnapshotIdentifier, and the original DB cluster is deleted.
-        public let dBClusterSnapshotIdentifier: String?
+        public let dbClusterSnapshotIdentifier: String?
         /// Specifies the name of the database engine.
         public let engine: String?
         /// Provides the version of the database engine for this DB cluster snapshot.
         public let engineVersion: String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public let iAMDatabaseAuthenticationEnabled: Bool?
+        public let iamDatabaseAuthenticationEnabled: Bool?
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster snapshot.
         public let kmsKeyId: String?
         /// Provides the license model information for this DB cluster snapshot.
@@ -1468,16 +1468,16 @@ extension Neptune {
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotArn: String? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterSnapshotArn = dBClusterSnapshotArn
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterSnapshotArn = dbClusterSnapshotArn
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.engine = engine
             self.engineVersion = engineVersion
-            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.kmsKeyId = kmsKeyId
             self.licenseModel = licenseModel
             self.masterUsername = masterUsername
@@ -1495,12 +1495,12 @@ extension Neptune {
             case allocatedStorage = "AllocatedStorage"
             case availabilityZones = "AvailabilityZones"
             case clusterCreateTime = "ClusterCreateTime"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterSnapshotArn = "DBClusterSnapshotArn"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterSnapshotArn = "DBClusterSnapshotArn"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
-            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case kmsKeyId = "KmsKeyId"
             case licenseModel = "LicenseModel"
             case masterUsername = "MasterUsername"
@@ -1540,18 +1540,18 @@ extension Neptune {
 
         /// The list of attributes and values for the manual DB cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>>
-        public var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
+        public var dbClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
-        public let dBClusterSnapshotIdentifier: String?
+        public let dbClusterSnapshotIdentifier: String?
 
-        public init(dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dBClusterSnapshotIdentifier: String? = nil) {
-            self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        public init(dbClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dbClusterSnapshotIdentifier: String? = nil) {
+            self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotAttributes = "DBClusterSnapshotAttributes"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterSnapshotAttributes = "DBClusterSnapshotAttributes"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
         }
     }
 
@@ -1560,17 +1560,17 @@ extension Neptune {
 
         /// Provides a list of DB cluster snapshots for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>>
-        public var dBClusterSnapshots: [DBClusterSnapshot]?
+        public var dbClusterSnapshots: [DBClusterSnapshot]?
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
-        public init(dBClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
-            self.dBClusterSnapshots = dBClusterSnapshots
+        public init(dbClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
+            self.dbClusterSnapshots = dbClusterSnapshots
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshots = "DBClusterSnapshots"
+            case dbClusterSnapshots = "DBClusterSnapshots"
             case marker = "Marker"
         }
     }
@@ -1581,11 +1581,11 @@ extension Neptune {
         public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { public static let member = "UpgradeTarget" }
 
         /// The description of the database engine.
-        public let dBEngineDescription: String?
+        public let dbEngineDescription: String?
         /// The description of the database engine version.
-        public let dBEngineVersionDescription: String?
+        public let dbEngineVersionDescription: String?
         /// The name of the DB parameter group family for the database engine.
-        public let dBParameterGroupFamily: String?
+        public let dbParameterGroupFamily: String?
         ///  (Not supported by Neptune)
         public let defaultCharacterSet: CharacterSet?
         /// The name of the database engine.
@@ -1609,10 +1609,10 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
         public var validUpgradeTarget: [UpgradeTarget]?
 
-        public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
-            self.dBEngineDescription = dBEngineDescription
-            self.dBEngineVersionDescription = dBEngineVersionDescription
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbEngineDescription: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+            self.dbEngineDescription = dbEngineDescription
+            self.dbEngineVersionDescription = dbEngineVersionDescription
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.defaultCharacterSet = defaultCharacterSet
             self.engine = engine
             self.engineVersion = engineVersion
@@ -1625,9 +1625,9 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBEngineDescription = "DBEngineDescription"
-            case dBEngineVersionDescription = "DBEngineVersionDescription"
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbEngineDescription = "DBEngineDescription"
+            case dbEngineVersionDescription = "DBEngineVersionDescription"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case defaultCharacterSet = "DefaultCharacterSet"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -1645,17 +1645,17 @@ extension Neptune {
 
         ///  A list of DBEngineVersion elements.
         @OptionalCustomCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>>
-        public var dBEngineVersions: [DBEngineVersion]?
+        public var dbEngineVersions: [DBEngineVersion]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
-        public init(dBEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
-            self.dBEngineVersions = dBEngineVersions
+        public init(dbEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
+            self.dbEngineVersions = dbEngineVersions
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBEngineVersions = "DBEngineVersions"
+            case dbEngineVersions = "DBEngineVersions"
             case marker = "Marker"
         }
     }
@@ -1679,35 +1679,35 @@ extension Neptune {
         /// Specifies the number of days for which automatic DB snapshots are retained.
         public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for this DB instance.
-        public let cACertificateIdentifier: String?
+        public let caCertificateIdentifier: String?
         ///  (Not supported by Neptune)
         public let characterSetName: String?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
         public let copyTagsToSnapshot: Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB instance.
-        public let dBInstanceArn: String?
+        public let dbInstanceArn: String?
         /// Contains the name of the compute and memory capacity class of the DB instance.
-        public let dBInstanceClass: String?
+        public let dbInstanceClass: String?
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
-        public let dBInstanceIdentifier: String?
+        public let dbInstanceIdentifier: String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
         public let dbInstancePort: Int?
         /// Specifies the current state of this database.
-        public let dBInstanceStatus: String?
+        public let dbInstanceStatus: String?
         /// The Amazon Region-unique, immutable identifier for the DB instance. This identifier is found in Amazon CloudTrail log entries whenever the Amazon KMS key for the DB instance is accessed.
         public let dbiResourceId: String?
         /// The database name.
-        public let dBName: String?
+        public let dbName: String?
         /// Provides the list of DB parameter groups applied to this DB instance.
         @OptionalCustomCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroupStatus>>
-        public var dBParameterGroups: [DBParameterGroupStatus]?
+        public var dbParameterGroups: [DBParameterGroupStatus]?
         ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, DBSecurityGroupMembership>>
-        public var dBSecurityGroups: [DBSecurityGroupMembership]?
+        public var dbSecurityGroups: [DBSecurityGroupMembership]?
         /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
-        public let dBSubnetGroup: DBSubnetGroup?
+        public let dbSubnetGroup: DBSubnetGroup?
         /// Indicates whether or not the DB instance has deletion protection enabled. The instance can't be deleted when deletion protection is enabled. See Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// Not supported
@@ -1725,7 +1725,7 @@ extension Neptune {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public let enhancedMonitoringResourceArn: String?
         /// True if Amazon Identity and Access Management (IAM) authentication is enabled, and otherwise false.
-        public let iAMDatabaseAuthenticationEnabled: Bool?
+        public let iamDatabaseAuthenticationEnabled: Bool?
         /// Provides the date and time the DB instance was created.
         public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
@@ -1786,25 +1786,25 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBInstanceArn = dBInstanceArn
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceArn = dbInstanceArn
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbInstancePort = dbInstancePort
-            self.dBInstanceStatus = dBInstanceStatus
+            self.dbInstanceStatus = dbInstanceStatus
             self.dbiResourceId = dbiResourceId
-            self.dBName = dBName
-            self.dBParameterGroups = dBParameterGroups
-            self.dBSecurityGroups = dBSecurityGroups
-            self.dBSubnetGroup = dBSubnetGroup
+            self.dbName = dbName
+            self.dbParameterGroups = dbParameterGroups
+            self.dbSecurityGroups = dbSecurityGroups
+            self.dbSubnetGroup = dbSubnetGroup
             self.deletionProtection = deletionProtection
             self.domainMemberships = domainMemberships
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
@@ -1812,7 +1812,7 @@ extension Neptune {
             self.engine = engine
             self.engineVersion = engineVersion
             self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
-            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.instanceCreateTime = instanceCreateTime
             self.iops = iops
             self.kmsKeyId = kmsKeyId
@@ -1843,25 +1843,25 @@ extension Neptune {
         }
 
         @available(*, deprecated, message: "Members publiclyAccessible have been deprecated")
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBInstanceArn = dBInstanceArn
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceArn = dbInstanceArn
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbInstancePort = dbInstancePort
-            self.dBInstanceStatus = dBInstanceStatus
+            self.dbInstanceStatus = dbInstanceStatus
             self.dbiResourceId = dbiResourceId
-            self.dBName = dBName
-            self.dBParameterGroups = dBParameterGroups
-            self.dBSecurityGroups = dBSecurityGroups
-            self.dBSubnetGroup = dBSubnetGroup
+            self.dbName = dbName
+            self.dbParameterGroups = dbParameterGroups
+            self.dbSecurityGroups = dbSecurityGroups
+            self.dbSubnetGroup = dbSubnetGroup
             self.deletionProtection = deletionProtection
             self.domainMemberships = domainMemberships
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
@@ -1869,7 +1869,7 @@ extension Neptune {
             self.engine = engine
             self.engineVersion = engineVersion
             self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
-            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.instanceCreateTime = instanceCreateTime
             self.iops = iops
             self.kmsKeyId = kmsKeyId
@@ -1904,20 +1904,20 @@ extension Neptune {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case backupRetentionPeriod = "BackupRetentionPeriod"
-            case cACertificateIdentifier = "CACertificateIdentifier"
+            case caCertificateIdentifier = "CACertificateIdentifier"
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBInstanceArn = "DBInstanceArn"
-            case dBInstanceClass = "DBInstanceClass"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbInstanceArn = "DBInstanceArn"
+            case dbInstanceClass = "DBInstanceClass"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbInstancePort = "DbInstancePort"
-            case dBInstanceStatus = "DBInstanceStatus"
+            case dbInstanceStatus = "DBInstanceStatus"
             case dbiResourceId = "DbiResourceId"
-            case dBName = "DBName"
-            case dBParameterGroups = "DBParameterGroups"
-            case dBSecurityGroups = "DBSecurityGroups"
-            case dBSubnetGroup = "DBSubnetGroup"
+            case dbName = "DBName"
+            case dbParameterGroups = "DBParameterGroups"
+            case dbSecurityGroups = "DBSecurityGroups"
+            case dbSubnetGroup = "DBSubnetGroup"
             case deletionProtection = "DeletionProtection"
             case domainMemberships = "DomainMemberships"
             case enabledCloudwatchLogsExports = "EnabledCloudwatchLogsExports"
@@ -1925,7 +1925,7 @@ extension Neptune {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case enhancedMonitoringResourceArn = "EnhancedMonitoringResourceArn"
-            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case instanceCreateTime = "InstanceCreateTime"
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
@@ -1961,17 +1961,17 @@ extension Neptune {
 
         ///  A list of DBInstance instances.
         @OptionalCustomCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>>
-        public var dBInstances: [DBInstance]?
+        public var dbInstances: [DBInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
-        public init(dBInstances: [DBInstance]? = nil, marker: String? = nil) {
-            self.dBInstances = dBInstances
+        public init(dbInstances: [DBInstance]? = nil, marker: String? = nil) {
+            self.dbInstances = dbInstances
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstances = "DBInstances"
+            case dbInstances = "DBInstances"
             case marker = "Marker"
         }
     }
@@ -2003,25 +2003,25 @@ extension Neptune {
 
     public struct DBParameterGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the DB parameter group.
-        public let dBParameterGroupArn: String?
+        public let dbParameterGroupArn: String?
         /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
-        public let dBParameterGroupFamily: String?
+        public let dbParameterGroupFamily: String?
         /// Provides the name of the DB parameter group.
-        public let dBParameterGroupName: String?
+        public let dbParameterGroupName: String?
         /// Provides the customer-specified description for this DB parameter group.
         public let description: String?
 
-        public init(dBParameterGroupArn: String? = nil, dBParameterGroupFamily: String? = nil, dBParameterGroupName: String? = nil, description: String? = nil) {
-            self.dBParameterGroupArn = dBParameterGroupArn
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupArn: String? = nil, dbParameterGroupFamily: String? = nil, dbParameterGroupName: String? = nil, description: String? = nil) {
+            self.dbParameterGroupArn = dbParameterGroupArn
+            self.dbParameterGroupFamily = dbParameterGroupFamily
+            self.dbParameterGroupName = dbParameterGroupName
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupArn = "DBParameterGroupArn"
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupArn = "DBParameterGroupArn"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
+            case dbParameterGroupName = "DBParameterGroupName"
             case description = "Description"
         }
     }
@@ -2048,30 +2048,30 @@ extension Neptune {
 
     public struct DBParameterGroupNameMessage: AWSDecodableShape {
         /// Provides the name of the DB parameter group.
-        public let dBParameterGroupName: String?
+        public let dbParameterGroupName: String?
 
-        public init(dBParameterGroupName: String? = nil) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String? = nil) {
+            self.dbParameterGroupName = dbParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
         }
     }
 
     public struct DBParameterGroupStatus: AWSDecodableShape {
         /// The name of the DP parameter group.
-        public let dBParameterGroupName: String?
+        public let dbParameterGroupName: String?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
 
-        public init(dBParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
+            self.dbParameterGroupName = dbParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
             case parameterApplyStatus = "ParameterApplyStatus"
         }
     }
@@ -2081,34 +2081,34 @@ extension Neptune {
 
         /// A list of DBParameterGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroup>>
-        public var dBParameterGroups: [DBParameterGroup]?
+        public var dbParameterGroups: [DBParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
-        public init(dBParameterGroups: [DBParameterGroup]? = nil, marker: String? = nil) {
-            self.dBParameterGroups = dBParameterGroups
+        public init(dbParameterGroups: [DBParameterGroup]? = nil, marker: String? = nil) {
+            self.dbParameterGroups = dbParameterGroups
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroups = "DBParameterGroups"
+            case dbParameterGroups = "DBParameterGroups"
             case marker = "Marker"
         }
     }
 
     public struct DBSecurityGroupMembership: AWSDecodableShape {
         /// The name of the DB security group.
-        public let dBSecurityGroupName: String?
+        public let dbSecurityGroupName: String?
         /// The status of the DB security group.
         public let status: String?
 
-        public init(dBSecurityGroupName: String? = nil, status: String? = nil) {
-            self.dBSecurityGroupName = dBSecurityGroupName
+        public init(dbSecurityGroupName: String? = nil, status: String? = nil) {
+            self.dbSecurityGroupName = dbSecurityGroupName
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSecurityGroupName = "DBSecurityGroupName"
+            case dbSecurityGroupName = "DBSecurityGroupName"
             case status = "Status"
         }
     }
@@ -2117,11 +2117,11 @@ extension Neptune {
         public struct _SubnetsEncoding: ArrayCoderProperties { public static let member = "Subnet" }
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
-        public let dBSubnetGroupArn: String?
+        public let dbSubnetGroupArn: String?
         /// Provides the description of the DB subnet group.
-        public let dBSubnetGroupDescription: String?
+        public let dbSubnetGroupDescription: String?
         /// The name of the DB subnet group.
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// Provides the status of the DB subnet group.
         public let subnetGroupStatus: String?
         ///  Contains a list of Subnet elements.
@@ -2130,19 +2130,19 @@ extension Neptune {
         /// Provides the VpcId of the DB subnet group.
         public let vpcId: String?
 
-        public init(dBSubnetGroupArn: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
-            self.dBSubnetGroupArn = dBSubnetGroupArn
-            self.dBSubnetGroupDescription = dBSubnetGroupDescription
-            self.dBSubnetGroupName = dBSubnetGroupName
+        public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+            self.dbSubnetGroupArn = dbSubnetGroupArn
+            self.dbSubnetGroupDescription = dbSubnetGroupDescription
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupArn = "DBSubnetGroupArn"
-            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbSubnetGroupArn = "DBSubnetGroupArn"
+            case dbSubnetGroupDescription = "DBSubnetGroupDescription"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case subnetGroupStatus = "SubnetGroupStatus"
             case subnets = "Subnets"
             case vpcId = "VpcId"
@@ -2154,31 +2154,31 @@ extension Neptune {
 
         ///  A list of DBSubnetGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>>
-        public var dBSubnetGroups: [DBSubnetGroup]?
+        public var dbSubnetGroups: [DBSubnetGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
-        public init(dBSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
-            self.dBSubnetGroups = dBSubnetGroups
+        public init(dbSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
+            self.dbSubnetGroups = dbSubnetGroups
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroups = "DBSubnetGroups"
+            case dbSubnetGroups = "DBSubnetGroups"
             case marker = "Marker"
         }
     }
 
     public struct DeleteDBClusterEndpointMessage: AWSEncodableShape {
         /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String
+        public let dbClusterEndpointIdentifier: String
 
-        public init(dBClusterEndpointIdentifier: String) {
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+        public init(dbClusterEndpointIdentifier: String) {
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
         }
     }
 
@@ -2186,13 +2186,13 @@ extension Neptune {
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
-        public let dBClusterEndpointArn: String?
+        public let dbClusterEndpointArn: String?
         /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String?
+        public let dbClusterEndpointIdentifier: String?
         /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
-        public let dBClusterEndpointResourceIdentifier: String?
+        public let dbClusterEndpointResourceIdentifier: String?
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The DNS address of the endpoint.
         public let endpoint: String?
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
@@ -2206,12 +2206,12 @@ extension Neptune {
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
 
-        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+        public init(customEndpointType: String? = nil, dbClusterEndpointArn: String? = nil, dbClusterEndpointIdentifier: String? = nil, dbClusterEndpointResourceIdentifier: String? = nil, dbClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
             self.customEndpointType = customEndpointType
-            self.dBClusterEndpointArn = dBClusterEndpointArn
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
-            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dbClusterEndpointArn = dbClusterEndpointArn
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
+            self.dbClusterEndpointResourceIdentifier = dbClusterEndpointResourceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.endpoint = endpoint
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
@@ -2221,10 +2221,10 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case customEndpointType = "CustomEndpointType"
-            case dBClusterEndpointArn = "DBClusterEndpointArn"
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
-            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterEndpointArn = "DBClusterEndpointArn"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case endpoint = "Endpoint"
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
@@ -2235,20 +2235,20 @@ extension Neptune {
 
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false
         public let skipFinalSnapshot: Bool?
 
-        public init(dBClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
             self.skipFinalSnapshot = skipFinalSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
             case skipFinalSnapshot = "SkipFinalSnapshot"
         }
@@ -2256,110 +2256,110 @@ extension Neptune {
 
     public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.
-        public let dBClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String
 
-        public init(dBClusterParameterGroupName: String) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        public init(dbClusterParameterGroupName: String) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
         }
     }
 
     public struct DeleteDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
-        public let dBClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String
 
-        public init(dBClusterSnapshotIdentifier: String) {
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        public init(dbClusterSnapshotIdentifier: String) {
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
         }
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
-        public let dBClusterSnapshot: DBClusterSnapshot?
+        public let dbClusterSnapshot: DBClusterSnapshot?
 
-        public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
-            self.dBClusterSnapshot = dBClusterSnapshot
+        public init(dbClusterSnapshot: DBClusterSnapshot? = nil) {
+            self.dbClusterSnapshot = dbClusterSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshot = "DBClusterSnapshot"
+            case dbClusterSnapshot = "DBClusterSnapshot"
         }
     }
 
     public struct DeleteDBInstanceMessage: AWSEncodableShape {
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.
-        public let dBInstanceIdentifier: String
+        public let dbInstanceIdentifier: String
         ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false
         public let skipFinalSnapshot: Bool?
 
-        public init(dBInstanceIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+        public init(dbInstanceIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
             self.skipFinalSnapshot = skipFinalSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
             case skipFinalSnapshot = "SkipFinalSnapshot"
         }
     }
 
     public struct DeleteDBInstanceResult: AWSDecodableShape {
-        public let dBInstance: DBInstance?
+        public let dbInstance: DBInstance?
 
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
+        public init(dbInstance: DBInstance? = nil) {
+            self.dbInstance = dbInstance
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
+            case dbInstance = "DBInstance"
         }
     }
 
     public struct DeleteDBParameterGroupMessage: AWSEncodableShape {
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances
-        public let dBParameterGroupName: String
+        public let dbParameterGroupName: String
 
-        public init(dBParameterGroupName: String) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String) {
+            self.dbParameterGroupName = dbParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
         }
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
-        public let dBSubnetGroupName: String
+        public let dbSubnetGroupName: String
 
-        public init(dBSubnetGroupName: String) {
-            self.dBSubnetGroupName = dBSubnetGroupName
+        public init(dbSubnetGroupName: String) {
+            self.dbSubnetGroupName = dbSubnetGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbSubnetGroupName = "DBSubnetGroupName"
         }
     }
 
@@ -2392,9 +2392,9 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String?
+        public let dbClusterEndpointIdentifier: String?
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2403,17 +2403,17 @@ extension Neptune {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBClusterEndpointIdentifier: String? = nil, dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterEndpointIdentifier: String? = nil, dbClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2424,7 +2424,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2433,15 +2433,15 @@ extension Neptune {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        public init(dbClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2452,7 +2452,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-        public let dBClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2463,8 +2463,8 @@ extension Neptune {
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
         public let source: String?
 
-        public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        public init(dbClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2472,7 +2472,7 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2482,26 +2482,26 @@ extension Neptune {
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
         /// The identifier for the DB cluster snapshot to describe the attributes for.
-        public let dBClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String
 
-        public init(dBClusterSnapshotIdentifier: String) {
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        public init(dbClusterSnapshotIdentifier: String) {
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
         }
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
-        public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
+        public let dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
-        public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
-            self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
+        public init(dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
+            self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
+            case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
         }
     }
 
@@ -2509,9 +2509,9 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBCluster.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string. Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.
-        public let dBClusterSnapshotIdentifier: String?
+        public let dbClusterSnapshotIdentifier: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2526,9 +2526,9 @@ extension Neptune {
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my Amazon account.    manual - Return all DB cluster snapshots that have been taken by my Amazon account.    shared - Return all manual DB cluster snapshots that have been shared to my Amazon account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
-        public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+        public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.filters = filters
             self.includePublic = includePublic
             self.includeShared = includeShared
@@ -2538,8 +2538,8 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case filters = "Filters"
             case includePublic = "IncludePublic"
             case includeShared = "IncludeShared"
@@ -2553,7 +2553,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB clusters created by that engine.
         ///  For example, to invoke this API from the Amazon CLI and filter so that only Neptune DB clusters are returned, you could use the following command:
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -2563,15 +2563,15 @@ extension Neptune {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2582,7 +2582,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.
-        public let dBParameterGroupFamily: String?
+        public let dbParameterGroupFamily: String?
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
         public let defaultOnly: Bool?
         /// The database engine to return.
@@ -2601,8 +2601,8 @@ extension Neptune {
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.defaultOnly = defaultOnly
             self.engine = engine
             self.engineVersion = engineVersion
@@ -2614,7 +2614,7 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case defaultOnly = "DefaultOnly"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -2630,7 +2630,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.
-        public let dBInstanceIdentifier: String?
+        public let dbInstanceIdentifier: String?
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB instances created by that engine.
         ///  For example, to invoke this API from the Amazon CLI and filter so that only Neptune DB instances are returned, you could use the following command:
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -2640,15 +2640,15 @@ extension Neptune {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+        public init(dbInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2659,7 +2659,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-        public let dBParameterGroupName: String?
+        public let dbParameterGroupName: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2668,15 +2668,15 @@ extension Neptune {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbParameterGroupName = dbParameterGroupName
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2687,7 +2687,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
-        public let dBParameterGroupName: String
+        public let dbParameterGroupName: String
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2698,8 +2698,8 @@ extension Neptune {
         /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default
         public let source: String?
 
-        public init(dBParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
+            self.dbParameterGroupName = dbParameterGroupName
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2707,7 +2707,7 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2719,7 +2719,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB subnet group to return details for.
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2728,15 +2728,15 @@ extension Neptune {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBSubnetGroupName = dBSubnetGroupName
+        public init(dbSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2747,7 +2747,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB cluster parameter group family to return engine parameter information for.
-        public let dBParameterGroupFamily: String
+        public let dbParameterGroupFamily: String
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2756,15 +2756,15 @@ extension Neptune {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2787,7 +2787,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB parameter group family.
-        public let dBParameterGroupFamily: String
+        public let dbParameterGroupFamily: String
         /// Not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -2796,15 +2796,15 @@ extension Neptune {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2925,7 +2925,7 @@ extension Neptune {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
-        public let dBInstanceClass: String?
+        public let dbInstanceClass: String?
         /// The name of the engine to retrieve DB instance options for.
         public let engine: String
         /// The engine version filter value. Specify this parameter to show only the available offerings matching the specified engine version.
@@ -2942,8 +2942,8 @@ extension Neptune {
         /// The VPC filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
 
-        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
-            self.dBInstanceClass = dBInstanceClass
+        public init(dbInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
+            self.dbInstanceClass = dbInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
             self.filters = filters
@@ -2954,7 +2954,7 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstanceClass = "DBInstanceClass"
+            case dbInstanceClass = "DBInstanceClass"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case filters = "Filters"
@@ -2995,14 +2995,14 @@ extension Neptune {
 
     public struct DescribeValidDBInstanceModificationsMessage: AWSEncodableShape {
         /// The customer identifier or the ARN of your DB instance.
-        public let dBInstanceIdentifier: String
+        public let dbInstanceIdentifier: String
 
-        public init(dBInstanceIdentifier: String) {
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+        public init(dbInstanceIdentifier: String) {
+            self.dbInstanceIdentifier = dbInstanceIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
         }
     }
 
@@ -3024,21 +3024,21 @@ extension Neptune {
         /// The fully qualified domain name of the Active Directory Domain.
         public let fqdn: String?
         /// The name of the IAM role to be used when making API calls to the Directory Service.
-        public let iAMRoleName: String?
+        public let iamRoleName: String?
         /// The status of the DB instance's Active Directory Domain membership, such as joined, pending-join, failed etc).
         public let status: String?
 
-        public init(domain: String? = nil, fqdn: String? = nil, iAMRoleName: String? = nil, status: String? = nil) {
+        public init(domain: String? = nil, fqdn: String? = nil, iamRoleName: String? = nil, status: String? = nil) {
             self.domain = domain
             self.fqdn = fqdn
-            self.iAMRoleName = iAMRoleName
+            self.iamRoleName = iamRoleName
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case fqdn = "FQDN"
-            case iAMRoleName = "IAMRoleName"
+            case iamRoleName = "IAMRoleName"
             case status = "Status"
         }
     }
@@ -3085,21 +3085,21 @@ extension Neptune {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
-        public let dBParameterGroupFamily: String?
+        public let dbParameterGroupFamily: String?
         ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Contains a list of engine default parameters.
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
-        public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
+        public init(dbParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
+            self.dbParameterGroupFamily = dbParameterGroupFamily
             self.marker = marker
             self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dbParameterGroupFamily = "DBParameterGroupFamily"
             case marker = "Marker"
             case parameters = "Parameters"
         }
@@ -3273,30 +3273,30 @@ extension Neptune {
 
     public struct FailoverDBClusterMessage: AWSEncodableShape {
         /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Read Replica in the DB cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
 
-        public init(dBClusterIdentifier: String? = nil, targetDBInstanceIdentifier: String? = nil) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String? = nil, targetDBInstanceIdentifier: String? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case targetDBInstanceIdentifier = "TargetDBInstanceIdentifier"
         }
     }
 
     public struct FailoverDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
@@ -3342,7 +3342,7 @@ extension Neptune {
 
     public struct ModifyDBClusterEndpointMessage: AWSEncodableShape {
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String
+        public let dbClusterEndpointIdentifier: String
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
@@ -3352,15 +3352,15 @@ extension Neptune {
         @OptionalCustomCoding<StandardArrayCoder>
         public var staticMembers: [String]?
 
-        public init(dBClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+        public init(dbClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
             self.staticMembers = staticMembers
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
             case staticMembers = "StaticMembers"
@@ -3371,13 +3371,13 @@ extension Neptune {
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
-        public let dBClusterEndpointArn: String?
+        public let dbClusterEndpointArn: String?
         /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterEndpointIdentifier: String?
+        public let dbClusterEndpointIdentifier: String?
         /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
-        public let dBClusterEndpointResourceIdentifier: String?
+        public let dbClusterEndpointResourceIdentifier: String?
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// The DNS address of the endpoint.
         public let endpoint: String?
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
@@ -3391,12 +3391,12 @@ extension Neptune {
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
 
-        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+        public init(customEndpointType: String? = nil, dbClusterEndpointArn: String? = nil, dbClusterEndpointIdentifier: String? = nil, dbClusterEndpointResourceIdentifier: String? = nil, dbClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
             self.customEndpointType = customEndpointType
-            self.dBClusterEndpointArn = dBClusterEndpointArn
-            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
-            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dbClusterEndpointArn = dbClusterEndpointArn
+            self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
+            self.dbClusterEndpointResourceIdentifier = dbClusterEndpointResourceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.endpoint = endpoint
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
@@ -3406,10 +3406,10 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case customEndpointType = "CustomEndpointType"
-            case dBClusterEndpointArn = "DBClusterEndpointArn"
-            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
-            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterEndpointArn = "DBClusterEndpointArn"
+            case dbClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dbClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case endpoint = "Endpoint"
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
@@ -3432,11 +3432,11 @@ extension Neptune {
         ///  If set to true, tags are copied to any snapshot of the DB cluster that is created.
         public let copyTagsToSnapshot: Bool?
         /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The name of the DB cluster parameter group to use for the DB cluster.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
         /// The name of the DB parameter group to apply to all instances of the DB cluster.   When you apply a parameter group using DBInstanceParameterGroupName, parameter changes aren't applied during the next maintenance window but instead are applied immediately.  Default: The existing name setting Constraints:   The DB parameter group must be in the same DB parameter group family as the target DB cluster version.   The DBInstanceParameterGroupName parameter is only valid in combination with the AllowMajorVersionUpgrade parameter.
-        public let dBInstanceParameterGroupName: String?
+        public let dbInstanceParameterGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
         /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
@@ -3459,15 +3459,15 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.dBInstanceParameterGroupName = dBInstanceParameterGroupName
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
+            self.dbInstanceParameterGroupName = dbInstanceParameterGroupName
             self.deletionProtection = deletionProtection
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engineVersion = engineVersion
@@ -3486,9 +3486,9 @@ extension Neptune {
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case dBInstanceParameterGroupName = "DBInstanceParameterGroupName"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbInstanceParameterGroupName = "DBInstanceParameterGroupName"
             case deletionProtection = "DeletionProtection"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engineVersion = "EngineVersion"
@@ -3506,31 +3506,31 @@ extension Neptune {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the DB cluster parameter group to modify.
-        public let dBClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
         @CustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]
 
-        public init(dBClusterParameterGroupName: String, parameters: [Parameter]) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        public init(dbClusterParameterGroupName: String, parameters: [Parameter]) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case parameters = "Parameters"
         }
     }
 
     public struct ModifyDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
@@ -3541,7 +3541,7 @@ extension Neptune {
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
         public let attributeName: String
         /// The identifier for the DB cluster snapshot to modify the attributes for.
-        public let dBClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String
         /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account IDs, or all to make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon accounts.
         @OptionalCustomCoding<ArrayCoder<_ValuesToAddEncoding, String>>
         public var valuesToAdd: [String]?
@@ -3549,30 +3549,30 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_ValuesToRemoveEncoding, String>>
         public var valuesToRemove: [String]?
 
-        public init(attributeName: String, dBClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
+        public init(attributeName: String, dbClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.valuesToAdd = valuesToAdd
             self.valuesToRemove = valuesToRemove
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributeName = "AttributeName"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case valuesToAdd = "ValuesToAdd"
             case valuesToRemove = "ValuesToRemove"
         }
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
-        public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
+        public let dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
-        public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
-            self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
+        public init(dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
+            self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
+            case dbClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
         }
     }
 
@@ -3591,24 +3591,24 @@ extension Neptune {
         /// Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting
         public let backupRetentionPeriod: Int?
         /// Indicates the certificate that needs to be associated with the instance.
-        public let cACertificateIdentifier: String?
+        public let caCertificateIdentifier: String?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
         public let copyTagsToSnapshot: Bool?
         /// The new compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all Amazon Regions. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request. Default: Uses existing setting
-        public let dBInstanceClass: String?
+        public let dbInstanceClass: String?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
-        public let dBInstanceIdentifier: String
+        public let dbInstanceIdentifier: String
         /// The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The db instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
-        public let dBParameterGroupName: String?
+        public let dbParameterGroupName: String?
         /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter. Default: 8182
-        public let dBPortNumber: Int?
+        public let dbPortNumber: Int?
         /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
-        public var dBSecurityGroups: [String]?
+        public var dbSecurityGroups: [String]?
         /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.  See Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// Not supported.
@@ -3657,21 +3657,21 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.dBParameterGroupName = dBParameterGroupName
-            self.dBPortNumber = dBPortNumber
-            self.dBSecurityGroups = dBSecurityGroups
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbParameterGroupName = dbParameterGroupName
+            self.dbPortNumber = dbPortNumber
+            self.dbSecurityGroups = dbSecurityGroups
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
@@ -3698,21 +3698,21 @@ extension Neptune {
         }
 
         @available(*, deprecated, message: "Members publiclyAccessible have been deprecated")
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.dBParameterGroupName = dBParameterGroupName
-            self.dBPortNumber = dBPortNumber
-            self.dBSecurityGroups = dBSecurityGroups
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbParameterGroupName = dbParameterGroupName
+            self.dbPortNumber = dbPortNumber
+            self.dbSecurityGroups = dbSecurityGroups
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
@@ -3744,15 +3744,15 @@ extension Neptune {
             case applyImmediately = "ApplyImmediately"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case backupRetentionPeriod = "BackupRetentionPeriod"
-            case cACertificateIdentifier = "CACertificateIdentifier"
+            case caCertificateIdentifier = "CACertificateIdentifier"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case dBInstanceClass = "DBInstanceClass"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-            case dBParameterGroupName = "DBParameterGroupName"
-            case dBPortNumber = "DBPortNumber"
-            case dBSecurityGroups = "DBSecurityGroups"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbInstanceClass = "DBInstanceClass"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case dbParameterGroupName = "DBParameterGroupName"
+            case dbPortNumber = "DBPortNumber"
+            case dbSecurityGroups = "DBSecurityGroups"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
             case domainIAMRoleName = "DomainIAMRoleName"
@@ -3780,14 +3780,14 @@ extension Neptune {
     }
 
     public struct ModifyDBInstanceResult: AWSDecodableShape {
-        public let dBInstance: DBInstance?
+        public let dbInstance: DBInstance?
 
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
+        public init(dbInstance: DBInstance? = nil) {
+            self.dbInstance = dbInstance
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
+            case dbInstance = "DBInstance"
         }
     }
 
@@ -3795,18 +3795,18 @@ extension Neptune {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
-        public let dBParameterGroupName: String
+        public let dbParameterGroupName: String
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover.
         @CustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]
 
-        public init(dBParameterGroupName: String, parameters: [Parameter]) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String, parameters: [Parameter]) {
+            self.dbParameterGroupName = dbParameterGroupName
             self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
             case parameters = "Parameters"
         }
     }
@@ -3815,35 +3815,35 @@ extension Neptune {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
 
         /// The description for the DB subnet group.
-        public let dBSubnetGroupDescription: String?
+        public let dbSubnetGroupDescription: String?
         /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
-        public let dBSubnetGroupName: String
+        public let dbSubnetGroupName: String
         /// The EC2 subnet IDs for the DB subnet group.
         @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]
 
-        public init(dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String, subnetIds: [String]) {
-            self.dBSubnetGroupDescription = dBSubnetGroupDescription
-            self.dBSubnetGroupName = dBSubnetGroupName
+        public init(dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String, subnetIds: [String]) {
+            self.dbSubnetGroupDescription = dbSubnetGroupDescription
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetIds = subnetIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbSubnetGroupDescription = "DBSubnetGroupDescription"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case subnetIds = "SubnetIds"
         }
     }
 
     public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
-        public let dBSubnetGroup: DBSubnetGroup?
+        public let dbSubnetGroup: DBSubnetGroup?
 
-        public init(dBSubnetGroup: DBSubnetGroup? = nil) {
-            self.dBSubnetGroup = dBSubnetGroup
+        public init(dbSubnetGroup: DBSubnetGroup? = nil) {
+            self.dbSubnetGroup = dbSubnetGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroup = "DBSubnetGroup"
+            case dbSubnetGroup = "DBSubnetGroup"
         }
     }
 
@@ -3915,7 +3915,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>>
         public var availabilityZones: [AvailabilityZone]?
         /// The DB instance class for a DB instance.
-        public let dBInstanceClass: String?
+        public let dbInstanceClass: String?
         /// The engine type of a DB instance.
         public let engine: String?
         /// The engine version of a DB instance.
@@ -3953,9 +3953,9 @@ extension Neptune {
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
-            self.dBInstanceClass = dBInstanceClass
+            self.dbInstanceClass = dbInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
             self.licenseModel = licenseModel
@@ -3978,7 +3978,7 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
-            case dBInstanceClass = "DBInstanceClass"
+            case dbInstanceClass = "DBInstanceClass"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case licenseModel = "LicenseModel"
@@ -4147,13 +4147,13 @@ extension Neptune {
         /// Specifies the pending number of days for which automated backups are retained.
         public let backupRetentionPeriod: Int?
         /// Specifies the identifier of the CA certificate for the DB instance.
-        public let cACertificateIdentifier: String?
+        public let caCertificateIdentifier: String?
         ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied.
-        public let dBInstanceClass: String?
+        public let dbInstanceClass: String?
         ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is currently being applied.
-        public let dBInstanceIdentifier: String?
+        public let dbInstanceIdentifier: String?
         /// The new DB subnet group for the DB instance.
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
@@ -4171,13 +4171,13 @@ extension Neptune {
         /// Specifies the storage type to be associated with the DB instance.
         public let storageType: String?
 
-        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, storageType: String? = nil) {
+        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.caCertificateIdentifier = caCertificateIdentifier
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.engineVersion = engineVersion
             self.iops = iops
             self.licenseModel = licenseModel
@@ -4191,10 +4191,10 @@ extension Neptune {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case backupRetentionPeriod = "BackupRetentionPeriod"
-            case cACertificateIdentifier = "CACertificateIdentifier"
-            case dBInstanceClass = "DBInstanceClass"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case caCertificateIdentifier = "CACertificateIdentifier"
+            case dbInstanceClass = "DBInstanceClass"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case engineVersion = "EngineVersion"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
@@ -4208,26 +4208,26 @@ extension Neptune {
 
     public struct PromoteReadReplicaDBClusterMessage: AWSEncodableShape {
         /// Not supported.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
 
-        public init(dBClusterIdentifier: String) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
         }
     }
 
     public struct PromoteReadReplicaDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
@@ -4254,49 +4254,49 @@ extension Neptune {
 
     public struct RebootDBInstanceMessage: AWSEncodableShape {
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
-        public let dBInstanceIdentifier: String
+        public let dbInstanceIdentifier: String
         ///  When true, the reboot is conducted through a MultiAZ failover. Constraint: You can't specify true if the instance is not configured for MultiAZ.
         public let forceFailover: Bool?
 
-        public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+        public init(dbInstanceIdentifier: String, forceFailover: Bool? = nil) {
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.forceFailover = forceFailover
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case forceFailover = "ForceFailover"
         }
     }
 
     public struct RebootDBInstanceResult: AWSDecodableShape {
-        public let dBInstance: DBInstance?
+        public let dbInstance: DBInstance?
 
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
+        public init(dbInstance: DBInstance? = nil) {
+            self.dbInstance = dbInstance
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
+            case dbInstance = "DBInstance"
         }
     }
 
     public struct RemoveRoleFromDBClusterMessage: AWSEncodableShape {
         /// The name of the DB cluster to disassociate the IAM role from.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see DescribeDBEngineVersions.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
         public let roleArn: String
 
-        public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.featureName = featureName
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
             case featureName = "FeatureName"
             case roleArn = "RoleArn"
         }
@@ -4353,21 +4353,21 @@ extension Neptune {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the DB cluster parameter group to reset.
-        public let dBClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
         /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
 
-        public init(dBClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        public init(dbClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
             self.resetAllParameters = resetAllParameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case parameters = "Parameters"
             case resetAllParameters = "ResetAllParameters"
         }
@@ -4377,21 +4377,21 @@ extension Neptune {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.
-        public let dBParameterGroupName: String
+        public let dbParameterGroupName: String
         /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
         /// Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values. Default: true
         public let resetAllParameters: Bool?
 
-        public init(dBParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
-            self.dBParameterGroupName = dBParameterGroupName
+        public init(dbParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
+            self.dbParameterGroupName = dbParameterGroupName
             self.parameters = parameters
             self.resetAllParameters = resetAllParameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
+            case dbParameterGroupName = "DBParameterGroupName"
             case parameters = "Parameters"
             case resetAllParameters = "ResetAllParameters"
         }
@@ -4430,11 +4430,11 @@ extension Neptune {
         /// Not supported.
         public let databaseName: String?
         /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The name of the DB cluster parameter group to associate with the new DB cluster. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
         /// The name of the DB subnet group to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs.
@@ -4461,13 +4461,13 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.dBSubnetGroupName = dBSubnetGroupName
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -4485,9 +4485,9 @@ extension Neptune {
             case availabilityZones = "AvailabilityZones"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseName = "DatabaseName"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -4503,14 +4503,14 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
@@ -4519,11 +4519,11 @@ extension Neptune {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
         /// The name of the DB cluster parameter group to associate with the new DB cluster. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-        public let dBClusterParameterGroupName: String?
+        public let dbClusterParameterGroupName: String?
         /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
-        public let dBSubnetGroupName: String?
+        public let dbSubnetGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
@@ -4552,10 +4552,10 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.dBSubnetGroupName = dBSubnetGroupName
+        public init(dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
+            self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -4571,9 +4571,9 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case dBSubnetGroupName = "DBSubnetGroupName"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -4590,64 +4590,64 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
     public struct StartDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier of the Neptune DB cluster to be started. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
 
-        public init(dBClusterIdentifier: String) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
         }
     }
 
     public struct StartDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 
     public struct StopDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier of the Neptune DB cluster to be stopped. This parameter is stored as a lowercase string.
-        public let dBClusterIdentifier: String
+        public let dbClusterIdentifier: String
 
-        public init(dBClusterIdentifier: String) {
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dbClusterIdentifier: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
         }
     }
 
     public struct StopDBClusterResult: AWSDecodableShape {
-        public let dBCluster: DBCluster?
+        public let dbCluster: DBCluster?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dbCluster: DBCluster? = nil) {
+            self.dbCluster = dbCluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
+            case dbCluster = "DBCluster"
         }
     }
 

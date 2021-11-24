@@ -944,15 +944,15 @@ extension SES {
         /// The name of the event destination. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.
         public let name: String
         /// An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
-        public let sNSDestination: SNSDestination?
+        public let snsDestination: SNSDestination?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, sNSDestination: SNSDestination? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, snsDestination: SNSDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.name = name
-            self.sNSDestination = sNSDestination
+            self.snsDestination = snsDestination
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -961,7 +961,7 @@ extension SES {
             case kinesisFirehoseDestination = "KinesisFirehoseDestination"
             case matchingEventTypes = "MatchingEventTypes"
             case name = "Name"
-            case sNSDestination = "SNSDestination"
+            case snsDestination = "SNSDestination"
         }
     }
 
@@ -1353,16 +1353,16 @@ extension SES {
         /// The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
         public let deliveryStreamARN: String
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
-        public let iAMRoleARN: String
+        public let iamRoleARN: String
 
-        public init(deliveryStreamARN: String, iAMRoleARN: String) {
+        public init(deliveryStreamARN: String, iamRoleARN: String) {
             self.deliveryStreamARN = deliveryStreamARN
-            self.iAMRoleARN = iAMRoleARN
+            self.iamRoleARN = iamRoleARN
         }
 
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamARN = "DeliveryStreamARN"
-            case iAMRoleARN = "IAMRoleARN"
+            case iamRoleARN = "IAMRoleARN"
         }
     }
 
@@ -1757,18 +1757,18 @@ extension SES {
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public let s3Action: S3Action?
         /// Publishes the email content within a notification to Amazon SNS.
-        public let sNSAction: SNSAction?
+        public let snsAction: SNSAction?
         /// Terminates the evaluation of the receipt rule set and optionally publishes a notification to Amazon SNS.
         public let stopAction: StopAction?
         /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon Amazon SNS.
         public let workmailAction: WorkmailAction?
 
-        public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, sNSAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
+        public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, snsAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
             self.addHeaderAction = addHeaderAction
             self.bounceAction = bounceAction
             self.lambdaAction = lambdaAction
             self.s3Action = s3Action
-            self.sNSAction = sNSAction
+            self.snsAction = snsAction
             self.stopAction = stopAction
             self.workmailAction = workmailAction
         }
@@ -1778,7 +1778,7 @@ extension SES {
             case bounceAction = "BounceAction"
             case lambdaAction = "LambdaAction"
             case s3Action = "S3Action"
-            case sNSAction = "SNSAction"
+            case snsAction = "SNSAction"
             case stopAction = "StopAction"
             case workmailAction = "WorkmailAction"
         }

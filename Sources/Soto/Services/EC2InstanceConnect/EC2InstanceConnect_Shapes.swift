@@ -31,13 +31,13 @@ extension EC2InstanceConnect {
         /// The OS user on the EC2 instance for whom the key can be used to authenticate.
         public let instanceOSUser: String
         /// The public key material. To use the public key, you must have the matching private key.
-        public let sSHPublicKey: String
+        public let sshPublicKey: String
 
-        public init(availabilityZone: String, instanceId: String, instanceOSUser: String, sSHPublicKey: String) {
+        public init(availabilityZone: String, instanceId: String, instanceOSUser: String, sshPublicKey: String) {
             self.availabilityZone = availabilityZone
             self.instanceId = instanceId
             self.instanceOSUser = instanceOSUser
-            self.sSHPublicKey = sSHPublicKey
+            self.sshPublicKey = sshPublicKey
         }
 
         public func validate(name: String) throws {
@@ -50,15 +50,15 @@ extension EC2InstanceConnect {
             try self.validate(self.instanceOSUser, name: "instanceOSUser", parent: name, max: 32)
             try self.validate(self.instanceOSUser, name: "instanceOSUser", parent: name, min: 1)
             try self.validate(self.instanceOSUser, name: "instanceOSUser", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$")
-            try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, max: 4096)
-            try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, min: 256)
+            try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, max: 4096)
+            try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, min: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case instanceId = "InstanceId"
             case instanceOSUser = "InstanceOSUser"
-            case sSHPublicKey = "SSHPublicKey"
+            case sshPublicKey = "SSHPublicKey"
         }
     }
 
@@ -85,12 +85,12 @@ extension EC2InstanceConnect {
         /// The serial port of the EC2 instance. Currently only port 0 is supported. Default: 0
         public let serialPort: Int?
         /// The public key material. To use the public key, you must have the matching private key. For information about the supported key formats and lengths, see Requirements for key pairs in the Amazon EC2 User Guide.
-        public let sSHPublicKey: String
+        public let sshPublicKey: String
 
-        public init(instanceId: String, serialPort: Int? = nil, sSHPublicKey: String) {
+        public init(instanceId: String, serialPort: Int? = nil, sshPublicKey: String) {
             self.instanceId = instanceId
             self.serialPort = serialPort
-            self.sSHPublicKey = sSHPublicKey
+            self.sshPublicKey = sshPublicKey
         }
 
         public func validate(name: String) throws {
@@ -99,14 +99,14 @@ extension EC2InstanceConnect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^i-[a-f0-9]+$")
             try self.validate(self.serialPort, name: "serialPort", parent: name, max: 0)
             try self.validate(self.serialPort, name: "serialPort", parent: name, min: 0)
-            try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, max: 4096)
-            try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, min: 256)
+            try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, max: 4096)
+            try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, min: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceId = "InstanceId"
             case serialPort = "SerialPort"
-            case sSHPublicKey = "SSHPublicKey"
+            case sshPublicKey = "SSHPublicKey"
         }
     }
 

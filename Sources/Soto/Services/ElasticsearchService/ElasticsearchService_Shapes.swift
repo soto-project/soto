@@ -367,18 +367,18 @@ extension ElasticsearchService {
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
         /// Describes the SAML application configured for a domain.
-        public let sAMLOptions: SAMLOptionsOutput?
+        public let samlOptions: SAMLOptionsOutput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, sAMLOptions: SAMLOptionsOutput? = nil) {
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
-            self.sAMLOptions = sAMLOptions
+            self.samlOptions = samlOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
-            case sAMLOptions = "SAMLOptions"
+            case samlOptions = "SAMLOptions"
         }
     }
 
@@ -390,25 +390,25 @@ extension ElasticsearchService {
         /// Credentials for the master user: username and password, ARN, or both.
         public let masterUserOptions: MasterUserOptions?
         /// Specifies the SAML application configuration for the domain.
-        public let sAMLOptions: SAMLOptionsInput?
+        public let samlOptions: SAMLOptionsInput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, sAMLOptions: SAMLOptionsInput? = nil) {
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.masterUserOptions = masterUserOptions
-            self.sAMLOptions = sAMLOptions
+            self.samlOptions = samlOptions
         }
 
         public func validate(name: String) throws {
             try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
-            try self.sAMLOptions?.validate(name: "\(name).sAMLOptions")
+            try self.samlOptions?.validate(name: "\(name).samlOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case masterUserOptions = "MasterUserOptions"
-            case sAMLOptions = "SAMLOptions"
+            case samlOptions = "SAMLOptions"
         }
     }
 
@@ -770,7 +770,7 @@ extension ElasticsearchService {
         /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
         /// Options to enable, disable and specify the type and size of EBS storage volumes.
-        public let eBSOptions: EBSOptions?
+        public let ebsOptions: EBSOptions?
         /// Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// String of format X.Y to specify version for the Elasticsearch domain eg. "1.5" or "2.3". For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
@@ -786,9 +786,9 @@ extension ElasticsearchService {
         /// A list of Tag added during domain creation.
         public let tagList: [Tag]?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
-        public let vPCOptions: VPCOptions?
+        public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -796,7 +796,7 @@ extension ElasticsearchService {
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -804,7 +804,7 @@ extension ElasticsearchService {
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
             self.tagList = tagList
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         public func validate(name: String) throws {
@@ -830,7 +830,7 @@ extension ElasticsearchService {
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case elasticsearchVersion = "ElasticsearchVersion"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
@@ -838,7 +838,7 @@ extension ElasticsearchService {
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
             case tagList = "TagList"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -1564,14 +1564,14 @@ extension ElasticsearchService {
         /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
         public let enforceHTTPS: Bool?
         /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain. It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy which supports TLSv1.0 and higher. Policy-Min-TLS-1-2-2019-07:  TLS security policy which supports only TLSv1.2
-        public let tLSSecurityPolicy: TLSSecurityPolicy?
+        public let tlsSecurityPolicy: TLSSecurityPolicy?
 
-        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
             self.customEndpointEnabled = customEndpointEnabled
             self.enforceHTTPS = enforceHTTPS
-            self.tLSSecurityPolicy = tLSSecurityPolicy
+            self.tlsSecurityPolicy = tlsSecurityPolicy
         }
 
         public func validate(name: String) throws {
@@ -1585,7 +1585,7 @@ extension ElasticsearchService {
             case customEndpointCertificateArn = "CustomEndpointCertificateArn"
             case customEndpointEnabled = "CustomEndpointEnabled"
             case enforceHTTPS = "EnforceHTTPS"
-            case tLSSecurityPolicy = "TLSSecurityPolicy"
+            case tlsSecurityPolicy = "TLSSecurityPolicy"
         }
     }
 
@@ -1717,7 +1717,7 @@ extension ElasticsearchService {
 
     public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether EBS-based storage is enabled.
-        public let eBSEnabled: Bool?
+        public let ebsEnabled: Bool?
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
         public let iops: Int?
         ///  Integer to specify the size of an EBS volume.
@@ -1725,15 +1725,15 @@ extension ElasticsearchService {
         ///  Specifies the volume type for EBS-based storage.
         public let volumeType: VolumeType?
 
-        public init(eBSEnabled: Bool? = nil, iops: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
-            self.eBSEnabled = eBSEnabled
+        public init(ebsEnabled: Bool? = nil, iops: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+            self.ebsEnabled = ebsEnabled
             self.iops = iops
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eBSEnabled = "EBSEnabled"
+            case ebsEnabled = "EBSEnabled"
             case iops = "Iops"
             case volumeSize = "VolumeSize"
             case volumeType = "VolumeType"
@@ -1841,7 +1841,7 @@ extension ElasticsearchService {
         /// Specifies the DomainEndpointOptions for the Elasticsearch domain.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
         /// Specifies the EBSOptions for the Elasticsearch domain.
-        public let eBSOptions: EBSOptionsStatus?
+        public let ebsOptions: EBSOptionsStatus?
         /// Specifies the ElasticsearchClusterConfig for the Elasticsearch domain.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfigStatus?
         /// String of format X.Y to specify version for the Elasticsearch domain.
@@ -1855,23 +1855,23 @@ extension ElasticsearchService {
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
         public let snapshotOptions: SnapshotOptionsStatus?
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
-        public let vPCOptions: VPCDerivedInfoStatus?
+        public let vpcOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1881,14 +1881,14 @@ extension ElasticsearchService {
             case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case elasticsearchVersion = "ElasticsearchVersion"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -1916,7 +1916,7 @@ extension ElasticsearchService {
         /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
         /// The EBSOptions for the specified domain.  See Configuring EBS-based Storage for more information.
-        public let eBSOptions: EBSOptions?
+        public let ebsOptions: EBSOptions?
         /// The type and number of instances in the domain cluster.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig
         public let elasticsearchVersion: String?
@@ -1939,9 +1939,9 @@ extension ElasticsearchService {
         /// The status of an Elasticsearch domain version upgrade. True if Amazon Elasticsearch Service is undergoing a version upgrade. False if the configuration is active.
         public let upgradeProcessing: Bool?
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
-        public let vPCOptions: VPCDerivedInfo?
+        public let vpcOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -1953,7 +1953,7 @@ extension ElasticsearchService {
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
             self.domainName = domainName
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -1965,7 +1965,7 @@ extension ElasticsearchService {
             self.serviceSoftwareOptions = serviceSoftwareOptions
             self.snapshotOptions = snapshotOptions
             self.upgradeProcessing = upgradeProcessing
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1980,7 +1980,7 @@ extension ElasticsearchService {
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainId = "DomainId"
             case domainName = "DomainName"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case elasticsearchVersion = "ElasticsearchVersion"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
@@ -1992,7 +1992,7 @@ extension ElasticsearchService {
             case serviceSoftwareOptions = "ServiceSoftwareOptions"
             case snapshotOptions = "SnapshotOptions"
             case upgradeProcessing = "UpgradeProcessing"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -3343,7 +3343,7 @@ extension ElasticsearchService {
         /// The name of the Elasticsearch domain that you are updating.
         public let domainName: String
         /// Specify the type and size of the EBS volume that you want to use.
-        public let eBSOptions: EBSOptions?
+        public let ebsOptions: EBSOptions?
         /// The type and number of instances to instantiate for the domain cluster.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// Specifies the Encryption At Rest Options.
@@ -3355,9 +3355,9 @@ extension ElasticsearchService {
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
-        public let vPCOptions: VPCOptions?
+        public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3365,13 +3365,13 @@ extension ElasticsearchService {
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         public func validate(name: String) throws {
@@ -3392,13 +3392,13 @@ extension ElasticsearchService {
             case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -3563,20 +3563,20 @@ extension ElasticsearchService {
         /// Specifies the subnets for VPC endpoint.
         public let subnetIds: [String]?
         /// The VPC Id for the Elasticsearch domain. Exists only if the domain was created with VPCOptions.
-        public let vPCId: String?
+        public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vPCId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 

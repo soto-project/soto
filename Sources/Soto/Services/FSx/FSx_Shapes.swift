@@ -2307,7 +2307,7 @@ extension FSx {
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
         public let creationTime: Date?
         /// The DNS name for the file system.
-        public let dNSName: String?
+        public let dnsName: String?
         public let failureDetails: FileSystemFailureDetails?
         /// The system-generated, unique 17-digit ID of the file system.
         public let fileSystemId: String?
@@ -2342,10 +2342,10 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
-        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
+        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dnsName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
-            self.dNSName = dNSName
+            self.dnsName = dnsName
             self.failureDetails = failureDetails
             self.fileSystemId = fileSystemId
             self.fileSystemType = fileSystemType
@@ -2368,7 +2368,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case administrativeActions = "AdministrativeActions"
             case creationTime = "CreationTime"
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case failureDetails = "FailureDetails"
             case fileSystemId = "FileSystemId"
             case fileSystemType = "FileSystemType"
@@ -2390,17 +2390,17 @@ extension FSx {
     }
 
     public struct FileSystemEndpoint: AWSDecodableShape {
-        public let dNSName: String?
+        public let dnsName: String?
         /// IP addresses of the file system endpoint.
         public let ipAddresses: [String]?
 
-        public init(dNSName: String? = nil, ipAddresses: [String]? = nil) {
-            self.dNSName = dNSName
+        public init(dnsName: String? = nil, ipAddresses: [String]? = nil) {
+            self.dnsName = dnsName
             self.ipAddresses = ipAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case ipAddresses = "IpAddresses"
         }
     }
@@ -2885,17 +2885,17 @@ extension FSx {
     }
 
     public struct SvmEndpoint: AWSDecodableShape {
-        public let dNSName: String?
+        public let dnsName: String?
         /// The SVM endpoint's IP addresses.
         public let ipAddresses: [String]?
 
-        public init(dNSName: String? = nil, ipAddresses: [String]? = nil) {
-            self.dNSName = dNSName
+        public init(dnsName: String? = nil, ipAddresses: [String]? = nil) {
+            self.dnsName = dnsName
             self.ipAddresses = ipAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case ipAddresses = "IpAddresses"
         }
     }

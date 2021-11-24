@@ -51,7 +51,7 @@ extension Appflow {
         case marketo = "Marketo"
         case redshift = "Redshift"
         case s3 = "S3"
-        case sAPOData = "SAPOData"
+        case sapoData = "SAPOData"
         case salesforce = "Salesforce"
         case servicenow = "Servicenow"
         case singular = "Singular"
@@ -705,7 +705,7 @@ extension Appflow {
         public let s3: S3Metadata?
         ///  The connector metadata specific to Salesforce.
         public let salesforce: SalesforceMetadata?
-        public let sAPOData: SAPODataMetadata?
+        public let sapoData: SAPODataMetadata?
         ///  The connector metadata specific to ServiceNow.
         public let serviceNow: ServiceNowMetadata?
         ///  The connector metadata specific to Singular.
@@ -723,7 +723,7 @@ extension Appflow {
         ///  The connector metadata specific to Zendesk.
         public let zendesk: ZendeskMetadata?
 
-        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, sAPOData: SAPODataMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
+        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, sapoData: SAPODataMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
             self.amplitude = amplitude
             self.customerProfiles = customerProfiles
             self.datadog = datadog
@@ -736,7 +736,7 @@ extension Appflow {
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
-            self.sAPOData = sAPOData
+            self.sapoData = sapoData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -760,7 +760,7 @@ extension Appflow {
             case redshift = "Redshift"
             case s3 = "S3"
             case salesforce = "Salesforce"
-            case sAPOData = "SAPOData"
+            case sapoData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -814,7 +814,7 @@ extension Appflow {
         ///  The operation to be performed on the provided Salesforce source fields.
         public let salesforce: SalesforceConnectorOperator?
         ///  The operation to be performed on the provided SAPOData source fields.
-        public let sAPOData: SAPODataConnectorOperator?
+        public let sapoData: SAPODataConnectorOperator?
         ///  The operation to be performed on the provided ServiceNow source fields.
         public let serviceNow: ServiceNowConnectorOperator?
         ///  The operation to be performed on the provided Singular source fields.
@@ -828,7 +828,7 @@ extension Appflow {
         ///  The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
-        public init(amplitude: AmplitudeConnectorOperator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sAPOData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
+        public init(amplitude: AmplitudeConnectorOperator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sapoData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -837,7 +837,7 @@ extension Appflow {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
-            self.sAPOData = sAPOData
+            self.sapoData = sapoData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -855,7 +855,7 @@ extension Appflow {
             case marketo = "Marketo"
             case s3 = "S3"
             case salesforce = "Salesforce"
-            case sAPOData = "SAPOData"
+            case sapoData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -951,7 +951,7 @@ extension Appflow {
         public let redshift: RedshiftConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Salesforce.
         public let salesforce: SalesforceConnectorProfileCredentials?
-        public let sAPOData: SAPODataConnectorProfileCredentials?
+        public let sapoData: SAPODataConnectorProfileCredentials?
         ///  The connector-specific credentials required when using ServiceNow.
         public let serviceNow: ServiceNowConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Singular.
@@ -967,7 +967,7 @@ extension Appflow {
         ///  The connector-specific credentials required when using Zendesk.
         public let zendesk: ZendeskConnectorProfileCredentials?
 
-        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sAPOData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sapoData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -977,7 +977,7 @@ extension Appflow {
             self.marketo = marketo
             self.redshift = redshift
             self.salesforce = salesforce
-            self.sAPOData = sAPOData
+            self.sapoData = sapoData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -997,7 +997,7 @@ extension Appflow {
             try self.marketo?.validate(name: "\(name).marketo")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.salesforce?.validate(name: "\(name).salesforce")
-            try self.sAPOData?.validate(name: "\(name).sAPOData")
+            try self.sapoData?.validate(name: "\(name).sapoData")
             try self.serviceNow?.validate(name: "\(name).serviceNow")
             try self.singular?.validate(name: "\(name).singular")
             try self.slack?.validate(name: "\(name).slack")
@@ -1017,7 +1017,7 @@ extension Appflow {
             case marketo = "Marketo"
             case redshift = "Redshift"
             case salesforce = "Salesforce"
-            case sAPOData = "SAPOData"
+            case sapoData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -1047,7 +1047,7 @@ extension Appflow {
         public let redshift: RedshiftConnectorProfileProperties?
         ///  The connector-specific properties required by Salesforce.
         public let salesforce: SalesforceConnectorProfileProperties?
-        public let sAPOData: SAPODataConnectorProfileProperties?
+        public let sapoData: SAPODataConnectorProfileProperties?
         ///  The connector-specific properties required by serviceNow.
         public let serviceNow: ServiceNowConnectorProfileProperties?
         ///  The connector-specific properties required by Singular.
@@ -1063,7 +1063,7 @@ extension Appflow {
         ///  The connector-specific properties required by Zendesk.
         public let zendesk: ZendeskConnectorProfileProperties?
 
-        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sAPOData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sapoData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -1073,7 +1073,7 @@ extension Appflow {
             self.marketo = marketo
             self.redshift = redshift
             self.salesforce = salesforce
-            self.sAPOData = sAPOData
+            self.sapoData = sapoData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -1090,7 +1090,7 @@ extension Appflow {
             try self.marketo?.validate(name: "\(name).marketo")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.salesforce?.validate(name: "\(name).salesforce")
-            try self.sAPOData?.validate(name: "\(name).sAPOData")
+            try self.sapoData?.validate(name: "\(name).sapoData")
             try self.serviceNow?.validate(name: "\(name).serviceNow")
             try self.slack?.validate(name: "\(name).slack")
             try self.snowflake?.validate(name: "\(name).snowflake")
@@ -1108,7 +1108,7 @@ extension Appflow {
             case marketo = "Marketo"
             case redshift = "Redshift"
             case salesforce = "Salesforce"
-            case sAPOData = "SAPOData"
+            case sapoData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"
@@ -3433,7 +3433,7 @@ extension Appflow {
         public let s3: S3SourceProperties?
         ///  Specifies the information that is required for querying Salesforce.
         public let salesforce: SalesforceSourceProperties?
-        public let sAPOData: SAPODataSourceProperties?
+        public let sapoData: SAPODataSourceProperties?
         ///  Specifies the information that is required for querying ServiceNow.
         public let serviceNow: ServiceNowSourceProperties?
         ///  Specifies the information that is required for querying Singular.
@@ -3447,7 +3447,7 @@ extension Appflow {
         ///  Specifies the information that is required for querying Zendesk.
         public let zendesk: ZendeskSourceProperties?
 
-        public init(amplitude: AmplitudeSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sAPOData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
+        public init(amplitude: AmplitudeSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sapoData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -3456,7 +3456,7 @@ extension Appflow {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
-            self.sAPOData = sAPOData
+            self.sapoData = sapoData
             self.serviceNow = serviceNow
             self.singular = singular
             self.slack = slack
@@ -3474,7 +3474,7 @@ extension Appflow {
             try self.marketo?.validate(name: "\(name).marketo")
             try self.s3?.validate(name: "\(name).s3")
             try self.salesforce?.validate(name: "\(name).salesforce")
-            try self.sAPOData?.validate(name: "\(name).sAPOData")
+            try self.sapoData?.validate(name: "\(name).sapoData")
             try self.serviceNow?.validate(name: "\(name).serviceNow")
             try self.singular?.validate(name: "\(name).singular")
             try self.slack?.validate(name: "\(name).slack")
@@ -3492,7 +3492,7 @@ extension Appflow {
             case marketo = "Marketo"
             case s3 = "S3"
             case salesforce = "Salesforce"
-            case sAPOData = "SAPOData"
+            case sapoData = "SAPOData"
             case serviceNow = "ServiceNow"
             case singular = "Singular"
             case slack = "Slack"

@@ -160,7 +160,7 @@ extension RoboMaker {
         case badPermissionsUserCredentials = "BadPermissionsUserCredentials"
         case batchCanceled = "BatchCanceled"
         case batchTimedOut = "BatchTimedOut"
-        case eNILimitExceeded = "ENILimitExceeded"
+        case eniLimitExceeded = "ENILimitExceeded"
         case internalServiceError = "InternalServiceError"
         case invalidBundleRobotApplication = "InvalidBundleRobotApplication"
         case invalidBundleSimulationApplication = "InvalidBundleSimulationApplication"

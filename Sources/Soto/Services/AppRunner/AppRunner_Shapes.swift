@@ -152,19 +152,19 @@ extension AppRunner {
         /// A description of the domain name that's being associated.
         public let customDomain: CustomDomain
         /// The App Runner subdomain of the App Runner service. The custom domain name is mapped to this target name.
-        public let dNSTarget: String
+        public let dnsTarget: String
         /// The Amazon Resource Name (ARN) of the App Runner service with which a custom domain name is associated.
         public let serviceArn: String
 
-        public init(customDomain: CustomDomain, dNSTarget: String, serviceArn: String) {
+        public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String) {
             self.customDomain = customDomain
-            self.dNSTarget = dNSTarget
+            self.dnsTarget = dnsTarget
             self.serviceArn = serviceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case customDomain = "CustomDomain"
-            case dNSTarget = "DNSTarget"
+            case dnsTarget = "DNSTarget"
             case serviceArn = "ServiceArn"
         }
     }
@@ -793,22 +793,22 @@ extension AppRunner {
         /// A list of descriptions of custom domain names that are associated with the service. In a paginated request, the request returns up to MaxResults records per call.
         public let customDomains: [CustomDomain]
         /// The App Runner subdomain of the App Runner service. The associated custom domain names are mapped to this target name.
-        public let dNSTarget: String
+        public let dnsTarget: String
         /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the App Runner service whose associated custom domain names you want to describe.
         public let serviceArn: String
 
-        public init(customDomains: [CustomDomain], dNSTarget: String, nextToken: String? = nil, serviceArn: String) {
+        public init(customDomains: [CustomDomain], dnsTarget: String, nextToken: String? = nil, serviceArn: String) {
             self.customDomains = customDomains
-            self.dNSTarget = dNSTarget
+            self.dnsTarget = dnsTarget
             self.nextToken = nextToken
             self.serviceArn = serviceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case customDomains = "CustomDomains"
-            case dNSTarget = "DNSTarget"
+            case dnsTarget = "DNSTarget"
             case nextToken = "NextToken"
             case serviceArn = "ServiceArn"
         }
@@ -875,19 +875,19 @@ extension AppRunner {
         /// A description of the domain name that's being disassociated.
         public let customDomain: CustomDomain
         /// The App Runner subdomain of the App Runner service. The disassociated custom domain name was mapped to this target name.
-        public let dNSTarget: String
+        public let dnsTarget: String
         /// The Amazon Resource Name (ARN) of the App Runner service that a custom domain name is disassociated from.
         public let serviceArn: String
 
-        public init(customDomain: CustomDomain, dNSTarget: String, serviceArn: String) {
+        public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String) {
             self.customDomain = customDomain
-            self.dNSTarget = dNSTarget
+            self.dnsTarget = dnsTarget
             self.serviceArn = serviceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case customDomain = "CustomDomain"
-            case dNSTarget = "DNSTarget"
+            case dnsTarget = "DNSTarget"
             case serviceArn = "ServiceArn"
         }
     }

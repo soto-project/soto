@@ -6042,9 +6042,9 @@ extension SecurityHub {
         /// Information about the status of a domain relative to the latest service software.
         public let serviceSoftwareOptions: AwsElasticsearchDomainServiceSoftwareOptions?
         /// Information that OpenSearch derives based on VPCOptions for the domain.
-        public let vPCOptions: AwsElasticsearchDomainVPCOptions?
+        public let vpcOptions: AwsElasticsearchDomainVPCOptions?
 
-        public init(accessPolicies: String? = nil, domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions? = nil, domainId: String? = nil, domainName: String? = nil, elasticsearchClusterConfig: AwsElasticsearchDomainElasticsearchClusterConfigDetails? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: AwsElasticsearchDomainLogPublishingOptions? = nil, nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil, serviceSoftwareOptions: AwsElasticsearchDomainServiceSoftwareOptions? = nil, vPCOptions: AwsElasticsearchDomainVPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions? = nil, domainId: String? = nil, domainName: String? = nil, elasticsearchClusterConfig: AwsElasticsearchDomainElasticsearchClusterConfigDetails? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: AwsElasticsearchDomainLogPublishingOptions? = nil, nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil, serviceSoftwareOptions: AwsElasticsearchDomainServiceSoftwareOptions? = nil, vpcOptions: AwsElasticsearchDomainVPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
@@ -6057,7 +6057,7 @@ extension SecurityHub {
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.serviceSoftwareOptions = serviceSoftwareOptions
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         public func validate(name: String) throws {
@@ -6075,7 +6075,7 @@ extension SecurityHub {
             }
             try self.logPublishingOptions?.validate(name: "\(name).logPublishingOptions")
             try self.serviceSoftwareOptions?.validate(name: "\(name).serviceSoftwareOptions")
-            try self.vPCOptions?.validate(name: "\(name).vPCOptions")
+            try self.vpcOptions?.validate(name: "\(name).vpcOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6091,7 +6091,7 @@ extension SecurityHub {
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case serviceSoftwareOptions = "ServiceSoftwareOptions"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -6099,20 +6099,20 @@ extension SecurityHub {
         /// Whether to require that all traffic to the domain arrive over HTTPS.
         public let enforceHTTPS: Bool?
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain. Valid values:    Policy-Min-TLS-1-0-2019-07, which supports TLSv1.0 and higher    Policy-Min-TLS-1-2-2019-07, which only supports TLSv1.2
-        public let tLSSecurityPolicy: String?
+        public let tlsSecurityPolicy: String?
 
-        public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: String? = nil) {
+        public init(enforceHTTPS: Bool? = nil, tlsSecurityPolicy: String? = nil) {
             self.enforceHTTPS = enforceHTTPS
-            self.tLSSecurityPolicy = tLSSecurityPolicy
+            self.tlsSecurityPolicy = tlsSecurityPolicy
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.tLSSecurityPolicy, name: "tLSSecurityPolicy", parent: name, pattern: "\\S")
+            try self.validate(self.tlsSecurityPolicy, name: "tlsSecurityPolicy", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enforceHTTPS = "EnforceHTTPS"
-            case tLSSecurityPolicy = "TLSSecurityPolicy"
+            case tlsSecurityPolicy = "TLSSecurityPolicy"
         }
     }
 
@@ -6305,13 +6305,13 @@ extension SecurityHub {
         /// A list of subnet IDs associated with the VPC endpoints for the domain.
         public let subnetIds: [String]?
         /// ID for the VPC.
-        public let vPCId: String?
+        public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vPCId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
@@ -6324,14 +6324,14 @@ extension SecurityHub {
             try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "\\S")
             }
-            try self.validate(self.vPCId, name: "vPCId", parent: name, pattern: "\\S")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 
@@ -6806,7 +6806,7 @@ extension SecurityHub {
         /// Indicates when the load balancer was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createdTime: String?
         /// The public DNS name of the load balancer.
-        public let dNSName: String?
+        public let dnsName: String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
         public let ipAddressType: String?
         /// Attributes of the load balancer.
@@ -6822,11 +6822,11 @@ extension SecurityHub {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: String? = nil, dNSName: String? = nil, ipAddressType: String? = nil, loadBalancerAttributes: [AwsElbv2LoadBalancerAttribute]? = nil, scheme: String? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: String? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: String? = nil, dnsName: String? = nil, ipAddressType: String? = nil, loadBalancerAttributes: [AwsElbv2LoadBalancerAttribute]? = nil, scheme: String? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: String? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
-            self.dNSName = dNSName
+            self.dnsName = dnsName
             self.ipAddressType = ipAddressType
             self.loadBalancerAttributes = loadBalancerAttributes
             self.scheme = scheme
@@ -6842,7 +6842,7 @@ extension SecurityHub {
             }
             try self.validate(self.canonicalHostedZoneId, name: "canonicalHostedZoneId", parent: name, pattern: "\\S")
             try self.validate(self.createdTime, name: "createdTime", parent: name, pattern: "\\S")
-            try self.validate(self.dNSName, name: "dNSName", parent: name, pattern: "\\S")
+            try self.validate(self.dnsName, name: "dnsName", parent: name, pattern: "\\S")
             try self.validate(self.ipAddressType, name: "ipAddressType", parent: name, pattern: "\\S")
             try self.loadBalancerAttributes?.forEach {
                 try $0.validate(name: "\(name).loadBalancerAttributes[]")
@@ -6860,7 +6860,7 @@ extension SecurityHub {
             case availabilityZones = "AvailabilityZones"
             case canonicalHostedZoneId = "CanonicalHostedZoneId"
             case createdTime = "CreatedTime"
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case ipAddressType = "IpAddressType"
             case loadBalancerAttributes = "LoadBalancerAttributes"
             case scheme = "Scheme"
@@ -7469,7 +7469,7 @@ extension SecurityHub {
 
     public struct AwsKmsKeyDetails: AWSEncodableShape & AWSDecodableShape {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
-        public let aWSAccountId: String?
+        public let awsAccountId: String?
         /// Indicates when the KMS key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let creationDate: Double?
         /// A description of the key.
@@ -7485,8 +7485,8 @@ extension SecurityHub {
         /// The source of the KMS key material. When this value is AWS_KMS, KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the KMS key lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the CloudHSM cluster associated with a custom key store.
         public let origin: String?
 
-        public init(aWSAccountId: String? = nil, creationDate: Double? = nil, description: String? = nil, keyId: String? = nil, keyManager: String? = nil, keyRotationStatus: Bool? = nil, keyState: String? = nil, origin: String? = nil) {
-            self.aWSAccountId = aWSAccountId
+        public init(awsAccountId: String? = nil, creationDate: Double? = nil, description: String? = nil, keyId: String? = nil, keyManager: String? = nil, keyRotationStatus: Bool? = nil, keyState: String? = nil, origin: String? = nil) {
+            self.awsAccountId = awsAccountId
             self.creationDate = creationDate
             self.description = description
             self.keyId = keyId
@@ -7497,7 +7497,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aWSAccountId, name: "aWSAccountId", parent: name, pattern: "\\S")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "\\S")
             try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
             try self.validate(self.keyId, name: "keyId", parent: name, pattern: "\\S")
             try self.validate(self.keyManager, name: "keyManager", parent: name, pattern: "\\S")
@@ -7506,7 +7506,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSAccountId = "AWSAccountId"
+            case awsAccountId = "AWSAccountId"
             case creationDate = "CreationDate"
             case description = "Description"
             case keyId = "KeyId"
@@ -7974,20 +7974,20 @@ extension SecurityHub {
         /// Whether to require that all traffic to the domain arrive over HTTPS.
         public let enforceHTTPS: Bool?
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain.
-        public let tLSSecurityPolicy: String?
+        public let tlsSecurityPolicy: String?
 
-        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tLSSecurityPolicy: String? = nil) {
+        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: String? = nil) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
             self.customEndpointEnabled = customEndpointEnabled
             self.enforceHTTPS = enforceHTTPS
-            self.tLSSecurityPolicy = tLSSecurityPolicy
+            self.tlsSecurityPolicy = tlsSecurityPolicy
         }
 
         public func validate(name: String) throws {
             try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, pattern: "\\S")
             try self.validate(self.customEndpointCertificateArn, name: "customEndpointCertificateArn", parent: name, pattern: "\\S")
-            try self.validate(self.tLSSecurityPolicy, name: "tLSSecurityPolicy", parent: name, pattern: "\\S")
+            try self.validate(self.tlsSecurityPolicy, name: "tlsSecurityPolicy", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7995,7 +7995,7 @@ extension SecurityHub {
             case customEndpointCertificateArn = "CustomEndpointCertificateArn"
             case customEndpointEnabled = "CustomEndpointEnabled"
             case enforceHTTPS = "EnforceHTTPS"
-            case tLSSecurityPolicy = "TLSSecurityPolicy"
+            case tlsSecurityPolicy = "TLSSecurityPolicy"
         }
     }
 
@@ -8605,17 +8605,17 @@ extension SecurityHub {
         /// The number of days for which to retain automated backups.
         public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for this DB instance.
-        public let cACertificateIdentifier: String?
+        public let caCertificateIdentifier: String?
         /// The name of the character set that this DB instance is associated with.
         public let characterSetName: String?
         /// Whether to copy resource tags to snapshots of the DB instance.
         public let copyTagsToSnapshot: Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
-        public let dBClusterIdentifier: String?
+        public let dbClusterIdentifier: String?
         /// Contains the name of the compute and memory capacity class of the DB instance.
-        public let dBInstanceClass: String?
+        public let dbInstanceClass: String?
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
-        public let dBInstanceIdentifier: String?
+        public let dbInstanceIdentifier: String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
         public let dbInstancePort: Int?
         /// The current status of the DB instance.
@@ -8623,7 +8623,7 @@ extension SecurityHub {
         /// The Amazon Web Services Region-unique, immutable identifier for the DB instance. This identifier is found in CloudTrail log entries whenever the KMS key for the DB instance is accessed.
         public let dbiResourceId: String?
         /// The meaning of this parameter differs according to the database engine you use.  MySQL, MariaDB, SQL Server, PostgreSQL  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance.  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
-        public let dBName: String?
+        public let dbName: String?
         /// A list of the DB parameter groups to assign to the DB instance.
         public let dbParameterGroups: [AwsRdsDbParameterGroup]?
         /// A list of the DB security groups to assign to the DB instance.
@@ -8645,7 +8645,7 @@ extension SecurityHub {
         /// The ARN of the CloudWatch Logs log stream that receives the enhanced monitoring metrics data for the DB instance.
         public let enhancedMonitoringResourceArn: String?
         /// True if mapping of IAM accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines.   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher
-        public let iAMDatabaseAuthenticationEnabled: Bool?
+        public let iamDatabaseAuthenticationEnabled: Bool?
         /// Indicates when the DB instance was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let instanceCreateTime: String?
         /// Specifies the provisioned IOPS (I/O operations per second) for this DB instance.
@@ -8708,22 +8708,22 @@ extension SecurityHub {
         /// A list of VPC security groups that the DB instance belongs to.
         public let vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [AwsRdsDbInstanceAssociatedRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dbParameterGroups: [AwsRdsDbParameterGroup]? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroup: AwsRdsDbSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [AwsRdsDbDomainMembership]? = nil, enabledCloudWatchLogsExports: [String]? = nil, endpoint: AwsRdsDbInstanceEndpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: String? = nil, licenseModel: String? = nil, listenerEndpoint: AwsRdsDbInstanceEndpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAz: Bool? = nil, optionGroupMemberships: [AwsRdsDbOptionGroupMembership]? = nil, pendingModifiedValues: AwsRdsDbPendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKmsKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [AwsRdsDbProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [AwsRdsDbStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [AwsRdsDbInstanceAssociatedRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [AwsRdsDbParameterGroup]? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroup: AwsRdsDbSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [AwsRdsDbDomainMembership]? = nil, enabledCloudWatchLogsExports: [String]? = nil, endpoint: AwsRdsDbInstanceEndpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: String? = nil, licenseModel: String? = nil, listenerEndpoint: AwsRdsDbInstanceEndpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAz: Bool? = nil, optionGroupMemberships: [AwsRdsDbOptionGroupMembership]? = nil, pendingModifiedValues: AwsRdsDbPendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKmsKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [AwsRdsDbProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [AwsRdsDbStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBInstanceClass = dBInstanceClass
-            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceClass = dbInstanceClass
+            self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbInstancePort = dbInstancePort
             self.dbInstanceStatus = dbInstanceStatus
             self.dbiResourceId = dbiResourceId
-            self.dBName = dBName
+            self.dbName = dbName
             self.dbParameterGroups = dbParameterGroups
             self.dbSecurityGroups = dbSecurityGroups
             self.dbSubnetGroup = dbSubnetGroup
@@ -8734,7 +8734,7 @@ extension SecurityHub {
             self.engine = engine
             self.engineVersion = engineVersion
             self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
-            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.instanceCreateTime = instanceCreateTime
             self.iops = iops
             self.kmsKeyId = kmsKeyId
@@ -8773,14 +8773,14 @@ extension SecurityHub {
                 try $0.validate(name: "\(name).associatedRoles[]")
             }
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "\\S")
-            try self.validate(self.cACertificateIdentifier, name: "cACertificateIdentifier", parent: name, pattern: "\\S")
+            try self.validate(self.caCertificateIdentifier, name: "caCertificateIdentifier", parent: name, pattern: "\\S")
             try self.validate(self.characterSetName, name: "characterSetName", parent: name, pattern: "\\S")
-            try self.validate(self.dBClusterIdentifier, name: "dBClusterIdentifier", parent: name, pattern: "\\S")
-            try self.validate(self.dBInstanceClass, name: "dBInstanceClass", parent: name, pattern: "\\S")
-            try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, pattern: "\\S")
+            try self.validate(self.dbClusterIdentifier, name: "dbClusterIdentifier", parent: name, pattern: "\\S")
+            try self.validate(self.dbInstanceClass, name: "dbInstanceClass", parent: name, pattern: "\\S")
+            try self.validate(self.dbInstanceIdentifier, name: "dbInstanceIdentifier", parent: name, pattern: "\\S")
             try self.validate(self.dbInstanceStatus, name: "dbInstanceStatus", parent: name, pattern: "\\S")
             try self.validate(self.dbiResourceId, name: "dbiResourceId", parent: name, pattern: "\\S")
-            try self.validate(self.dBName, name: "dBName", parent: name, pattern: "\\S")
+            try self.validate(self.dbName, name: "dbName", parent: name, pattern: "\\S")
             try self.dbParameterGroups?.forEach {
                 try $0.validate(name: "\(name).dbParameterGroups[]")
             }
@@ -8840,16 +8840,16 @@ extension SecurityHub {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case backupRetentionPeriod = "BackupRetentionPeriod"
-            case cACertificateIdentifier = "CACertificateIdentifier"
+            case caCertificateIdentifier = "CACertificateIdentifier"
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBInstanceClass = "DBInstanceClass"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbInstanceClass = "DBInstanceClass"
+            case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbInstancePort = "DbInstancePort"
             case dbInstanceStatus = "DbInstanceStatus"
             case dbiResourceId = "DbiResourceId"
-            case dBName = "DBName"
+            case dbName = "DBName"
             case dbParameterGroups = "DbParameterGroups"
             case dbSecurityGroups = "DbSecurityGroups"
             case dbSubnetGroup = "DbSubnetGroup"
@@ -8860,7 +8860,7 @@ extension SecurityHub {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case enhancedMonitoringResourceArn = "EnhancedMonitoringResourceArn"
-            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case instanceCreateTime = "InstanceCreateTime"
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
@@ -9640,7 +9640,7 @@ extension SecurityHub {
         /// The version ID of the Amazon Redshift engine that runs on the cluster.
         public let clusterVersion: String?
         /// The name of the initial database that was created when the cluster was created. The same name is returned for the life of the cluster. If an initial database is not specified, a database named devdev is created by default.
-        public let dBName: String?
+        public let dbName: String?
         /// List of time windows during which maintenance was deferred.
         public let deferredMaintenanceWindows: [AwsRedshiftClusterDeferredMaintenanceWindow]?
         /// Information about the status of the Elastic IP (EIP) address.
@@ -9696,7 +9696,7 @@ extension SecurityHub {
         /// The list of VPC security groups that the cluster belongs to, if the cluster is in a VPC.
         public let vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: String? = nil, clusterIdentifier: String? = nil, clusterNodes: [AwsRedshiftClusterClusterNode]? = nil, clusterParameterGroups: [AwsRedshiftClusterClusterParameterGroup]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [AwsRedshiftClusterClusterSecurityGroup]? = nil, clusterSnapshotCopyStatus: AwsRedshiftClusterClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, deferredMaintenanceWindows: [AwsRedshiftClusterDeferredMaintenanceWindow]? = nil, elasticIpStatus: AwsRedshiftClusterElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: AwsRedshiftClusterEndpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: String? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: AwsRedshiftClusterHsmStatus? = nil, iamRoles: [AwsRedshiftClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nextMaintenanceWindowStartTime: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: AwsRedshiftClusterPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: AwsRedshiftClusterResizeInfo? = nil, restoreStatus: AwsRedshiftClusterRestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: String? = nil, vpcId: String? = nil, vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: String? = nil, clusterIdentifier: String? = nil, clusterNodes: [AwsRedshiftClusterClusterNode]? = nil, clusterParameterGroups: [AwsRedshiftClusterClusterParameterGroup]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [AwsRedshiftClusterClusterSecurityGroup]? = nil, clusterSnapshotCopyStatus: AwsRedshiftClusterClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, deferredMaintenanceWindows: [AwsRedshiftClusterDeferredMaintenanceWindow]? = nil, elasticIpStatus: AwsRedshiftClusterElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: AwsRedshiftClusterEndpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: String? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: AwsRedshiftClusterHsmStatus? = nil, iamRoles: [AwsRedshiftClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nextMaintenanceWindowStartTime: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: AwsRedshiftClusterPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: AwsRedshiftClusterResizeInfo? = nil, restoreStatus: AwsRedshiftClusterRestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: String? = nil, vpcId: String? = nil, vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -9712,7 +9712,7 @@ extension SecurityHub {
             self.clusterStatus = clusterStatus
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.clusterVersion = clusterVersion
-            self.dBName = dBName
+            self.dbName = dbName
             self.deferredMaintenanceWindows = deferredMaintenanceWindows
             self.elasticIpStatus = elasticIpStatus
             self.elasticResizeNumberOfNodeOptions = elasticResizeNumberOfNodeOptions
@@ -9762,7 +9762,7 @@ extension SecurityHub {
             try self.validate(self.clusterStatus, name: "clusterStatus", parent: name, pattern: "\\S")
             try self.validate(self.clusterSubnetGroupName, name: "clusterSubnetGroupName", parent: name, pattern: "\\S")
             try self.validate(self.clusterVersion, name: "clusterVersion", parent: name, pattern: "\\S")
-            try self.validate(self.dBName, name: "dBName", parent: name, pattern: "\\S")
+            try self.validate(self.dbName, name: "dbName", parent: name, pattern: "\\S")
             try self.deferredMaintenanceWindows?.forEach {
                 try $0.validate(name: "\(name).deferredMaintenanceWindows[]")
             }
@@ -9811,7 +9811,7 @@ extension SecurityHub {
             case clusterStatus = "ClusterStatus"
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
             case clusterVersion = "ClusterVersion"
-            case dBName = "DBName"
+            case dbName = "DBName"
             case deferredMaintenanceWindows = "DeferredMaintenanceWindows"
             case elasticIpStatus = "ElasticIpStatus"
             case elasticResizeNumberOfNodeOptions = "ElasticResizeNumberOfNodeOptions"
@@ -10570,23 +10570,23 @@ extension SecurityHub {
 
     public struct AwsS3BucketServerSideEncryptionByDefault: AWSEncodableShape & AWSDecodableShape {
         /// KMS key ID to use for the default encryption.
-        public let kMSMasterKeyID: String?
+        public let kmsMasterKeyID: String?
         /// Server-side encryption algorithm to use for the default encryption.
-        public let sSEAlgorithm: String?
+        public let sseAlgorithm: String?
 
-        public init(kMSMasterKeyID: String? = nil, sSEAlgorithm: String? = nil) {
-            self.kMSMasterKeyID = kMSMasterKeyID
-            self.sSEAlgorithm = sSEAlgorithm
+        public init(kmsMasterKeyID: String? = nil, sseAlgorithm: String? = nil) {
+            self.kmsMasterKeyID = kmsMasterKeyID
+            self.sseAlgorithm = sseAlgorithm
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kMSMasterKeyID, name: "kMSMasterKeyID", parent: name, pattern: "\\S")
-            try self.validate(self.sSEAlgorithm, name: "sSEAlgorithm", parent: name, pattern: "\\S")
+            try self.validate(self.kmsMasterKeyID, name: "kmsMasterKeyID", parent: name, pattern: "\\S")
+            try self.validate(self.sseAlgorithm, name: "sseAlgorithm", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kMSMasterKeyID = "KMSMasterKeyID"
-            case sSEAlgorithm = "SSEAlgorithm"
+            case kmsMasterKeyID = "KMSMasterKeyID"
+            case sseAlgorithm = "SSEAlgorithm"
         }
     }
 
@@ -10773,16 +10773,16 @@ extension SecurityHub {
         /// If the object is stored using server-side encryption, the value of the server-side encryption algorithm used when storing this object in Amazon S3.
         public let serverSideEncryption: String?
         /// The identifier of the KMS symmetric customer managed key that was used for the object.
-        public let sSEKMSKeyId: String?
+        public let ssekmsKeyId: String?
         /// The version of the object.
         public let versionId: String?
 
-        public init(contentType: String? = nil, eTag: String? = nil, lastModified: String? = nil, serverSideEncryption: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+        public init(contentType: String? = nil, eTag: String? = nil, lastModified: String? = nil, serverSideEncryption: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.contentType = contentType
             self.eTag = eTag
             self.lastModified = lastModified
             self.serverSideEncryption = serverSideEncryption
-            self.sSEKMSKeyId = sSEKMSKeyId
+            self.ssekmsKeyId = ssekmsKeyId
             self.versionId = versionId
         }
 
@@ -10791,7 +10791,7 @@ extension SecurityHub {
             try self.validate(self.eTag, name: "eTag", parent: name, pattern: "\\S")
             try self.validate(self.lastModified, name: "lastModified", parent: name, pattern: "\\S")
             try self.validate(self.serverSideEncryption, name: "serverSideEncryption", parent: name, pattern: "\\S")
-            try self.validate(self.sSEKMSKeyId, name: "sSEKMSKeyId", parent: name, pattern: "\\S")
+            try self.validate(self.ssekmsKeyId, name: "ssekmsKeyId", parent: name, pattern: "\\S")
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "\\S")
         }
 
@@ -10800,7 +10800,7 @@ extension SecurityHub {
             case eTag = "ETag"
             case lastModified = "LastModified"
             case serverSideEncryption = "ServerSideEncryption"
-            case sSEKMSKeyId = "SSEKMSKeyId"
+            case ssekmsKeyId = "SSEKMSKeyId"
             case versionId = "VersionId"
         }
     }

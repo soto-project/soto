@@ -30,12 +30,12 @@ extension Neptune {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("dBInstances[].dBInstanceStatus", expected: "available")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "deleted")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "deleting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "failed")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "incompatible-restore")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "incompatible-parameters")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("dbInstances[].dBInstanceStatus", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "incompatible-restore")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "incompatible-parameters")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBInstances
@@ -51,12 +51,12 @@ extension Neptune {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("dBInstances[].dBInstanceStatus", expected: "deleted")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("dbInstances[].dBInstanceStatus", expected: "deleted")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("DBInstanceNotFound")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "creating")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "modifying")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "rebooting")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dBInstances[].dBInstanceStatus", expected: "resetting-master-credentials")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbInstances[].dBInstanceStatus", expected: "resetting-master-credentials")),
             ],
             minDelayTime: .seconds(30),
             command: describeDBInstances

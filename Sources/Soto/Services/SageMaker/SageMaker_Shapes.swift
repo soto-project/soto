@@ -143,8 +143,8 @@ extension SageMaker {
 
     public enum ArtifactSourceIdType: String, CustomStringConvertible, Codable {
         case custom = "Custom"
-        case mD5Hash = "MD5Hash"
-        case s3ETag = "S3ETag"
+        case md5Hash = "MD5Hash"
+        case s3eTag = "S3ETag"
         case s3Version = "S3Version"
         public var description: String { return self.rawValue }
     }
@@ -1355,7 +1355,7 @@ extension SageMaker {
         case line = "Line"
         case none = "None"
         case recordIO = "RecordIO"
-        case tFRecord = "TFRecord"
+        case tfRecord = "TFRecord"
         public var description: String { return self.rawValue }
     }
 
