@@ -109,7 +109,7 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Operator`: String, CustomStringConvertible, Codable {
+    public enum Operator: String, CustomStringConvertible, Codable {
         case beginsWith = "BeginsWith"
         case contains = "Contains"
         case equals = "Equals"

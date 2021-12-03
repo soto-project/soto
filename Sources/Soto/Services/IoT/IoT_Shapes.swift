@@ -3475,7 +3475,7 @@ extension IoT {
         /// The ID of the OTA update to be created.
         public let otaUpdateId: String
         /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
-        public let protocols: [Protocol]?
+        public let protocols: [`Protocol`]?
         /// The IAM role that grants Amazon Web Services IoT Core access to the Amazon S3, IoT jobs and Amazon Web Services Code Signing resources  to create an OTA update job.
         public let roleArn: String
         /// Metadata which can be used to manage updates.
@@ -3485,7 +3485,7 @@ extension IoT {
         /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsJobAbortConfig: AwsJobAbortConfig? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, awsJobTimeoutConfig: AwsJobTimeoutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [Protocol]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsJobAbortConfig: AwsJobAbortConfig? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, awsJobTimeoutConfig: AwsJobTimeoutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [`Protocol`]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsJobAbortConfig = awsJobAbortConfig
             self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
@@ -11879,13 +11879,13 @@ extension IoT {
         /// The status of the OTA update.
         public let otaUpdateStatus: OTAUpdateStatus?
         /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
-        public let protocols: [Protocol]?
+        public let protocols: [`Protocol`]?
         /// The targets of the OTA update.
         public let targets: [String]?
         /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the OTA update (SNAPSHOT). If continuous, the OTA update may also be run on a thing when a change is detected in a target. For example, an OTA update will run on a thing when the thing is added to a target group, even after the OTA update was completed by all things originally in the group.
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, creationDate: Date? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: Date? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, protocols: [Protocol]? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, creationDate: Date? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: Date? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, protocols: [`Protocol`]? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsIotJobArn = awsIotJobArn
             self.awsIotJobId = awsIotJobId

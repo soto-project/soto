@@ -7114,13 +7114,13 @@ extension S3 {
         /// The HTTP redirect code to use on the response. Not required if one of the siblings is present.
         public let httpRedirectCode: String?
         /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
-        public let `protocol`: Protocol?
+        public let `protocol`: `Protocol`?
         /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
         public let replaceKeyPrefixWith: String?
         /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the siblings is present. Can be present only if ReplaceKeyPrefixWith is not provided.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
         public let replaceKeyWith: String?
 
-        public init(hostName: String? = nil, httpRedirectCode: String? = nil, protocol: Protocol? = nil, replaceKeyPrefixWith: String? = nil, replaceKeyWith: String? = nil) {
+        public init(hostName: String? = nil, httpRedirectCode: String? = nil, protocol: `Protocol`? = nil, replaceKeyPrefixWith: String? = nil, replaceKeyWith: String? = nil) {
             self.hostName = hostName
             self.httpRedirectCode = httpRedirectCode
             self.`protocol` = `protocol`
@@ -7141,9 +7141,9 @@ extension S3 {
         /// Name of the host where requests are redirected.
         public let hostName: String
         /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
-        public let `protocol`: Protocol?
+        public let `protocol`: `Protocol`?
 
-        public init(hostName: String, protocol: Protocol? = nil) {
+        public init(hostName: String, protocol: `Protocol`? = nil) {
             self.hostName = hostName
             self.`protocol` = `protocol`
         }

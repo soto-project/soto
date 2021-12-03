@@ -8087,7 +8087,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The protocol.
-        public let `protocol`: Protocol
+        public let `protocol`: `Protocol`
         /// The Amazon Web Services resource that is the source of the path.
         public let source: String
         /// The IP address of the Amazon Web Services resource that is the source of the path.
@@ -8096,7 +8096,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String = CreateNetworkInsightsPathRequest.idempotencyToken(), destination: String, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, protocol: Protocol, source: String, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String = CreateNetworkInsightsPathRequest.idempotencyToken(), destination: String, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, protocol: `Protocol`, source: String, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.destination = destination
             self.destinationIp = destinationIp
@@ -31960,7 +31960,7 @@ extension EC2 {
         /// The ID of the path.
         public let networkInsightsPathId: String?
         /// The protocol.
-        public let `protocol`: Protocol?
+        public let `protocol`: `Protocol`?
         /// The Amazon Web Services resource that is the source of the path.
         public let source: String?
         /// The IP address of the Amazon Web Services resource that is the source of the path.
@@ -31969,7 +31969,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(createdDate: Date? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, networkInsightsPathArn: String? = nil, networkInsightsPathId: String? = nil, protocol: Protocol? = nil, source: String? = nil, sourceIp: String? = nil, tags: [Tag]? = nil) {
+        public init(createdDate: Date? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, networkInsightsPathArn: String? = nil, networkInsightsPathId: String? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceIp: String? = nil, tags: [Tag]? = nil) {
             self.createdDate = createdDate
             self.destination = destination
             self.destinationIp = destinationIp

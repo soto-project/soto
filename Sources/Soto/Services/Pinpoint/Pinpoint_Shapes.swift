@@ -171,7 +171,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Operator`: String, CustomStringConvertible, Codable {
+    public enum Operator: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case any = "ANY"
         public var description: String { return self.rawValue }
